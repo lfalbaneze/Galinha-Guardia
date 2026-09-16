@@ -4,6 +4,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
 const output = path.join(root, 'dist');
+require('./build-farm-data.cjs');
 fs.mkdirSync(output,{recursive:true});
 for(const name of fs.readdirSync(path.join(root,'systems')).filter(n=>n.endsWith('.js')))
   new vm.Script(fs.readFileSync(path.join(root,'systems',name),'utf8'),{filename:name});

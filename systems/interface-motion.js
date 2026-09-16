@@ -123,7 +123,8 @@ const InterfaceMotion = (() => {
     text('threatText', label); el.threatProgress.value = Math.round(amount * 100) / 100;
     el.threatProgress.setAttribute('aria-valuetext', label);
     const transition = game.mapTransition;
-    el.regionNotice.hidden = !playing || !transition || transition.time <= 0 || !!game.rescueNotice?.time;
+    el.regionNotice.hidden = !playing || !transition || transition.time <= 0 ||
+      !!game.rescueNotice?.time || !!game.secretNotice?.time || !!game.skinNotice?.time;
     if (!el.regionNotice.hidden) {
       text('regionNoticeName', transition.name);
       el.regionNotice.style.opacity = reduced ? '1' : String(Math.min(1, transition.time / .5));

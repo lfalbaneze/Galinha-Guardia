@@ -143,10 +143,20 @@ const GameUI = (() => {
     elements.menuSkinSelect.value = chicken.skin;
     const availableSkins = SkinSystem.catalog.filter(s => s.chicks > 0 && SkinSystem.unlocked(s.id)).length;
     put("skinUnlockText", `${availableSkins} / 4 aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
-    put("wardrobeNote", "6 pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o PIU-PIU, entre com E e segure C. São bônus opcionais: encontre-os antes do último amigo para abrir novas aparências.");
+    put("wardrobeNote", "6 pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o piado, entre com E e segure C. São bônus opcionais: procure antes de salvar o último amigo e ganhe novas aparências.");
     put("hiddenText", exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
-    put("contextHint", !playing ? (game.phase === "menu" ? "A fazenda espera por você." : "Juntos, os amigos ficam mais fortes.") : exposed ? "Ele viu você entrar! Saia com E ou movimento e quebre a visão." : hidden ? (secret?.coverId === chicken.hidingSpotId ? "Tem um piado aqui! Segure C para investigar o esconderijo." : "E para sair. Recupere o fôlego e espere a busca passar.") : wolf.mode === "alert" ? "O lobo desconfia! Saia da vista antes que a barra encha." : secret ? (secret.coverId ? "Piado no esconderijo! Entre com E e segure C para investigar." : "Um piado no mato... chegue pertinho e segure C para investigar.") : candidate ? "E para se esconder. Quebre a visão do lobo primeiro!" : chicken.exhausted && input.has("shift") ? "Solte Shift para voltar a correr quando recuperar o fôlego." : sprinting ? "Correr assusta os bichos e pode chamar o lobo." : "Cada resgate aperta o cerco do lobo. Use C para chegar de mansinho.");
+    const hint = !playing ? (game.phase === "menu" ? "A turma espera por você." : "Todo mundo junto. Até o lobo perdeu a coragem!") :
+      exposed ? "Ele viu você! Saia com E e procure outro esconderijo." :
+      hidden ? (secret?.coverId === chicken.hidingSpotId ? "Piu-piu! Segure C para procurar o pintinho." : "Quietinha… deixe o lobo passar. E ou movimento para sair.") :
+      wolf.mode === "chase" ? "Corra e saia da vista do lobo antes de se esconder!" :
+      wolf.mode === "alert" ? "Ele percebeu alguma coisa. Saia da vista!" :
+      secret ? (secret.coverId ? "Tem um pintinho ali! Entre no esconderijo com E e segure C." : "Siga o piado. Chegue pertinho e segure C.") :
+      candidate ? "E para se esconder. Espere o lobo olhar para outro lado." :
+      chicken.exhausted ? "Sem fôlego? Solte Shift e respire um pouquinho." :
+      sprinting ? "Pé leve! A correria espanta os bichos e chama o lobo." :
+      "Segure C para chegar de mansinho e encoste nos amigos para salvá-los.";
+    put("contextHint",hint);
     elements.staminaMeter.value = chicken.stamina;
     elements.staminaMeter.parentElement.dataset.tired = String(chicken.exhausted);
     put("staminaText", chicken.exhausted ? "Recuperando" : "Fôlego");
@@ -171,7 +181,7 @@ const GameUI = (() => {
       put("startBtn", canContinue ? "Gerar nova fazenda" : "Abrir a porteira");
       put("continueBtn", game.resumePhase === "won" ? "Voltar à comemoração" : "Voltar pro terreiro");
       put("menuTitle", canContinue ? "De volta à bagunça?" : "Bora pra lida?");
-      put("menuDescription", canContinue ? `${game.rescuedCount}/10 amigos${secretKnown ? ` e ${game.rescuedChicks}/6 pintinhos secretos` : ""} a salvo. A turma espera por você. E o lobo também...` : "O lobo chegou. Ninguém acreditou. Junte os 10 amigos antes que a confusão vire almoço!");
+      put("menuDescription", canContinue ? `${game.rescuedCount} de 10 amigos no poleiro${secretKnown ? ` e ${game.rescuedChicks} pintinhos no ninho` : ""}. ${game.rescuedCount === 10 ? "A turma está a salvo. Pode comemorar!" : "Ainda tem bicho precisando de você!"}` : "Tem lobo rondando o sítio e a turma ainda está passeando. Traga os 10 amigos de volta ao poleiro!");
     }
     if (ended) {
       const won = game.phase === "won";
@@ -234,7 +244,7 @@ const GameUI = (() => {
       if (animal.temper === "tired") {
         panel(at.x - 35, at.y + 20, 70, 20, "#365343");
         ctx.font = "bold 11px Trebuchet MS, sans-serif"; ctx.textAlign = "center"; ctx.fillStyle = "#fff0b5";
-        ctx.fillText("UFA! PEGA!", at.x, at.y + 34);
+        ctx.fillText("Pode chegar!", at.x, at.y + 34);
       }
     }
     // Brief, local feedback ties each state to the character causing it.
@@ -261,43 +271,41 @@ const GameUI = (() => {
       ctx.fillStyle = chicken.exhausted ? "#ecc283" : "#d4efa6";
       ctx.beginPath(); ctx.roundRect(p.x - 24, y + 3, Math.max(0.01, 48 * chicken.stamina), 4, 2); ctx.fill();
     }
-    if (game.rescueNotice?.time > 0) {
-      const notice = game.rescueNotice;
+    const message = activeNotice(game);
+    if (message) {
       ctx.save();
-      if (!InterfaceMotion.reduced) ctx.translate(0, -52 * Math.pow(Math.max(0, 1 - (2.6 - notice.time) / .32), 3));
-      ctx.globalAlpha = Math.min(1, notice.time * 2);
-      panel(canvas.width / 2 - 147, 14, 294, 43, "rgba(255, 251, 227, .96)");
-      ctx.textAlign = "center"; ctx.fillStyle = "#3d693e"; ctx.font = "bold 14px sans-serif";
-      ctx.fillText(`${notice.name} a salvo!`, canvas.width / 2, 33);
-      ctx.font = "11px sans-serif"; ctx.fillStyle = "#697548";
-      ctx.fillText(`+100 pontos  ·  O lobo apertou o cerco!`, canvas.width / 2, 48);
+      ctx.globalAlpha = Math.min(1,message.time*2);
+      const x=canvas.width/2-145;
+      panel(x,12,290,46,'rgba(37,57,33,.96)');
+      ctx.fillStyle='#e1bc61';ctx.fillRect(x,18,3,34);
+      ctx.textAlign='center';ctx.fillStyle='#fff1c6';ctx.font='bold 14px Trebuchet MS, sans-serif';
+      ctx.fillText(message.title,canvas.width/2,31,266);
+      ctx.font='12px Trebuchet MS, sans-serif';ctx.fillStyle='#d2d8ba';
+      ctx.fillText(message.detail,canvas.width/2,48,266);
       ctx.restore();
     }
     if (game.secretNotice?.bonus && game.secretNotice.time > 0) {
       const notice = game.secretNotice, at = worldPointToScreen(notice.x, notice.y);
-      ctx.save(); ctx.globalAlpha = Math.min(1, notice.time);
-      CharacterArt.draw(ctx, 'chick', at.x, at.y - 48 - (InterfaceMotion.reduced ? 0 : (4 - notice.time) * 12),
-        { scale: 1.3, direction: 'down', moving: !InterfaceMotion.reduced, anim: (4 - notice.time) * 5 });
+      const age=4-notice.time;
+      ctx.save();ctx.globalAlpha=Math.max(0,1-age/1.5);
+      CharacterArt.draw(ctx, 'chick', at.x+28, at.y-8,
+        { scale: 1, direction: 'down', moving: false,
+          lift: InterfaceMotion.reduced?0:Math.sin(Math.min(1,age/.65)*Math.PI)*18 });
       ctx.restore();
-    }
-    if (game.secretNotice?.time > 0 && !game.skinNotice?.time) {
-      ctx.globalAlpha = Math.min(1,game.secretNotice.time);
-      panel(canvas.width/2-165,canvas.height-63,330,44,"#fff0b9");
-      ctx.fillStyle="#76512b";ctx.textAlign="center";ctx.font="bold 14px Trebuchet MS, sans-serif";
-      ctx.fillText(game.secretNotice.bonus ? 'BÔNUS: PINTINHO ENCONTRADO!' : "SEGREDO ENCONTRADO: UM PINTINHO!",canvas.width/2,canvas.height-44);
-      ctx.font="12px Trebuchet MS, sans-serif";
-      ctx.fillText(game.secretNotice.bonus ? '+100 pontos · já está seguro no ninho' : "Agora alcance o pequeno fujão!",canvas.width/2,canvas.height-27);
-    }
-    if (game.skinNotice?.time > 0) {
-      ctx.globalAlpha = Math.min(1, game.skinNotice.time);
-      panel(canvas.width - 326, canvas.height - 63, 310, 47, "rgba(255, 241, 186, .98)");
-      ctx.fillStyle = "#76552f"; ctx.textAlign = "center"; ctx.font = "bold 14px sans-serif";
-      ctx.fillText(`ACHADO NO BAÚ: ${game.skinNotice.text.toUpperCase()}`, canvas.width - 171, canvas.height - 43);
-      ctx.font = "11px sans-serif";
-      ctx.fillText("Escolha sua nova aparência no baú abaixo", canvas.width - 171, canvas.height - 25);
     }
     ctx.restore();
   }
 
-  return { initialize, update, render, showMenu, resume: resumeGame, focusCanvas };
+  function activeNotice(game) {
+    if(game.skinNotice?.time>0)return {time:game.skinNotice.time,title:`Nova aparência: ${game.skinNotice.text}`,
+      detail:game.secretNotice?.time>0?'Pintinho salvo! Sua recompensa está no baú.':'Já está no baú. Experimente quando quiser!'};
+    if(game.secretNotice?.time>0)return {time:game.secretNotice.time,
+      title:game.secretNotice.bonus?'Pintinho no ninho!':'Olha quem estava escondido!',
+      detail:game.secretNotice.bonus?`+100 pontos · ${game.rescuedChicks} de 6 pintinhos`:'Chegue perto para levar o pequeno ao poleiro.'};
+    if(game.rescueNotice?.time>0)return {time:game.rescueNotice.time,title:`${game.rescueNotice.name} a salvo!`,
+      detail:`+100 pontos · ${game.rescueNotice.count} de ${game.rescueNotice.total} no poleiro`};
+    return null;
+  }
+
+  return { initialize, update, render, activeNotice, showMenu, resume: resumeGame, focusCanvas };
 })();

@@ -1,7 +1,6 @@
 /* Cover has an entrance animation, a foreground layer and an in-world status. */
 const HidingSpots = (() => {
   let spots = [];
-  const labels = { hay: "no feno", tree: "na árvore", bush: "na vegetação" };
   function initialize(layout = WORLD.layout) {
     spots = STRUCTURES.hayBales.map((b, i) => ({ id: `hay-${i}`, type: "hay",
       x: b.x - 34, y: b.y - 34, w: b.w + 68, h: b.h + 68, bale: b }));
@@ -64,14 +63,14 @@ const HidingSpots = (() => {
     const chicken = game.entities.chicken;
     if (chicken.hidden) {
       chicken.hidden = false; chicken.hidingSpotId = null;
-      setStatus("Você saiu do esconderijo. Cuidado com o lobo!");
+      setStatus("De volta à lida. Olho no lobo!");
       GameUI.update(game);
       return;
     }
     const spot = candidate(chicken);
     if (!spot) {
       chicken.hideHintTimer = 2.5;
-      setStatus("Entre na vegetação ou chegue junto ao feno. O aviso E aparece quando você pode se esconder.");
+      setStatus("Chegue perto de uma moita ou do feno. Quando aparecer E, você pode se esconder.");
       return;
     }
     WolfAI.witnessHide(game, spot);
@@ -80,8 +79,8 @@ const HidingSpots = (() => {
     chicken.vx = 0; chicken.vy = 0; chicken.moving = false; chicken.sprinting = false; chicken.state = "idle";
     // A fresh directional press deliberately leaves cover; a key held before E does not.
     input.clear();
-    setStatus(WolfAI.isExposed(game) ? "ELE VIU VOCÊ ENTRAR! Saia e quebre a visão do lobo!" :
-      `Escondida ${labels[spot.type] || "aqui"}! Sua entrada passou despercebida.`);
+    setStatus(WolfAI.isExposed(game) ? "O lobo viu você entrar! Saia daí e encontre outro abrigo." :
+      "Ufa, ele não viu! Espere a ronda passar.");
     spawnBurst(chicken.x, chicken.y, spot.type === "hay" ? "#ebc774" : "#94ba71", 9);
     GameUI.update(game); GameManager.save(game);
   }
@@ -107,18 +106,15 @@ const HidingSpots = (() => {
   }
   function pill(x, y, width, title, detail, hidden, exposed = false, progress = 0) {
     x = clamp(x, width / 2 + 12, canvas.width - width / 2 - 12);
-    y = clamp(y, 20, canvas.height - 75);
+    y = clamp(y, 66, canvas.height - 48);
+    if(x+width/2>canvas.width-174 && y<144)y=149;
     ctx.save(); ctx.translate(x, y);
-    ctx.shadowColor = "rgba(29, 53, 33, .2)"; ctx.shadowBlur = 10; ctx.shadowOffsetY = 3;
-    ctx.fillStyle = exposed ? "#8b302b" : hidden ? "#245a43" : "#fffae9";
-    ctx.strokeStyle = exposed ? "#ffd19e" : hidden ? "#bbdfa0" : "#8c9770"; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.roundRect(-width / 2, 0, width, 53, 13); ctx.fill(); ctx.stroke();
-    ctx.shadowColor = "transparent";
-    ctx.fillStyle = hidden ? "#f4ffda" : "#3c563b";
-    ctx.textAlign = "center"; ctx.font = "bold 15px sans-serif"; ctx.fillText(title, 0, 21);
-    ctx.font = "12px sans-serif"; ctx.fillStyle = hidden ? "#d6e9c1" : "#6a735e";
-    ctx.fillText(detail, 0, 40);
-    if (progress > 0) { ctx.fillStyle = '#ffe496'; ctx.fillRect(-width / 2 + 12, 46, (width - 24) * Math.min(1, progress), 3); }
+    ctx.fillStyle = exposed ? '#8b392d' : 'rgba(39,58,35,.95)';
+    ctx.strokeStyle = exposed ? '#f6b08a' : '#c8d89a';ctx.lineWidth=1;
+    ctx.beginPath();ctx.roundRect(-width/2,0,width,30,5);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#fff4cf';ctx.textAlign='center';ctx.font='bold 12px Trebuchet MS, sans-serif';
+    ctx.fillText(title,0,20,width-16);
+    if(progress>0){ctx.fillStyle='#f1cb68';ctx.fillRect(-width/2+4,27,(width-8)*Math.min(1,progress),3);}
     ctx.restore();
   }
   function drawIndicators(game) {
@@ -130,33 +126,22 @@ const HidingSpots = (() => {
     const celebrating = game.secretNotice?.bonus && game.secretNotice.time > 0;
     if (hint?.coverId && !bonus && !chicken.hidden) {
       const cover = spots.find(s => s.id === hint.coverId);
-      const bob = Math.sin((game.elapsed || 0) * 3) * 3;
-      ctx.save(); ctx.strokeStyle = '#ffe496'; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.ellipse(worldX(cover.x + cover.w / 2), worldY(cover.y + cover.h / 2) + 8,
-        cover.w / 2 + 3, cover.h / 2 + 3, 0, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
-      pill(worldX(cover.x + cover.w / 2), worldY(cover.y) - 60 + bob, 280,
-        'PIU-PIU! · PINTINHO', 'Chegue aqui · E e depois segure C', false);
+      const bob = InterfaceMotion.reduced ? 0 : Math.sin((game.elapsed || 0) * 3)*2;
+      pill(worldX(cover.x+cover.w/2),worldY(cover.y)-45+bob,112,'Piu-piu…','',false);
     }
     if (spot) {
       ctx.save(); ctx.strokeStyle = exposed ? "#ff956c" : chicken.hidden ? "#e6f6be" : "#fff6bf";
-      ctx.lineWidth = 2.5; ctx.setLineDash(chicken.hidden ? [] : [5, 5]);
-      ctx.beginPath(); ctx.ellipse(worldX(spot.x + spot.w / 2), worldY(spot.y + spot.h / 2) + 8,
-        spot.w / 2 - 4, spot.h / 2, 0, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+      ctx.lineWidth = 1.5;ctx.setLineDash(chicken.hidden?[]:[3,4]);
+      ctx.beginPath();ctx.ellipse(p.x,p.y+14,29,11,0,0,Math.PI*2);ctx.stroke();ctx.restore();
     }
     if (chicken.hidden) {
-      if (!celebrating || exposed) pill(p.x, p.y - 110, exposed ? 250 : 235, exposed ? "ELE VIU VOCÊ!" : bonus ? 'C · INVESTIGAR' : "ESCONDIDA",
-        exposed ? "Saia e quebre a visão do lobo" : bonus ? 'Segure C e procure o piado' : "E ou movimento para sair", true, exposed,
+      if (!celebrating || exposed) pill(p.x, p.y - 73, bonus ? 220 : 185, exposed ? "Ele viu você! Saia daí!" : bonus ? 'Segure C · procurar pintinho' : "Escondida · E para sair",
+        '', true, exposed,
         bonus && !exposed ? bonus.discoveryTime / .85 : 0);
-      if (!celebrating) {
-      ctx.fillStyle = exposed ? "#8b302b" : "#245a43"; ctx.beginPath(); ctx.roundRect(16, canvas.height - 49, exposed ? 350 : 310, 33, 10); ctx.fill();
-      ctx.fillStyle = "#effadb"; ctx.font = "bold 14px sans-serif"; ctx.textAlign = "left";
-      ctx.fillText(exposed ? "Esconderijo descoberto · fuja agora!" : "Protegida pela cobertura · fique quietinha", 29, canvas.height - 27);
-      }
     } else if (spot) {
-      pill(p.x, p.y - 104, 245, bonus ? 'E · TEM PINTINHO AQUI!' : "E  ·  ESCONDER",
-        bonus ? 'Entre e segure C para encontrar' : `Aconchegue-se ${labels[spot.type]}`, false);
+      pill(p.x,p.y-73,bonus?190:130,bonus?'E · procurar o piado':'E · esconder','',false);
     } else if (chicken.hideHintTimer > 0) {
-      pill(p.x, p.y - 104, 238, "Procure feno ou folhas", "Chegue perto para aparecer o E", false);
+      pill(p.x,p.y-73,180,'Procure uma moita ou feno','',false);
     }
   }
   return { initialize, candidate, hasBonusClue, bonusHomes, toggle, update, restore, drawForeground, drawIndicators,

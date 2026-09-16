@@ -345,7 +345,7 @@ function resetGame(seed, worldVersion = 2) {
   livesCountEl.textContent = String(MAX_LIVES);
   scoreCountEl.textContent = "0";
   areaTextEl.textContent = "Poleiro";
-  setStatus(`Dificuldade ${state.settings.label}. Cada amigo salvo deixa o lobo mais perigoso. A fazenda guarda segredos...`);
+  setStatus(`A porteira abriu! Junte os dez amigos e fique de olho nos piados pelo caminho.`);
   input.clear();
   GameManager.save(state);
   GameUI.update(state);
@@ -579,66 +579,43 @@ function drawDebugHitboxes() {
 }
 
 function drawMiniMap() {
-  const w = 175;
-  const h = 112;
-  const x = canvas.width - w - 14;
-  const y = 12;
-
-  ctx.fillStyle = "rgba(246,224,173,.96)";
-  ctx.fillRect(x, y, w, h);
-  ctx.strokeStyle = "#765235"; ctx.lineWidth = 4; ctx.strokeRect(x, y, w, h);
-
-  const sx = w / WORLD.width;
-  const sy = h / WORLD.height;
-
-  ctx.fillStyle = "#c7ac78";
-  for (const path of WORLD.paths) ctx.fillRect(x + path.x * sx, y + path.y * sy, path.w * sx, path.h * sy);
-  ctx.strokeStyle = "#7c8854";
-  ctx.lineWidth = 1;
-  for (const area of WORLD.areas) {
-    ctx.strokeRect(x + area.x * sx, y + area.y * sy, area.w * sx, area.h * sy);
+  const w=146,h=88,x=canvas.width-w-15,y=34;
+  ctx.save();
+  ctx.fillStyle='#293c28';ctx.beginPath();ctx.roundRect(x-5,y-23,w+10,h+43,5);ctx.fill();
+  ctx.strokeStyle='#b19b61';ctx.lineWidth=1;ctx.stroke();
+  ctx.font='bold 11px Trebuchet MS, sans-serif';ctx.textAlign='left';ctx.fillStyle='#f5e1ae';
+  ctx.fillText('Mapa do sítio',x+3,y-8);
+  ctx.fillStyle='#758b4e';ctx.fillRect(x,y,w,h);
+  const textured=FarmTerrain.drawMap(ctx,WORLD.layout,x,y,w,h);
+  const sx=w/WORLD.width,sy=h/WORLD.height;
+  if(!textured){ctx.fillStyle='#c6a06c';for(const path of WORLD.paths)ctx.fillRect(x+path.x*sx,y+path.y*sy,path.w*sx,path.h*sy);}
+  ctx.fillStyle='#995f3e';
+  for(const prop of [STRUCTURES.barn,...STRUCTURES.coops,...STRUCTURES.silos])
+    ctx.fillRect(x+prop.x*sx,y+prop.y*sy,Math.max(3,prop.w*sx),Math.max(3,prop.h*sy));
+  ctx.strokeStyle='#eee9c278';ctx.lineWidth=1;
+  ctx.strokeRect(x+camera.x*sx,y+camera.y*sy,canvas.width*sx,canvas.height*sy);
+  for(const animal of state.entities.animals) {
+    if(animal.rescued||!animal.discovered||!animal.lastSeen)continue;
+    ctx.fillStyle=RescueSystem.visible(state,animal)?'#ffdf88':'#b0aa7a';
+    ctx.beginPath();ctx.arc(x+animal.lastSeen.x*sx,y+animal.lastSeen.y*sy,2.2,0,Math.PI*2);ctx.fill();
   }
-
-  ctx.fillStyle = "#ffe893";
-  for (const animal of state.entities.animals) {
-    if (animal.rescued || !animal.discovered || !animal.lastSeen) continue;
-    ctx.fillStyle = RescueSystem.visible(state, animal) ? "#426840" : "#a09873";
-    ctx.beginPath(); ctx.arc(x + animal.lastSeen.x * sx, y + animal.lastSeen.y * sy, 2.8, 0, Math.PI * 2); ctx.fill();
-  }
-  ctx.fillStyle = "#ffaf55";
-  for (const chick of state.entities.chicks) {
-    if (!chick.rescued && chick.discovered && chick.lastSeen) {
-      ctx.fillStyle = RescueSystem.visible(state, chick) ? "#c5702d" : "#ad9870";
-      ctx.fillRect(x + chick.lastSeen.x * sx - 2, y + chick.lastSeen.y * sy - 2, 4, 4);
+  for(const chick of state.entities.chicks) {
+    if(!chick.rescued&&chick.discovered&&chick.lastSeen){
+      ctx.fillStyle='#f7bf58';ctx.fillRect(x+chick.lastSeen.x*sx-2,y+chick.lastSeen.y*sy-2,4,4);
     }
   }
-  ctx.fillStyle = "#65472e"; ctx.fillRect(x-2, y + h, w+4, 25);
-  ctx.font = "bold 11px Trebuchet MS, sans-serif"; ctx.textAlign = "center";
-  ctx.fillStyle = "#fff0c2"; ctx.fillText("CADERNETA · pistas já vistas", x + w/2, y + h + 16);
-
-  ctx.fillStyle = "#fffdf0";
-  ctx.beginPath();
-  ctx.arc(x + state.entities.chicken.x * sx, y + state.entities.chicken.y * sy, 3.5, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = "#65472e"; ctx.lineWidth = 1.5; ctx.stroke();
-
-  if (!state.cutscene.done && distance(state.entities.chicken, state.entities.wolf) < 450 &&
-      DetectionSystem.hasLineOfSight(getHitbox(state.entities.chicken), getHitbox(state.entities.wolf))) {
-    ctx.fillStyle = "#d64040";
-    ctx.beginPath();
-    ctx.arc(x + state.entities.wolf.x * sx, y + state.entities.wolf.y * sy, 3.5, 0, Math.PI * 2);
-    ctx.fill();
+  ctx.fillStyle='#fffce7';ctx.strokeStyle='#293c28';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(x+state.entities.chicken.x*sx,y+state.entities.chicken.y*sy,3.3,0,Math.PI*2);ctx.fill();ctx.stroke();
+  if(!state.cutscene.done&&distance(state.entities.chicken,state.entities.wolf)<450&&
+    DetectionSystem.hasLineOfSight(getHitbox(state.entities.chicken),getHitbox(state.entities.wolf))){
+    ctx.fillStyle='#ef8262';ctx.beginPath();ctx.arc(x+state.entities.wolf.x*sx,y+state.entities.wolf.y*sy,3,0,Math.PI*2);ctx.fill();
   }
+  ctx.fillStyle='#cbd0b0';ctx.font='10px Trebuchet MS, sans-serif';ctx.fillText('Você · amigos avistados',x+3,y+h+13);
+  ctx.restore();
 }
 
 function drawOverlay() {
-  if (state.phase === "playing" && state.entities.wolf.huntUnlockTimer > 0) {
-    ctx.fillStyle = "rgba(0,0,0,0.34)";
-    ctx.fillRect(18, canvas.height - 42, 280, 26);
-    ctx.fillStyle = "#ffe9a9"; ctx.font = "16px sans-serif"; ctx.textAlign = "left";
-    ctx.fillText(`Lobo distraído por ${state.entities.wolf.huntUnlockTimer.toFixed(1)}s`, 24, canvas.height - 23);
-  }
-  // Region arrivals are shown by the animated DOM interface.
+  // Context, danger and arrival messages live in the HUD; keep the playfield clear.
 }
 
 function renderGame() {
@@ -739,6 +716,7 @@ state.hasSave = Boolean(savedGame);
 GameUI.showMenu(state);
 GameUI.update(state);
 CharacterArt.load().then(() => GameUI.update(state));
+FarmSprites.load();
 requestAnimationFrame((t) => {
   lastTime = t;
   tick(t);

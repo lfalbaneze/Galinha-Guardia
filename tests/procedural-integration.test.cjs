@@ -72,7 +72,7 @@ test('hidden status is rendered in the canvas, and the peeking chicken precedes 
     drawChicken=()=>layers.push('chicken');
     FarmArt.drawCoverForeground=()=>layers.push('cover');
     renderGame();`);
-  assert.equal(run('visibleLabels.includes("ESCONDIDA")'), true);
+  assert.equal(run('visibleLabels.some(label=>label.startsWith("Escondida"))'), true);
   assert.deepEqual(JSON.parse(run('JSON.stringify(layers)')), ['chicken','cover']);
 });
 

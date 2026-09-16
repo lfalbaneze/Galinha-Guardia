@@ -56,7 +56,7 @@ test('an awake visible wolf frightens nearby animals but a wall blocks that obse
     if (!wall) {
       assert.equal(run('friend.fleeFrom.kind'), 'wolf');
       assert.ok(run('friend.x>500'));
-      assert.match(run('friend.speech'), /LOBO/);
+      assert.match(run('friend.speech'), /lobo/i);
     }
   }
 });

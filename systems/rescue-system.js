@@ -44,12 +44,13 @@ const RescueSystem = {
     if (chick.coverId) {
       if (!GameManager.rescue(game, chick)) return false;
       game.secretNotice = { time: 4, bonus: true, x: chicken.x, y: chicken.y };
+      game.rescueNotice = null;
       spawnBurst(chicken.x, chicken.y, '#ffe496', 18);
       AudioSystem.playAnimal('chick');
       const safe = RescueSystem.chickPosition(game.entities.chicks.indexOf(chick));
       Object.assign(chick, { x: safe.x, y: safe.y, targetX: safe.x, targetY: safe.y,
         moving: false, direction: 'down', temper: 'safe', speechTime: 0 });
-      setStatus('Bônus do esconderijo! Pintinho no ninho · +100 pontos.', 'win');
+      setStatus(`Piu-piu, pode sair! ${game.rescuedChicks} de 6 pintinhos já estão no ninho.`, 'win');
       GameManager.save(game); GameUI.update(game);
       return true;
     }
@@ -60,17 +61,17 @@ const RescueSystem = {
     return true;
   },
   taunts: {
-    sheep: ["Sai pra lá, esquisita!", "Mééé! Me deixa pastar!"],
-    pig: ["Não tem lobo aqui!", "Meu barro, minhas regras!"],
-    goat: ["Duvido me alcançar!", "Sai do meu capim!"],
-    cow: ["Muuu! Que afobação!", "Eu nem terminei o almoço!"],
-    duck: ["Quá! Pega se puder!", "Lobo? Conversa de galinha!"],
-    rabbit: ["Olha eu aqui! Opa, ali!", "Sai pra lá, esquisita!"],
-    dog: ["Au! Eu sei o caminho!", "Não preciso de babá!"],
-    cat: ["Eu vou se EU quiser.", "Tira essa asa de mim!"],
-    donkey: ["Daqui eu não... opa!", "Não tem lobo aqui, não!"],
-    lamb: ["Minha mãe deixou!", "Mééé! Você que é o lobo!"],
-    chick: ["Piu! Não sou ovo, não!", "Você não manda em mim!", "Nem vem, dona galinha!"]
+    sheep: ["Só mais um bocadinho de capim!", "Mééé… eu já vou!"],
+    pig: ["Mas a lama tá tão boa!", "Lobo? Aqui? Duvido!"],
+    goat: ["Aposto que não me pega!", "Nem terminei meu lanche!"],
+    cow: ["Muuu! Pra que essa pressa?", "Falta só mais uma mastigada…"],
+    duck: ["Quá! Hoje eu tô ligeiro!", "Eu sei cuidar das minhas penas!"],
+    rabbit: ["Um pulinho e você me perdeu!", "Por aqui! Quer dizer… por ali!"],
+    dog: ["Au! Eu tava só farejando!", "Eu conheço um atalho!"],
+    cat: ["Eu estava quase dormindo.", "Tá, mas eu vou no meu tempo."],
+    donkey: ["Daqui eu não… opa!", "Essa história tá mal contada!"],
+    lamb: ["Mééé! Cadê todo mundo?", "Espera, minhas pernas são curtas!"],
+    chick: ["Piu! Me espera!", "Eu tava bem escondidinho!", "Piu-piu! Achei você!"]
   },
   visible(game, animal) {
     return !RescueSystem.isSecret(animal) && distance(game.entities.chicken, animal) < 300 &&
@@ -79,8 +80,8 @@ const RescueSystem = {
   talk(game, animal, tired = false) {
     if (game.animalSpeechCooldown > 0 || animal.speechTime > 0) return;
     const lines = RescueSystem.taunts[animal.species] || RescueSystem.taunts.chick;
-    animal.speech = tired ? "Tá bom... só uma respirada!" : animal.fleeFrom?.kind === 'wolf' ?
-      "É LOBO MESMO! SOCORRO!" : lines[Math.floor(Math.random() * lines.length)];
+    animal.speech = tired ? "Ufa… tá bom, eu vou!" : animal.fleeFrom?.kind === 'wolf' ?
+      "É o lobo! Bora pro poleiro!" : lines[Math.floor(Math.random() * lines.length)];
     animal.speechTime = 2.4;
     game.animalSpeechCooldown = 2.8;
     if (!tired && RescueSystem.visible(game, animal) && !circleVsCircle(game.entities.chicken, animal))
@@ -217,7 +218,7 @@ const RescueSystem = {
           AudioSystem.playAnimal(animal.species);
           const count = chick ? game.rescuedChicks : game.rescuedCount;
           const total = chick ? WORLD.targetChicks : WORLD.targetRescues;
-          setStatus(`${RescueSystem.names[animal.species]} a salvo! ${count} de ${total} ${chick ? "pintinhos" : "amigos"}. O lobo apertou o cerco!`, "win");
+          setStatus(`${RescueSystem.names[animal.species]} chegou ao poleiro! ${count} de ${total} ${chick ? "pintinhos" : "amigos"} a salvo.`, "win");
           game.rescueNotice = { name: RescueSystem.names[animal.species], count, total, chick, time: 2.6 };
           const safe = safePosition(index);
           animal.x = safe.x; animal.y = safe.y;

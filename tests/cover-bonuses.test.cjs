@@ -19,12 +19,12 @@ test('cover clues show their location before entry, carry through their own hay 
     HidingSpots.drawIndicators(state);`);
   assert.equal(h.run('DetectionSystem.hasLineOfSight(getHitbox(chicken),getHitbox(chick))'), false);
   assert.equal(h.run('RescueSystem.secretHint(state)===chick'), true);
-  assert.equal(h.run('labels.includes("PIU-PIU! · PINTINHO")'), true);
+  assert.equal(h.run('labels.includes("Piu-piu…")'), true);
   assert.equal(h.run('!!chick.discovered'), false);
   h.run(`OBSTACLES.push({x:chicken.x-150,y:chicken.y+20,w:300,h:8,type:'fence'});labels.length=0;
     HidingSpots.drawIndicators(state);`);
   assert.equal(h.run('HidingSpots.hasBonusClue(chicken,chick)'), false);
-  assert.equal(h.run('labels.includes("PIU-PIU! · PINTINHO")'), false);
+  assert.equal(h.run('labels.includes("Piu-piu…")'), false);
   h.run('OBSTACLES=[];chicken.x=chick.x+281;chicken.y=chick.y;');
   assert.equal(h.run('HidingSpots.hasBonusClue(chicken,chick)'), false);
   enterBonus(h, h.run('state.entities.chicks.indexOf(chick)'));
