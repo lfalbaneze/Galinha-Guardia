@@ -91,7 +91,7 @@ const CharacterArt = (() => {
     c.ellipse(0, 14, Math.min(28, pose.width * scale * .4), 4, 0, 0, Math.PI * 2); c.fill();
     if (name === 'chicken' && blend) { c.translate(0, 14); c.scale(1, 1 - blend * .23); c.translate(0, -14); }
     c.save(); if (pose.flip) c.scale(-1, 1);
-    c.translate(-pose.cx * scale, 14 - pose.bottom * scale); c.scale(scale, scale);
+    c.translate(-(frame.cx ?? pose.cx) * scale, 14 - (frame.bottom ?? pose.bottom) * scale); c.scale(scale, scale);
     if (name === 'chick') c.filter = 'sepia(1) saturate(4) brightness(.92)';
     c.drawImage(image, frame.x, frame.y, frame.w, frame.h, 0, 0, frame.w, frame.h);
     c.restore(); expression(c, spriteName, direction, pose, scale, options); c.restore();

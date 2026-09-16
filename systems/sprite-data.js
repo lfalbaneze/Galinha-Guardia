@@ -154,154 +154,218 @@ const SpriteData = {
     }
   },
   "wolf": {
-    "scale": 1.15,
+    "scale": 0.3,
     "poses": {
-      "up": {
-        "frames": [
-          {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 0,
-            "y": 0,
-            "w": 64,
-            "h": 85
-          },
-          {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 64,
-            "y": 0,
-            "w": 64,
-            "h": 85
-          },
-          {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 128,
-            "y": 0,
-            "w": 64,
-            "h": 85
-          },
-          {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 64,
-            "y": 0,
-            "w": 64,
-            "h": 85
-          }
-        ],
-        "cx": 31.5,
-        "bottom": 85,
-        "top": 29,
-        "width": 23,
-        "flip": false
-      },
-      "right": {
-        "frames": [
-          {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 0,
-            "y": 85,
-            "w": 64,
-            "h": 85
-          },
-          {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 64,
-            "y": 85,
-            "w": 64,
-            "h": 85
-          },
-          {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 128,
-            "y": 85,
-            "w": 64,
-            "h": 85
-          },
-          {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 64,
-            "y": 85,
-            "w": 64,
-            "h": 85
-          }
-        ],
-        "cx": 32,
-        "bottom": 85,
-        "top": 53,
-        "width": 64,
-        "flip": false
-      },
       "down": {
         "frames": [
           {
-            "src": "assets/sprites/sources/wolf.png",
+            "src": "assets/sprites/sources/wolf-feroz.png",
             "x": 0,
-            "y": 170,
-            "w": 64,
-            "h": 85
+            "y": 0,
+            "w": 315,
+            "h": 335,
+            "cx": 156.5,
+            "bottom": 307,
+            "top": 13,
+            "width": 143
           },
           {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 64,
-            "y": 170,
-            "w": 64,
-            "h": 85
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 315,
+            "y": 0,
+            "w": 312,
+            "h": 335,
+            "cx": 155.5,
+            "bottom": 310,
+            "top": 13,
+            "width": 141
           },
           {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 128,
-            "y": 170,
-            "w": 64,
-            "h": 85
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 627,
+            "y": 0,
+            "w": 317,
+            "h": 335,
+            "cx": 158,
+            "bottom": 310,
+            "top": 13,
+            "width": 140
           },
           {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 64,
-            "y": 170,
-            "w": 64,
-            "h": 85
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 944,
+            "y": 0,
+            "w": 310,
+            "h": 335,
+            "cx": 154,
+            "bottom": 313,
+            "top": 13,
+            "width": 142
           }
         ],
-        "cx": 31.5,
-        "bottom": 85,
-        "top": 21,
-        "width": 23,
+        "cx": 156.5,
+        "bottom": 313,
+        "top": 13,
+        "width": 143,
         "flip": false
       },
       "left": {
         "frames": [
           {
-            "src": "assets/sprites/sources/wolf.png",
+            "src": "assets/sprites/sources/wolf-feroz.png",
             "x": 0,
-            "y": 255,
-            "w": 64,
-            "h": 85
+            "y": 345,
+            "w": 315,
+            "h": 265,
+            "cx": 161,
+            "bottom": 228,
+            "top": 27,
+            "width": 296
           },
           {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 64,
-            "y": 255,
-            "w": 64,
-            "h": 85
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 315,
+            "y": 345,
+            "w": 312,
+            "h": 265,
+            "cx": 158.5,
+            "bottom": 229,
+            "top": 28,
+            "width": 299
           },
           {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 128,
-            "y": 255,
-            "w": 64,
-            "h": 85
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 627,
+            "y": 345,
+            "w": 317,
+            "h": 265,
+            "cx": 159.5,
+            "bottom": 227,
+            "top": 31,
+            "width": 299
           },
           {
-            "src": "assets/sprites/sources/wolf.png",
-            "x": 64,
-            "y": 255,
-            "w": 64,
-            "h": 85
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 944,
+            "y": 345,
+            "w": 310,
+            "h": 265,
+            "cx": 155.5,
+            "bottom": 224,
+            "top": 31,
+            "width": 295
           }
         ],
-        "cx": 32,
-        "bottom": 85,
-        "top": 53,
-        "width": 64,
+        "cx": 161,
+        "bottom": 229,
+        "top": 27,
+        "width": 299,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 0,
+            "y": 635,
+            "w": 315,
+            "h": 250,
+            "cx": 155,
+            "bottom": 223,
+            "top": 28,
+            "width": 292
+          },
+          {
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 315,
+            "y": 635,
+            "w": 312,
+            "h": 250,
+            "cx": 152.5,
+            "bottom": 222,
+            "top": 30,
+            "width": 297
+          },
+          {
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 627,
+            "y": 635,
+            "w": 317,
+            "h": 250,
+            "cx": 161,
+            "bottom": 221,
+            "top": 28,
+            "width": 312
+          },
+          {
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 944,
+            "y": 635,
+            "w": 310,
+            "h": 250,
+            "cx": 149.5,
+            "bottom": 220,
+            "top": 31,
+            "width": 299
+          }
+        ],
+        "cx": 155,
+        "bottom": 223,
+        "top": 28,
+        "width": 312,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 0,
+            "y": 895,
+            "w": 315,
+            "h": 359,
+            "cx": 156.5,
+            "bottom": 330,
+            "top": 14,
+            "width": 137
+          },
+          {
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 315,
+            "y": 895,
+            "w": 312,
+            "h": 359,
+            "cx": 155,
+            "bottom": 335,
+            "top": 14,
+            "width": 136
+          },
+          {
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 627,
+            "y": 895,
+            "w": 317,
+            "h": 359,
+            "cx": 157,
+            "bottom": 330,
+            "top": 14,
+            "width": 136
+          },
+          {
+            "src": "assets/sprites/sources/wolf-feroz.png",
+            "x": 944,
+            "y": 895,
+            "w": 310,
+            "h": 359,
+            "cx": 153,
+            "bottom": 336,
+            "top": 14,
+            "width": 136
+          }
+        ],
+        "cx": 156.5,
+        "bottom": 336,
+        "top": 14,
+        "width": 137,
         "flip": false
       }
     }

@@ -28,6 +28,7 @@ function audioHarness(options = {}) {
   const document = { hidden: false, addEventListener: (name, fn) => { events[name] = fn; } };
   const context = vm.createContext({
     ...(options.unsupported ? {} : { Audio: MockAudio }), document,
+    DetectionSystem: { hasLineOfSight: () => !options.occluded }, getHitbox: entity => entity,
     localStorage: {
       getItem: key => { if (options.storageError) throw new Error('unavailable'); return storage.get(key) || null; },
       setItem: (key, value) => { if (options.storageError) throw new Error('unavailable'); storage.set(key, value); },
@@ -42,6 +43,53 @@ function audioHarness(options = {}) {
   return { audio, game, instances, plays, pending, events, document, storage, effects, start, step };
 }
 const microtasks = async () => { await Promise.resolve(); await Promise.resolve(); };
+
+function farm(h, animals = [{ species: 'cow', x: 60, y: 0 }]) {
+  h.game.entities = { chicken: { x: 0, y: 0, skin: 'classic' }, animals,
+    chicks: [{ species: 'chick', x: 10, y: 0, discovered: false }] };
+  h.start();
+  return seconds => { for (let i = 0; i < seconds * 20; i++) h.audio.update(h.game, .05); };
+}
+
+test('nearby animals call without rescue, with distance falloff and no secret disclosure', () => {
+  const near = audioHarness(), far = audioHarness(), outside = audioHarness(), blocked = audioHarness({ occluded: true });
+  farm(near)(2); farm(far, [{ species: 'cow', x: 270, y: 0 }])(2);
+  farm(outside, [{ species: 'cow', x: 500, y: 0 }])(2); farm(blocked)(2);
+  assert.deepEqual(near.effects(), ['animal-cow']);
+  assert.ok(near.plays.at(-1).volume > far.plays.at(-1).volume);
+  assert.deepEqual(outside.effects(), []); assert.deepEqual(blocked.effects(), []);
+  assert.match(near.plays.at(-1).src, /audio\/voices\/animal-cow\.wav$/);
+});
+
+test('farm calls are spaced, rotate among nearby animals, and stop while paused or muted', () => {
+  const h = audioHarness(), step = farm(h, ['cow', 'duck', 'cat'].map((species, i) => ({ species, x: 50 + i * 10, y: 0 })));
+  step(2); assert.deepEqual(h.effects(), ['animal-cow']);
+  step(2); assert.equal(h.effects().length, 1);
+  h.game.phase = 'menu'; step(20); assert.equal(h.effects().length, 1);
+  h.game.phase = 'playing'; step(1.3); assert.deepEqual(h.effects(), ['animal-cow', 'animal-duck']);
+  h.audio.toggleMute(); step(20); assert.equal(h.effects().length, 2);
+  h.audio.toggleMute(); step(.05); assert.equal(h.effects().at(-1), 'animal-cat');
+  const before = h.effects().length;
+  h.document.hidden = true; step(20); assert.equal(h.effects().length, before);
+});
+
+test('animal recordings are real local PCM assets and new adventures do not replay pending calls', () => {
+  const h = audioHarness(), step = farm(h);
+  step(2); h.audio.reset(); h.game.entities.animals = [{ species: 'cat', x: 40, y: 0 }]; h.start(); step(.1);
+  assert.deepEqual(h.effects(), ['animal-cow']);
+  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '../assets/audio/voices/manifest.json')));
+  for (const item of manifest.recordings) {
+    h.audio.playAnimal(item.species);
+    const file = path.resolve(__dirname, '..', h.plays.at(-1).src);
+    const wav = fs.readFileSync(file);
+    assert.equal(wav.toString('ascii', 0, 4), 'RIFF');
+    assert.equal(wav.readUInt16LE(20), 1); assert.equal(wav.readUInt16LE(22), 1);
+    assert.equal(wav.readUInt32LE(24), 22050); assert.ok(item.seconds > .3 && item.seconds < 3.3);
+    assert.ok(item.peak < .9 && item.rms > .01);
+    assert.equal(require('node:crypto').createHash('sha256').update(wav).digest('hex'), item.sha256);
+  }
+  assert.equal(manifest.recordings.length, 12);
+});
 
 test('audio is lazy and never queues effects or autoplay before a gesture', () => {
   const h = audioHarness();

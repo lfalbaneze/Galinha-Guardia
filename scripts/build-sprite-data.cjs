@@ -26,6 +26,30 @@ function sheet(file, w, h, rows, columns, scale) {
   return { scale, poses: Object.fromEntries(Object.entries(rows).map(([direction, row]) =>
     [direction, pose(file, w, h, row, columns)])) };
 }
+function fierceWolf() {
+  // ImageGen supplied a 1254px sheet. Its rows are not uniformly spaced;
+  // select the observed transparent gutters without resampling the original PNG.
+  const file = 'wolf-feroz.png', { image, data } = pixels(file);
+  const columns = [0, 315, 627, 944, 1254];
+  const rows = { down: [0, 335], left: [345, 610], right: [635, 885], up: [895, 1254] };
+  const poses = Object.fromEntries(Object.entries(rows).map(([direction, [y, end]]) => {
+    const frames = columns.slice(0, 4).map((x, i) => {
+      const w = columns[i + 1] - x, h = end - y;
+      let left = w, top = h, right = 0, bottom = 0;
+      for (let py = 0; py < h; py++) for (let px = 0; px < w; px++) {
+        if (data[((y + py) * image.width + x + px) * 4 + 3] > 24) {
+          left = Math.min(left, px); right = Math.max(right, px + 1);
+          top = Math.min(top, py); bottom = Math.max(bottom, py + 1);
+        }
+      }
+      if (bottom <= top) throw Error('Empty wolf frame');
+      return { src: source + file, x, y, w, h, cx: (left + right) / 2, bottom, top, width: right - left };
+    });
+    return [direction, { frames, cx: frames[0].cx, bottom: Math.max(...frames.map(f => f.bottom)),
+      top: Math.min(...frames.map(f => f.top)), width: Math.max(...frames.map(f => f.width)), flip: false }];
+  }));
+  return { scale: .3, poses };
+}
 async function main() {
 for (const file of fs.readdirSync(path.join(root, source)).filter(f => f.endsWith('.png'))) {
   const image = await loadImage(path.join(root, source, file));
@@ -35,7 +59,7 @@ for (const file of fs.readdirSync(path.join(root, source)).filter(f => f.endsWit
 const standard = { up: 0, right: 1, down: 2, left: 3 }, lpc = { up: 0, left: 1, down: 2, right: 3 };
 const data = {
   chicken: sheet('chicken.png', 32, 32, standard, [0, 1, 2, 1], 2),
-  wolf: sheet('wolf.png', 64, 85, standard, [0, 1, 2, 1], 1.15),
+  wolf: fierceWolf(),
   sheep: sheet('sheep_walk.png', 128, 128, lpc, [0, 1, 2, 3], 1.2),
   pig: sheet('pig.png', 64, 64, standard, [0, 1, 2, 1], 1.05),
   goat: sheet('goat.png', 64, 64, standard, [0, 1, 2, 1], 1),

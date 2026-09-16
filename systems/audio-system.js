@@ -11,7 +11,7 @@ const AudioSystem = (() => {
     ["skin-punk", "Pato · Passos no Terreiro"], ["skin-astronaut", "Coelho · Pulos ao Luar"],
     ["skin-robocop", "Gato · Passo Furtivo"], ["skin-priest", "Cachorro · Companheiro da Roça"],
   ]);
-  const ANIMAL_SPECIES = new Set(["sheep", "pig", "goat", "cow", "duck", "rabbit", "dog", "cat", "donkey", "lamb"]);
+  const ANIMAL_SPECIES = new Set(["sheep", "pig", "goat", "cow", "duck", "rabbit", "dog", "cat", "donkey", "lamb", "chicken"]);
   const EFFECTS = new Set(["boing", "pop", "bonk", "squeak", "dizzy", "sob", "runaway", "rescue", "chick", "victory",
     ...Array.from(ANIMAL_SPECIES, species => `animal-${species}`)]);
   const defaults = { musicVolume: 0.25, effectsVolume: 0.55, track: "forest", muted: false, skinThemes: true };
@@ -34,7 +34,9 @@ const AudioSystem = (() => {
   const voices = [];
   let scene = null, lastTime = -1, cloudBucket = -1, sobBucket = -1;
   const oneShots = new Set();
-  const path = name => `./assets/audio/${name}.wav`;
+  const path = name => `./assets/audio/${name === 'chick' || name.startsWith('animal-') ? 'voices/' : ''}${name}.wav`;
+  let flock = null, farmTime = 0, nextCall = 1.8, playerCall = 16;
+  const heard = new Map();
   const hidden = () => typeof document !== "undefined" && document.hidden === true;
   function persist() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(settings)); } catch (_) { /* Optional preference storage. */ }
@@ -142,8 +144,35 @@ const AudioSystem = (() => {
     }, () => { if (!active || !voice.active || settings.muted || hidden()) voice.audio.pause(); });
     return true;
   }
-  function playAnimal(species) {
-    return play(species === "chick" ? "chick" : ANIMAL_SPECIES.has(species) ? `animal-${species}` : "rescue");
+  function playAnimal(species, options = {}) {
+    const played = play(species === "chick" ? "chick" : ANIMAL_SPECIES.has(species) ? `animal-${species}` : "rescue", options);
+    if (played) nextCall = Math.max(nextCall, farmTime + 3.2);
+    return played;
+  }
+  function farmVoices(game, dt) {
+    const animals = game.entities?.animals, chicken = game.entities?.chicken;
+    if (!animals || !chicken) return;
+    if (flock !== animals) {
+      flock = animals; heard.clear(); farmTime = 0; nextCall = 1.8; playerCall = 16;
+    }
+    // Simulation time only: no timers survive pause, tab hiding or a new adventure.
+    farmTime += Math.min(dt, .25);
+    if (farmTime < nextCall || !status.unlocked || settings.muted || settings.effectsVolume <= 0) return;
+    const nearby = animals.map((animal, index) => ({ animal, index,
+      distance: Math.hypot(animal.x - chicken.x, animal.y - chicken.y), last: heard.get(animal) ?? -30
+    })).filter(item => item.distance < 310 && farmTime - item.last > (item.animal.rescued ? 22 : 11 + item.index * .7) &&
+      (typeof DetectionSystem === 'undefined' || DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(item.animal))))
+      .sort((a, b) => a.last - b.last || a.distance - b.distance);
+    const candidate = nearby[0];
+    if (candidate) {
+      const { animal, distance } = candidate;
+      const gain = (.28 + .55 * (1 - distance / 310)) * (animal.species === 'rabbit' ? .65 : 1);
+      if (playAnimal(animal.species, { volume: gain })) heard.set(animal, farmTime);
+    } else if (farmTime >= playerCall && !chicken.hidden && !chicken.sneaking) {
+      const appearance = typeof CharacterArt !== 'undefined' && CharacterArt.appearances[chicken.skin];
+      if (playAnimal(appearance?.species || 'chicken', { volume: .38 })) playerCall = farmTime + 22;
+    }
+    // Secret chicks keep their existing local hiding-place hint; never announce them globally.
   }
   function timing() {
     return typeof EndGameSequence !== "undefined" && EndGameSequence.timing || { cloud: 7, dizzy: 10.8, flee: 13.6, celebrate: 16 };
@@ -213,12 +242,14 @@ const AudioSystem = (() => {
   function update(game, dt) {
     sync(game);
     if (active && game.phase === "win_cutscene" && Number.isFinite(dt) && dt > 0) observeScene(game, true);
+    if (active && game.phase === "playing" && Number.isFinite(dt) && dt > 0) farmVoices(game, dt);
   }
   function reset() {
     pauseMusic();
     if (music) rewind(music);
     stopEffects(); clearScene();
     currentGame = null; currentPhase = null; active = false; duck = 1;
+    flock = null; heard.clear(); farmTime = 0; nextCall = 1.8; playerCall = 16;
     volumes();
   }
   function pause() {

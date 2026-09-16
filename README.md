@@ -80,11 +80,13 @@ Há seis trilhas originais em loop: duas da fazenda e quatro das skins secretas.
 
 A confusão do final tem estalos, molas, pancadinhas e guinchos sincronizados com a animação. O lobo ganha efeitos de tontura, choramingo e fuga; a família termina com uma pequena fanfarra. A música abaixa durante a confusão e o choro. Esconderijo e captura também têm efeitos próprios.
 
-**Cada animal faz seu próprio som ao ser resgatado:** a vaca muge, o cachorro late, o gato mia, o pato grasna, o porco grunhe e o burro zurra. Ovelha, cabra e cordeirinho têm balidos diferentes; o coelho faz um grunhidinho suave e os pintinhos piam. As onze vozes foram suavizadas para lembrar filhotes de desenho animado: chamadas curtas de 0,43–1,27 segundo, ataques macios, menos graves ásperos, chiado e tremulação, mantendo a articulação própria de cada espécie. Tocam uma vez por resgate confirmado. Reencontrar um amigo no refúgio ou carregar a partida não repete o som. Todas respeitam o volume de efeitos, silêncio e pausa.
+**Os animais usam gravações:** mugidos, latidos, miados, grasnados, grunhidos, balidos, zurros, cacarejos e piados. O coelho tem o ruído discreto de mastigação de um coelho real. As 12 vozes locais ficam em `assets/audio/voices`, com [autores, licenças e players para escuta](assets/audio/CREDITS.html). Os cortes preservam a afinação e têm volume normalizado, sem saturação.
+
+Além do som único de cada resgate, os amigos visíveis a até 310 unidades soltam chamadas espaçadas durante a exploração. O volume diminui com a distância. Um intervalo global de 3,2 segundos evita sobreposição das chamadas ambiente; cada bicho espera pelo menos 11 segundos para repetir, ou 22 no refúgio. A protagonista também vocaliza ocasionalmente conforme a aparência equipada, desde que não esteja escondida ou andando furtivamente. Pintinhos secretos continuam restritos à pista local do esconderijo. Pausa, página oculta, silêncio e volume de efeitos valem para todas as vozes.
 
 O áudio começa após clicar em **Começar**, **Continuar** ou **Reiniciar**. Pausar, sair da janela ou ocultar a página interrompe o som e a partida. Ao continuar, os efeitos já tocados não se repetem. Os arquivos WAV são locais e funcionam sem internet; não há dependências de áudio externas.
 
-Abra [a página de escuta](preview/audio.html) para ouvir as seis músicas, os vinte efeitos (incluindo as vozes dos animais) e uma prévia sonora do final sem completar a missão. Os arquivos foram sintetizados por `scripts/generate-audio.cjs`; para regenerá-los e montar a prévia, use:
+Abra [a página de escuta](preview/audio.html) para ouvir as músicas, gravações dos bichos, efeitos e uma prévia sonora do final sem completar a missão. `scripts/generate-audio.cjs` regenera a música e os efeitos cômicos; suas antigas vozes sintéticas são mantidas apenas como arquivos legados, fora da pasta `voices`, e não são usadas pelo jogo. Para regenerar a parte sintetizada e montar a prévia, use:
 
 ```powershell
 npm run audio:generate
@@ -92,6 +94,10 @@ npm run audio:preview
 ```
 
 Esses dois scripts usam apenas módulos nativos do Node.js. A prévia utiliza os tempos e controles do sistema real, com reamostragem simples nas mudanças de velocidade; o tratamento de afinação do navegador pode soar um pouco diferente.
+
+As gravações são preparadas separadamente por `python scripts/prepare-animal-audio.py`, com `numpy`, `soundfile` e `py7zr` instalados no ambiente Python ou em `.cache/audio-tools`. Esse script baixa as fontes públicas para um cache local, corta os trechos, converte para WAV mono PCM16 de 22050 Hz e registra origens, durações e hashes no manifesto. Nenhuma dessas dependências é necessária para jogar.
+
+O lobo usa uma nova folha transparente de 16 quadros: pelagem cinza e carvão, presas, focinho angular e postura de caça. Quatro direções e pivôs por quadro mantêm as patas alinhadas durante a caminhada. [Prompt e registro da arte](assets/sprites/WOLF-ART-NOTES.md).
 
 ## Fazenda procedural
 
