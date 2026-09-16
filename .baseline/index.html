@@ -1,0 +1,44 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galinha Guardiã</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <h1>Galinha Guardiã: Resgate na Fazenda</h1>
+
+    <section class="hud" aria-live="polite">
+      <p><strong>Resgatados:</strong> <span id="rescuedCount">0</span>/10</p>
+      <p><strong>Vidas:</strong> <span id="livesCount">3</span>/3</p>
+      <p><strong>Pontos:</strong> <span id="scoreCount">0</span></p>
+      <p><strong>Área:</strong> <span id="areaText">Quintal Central</span></p>
+      <p><strong>Status:</strong> <span id="statusText">Resgate todos antes do lobo!</span></p>
+
+      <label class="difficulty-control" for="difficultySelect">
+        <strong>Dificuldade:</strong>
+        <select id="difficultySelect">
+          <option value="easy">Fácil</option>
+          <option value="normal" selected>Médio</option>
+          <option value="hard">Difícil</option>
+        </select>
+      </label>
+
+      <button id="restartBtn" type="button">Reiniciar</button>
+    </section>
+
+    <canvas id="gameCanvas" width="900" height="520" aria-label="Jogo da galinha resgatando animais"></canvas>
+
+    <section class="instructions">
+      <h2>Controles</h2>
+      <p>Use <kbd>WASD</kbd> ou <kbd>setas</kbd> para mover a galinha pelo mapa.</p>
+      <p>Segure <kbd>Shift</kbd> para sprint e aperte <kbd>H</kbd> para mostrar hitbox.</p>
+      <p>Troque a dificuldade e clique em <strong>Reiniciar</strong> para aplicar.</p>
+    </section>
+  </main>
+
+  <script src="./game.js?v=20260308-0012"></script>
+</body>
+</html>

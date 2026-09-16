@@ -1,0 +1,166 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#406b31" />
+  <title>Galinha Guardiã — Resgate na Fazenda</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header class="game-heading">
+      <div>
+        <p class="eyebrow">Uma pequena galinha. Uma grande missão.</p>
+        <h1>Galinha Guardiã <span>Resgate na Fazenda</span></h1>
+      </div>
+      <button id="pauseBtn" class="button-secondary" type="button" aria-label="Pausar e abrir o menu">Pausar <span class="key-note">Esc</span></button>
+    </header>
+
+    <section class="hud" aria-label="Informações da partida">
+      <p class="rescue-counter"><strong>Amigos a salvo</strong> <span><b id="rescuedCount">0</b> / 10</span></p>
+      <p class="chick-counter"><strong>Pintinhos</strong> <span><b id="chicksCount">0</b> / 6</span></p>
+      <p><strong>Vidas</strong> <span><b id="livesCount">3</b> / 3</span></p>
+      <p><strong>Pontos</strong> <b id="scoreCount">0</b></p>
+      <p class="area-counter"><strong>Área</strong> <span id="areaText">Quintal Central</span></p>
+      <p class="wolf-counter"><strong>Lobo <span id="wolfLevelText">Atento</span> <span id="wolfMultiplier">1,00×</span></strong> <span id="wolfStateText">patrulhando</span></p>
+    </section>
+
+    <div class="stage">
+      <canvas id="gameCanvas" width="900" height="520" tabindex="0" aria-label="Fazenda: resgate dez amigos e seis pintinhos, libere skins e despiste o lobo." aria-describedby="controlsText"></canvas>
+
+      <section id="menuScreen" class="game-overlay" role="dialog" aria-modal="true" aria-labelledby="menuTitle" aria-describedby="menuDescription" hidden>
+        <div class="overlay-card">
+          <span class="menu-emblem" aria-hidden="true">🐔</span>
+          <p class="eyebrow">Resgate na Fazenda</p>
+          <h2 id="menuTitle">Uma missão de coração.</h2>
+          <p id="menuDescription">Dez amigos e seis pintinhos esperam por você. Os pintinhos liberam skins e deixam o lobo cada vez mais furioso!</p>
+          <div class="menu-tips">
+            <p><kbd>WASD</kbd> ou <kbd>↑ ↓ ← →</kbd> <span>para caminhar</span></p>
+            <p><kbd>Shift</kbd> <span>para correr enquanto houver fôlego — o lobo pode ouvir!</span></p>
+            <p><kbd>E</kbd> <span>para se esconder perto de feno ou vegetação</span></p>
+          </div>
+          <label class="menu-skin" for="menuSkinSelect">Sua skin
+            <select id="menuSkinSelect">
+              <option id="menu-skin-classic" value="classic">Clássica</option>
+              <option id="menu-skin-punk" value="punk" disabled>Punk · 1 pintinho</option>
+              <option id="menu-skin-astronaut" value="astronaut" disabled>Astronauta · 2 pintinhos</option>
+              <option id="menu-skin-robocop" value="robocop" disabled>Robocop · 4 pintinhos</option>
+              <option id="menu-skin-priest" value="priest" disabled>Padre · 6 pintinhos</option>
+            </select>
+          </label>
+          <details class="menu-audio">
+            <summary>Som e música</summary>
+            <div class="audio-controls audio-controls-menu">
+              <label for="menuMusicTrack">Trilha
+                <select id="menuMusicTrack"><option value="forest">Floresta encantada</option><option value="whistle">Assobio da galinha</option></select>
+              </label>
+              <label for="menuMusicVolume">Música <output id="menuMusicValue" for="menuMusicVolume">25%</output>
+                <input id="menuMusicVolume" type="range" min="0" max="100" value="25" />
+              </label>
+              <label for="menuEffectsVolume">Efeitos <output id="menuEffectsValue" for="menuEffectsVolume">55%</output>
+                <input id="menuEffectsVolume" type="range" min="0" max="100" value="55" />
+              </label>
+              <button id="menuAudioMute" class="button-secondary" type="button" aria-pressed="false">Silenciar</button>
+            </div>
+            <p id="menuAudioStatus" class="audio-note">O som começa ao iniciar a aventura.</p>
+          </details>
+          <div class="overlay-actions">
+            <button id="continueBtn" type="button" hidden>Continuar aventura</button>
+            <button id="startBtn" type="button">Começar aventura</button>
+          </div>
+          <p id="menuSaveText" class="fine-print">Seu progresso é salvo automaticamente neste navegador.</p>
+        </div>
+      </section>
+
+      <section id="endScreen" class="game-overlay" role="dialog" aria-modal="true" aria-labelledby="endTitle" aria-describedby="endMessage" hidden>
+        <div class="overlay-card end-card">
+          <span id="endEmblem" class="menu-emblem" aria-hidden="true">♥</span>
+          <p id="endEyebrow" class="eyebrow">Uma fazenda cheia de amigos</p>
+          <h2 id="endTitle">Você conseguiu!</h2>
+          <p id="endMessage">Todos os seus amigos estão seguros!</p>
+          <p id="endSummary" class="end-summary"></p>
+          <div class="overlay-actions">
+            <button id="replayBtn" type="button">Jogar novamente</button>
+            <button id="menuBtn" class="button-secondary" type="button">Voltar ao menu</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="game-feedback">
+      <p id="hiddenText" class="stealth-badge">À vista</p>
+      <label class="stamina-meter" for="staminaMeter"><span id="staminaText">Fôlego</span><progress id="staminaMeter" max="1" value="1">100%</progress></label>
+      <p id="contextHint">Encoste nos animais para resgatá-los.</p>
+      <p id="saveText" class="save-note">Salvamento automático</p>
+    </div>
+    <p class="status-line" role="status"><span id="statusText">Resgate dez amigos e seis pintinhos e leve todos para um final feliz.</span></p>
+
+    <section class="audio-panel" aria-label="Som e música">
+      <div class="audio-controls">
+        <label for="musicTrack">Trilha
+          <select id="musicTrack"><option value="forest">Floresta encantada</option><option value="whistle">Assobio da galinha</option></select>
+        </label>
+        <label for="musicVolume">Música <output id="musicValue" for="musicVolume">25%</output>
+          <input id="musicVolume" type="range" min="0" max="100" value="25" />
+        </label>
+        <label for="effectsVolume">Efeitos <output id="effectsValue" for="effectsVolume">55%</output>
+          <input id="effectsVolume" type="range" min="0" max="100" value="55" />
+        </label>
+        <button id="audioMute" class="button-secondary" type="button" aria-pressed="false">Silenciar</button>
+      </div>
+      <p id="audioStatus" class="audio-note">O som começa ao iniciar a aventura.</p>
+    </section>
+
+    <section class="wardrobe" aria-labelledby="wardrobeTitle">
+      <div class="wardrobe-heading"><h2 id="wardrobeTitle">Guarda-roupa da galinha</h2><p id="skinUnlockText">Resgate pintinhos para liberar novos visuais.</p></div>
+      <div class="skin-options" role="group" aria-label="Escolher skin da galinha">
+        <button id="skin-classic" type="button" aria-pressed="true">Clássica</button>
+        <button id="skin-punk" type="button" aria-pressed="false" disabled>Punk · 1 pintinho</button>
+        <button id="skin-astronaut" type="button" aria-pressed="false" disabled>Astronauta · 2 pintinhos</button>
+        <button id="skin-robocop" type="button" aria-pressed="false" disabled>Robocop · 4 pintinhos</button>
+        <button id="skin-priest" type="button" aria-pressed="false" disabled>Padre · 6 pintinhos</button>
+      </div>
+      <p class="wardrobe-note">Libere as skins resgatando 1, 2, 4 e 6 pintinhos numa aventura. Elas ficam disponíveis nas próximas partidas. Cada pintinho aumenta o desafio do lobo, até 1,5× com os seis.</p>
+    </section>
+
+    <section class="instructions" aria-labelledby="controlsTitle">
+      <div>
+        <h2 id="controlsTitle">Pequenos passos, grandes resgates</h2>
+        <p id="controlsText"><kbd>WASD</kbd> / <kbd>setas</kbd> mover · <kbd>Shift</kbd> correr · <kbd>E</kbd> esconder / sair · <kbd>Esc</kbd> / <kbd>P</kbd> pausar.</p>
+        <p>O lobo demonstra suspeita antes de perseguir. Quebre a visão com árvores e construções, ou use <kbd>E</kbd> no feno e na vegetação. Solte <kbd>Shift</kbd> para recuperar o fôlego.</p>
+      </div>
+      <div class="game-settings">
+        <label class="difficulty-control" for="difficultySelect">
+          <span>Dificuldade</span>
+          <select id="difficultySelect">
+            <option value="easy">Fácil</option>
+            <option value="normal" selected>Médio</option>
+            <option value="hard">Difícil</option>
+          </select>
+        </label>
+        <button id="restartBtn" class="button-secondary" type="button">Reiniciar</button>
+        <small>A dificuldade vale na próxima partida.</small>
+      </div>
+    </section>
+  </main>
+
+  <script src="./systems/world-generator.js"></script>
+  <script src="./systems/farm-art.js"></script>
+  <script src="./systems/character-art.js"></script>
+  <script src="./systems/audio-system.js?v=20260915-animals"></script>
+  <script src="./systems/audio-controls.js"></script>
+  <script src="./systems/skin-system.js"></script>
+  <script src="./systems/game-manager.js"></script>
+  <script src="./systems/rescue-system.js?v=20260915-animals"></script>
+  <script src="./systems/detection-system.js"></script>
+  <script src="./systems/hiding-spots.js"></script>
+  <script src="./systems/wolf-ai.js"></script>
+  <script src="./systems/wolf-dialogue.js"></script>
+  <script src="./systems/map-manager.js"></script>
+  <script src="./systems/player.js"></script>
+  <script src="./systems/ui.js"></script>
+  <script src="./systems/end-game-sequence.js"></script>
+  <script src="./game.js?v=20260915-audio"></script>
+</body>
+</html>

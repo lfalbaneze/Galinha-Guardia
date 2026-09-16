@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sons da fazenda — Galinha Guardiã</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+  .listen-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+  .listen-card{padding:17px;border:1px solid #d7dfc9;border-radius:12px;background:#f1f2df}
+  .listen-card h2{font-size:1.1rem;margin:0 0 8px;color:#3d6444}
+  .listen-card p{font-size:.82rem;color:#6b725a;line-height:1.5}
+  audio{width:100%;height:38px;margin-top:8px}a{color:#41623b}
+  @media(max-width:600px){.listen-grid{grid-template-columns:1fr}}
+</style>
+<main class="game-shell">
+  <p class="eyebrow">Galinha Guardiã · Trilha sonora</p>
+  <h1>Sons da fazenda</h1>
+  <p>Duas músicas originais e efeitos de desenho animado para a aventura.</p>
+  <div class="listen-grid">
+    <section class="listen-card"><h2>Floresta encantada</h2><p>Flauta suave, cordas dedilhadas e percussão leve para explorar.</p><audio controls loop preload="none" src="../assets/audio/forest.wav"></audio></section>
+    <section class="listen-card"><h2>Assobio da galinha</h2><p>Uma melodia assobiada e saltitante para passear pela fazenda.</p><audio controls loop preload="none" src="../assets/audio/whistle.wav"></audio></section>
+  </div>
+  <section class="listen-card"><h2>Ouça a confusão completa</h2><p>Uma prévia de 19 segundos com a música, as pancadas cômicas, o choramingo e a fuga do lobo.</p><audio controls preload="none" src="finale-audio.wav"></audio></section>
+  <h2 id="resgates">Vozes dos animais</h2>
+  <p>Cada amigo faz seu próprio som quando é resgatado.</p>
+  <div id="animals" class="listen-grid"></div>
+  <h2>Efeitos da aventura</h2>
+  <div id="effects" class="listen-grid"></div>
+  <p><a href="../index.html">Voltar ao jogo</a> · Ajuste música e efeitos separadamente durante a partida ou no menu de pausa.</p>
+</main>
+<script>
+  const animals = [['animal-cow','Vaquinha · Muuu!'],['animal-dog','Cachorrinho · Au-au!'],['animal-cat','Gatinho · Miau!'],['animal-duck','Pato · Quá-quá!'],['animal-pig','Porquinho · Oinc!'],['animal-sheep','Ovelha · Bééé!'],['animal-goat','Cabra · Mééé!'],['animal-lamb','Cordeirinho · Béé!'],['animal-donkey','Burrinho · Ióó!'],['animal-rabbit','Coelho · Grunhidinho'],['chick','Pintinho · Piu-piu!']];
+  const effects = [['pop','POF!'],['boing','Mola de desenho animado'],['bonk','Pancadinha cômica'],['squeak','Guincho de susto'],['dizzy','Vendo estrelinhas'],['sob','Choramingo do lobo'],['runaway','Fuga atrapalhada'],['rescue','Resgate musical'],['victory','Família reunida']];
+  function addPlayers(id, sounds) {
+    for (const [file, title] of sounds) {
+      const card = document.createElement('section'); card.className = 'listen-card';
+      const heading = document.createElement('h2'); heading.textContent = title;
+      const player = document.createElement('audio'); player.controls = true; player.preload = 'none';
+      player.src = '../assets/audio/' + file + '.wav'; player.setAttribute('aria-label', title);
+      card.append(heading, player); document.getElementById(id).append(card);
+    }
+  }
+  addPlayers('animals', animals); addPlayers('effects', effects);
+  for(const player of document.querySelectorAll('audio')){player.volume=.5;player.addEventListener('play',()=>{for(const other of document.querySelectorAll('audio'))if(other!==player)other.pause();});}
+</script>
+</html>
