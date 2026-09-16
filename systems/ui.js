@@ -16,6 +16,7 @@ const GameUI = (() => {
   }
 
   function newGame() {
+    if (CharacterArt.loading || CharacterArt.errors.length) return;
     resetGame();
     AudioSystem.sync(state);
     AudioSystem.unlock();
@@ -24,6 +25,7 @@ const GameUI = (() => {
   }
 
   function resumeGame() {
+    if (CharacterArt.loading || CharacterArt.errors.length) return;
     if (!state || !state.hasSave) return;
     state.phase = state.resumePhase || "playing";
     input.clear();
@@ -37,7 +39,7 @@ const GameUI = (() => {
     if (initialized) return;
     initialized = true;
     AudioControls.initialize();
-    const ids = ["gameCanvas", "menuScreen", "menuTitle", "menuDescription", "menuSaveText", "endScreen", "endTitle", "endMessage", "endSummary", "endEmblem", "endEyebrow", "startBtn", "continueBtn", "pauseBtn", "replayBtn", "menuBtn", "hiddenText", "contextHint", "wolfLevelText", "wolfStateText", "saveText", "staminaMeter", "staminaText", "chicksCount", "wolfMultiplier", "skinUnlockText", ...SkinSystem.catalog.map(s => `skin-${s.id}`)];
+    const ids = ["gameCanvas", "menuScreen", "menuTitle", "menuDescription", "menuSaveText", "endScreen", "endTitle", "endMessage", "endSummary", "endEmblem", "endEyebrow", "startBtn", "continueBtn", "pauseBtn", "replayBtn", "menuBtn", "hiddenText", "contextHint", "wolfLevelText", "wolfStateText", "saveText", "staminaMeter", "staminaText", "chicksCount", "chickCounter", "farmHud", "wardrobeNote", "wolfMultiplier", "skinUnlockText", ...SkinSystem.catalog.map(s => `skin-${s.id}`)];
     for (const id of ids) elements[id] = document.getElementById(id);
     elements.menuSkinSelect = document.getElementById("menuSkinSelect");
     for (const skin of SkinSystem.catalog) elements[`menu-skin-${skin.id}`] = document.getElementById(`menu-skin-${skin.id}`);
@@ -101,6 +103,14 @@ const GameUI = (() => {
 
   function update(game) {
     if (!initialized) initialize();
+    const spritesBlocked = CharacterArt.loading || CharacterArt.errors.length > 0;
+    for (const id of ['startBtn', 'continueBtn', 'replayBtn']) elements[id].disabled = spritesBlocked;
+    document.getElementById('restartBtn').disabled = spritesBlocked;
+    const spriteStatus = document.getElementById('spriteStatus');
+    spriteStatus.hidden = !spritesBlocked;
+    spriteStatus.textContent = CharacterArt.errors.length
+      ? 'Alguns bichos não chegaram. Recarregue a página para tentar novamente.'
+      : 'Chamando a turma da fazenda…';
     AudioControls.update(game);
     const chicken = game.entities.chicken;
     const wolf = game.entities.wolf;
@@ -109,25 +119,31 @@ const GameUI = (() => {
     const sprinting = !!chicken.sprinting;
     const candidate = chicken.hidingCandidate;
     const playing = game.phase === "playing";
+    const secretKnown = RescueSystem.knowsSecret(game);
+    const secret = RescueSystem.secretHint(game);
+    elements.chickCounter.hidden = !secretKnown;
+    elements.farmHud.dataset.secretKnown = String(secretKnown);
     put("chicksCount", game.rescuedChicks);
-    put("wolfMultiplier", `${WolfAI.getConfig(game).chickMultiplier.toFixed(2).replace(".", ",")}×`);
+    put("wolfMultiplier", `Cerco ${WolfAI.getConfig(game).pressure.toFixed(2).replace(".", ",")}×`);
     for (const skin of SkinSystem.catalog) {
       const button = elements[`skin-${skin.id}`], available = SkinSystem.unlocked(skin.id);
       const selected = chicken.skin === skin.id;
       button.disabled = !available;
       button.dataset.active = String(selected);
       button.setAttribute("aria-pressed", String(selected));
-      put(`skin-${skin.id}`, available ? `${skin.name}${selected ? " · usando" : ""}` : `${skin.name} · ${skin.requirement}`);
+      const requirement = secretKnown ? skin.requirement : "Segredo da fazenda";
+      put(`skin-${skin.id}`, available ? `${skin.name}${selected ? " · usando" : ""}` : `${skin.name} · ${requirement}`);
       const option = elements[`menu-skin-${skin.id}`];
       option.disabled = !available;
-      put(`menu-skin-${skin.id}`, available ? skin.name : `${skin.name} · ${skin.requirement}`);
+      put(`menu-skin-${skin.id}`, available ? skin.name : `${skin.name} · ${requirement}`);
     }
     elements.menuSkinSelect.value = chicken.skin;
     const availableSkins = SkinSystem.catalog.filter(s => s.chicks > 0 && SkinSystem.unlocked(s.id)).length;
     put("skinUnlockText", `${availableSkins} / 4 trajes no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
+    put("wardrobeNote", secretKnown ? "Resgate os pintinhos secretos e os amigos na mesma aventura para abrir o baú. Cada traje tem sua própria música; conquistas anteriores continuam suas." : "Nem todo tesouro fica à vista. Explore os cantinhos da fazenda para descobrir como abrir o baú.");
     put("hiddenText", exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
-    put("contextHint", !playing ? (game.phase === "menu" ? "A fazenda espera por você." : "Juntos, os amigos ficam mais fortes.") : exposed ? "Ele viu você entrar! Saia com E ou movimento e quebre a visão." : hidden ? "E para sair. Recupere o fôlego e espere a busca passar." : candidate ? "E para se esconder. Quebre a visão do lobo primeiro!" : chicken.exhausted && input.has("shift") ? "Solte Shift para voltar a correr quando recuperar o fôlego." : sprinting ? "Correr assusta os bichos e pode chamar o lobo." : wolf.mode === "alert" ? "O lobo desconfia! Saia da vista antes que a barra encha." : "Segure C para chegar de mansinho. Se fugirem, espere cansar!");
+    put("contextHint", !playing ? (game.phase === "menu" ? "A fazenda espera por você." : "Juntos, os amigos ficam mais fortes.") : exposed ? "Ele viu você entrar! Saia com E ou movimento e quebre a visão." : hidden ? "E para sair. Recupere o fôlego e espere a busca passar." : wolf.mode === "alert" ? "O lobo desconfia! Saia da vista antes que a barra encha." : secret ? "Um piado no mato... chegue pertinho e segure C para investigar." : candidate ? "E para se esconder. Quebre a visão do lobo primeiro!" : chicken.exhausted && input.has("shift") ? "Solte Shift para voltar a correr quando recuperar o fôlego." : sprinting ? "Correr assusta os bichos e pode chamar o lobo." : game.rescuedCount === 10 && game.rescuedChicks < 6 ? "A turma ouviu uns piados pelos cantos da fazenda. Ainda tem alguém escondido!" : "Cada resgate aperta o cerco do lobo. Use C para chegar de mansinho.");
     elements.staminaMeter.value = chicken.stamina;
     elements.staminaMeter.parentElement.dataset.tired = String(chicken.exhausted);
     put("staminaText", chicken.exhausted ? "Recuperando" : "Fôlego");
@@ -151,7 +167,7 @@ const GameUI = (() => {
       put("startBtn", canContinue ? "Gerar nova fazenda" : "Abrir a porteira");
       put("continueBtn", game.resumePhase === "won" ? "Voltar à comemoração" : "Voltar pro terreiro");
       put("menuTitle", canContinue ? "Um cafezinho na varanda." : "Deu a louca no terreiro!");
-      put("menuDescription", canContinue ? `${game.rescuedCount}/10 amigos e ${game.rescuedChicks}/6 pintinhos a salvo. Continue a missão ou gere outra fazenda. Seus trajes ficam no baú.` : "O lobo chegou, mas ninguém acredita! Ache 10 amigos e 6 pintinhos, alcance os teimosos e leve a turma ao Poleiro.");
+      put("menuDescription", canContinue ? `${game.rescuedCount}/10 amigos${secretKnown ? ` e ${game.rescuedChicks}/6 pintinhos secretos` : ""} a salvo. Cada resgate deixa o lobo mais perigoso. Seus trajes ficam no baú.` : "O lobo chegou, mas ninguém acredita! Resgate os 10 amigos. Cada um salvo deixa o lobo mais perigoso... e a fazenda guarda seus segredos.");
     }
     if (ended) {
       const won = game.phase === "won";
@@ -159,7 +175,7 @@ const GameUI = (() => {
       put("endEyebrow", won ? "FIM ♥" : "Ainda há uma nova chance");
       put("endTitle", won ? "Você conseguiu!" : "Vamos tentar de novo?");
       put("endMessage", won ? "Todos os seus amigos estão seguros! O lobo aprendeu: não se mexe com essa turma." : game.gameEndReason || "O lobo pegou você desta vez. Use os esconderijos para despistá-lo na próxima aventura.");
-      put("endSummary", `${game.rescuedCount}/10 amigos · ${game.rescuedChicks}/6 pintinhos · ${Math.max(0, Math.floor(game.score))} pontos · ${Math.max(0, game.lives)} vidas`);
+      put("endSummary", `${game.rescuedCount}/10 amigos${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos` : ""} · ${Math.max(0, Math.floor(game.score))} pontos · ${Math.max(0, game.lives)} vidas`);
     }
     if (lastPhase !== game.phase) {
       if (menu) (elements.continueBtn.hidden ? elements.startBtn : elements.continueBtn).focus({ preventScroll: true });
@@ -179,6 +195,21 @@ const GameUI = (() => {
     ctx.save();
     const chicken = game.entities.chicken, wolf = game.entities.wolf;
     const p = worldToScreen(chicken), w = worldToScreen(wolf);
+    const secret = RescueSystem.secretHint(game);
+    if (secret) {
+      const at = worldToScreen(secret);
+      const sx = clamp(at.x,80,canvas.width-80), sy = clamp(at.y-36,30,canvas.height-60);
+      const closeEnough = distance(chicken, secret) <= 48;
+      panel(sx-93,sy-21,186,48,"rgba(255,245,208,.97)");
+      ctx.font = "bold 14px Trebuchet MS, sans-serif"; ctx.textAlign = "center"; ctx.fillStyle = "#665026";
+      ctx.fillText(closeEnough ? "Segure C · investigar" : "Piu... tem algo aqui!",sx,sy-2);
+      ctx.font = "12px Trebuchet MS, sans-serif";
+      ctx.fillText(closeEnough ? "Procure no matinho" : "Chegue de mansinho",sx,sy+16);
+      if (secret.discoveryTime > 0) {
+        panel(sx-32,sy+30,64,7,"#547247");
+        ctx.fillStyle="#ffe49b";ctx.fillRect(sx-30,sy+32,60*Math.min(1,secret.discoveryTime/.85),3);
+      }
+    }
     const talkers = RescueSystem.all(game).filter(a => !a.rescued && RescueSystem.visible(game, a))
       .sort((a, b) => distance(a, chicken) - distance(b, chicken));
     for (const animal of talkers.slice(0, 2)) {
@@ -188,7 +219,7 @@ const GameUI = (() => {
         ctx.font = "bold 13px Trebuchet MS, sans-serif";
         const width = Math.min(260, ctx.measureText(animal.speech).width + 26);
         const bx = clamp(at.x - width / 2, 10, canvas.width - width - 10);
-        const by = at.y - 83;
+        const by = at.y - CharacterArt.markerOffset(animal.species) - 36;
         panel(bx, by, width, 30, "#fff3ce");
         ctx.fillStyle = "#fff3ce"; ctx.beginPath(); ctx.moveTo(at.x-5,by+29); ctx.lineTo(at.x+5,by+29); ctx.lineTo(at.x,by+36); ctx.fill();
         ctx.fillStyle = "#663d28"; ctx.textAlign = "center";
@@ -231,7 +262,15 @@ const GameUI = (() => {
       ctx.textAlign = "center"; ctx.fillStyle = "#3d693e"; ctx.font = "bold 14px sans-serif";
       ctx.fillText(`${notice.name} a salvo!`, canvas.width / 2, 33);
       ctx.font = "11px sans-serif"; ctx.fillStyle = "#697548";
-      ctx.fillText(`+100 pontos  ·  ${notice.count} de ${notice.total || 10} ${notice.chick ? "pintinhos" : "amigos"}`, canvas.width / 2, 48);
+      ctx.fillText(`+100 pontos  ·  O lobo apertou o cerco!`, canvas.width / 2, 48);
+    }
+    if (game.secretNotice?.time > 0 && !game.skinNotice?.time) {
+      ctx.globalAlpha = Math.min(1,game.secretNotice.time);
+      panel(canvas.width/2-165,canvas.height-63,330,44,"#fff0b9");
+      ctx.fillStyle="#76512b";ctx.textAlign="center";ctx.font="bold 14px Trebuchet MS, sans-serif";
+      ctx.fillText("SEGREDO ENCONTRADO: UM PINTINHO!",canvas.width/2,canvas.height-44);
+      ctx.font="12px Trebuchet MS, sans-serif";
+      ctx.fillText("Agora alcance o pequeno fujão!",canvas.width/2,canvas.height-27);
     }
     if (game.skinNotice?.time > 0) {
       ctx.globalAlpha = Math.min(1, game.skinNotice.time);

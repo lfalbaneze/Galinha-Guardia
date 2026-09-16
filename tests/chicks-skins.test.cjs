@@ -4,6 +4,7 @@ const { createGame } = require('./helpers.cjs');
 
 function rescueChicks(run, count = 6) {
   run(`for(const chick of state.entities.chicks.slice(0,${count})) {
+    chick.discovered=true; // This helper starts after discovery; secret tests cover the search.
     state.entities.chicken.x=chick.x;state.entities.chicken.y=chick.y;RescueSystem.update(state,0);
   }`);
 }
@@ -42,7 +43,7 @@ test('skins require chicks and friends together; equipping changes no gameplay s
   assert.equal(run('SkinSystem.equip(state,"robocop")'), false);
   assert.equal(elements.get('skin-punk').disabled, true);
   for (const [count, friends, id] of [[2,3,'punk'],[4,6,'astronaut'],[6,9,'robocop'],[6,10,'priest']]) {
-    run(`for(const chick of state.entities.chicks.slice(0,${count})) GameManager.rescue(state,chick);GameUI.update(state);`);
+    run(`for(const chick of state.entities.chicks.slice(0,${count})) GameManager.rescue(state,Object.assign(chick,{discovered:true}));GameUI.update(state);`);
     assert.equal(run(`SkinSystem.unlocked('${id}')`), false, 'chicks alone must not unlock an outfit');
     run(`for(const friend of state.entities.animals.slice(0,${friends})) GameManager.rescue(state,friend);GameUI.update(state);`);
     assert.equal(run(`SkinSystem.unlocked('${id}')`), true);
@@ -114,7 +115,7 @@ test('invalid chick saves and wardrobe data fail safely; blocked storage retains
   const reload = createGame(Math.random, { storage });
   assert.equal(reload.run('state.entities.chicken.skin'), 'classic');
   reload.run(`localStorage.setItem=()=>{throw Error('blocked')};
-    for(const chick of state.entities.chicks.slice(0,2)) GameManager.rescue(state,chick);
+    for(const chick of state.entities.chicks.slice(0,2)) GameManager.rescue(state,Object.assign(chick,{discovered:true}));
     for(const friend of state.entities.animals.slice(0,3)) GameManager.rescue(state,friend);resetGame();`);
   assert.equal(reload.run('SkinSystem.unlocked("punk")'), true);
   assert.equal(reload.run('SkinSystem.storageAvailable'), false);

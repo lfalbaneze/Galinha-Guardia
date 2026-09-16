@@ -6,6 +6,32 @@ const RescueSystem = {
     return { x: 140 + (index % 5) * 45, y: 370 + Math.floor(index / 5) * 48 };
   },
   chickPosition(index) { return { x: 135 + index * 37, y: 280 }; },
+  knowsSecret(game) {
+    return game.rescuedChicks > 0 || game.entities.chicks.some(c => c.discovered);
+  },
+  isSecret(animal) { return animal.type === "chick" && !animal.rescued && !animal.discovered; },
+  secretHint(game) {
+    if (game.phase !== "playing") return null;
+    const chicken = game.entities.chicken;
+    return game.entities.chicks.filter(c => RescueSystem.isSecret(c) && distance(chicken, c) < 190 &&
+      DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(c)))
+      .sort((a,b) => distance(chicken,a) - distance(chicken,b))[0] || null;
+  },
+  discover(game, chick, dt) {
+    const chicken = game.entities.chicken;
+    const quiet = input.has("c") && !chicken.sprinting && !chicken.hidden;
+    const close = distance(chicken,chick) <= 48 &&
+      DetectionSystem.hasLineOfSight(getHitbox(chicken),getHitbox(chick));
+    chick.discoveryTime = quiet && close ? (chick.discoveryTime || 0) + dt : 0;
+    if (chick.discoveryTime < .85) return false;
+    chick.discovered = true; chick.discoveryTime = 0;
+    chick.lastSeen = { x: chick.x, y: chick.y };
+    game.secretNotice = { time: 4 };
+    setStatus("Segredo encontrado: um pintinho! Será que tem mais pela fazenda?", "win");
+    spawnBurst(chick.x,chick.y,"#ffe496",12);
+    GameManager.save(game); GameUI.update(game);
+    return true;
+  },
   taunts: {
     sheep: ["Sai pra lá, esquisita!", "Mééé! Me deixa pastar!"],
     pig: ["Não tem lobo aqui!", "Meu barro, minhas regras!"],
@@ -20,7 +46,7 @@ const RescueSystem = {
     chick: ["Piu! Não sou ovo, não!", "Você não manda em mim!", "Nem vem, dona galinha!"]
   },
   visible(game, animal) {
-    return distance(game.entities.chicken, animal) < 300 &&
+    return !RescueSystem.isSecret(animal) && distance(game.entities.chicken, animal) < 300 &&
       DetectionSystem.hasLineOfSight(getHitbox(game.entities.chicken), getHitbox(animal));
   },
   talk(game, animal, tired = false) {
@@ -51,10 +77,17 @@ const RescueSystem = {
     animal.targetX = animal.x; animal.targetY = animal.y;
   },
   update(game, dt) {
+    if (game.phase !== "playing") return;
     const chicken = game.entities.chicken;
     game.animalSpeechCooldown = Math.max(0, (game.animalSpeechCooldown || 0) - dt);
+    game.secretSoundCooldown = Math.max(0, (game.secretSoundCooldown || 0) - dt);
+    if (dt > 0 && game.secretSoundCooldown <= 0 && RescueSystem.secretHint(game)) {
+      AudioSystem.play("chick", { volume: .14 });
+      game.secretSoundCooldown = 4.5;
+    }
     if (game.rescueNotice) game.rescueNotice.time = Math.max(0, game.rescueNotice.time - dt);
     if (game.skinNotice) game.skinNotice.time = Math.max(0, game.skinNotice.time - dt);
+    if (game.secretNotice) game.secretNotice.time = Math.max(0, game.secretNotice.time - dt);
     for (const animal of RescueSystem.all(game)) {
       const chick = animal.type === "chick";
       const index = chick ? game.entities.chicks.indexOf(animal) : game.entities.animals.indexOf(animal);
@@ -62,6 +95,12 @@ const RescueSystem = {
       const oldX = animal.x, oldY = animal.y;
       animal.speechTime = Math.max(0, (animal.speechTime || 0) - dt);
       animal.moving = false;
+      if (RescueSystem.isSecret(animal)) {
+        animal.speechTime = 0; animal.temper = "secret";
+        RescueSystem.discover(game, animal, dt);
+        // Finding the hiding place and catching its occupant are separate moments.
+        continue;
+      }
       if (!animal.rescued) {
         const touchedBeforeMove = circleVsCircle(chicken, animal) &&
           DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(animal));
@@ -111,7 +150,7 @@ const RescueSystem = {
           AudioSystem.playAnimal(animal.species);
           const count = chick ? game.rescuedChicks : game.rescuedCount;
           const total = chick ? WORLD.targetChicks : WORLD.targetRescues;
-          setStatus(`${RescueSystem.names[animal.species]} a salvo! ${count} de ${total} ${chick ? "pintinhos" : "amigos"}.`, "win");
+          setStatus(`${RescueSystem.names[animal.species]} a salvo! ${count} de ${total} ${chick ? "pintinhos" : "amigos"}. O lobo apertou o cerco!`, "win");
           game.rescueNotice = { name: RescueSystem.names[animal.species], count, total, chick, time: 2.6 };
           const safe = safePosition(index);
           animal.x = safe.x; animal.y = safe.y;

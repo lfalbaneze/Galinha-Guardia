@@ -315,6 +315,18 @@ const FarmArt = (() => {
     }
     c.restore();
   }
-  return {drawGround,getProps,drawProp,drawCoverForeground};
+  function drawSecretCover(c,chick,camera,time) {
+    if (!visible(c,chick,camera,25)) return;
+    world(c,camera);
+    const sway = Math.sin(time*2.3+chick.x)*1.2;
+    ellipse(c,chick.x,chick.y+9,17,5,"#5b78342b");
+    for (const side of [-1,0,1]) {
+      const x=chick.x+side*9;
+      line(c,[[x-6,chick.y+6],[x,chick.y-5+sway],[x+6,chick.y+7]],"#76974c",3);
+      line(c,[[x,chick.y+6],[x+3,chick.y-7+sway]],"#a8b86a",2);
+    }
+    c.restore();
+  }
+  return {drawGround,getProps,drawProp,drawCoverForeground,drawSecretCover};
 })();
 if (typeof module !== "undefined" && module.exports) module.exports = FarmArt;

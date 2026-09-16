@@ -284,6 +284,7 @@ function createState() {
   return {
     difficultyKey,
     worldSeed: WORLD.layout.seed,
+    worldVersion: WORLD.layout.version,
     settings,
     phase: "playing",
     rescuedCount: 0,
@@ -319,10 +320,11 @@ function createState() {
   };
 }
 
-function resetGame(seed) {
+function resetGame(seed, worldVersion = 2) {
   AudioSystem.reset();
-  const chosenSeed = Number.isInteger(seed) ? seed >>> 0 : Math.floor(Math.random() * 4294967296) >>> 0;
-  MapManager.generate(chosenSeed);
+  let chosenSeed = Number.isInteger(seed) ? seed >>> 0 : Math.floor(Math.random() * 4294967296) >>> 0;
+  if (!Number.isInteger(seed) && chosenSeed === state?.worldSeed) chosenSeed = (chosenSeed + 0x9e3779b9) >>> 0;
+  MapManager.generate(chosenSeed, worldVersion);
   buildObstacles();
   state = createState();
   GameManager.initialize(state);
@@ -343,7 +345,7 @@ function resetGame(seed) {
   livesCountEl.textContent = String(MAX_LIVES);
   scoreCountEl.textContent = "0";
   areaTextEl.textContent = "Poleiro";
-  setStatus(`Dificuldade ${state.settings.label}. Resgate 10 amigos + 6 pintinhos. Use E para se esconder.`);
+  setStatus(`Dificuldade ${state.settings.label}. Cada amigo salvo deixa o lobo mais perigoso. A fazenda guarda segredos...`);
   input.clear();
   GameManager.save(state);
   GameUI.update(state);
@@ -488,12 +490,13 @@ function drawAnimalCharacter(species, x, y, facing, anim) {
 }
 
 function drawAnimal(entity) {
+  if (RescueSystem.isSecret(entity) && !EndGameSequence.active(state)) return;
   const p = worldToScreen(entity);
   CharacterArt.draw(ctx, entity.species, p.x, p.y, { facing: entity.facing, direction: entity.direction,
     anim: entity.anim, moving: entity.moving, sprinting: entity.temper === "fleeing",
     lookBack: entity.temper === "fleeing", mood: entity.mood || "normal" });
-  if (!entity.rescued && !EndGameSequence.active(state) && RescueSystem.visible(state, entity)) {
-    ctx.save(); ctx.translate(p.x, p.y - (entity.type === "chick" ? 33 : 49));
+  if (!entity.rescued && !entity.speechTime && !EndGameSequence.active(state) && RescueSystem.visible(state, entity)) {
+    ctx.save(); ctx.translate(p.x, p.y - CharacterArt.markerOffset(entity.species));
     ctx.fillStyle = entity.type === "chick" ? "#ffb963" : "#fff1a0"; ctx.strokeStyle = "#a38c51"; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(0, 6); ctx.bezierCurveTo(-15, -2, -7, -12, 0, -5);
     ctx.bezierCurveTo(7, -12, 15, -2, 0, 6); ctx.fill(); ctx.stroke(); ctx.restore();
@@ -556,6 +559,7 @@ function drawDebugHitboxes() {
   drawEntity(state.entities.wolf, "#ff5959");
 
   for (const animal of RescueSystem.all(state)) {
+    if (RescueSystem.isSecret(animal)) continue;
     if (animal.lost && state.phase !== "win_cutscene") continue;
     drawEntity(animal, animal.rescued ? "#4ca6ff" : "#ffe85a");
   }
@@ -636,6 +640,9 @@ function renderGame() {
   const ending = EndGameSequence.active(state);
   if (ending) EndGameSequence.drawBackdrop(state);
   else drawWorld();
+  if (!ending) for (const chick of state.entities.chicks) {
+    if (RescueSystem.isSecret(chick)) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
+  }
   const layers = [...RescueSystem.all(state), state.entities.chicken, state.entities.wolf]
     .map(entity => ({ depth: entity.y + 12, entity }));
   if (!ending) for (const prop of FarmArt.getProps(WORLD.layout)) layers.push({ depth: prop.depth, prop });
@@ -716,7 +723,7 @@ buildObstacles();
 GameUI.initialize();
 const savedGame = GameManager.read();
 if (savedGame) difficultySelect.value = savedGame.difficulty;
-resetGame(savedGame?.worldSeed);
+resetGame(savedGame?.worldSeed, savedGame ? savedGame.worldVersion : 2);
 if (savedGame) {
   GameManager.restore(state, savedGame);
   MapManager.initialize(state);
@@ -725,6 +732,7 @@ if (savedGame) {
 state.hasSave = Boolean(savedGame);
 GameUI.showMenu(state);
 GameUI.update(state);
+CharacterArt.load().then(() => GameUI.update(state));
 requestAnimationFrame((t) => {
   lastTime = t;
   tick(t);

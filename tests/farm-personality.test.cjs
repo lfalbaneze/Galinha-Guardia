@@ -80,7 +80,7 @@ test('legacy outfits remain earned but separate adventures cannot combine rescue
   assert.equal(legacy.run('state.entities.chicken.skin'),'robocop');
   assert.equal(legacy.run('SkinSystem.unlocked("priest")'),false);
   const {run}=createGame(() => .5);
-  run(`for(const chick of state.entities.chicks) GameManager.rescue(state,chick);
+  run(`for(const chick of state.entities.chicks) GameManager.rescue(state,Object.assign(chick,{discovered:true}));
     resetGame(543);for(const friend of state.entities.animals) GameManager.rescue(state,friend);`);
   assert.equal(run('SkinSystem.unlocked("punk")'),false);
 });

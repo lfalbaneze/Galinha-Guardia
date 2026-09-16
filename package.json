@@ -5,7 +5,9 @@
   "description": "Jogo Canvas 2D; dependências usadas somente na verificação visual.",
   "scripts": {
     "build": "node scripts/build.cjs",
-    "test": "node --test",
+    "test": "node --test tests",
+    "sprites:build": "node scripts/build-sprite-data.cjs && node scripts/render-wardrobe.cjs",
+    "sprites:review": "node scripts/render-sprite-review.cjs && node scripts/render-characters.cjs",
     "preview:render": "node scripts/render-preview.cjs",
     "audio:generate": "node scripts/generate-audio.cjs",
     "audio:preview": "node scripts/render-audio-preview.cjs"

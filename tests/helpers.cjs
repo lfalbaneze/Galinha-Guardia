@@ -18,13 +18,15 @@ function createGame(random = Math.random, options = {}) {
     document: { getElementById: element, querySelectorAll: () => [], addEventListener: (key,fn) => { events.document[key] = fn; } },
     window: { addEventListener: (key,fn) => { events.window[key] = fn; }, matchMedia: () => ({ matches: false }) },
     localStorage: { setItem: (k,v) => storage.set(k,v), getItem: k => storage.get(k) ?? null, removeItem: k => storage.delete(k) },
-    requestAnimationFrame() {}, Image: class {}, setTimeout, clearTimeout });
+    requestAnimationFrame() {}, Image: class { set src(value) { this.onload?.(); } }, setTimeout, clearTimeout });
   // Follow the exact browser script order, but avoid the live animation/asset bootstrap.
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   for (const match of html.matchAll(/<script[^>]+src="\.\/([^"?]+)(?:\?[^"]*)?"/g)) {
     let source = fs.readFileSync(path.join(root, match[1]), 'utf8');
     if (match[1] === 'game.js' && !options.fullStartup) source = source.slice(0, source.lastIndexOf('\nbuildObstacles();'));
     vm.runInContext(source, context, { filename: match[1] });
+    if (match[1] === 'systems/character-art.js' && !options.drawingContext)
+      vm.runInContext('CharacterArt.install(() => ({}));', context);
   }
   const run = code => vm.runInContext(code, context);
   if (!options.fullStartup) run('buildObstacles(); GameUI.initialize(); resetGame(); state.phase = "playing";');

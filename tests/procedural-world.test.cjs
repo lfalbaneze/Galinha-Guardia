@@ -3,12 +3,51 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const { createHash } = require('node:crypto');
 
 const context = vm.createContext({ Math: Object.assign(Object.create(Math), {
   random() { throw new Error('A seeded layout must never use Math.random'); },
 }) });
 vm.runInContext(fs.readFileSync(path.join(__dirname, '../systems/world-generator.js'), 'utf8'), context);
 const generate = seed => JSON.parse(vm.runInContext(`JSON.stringify(WorldGenerator.generate(${JSON.stringify(seed)}))`, context));
+
+test('old saved seeds retain their original geography exactly', () => {
+  const fixtures = [
+    [0, '2787473d8620972ce9ff8b5c1b74454d48fa5de3fea1bfc9745605e2e6035f0d'],
+    [814237, '461c59cc0d3201757e71bad094c40d33f969717d52c621bb4423d43bc9d4a37b'],
+    [391602, '49efec8de69f3cc30b28dcc1d0c99ac95f1d6f4ea07d665fc97c64517cbbc269'],
+  ];
+  for (const [seed, expected] of fixtures) {
+    const layout = JSON.parse(vm.runInContext(`JSON.stringify(WorldGenerator.generate(${seed}, 1))`, context));
+    assert.equal(layout.version, 1);
+    delete layout.version; delete layout.connections;
+    assert.equal(createHash('sha256').update(JSON.stringify(layout)).digest('hex'), expected);
+  }
+});
+
+test('new farms vary district geometry and connected road networks beyond fixed slots', () => {
+  const worlds = Array.from({ length: 30 }, (_, i) => generate(i));
+  for (const id of ['granja', 'estabulo', 'horta', 'quintal']) {
+    const areas = worlds.map(w => w.areas.find(a => a.id === id));
+    assert.ok(new Set(areas.map(a => `${a.x},${a.y}`)).size >= 25, id);
+    assert.ok(new Set(areas.map(a => `${a.w},${a.h}`)).size >= 25, id);
+    assert.ok(Math.max(...areas.map(a => a.x)) - Math.min(...areas.map(a => a.x)) > 1200, id);
+    assert.ok(Math.max(...areas.map(a => a.y)) - Math.min(...areas.map(a => a.y)) > 700, id);
+  }
+  const graphs = new Set();
+  for (const world of worlds) {
+    assert.equal(world.version, 2);
+    graphs.add(world.connections.map(edge => [...edge].sort().join('-')).sort().join(','));
+    const reached = new Set(['poleiro']);
+    for (let pass = 0; pass < 5; pass++) for (const [a, b] of world.connections) {
+      if (reached.has(a)) reached.add(b);
+      if (reached.has(b)) reached.add(a);
+    }
+    assert.equal(reached.size, 5, `seed ${world.seed}: disconnected road network`);
+    assert.ok(world.connections.length >= 5, 'at least one alternative route');
+  }
+  assert.ok(graphs.size >= 20, `${graphs.size} distinct road networks`);
+});
 
 function intersects(a, b, gap = 0) {
   return a.x < b.x + b.w + gap && a.x + a.w > b.x - gap &&

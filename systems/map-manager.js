@@ -1,7 +1,7 @@
 /* The original farm is a seamless world. Regions change without recreating entities. */
 const MapManager = {
-  generate(seed) {
-    const layout = WorldGenerator.generate(seed);
+  generate(seed, version = 2) {
+    const layout = WorldGenerator.generate(seed, version);
     WORLD.layout = layout; WORLD.areas = layout.areas; WORLD.paths = layout.paths;
     Object.assign(STRUCTURES, layout.structures);
     return layout;
@@ -32,11 +32,13 @@ const MapManager = {
     areaTextEl.textContent = region.name;
   },
   draw(game) {
+    if (RescueSystem.knowsSecret(game)) {
     const nest = worldPointToScreen(111, 252);
     ctx.fillStyle = "rgba(243, 211, 132, .6)"; ctx.strokeStyle = "#c8a86a"; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.roundRect(nest.x, nest.y, 238, 47, 22); ctx.fill(); ctx.stroke();
     ctx.fillStyle = "#6d5730"; ctx.font = "bold 13px sans-serif"; ctx.textAlign = "left";
     ctx.fillText("Ninho dos pintinhos", nest.x + 10, nest.y - 10);
+    }
     const safe = worldPointToScreen(100, 340);
     ctx.fillStyle = "rgba(221, 241, 175, .35)"; ctx.strokeStyle = "#e9efb1"; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.roundRect(safe.x, safe.y, 290, 120, 24); ctx.fill(); ctx.stroke();

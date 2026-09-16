@@ -1,13 +1,25 @@
 # Galinha Guardiã — Resgate na Fazenda
 
-Evolução do jogo original em **JavaScript puro + Canvas 2D**, sem dependências para jogar. Movimento, câmera, colisões, resgate e IA foram mantidos; personagens e cenário agora têm desenhos cartunescos próprios, e a fazenda é gerada proceduralmente. Uma cópia dos três arquivos originais está em `.baseline/`.
+Evolução do jogo original em **JavaScript puro + Canvas 2D**, sem dependências para jogar. Movimento, câmera, colisões, resgate e IA foram mantidos; os personagens usam sprites licenciados, o cenário é desenhado no Canvas e a fazenda é gerada proceduralmente. Uma cópia dos três arquivos originais está em `.baseline/`.
 
 
 ## Sítio do Fuzuê
 
+Cada amigo resgatado aumenta de imediato a velocidade real, a visão, a abertura do campo de visão e a duração de busca do lobo, além de reduzir seu tempo de reação. Os nomes dos quatro níveis continuam, mas não há mais intervalos de resgates sem aumento de dificuldade. Os tetos também avançam aos poucos: mesmo perto do final, cada resgate aumenta a pressão, preservando uma vantagem de velocidade para a corrida da galinha. O HUD mostra o **Cerco** e o aviso de resgate confirma o aumento.
+
+Os seis pintinhos são **segredos**: ficam sob tufos de mato, imóveis e sem sprite, coração ou marcador até serem descobertos. A menos de 190 px, com linha de visão, há um piado e a pista “Chegue de mansinho”. A até 48 px, aparece “Segure C · investigar”: segure **C por 0,85 segundo**, inclusive parada. Correr por cima, encostar, ficar atrás de uma parede ou pausar não revela nem resgata. Depois da descoberta, o pintinho aparece amarelinho, menor que a galinha, e pode fugir e ser resgatado normalmente. O contador, o ninho e os requisitos do baú só revelam os pintinhos depois do primeiro achado. Descobertas ficam salvas; novas aventuras escondem novamente os segredos. O final continua reunindo todos; após salvar os dez amigos, uma dica lembra os piados ainda não investigados.
+
 A interface usa placas de madeira, caderneta e um **Baú de domingo** com prévias dos trajes. As regiões ganharam plantas diferentes, frutas, bandeirolas e rastros de carroça. Os rostos laterais dos sprites têm dois olhos em três quartos; os bichos espiam por cima do ombro ao fugir.
 
 Os bichos agora fogem da galinha com falas próprias, como “Sai pra lá, esquisita!” e “Não tem lobo aqui!”. Correr assusta de mais longe. Segure **C** para se aproximar devagar e encoste, ou persiga até cansarem. A fuga dura até 2,8 / 4,4 / 6 segundos no Fácil / Médio / Difícil e dá uma janela de descanso de 3,1 segundos. Construções bloqueiam a percepção, e os bichos respeitam colisões e os limites da região. Descoberta e cansaço são salvos.
+
+## Sprites prontos — troca concluída
+
+Os 13 personagens usam agora folhas de sprites licenciadas, com quatro direções, caminhada e parada. As quatro skins continuam disponíveis como sobreposições na nova galinha, inclusive escondida e no final. O desenho não altera colisões, resgates, progressão ou partidas salvas. As folhas originais, créditos, fontes e licenças estão em [assets/sprites/CREDITS.html](assets/sprites/CREDITS.html), acessíveis também pelo rodapé do jogo.
+
+Abra [a prévia animada](preview/sprites.html) para testar direções, caminhada e roupas sem mudar seu progresso. [A comparação antes/depois](preview/sprites-before-after.png) mostra a substituição dos desenhos anteriores. O navegador interativo não estava disponível nesta sessão; a verificação visual foi feita renderizando os PNGs reais no Canvas, além dos testes automatizados e da entrega HTTP dos arquivos.
+
+Para refazer as coordenadas dos quadros e as imagens do baú depois de alterar as folhas, instale as dependências de desenvolvimento e execute `npm run sprites:build`. `npm run sprites:review` atualiza as pranchas de personagens e roupas. O build público inclui as imagens e os créditos e continua funcionando offline, sem serviço externo de sprites.
 
 ## Jogar
 
@@ -17,13 +29,13 @@ Abra `index.html` no navegador. Você também pode manter o salvamento em um end
 python -m http.server 8765 --bind 127.0.0.1
 ```
 
-Então acesse `http://127.0.0.1:8765`. Todos os personagens e cenários são desenhados no Canvas; os PNGs antigos estão preservados, mas não são mais utilizados.
+Então acesse `http://127.0.0.1:8765`. O Canvas combina os sprites PNG dos personagens com o cenário desenhado pelo jogo.
 
 | Controle | Ação |
 | --- | --- |
 | WASD ou setas | Mover |
 | Shift | Correr por até 3 segundos; solte e recupere o fôlego antes de uma nova arrancada |
-| C | Segurar para andar de mansinho e se aproximar dos bichos |
+| C | Segurar para andar de mansinho; investigar piados ao chegar pertinho |
 | E | Entrar/sair do esconderijo marcado com E |
 | Uma nova pressão na direção | Sair do esconderijo |
 | Esc ou P / Pausar | Abrir o menu e pausar |
@@ -35,7 +47,7 @@ O lobo persegue a galinha com cara furiosa, dentes cerrados, sobrancelhas fechad
 
 Ao se aproximar de feno ou vegetação, aparece **E · ESCONDER** junto da galinha. Ao entrar sem ser vista, ela se agacha, continua espiando por cima de folhas/palha e recebe **ESCONDIDA** dentro do mapa. Se o lobo presenciar a entrada de perto, o aviso muda para **ELE VIU VOCÊ!**, com contorno laranja e fundo vermelho: ele conhece aquele esconderijo e pode capturá-la ali. Uma tecla de movimento que já estava pressionada antes de E não cancela a cobertura; pressione novamente para sair.
 
-Os personagens, incluindo os novos pintinhos dourados, têm poses de frente, costas e dos dois lados, com volume, passos alternados e movimentos de asas, caudas e orelhas. A direção acompanha o deslocamento; personagens bloqueados e amigos no refúgio deixam de caminhar no lugar. A galinha escondida vira o rosto para quem joga, mantendo os olhos visíveis.
+Os personagens, incluindo os pintinhos secretos, têm poses de frente, costas e dos dois lados, com volume, passos alternados e movimentos de asas, caudas e orelhas. A direção acompanha o deslocamento; personagens bloqueados e amigos no refúgio deixam de caminhar no lugar. A galinha escondida vira o rosto para quem joga, mantendo os olhos visíveis.
 
 A corrida dá 32% de velocidade extra por até três segundos. O medidor aparece no HUD e sob a galinha durante o uso e a recuperação. Caminhar recupera a reserva; esconder-se recupera mais rápido. Ao esgotar, solte Shift para liberar a próxima corrida. Correr contra uma parede não gasta fôlego nem produz ruído. Colisões usam passos pequenos para evitar atravessar obstáculos durante movimento rápido ou o recuo de uma captura.
 
@@ -81,7 +93,9 @@ Esses dois scripts usam apenas módulos nativos do Node.js. A prévia utiliza os
 
 **Gerar nova fazenda** e **Reiniciar** criam outra semente. O Poleiro e o refúgio ficam no início; as outras quatro regiões mudam de posição, tamanho e disposição. Caminhos interligados, construções, árvores, feno, canteiros e detalhes também variam. São dois amigos por região e seis pintinhos distribuídos pelas cinco regiões, com dois no Quintal. Os passeios ficam próximos ao ponto de origem; durante a fuga, os bichos podem se afastar dentro de sua região. Amigos e pintinhos preferem cantos livres dos campos e entradas de coberturas, longe dos centros dos caminhos. A distribuição usa uma segunda sequência determinística para preservar construções, obstáculos e IDs de esconderijos das sementes anteriores.
 
-**Continuar** recupera a mesma semente e a mesma geografia. A geração reserva primeiro os caminhos, o refúgio e os pontos dos animais; depois coloca obstáculos com distância suficiente para passar. Testes de conectividade verificam regiões, resgates e esconderijos em 30 sementes.
+As novas fazendas usam a geração 2: as regiões ocupam retângulos sorteados sem sobreposição, e uma árvore de conexões com rotas adicionais liga seus centros. Isso varia a geometria e as ligações, além das construções e decorações. O refúgio permanece no início para orientar o jogador.
+
+**Continuar** recupera a mesma semente e a mesma versão da geografia. Partidas anteriores, sem `worldVersion`, usam a geração 1 e preservam seus caminhos e esconderijos; **Gerar nova fazenda** inicia a geração 2. A geração reserva primeiro os caminhos, o refúgio e os pontos dos animais; depois coloca obstáculos com distância suficiente para passar. Testes de conectividade verificam regiões, dez amigos, seis pintinhos e esconderijos em 30 sementes. Também verificam variação de posições, tamanhos e redes de caminhos, além da compatibilidade exata das sementes antigas.
 
 ## Sistemas
 
@@ -121,12 +135,12 @@ Quando vê a entrada, ele avisa **“EU VI VOCÊ ENTRAR AÍ!”**, mantém a exp
 
 Essa lembrança dura de 8 a 14 segundos conforme o nível de amigos resgatados. O lobo confere o local vazio por 0,8 segundo antes de continuar a busca; também abandona uma aproximação que esgote o prazo. Se a galinha mudar de esconderijo sem ser vista, ele continua indo ao ponto antigo. Entradas não testemunhadas permanecem seguras. Pausar congela a lembrança; recarregar preserva o tempo restante e o ponto conhecido. Na busca avançada comum, ele visita coberturas próximas da última observação, sem saber qual o jogador ocupa. Um resgate mostra o nome do amigo, os pontos e a contagem na própria tela.
 
-| Amigos resgatados (antes do fator dos pintinhos) | Visão | Busca | Comportamento |
+| Amigos resgatados (pontos da progressão contínua, antes do fator dos pintinhos) | Visão | Busca | Comportamento |
 | --- | --- | --- | --- |
-| 0–2 | 340 px / 92° | 4 s | Patrulha mais rápida e memória curta |
-| 3–5 | 430 px / 112° | 7,5 s | Dois pontos adicionais de investigação |
-| 6–8 | 520 px / 132° | 11,5 s | Quatro pontos e inspeção das proximidades |
-| 9–10 | 610 px / 150° | 16 s | Seis pontos, esconderijos próximos e mais marcos na patrulha |
+| 0 | 340 px / 92° | 4 s | Memória curta e pouca investigação |
+| 3 | 421 px / 109,4° | 7,6 s | Mais percepção e investigação |
+| 6 | 502 px / 126,8° | 11,2 s | Busca mais longa e ampla |
+| 10 | 610 px / 150° | 16 s | Seis pontos e inspeção de esconderijos próximos |
 
 No modo Médio, a velocidade básica do lobo subiu de cerca de 168 para 230 px/s no primeiro nível e chega a 303 px/s no último, antes dos pintinhos. O limite final corresponde a 96% da corrida da galinha no Médio/Difícil e 90% no Fácil. Com seis pintinhos, visão e busca ficam limitadas a 840 px e 24 segundos; a audição continua limitada a 180 px e nunca revela alguém escondido. O modo escolhido também ajusta a velocidade inicial e o tempo antes de o lobo começar a detectar.
 
@@ -140,7 +154,7 @@ Se o navegador bloquear o armazenamento, o jogo continua funcionando e o HUD inf
 
 ## Verificação
 
-Validação final: **107 testes aprovados**, sintaxe conferida e prévias Canvas revisadas.
+Validação final: **135 testes aprovados**, sintaxe conferida e prévias Canvas revisadas.
 
 Requer Node.js apenas para rodar os testes, sem `npm install`:
 

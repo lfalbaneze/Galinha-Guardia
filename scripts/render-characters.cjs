@@ -1,9 +1,10 @@
+async function main() {
 const { createCanvas } = require('@napi-rs/canvas');
 const { readFileSync, writeFileSync, mkdirSync } = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const art = vm.runInNewContext(readFileSync(path.join(root, 'systems/character-art.js'), 'utf8') + '\nCharacterArt;');
+const art = await require('./sprite-loader.cjs').loadArt();
 const canvas = createCanvas(2400, 1760), ctx = canvas.getContext('2d');
 ctx.fillStyle = '#eee7d6'; ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.fillStyle = '#655143'; ctx.font = 'bold 42px sans-serif'; ctx.fillText('Amigos do campo', 52, 62);
@@ -84,3 +85,6 @@ for(let i=0;i<6;i++){
 }
 writeFileSync(path.join(target,'expressions.png'),expressions.toBuffer('image/png'));
 console.log('preview/characters.png\npreview/costumes.png\npreview/expressions.png');
+
+}
+main().catch(error => { console.error(error); process.exitCode = 1; });

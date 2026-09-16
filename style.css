@@ -178,6 +178,7 @@ button:disabled { opacity: 1; cursor: not-allowed; }
 .button-secondary { color: #5c472c; background: #e9d8ac; border-color: #a68a57; box-shadow: 0 3px 0 #a68a57; }
 .button-secondary:hover { background: #ddc48c; }
 .hud { gap: 0; border: 1px solid #bda06e; border-radius: 3px; background: #fff4d7; margin-bottom: 14px; }
+.hud[data-secret-known="false"] { grid-template-columns: 1.2fr .6fr .7fr 1.1fr 1.6fr; }
 .hud p { min-width: 0; background: transparent; border: 0; border-right: 1px dashed #bba477; border-radius: 0; padding: 10px 12px; }
 .hud p:last-child { border-right: 0; }
 .hud p > strong { font-size: .75rem; color: #786344; line-height: 1.35; letter-spacing: .015em; }
@@ -219,11 +220,11 @@ canvas { border: 5px solid #805939; border-radius: 4px; box-shadow: 0 0 0 1px #4
 .skin-options button[data-active="true"] { background: #3d6548; color: #fff1be; border-color: #284533; box-shadow: 0 3px #284533; }
 .skin-options button::before { content: ""; display: block; height: 76px; margin-bottom: 4px; background: var(--outfit) center / 90px no-repeat; }
 .skin-options button:disabled::before { filter: saturate(.3); opacity: .7; }
-#skin-classic { --outfit: url('./assets/wardrobe/classic.png'); }
-#skin-punk { --outfit: url('./assets/wardrobe/punk.png'); }
-#skin-astronaut { --outfit: url('./assets/wardrobe/astronaut.png'); }
-#skin-robocop { --outfit: url('./assets/wardrobe/robocop.png'); }
-#skin-priest { --outfit: url('./assets/wardrobe/priest.png'); }
+#skin-classic { --outfit: url('./assets/wardrobe/classic.png?v=pixel1'); }
+#skin-punk { --outfit: url('./assets/wardrobe/punk.png?v=pixel1'); }
+#skin-astronaut { --outfit: url('./assets/wardrobe/astronaut.png?v=pixel1'); }
+#skin-robocop { --outfit: url('./assets/wardrobe/robocop.png?v=pixel1'); }
+#skin-priest { --outfit: url('./assets/wardrobe/priest.png?v=pixel1'); }
 .audio-panel { border-radius: 3px; background: #f2e4bd; border: 1px solid #ccb07b; padding: 15px; }
 .audio-controls label, .audio-controls button, .audio-controls select, .skin-music-toggle { font-size: .875rem; color: #5f543b; }
 .audio-controls output { color: #6b6745; }
@@ -239,7 +240,8 @@ canvas { border: 5px solid #805939; border-radius: 4px; box-shadow: 0 0 0 1px #4
 select { border-radius: 3px; border-color: #b89760; background: #fff4d5; }
 kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 @media (max-width: 800px) {
-  .hud { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .hud, .hud[data-secret-known="false"] { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .hud[data-secret-known="false"] .wolf-counter { grid-column: span 2; }
   .hud p:nth-child(3) { border-right: 0; }
   .hud p:nth-child(-n+3) { border-bottom: 1px dashed #bba477; }
   .instructions { flex-direction: column; align-items: stretch; }
@@ -262,3 +264,6 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
   .game-settings select { max-width: none; }
   .game-feedback { align-items: flex-start; }
 }
+/* Credits remain available beside the game, including offline copies. */
+.sprite-credits { text-align: center; padding: 12px 16px 24px; font-size: .82rem; }
+.sprite-credits a { color: #60472f; text-underline-offset: 3px; }

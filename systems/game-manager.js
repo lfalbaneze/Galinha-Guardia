@@ -22,9 +22,10 @@ const GameManager = (() => {
   function rescue(game, animal) {
     const chick = animal.type === "chick";
     const ids = chick ? game.rescuedChickIds : game.rescuedIds;
-    if (game.phase !== "playing" || ids.has(animal.id)) return false;
+    if (game.phase !== "playing" || ids.has(animal.id) || (chick && !animal.discovered)) return false;
     ids.add(animal.id);
     animal.rescued = true;
+    animal.discovered = true;
     animal.lost = false;
     game.rescuedCount = game.rescuedIds.size;
     game.rescuedChicks = game.rescuedChickIds.size;
@@ -51,7 +52,7 @@ const GameManager = (() => {
       fatigue: a.fatigue || 0, restTime: a.restTime || 0, fleeTime: a.fleeTime || 0 });
     const wolf = game.entities.wolf, chicken = game.entities.chicken;
     const data = {
-      version: 3, worldSeed: game.worldSeed, difficulty: game.difficultyKey, phase,
+      version: 3, worldSeed: game.worldSeed, worldVersion: game.worldVersion, difficulty: game.difficultyKey, phase,
       rescuedIds: [...game.rescuedIds], lives: game.lives, score: game.score, winBonusApplied: game.winBonusApplied,
       rescuedChickIds: [...game.rescuedChickIds],
       elapsed: game.elapsed, chicken: { ...point(chicken), hidden: chicken.hidden,
@@ -76,6 +77,8 @@ const GameManager = (() => {
       if (!data || ![1, 2, 3].includes(data.version) || !DIFFICULTIES[data.difficulty]) return null;
       if (data.version >= 2 && (!Number.isInteger(data.worldSeed) || data.worldSeed < 0 || data.worldSeed > 4294967295)) return null;
       if (data.version === 1) data.worldSeed = 20260915;
+      if (data.worldVersion === undefined) data.worldVersion = 1;
+      if (![1, 2].includes(data.worldVersion)) return null;
       if (!Array.isArray(data.rescuedIds) || !Array.isArray(data.animals)) return null;
       if (!Number.isInteger(data.lives) || data.lives < 1 || data.lives > MAX_LIVES) return null;
       if (!Number.isFinite(data.score) || data.score < 0) return null;
@@ -106,8 +109,10 @@ const GameManager = (() => {
   }
   function restore(game, data) {
     const seed = data.worldSeed ?? 20260915;
-    if (game.worldSeed !== seed) {
-      MapManager.generate(seed); buildObstacles(); game.worldSeed = seed;
+    const worldVersion = data.worldVersion ?? 1;
+    if (game.worldSeed !== seed || game.worldVersion !== worldVersion) {
+      MapManager.generate(seed, worldVersion); buildObstacles(); game.worldSeed = seed;
+      game.worldVersion = worldVersion;
     }
     game.rescuedIds = new Set(data.rescuedIds);
     game.rescuedCount = game.rescuedIds.size;
@@ -120,7 +125,8 @@ const GameManager = (() => {
     game.elapsed = Number.isFinite(data.elapsed) ? Math.max(0, data.elapsed) : 0;
     const bounded = (value, min, max, fallback = min) => Number.isFinite(value) ? clamp(value, min, max) : fallback;
     const restoreFriend = (animal, saved) => {
-      animal.discovered = saved.discovered === true;
+      animal.discovered = animal.rescued || saved.discovered === true;
+      animal.discoveryTime = 0;
       animal.lastSeen = animal.discovered && Number.isFinite(saved.lastSeen?.x) && Number.isFinite(saved.lastSeen?.y)
         ? { x: bounded(saved.lastSeen.x, 0, WORLD.width), y: bounded(saved.lastSeen.y, 0, WORLD.height) } : null;
       animal.fatigue = bounded(saved.fatigue, 0, 6);

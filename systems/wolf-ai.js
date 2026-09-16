@@ -10,7 +10,13 @@ const WolfAI = (() => {
 
   function getConfig(game) {
     const level = Number.isFinite(game.wolfLevel) ? clamp(Math.floor(game.wolfLevel), 0, 3) : 0;
-    const config = levels[level];
+    // Labels still have four tiers; the actual challenge advances at EVERY rescue.
+    const count = Number.isFinite(game.rescuedCount) ? clamp(Math.floor(game.rescuedCount), 0, 10) : 0;
+    const rescuedFriends = Math.max(count, level * 3);
+    const progress = rescuedFriends / 10;
+    const config = Object.fromEntries(Object.keys(levels[0]).map(key =>
+      [key, levels[0][key] + (levels[3][key] - levels[0][key]) * progress]));
+    config.searchPoints = Math.floor(config.searchPoints);
     const rescuedChicks = Number.isFinite(game.rescuedChicks) ? clamp(Math.floor(game.rescuedChicks), 0, 6) : 0;
     const chickMultiplier = 1 + 0.5 * rescuedChicks / 6;
     const difficulty = game.difficultyKey || "normal";
@@ -19,15 +25,18 @@ const WolfAI = (() => {
     const sprintMultiplier = typeof Player !== "undefined" && Number.isFinite(Player.sprintMultiplier) ? Player.sprintMultiplier : 1.32;
     const nominalSpeed = game.settings.wolfMaxSpeed * config.speedScale * chickMultiplier;
     // Chicks sharpen pursuit, but full sprint always opens a gap even at the final tier.
-    const speed = Math.min(nominalSpeed, game.settings.chickenSpeed * sprintMultiplier * sprintCap);
-    return { ...config, level, rescuedChicks, chickMultiplier, nominalSpeed, sprintCap, speed,
+    const totalProgress = (rescuedFriends + rescuedChicks * .5) / 13;
+    const ceilingProgress = .88 + .12 * totalProgress;
+    const speed = Math.min(nominalSpeed, game.settings.chickenSpeed * sprintMultiplier * sprintCap * ceilingProgress);
+    return { ...config, level, rescuedFriends, rescuedChicks, chickMultiplier, nominalSpeed, sprintCap, speed,
+      pressure: config.speedScale / levels[0].speedScale * chickMultiplier,
       fov: Math.min(165, config.fov + rescuedChicks * 2.5) * Math.PI / 180,
-      range: Math.min(840, config.range * chickMultiplier),
+      range: Math.min(840 * ceilingProgress, config.range * chickMultiplier),
       awarenessTime: Math.max(0.18, config.awarenessTime / chickMultiplier),
       searchDuration: Math.min(24, config.searchDuration * chickMultiplier),
       searchRadius: Math.min(310, config.searchRadius * (1 + rescuedChicks / 24)),
       hideWitnessRange: difficulty === "easy" ? 180 : difficulty === "hard" ? 260 : 220,
-      hideMemoryDuration: 8 + level * 2,
+      hideMemoryDuration: 8 + rescuedFriends * .6,
       patrolSpeed: speed * (level === 3 ? 0.80 : 0.70), awarenessDecay: 0.9,
       contactRange: 28, soundInterval: 0.65, investigateDuration: 2.6 + level * 0.3 };
   }

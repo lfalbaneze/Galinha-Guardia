@@ -6,14 +6,14 @@ function harness(storage, fullStartup = false) {
   const players = [], plays = [];
   class MockAudio {
     constructor(src) { this.src = src; this.paused = true; this.currentTime = 0; this.volume = 1; this.loop = false; players.push(this); }
-    play() { this.paused = false; plays.push({ src: this.src, loop: this.loop }); return Promise.resolve(); }
+    play() { this.paused = false; plays.push({ src: this.src, loop: this.loop, volume: this.volume }); return Promise.resolve(); }
     pause() { this.paused = true; }
   }
   return { ...createGame(() => 0.5, { Audio: MockAudio, storage, fullStartup }), players, plays };
 }
 function start(h) { h.events.elements.startBtn.click(); }
 function finale(h, time) {
-  h.run(`for(const friend of RescueSystem.all(state))GameManager.rescue(state,friend);GameManager.win(state);
+  h.run(`for(const friend of RescueSystem.all(state))GameManager.rescue(state,Object.assign(friend,{discovered:true}));GameManager.win(state);
     while(state.phase==='win_cutscene' && state.cutscene.time<${time}-0.00001)updateGame(Math.min(.05,${time}-state.cutscene.time));`);
 }
 
@@ -84,7 +84,7 @@ test('rescue and capture sounds fire on successful events without duplicating th
   h.run(`const firstFriend=state.entities.animals[0];state.entities.chicken.x=firstFriend.x;state.entities.chicken.y=firstFriend.y;
     RescueSystem.update(state,0);RescueSystem.update(state,0);`);
   assert.equal(h.plays.filter(p => /animal-sheep\.wav$/.test(p.src)).length, 1);
-  h.run(`const firstChick=state.entities.chicks[0];state.entities.chicken.x=firstChick.x;state.entities.chicken.y=firstChick.y;
+  h.run(`const firstChick=state.entities.chicks[0];firstChick.discovered=true;state.entities.chicken.x=firstChick.x;state.entities.chicken.y=firstChick.y;
     RescueSystem.update(state,0);RescueSystem.update(state,0);
     Object.assign(state.entities.wolf,{x:state.entities.chicken.x,y:state.entities.chicken.y,huntUnlockTimer:0,pauseTimer:0});
     Player.checkCatch(state);Player.checkCatch(state);`);
@@ -96,10 +96,11 @@ test('rescue and capture sounds fire on successful events without duplicating th
 test('all ten friends and six chicks use their own rescue call once, including after reload', () => {
   const h = harness(); start(h);
   h.run(`for(const animal of RescueSystem.all(state)){
+    animal.discovered=true;
     state.entities.chicken.x=animal.x;state.entities.chicken.y=animal.y;
     RescueSystem.update(state,0);RescueSystem.update(state,0);
   }`);
-  const calls = h.plays.filter(p => !p.loop).map(p => p.src.split('/').pop());
+  const calls = h.plays.filter(p => !p.loop && p.volume > .1).map(p => p.src.split('/').pop());
   const adultSpecies = ['sheep','pig','goat','cow','duck','rabbit','dog','cat','donkey','lamb'];
   for (const species of adultSpecies) {
     assert.equal(calls.filter(name => name === `animal-${species}.wav`).length, 1, species);

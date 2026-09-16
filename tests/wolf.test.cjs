@@ -331,7 +331,7 @@ test('chick progression tolerates invalid saves and the sprint cap is configurab
     run(`state.rescuedChicks=${value};`);
     assert.equal(run('WolfAI.getConfig(state).chickMultiplier'), 1);
   }
-  run(`state.rescuedChicks=99; state.wolfLevel=3;
+  run(`state.rescuedChicks=99; state.wolfLevel=3; state.rescuedCount=10;
     state.settings={...state.settings,wolfSprintCap:0.82};`);
   assert.equal(run('WolfAI.getConfig(state).chickMultiplier'), 1.5);
   assert.equal(run('WolfAI.getConfig(state).speed'), run('state.settings.chickenSpeed*Player.sprintMultiplier*0.82'));
@@ -343,7 +343,7 @@ test('chick progression tolerates invalid saves and the sprint cap is configurab
 
 test('maximum chick progression still allows sprint escape and loses targets behind solid cover', () => {
   const { run } = openFarm();
-  run(`state.wolfLevel=3; state.rescuedChicks=6;
+  run(`state.wolfLevel=3; state.rescuedChicks=6; state.rescuedCount=10;
     Object.assign(wolf,{mode:'chase',lastKnown:{x:300,y:800},awareness:1});
     Object.assign(chicken,{x:300,y:800,sprinting:true,vx:state.settings.chickenSpeed*Player.sprintMultiplier});
     const initialGap=distance(wolf,chicken);
@@ -366,7 +366,7 @@ test('maximum chick progression still allows sprint escape and loses targets beh
 
 test('maximum chick progression cannot reveal a hidden chicken or hear distant sprinting', () => {
   const { run } = openFarm();
-  run(`state.wolfLevel=3; state.rescuedChicks=6;
+  run(`state.wolfLevel=3; state.rescuedChicks=6; state.rescuedCount=10;
     Object.assign(chicken,{x:105,hidden:true,sprinting:true,vx:396});
     WolfAI.update(state,0.05);`);
   assert.equal(run('wolf.mode'), 'patrol');

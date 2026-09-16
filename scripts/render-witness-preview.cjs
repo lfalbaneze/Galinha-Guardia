@@ -1,3 +1,4 @@
+async function main() {
 // Render a witnessed hiding entrance through the real game runtime and farm.
 // This does not move the wolf or simulate a capture; the frame shows the warning.
 const assert = require('node:assert/strict');
@@ -13,6 +14,7 @@ for (const [file, family] of [['arial.ttf', 'sans-serif'], ['arialbd.ttf', 'sans
 
 const canvas = createCanvas(900, 520);
 const game = createGame(() => 0.5, { drawingContext: canvas.getContext('2d') });
+await require('./sprite-loader.cjs').loadGameSprites(game);
 game.run(`
   resetGame(814237);
   state.phase = 'playing';
@@ -62,3 +64,6 @@ const destination = path.resolve(__dirname, '../preview/hiding-exposed.png');
 fs.mkdirSync(path.dirname(destination), { recursive: true });
 fs.writeFileSync(destination, canvas.toBuffer('image/png'));
 console.log(`Rendered ${path.relative(path.resolve(__dirname, '..'), destination)} with real cover memory: ${game.run('selectedCover.id')}.`);
+
+}
+main().catch(error => { console.error(error); process.exitCode = 1; });
