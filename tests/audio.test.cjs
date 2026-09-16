@@ -44,6 +44,27 @@ function audioHarness(options = {}) {
 }
 const microtasks = async () => { await Promise.resolve(); await Promise.resolve(); };
 
+test('menu calls require a menu gesture path and respect volume, mute, pause and late play completion', async () => {
+  const h = audioHarness({ deferred: true });
+  assert.equal(h.audio.playMenuAnimal(h.game, 'duck'), false, 'cannot inject menu sounds into gameplay');
+  h.game.phase = 'menu'; h.audio.sync(h.game);
+  assert.equal(h.audio.playAnimal('duck'), false, 'ordinary game effects remain paused');
+  assert.equal(h.audio.playMenuAnimal(h.game, 'duck'), true);
+  assert.equal(h.instances.length, 1); assert.equal(h.instances[0].loop, false);
+  const preview = h.instances[0];
+  h.audio.setEffectsVolume(.2); assert.equal(preview.volume, .2 * .9);
+  h.audio.pause(); h.pending.shift()(); await microtasks();
+  assert.equal(preview.paused, true, 'late play cannot revive a paused menu cue');
+  h.audio.toggleMute(); assert.equal(h.audio.playMenuAnimal(h.game, 'dog'), false);
+  h.audio.toggleMute(); h.audio.setEffectsVolume(0);
+  assert.equal(h.audio.playMenuAnimal(h.game, 'dog'), false);
+  h.audio.setEffectsVolume(.5); assert.equal(h.audio.playMenuAnimal(h.game, 'dog'), true);
+  h.game.phase = 'playing'; h.audio.sync(h.game);
+  for (const done of h.pending.splice(0)) done(); await microtasks();
+  assert.equal(preview.paused, true);
+  assert.equal(h.instances.filter(audio => audio.loop && !audio.paused).length, 1);
+});
+
 function farm(h, animals = [{ species: 'cow', x: 60, y: 0 }]) {
   h.game.entities = { chicken: { x: 0, y: 0, skin: 'classic' }, animals,
     chicks: [{ species: 'chick', x: 10, y: 0, discovered: false }] };

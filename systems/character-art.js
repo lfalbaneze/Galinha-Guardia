@@ -87,8 +87,10 @@ const CharacterArt = (() => {
     const blend = Math.max(0, Math.min(1, options.hideBlend ?? (options.hidden ? 1 : 0)));
     c.save(); c.translate(Math.round(x), Math.round(y)); c.scale(options.scale || 1, options.scale || 1);
     c.imageSmoothingEnabled = false;
+    const lift = Math.max(0, Math.min(64, options.lift || 0));
     c.fillStyle = 'rgba(45,49,25,.23)'; c.beginPath();
-    c.ellipse(0, 14, Math.min(28, pose.width * scale * .4), 4, 0, 0, Math.PI * 2); c.fill();
+    c.ellipse(0, 14, Math.min(28, pose.width * scale * .4) * (1 - lift * .004), 4, 0, 0, Math.PI * 2); c.fill();
+    if (lift) c.translate(0, -lift);
     if (name === 'chicken' && blend) { c.translate(0, 14); c.scale(1, 1 - blend * .23); c.translate(0, -14); }
     c.save(); if (pose.flip) c.scale(-1, 1);
     c.translate(-(frame.cx ?? pose.cx) * scale, 14 - (frame.bottom ?? pose.bottom) * scale); c.scale(scale, scale);

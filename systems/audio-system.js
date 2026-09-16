@@ -32,6 +32,7 @@ const AudioSystem = (() => {
   let music = null, musicTrack = null, musicAttempted = false, musicToken = 0, duck = 1;
   let currentGame = null, currentPhase = null, active = false, serial = 0;
   const voices = [];
+  let menuVoice = null;
   let scene = null, lastTime = -1, cloudBucket = -1, sobBucket = -1;
   const oneShots = new Set();
   const path = name => `./assets/audio/${name === 'chick' || name.startsWith('animal-') ? 'voices/' : ''}${name}.wav`;
@@ -66,9 +67,13 @@ const AudioSystem = (() => {
   function stopEffects(keepVictory = false) {
     for (const voice of voices) if (voice.active && !(keepVictory && voice.name === "victory")) release(voice);
   }
+  function stopMenuAnimal() {
+    if (menuVoice?.active) release(menuVoice);
+  }
   function volumes() {
     if (music) music.volume = settings.muted ? 0 : settings.musicVolume * duck;
     for (const voice of voices) if (voice.active) voice.audio.volume = settings.muted ? 0 : settings.effectsVolume * voice.gain;
+    if (menuVoice?.active) menuVoice.audio.volume = settings.muted ? 0 : settings.effectsVolume * menuVoice.gain;
   }
   function attempt(audio, failed, started = () => {}) {
     try {
@@ -149,6 +154,35 @@ const AudioSystem = (() => {
     if (played) nextCall = Math.max(nextCall, farmTime + 3.2);
     return played;
   }
+  // Only the menu's explicit click uses this voice. Gameplay and music stay paused.
+  function playMenuAnimal(game, species) {
+    if (game?.phase !== 'menu' || hidden() || !ANIMAL_SPECIES.has(species) || status.unsupported ||
+      settings.muted || settings.effectsVolume <= 0) return false;
+    sync(game);
+    unlock();
+    stopMenuAnimal();
+    const name = `animal-${species}`;
+    if (!menuVoice) {
+      const audio = makeAudio(name);
+      if (!audio) return false;
+      menuVoice = { audio, active: false, token: 0, gain: .9 };
+    }
+    const voice = menuVoice, audio = voice.audio;
+    audio.src = path(name); audio.loop = false; audio.playbackRate = 1;
+    audio.volume = settings.effectsVolume * voice.gain;
+    voice.active = true;
+    const token = ++voice.token;
+    audio.onended = () => { if (voice.token === token) voice.active = false; };
+    audio.onerror = () => { if (voice.token === token) stopMenuAnimal(); };
+    attempt(audio, error => {
+      if (voice.token !== token) return;
+      stopMenuAnimal();
+      if (!error || error.name !== 'AbortError') status.blocked = true;
+    }, () => {
+      if (!voice.active || currentGame?.phase !== 'menu' || settings.muted || hidden()) audio.pause();
+    });
+    return true;
+  }
   function farmVoices(game, dt) {
     const animals = game.entities?.animals, chicken = game.entities?.chicken;
     if (!animals || !chicken) return;
@@ -228,6 +262,7 @@ const AudioSystem = (() => {
     const changed = currentPhase !== game.phase || nextActive !== active;
     active = nextActive;
     currentPhase = game.phase;
+    if (game.phase !== 'menu' || hidden()) stopMenuAnimal();
     duck = game.phase === "win_cutscene" && ["cloud", "dizzy", "flee"].includes(stageAt(game.cutscene || {})) ? 0.25 : 1;
     if (!active) {
       if (changed || hidden()) { pauseMusic(); stopEffects(game.phase === "won" && !hidden()); }
@@ -247,14 +282,14 @@ const AudioSystem = (() => {
   function reset() {
     pauseMusic();
     if (music) rewind(music);
-    stopEffects(); clearScene();
+    stopEffects(); stopMenuAnimal(); clearScene();
     currentGame = null; currentPhase = null; active = false; duck = 1;
     flock = null; heard.clear(); farmTime = 0; nextCall = 1.8; playerCall = 16;
     volumes();
   }
   function pause() {
     active = false;
-    pauseMusic(); stopEffects();
+    pauseMusic(); stopEffects(); stopMenuAnimal();
     if (currentGame) observeScene(currentGame, false, true);
   }
   function setMusicVolume(value) {
@@ -263,7 +298,7 @@ const AudioSystem = (() => {
   }
   function setEffectsVolume(value) {
     settings.effectsVolume = unit(value, settings.effectsVolume); persist(); volumes();
-    if (!settings.effectsVolume) stopEffects();
+    if (!settings.effectsVolume) { stopEffects(); stopMenuAnimal(); }
     return settings.effectsVolume;
   }
   function setTrack(track) {
@@ -280,14 +315,14 @@ const AudioSystem = (() => {
   }
   function toggleMute() {
     settings.muted = !settings.muted; persist();
-    if (settings.muted) stopEffects();
+    if (settings.muted) { stopEffects(); stopMenuAnimal(); }
     volumes(); syncMusic();
     return settings.muted;
   }
   if (typeof document !== "undefined" && document.addEventListener) {
     document.addEventListener("visibilitychange", () => { if (currentGame) sync(currentGame); });
   }
-  return { unlock, update, sync, reset, pause, play, playAnimal, setMusicVolume, setEffectsVolume, setTrack, setSkinThemes, toggleMute,
+  return { unlock, update, sync, reset, pause, play, playAnimal, playMenuAnimal, stopMenuAnimal, setMusicVolume, setEffectsVolume, setTrack, setSkinThemes, toggleMute,
     get settings() { return Object.freeze({ ...settings }); },
     get status() { return Object.freeze({ ...status, track: selectedTrack(), trackTitle: TRACK_TITLES.get(selectedTrack()),
       skinTheme: !!skinTheme(), music: status.unsupported ? "unsupported" :

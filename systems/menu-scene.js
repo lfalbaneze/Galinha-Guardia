@@ -10,11 +10,13 @@ const MenuScene = (() => {
   ].map(animal => {
     const lengths = animal.route.slice(1).map((point, i) => Math.hypot(point[0] - animal.route[i][0], point[1] - animal.route[i][1]));
     const length = lengths.reduce((sum, value) => sum + value, 0);
-    return { ...animal, lengths, length, travel: animal.phase / (Math.PI * 2) * length * 2 };
+    return { ...animal, lengths, length, hop: 0, travel: animal.phase / (Math.PI * 2) * length * 2 };
   });
-  const banter = ['Ô, sossega esse terreiro!', 'O pato jura que não foi ele.', 'Até a ovelha perdeu a pose.', 'Pronto. Agora ninguém fica quieto.'];
+  const calls = { sheep: 'Mééé!', pig: 'Oinc!', duck: 'Quá-quá!', rabbit: 'Croc-croc!', chicken: 'Có-có-có!', dog: 'Au-au!', cat: 'Miau!' };
+  const order = ['chicken', 'duck', 'sheep', 'pig', 'dog', 'rabbit'];
+  const hopDuration = .65;
   let canvas, world, button, caption, screen, context;
-  let time = 0, elapsed = 0, commotion = 0, joke = 0, signature = '', active = false, reduced = false;
+  let time = 0, elapsed = 0, turn = 0, reaction = null, currentGame = null, signature = '', active = false, reduced = false;
   let width = 0, height = 0, pixelRatio = 1, resizeDirty = true;
 
   // Coordinates describe feet on the dirt in farm-title.png (1536 × 1024).
@@ -33,6 +35,35 @@ const MenuScene = (() => {
       direction: Math.abs(dy) > Math.abs(dx) ? (dy > 0 ? 'down' : 'up') : (dx > 0 ? 'right' : 'left') };
   }
   function resetParallax() { if (world) world.style.transform = 'scale(1.025)'; }
+  function appearance(animal) {
+    return animal.species === 'chicken' ? { skin: currentGame.entities.chicken.skin } : {};
+  }
+  function projected(animal) {
+    const point = position(animal), view = projection(width, height);
+    const scale = view.scale * (.8 + (point.y - 640) / 600);
+    const art = CharacterArt.frameFor(animal.species, { ...appearance(animal), direction: 'down' });
+    return { x: view.x + point.x * view.scale, y: view.y + point.y * view.scale, scale,
+      w: art.pose.width * art.scale * scale, h: (art.pose.bottom - art.pose.top) * art.scale * scale };
+  }
+  function chooseAnimal() {
+    const bounds = canvas.getBoundingClientRect(), card = document.getElementById('menuCard').getBoundingClientRect();
+    for (let offset = 0; offset < order.length; offset++) {
+      const index = (turn + offset) % order.length, animal = herd.find(item => item.species === order[index]);
+      const p = projected(animal);
+      if (p.x - p.w / 2 < 4 || p.x + p.w / 2 > width - 4 || p.y > height - 4 || p.y - p.h < 4) continue;
+      const x = (bounds.left || 0) + p.x * bounds.width / width;
+      const y = (bounds.top || 0) + p.y * bounds.height / height;
+      const w = p.w * bounds.width / width, h = (p.h + 32 * p.scale) * bounds.height / height;
+      if (x + w / 2 > card.left && x - w / 2 < card.left + card.width && y > card.top && y - h < card.top + card.height) continue;
+      turn = (index + 1) % order.length;
+      return animal;
+    }
+    return null;
+  }
+  function clearReaction() {
+    reaction = null; for (const animal of herd) animal.hop = 0;
+    if (caption) caption.hidden = true;
+  }
   function initialize() {
     if (canvas) return;
     canvas = document.getElementById('menuScene');
@@ -42,9 +73,17 @@ const MenuScene = (() => {
     screen = document.getElementById('menuScreen');
     context = canvas.getContext('2d');
     button.addEventListener('click', () => {
-      if (!active) return;
-      commotion = reduced ? 0 : 2.8;
-      caption.textContent = banter[joke++ % banter.length];
+      if (!active || currentGame?.phase !== 'menu' || document.hidden || !CharacterArt.ready) return;
+      const animal = chooseAnimal();
+      if (!animal) return;
+      const art = CharacterArt.frameFor(animal.species, appearance(animal)), species = art.spriteName;
+      animal.hop = reduced ? 0 : hopDuration;
+      reaction = { animal, remaining: 1.8 };
+      const name = species === 'chicken' ? 'Galinha' : RescueSystem.names[species];
+      caption.textContent = `${name} · ${calls[species] || 'Opa!'}`;
+      caption.hidden = false;
+      AudioSystem.playMenuAnimal(currentGame, species);
+      AudioControls.update(currentGame);
       signature = '';
     });
     screen.addEventListener('pointermove', event => {
@@ -62,9 +101,13 @@ const MenuScene = (() => {
 
   function frame(game, dt, reduceMotion) {
     initialize();
-    if (reduced !== reduceMotion) { reduced = reduceMotion; signature = ''; commotion = 0; resetParallax(); }
+    currentGame = game;
+    if (reduced !== reduceMotion) { reduced = reduceMotion; signature = ''; clearReaction(); resetParallax(); }
     const visible = game.phase === 'menu' && !document.hidden;
-    if (active !== visible) { active = visible; signature = ''; resizeDirty = true; resetParallax(); }
+    if (active !== visible) {
+      active = visible; signature = ''; resizeDirty = true; clearReaction(); resetParallax();
+      if (!active) AudioSystem.stopMenuAnimal();
+    }
     if (!active || !context || !CharacterArt.ready) return;
     if (resizeDirty) {
       const bounds = canvas.getBoundingClientRect();
@@ -76,27 +119,38 @@ const MenuScene = (() => {
       resizeDirty = false; signature = '';
     }
     dt = Math.max(0, Math.min(.1, dt));
-    if (!reduced) { time += dt; commotion = Math.max(0, commotion - dt); }
+    if (!reduced) time += dt;
+    for (const animal of herd) animal.hop = Math.max(0, animal.hop - dt);
+    if (reaction) {
+      reaction.remaining -= dt;
+      if (reaction.remaining <= 0) { reaction = null; caption.hidden = true; }
+    }
     elapsed += dt;
     const next = `${game.entities.chicken.skin}:${reduced}`;
     if (signature === next && (reduced || elapsed < 1 / 24)) return;
-    const elapsedStep = Math.min(.15, elapsed) * (commotion > 0 ? 2.4 : 1);
+    const elapsedStep = Math.min(.15, elapsed);
     elapsed = 0; signature = next;
     context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     context.clearRect(0, 0, width, height);
     context.imageSmoothingEnabled = false;
     const view = projection(width, height);
     const walkers = herd.map(animal => {
-      const moving = !reduced && (commotion > 0 || Math.sin(time * .28 + animal.phase) > -.6);
+      const moving = !reduced && !animal.hop && Math.sin(time * .28 + animal.phase) > -.6;
       if (moving) animal.travel += elapsedStep * animal.pace;
       return { animal, moving, ...position(animal) };
     }).sort((a, b) => a.y - b.y);
     for (const { animal, moving, x, y, direction } of walkers) {
       const scale = view.scale * (.8 + (y - 640) / 600);
+      const lift = animal.hop ? Math.sin(Math.PI * (1 - animal.hop / hopDuration)) * 32 : 0;
       CharacterArt.draw(context, animal.species, view.x + x * view.scale, view.y + y * view.scale - 14 * scale, {
-        scale, direction: moving ? direction : 'down', moving, anim: animal.travel / 7,
+        scale, lift, direction: moving ? direction : 'down', moving, anim: animal.travel / 7,
         ...(animal.species === 'chicken' ? { skin: game.entities.chicken.skin } : {})
       });
+      if (reaction?.animal === animal) {
+        const p = projected(animal), half = Math.min(width / 2 - 4, (caption.offsetWidth || 180) / 2 + 5);
+        caption.style.left = `${Math.max(half, Math.min(width - half, p.x))}px`;
+        caption.style.top = `${Math.max(12, p.y - p.h - lift * scale - 8)}px`;
+      }
     }
   }
   return { initialize, frame };

@@ -11,6 +11,8 @@ function menu(options) {
     sceneContext.translate=(...args)=>scenePositions.push(args);
     CharacterArt.install(src=>({src}));
     const snapshot=JSON.stringify(state);`);
+  game.elements.get('menuScene').getBoundingClientRect = () => ({ left: 0, top: 0, width: 1360, height: 730 });
+  game.elements.get('menuCard').getBoundingClientRect = () => ({ left: 940, top: 50, width: 390, height: 620 });
   return game;
 }
 
@@ -64,9 +66,9 @@ test('every route stays on the painted dirt through wandering, commotion and res
   const terrain = createCanvas(image.width, image.height).getContext('2d'); terrain.drawImage(image, 0, 0);
   const pixels = terrain.getImageData(0, 0, image.width, image.height).data;
   const h = menu();
-  h.run(`let drawDepth=0; const feet=[];
-    sceneContext.save=()=>drawDepth++;sceneContext.restore=()=>drawDepth--;
-    sceneContext.translate=(x,y)=>{if(drawDepth===1)feet.push({x,y});};
+  h.run(`let drawDepth=0, gotOrigin=false; const feet=[];
+    sceneContext.save=()=>{drawDepth++;if(drawDepth===1)gotOrigin=false;};sceneContext.restore=()=>drawDepth--;
+    sceneContext.translate=(x,y)=>{if(drawDepth===1&&!gotOrigin){feet.push({x,y});gotOrigin=true;}};
     sceneContext.scale=(x,y)=>{if(drawDepth===1)feet.at(-1).scale=x;};`);
   for (const [width, height] of [[1360,730],[1000,900],[360,540],[960,540]]) {
     const canvas = h.elements.get('menuScene');
@@ -95,6 +97,72 @@ test('every route stays on the painted dirt through wandering, commotion and res
     }
     assert.equal(canvas.width, width);
   }
+});
+
+function audibleMenu(options = {}) {
+  const players = [], plays = [];
+  class MockAudio {
+    constructor(src) { this.src = src; this.paused = true; this.currentTime = 0; players.push(this); }
+    play() { this.paused = false; plays.push({ src: this.src, loop: this.loop, volume: this.volume }); return Promise.resolve(); }
+    pause() { this.paused = true; }
+  }
+  const h = menu({ ...options, Audio: MockAudio });
+  h.run(`const hops=[];sceneContext.translate=(x,y)=>{if(x===0&&y<0)hops.push(-y);};InterfaceMotion.frame(state,0);`);
+  return { ...h, players, plays };
+}
+
+test('the button jumps one animal, plays its recording and anchors a temporary caption to it', () => {
+  const h = audibleMenu();
+  assert.equal(h.plays.length, 0, 'no menu autoplay');
+  h.events.elements.menuScatter.click();
+  assert.match(h.plays[0].src, /voices\/animal-chicken\.wav$/);
+  assert.equal(h.plays[0].loop, false);
+  assert.equal(h.elements.get('menuBanter').hidden, false);
+  assert.match(h.elements.get('menuBanter').textContent, /Galinha/);
+  h.run('for(let i=0;i<6;i++)InterfaceMotion.frame(state,.05);');
+  assert.ok(h.run('Math.max(...hops)') > 30, 'visible jump, with shadow still on the route');
+  assert.ok(Number.parseFloat(h.elements.get('menuBanter').style.left) > 350);
+  h.run('for(let i=0;i<40;i++)InterfaceMotion.frame(state,.05);hops.length=0;InterfaceMotion.frame(state,.05);');
+  assert.equal(h.run('hops.length'), 0, 'lands and resumes normal walking');
+  assert.equal(h.elements.get('menuBanter').hidden, true);
+  assert.equal(h.run('JSON.stringify(state)===snapshot'), true);
+  h.events.elements.menuScatter.click();
+  assert.match(h.plays.at(-1).src, /animal-duck\.wav$/);
+  assert.match(h.elements.get('menuBanter').textContent, /Pato/);
+});
+
+test('menu reactions follow the equipped appearance and rapid clicks reuse one audio voice', () => {
+  const h = audibleMenu(); h.run('state.entities.chicken.skin="robocop";InterfaceMotion.frame(state,.05);');
+  h.events.elements.menuScatter.click();
+  assert.match(h.plays.at(-1).src, /animal-cat\.wav$/);
+  assert.match(h.elements.get('menuBanter').textContent, /Gatinho/);
+  for (let i = 0; i < 18; i++) h.events.elements.menuScatter.click();
+  assert.equal(h.players.length, 1);
+  assert.ok(h.plays.every(play => !play.loop));
+  h.events.elements.continueBtn.click();
+  assert.equal(h.players[0].paused, true, 'menu voice stops when gameplay resumes');
+});
+
+test('muting keeps the jump, reduced motion keeps the call, and hidden menus ignore clicks', () => {
+  const muted = audibleMenu(); muted.run('AudioSystem.toggleMute();'); muted.events.elements.menuScatter.click();
+  muted.run('InterfaceMotion.frame(state,.1);');
+  assert.equal(muted.plays.length, 0); assert.ok(muted.run('hops.length') > 0);
+  const reduced = audibleMenu({ reducedMotion: true }); reduced.events.elements.menuScatter.click();
+  reduced.run('for(let i=0;i<40;i++)InterfaceMotion.frame(state,.05);');
+  assert.equal(reduced.plays.length, 1); assert.equal(reduced.run('hops.length'), 0);
+  assert.equal(reduced.elements.get('menuBanter').hidden, true);
+  const hidden = audibleMenu(); hidden.events.elements.menuScatter.click();
+  hidden.context.document.hidden = true; hidden.run('InterfaceMotion.frame(state,.05);');
+  hidden.events.elements.menuScatter.click();
+  assert.equal(hidden.plays.length, 1); assert.ok(hidden.players.every(player => player.paused));
+  assert.equal(hidden.elements.get('menuBanter').hidden, true);
+});
+
+test('the button skips an animal hidden behind the menu card', () => {
+  const h = audibleMenu();
+  h.elements.get('menuCard').getBoundingClientRect = () => ({ left: 400, top: 400, width: 130, height: 260 });
+  h.events.elements.menuScatter.click();
+  assert.match(h.plays[0].src, /animal-duck\.wav$/);
 });
 
 test('resizing redraws a static farm at the new resolution and hidden pages do no drawing', () => {
