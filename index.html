@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#294b36" />
   <meta name="description" content="Penas pro Ar! Dez bichos teimosos, um lobo sem modos e uma fazenda cheia de segredos. Abra a porteira do Sítio do Fuzuê." />
   <title>Penas pro Ar! — Confusão no Sítio do Fuzuê</title>
-  <link rel="stylesheet" href="./style.css?v=20260916-farm-art" />
+  <link rel="stylesheet" href="./style.css?v=20260916-menu-choices" />
 </head>
 <body>
   <main id="gameShell" class="game-shell" data-phase="menu">
@@ -54,25 +54,38 @@
         <div id="menuCard" class="overlay-card">
           <canvas id="menuPortrait" class="menu-portrait" width="160" height="100" aria-hidden="true"></canvas>
           <p class="eyebrow">O terreiro te espera</p>
-          <h2 id="menuTitle">Bora pra lida?</h2>
+          <h2 id="menuTitle">Bora abrir a porteira?</h2>
           <p id="menuDescription">Tem lobo rondando o sítio e a turma ainda está passeando. Traga os 10 amigos de volta ao poleiro!</p>
           <p id="spriteStatus" role="status" hidden></p>
           <div class="overlay-actions">
-            <button id="continueBtn" type="button" hidden>Voltar pro terreiro</button>
-            <button id="startBtn" type="button">Abrir a porteira</button>
+            <button id="continueBtn" type="button" hidden>Continuar resgate</button>
           </div>
           <div class="menu-tabs" role="tablist" aria-label="Preparar aventura">
-            <button id="tab-adventure" type="button" role="tab" aria-selected="true" aria-controls="panel-adventure">Aventura</button>
-            <button id="tab-outfit" type="button" role="tab" aria-selected="false" aria-controls="panel-outfit" tabindex="-1">Aparências</button>
+            <button id="tab-adventure" type="button" role="tab" aria-selected="true" aria-controls="panel-adventure">Partida</button>
+            <button id="tab-outfit" type="button" role="tab" aria-selected="false" aria-controls="panel-outfit" tabindex="-1">Bichos</button>
             <button id="tab-audio" type="button" role="tab" aria-selected="false" aria-controls="panel-audio" tabindex="-1">Som</button>
           </div>
           <div id="panel-adventure" class="menu-panel" role="tabpanel" aria-labelledby="tab-adventure">
-            <div class="difficulty-picks" role="group" aria-label="Dificuldade da próxima aventura">
-              <button id="difficulty-easy" type="button" aria-pressed="false">Passeio <small>Fácil</small></button>
-              <button id="difficulty-normal" type="button" aria-pressed="true">Lida braba <small>Médio</small></button>
-              <button id="difficulty-hard" type="button" aria-pressed="false">Deus nos acuda <small>Difícil</small></button>
+            <div class="difficulty-heading"><h3 id="difficultyHeading">Qual é o ritmo?</h3><span>Nova fazenda</span></div>
+            <div class="difficulty-picks" role="radiogroup" aria-labelledby="difficultyHeading" aria-describedby="difficultyPreview">
+              <button id="difficulty-easy" type="button" role="radio" aria-checked="false" tabindex="-1">
+                <canvas id="difficultyArt-easy" class="difficulty-art" width="64" height="64" aria-hidden="true"></canvas>
+                <span class="difficulty-copy"><span class="difficulty-name">Dia tranquilo <small>Fácil</small></span><span class="difficulty-detail">Lobo mais lento. Explore sem pressa.</span></span>
+                <span class="difficulty-check" aria-hidden="true">✓</span>
+              </button>
+              <button id="difficulty-normal" type="button" role="radio" aria-checked="true" tabindex="0">
+                <canvas id="difficultyArt-normal" class="difficulty-art" width="64" height="64" aria-hidden="true"></canvas>
+                <span class="difficulty-copy"><span class="difficulty-name">Fuzuê no sítio <small>Médio</small></span><span class="difficulty-detail">Resgate a turma e despiste o lobo.</span></span>
+                <span class="difficulty-check" aria-hidden="true">✓</span>
+              </button>
+              <button id="difficulty-hard" type="button" role="radio" aria-checked="false" tabindex="-1">
+                <canvas id="difficultyArt-hard" class="difficulty-art" width="64" height="64" aria-hidden="true"></canvas>
+                <span class="difficulty-copy"><span class="difficulty-name">Lobo à solta <small>Difícil</small></span><span class="difficulty-detail">Lobo veloz. Cada esconderijo conta.</span></span>
+                <span class="difficulty-check" aria-hidden="true">✓</span>
+              </button>
             </div>
-            <p id="difficultyPreview" class="difficulty-preview">Um lobo esperto. Uma galinha mais esperta ainda.</p>
+            <p id="difficultyPreview" class="difficulty-preview" aria-live="polite">Fuzuê no sítio escolhido para a nova fazenda.</p>
+          <details class="menu-howto"><summary>Como jogar <span aria-hidden="true">+</span></summary>
           <div class="menu-tips">
             <p><kbd>WASD</kbd> ou <kbd>↑ ↓ ← →</kbd> <span>para caminhar</span></p>
             <p><kbd>Shift</kbd> <span>correr — cuidado com o barulho!</span></p>
@@ -80,6 +93,7 @@
             <p><kbd>C</kbd> <span>chegar de mansinho e investigar</span></p>
           </div>
           <p class="menu-panel-note">Ouviu piu-piu? Tem pintinho escondido! Entre com <kbd>E</kbd> e segure <kbd>C</kbd> para procurar. São 6 pequenos para levar ao ninho.</p>
+          </details>
           </div>
           <div id="panel-outfit" class="menu-panel" role="tabpanel" aria-labelledby="tab-outfit" hidden>
           <label class="menu-skin" for="menuSkinSelect">Aparência da lida
@@ -111,6 +125,7 @@
             <p id="menuAudioStatus" class="audio-note">Clique em Mexer com a turma para ouvir os bichos.</p>
             <p class="audio-note"><a href="./assets/audio/CREDITS.html?v=2" target="_blank" rel="noopener">Ouvir as vozes da fazenda ↗</a></p>
           </div>
+          <div class="overlay-actions new-adventure-action"><button id="startBtn" type="button">Entrar na fazenda</button></div>
           <p id="menuSaveText" class="fine-print">Seu progresso é salvo automaticamente neste navegador.</p>
           <a class="menu-credits" href="./assets/sprites/CREDITS.html" target="_blank" rel="noopener">Quem deu vida à fazendinha ↗</a>
         </div>
@@ -183,9 +198,9 @@
         <label class="difficulty-control" for="difficultySelect">
           <span>Dificuldade</span>
           <select id="difficultySelect">
-            <option value="easy">Passeio na roça · Fácil</option>
-            <option value="normal" selected>Lida braba · Médio</option>
-            <option value="hard">Deus nos acuda · Difícil</option>
+            <option value="easy">Dia tranquilo · Fácil</option>
+            <option value="normal" selected>Fuzuê no sítio · Médio</option>
+            <option value="hard">Lobo à solta · Difícil</option>
           </select>
         </label>
         <button id="restartBtn" class="button-secondary" type="button">Reiniciar</button>
@@ -195,28 +210,28 @@
     <footer class="sprite-credits"><a href="./assets/sprites/CREDITS.html" target="_blank" rel="noopener">Arte e créditos do jogo</a></footer>
   </main>
 
-  <script src="./systems/world-generator.js?v=20260916-farm-art"></script>
-  <script src="./assets/farm/atlas-data.js?v=20260916-farm-art"></script>
-  <script src="./systems/farm-sprites.js?v=20260916-farm-art"></script>
-  <script src="./systems/farm-terrain.js?v=20260916-farm-art"></script>
-  <script src="./systems/farm-art.js?v=20260916-farm-art"></script>
-  <script src="./systems/sprite-data.js?v=20260916-farm-art"></script>
-  <script src="./systems/character-art.js?v=20260916-farm-art"></script>
-  <script src="./systems/audio-system.js?v=20260916-farm-art"></script>
-  <script src="./systems/audio-controls.js?v=20260916-farm-art"></script>
-  <script src="./systems/skin-system.js?v=20260916-farm-art"></script>
-  <script src="./systems/game-manager.js?v=20260916-farm-art"></script>
-  <script src="./systems/rescue-system.js?v=20260916-farm-art"></script>
-  <script src="./systems/detection-system.js?v=20260916-farm-art"></script>
-  <script src="./systems/hiding-spots.js?v=20260916-farm-art"></script>
-  <script src="./systems/wolf-ai.js?v=20260916-farm-art"></script>
-  <script src="./systems/wolf-dialogue.js?v=20260916-farm-art"></script>
-  <script src="./systems/map-manager.js?v=20260916-farm-art"></script>
-  <script src="./systems/player.js?v=20260916-farm-art"></script>
-  <script src="./systems/menu-scene.js?v=20260916-farm-art"></script>
-  <script src="./systems/interface-motion.js?v=20260916-farm-art"></script>
-  <script src="./systems/ui.js?v=20260916-farm-art"></script>
-  <script src="./systems/end-game-sequence.js?v=20260916-farm-art"></script>
-  <script src="./game.js?v=20260916-farm-art"></script>
+  <script src="./systems/world-generator.js?v=20260916-menu-choices"></script>
+  <script src="./assets/farm/atlas-data.js?v=20260916-menu-choices"></script>
+  <script src="./systems/farm-sprites.js?v=20260916-menu-choices"></script>
+  <script src="./systems/farm-terrain.js?v=20260916-menu-choices"></script>
+  <script src="./systems/farm-art.js?v=20260916-menu-choices"></script>
+  <script src="./systems/sprite-data.js?v=20260916-menu-choices"></script>
+  <script src="./systems/character-art.js?v=20260916-menu-choices"></script>
+  <script src="./systems/audio-system.js?v=20260916-menu-choices"></script>
+  <script src="./systems/audio-controls.js?v=20260916-menu-choices"></script>
+  <script src="./systems/skin-system.js?v=20260916-menu-choices"></script>
+  <script src="./systems/game-manager.js?v=20260916-menu-choices"></script>
+  <script src="./systems/rescue-system.js?v=20260916-menu-choices"></script>
+  <script src="./systems/detection-system.js?v=20260916-menu-choices"></script>
+  <script src="./systems/hiding-spots.js?v=20260916-menu-choices"></script>
+  <script src="./systems/wolf-ai.js?v=20260916-menu-choices"></script>
+  <script src="./systems/wolf-dialogue.js?v=20260916-menu-choices"></script>
+  <script src="./systems/map-manager.js?v=20260916-menu-choices"></script>
+  <script src="./systems/player.js?v=20260916-menu-choices"></script>
+  <script src="./systems/menu-scene.js?v=20260916-menu-choices"></script>
+  <script src="./systems/interface-motion.js?v=20260916-menu-choices"></script>
+  <script src="./systems/ui.js?v=20260916-menu-choices"></script>
+  <script src="./systems/end-game-sequence.js?v=20260916-menu-choices"></script>
+  <script src="./game.js?v=20260916-menu-choices"></script>
 </body>
 </html>

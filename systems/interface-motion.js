@@ -2,12 +2,15 @@
 const InterfaceMotion = (() => {
   const el = {}, animations = new Map();
   const tabs = ['adventure', 'outfit', 'audio'];
+  const difficultyModes = ['easy', 'normal', 'hard'];
+  const difficultyNames = { easy: 'Dia tranquilo', normal: 'Fuzuê no sítio', hard: 'Lobo à solta' };
   const directions = ['down', 'left', 'up', 'right'];
   const media = window.matchMedia('(prefers-reduced-motion: reduce)');
   let initialized = false, previous = null, currentGame = null, activeTab = 'adventure';
   let score = 0, scoreFrom = 0, scoreTarget = 0, scoreTime = 1;
   let previewTime = 0, previewFrame = 0, direction = 0, walking = true;
   let previewSignature = '', reduced = media.matches;
+  let difficultyArtReady = false;
   const text = (id, value) => { if (el[id].textContent !== String(value)) el[id].textContent = String(value); };
   const data = (id, key, value) => { if (el[id].dataset[key] !== String(value)) el[id].dataset[key] = String(value); };
 
@@ -37,13 +40,33 @@ const InterfaceMotion = (() => {
   }
   function difficulty() {
     const chosen = el.difficultySelect.value;
-    for (const mode of ['easy', 'normal', 'hard']) el[`difficulty-${mode}`].setAttribute('aria-pressed', String(mode === chosen));
-    const descriptions = {
-      easy: 'Mais tempo para respirar e alcançar os fujões.',
-      normal: 'Um lobo esperto. Uma galinha mais esperta ainda.',
-      hard: 'Bichos ligeiros. Lobo implacável. Capriche nos esconderijos.'
-    };
-    text('difficultyPreview', `${descriptions[chosen] || descriptions.normal}${currentGame?.hasSave ? ' Vale na próxima fazenda.' : ''}`);
+    for (const mode of difficultyModes) {
+      const button = el[`difficulty-${mode}`], selected = mode === chosen;
+      if (button.getAttribute('aria-checked') !== String(selected)) button.setAttribute('aria-checked', String(selected));
+      button.tabIndex = selected ? 0 : -1;
+    }
+    const savedMode = { easy: 'Fácil', normal: 'Médio', hard: 'Difícil' }[currentGame?.difficultyKey] || 'Médio';
+    text('difficultyPreview', `${difficultyNames[chosen] || difficultyNames.normal} escolhido.${currentGame?.hasSave ? ` Seu resgate salvo continua no ${savedMode}.` : ' Tudo pronto para abrir a porteira!'}`);
+    if (!difficultyArtReady && CharacterArt.ready) {
+      for (const [index, mode] of difficultyModes.entries()) {
+        const c = el[`difficultyArt-${mode}`].getContext('2d');
+        if (!c) continue;
+        const name = ['chick', 'chicken', 'wolf'][index], direction = mode === 'hard' ? 'right' : 'down';
+        const frame = CharacterArt.frameFor(name, { direction });
+        if (!frame) continue;
+        const scale = Math.min(50 / (frame.pose.width * frame.scale), 44 / ((frame.pose.bottom - frame.pose.top) * frame.scale));
+        c.clearRect(0, 0, 64, 64);
+        CharacterArt.draw(c, name, 32, 53 - 14 * scale, { direction, moving: false, scale });
+      }
+      difficultyArtReady = true;
+    }
+  }
+  function chooseDifficulty(mode, focus = false) {
+    const changed = el.difficultySelect.value !== mode;
+    el.difficultySelect.value = mode;
+    difficulty();
+    if (focus) el[`difficulty-${mode}`].focus();
+    if (changed) animate(`difficultyArt-${mode}`, [{ transform: 'translateY(0)' }, { transform: 'translateY(-6px)', offset: .4 }, { transform: 'translateY(0)' }], 300);
   }
   function initialize() {
     if (initialized) return;
@@ -53,7 +76,7 @@ const InterfaceMotion = (() => {
       'contextHint', 'areaText', 'gameStage', 'menuCard', 'endScreen', 'menuPortrait', 'portraitTurn', 'portraitWalk',
       'missionText', 'missionProgress', 'threatIndicator', 'threatText', 'threatProgress', 'regionNotice', 'regionNoticeName',
       'liveControls', 'keyMove', 'keySneak', 'keySprint', 'keyHide', 'difficultySelect', 'difficultyPreview',
-      'difficulty-easy', 'difficulty-normal', 'difficulty-hard', ...tabs.flatMap(t => [`tab-${t}`, `panel-${t}`])])
+      ...difficultyModes.flatMap(mode => [`difficulty-${mode}`, `difficultyArt-${mode}`]), ...tabs.flatMap(t => [`tab-${t}`, `panel-${t}`])])
       el[id] = document.getElementById(id);
     for (const [index, tab] of tabs.entries()) {
       el[`tab-${tab}`].addEventListener('click', () => selectTab(tab));
@@ -67,9 +90,18 @@ const InterfaceMotion = (() => {
         event.preventDefault(); selectTab(tabs[next], true);
       });
     }
-    for (const mode of ['easy', 'normal', 'hard']) el[`difficulty-${mode}`].addEventListener('click', () => {
-      el.difficultySelect.value = mode; difficulty(); pulse(`difficulty-${mode}`);
-    });
+    for (const [index, mode] of difficultyModes.entries()) {
+      el[`difficulty-${mode}`].addEventListener('click', () => chooseDifficulty(mode));
+      el[`difficulty-${mode}`].addEventListener('keydown', event => {
+        let next;
+        if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next = (index + 1) % difficultyModes.length;
+        else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') next = (index + difficultyModes.length - 1) % difficultyModes.length;
+        else if (event.key === 'Home') next = 0;
+        else if (event.key === 'End') next = difficultyModes.length - 1;
+        if (next === undefined) return;
+        event.preventDefault(); chooseDifficulty(difficultyModes[next], true);
+      });
+    }
     el.difficultySelect.addEventListener('change', difficulty);
     el.portraitTurn.addEventListener('click', () => { direction = (direction + 1) % 4; previewSignature = ''; });
     el.portraitWalk.addEventListener('click', () => {

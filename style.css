@@ -302,17 +302,37 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 #menuCard > .eyebrow { text-align: left; font-size: .75rem; padding-top: 3px; }
 #menuCard h2 { text-align: left; font-size: clamp(1.4rem, 2.5vw, 1.9rem); }
 #menuDescription { clear: both; text-align: left; }
-.menu-tabs { display: flex; gap: 4px; border-bottom: 2px solid #c6a771; margin-top: 15px; }
-.menu-tabs button { flex: 1; border: 0; border-radius: 4px 4px 0 0; background: transparent; color: #7b6140; box-shadow: none; padding: 9px 12px; min-height: 40px; }
-.menu-tabs button:hover { background: #e9d29c; color: #643e25; }
-.menu-tabs button[aria-selected="true"] { color: #fff0c5; background: #755031; }
+.menu-tabs { display: flex; gap: 6px; padding: 4px; margin-top: 15px; border: 1px solid #cdb684; border-radius: 9px; background: #e7d7b1; }
+.menu-tabs button { position: relative; flex: 1; border: 1px solid transparent; border-radius: 6px; background: transparent; color: #685137; box-shadow: none; padding: 9px 12px; min-height: 40px; }
+.menu-tabs button:hover { background: #f4e6c5; color: #3b5433; }
+.menu-tabs button[aria-selected="true"] { color: #304f37; border-color: #ceb888; background: #fff8e5; box-shadow: 0 2px 3px #69492720; }
+.menu-tabs button[aria-selected="true"]::after { content: ""; position: absolute; height: 3px; left: 30%; right: 30%; bottom: 3px; border-radius: 2px; background: #6e873d; }
 .menu-panel { min-height: 160px; padding: 12px 0 0; }
 .menu-panel.menu-audio { margin: 0; padding: 12px 0 0; border: 0; background: transparent; }
-.difficulty-picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
-.difficulty-picks button { min-height: 46px; padding: 7px 5px; background: #ecd9ae; border-color: #b39561; color: #694b2e; box-shadow: 0 2px #ae8c55; font-size: .875rem; }
-.difficulty-picks button small { display: block; font-size: .75rem; font-weight: 400; margin-top: 2px; }
-.difficulty-picks button[aria-pressed="true"] { color: #fff2ce; background: #476b47; border-color: #304e35; box-shadow: 0 2px #304e35; }
-.difficulty-preview { margin: 9px 0; color: #755a37; font-size: .875rem; line-height: 1.4; }
+.difficulty-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 3px 0 11px; }
+.difficulty-heading h3 { margin: 0; font-size: .9375rem; color: #62472d; }
+.difficulty-heading > span { color: #79603e; font-size: .6875rem; text-transform: uppercase; letter-spacing: .06em; }
+.difficulty-picks { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.difficulty-picks button { display: grid; grid-template-columns: 48px minmax(0, 1fr) 20px; align-items: center; gap: 9px; min-height: 74px; padding: 9px; text-align: left; border: 1px solid #c5ad7f; border-left-width: 4px; border-radius: 7px; background: #fff8e5; color: #503f2a; box-shadow: 0 2px 0 #bea27455; font-size: .875rem; transition: border-color .18s, background-color .18s, box-shadow .18s; }
+.difficulty-picks button:hover { border-color: #80945a; background: #f1efd7; box-shadow: 0 3px 0 #80945a33; }
+.difficulty-copy { min-width: 0; }
+.difficulty-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 7px; line-height: 1.25; }
+.difficulty-picks button small { display: inline; margin: 0; font-size: .6875rem; font-weight: 400; color: #796344; }
+.difficulty-detail { display: block; margin-top: 5px; font-size: .75rem; line-height: 1.4; font-weight: 400; color: #715f46; }
+.difficulty-art { display: block; width: 48px; height: 48px; border: 0; border-radius: 50%; box-shadow: none; background: #e9e8bc; image-rendering: pixelated; }
+#difficulty-normal .difficulty-art { background: #dce7c5; }
+#difficulty-hard .difficulty-art { background: #ead9c0; }
+.difficulty-check { width: 20px; height: 20px; display: grid; place-items: center; border: 1px solid #c8b28a; border-radius: 50%; color: transparent; background: #fffaf0; font-size: .75rem; }
+.difficulty-picks button[aria-checked="true"] { color: #fff7dd; background: #365e42; border-color: #294b35; border-left-color: #dbb65d; box-shadow: 0 3px 0 #23422d; }
+.difficulty-picks button[aria-checked="true"] small { color: #f4d88f; }
+.difficulty-picks button[aria-checked="true"] .difficulty-detail { color: #e4ecd6; }
+.difficulty-picks button[aria-checked="true"] .difficulty-check { background: #f5d88d; color: #2d5038; border-color: #f5d88d; }
+.difficulty-preview { margin: 11px 0; color: #715b3d; font-size: .75rem; line-height: 1.5; }
+.menu-howto { border-top: 1px dashed #c8b082; margin-top: 13px; }
+.menu-howto summary { display: flex; justify-content: space-between; padding: 12px 0 4px; cursor: pointer; list-style: none; font-size: .8125rem; font-weight: 700; color: #624b30; }
+.menu-howto summary::-webkit-details-marker { display: none; }
+.menu-howto summary span { font-size: 1rem; line-height: 1; }
+.menu-howto[open] summary span { transform: rotate(45deg); }
 #panel-adventure .menu-tips { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; padding: 5px 0 0; }
 #panel-adventure .menu-tips p { font-size: .875rem; align-content: start; margin: 3px 0; }
 #panel-outfit .menu-skin { margin-top: 12px; }
@@ -417,7 +437,9 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 .farm-menu #menuCard h2 { font: 900 1.7rem/1.12 "Trebuchet MS", sans-serif; color: #6f4026; margin: 0 0 13px; }
 .farm-menu #menuDescription { font-size: 1rem; line-height: 1.5; color: #705334; }
 .farm-menu .menu-portrait { width: 96px; height: 60px; margin: -7px -12px 0 0; }
-.farm-menu #menuCard .overlay-actions { display: grid; gap: 10px; margin: 19px 0 22px; }
+.farm-menu #menuCard .overlay-actions { display: grid; gap: 10px; margin: 15px 0 20px; }
+.farm-menu #menuCard .overlay-actions:has(> #continueBtn[hidden]) { display: none; }
+.farm-menu #menuCard .new-adventure-action { margin: 16px 0 8px; }
 .farm-menu .overlay-actions button { width: 100%; min-height: 52px; border: 2px solid #70301f; font-size: 1.08rem; background: #ad432a; color: #fff3c8; box-shadow: 0 4px 0 #70301f; text-align: left; }
 .farm-menu .overlay-actions button::after { content: "→"; float: right; margin-left: 8px; }
 .farm-menu .overlay-actions button:hover:not(:disabled) { background: #913722; box-shadow: 0 6px 0 #70301f; }
@@ -426,11 +448,9 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 .farm-menu .overlay-actions button:disabled { opacity: .55; }
 .farm-menu .menu-tabs { margin-top: 0; }
 .farm-menu .menu-tabs button { padding: 9px 6px; font-size: .875rem; }
-.farm-menu .menu-panel { min-height: 226px; }
-.farm-menu .difficulty-picks { gap: 5px; }
-.farm-menu .difficulty-picks button { font-size: .875rem; min-height: 62px; padding: 7px 3px; }
-.farm-menu .difficulty-picks small { font-size: .75rem; }
-.farm-menu .difficulty-preview { font-size: .875rem; min-height: 2.8em; }
+.farm-menu .menu-panel { min-height: 350px; }
+.farm-menu .difficulty-picks { gap: 8px; }
+.farm-menu .difficulty-preview { font-size: .75rem; min-height: 3em; }
 .farm-menu #panel-adventure .menu-tips { display: grid; grid-template-columns: 1fr; gap: 3px; padding-top: 10px; }
 .farm-menu #panel-adventure .menu-tips p { font-size: .875rem; margin: 1px 0; }
 .farm-menu .menu-skin { justify-content: flex-start; font-size: .875rem; }
@@ -441,7 +461,7 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 .farm-menu .audio-controls label, .farm-menu .audio-controls select, .farm-menu .skin-music-toggle { font-size: .875rem; }
 .farm-menu #menuSaveText { padding-top: 13px; border-top: 1px dashed #c8a36a; font-size: .75rem !important; line-height: 1.45; margin: 12px 0 8px; }
 .menu-credits { font-size: .75rem; color: #765535; text-underline-offset: 3px; }
-.farm-menu :is(button, a, select, input):focus-visible { outline: 3px solid #173e62; outline-offset: 4px; }
+.farm-menu :is(button, a, select, input, summary):focus-visible { outline: 3px solid #173e62; outline-offset: 4px; }
 @media (min-width: 980px) and (max-width: 1140px) {
   #menuScreen.farm-menu { grid-template-columns: minmax(0, 1fr) 355px; gap: 20px; padding: 34px 27px; }
   .farm-title { font-size: 83px; }
@@ -465,7 +485,7 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
   #menuScatter { font-size: .75rem; padding: 7px 12px; min-height: 36px; }
   #menuBanter { font-size: .8125rem; padding: 5px 8px; }
   .farm-menu #menuCard { grid-column: 1; max-width: 490px; margin: 0 auto; }
-  .farm-menu .menu-panel { min-height: 226px; }
+  .farm-menu .menu-panel { min-height: 0; }
 }
 @media (min-width: 810px) and (max-width: 979px) {
   .menu-title-scene { min-height: 574px; }
@@ -483,4 +503,5 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 @media (prefers-reduced-motion: reduce) {
   .menu-world { will-change: auto; }
   #menuScatter:hover { transform: none; }
+  .difficulty-picks button { transition: none; }
 }

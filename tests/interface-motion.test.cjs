@@ -40,10 +40,28 @@ test('menu difficulty is a preview for the next adventure and does not change th
   run('GameUI.showMenu(state); const before=JSON.stringify(state.settings);');
   events.elements['difficulty-hard'].click();
   assert.equal(elements.get('difficultySelect').value, 'hard');
-  assert.equal(elements.get('difficulty-hard').getAttribute('aria-pressed'), 'true');
+  assert.equal(elements.get('difficulty-hard').getAttribute('aria-checked'), 'true');
   assert.equal(run('JSON.stringify(state.settings)===before'), true);
   events.elements.startBtn.click();
   assert.equal(run('state.difficultyKey'), 'hard');
+});
+
+test('difficulty choices support arrow keys, a single tab stop, and preserve the resumed game', () => {
+  const { run, elements, events, context } = createGame(() => .5);
+  run('GameManager.save(state); GameUI.showMenu(state); const savedSettings=JSON.stringify(state.settings);');
+  events.elements['difficulty-normal'].keydown({ key: 'ArrowDown', preventDefault() {} });
+  assert.equal(context.document.activeElement.id, 'difficulty-hard');
+  assert.equal(elements.get('difficulty-hard').tabIndex, 0);
+  assert.equal(elements.get('difficulty-normal').tabIndex, -1);
+  assert.match(elements.get('difficultyPreview').textContent, /Lobo à solta.*salvo continua no Médio/);
+  events.elements.continueBtn.click();
+  assert.equal(run('state.difficultyKey'), 'normal');
+  assert.equal(run('JSON.stringify(state.settings)===savedSettings'), true);
+  run('GameUI.showMenu(state);');
+  events.elements['difficulty-hard'].keydown({ key: 'Home', preventDefault() {} });
+  assert.equal(context.document.activeElement.id, 'difficulty-easy');
+  assert.equal(elements.get('difficultySelect').value, 'easy');
+  assert.deepEqual(['easy','normal','hard'].map(mode => elements.get(`difficulty-${mode}`).getAttribute('aria-checked')), ['true','false','false']);
 });
 
 test('score counts toward the earned total without changing gameplay or saved points', () => {

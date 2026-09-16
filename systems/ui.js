@@ -178,10 +178,10 @@ const GameUI = (() => {
       const canContinue = !!game.hasSave && ["playing", "win_cutscene", "won"].includes(game.resumePhase);
       elements.continueBtn.hidden = !canContinue;
       elements.startBtn.classList.toggle("button-secondary", canContinue);
-      put("startBtn", canContinue ? "Gerar nova fazenda" : "Abrir a porteira");
-      put("continueBtn", game.resumePhase === "won" ? "Voltar à comemoração" : "Voltar pro terreiro");
-      put("menuTitle", canContinue ? "De volta à bagunça?" : "Bora pra lida?");
-      put("menuDescription", canContinue ? `${game.rescuedCount} de 10 amigos no poleiro${secretKnown ? ` e ${game.rescuedChicks} pintinhos no ninho` : ""}. ${game.rescuedCount === 10 ? "A turma está a salvo. Pode comemorar!" : "Ainda tem bicho precisando de você!"}` : "Tem lobo rondando o sítio e a turma ainda está passeando. Traga os 10 amigos de volta ao poleiro!");
+      put("startBtn", canContinue ? "Começar nova fazenda" : "Entrar na fazenda");
+      put("continueBtn", game.resumePhase === "won" ? "Voltar à comemoração" : "Continuar resgate");
+      put("menuTitle", canContinue ? "De volta ao sítio" : "Bora abrir a porteira?");
+      put("menuDescription", canContinue ? `${game.rescuedCount}/10 amigos a salvo${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos no ninho` : ""}. ${game.rescuedCount === 10 ? "A turma toda merece comemorar!" : "Seu resgate espera por você."}` : "O lobo está de ronda! Leve os dez amigos ao poleiro e siga os piados pelo caminho.");
     }
     if (ended) {
       const won = game.phase === "won";

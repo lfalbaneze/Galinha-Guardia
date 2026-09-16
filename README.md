@@ -15,6 +15,8 @@ Os seis pintinhos são **bônus opcionais dentro de alguns esconderijos** de fen
 
 A interface usa placas compactas e um **Baú dos bichos** com prévias das aparências. O minimapa mostra terreno, trilhas, a área vista pela câmera e somente os bichos já avistados. Há um único lugar para os avisos de resgate, pintinho e aparência desbloqueada; o aviso de chegada a uma região fica oculto enquanto eles aparecem. Os comandos de esconderijo ficam junto da personagem, sem repetir uma faixa no rodapé. Os rostos laterais dos sprites têm dois olhos em três quartos; os bichos espiam por cima do ombro ao fugir.
 
+No menu, **Dia tranquilo**, **Fuzuê no sítio** e **Lobo à solta** têm ilustrações dos próprios sprites e explicam a dificuldade. A escolha funciona com clique ou setas do teclado e vale para uma nova fazenda; continuar o resgate preserva a dificuldade salva. As abas Partida, Bichos e Som organizam os ajustes, e “Como jogar” abre os controles quando necessário.
+
 Os bichos fogem da galinha com falas próprias, como “Mas a lama tá tão boa!” e “Só mais um bocadinho de capim!”. Correr assusta de mais longe. Segure **C** para se aproximar devagar e encoste, ou persiga até cansarem. A fuga dura até 2,8 / 4,4 / 6 segundos no Fácil / Médio / Difícil e dá uma janela de descanso de 3,1 segundos. Construções bloqueiam a percepção, e os bichos respeitam colisões e os limites da região. Descoberta e cansaço são salvos.
 
 ## Sprites prontos — troca concluída
