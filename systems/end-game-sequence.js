@@ -2,7 +2,7 @@
 const EndGameSequence = (() => {
   const center = { x: 450, y: 275 };
   const timing = Object.freeze({ circle: 3.7, rush: 6.2, cloud: 7, dizzy: 10.8, flee: 13.6, celebrate: 16, done: 19 });
-  const cast = game => [...game.entities.animals, ...(game.entities.chicks || [])];
+  const cast = game => [...game.entities.animals, ...(game.entities.chicks || []).filter(c => c.rescued)];
   function start(game) {
     game.phase = "win_cutscene";
     game.cutscene = { time: 0, done: false, stage: "arrival", cloud: false, impacts: [], attackers: [], speech: "" };
@@ -39,7 +39,7 @@ const EndGameSequence = (() => {
       move(animal, center.x + Math.cos(angle) * 240, center.y + Math.sin(angle) * 130, dt);
       animal.direction = "down";
     }
-    const chicks = game.entities.chicks || [];
+    const chicks = (game.entities.chicks || []).filter(c => c.rescued);
     for (const [index, chick] of chicks.entries()) {
       move(chick, 280 + index * 340 / Math.max(1, chicks.length - 1), 142, dt);
       chick.direction = "down";
@@ -100,7 +100,7 @@ const EndGameSequence = (() => {
         chicken.direction = "down";
         for (const animal of cast(game)) { animal.direction = "down"; animal.moving = false; }
         cut.done = true; game.phase = "won";
-        setStatus(`FIM ♥ ${game.entities.animals.length} amigos, ${(game.entities.chicks || []).length} pintinhos e uma família unida!`, "win");
+        setStatus(`FIM ♥ ${game.entities.animals.length} amigos a salvo${game.rescuedChicks ? ` e ${game.rescuedChicks} pintinhos de bônus` : ''}!`, "win");
         GameManager.save(game);
       }
     }
@@ -207,7 +207,7 @@ const EndGameSequence = (() => {
   function draw(game) {
     const cut = game.cutscene, t = cut.time;
     const texts = {
-      arrival: ["Todo mundo a salvo!", "Dez amigos, seis pintinhos e uma galinha cheia de coragem."],
+      arrival: ["A turma está a salvo!", game.rescuedChicks ? `Dez amigos, ${game.rescuedChicks} pintinhos e coragem de sobra.` : "Dez amigos e uma galinha cheia de coragem."],
       message: ["O lobo ainda quer bancar o valentão…", "Lobo: “GRRR! Ainda não acabou! Voltem aqui!”"],
       circle: ["Ninguém mexe com a nossa família!", "Lobo: “Esse olhar… Vocês estão MUITO bravos, né?”"],
       rush: ["Agora é com a turma!", "Lobo: “Ei! Dezesseis contra um? MAM—”"],

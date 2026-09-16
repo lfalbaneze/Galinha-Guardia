@@ -95,7 +95,7 @@ test('rescue and capture sounds fire on successful events without duplicating th
 
 test('all ten friends and six chicks use their own rescue call once, including after reload', () => {
   const h = harness(); start(h);
-  h.run(`for(const animal of RescueSystem.all(state)){
+  h.run(`for(const animal of [...state.entities.chicks, ...state.entities.animals]){
     animal.discovered=true;
     state.entities.chicken.x=animal.x;state.entities.chicken.y=animal.y;
     RescueSystem.update(state,0);RescueSystem.update(state,0);

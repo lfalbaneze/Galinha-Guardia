@@ -6,7 +6,7 @@ function secretArena(options={}) {
   const h=createGame(() => .5,options);
   h.run(`resetGame(814237); OBSTACLES=[];
     const chicken=state.entities.chicken, chick=state.entities.chicks[0];
-    Object.assign(chick,{x:600,y:400,targetX:600,targetY:400});
+    Object.assign(chick,{x:600,y:400,targetX:600,targetY:400,coverId:null});
     Object.assign(chicken,{x:560,y:400,moving:false,sprinting:false});`);
   return h;
 }
@@ -24,14 +24,16 @@ test('a local clue guides the player from farther away without revealing the sec
   assert.equal(run('RescueSystem.secretHint(state)'), null);
 });
 
-test('all six secret chicks can be investigated and rescued in actual generated farms', () => {
+test('all six cover bonuses can be investigated in actual generated farms', () => {
   const { run } = createGame(() => .5);
   for (const version of [1, 2]) for (const seed of [0, 814237, 391602]) {
-    run(`resetGame(${seed},${version}); input.add('c');`);
+    run(`resetGame(${seed},${version}); state.entities.wolf.huntUnlockTimer=100;`);
     for (let i = 0; i < 6; i++) {
       run(`Object.assign(state.entities.chicken,{x:state.entities.chicks[${i}].x,
         y:state.entities.chicks[${i}].y,sprinting:false,hidden:false});`);
       assert.equal(run(`RescueSystem.secretHint(state)===state.entities.chicks[${i}]`), true);
+      run(`HidingSpots.toggle(state); input.add('c');`);
+      assert.equal(run('state.entities.chicken.hidden'), true);
       run('for(let step=0;step<17;step++)RescueSystem.update(state,.05);');
       assert.equal(run(`state.entities.chicks[${i}].discovered`), true);
       run('RescueSystem.update(state,.016);');
@@ -84,7 +86,7 @@ test('running over a secret cannot reveal or rescue it, including direct rescue 
   assert.equal(run('RescueSystem.visible(state,chick)'),false);
 });
 
-test('holding C while still reveals after investigation; rescue then requires contact', () => {
+test('legacy unbound secrets retain their old investigation and contact interaction', () => {
   const {run,elements}=secretArena();
   run(`input.add('c');for(let i=0;i<16;i++){Player.update(state,.05);RescueSystem.update(state,.05);}`);
   assert.equal(run('!!chick.discovered'),false);
@@ -114,7 +116,7 @@ test('walls, distance, movement without C, pauses and zero-time updates cannot i
   assert.equal(run('!!chick.discovered'),false);
 });
 
-test('discovery without capture persists and leaves other secrets hidden on reload', () => {
+test('legacy discovery without capture persists and leaves other secrets hidden on reload', () => {
   const {run,storage}=secretArena();
   run(`input.add('c');for(let i=0;i<17;i++)RescueSystem.update(state,.05);`);
   const loaded=createGame(() => .5,{storage:new Map(storage),fullStartup:true});

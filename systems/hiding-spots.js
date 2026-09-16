@@ -17,6 +17,38 @@ const HidingSpots = (() => {
     return spots.find(s => s.id === chicken.hidingSpotId && contains(s, chicken)) ||
       spots.find(s => contains(s, chicken)) || null;
   }
+  function bonusHomes(layout = WORLD.layout) {
+    // A separate deterministic selection keeps saved buildings and cover IDs intact.
+    const rank = id => {
+      let hash = (layout.seed ^ 0x76a92ed1) >>> 0;
+      for (const letter of id) hash = Math.imul(hash ^ letter.charCodeAt(0), 16777619) >>> 0;
+      hash ^= hash >>> 16; hash = Math.imul(hash, 0x7feb352d) >>> 0;
+      return (hash ^ hash >>> 15) >>> 0;
+    };
+    const options = spots.flatMap(spot => {
+      const points = [
+        { x: spot.x + spot.w / 2, y: spot.y + spot.h - 18 },
+        { x: spot.x + 18, y: spot.y + spot.h / 2 },
+        { x: spot.x + spot.w - 18, y: spot.y + spot.h / 2 }
+      ];
+      const point = points.find(p => contains(spot, p) && candidate(p)?.id === spot.id && OBSTACLES.every(o => {
+        const x = p.x - clamp(p.x, o.x, o.x + o.w);
+        const y = p.y + 8 - clamp(p.y + 8, o.y, o.y + o.h);
+        return Math.hypot(x, y) > 19;
+      }));
+      if (!point || distance(point, layout.start) < 200 || layout.animalSpawns.some(a => distance(point, a) < 78)) return [];
+      const area = layout.areas.find(a => point.x >= a.x && point.x <= a.x + a.w && point.y >= a.y && point.y <= a.y + a.h);
+      return [{ ...point, areaId: area?.id, coverId: spot.id, rank: rank(spot.id) }];
+    }).sort((a, b) => a.rank - b.rank || a.coverId.localeCompare(b.coverId));
+    const chosen = new Set();
+    return layout.chickSpawns.map(oldHome => {
+      const available = options.filter(p => !chosen.has(p.coverId));
+      const home = available.find(p => p.areaId === oldHome.areaId) || available[0];
+      if (!home) throw new Error('A fazenda precisa de seis esconderijos acessíveis para os bônus.');
+      chosen.add(home.coverId);
+      return { x: home.x, y: home.y, areaId: home.areaId || oldHome.areaId, coverId: home.coverId };
+    });
+  }
   function toggle(game) {
     if (game.phase !== "playing") return;
     const chicken = game.entities.chicken;
@@ -63,7 +95,7 @@ const HidingSpots = (() => {
     const spot = spots.find(s => s.id === chicken.hidingSpotId) || candidate(chicken);
     if (spot) FarmArt.drawCoverForeground(ctx, spot, camera, Math.max(0.35, chicken.hideBlend || 0), chicken);
   }
-  function pill(x, y, width, title, detail, hidden, exposed = false) {
+  function pill(x, y, width, title, detail, hidden, exposed = false, progress = 0) {
     x = clamp(x, width / 2 + 12, canvas.width - width / 2 - 12);
     y = clamp(y, 20, canvas.height - 75);
     ctx.save(); ctx.translate(x, y);
@@ -75,12 +107,17 @@ const HidingSpots = (() => {
     ctx.fillStyle = hidden ? "#f4ffda" : "#3c563b";
     ctx.textAlign = "center"; ctx.font = "bold 15px sans-serif"; ctx.fillText(title, 0, 21);
     ctx.font = "12px sans-serif"; ctx.fillStyle = hidden ? "#d6e9c1" : "#6a735e";
-    ctx.fillText(detail, 0, 40); ctx.restore();
+    ctx.fillText(detail, 0, 40);
+    if (progress > 0) { ctx.fillStyle = '#ffe496'; ctx.fillRect(-width / 2 + 12, 46, (width - 24) * Math.min(1, progress), 3); }
+    ctx.restore();
   }
   function drawIndicators(game) {
     if (game.phase !== "playing") return;
     const chicken = game.entities.chicken, p = worldToScreen(chicken), spot = candidate(chicken);
     const exposed = WolfAI.isExposed(game);
+    const hint = RescueSystem.secretHint(game);
+    const bonus = hint?.coverId && hint.coverId === spot?.id ? hint : null;
+    const celebrating = game.secretNotice?.bonus && game.secretNotice.time > 0;
     if (spot) {
       ctx.save(); ctx.strokeStyle = exposed ? "#ff956c" : chicken.hidden ? "#e6f6be" : "#fff6bf";
       ctx.lineWidth = 2.5; ctx.setLineDash(chicken.hidden ? [] : [5, 5]);
@@ -88,17 +125,21 @@ const HidingSpots = (() => {
         spot.w / 2 - 4, spot.h / 2, 0, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
     }
     if (chicken.hidden) {
-      pill(p.x, p.y - 110, exposed ? 250 : 208, exposed ? "ELE VIU VOCÊ!" : "ESCONDIDA",
-        exposed ? "Saia e quebre a visão do lobo" : "E ou movimento para sair", true, exposed);
+      if (!celebrating || exposed) pill(p.x, p.y - 110, exposed ? 250 : 235, exposed ? "ELE VIU VOCÊ!" : bonus ? 'C · INVESTIGAR' : "ESCONDIDA",
+        exposed ? "Saia e quebre a visão do lobo" : bonus ? 'Segure C e procure o piado' : "E ou movimento para sair", true, exposed,
+        bonus && !exposed ? bonus.discoveryTime / .85 : 0);
+      if (!celebrating) {
       ctx.fillStyle = exposed ? "#8b302b" : "#245a43"; ctx.beginPath(); ctx.roundRect(16, canvas.height - 49, exposed ? 350 : 310, 33, 10); ctx.fill();
       ctx.fillStyle = "#effadb"; ctx.font = "bold 14px sans-serif"; ctx.textAlign = "left";
       ctx.fillText(exposed ? "Esconderijo descoberto · fuja agora!" : "Protegida pela cobertura · fique quietinha", 29, canvas.height - 27);
+      }
     } else if (spot) {
-      pill(p.x, p.y - 104, 216, "E  ·  ESCONDER", `Aconchegue-se ${labels[spot.type]}`, false);
+      pill(p.x, p.y - 104, 245, bonus ? 'E · ESPIAR ESCONDERIJO' : "E  ·  ESCONDER",
+        bonus ? 'Entre e segure C para investigar' : `Aconchegue-se ${labels[spot.type]}`, false);
     } else if (chicken.hideHintTimer > 0) {
       pill(p.x, p.y - 104, 238, "Procure feno ou folhas", "Chegue perto para aparecer o E", false);
     }
   }
-  return { initialize, candidate, toggle, update, restore, drawForeground, drawIndicators,
+  return { initialize, candidate, bonusHomes, toggle, update, restore, drawForeground, drawIndicators,
     getSpots: () => spots, obstacles: () => spots.filter(s => s.blockingRect).map(s => s.blockingRect) };
 })();

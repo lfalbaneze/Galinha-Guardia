@@ -22,19 +22,35 @@ const RescueSystem = {
   secretHint(game) {
     if (game.phase !== "playing") return null;
     const chicken = game.entities.chicken;
-    return game.entities.chicks.filter(c => RescueSystem.isSecret(c) && distance(chicken, c) < 190 &&
-      DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(c)))
+    return game.entities.chicks.filter(c => RescueSystem.isSecret(c) &&
+      ((c.coverId && chicken.hidden && chicken.hidingSpotId === c.coverId) ||
+      (distance(chicken, c) < 190 && DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(c)))))
       .sort((a,b) => distance(chicken,a) - distance(chicken,b))[0] || null;
   },
   discover(game, chick, dt) {
+    if (game.phase !== 'playing' || dt <= 0 || !RescueSystem.isSecret(chick)) return false;
     const chicken = game.entities.chicken;
-    const quiet = input.has("c") && !chicken.sprinting && !chicken.hidden;
-    const close = distance(chicken,chick) <= 48 &&
+    const inside = chick.coverId && chicken.hidden && chicken.hidingSpotId === chick.coverId &&
+      HidingSpots.candidate(chicken)?.id === chick.coverId;
+    const quiet = input.has("c") && !chicken.sprinting && !WolfAI.isExposed(game) && (chick.coverId ? inside : !chicken.hidden);
+    const close = chick.coverId ? inside : distance(chicken,chick) <= 48 &&
       DetectionSystem.hasLineOfSight(getHitbox(chicken),getHitbox(chick));
     chick.discoveryTime = quiet && close ? (chick.discoveryTime || 0) + dt : 0;
     if (chick.discoveryTime < .85) return false;
     chick.discovered = true; chick.discoveryTime = 0;
     chick.lastSeen = { x: chick.x, y: chick.y };
+    if (chick.coverId) {
+      if (!GameManager.rescue(game, chick)) return false;
+      game.secretNotice = { time: 4, bonus: true, x: chicken.x, y: chicken.y };
+      spawnBurst(chicken.x, chicken.y, '#ffe496', 18);
+      AudioSystem.playAnimal('chick');
+      const safe = RescueSystem.chickPosition(game.entities.chicks.indexOf(chick));
+      Object.assign(chick, { x: safe.x, y: safe.y, targetX: safe.x, targetY: safe.y,
+        moving: false, direction: 'down', temper: 'safe', speechTime: 0 });
+      setStatus('Bônus do esconderijo! Pintinho no ninho · +100 pontos.', 'win');
+      GameManager.save(game); GameUI.update(game);
+      return true;
+    }
     game.secretNotice = { time: 4 };
     setStatus("Segredo encontrado: um pintinho! Será que tem mais pela fazenda?", "win");
     spawnBurst(chick.x,chick.y,"#ffe496",12);
@@ -145,7 +161,7 @@ const RescueSystem = {
       if (RescueSystem.isSecret(animal)) {
         animal.speechTime = 0; animal.temper = "secret";
         RescueSystem.discover(game, animal, dt);
-        // Finding the hiding place and catching its occupant are separate moments.
+        // Cover bonuses go straight to the nest. Older, already revealed chicks remain catchable.
         continue;
       }
       if (!animal.rescued) {

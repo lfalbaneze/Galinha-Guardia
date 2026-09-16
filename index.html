@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#294b36" />
   <meta name="description" content="Penas pro Ar! Dez bichos teimosos, um lobo sem modos e uma fazenda cheia de segredos. Abra a porteira do Sítio do Fuzuê." />
   <title>Penas pro Ar! — Confusão no Sítio do Fuzuê</title>
-  <link rel="stylesheet" href="./style.css?v=20260916-farmmenu" />
+  <link rel="stylesheet" href="./style.css?v=20260916-chickbonus" />
 </head>
 <body>
   <main id="gameShell" class="game-shell" data-phase="menu">
@@ -20,7 +20,7 @@
 
     <section id="farmHud" class="hud" data-secret-known="false" aria-label="Informações da partida">
       <p class="rescue-counter"><strong>Turma no poleiro</strong> <span><b id="rescuedCount">0</b> / 10</span></p>
-      <p id="chickCounter" class="chick-counter" hidden><strong>Pintinhos secretos</strong> <span><b id="chicksCount">0</b> / 6</span></p>
+      <p id="chickCounter" class="chick-counter" hidden><strong>Pintinhos · bônus</strong> <span><b id="chicksCount">0</b> / 6</span></p>
       <p><strong>Vidas</strong> <span><b id="livesCount">3</b> / 3</span></p>
       <p><strong>Prestígio</strong> <b id="scoreCount">0</b></p>
       <p class="area-counter"><strong>Pelos cantos de</strong> <span id="areaText">Poleiro</span></p>
@@ -172,7 +172,7 @@
       <div>
         <h2 id="controlsTitle">Os macetes da roça</h2>
         <p id="controlsText"><kbd>WASD</kbd> / <kbd>setas</kbd> mover · <kbd>C</kbd> de mansinho · <kbd>Shift</kbd> correr · <kbd>E</kbd> esconder / sair · <kbd>Esc</kbd> / <kbd>P</kbd> pausar.</p>
-        <p>Cada animal salvo aumenta a velocidade, a visão e a busca do lobo. Os bichos fogem, mas também cansam. Use árvores e feno para escapar. Ouviu algo no mato? Chegue devagar e segure <kbd>C</kbd> para investigar. A caderneta só guarda pistas que você já viu.</p>
+        <p>Resgate os dez amigos para completar a missão. Cada animal salvo aumenta a velocidade, a visão e a busca do lobo. Use árvores e feno para escapar. Ouviu um piado? Entre nesse esconderijo com <kbd>E</kbd> e segure <kbd>C</kbd>: alguns guardam uma surpresa opcional. A caderneta só guarda pistas que você já viu.</p>
       </div>
       <div class="game-settings">
         <label class="difficulty-control" for="difficultySelect">
@@ -190,25 +190,25 @@
     <footer class="sprite-credits"><a href="./assets/sprites/CREDITS.html" target="_blank" rel="noopener">Artistas e créditos dos bichos</a></footer>
   </main>
 
-  <script src="./systems/world-generator.js?v=20260916-farmmenu"></script>
-  <script src="./systems/farm-art.js?v=20260916-farmmenu"></script>
-  <script src="./systems/sprite-data.js?v=20260916-farmmenu"></script>
-  <script src="./systems/character-art.js?v=20260916-farmmenu"></script>
-  <script src="./systems/audio-system.js?v=20260916-farmmenu"></script>
-  <script src="./systems/audio-controls.js?v=20260916-farmmenu"></script>
-  <script src="./systems/skin-system.js?v=20260916-farmmenu"></script>
-  <script src="./systems/game-manager.js?v=20260916-farmmenu"></script>
-  <script src="./systems/rescue-system.js?v=20260916-farmmenu"></script>
-  <script src="./systems/detection-system.js?v=20260916-farmmenu"></script>
-  <script src="./systems/hiding-spots.js?v=20260916-farmmenu"></script>
-  <script src="./systems/wolf-ai.js?v=20260916-farmmenu"></script>
-  <script src="./systems/wolf-dialogue.js?v=20260916-farmmenu"></script>
-  <script src="./systems/map-manager.js?v=20260916-farmmenu"></script>
-  <script src="./systems/player.js?v=20260916-farmmenu"></script>
-  <script src="./systems/menu-scene.js?v=20260916-farmmenu"></script>
-  <script src="./systems/interface-motion.js?v=20260916-farmmenu"></script>
-  <script src="./systems/ui.js?v=20260916-farmmenu"></script>
-  <script src="./systems/end-game-sequence.js?v=20260916-farmmenu"></script>
-  <script src="./game.js?v=20260916-farmmenu"></script>
+  <script src="./systems/world-generator.js?v=20260916-chickbonus"></script>
+  <script src="./systems/farm-art.js?v=20260916-chickbonus"></script>
+  <script src="./systems/sprite-data.js?v=20260916-chickbonus"></script>
+  <script src="./systems/character-art.js?v=20260916-chickbonus"></script>
+  <script src="./systems/audio-system.js?v=20260916-chickbonus"></script>
+  <script src="./systems/audio-controls.js?v=20260916-chickbonus"></script>
+  <script src="./systems/skin-system.js?v=20260916-chickbonus"></script>
+  <script src="./systems/game-manager.js?v=20260916-chickbonus"></script>
+  <script src="./systems/rescue-system.js?v=20260916-chickbonus"></script>
+  <script src="./systems/detection-system.js?v=20260916-chickbonus"></script>
+  <script src="./systems/hiding-spots.js?v=20260916-chickbonus"></script>
+  <script src="./systems/wolf-ai.js?v=20260916-chickbonus"></script>
+  <script src="./systems/wolf-dialogue.js?v=20260916-chickbonus"></script>
+  <script src="./systems/map-manager.js?v=20260916-chickbonus"></script>
+  <script src="./systems/player.js?v=20260916-chickbonus"></script>
+  <script src="./systems/menu-scene.js?v=20260916-chickbonus"></script>
+  <script src="./systems/interface-motion.js?v=20260916-chickbonus"></script>
+  <script src="./systems/ui.js?v=20260916-chickbonus"></script>
+  <script src="./systems/end-game-sequence.js?v=20260916-chickbonus"></script>
+  <script src="./game.js?v=20260916-chickbonus"></script>
 </body>
 </html>

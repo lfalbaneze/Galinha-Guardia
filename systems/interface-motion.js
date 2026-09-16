@@ -111,7 +111,7 @@ const InterfaceMotion = (() => {
     el.scoreCount.setAttribute('aria-label', `${target} pontos`);
     el.missionProgress.value = game.rescuedCount;
     text('missionText', game.rescuedCount < 10 ? `${10 - game.rescuedCount} ${game.rescuedCount === 9 ? 'amigo esperando' : 'amigos esperando'} por você` :
-      known && game.rescuedChicks < 6 ? `Turma a salvo · faltam ${6 - game.rescuedChicks} pintinhos` : known ? 'Todo mundo no poleiro!' : 'Turma a salvo · escute os cantinhos da fazenda');
+      known ? `Missão cumprida · ${game.rescuedChicks} pintinhos de bônus` : 'Missão cumprida · os dez amigos estão a salvo!');
     const exposed = WolfAI.isExposed(game);
     let level = 'calm', label = 'O lobo está de ronda', amount = .06;
     if (['chase', 'inspect'].includes(wolf.mode) || exposed) { level = 'danger'; label = exposed ? 'Ele viu você! Saia daí!' : 'O lobo vem vindo!'; amount = 1; }

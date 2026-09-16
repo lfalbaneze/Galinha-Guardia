@@ -143,10 +143,10 @@ const GameUI = (() => {
     elements.menuSkinSelect.value = chicken.skin;
     const availableSkins = SkinSystem.catalog.filter(s => s.chicks > 0 && SkinSystem.unlocked(s.id)).length;
     put("skinUnlockText", `${availableSkins} / 4 aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
-    put("wardrobeNote", secretKnown ? "Resgate os pintinhos secretos e os amigos na mesma aventura para abrir o baú. Cada aparência tem sua própria música; conquistas anteriores continuam suas." : "Nem todo tesouro fica à vista. Explore os cantinhos da fazenda para descobrir como abrir o baú.");
+    put("wardrobeNote", secretKnown ? "Pintinhos são bônus opcionais dos esconderijos. Encontre-os antes de salvar o último amigo para abrir novas aparências. Suas conquistas continuam no baú." : "Nem todo tesouro fica à vista. Alguns esconderijos guardam mais do que folhas e feno.");
     put("hiddenText", exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
-    put("contextHint", !playing ? (game.phase === "menu" ? "A fazenda espera por você." : "Juntos, os amigos ficam mais fortes.") : exposed ? "Ele viu você entrar! Saia com E ou movimento e quebre a visão." : hidden ? "E para sair. Recupere o fôlego e espere a busca passar." : wolf.mode === "alert" ? "O lobo desconfia! Saia da vista antes que a barra encha." : secret ? "Um piado no mato... chegue pertinho e segure C para investigar." : candidate ? "E para se esconder. Quebre a visão do lobo primeiro!" : chicken.exhausted && input.has("shift") ? "Solte Shift para voltar a correr quando recuperar o fôlego." : sprinting ? "Correr assusta os bichos e pode chamar o lobo." : game.rescuedCount === 10 && game.rescuedChicks < 6 ? "A turma ouviu uns piados pelos cantos da fazenda. Ainda tem alguém escondido!" : "Cada resgate aperta o cerco do lobo. Use C para chegar de mansinho.");
+    put("contextHint", !playing ? (game.phase === "menu" ? "A fazenda espera por você." : "Juntos, os amigos ficam mais fortes.") : exposed ? "Ele viu você entrar! Saia com E ou movimento e quebre a visão." : hidden ? (secret?.coverId === chicken.hidingSpotId ? "Tem um piado aqui! Segure C para investigar o esconderijo." : "E para sair. Recupere o fôlego e espere a busca passar.") : wolf.mode === "alert" ? "O lobo desconfia! Saia da vista antes que a barra encha." : secret ? (secret.coverId ? "Piado no esconderijo! Entre com E e segure C para investigar." : "Um piado no mato... chegue pertinho e segure C para investigar.") : candidate ? "E para se esconder. Quebre a visão do lobo primeiro!" : chicken.exhausted && input.has("shift") ? "Solte Shift para voltar a correr quando recuperar o fôlego." : sprinting ? "Correr assusta os bichos e pode chamar o lobo." : "Cada resgate aperta o cerco do lobo. Use C para chegar de mansinho.");
     elements.staminaMeter.value = chicken.stamina;
     elements.staminaMeter.parentElement.dataset.tired = String(chicken.exhausted);
     put("staminaText", chicken.exhausted ? "Recuperando" : "Fôlego");
@@ -201,15 +201,15 @@ const GameUI = (() => {
     const chicken = game.entities.chicken, wolf = game.entities.wolf;
     const p = worldToScreen(chicken), w = worldToScreen(wolf);
     const secret = RescueSystem.secretHint(game);
-    if (secret) {
+    if (secret && !(secret.coverId && HidingSpots.candidate(chicken)?.id === secret.coverId)) {
       const at = worldToScreen(secret);
       const sx = clamp(at.x,80,canvas.width-80), sy = clamp(at.y-36,30,canvas.height-60);
       const closeEnough = distance(chicken, secret) <= 48;
       panel(sx-93,sy-21,186,48,"rgba(255,245,208,.97)");
       ctx.font = "bold 14px Trebuchet MS, sans-serif"; ctx.textAlign = "center"; ctx.fillStyle = "#665026";
-      ctx.fillText(closeEnough ? "Segure C · investigar" : "Piu... tem algo aqui!",sx,sy-2);
+      ctx.fillText(secret.coverId ? 'Piu... nesse esconderijo!' : closeEnough ? "Segure C · investigar" : "Piu... tem algo aqui!",sx,sy-2);
       ctx.font = "12px Trebuchet MS, sans-serif";
-      ctx.fillText(closeEnough ? "Procure no matinho" : "Chegue de mansinho",sx,sy+16);
+      ctx.fillText(secret.coverId ? 'Entre com E para espiar' : closeEnough ? "Procure no matinho" : "Chegue de mansinho",sx,sy+16);
       if (secret.discoveryTime > 0) {
         panel(sx-32,sy+30,64,7,"#547247");
         ctx.fillStyle="#ffe49b";ctx.fillRect(sx-30,sy+32,60*Math.min(1,secret.discoveryTime/.85),3);
@@ -272,13 +272,20 @@ const GameUI = (() => {
       ctx.fillText(`+100 pontos  ·  O lobo apertou o cerco!`, canvas.width / 2, 48);
       ctx.restore();
     }
+    if (game.secretNotice?.bonus && game.secretNotice.time > 0) {
+      const notice = game.secretNotice, at = worldPointToScreen(notice.x, notice.y);
+      ctx.save(); ctx.globalAlpha = Math.min(1, notice.time);
+      CharacterArt.draw(ctx, 'chick', at.x, at.y - 48 - (InterfaceMotion.reduced ? 0 : (4 - notice.time) * 12),
+        { scale: 1.3, direction: 'down', moving: !InterfaceMotion.reduced, anim: (4 - notice.time) * 5 });
+      ctx.restore();
+    }
     if (game.secretNotice?.time > 0 && !game.skinNotice?.time) {
       ctx.globalAlpha = Math.min(1,game.secretNotice.time);
       panel(canvas.width/2-165,canvas.height-63,330,44,"#fff0b9");
       ctx.fillStyle="#76512b";ctx.textAlign="center";ctx.font="bold 14px Trebuchet MS, sans-serif";
-      ctx.fillText("SEGREDO ENCONTRADO: UM PINTINHO!",canvas.width/2,canvas.height-44);
+      ctx.fillText(game.secretNotice.bonus ? 'BÔNUS: PINTINHO ENCONTRADO!' : "SEGREDO ENCONTRADO: UM PINTINHO!",canvas.width/2,canvas.height-44);
       ctx.font="12px Trebuchet MS, sans-serif";
-      ctx.fillText("Agora alcance o pequeno fujão!",canvas.width/2,canvas.height-27);
+      ctx.fillText(game.secretNotice.bonus ? '+100 pontos · já está seguro no ninho' : "Agora alcance o pequeno fujão!",canvas.width/2,canvas.height-27);
     }
     if (game.skinNotice?.time > 0) {
       ctx.globalAlpha = Math.min(1, game.skinNotice.time);

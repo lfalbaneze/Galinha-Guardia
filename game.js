@@ -298,10 +298,10 @@ function createState() {
       chicken,
       wolf,
       animals: spawnAnimals(settings, wolf),
-      chicks: WORLD.layout.chickSpawns.map((point, i) => {
+      chicks: HidingSpots.bonusHomes().map((point, i) => {
         const chick = makeEntity(`chick_${i}`, "chick", point.x, point.y, 14);
         return Object.assign(chick, { species: "chick", rescued: false, targetX: point.x, targetY: point.y,
-          homeX: point.x, homeY: point.y, hitbox: { ox: 0, oy: 5, r: 10 } });
+          homeX: point.x, homeY: point.y, coverId: point.coverId, hitbox: { ox: 0, oy: 5, r: 10 } });
       }),
       effects: [],
     },
@@ -646,9 +646,9 @@ function renderGame() {
   if (ending) EndGameSequence.drawBackdrop(state);
   else drawWorld();
   if (!ending) for (const chick of state.entities.chicks) {
-    if (RescueSystem.isSecret(chick)) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
+    if (RescueSystem.isSecret(chick) && !chick.coverId) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
   }
-  const layers = [...RescueSystem.all(state), state.entities.chicken, state.entities.wolf]
+  const layers = [...RescueSystem.all(state).filter(a => !ending || a.rescued), state.entities.chicken, state.entities.wolf]
     .map(entity => ({ depth: entity.y + 12, entity }));
   if (!ending) for (const prop of FarmArt.getProps(WORLD.layout)) layers.push({ depth: prop.depth, prop });
   layers.sort((a, b) => a.depth - b.depth);

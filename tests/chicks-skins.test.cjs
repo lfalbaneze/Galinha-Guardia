@@ -26,15 +26,14 @@ test('six unique chicks rescue by contact once and scale the wolf to 1.5x', () =
   assert.equal(run('state.score'), 2350);
 });
 
-test('ten original friends alone no longer trigger the finale, in either rescue order', () => {
+test('ten friends finish the mission without optional chicks or unearned rewards', () => {
   const { run } = createGame();
   run(`for(const animal of state.entities.animals) GameManager.rescue(state,animal);GameManager.win(state);`);
-  assert.equal(run('state.phase'), 'playing');
-  assert.equal(run('state.score'), 1000);
-  rescueChicks(run);
   assert.equal(run('state.phase'), 'win_cutscene');
-  assert.equal(run('state.cutscene.attackers.length'), 16);
-  assert.equal(run('state.score'), 2350);
+  assert.equal(run('state.cutscene.attackers.length'), 10);
+  assert.equal(run('state.score'), 1750);
+  assert.equal(run('state.rescuedChicks'), 0);
+  assert.equal(run('state.entities.chicks.every(c=>!c.discovered && !c.rescued)'), true);
   assert.equal(run('GameManager.win(state)'), false);
 });
 
@@ -74,7 +73,7 @@ test('skin collection and equipped outfit survive restarting, losing and reloadi
   assert.equal(reloaded.run('SkinSystem.unlocked("priest")'), false);
 });
 
-test('v3 saves restore chick identities, positions, difficulty and remaining rescues', () => {
+test('v4 saves restore chick identities, positions, difficulty and remaining bonuses', () => {
   const first = createGame();
   rescueChicks(first.run, 2);
   first.run('GameManager.save(state);');
@@ -83,11 +82,11 @@ test('v3 saves restore chick identities, positions, difficulty and remaining res
   assert.equal(reload.run('state.rescuedChickIds.size'), 2);
   assert.equal(reload.run('state.entities.chicks.filter(c=>!c.rescued).length'), 4);
   assert.equal(reload.run('WolfAI.getConfig(state).chickMultiplier'), 1 + 1 / 6);
-  assert.equal(reload.run('GameManager.read().version'), 3);
+  assert.equal(reload.run('GameManager.read().version'), 4);
   assert.equal(reload.elements.get('chicksCount').textContent, '2');
 });
 
-test('a completed v2 save keeps its farm and bonus and receives the six new rescues', () => {
+test('a completed v2 save keeps its farm and victory without requiring new bonuses', () => {
   const first = createGame();
   first.run(`for(const animal of state.entities.animals) GameManager.rescue(state,animal);GameManager.save(state);`);
   const data = JSON.parse(first.storage.get('galinha-guardia-save-v1'));
@@ -100,9 +99,9 @@ test('a completed v2 save keeps its farm and bonus and receives the six new resc
   assert.equal(reload.run('state.rescuedChicks'), 0);
   assert.equal(reload.run('state.score'), 1750);
   reload.run('GameUI.resume();');
-  rescueChicks(reload.run);
   assert.equal(reload.run('state.phase'), 'win_cutscene');
-  assert.equal(reload.run('state.score'), 2350, 'legacy victory bonus must not be granted twice');
+  assert.equal(reload.run('state.score'), 1750, 'legacy victory bonus must not be granted twice');
+  assert.equal(reload.run('state.cutscene.attackers.length'), 10);
 });
 
 test('invalid chick saves and wardrobe data fail safely; blocked storage retains session unlocks', () => {
