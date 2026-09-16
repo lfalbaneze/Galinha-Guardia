@@ -39,6 +39,7 @@ const GameUI = (() => {
     if (initialized) return;
     initialized = true;
     AudioControls.initialize();
+    InterfaceMotion.initialize();
     const ids = ["gameCanvas", "menuScreen", "menuTitle", "menuDescription", "menuSaveText", "endScreen", "endTitle", "endMessage", "endSummary", "endEmblem", "endEyebrow", "startBtn", "continueBtn", "pauseBtn", "replayBtn", "menuBtn", "hiddenText", "contextHint", "wolfLevelText", "wolfStateText", "saveText", "staminaMeter", "staminaText", "chicksCount", "chickCounter", "farmHud", "wardrobeNote", "wolfMultiplier", "skinUnlockText", ...SkinSystem.catalog.map(s => `skin-${s.id}`)];
     for (const id of ids) elements[id] = document.getElementById(id);
     elements.menuSkinSelect = document.getElementById("menuSkinSelect");
@@ -74,7 +75,8 @@ const GameUI = (() => {
       const overlay = !elements.menuScreen.hidden ? elements.menuScreen : !elements.endScreen.hidden ? elements.endScreen : null;
       if (!overlay) return;
       const buttons = [...overlay.querySelectorAll("button, select, input, summary")].filter(button =>
-        !button.hidden && !button.disabled && !(button.tagName !== "SUMMARY" && button.closest?.("details:not([open])")));
+        !button.hidden && !button.disabled && button.tabIndex !== -1 && !button.closest?.('[hidden]') &&
+        !(button.tagName !== "SUMMARY" && button.closest?.("details:not([open])")));
       const first = buttons[0];
       const last = buttons[buttons.length - 1];
       if (!first) return;
@@ -177,6 +179,7 @@ const GameUI = (() => {
       put("endMessage", won ? "Todos os seus amigos estão seguros! O lobo aprendeu: não se mexe com essa turma." : game.gameEndReason || "O lobo pegou você desta vez. Use os esconderijos para despistá-lo na próxima aventura.");
       put("endSummary", `${game.rescuedCount}/10 amigos${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos` : ""} · ${Math.max(0, Math.floor(game.score))} pontos · ${Math.max(0, game.lives)} vidas`);
     }
+    InterfaceMotion.update(game);
     if (lastPhase !== game.phase) {
       if (menu) (elements.continueBtn.hidden ? elements.startBtn : elements.continueBtn).focus({ preventScroll: true });
       else if (ended) elements.replayBtn.focus({ preventScroll: true });
@@ -257,12 +260,15 @@ const GameUI = (() => {
     }
     if (game.rescueNotice?.time > 0) {
       const notice = game.rescueNotice;
+      ctx.save();
+      if (!InterfaceMotion.reduced) ctx.translate(0, -52 * Math.pow(Math.max(0, 1 - (2.6 - notice.time) / .32), 3));
       ctx.globalAlpha = Math.min(1, notice.time * 2);
       panel(canvas.width / 2 - 147, 14, 294, 43, "rgba(255, 251, 227, .96)");
       ctx.textAlign = "center"; ctx.fillStyle = "#3d693e"; ctx.font = "bold 14px sans-serif";
       ctx.fillText(`${notice.name} a salvo!`, canvas.width / 2, 33);
       ctx.font = "11px sans-serif"; ctx.fillStyle = "#697548";
       ctx.fillText(`+100 pontos  ·  O lobo apertou o cerco!`, canvas.width / 2, 48);
+      ctx.restore();
     }
     if (game.secretNotice?.time > 0 && !game.skinNotice?.time) {
       ctx.globalAlpha = Math.min(1,game.secretNotice.time);

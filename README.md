@@ -23,6 +23,8 @@ Para refazer as coordenadas dos quadros e as imagens do baú depois de alterar a
 
 ## Jogar
 
+A interface acompanha a partida com JavaScript: placar com contagem animada, progresso dos resgates, indicador de alerta do lobo, moldura que reage ao perigo, avisos de chegada às regiões e teclas que acendem durante o uso. O menu tem abas **Aventura / Trajes / Som**, escolha rápida de dificuldade e a galinha animada com o traje equipado; na aba Trajes é possível girar e parar os passinhos. As setas navegam entre abas, e o foco não entra em painéis escondidos. A preferência de movimento reduzido desativa essas animações. A prévia do menu não avança a simulação nem modifica o salvamento.
+
 Abra `index.html` no navegador. Você também pode manter o salvamento em um endereço local fixo:
 
 ```powershell
@@ -117,6 +119,7 @@ As novas fazendas usam a geração 2: as regiões ocupam retângulos sorteados s
 | `systems/hiding-spots.js` | Feno, árvores/vegetação, interação E e estado escondido |
 | `systems/map-manager.js` | Regiões conectadas, transições e identidade do estado entre áreas |
 | `systems/ui.js` | Menu, pausa, continuar, HUD e tela final |
+| `systems/interface-motion.js` | Abas, prévia animada, placar, indicadores e transições da interface |
 | `systems/end-game-sequence.js` | Chegada ao refúgio, cerco, nuvem cômica, fuga e comemoração |
 
 Os scripts clássicos são carregados na ordem de `index.html`. Isso preserva a abertura direta do projeto sem bundler. A mesma instância da partida e do lobo percorre Poleiro, Granja, Estábulo, Horta e Quintal Central. Os caminhos são uma região de ligação; não há reinicialização ao cruzar suas fronteiras.
@@ -154,7 +157,7 @@ Se o navegador bloquear o armazenamento, o jogo continua funcionando e o HUD inf
 
 ## Verificação
 
-Validação final: **135 testes aprovados**, sintaxe conferida e prévias Canvas revisadas.
+Validação final: **143 testes aprovados**, sintaxe conferida e prévias Canvas revisadas. Os oito testes da interface cobrem abas, foco, dificuldade da próxima aventura, placar, indicadores, transições, prévia e movimento reduzido; não substituem um teste visual no navegador.
 
 Requer Node.js apenas para rodar os testes, sem `npm install`:
 

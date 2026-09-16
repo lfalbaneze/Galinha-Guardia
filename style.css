@@ -267,3 +267,78 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 /* Credits remain available beside the game, including offline copies. */
 .sprite-credits { text-align: center; padding: 12px 16px 24px; font-size: .82rem; }
 .sprite-credits a { color: #60472f; text-underline-offset: 3px; }
+
+/* The live interface uses the same game state, with motion driven by JavaScript. */
+.hud { margin-bottom: 0; }
+.hud b, .hud #areaText { display: inline-block; transform-origin: left center; }
+.mission-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 10px 12px 12px; margin-bottom: 12px; background: #ecd8aa; border: 1px solid #bda06e; border-top: 0; }
+.mission-progress, .threat-indicator { display: grid; grid-template-columns: 1fr 96px; align-items: center; gap: 12px; font-size: .875rem; font-weight: 700; }
+.mission-strip progress { display: block; width: 100%; height: 7px; border: 0; border-radius: 5px; overflow: hidden; background: #cbb78b; accent-color: #467647; }
+.mission-strip progress::-webkit-progress-bar { background: #cbb78b; border-radius: 5px; }
+.mission-strip progress::-webkit-progress-value { background: #467647; border-radius: 5px; transition: width .35s ease, background-color .25s; }
+.mission-strip progress::-moz-progress-bar { background: #467647; border-radius: 5px; }
+.threat-indicator { color: #6c5739; }
+.threat-indicator[data-level="danger"] { color: #992d20; }
+.threat-indicator[data-level="danger"] progress { accent-color: #b33f28; }
+.threat-indicator[data-level="danger"] progress::-webkit-progress-value { background: #b33f28; }
+.threat-indicator[data-level="danger"] progress::-moz-progress-bar { background: #b33f28; }
+.threat-indicator[data-level="suspect"] progress { accent-color: #ba7320; }
+.threat-indicator[data-level="suspect"] progress::-webkit-progress-value { background: #ba7320; }
+.threat-indicator[data-level="suspect"] progress::-moz-progress-bar { background: #ba7320; }
+.threat-indicator[data-level="safe"] { color: #376440; }
+#gameCanvas { transition: border-color .35s, box-shadow .35s; }
+.stage[data-threat="danger"] > #gameCanvas { border-color: #a73c28; box-shadow: 0 0 0 1px #71261a, 0 4px 0 #c8a576; }
+.stage[data-threat="suspect"] > #gameCanvas { border-color: #b37a27; }
+.stage[data-threat="safe"] > #gameCanvas { border-color: #41704b; }
+.region-notice { position: absolute; top: 20px; left: 20px; z-index: 1; display: grid; gap: 3px; padding: 10px 18px 12px; max-width: calc(100% - 40px); border-left: 4px solid #efd07d; background: #2a4839ed; color: #fff0c4; box-shadow: 0 4px 12px #152c2833; pointer-events: none; }
+.region-notice span { font-size: .75rem; letter-spacing: .07em; text-transform: uppercase; }
+.region-notice strong { font: bold 1.4rem Georgia, serif; }
+.live-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 22px; padding: 13px 8px 2px; color: #6a5436; font-size: .875rem; }
+.live-controls span { display: flex; align-items: center; gap: 6px; }
+.live-controls kbd { display: inline-block; min-width: 27px; padding: 3px 7px; text-align: center; transition: transform .1s, background-color .1s, color .1s; }
+.live-controls kbd[data-pressed="true"] { transform: translateY(2px); background: #466b45; color: #fff2cb; border-color: #2c4934; }
+.menu-portrait { float: right; width: 96px; height: 60px; margin: -8px -5px 0 8px; border: 0; border-radius: 0; background: transparent; box-shadow: none; image-rendering: pixelated; }
+#menuCard { width: min(620px, 100%); }
+#menuCard > .eyebrow { text-align: left; font-size: .75rem; padding-top: 3px; }
+#menuCard h2 { text-align: left; font-size: clamp(1.4rem, 2.5vw, 1.9rem); }
+#menuDescription { clear: both; text-align: left; }
+.menu-tabs { display: flex; gap: 4px; border-bottom: 2px solid #c6a771; margin-top: 15px; }
+.menu-tabs button { flex: 1; border: 0; border-radius: 4px 4px 0 0; background: transparent; color: #7b6140; box-shadow: none; padding: 9px 12px; min-height: 40px; }
+.menu-tabs button:hover { background: #e9d29c; color: #643e25; }
+.menu-tabs button[aria-selected="true"] { color: #fff0c5; background: #755031; }
+.menu-panel { min-height: 160px; padding: 12px 0 0; }
+.menu-panel.menu-audio { margin: 0; padding: 12px 0 0; border: 0; background: transparent; }
+.difficulty-picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.difficulty-picks button { min-height: 46px; padding: 7px 5px; background: #ecd9ae; border-color: #b39561; color: #694b2e; box-shadow: 0 2px #ae8c55; font-size: .875rem; }
+.difficulty-picks button small { display: block; font-size: .75rem; font-weight: 400; margin-top: 2px; }
+.difficulty-picks button[aria-pressed="true"] { color: #fff2ce; background: #476b47; border-color: #304e35; box-shadow: 0 2px #304e35; }
+.difficulty-preview { margin: 9px 0; color: #755a37; font-size: .875rem; line-height: 1.4; }
+#panel-adventure .menu-tips { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; padding: 5px 0 0; }
+#panel-adventure .menu-tips p { font-size: .875rem; align-content: start; margin: 3px 0; }
+#panel-outfit .menu-skin { margin-top: 12px; }
+.portrait-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 16px; }
+.menu-panel-note { font-size: .875rem; line-height: 1.5; color: #715b3b; margin: 14px 0 0; }
+#menuCard .overlay-actions { margin: 15px 0 10px; }
+.overlay-actions button { transition: background-color .15s, transform .15s, box-shadow .15s; }
+.overlay-actions button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px #74301f; }
+.stamina-meter progress::-webkit-progress-value { transition: width .08s linear; }
+@media (max-width: 800px) {
+  .mission-strip { gap: 10px 18px; }
+  .mission-progress, .threat-indicator { grid-template-columns: 1fr; gap: 6px; }
+}
+@media (max-width: 600px) {
+  .mission-strip { padding: 10px; }
+  .mission-progress, .threat-indicator { font-size: .8125rem; }
+  .menu-portrait { width: 80px; height: 50px; margin-top: -3px; }
+  #menuCard > .eyebrow { font-size: .75rem; }
+  .menu-panel { min-height: 0; }
+  #panel-adventure .menu-tips { grid-template-columns: 1fr; }
+  .live-controls { gap: 8px 14px; font-size: .8125rem; }
+  .region-notice { top: 12px; left: 12px; padding: 7px 12px; }
+  .region-notice strong { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #gameCanvas, .live-controls kbd, .overlay-actions button,
+  .mission-strip progress::-webkit-progress-value, .stamina-meter progress::-webkit-progress-value { transition: none; }
+  .overlay-actions button:hover:not(:disabled) { transform: none; }
+}

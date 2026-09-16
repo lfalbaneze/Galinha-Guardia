@@ -633,7 +633,7 @@ function drawOverlay() {
     ctx.fillStyle = "#ffe9a9"; ctx.font = "16px sans-serif"; ctx.textAlign = "left";
     ctx.fillText(`Lobo distraído por ${state.entities.wolf.huntUnlockTimer.toFixed(1)}s`, 24, canvas.height - 23);
   }
-  MapManager.drawTransition(state);
+  // Region arrivals are shown by the animated DOM interface.
 }
 
 function renderGame() {
@@ -677,6 +677,7 @@ function tick(timestamp) {
 
   updateGame(dt);
   renderGame();
+  InterfaceMotion.frame(state, dt);
   requestAnimationFrame(tick);
 }
 

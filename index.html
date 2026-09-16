@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#294b36" />
   <meta name="description" content="O lobo chegou e os bichos não acreditam! Explore a fazenda, alcance os teimosos e resgate sua turma em Galinha Guardiã." />
   <title>Galinha Guardiã — Resgate na Fazenda</title>
-  <link rel="stylesheet" href="./style.css?v=20260916-world2" />
+  <link rel="stylesheet" href="./style.css?v=20260916-liveui" />
 </head>
 <body>
   <main class="game-shell">
@@ -27,26 +27,42 @@
       <p class="wolf-counter"><strong>Lobo <span id="wolfLevelText">Atento</span> <span id="wolfMultiplier">1,00×</span></strong> <span id="wolfStateText">patrulhando</span></p>
     </section>
 
-    <div class="stage">
+    <div class="mission-strip">
+      <div class="mission-progress"><span id="missionText">Encontre os 10 amigos</span><progress id="missionProgress" max="10" value="0" aria-label="Amigos resgatados">0 de 10</progress></div>
+      <div id="threatIndicator" class="threat-indicator" data-level="calm"><span id="threatText">O lobo está de ronda</span><progress id="threatProgress" max="1" value="0" aria-label="Alerta do lobo">0%</progress></div>
+    </div>
+
+    <div id="gameStage" class="stage" data-threat="calm">
       <canvas id="gameCanvas" width="900" height="520" tabindex="0" aria-label="Fazenda: resgate dez amigos, investigue os segredos e despiste o lobo." aria-describedby="controlsText"></canvas>
+      <div id="regionNotice" class="region-notice" aria-hidden="true" hidden><span>Pelos cantos de</span><strong id="regionNoticeName">Poleiro</strong></div>
 
       <section id="menuScreen" class="game-overlay" role="dialog" aria-modal="true" aria-labelledby="menuTitle" aria-describedby="menuDescription" hidden>
-        <div class="overlay-card">
-          <span class="menu-emblem" aria-hidden="true">🐔</span>
+        <div id="menuCard" class="overlay-card">
+          <canvas id="menuPortrait" class="menu-portrait" width="160" height="100" aria-hidden="true"></canvas>
           <p class="eyebrow">Confusão das boas no Sítio do Fuzuê</p>
           <h2 id="menuTitle">Deu a louca no terreiro!</h2>
           <p id="menuDescription">O lobo chegou, mas ninguém acredita! Resgate os 10 amigos. Cada um salvo deixa o lobo mais perigoso... e a fazenda guarda seus segredos.</p>
           <p id="spriteStatus" role="status" hidden></p>
-          <div class="overlay-actions">
-            <button id="continueBtn" type="button" hidden>Voltar pro terreiro</button>
-            <button id="startBtn" type="button">Abrir a porteira</button>
+          <div class="menu-tabs" role="tablist" aria-label="Preparar aventura">
+            <button id="tab-adventure" type="button" role="tab" aria-selected="true" aria-controls="panel-adventure">Aventura</button>
+            <button id="tab-outfit" type="button" role="tab" aria-selected="false" aria-controls="panel-outfit" tabindex="-1">Trajes</button>
+            <button id="tab-audio" type="button" role="tab" aria-selected="false" aria-controls="panel-audio" tabindex="-1">Som</button>
           </div>
+          <div id="panel-adventure" class="menu-panel" role="tabpanel" aria-labelledby="tab-adventure">
+            <div class="difficulty-picks" role="group" aria-label="Dificuldade da próxima aventura">
+              <button id="difficulty-easy" type="button" aria-pressed="false">Passeio <small>Fácil</small></button>
+              <button id="difficulty-normal" type="button" aria-pressed="true">Lida braba <small>Médio</small></button>
+              <button id="difficulty-hard" type="button" aria-pressed="false">Deus nos acuda <small>Difícil</small></button>
+            </div>
+            <p id="difficultyPreview" class="difficulty-preview">Um lobo esperto. Uma galinha mais esperta ainda.</p>
           <div class="menu-tips">
             <p><kbd>WASD</kbd> ou <kbd>↑ ↓ ← →</kbd> <span>para caminhar</span></p>
-            <p><kbd>Shift</kbd> <span>para correr enquanto houver fôlego — o lobo pode ouvir!</span></p>
-            <p><kbd>E</kbd> <span>para se esconder no feno ou vegetação. Saia da vista do lobo antes!</span></p>
-            <p><kbd>C</kbd> <span>segure para chegar de mansinho. Se fugirem, espere cansar!</span></p>
+            <p><kbd>Shift</kbd> <span>correr — cuidado com o barulho!</span></p>
+            <p><kbd>E</kbd> <span>esconder no feno ou no mato</span></p>
+            <p><kbd>C</kbd> <span>chegar de mansinho e investigar</span></p>
           </div>
+          </div>
+          <div id="panel-outfit" class="menu-panel" role="tabpanel" aria-labelledby="tab-outfit" hidden>
           <label class="menu-skin" for="menuSkinSelect">Traje da lida
             <select id="menuSkinSelect">
               <option id="menu-skin-classic" value="classic">Clássica</option>
@@ -56,8 +72,10 @@
               <option id="menu-skin-priest" value="priest" disabled>Padre · Segredo da fazenda</option>
             </select>
           </label>
-          <details class="menu-audio">
-            <summary>Som e música</summary>
+          <div class="portrait-controls"><button id="portraitTurn" type="button" class="button-secondary">Girar galinha ↻</button><button id="portraitWalk" type="button" class="button-secondary" aria-pressed="true">Parar passinhos</button></div>
+          <p class="menu-panel-note">Escolha um traje do seu baú. A galinha lá em cima já veste e desfila.</p>
+          </div>
+          <div id="panel-audio" class="menu-panel menu-audio" role="tabpanel" aria-labelledby="tab-audio" hidden>
             <div class="audio-controls audio-controls-menu">
               <label for="menuMusicTrack">Trilha da fazenda
                 <select id="menuMusicTrack"><option value="forest">Floresta encantada</option><option value="whistle">Assobio da galinha</option></select>
@@ -72,7 +90,11 @@
             </div>
             <label class="skin-music-toggle" for="menuSkinMusic"><input id="menuSkinMusic" type="checkbox" checked /> Tema musical da skin</label>
             <p id="menuAudioStatus" class="audio-note">O som começa ao iniciar a aventura.</p>
-          </details>
+          </div>
+          <div class="overlay-actions">
+            <button id="continueBtn" type="button" hidden>Voltar pro terreiro</button>
+            <button id="startBtn" type="button">Abrir a porteira</button>
+          </div>
           <p id="menuSaveText" class="fine-print">Seu progresso é salvo automaticamente neste navegador.</p>
         </div>
       </section>
@@ -90,6 +112,10 @@
           </div>
         </div>
       </section>
+    </div>
+
+    <div id="liveControls" class="live-controls" aria-label="Controles da partida">
+      <span><kbd id="keyMove">WASD / setas</kbd> mover</span><span><kbd id="keySneak">C</kbd> de mansinho</span><span><kbd id="keySprint">Shift</kbd> correr</span><span><kbd id="keyHide">E</kbd> esconder</span>
     </div>
 
     <div class="game-feedback">
@@ -151,23 +177,24 @@
     <footer class="sprite-credits"><a href="./assets/sprites/CREDITS.html" target="_blank" rel="noopener">Artistas e créditos dos bichos</a></footer>
   </main>
 
-  <script src="./systems/world-generator.js?v=20260916-world2"></script>
-  <script src="./systems/farm-art.js?v=20260916-world2"></script>
-  <script src="./systems/sprite-data.js?v=20260916-world2"></script>
-  <script src="./systems/character-art.js?v=20260916-world2"></script>
-  <script src="./systems/audio-system.js?v=20260916-world2"></script>
-  <script src="./systems/audio-controls.js?v=20260916-world2"></script>
-  <script src="./systems/skin-system.js?v=20260916-world2"></script>
-  <script src="./systems/game-manager.js?v=20260916-world2"></script>
-  <script src="./systems/rescue-system.js?v=20260916-world2"></script>
-  <script src="./systems/detection-system.js?v=20260916-world2"></script>
-  <script src="./systems/hiding-spots.js?v=20260916-world2"></script>
-  <script src="./systems/wolf-ai.js?v=20260916-world2"></script>
-  <script src="./systems/wolf-dialogue.js?v=20260916-world2"></script>
-  <script src="./systems/map-manager.js?v=20260916-world2"></script>
-  <script src="./systems/player.js?v=20260916-world2"></script>
-  <script src="./systems/ui.js?v=20260916-world2"></script>
-  <script src="./systems/end-game-sequence.js?v=20260916-world2"></script>
-  <script src="./game.js?v=20260916-world2"></script>
+  <script src="./systems/world-generator.js?v=20260916-liveui"></script>
+  <script src="./systems/farm-art.js?v=20260916-liveui"></script>
+  <script src="./systems/sprite-data.js?v=20260916-liveui"></script>
+  <script src="./systems/character-art.js?v=20260916-liveui"></script>
+  <script src="./systems/audio-system.js?v=20260916-liveui"></script>
+  <script src="./systems/audio-controls.js?v=20260916-liveui"></script>
+  <script src="./systems/skin-system.js?v=20260916-liveui"></script>
+  <script src="./systems/game-manager.js?v=20260916-liveui"></script>
+  <script src="./systems/rescue-system.js?v=20260916-liveui"></script>
+  <script src="./systems/detection-system.js?v=20260916-liveui"></script>
+  <script src="./systems/hiding-spots.js?v=20260916-liveui"></script>
+  <script src="./systems/wolf-ai.js?v=20260916-liveui"></script>
+  <script src="./systems/wolf-dialogue.js?v=20260916-liveui"></script>
+  <script src="./systems/map-manager.js?v=20260916-liveui"></script>
+  <script src="./systems/player.js?v=20260916-liveui"></script>
+  <script src="./systems/interface-motion.js?v=20260916-liveui"></script>
+  <script src="./systems/ui.js?v=20260916-liveui"></script>
+  <script src="./systems/end-game-sequence.js?v=20260916-liveui"></script>
+  <script src="./game.js?v=20260916-liveui"></script>
 </body>
 </html>
