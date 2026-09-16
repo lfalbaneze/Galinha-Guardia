@@ -2,10 +2,19 @@
 const AudioSystem = (() => {
   const STORAGE_KEY = "galinha-resgate:audio:v1";
   const TRACKS = new Set(["forest", "whistle"]);
+  const SKIN_TRACKS = new Map([
+    ["punk", "skin-punk"], ["astronaut", "skin-astronaut"],
+    ["robocop", "skin-robocop"], ["priest", "skin-priest"],
+  ]);
+  const TRACK_TITLES = new Map([
+    ["forest", "Floresta encantada"], ["whistle", "Assobio da galinha"],
+    ["skin-punk", "Punk · Penas Rebeldes"], ["skin-astronaut", "Astronauta · Órbita do Galinheiro"],
+    ["skin-robocop", "Robocop · Patrulha de Aço"], ["skin-priest", "Padre · Sinos da Capelinha"],
+  ]);
   const ANIMAL_SPECIES = new Set(["sheep", "pig", "goat", "cow", "duck", "rabbit", "dog", "cat", "donkey", "lamb"]);
   const EFFECTS = new Set(["boing", "pop", "bonk", "squeak", "dizzy", "sob", "runaway", "rescue", "chick", "victory",
     ...Array.from(ANIMAL_SPECIES, species => `animal-${species}`)]);
-  const defaults = { musicVolume: 0.25, effectsVolume: 0.55, track: "forest", muted: false };
+  const defaults = { musicVolume: 0.25, effectsVolume: 0.55, track: "forest", muted: false, skinThemes: true };
   const settings = { ...defaults };
   const status = { unlocked: false, unsupported: typeof Audio !== "function", blocked: false };
   const unit = (value, fallback = 0) => Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : fallback;
@@ -16,10 +25,11 @@ const AudioSystem = (() => {
       settings.effectsVolume = unit(saved.effectsVolume, defaults.effectsVolume);
       settings.track = TRACKS.has(saved.track) ? saved.track : defaults.track;
       settings.muted = saved.muted === true;
+      settings.skinThemes = saved.skinThemes !== false;
     }
   } catch (_) { /* Private browsing and corrupt settings must not affect the game. */ }
 
-  let music = null, musicAttempted = false, musicToken = 0, duck = 1;
+  let music = null, musicTrack = null, musicAttempted = false, musicToken = 0, duck = 1;
   let currentGame = null, currentPhase = null, active = false, serial = 0;
   const voices = [];
   let scene = null, lastTime = -1, cloudBucket = -1, sobBucket = -1;
@@ -65,12 +75,21 @@ const AudioSystem = (() => {
       if (result && typeof result.then === "function") result.then(started).catch(failed);
     } catch (error) { failed(error); }
   }
+  function skinTheme() {
+    return settings.skinThemes && SKIN_TRACKS.get(currentGame?.entities?.chicken?.skin);
+  }
+  function selectedTrack() { return skinTheme() || settings.track; }
   function syncMusic() {
+    const target = selectedTrack();
+    if (music && musicTrack !== target) {
+      pauseMusic(); rewind(music); music.src = path(target); musicTrack = target;
+    }
     const wanted = active && status.unlocked && !status.unsupported && !status.blocked && !settings.muted && settings.musicVolume > 0;
     if (!wanted) { if (music && (!music.paused || musicAttempted)) pauseMusic(); return; }
     if (!music) {
-      music = makeAudio(settings.track);
+      music = makeAudio(target);
       if (!music) return;
+      musicTrack = target;
       music.loop = true;
       music.onerror = () => { status.blocked = true; pauseMusic(); };
     }
@@ -219,10 +238,14 @@ const AudioSystem = (() => {
   function setTrack(track) {
     if (!TRACKS.has(track)) return false;
     if (settings.track === track) return true;
-    settings.track = track; persist(); pauseMusic();
-    if (music) { rewind(music); music.src = path(track); }
+    settings.track = track; persist();
     syncMusic();
     return true;
+  }
+  function setSkinThemes(enabled) {
+    if (typeof enabled !== "boolean") return settings.skinThemes;
+    settings.skinThemes = enabled; persist(); syncMusic();
+    return settings.skinThemes;
   }
   function toggleMute() {
     settings.muted = !settings.muted; persist();
@@ -233,8 +256,9 @@ const AudioSystem = (() => {
   if (typeof document !== "undefined" && document.addEventListener) {
     document.addEventListener("visibilitychange", () => { if (currentGame) sync(currentGame); });
   }
-  return { unlock, update, sync, reset, pause, play, playAnimal, setMusicVolume, setEffectsVolume, setTrack, toggleMute,
+  return { unlock, update, sync, reset, pause, play, playAnimal, setMusicVolume, setEffectsVolume, setTrack, setSkinThemes, toggleMute,
     get settings() { return Object.freeze({ ...settings }); },
-    get status() { return Object.freeze({ ...status, music: status.unsupported ? "unsupported" :
+    get status() { return Object.freeze({ ...status, track: selectedTrack(), trackTitle: TRACK_TITLES.get(selectedTrack()),
+      skinTheme: !!skinTheme(), music: status.unsupported ? "unsupported" :
       !status.unlocked ? "locked" : status.blocked ? "blocked" : music && !music.paused ? "playing" : "paused" }); } };
 })();

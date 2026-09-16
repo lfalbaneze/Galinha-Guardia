@@ -386,8 +386,178 @@ effect('animal-lamb',.99,'Lamb: two small, soft, high baa syllables, lighter and
   });
 });
 
+// Secret costume scores are composed independently, after every existing asset.
+// Keep their random stream separate so rebuilding preserves the original WAVs.
+randomState = 0x3478ab2d;
+function costumeVoice(song, type, at, duration, pitch, volume = .12, pan = 0, options = {}) {
+  const frequency = note(pitch), release = options.release ?? .16;
+  const count = Math.ceil((duration + release) * SR), start = Math.round(at * SR);
+  const left = Math.cos((pan + 1) * Math.PI / 4) * volume;
+  const right = Math.sin((pan + 1) * Math.PI / 4) * volume;
+  let phase = 0, filteredNoise = 0, previousNoise = 0;
+  for (let i = 0; i < count; i++) {
+    const t = i / SR, white = noise();
+    filteredNoise += (white - filteredNoise) * .21;
+    phase += TAU * frequency / SR;
+    let value = 0;
+    if (type === 'guitar') {
+      // A band-limited plucked source, mildly overdriven after its attack.
+      const string = Math.sin(phase) + .44 * Math.sin(phase * 2) * Math.exp(-t * 3)
+        + .27 * Math.sin(phase * 3) + .11 * Math.sin(phase * 5) * Math.exp(-t * 5);
+      value = Math.tanh(string * 2.1) * (.48 + .52 * Math.exp(-t * 5.5))
+        * envelope(t, duration, .004, release);
+    } else if (type === 'electricBass') {
+      value = Math.tanh((Math.sin(phase) + .26 * Math.sin(phase * 2) + .12 * Math.sin(phase * 3)) * 1.7)
+        * (.65 + .35 * Math.exp(-t * 7)) * envelope(t, duration, .008, release);
+    } else if (type === 'snare') {
+      value = ((white - filteredNoise * .6) * Math.exp(-t * 19)
+        + Math.sin(TAU * 175 * t) * Math.exp(-t * 34) * .65) * envelope(t, duration, .003, release);
+    } else if (type === 'hat') {
+      value = (white - previousNoise * .86) * Math.exp(-t * (options.open ? 13 : 65))
+        * envelope(t, duration, .002, release);
+    } else if (type === 'spacePad') {
+      value = (Math.sin(phase) * .60 + Math.sin(phase * 1.003 + .3) * .25
+        + Math.sin(phase * 2) * .10 + Math.sin(phase * 3.997) * .035)
+        * (.88 + .12 * Math.sin(TAU * .7 * t)) * envelope(t, duration, .40, release);
+    } else if (type === 'spaceKey') {
+      value = Math.sin(phase + Math.sin(phase * 2) * 1.4 * Math.exp(-t * 5))
+        * (.25 + .75 * Math.exp(-t * 4)) * envelope(t, duration, .015, release);
+    } else if (type === 'robotBass') {
+      const roundedPulse = Math.sin(phase) + .30 * Math.sin(phase * 3) + .11 * Math.sin(phase * 5);
+      value = Math.tanh(roundedPulse * 1.7 + Math.sin(phase * 2) * .45 * Math.exp(-t * 17))
+        * (.4 + .6 * Math.exp(-t * 7)) * envelope(t, duration, .008, release);
+    } else if (type === 'robotKey') {
+      value = (Math.sin(phase + Math.sin(phase * 2) * .58) + Math.sin(phase * 3) * .13)
+        * Math.exp(-t * 3.2) * envelope(t, duration, .005, release);
+    } else if (type === 'organ') {
+      value = (Math.sin(phase) * .65 + Math.sin(phase * 2) * .24
+        + Math.sin(phase * 3) * .12 + Math.sin(phase * 4) * .08)
+        * (.96 + .04 * Math.sin(TAU * 4.2 * t)) * envelope(t, duration, .055, release);
+    }
+    previousNoise = white;
+    const index = ((start + i) % song.length + song.length) % song.length;
+    song.left[index] += value * left;
+    song.right[index] += value * right;
+  }
+}
+
+// Penas Rebeldes: a playful original garage-rock riff in E minor, 140 BPM.
+// Two choruses keep the same hook, then vary its answer and drum fills.
+const punkBeat = 60 / 140, punkBar = punkBeat * 4, punk = track(punkBar * 16, true);
+const punkRoots = ['E3','C3','G3','D3','E3','C3','A2','B2'];
+const punkMelody = [
+  [[0,.7,'E5'],[1,.35,'G5'],[1.5,.35,'E5'],[2,.7,'D5'],[3,.65,'B4']],
+  [[0,.35,'G5'],[.5,.35,'E5'],[1,.7,'C5'],[2,.35,'D5'],[2.5,.35,'E5'],[3,.7,'G5']],
+  [[0,1.2,'B4'],[1.5,.35,'D5'],[2,.7,'G5'],[3,.7,'F#5']],
+  [[0,.7,'E5'],[1,.7,'D5'],[2,.35,'A4'],[2.5,.35,'B4'],[3,.65,'D5']],
+  [[0,.35,'E5'],[.5,.35,'G5'],[1,.7,'B5'],[2,.7,'A5'],[3,.7,'G5']],
+  [[0,.7,'E5'],[1,.35,'G5'],[1.5,.35,'E5'],[2,.7,'D5'],[3,.7,'C5']],
+  [[0,.7,'A4'],[1,.7,'C5'],[2,.35,'E5'],[2.5,.35,'D5'],[3,.65,'C5']],
+  [[0,.7,'B4'],[1,.35,'D#5'],[1.5,.35,'F#5'],[2,.7,'D#5'],[3,.65,'B4']],
+];
+for (let b = 0; b < 16; b++) {
+  const start = b * punkBar, root = note(punkRoots[b % 8]);
+  for (const beat of [0,.75,1.5,2,2.75,3.5]) {
+    for (const [ratio,pan] of [[1,-.52],[1.4983,.49],[2,-.28]]) {
+      costumeVoice(punk,'guitar',start + beat * punkBeat,.27 * punkBeat,root * ratio,.081,pan,{release:.045});
+    }
+  }
+  for (let step = 0; step < 8; step++) {
+    const at = start + step * punkBeat / 2;
+    costumeVoice(punk,'electricBass',at,punkBeat * .33,root / 2 * (step === 6 ? 1.4983 : 1),.139,0,{release:.045});
+    costumeVoice(punk,'hat',at,.05,1000,step % 2 ? .027 : .040,.23,{release:.025});
+  }
+  for (const beat of [0,1.5,2,2.75]) voice(punk,'kick',start + beat * punkBeat,.12,60,.32,-.08,{release:.035});
+  for (const beat of [1,3]) costumeVoice(punk,'snare',start + beat * punkBeat,.13,190,.17,.05,{release:.055});
+  if (b % 4 === 3) for (const beat of [3.5,3.75]) costumeVoice(punk,'snare',start + beat * punkBeat,.065,190,.105,beat === 3.5 ? -.2 : .2,{release:.03});
+  punkMelody[b % 8].forEach(([beat,duration,pitch],i) => {
+    const variant = b === 12 && i === 2 ? 'E6' : pitch;
+    costumeVoice(punk,'guitar',start + beat * punkBeat,duration * punkBeat,variant,.099,.10,{release:.055});
+  });
+}
+save('skin-punk.wav',punk,'Original playful garage-rock theme with overdriven guitar power chords, a melodic riff, electric bass and energetic drums.',{music:true,skin:'punk',bpm:140,timeSignature:'4/4',bars:16,title:'Penas Rebeldes'});
+
+// Orbita do Galinheiro: weightless major-seventh pads and answering FM keys.
+const spaceBeat = .75, spaceBar = spaceBeat * 4, astronaut = track(spaceBar * 8,true);
+const spaceChords = [
+  ['C3','G3','B3','E4'],['A2','E3','G3','B3'],['F2','C3','E3','A3'],['G2','D3','A3','B3'],
+  ['E3','G3','B3','D4'],['A2','E3','G3','C4'],['F2','A3','C4','E4'],['G2','B3','D4','A4'],
+];
+const spaceMelody = [
+  [[.5,1.2,'E5'],[2,1.6,'B5']],[[0,1.4,'A5'],[2,1.5,'E5']],
+  [[.5,.7,'C5'],[1.5,1,'E5'],[3,.65,'G5']],[[0,1.4,'D5'],[2,1.7,'A5']],
+  [[0,1.3,'B5'],[1.75,.7,'G5'],[3,.6,'E5']],[[.5,1.2,'C6'],[2,1.5,'B5']],
+  [[0,.7,'A5'],[1,.7,'G5'],[2,1.5,'E5']],[[0,1.3,'D5'],[2,1.5,'B4']],
+];
+for (let b = 0; b < 8; b++) {
+  const start = b * spaceBar, chord = spaceChords[b];
+  chord.forEach((pitch,i) => costumeVoice(astronaut,'spacePad',start,spaceBar - .30,pitch,.078,i / 2 - .75,{release:.60}));
+  costumeVoice(astronaut,'electricBass',start,spaceBeat * 2.5,note(chord[0]) / 2,.052,0,{release:.42});
+  for (let step = 0; step < 8; step++) {
+    const pitch = note(chord[[0,2,1,3,2,1,3,2][step]]) * 2;
+    costumeVoice(astronaut,'spaceKey',start + step * spaceBeat / 2,.18,pitch,.058,step % 2 ? .42 : -.42,{release:.30});
+    if (step % 2 === 0) voice(astronaut,'brush',start + step * spaceBeat / 2,.08,200,.025,.12,{release:.05});
+  }
+  spaceMelody[b].forEach(([beat,duration,pitch]) => costumeVoice(astronaut,'spaceKey',start + beat * spaceBeat,duration * spaceBeat,pitch,.150,-.04,{release:.44}));
+  if (b % 2) voice(astronaut,'bell',start + spaceBeat * 3,.36,note(chord[3]) * 2,.069,.35,{release:.52});
+}
+save('skin-astronaut.wav',astronaut,'Original gentle orbital theme with floating detuned pads, shimmering FM-key arpeggios and spacious bell answers.',{music:true,skin:'astronaut',bpm:80,timeSignature:'4/4',bars:8,title:'Órbita do Galinheiro'});
+
+// Patrulha de Aco: original D-minor mechanical funk, with syncopated bass.
+const robotBeat = 60 / 112, robotBar = robotBeat * 4, robocop = track(robotBar * 8,true);
+const robotRoots = ['D2','D2','A#1','C2','D2','F2','G2','A2'];
+const robotMelody = [
+  [[.5,.3,'D5'],[1.25,.3,'F5'],[2,.65,'A5'],[3.5,.3,'F5']],
+  [[0,.3,'E5'],[.75,.3,'D5'],[2,.3,'A4'],[2.75,.65,'C5']],
+  [[.5,.3,'D5'],[1.25,.65,'F5'],[2.5,.3,'A#5'],[3.25,.3,'A5']],
+  [[0,.3,'G5'],[.75,.3,'E5'],[1.5,.65,'C5'],[3,.65,'G4']],
+  [[0,.3,'A5'],[.75,.3,'F5'],[1.5,.65,'D5'],[3,.3,'F5']],
+  [[.5,.65,'C6'],[1.5,.3,'A5'],[2.25,.3,'F5'],[3,.65,'G5']],
+  [[0,.3,'D5'],[.75,.3,'G5'],[1.5,.65,'A5'],[3,.65,'A#5']],
+  [[0,.3,'A5'],[.75,.3,'G5'],[1.5,.3,'E5'],[2.25,.65,'C#5'],[3.5,.3,'A4']],
+];
+for (let b = 0; b < 8; b++) {
+  const start = b * robotBar, root = note(robotRoots[b]);
+  for (const [beat,length,ratio] of [[0,.37,1],[.75,.17,2],[1.5,.37,1],[2.25,.17,1.4983],[2.75,.17,2],[3.5,.27,1]]) {
+    costumeVoice(robocop,'robotBass',start + beat * robotBeat,length * robotBeat,root * ratio,.235,0,{release:.045});
+  }
+  for (let step = 0; step < 16; step++) {
+    costumeVoice(robocop,'hat',start + step * robotBeat / 4,.038,2000,step % 2 ? .014 : .030,step % 2 ? .24 : -.24,{release:.018});
+  }
+  for (const beat of [0,1.75,2.5]) voice(robocop,'kick',start + beat * robotBeat,.15,65,.32,0,{release:.035});
+  for (const beat of [1,3]) {
+    costumeVoice(robocop,'snare',start + beat * robotBeat,.075,190,.102,.1,{release:.042});
+    voice(robocop,'bonk',start + beat * robotBeat,.058,480,.068,-.12,{release:.035});
+  }
+  for (const beat of [.5,2.5]) [1,1.4983,2].forEach((ratio,i) => costumeVoice(robocop,'robotKey',start + beat * robotBeat,.13,root * ratio * 4,.030,i * .34 - .34,{release:.055}));
+  robotMelody[b].forEach(([beat,duration,pitch]) => costumeVoice(robocop,'robotKey',start + beat * robotBeat,duration * robotBeat,pitch,.133,.08,{release:.085}));
+}
+save('skin-robocop.wav',robocop,'Original mechanical funk theme with a syncopated rounded synth bass, precise electronic percussion and robotic FM-key motifs.',{music:true,skin:'robocop',bpm:112,timeSignature:'4/4',bars:8,title:'Patrulha de Aço'});
+
+// Sinos da Capelinha: a light original organ waltz, with little bell replies.
+const priestBeat = 60 / 72, priestBar = priestBeat * 3, priest = track(priestBar * 8,true);
+const priestChords = [
+  ['F3','A3','C4'],['C3','E3','G3'],['D3','F3','A3'],['A#2','D3','F3'],
+  ['G3','A#3','D4'],['F3','A3','C4'],['C3','E3','G3'],['C3','F3','A3'],
+];
+const priestMelody = [
+  [[0,.8,'A4'],[1,.8,'C5'],[2,.8,'F5']],[[0,1.7,'E5'],[2,.75,'G5']],
+  [[0,.8,'F5'],[1,.8,'A5'],[2,.8,'E5']],[[0,1.7,'D5'],[2,.75,'F5']],
+  [[0,.8,'D5'],[1,.8,'C5'],[2,.8,'A#4']],[[0,.8,'A4'],[1,.8,'C5'],[2,.8,'A4']],
+  [[0,.8,'G4'],[1,.8,'E5'],[2,.8,'D5']],[[0,1.7,'C5'],[2,.75,'A4']],
+];
+for (let b = 0; b < 8; b++) {
+  const start = b * priestBar, chord = priestChords[b];
+  costumeVoice(priest,'organ',start,priestBar - .20,note(chord[0]) / 2,.109,-.04,{release:.24});
+  chord.forEach((pitch,i) => costumeVoice(priest,'organ',start,priestBar - .22,pitch,.066,i * .36 - .36,{release:.26}));
+  priestMelody[b].forEach(([beat,duration,pitch]) => costumeVoice(priest,'organ',start + beat * priestBeat,duration * priestBeat,pitch,.120,.06,{release:.12}));
+  for (const beat of [1,2]) voice(priest,'bell',start + beat * priestBeat,.30,note(chord[(b + beat) % 3]) * 4,.058,beat === 1 ? -.36 : .36,{release:.45});
+  if (b % 2 === 0) voice(priest,'bell',start,.45,note(chord[0]),.057,0,{release:.52});
+}
+save('skin-priest.wav',priest,'Original light chapel waltz with warm pipe-organ harmony, a gentle melodic line and small answering bells.',{music:true,skin:'priest',bpm:72,timeSignature:'3/4',bars:8,title:'Sinos da Capelinha'});
+
 const totalBytes=files.reduce((sum,file)=>sum+file.bytes,0);
-if(totalBytes>10000000)throw new Error(`Audio package exceeds 10 MB: ${totalBytes}`);
+if(totalBytes>22000000)throw new Error(`Audio package exceeds 22 MB: ${totalBytes}`);
 const manifest={
   format:'Stereo, 22050 Hz, signed 16-bit PCM WAV',
   generator:'scripts/generate-audio.cjs',

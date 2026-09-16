@@ -192,7 +192,7 @@ test('preferences persist separately, load safely, and are exposed as immutable 
   assert.equal(Object.isFrozen(settings), true);
   assert.equal(Object.isFrozen(h.audio.status), true);
   const next = audioHarness({ storage: h.storage });
-  assert.deepEqual(JSON.parse(JSON.stringify(next.audio.settings)), { musicVolume: 0.36, effectsVolume: 0.61, track: 'whistle', muted: true });
+  assert.deepEqual(JSON.parse(JSON.stringify(next.audio.settings)), { musicVolume: 0.36, effectsVolume: 0.61, track: 'whistle', muted: true, skinThemes: true });
   assert.equal(next.audio.status.unlocked, false);
   const bad = audioHarness({ storage: new Map([['galinha-resgate:audio:v1', '{invalid']]) });
   assert.equal(bad.audio.settings.musicVolume, 0.25);

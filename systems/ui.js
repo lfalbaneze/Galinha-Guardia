@@ -50,12 +50,17 @@ const GameUI = (() => {
     });
     elements.menuBtn.addEventListener("click", () => showMenu(state));
     elements.menuSkinSelect.addEventListener("change", () => {
-      SkinSystem.equip(state, elements.menuSkinSelect.value);
+      if (SkinSystem.equip(state, elements.menuSkinSelect.value)) {
+        AudioSystem.sync(state);
+        AudioSystem.unlock();
+      }
       update(state);
     });
     for (const skin of SkinSystem.catalog) {
       elements[`skin-${skin.id}`].addEventListener("click", () => {
         if (!SkinSystem.equip(state, skin.id)) return;
+        AudioSystem.sync(state);
+        AudioSystem.unlock();
         update(state);
         if (state.phase === "playing") focusCanvas();
       });
@@ -67,7 +72,7 @@ const GameUI = (() => {
       const overlay = !elements.menuScreen.hidden ? elements.menuScreen : !elements.endScreen.hidden ? elements.endScreen : null;
       if (!overlay) return;
       const buttons = [...overlay.querySelectorAll("button, select, input, summary")].filter(button =>
-        !button.hidden && !button.disabled && !button.closest?.("details:not([open]) .audio-controls"));
+        !button.hidden && !button.disabled && !(button.tagName !== "SUMMARY" && button.closest?.("details:not([open])")));
       const first = buttons[0];
       const last = buttons[buttons.length - 1];
       if (!first) return;

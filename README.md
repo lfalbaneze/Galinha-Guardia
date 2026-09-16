@@ -33,12 +33,12 @@ A corrida dá 32% de velocidade extra por até três segundos. O medidor aparece
 
 ## Pintinhos e skins
 
-| Pintinhos resgatados numa aventura | Skin liberada |
-| --- | --- |
-| 1 | Punk — moicano, colete e rebites |
-| 2 | Astronauta — capacete transparente, traje e mochila |
-| 4 | Robocop — armadura metálica e visor |
-| 6 | Padre — batina e colarinho branco |
+| Pintinhos resgatados numa aventura | Skin liberada | Tema musical exclusivo |
+| --- | --- | --- |
+| 1 | Punk — moicano, colete e rebites | Penas Rebeldes — guitarra, baixo e bateria |
+| 2 | Astronauta — capacete transparente, traje e mochila | Órbita do Galinheiro — sintetizadores e arpejos espaciais |
+| 4 | Robocop — armadura metálica e visor | Patrulha de Aço — baixo eletrônico e batida mecânica |
+| 6 | Padre — batina e colarinho branco | Sinos da Capelinha — órgão e sininhos |
 
 Escolha no **guarda-roupa abaixo do jogo** ou na opção **Sua skin** do menu de pausa. As roupas funcionam nas quatro direções, durante a corrida, o esconderijo e a cena final. São cosméticas: não alteram velocidade, colisão, vidas nem pontos. As conquistas e a skin escolhida permanecem após perder, reiniciar ou recarregar o navegador. Vale o maior número de pintinhos salvos numa mesma aventura, sem somar repetidamente o primeiro de várias partidas.
 
@@ -50,7 +50,9 @@ A cena dura 19 segundos e reúne os 16 resgatados. Os amigos e a galinha fazem c
 
 ## Música e efeitos
 
-Há duas trilhas originais em loop: **Floresta encantada**, com flauta, cordas dedilhadas e percussão leve, e **Assobio da galinha**, com uma melodia assobiada e saltitante. Escolha abaixo do jogo ou em **Som e música** no menu de pausa. Música e efeitos têm volumes separados e um botão para desligar todo o som. As preferências ficam salvas na chave independente `galinha-resgate:audio:v1`.
+Há seis trilhas originais em loop: duas da fazenda e quatro das skins secretas. **Floresta encantada** tem flauta, cordas dedilhadas e percussão leve; **Assobio da galinha** tem uma melodia assobiada e saltitante. Escolha a trilha da fazenda abaixo do jogo ou em **Som e música** no menu de pausa. Música e efeitos têm volumes separados e um botão para desligar todo o som. As preferências ficam salvas na chave independente `galinha-resgate:audio:v1`.
+
+**Tema musical da skin** vem ativado: equipar Punk, Astronauta, Robocop ou Padre troca automaticamente para a música correspondente da tabela acima. Ao voltar à Clássica, retorna a trilha da fazenda que você escolheu. Desmarque essa opção para usar Floresta encantada ou Assobio com qualquer roupa. O nome da trilha aparece nos controles; a preferência acompanha o salvamento da skin entre aventuras, e as configurações antigas preservam os volumes e a trilha da fazenda. A troca reutiliza um único player e respeita pausa, silêncio e volume, incluindo o volume reduzido durante a confusão do final.
 
 A confusão do final tem estalos, molas, pancadinhas e guinchos sincronizados com a animação. O lobo ganha efeitos de tontura, choramingo e fuga; a família termina com uma pequena fanfarra. A música abaixa durante a confusão e o choro. Esconderijo e captura também têm efeitos próprios.
 
@@ -58,7 +60,7 @@ A confusão do final tem estalos, molas, pancadinhas e guinchos sincronizados co
 
 O áudio começa após clicar em **Começar**, **Continuar** ou **Reiniciar**. Pausar, sair da janela ou ocultar a página interrompe o som e a partida. Ao continuar, os efeitos já tocados não se repetem. Os arquivos WAV são locais e funcionam sem internet; não há dependências de áudio externas.
 
-Abra [a página de escuta](preview/audio.html) para ouvir as duas músicas, os vinte efeitos (incluindo as vozes dos animais) e uma prévia sonora do final sem completar a missão. Os arquivos foram sintetizados por `scripts/generate-audio.cjs`; para regenerá-los e montar a prévia, use:
+Abra [a página de escuta](preview/audio.html) para ouvir as seis músicas, os vinte efeitos (incluindo as vozes dos animais) e uma prévia sonora do final sem completar a missão. Os arquivos foram sintetizados por `scripts/generate-audio.cjs`; para regenerá-los e montar a prévia, use:
 
 ```powershell
 npm run audio:generate
@@ -126,7 +128,7 @@ Se o navegador bloquear o armazenamento, o jogo continua funcionando e o HUD inf
 
 ## Verificação
 
-Validação final: **87 testes aprovados**, sintaxe conferida e prévias Canvas revisadas.
+Validação final: **94 testes aprovados**, sintaxe conferida e prévias Canvas revisadas.
 
 Requer Node.js apenas para rodar os testes, sem `npm install`:
 
@@ -138,7 +140,7 @@ Os testes exercitam os scripts reais em uma página simulada, com relógio contr
 
 Os testes também verificam limites do lobo com os seis pintinhos, escape por cobertura, falas com intervalo, expressões e choro nas fases corretas e ausência de bônus duplicado ao migrar uma vitória antiga. O tempo de busca começa depois de o lobo alcançar a última posição conhecida; um destino inacessível não o prende em uma busca infinita.
 
-Os 21 testes de áudio verificam início por interação, volumes, troca de música sem sobreposição, limite de efeitos simultâneos, sincronização do final, pausa e retomada, preferências, falhas de reprodução e integração com resgates e menus. Incluem o som correto dos dez amigos e dos seis pintinhos, sem repetição após o resgate ou recarregamento. Os WAVs passaram por validação de formato, duração, amostras, clipping e continuidade dos loops. A mistura da prévia final usa 22 efeitos e não apresentou clipping. A reprodução foi simulada nos testes; não houve avaliação auditiva em navegador nesta sessão.
+Os 28 testes de áudio verificam início por interação, volumes, troca de música sem sobreposição, limite de efeitos simultâneos, sincronização do final, pausa e retomada, preferências, falhas de reprodução e integração com resgates e menus. Incluem o som correto dos dez amigos e dos seis pintinhos, sem repetição após o resgate ou recarregamento. Também verificam os quatro temas por desbloqueio real, troca automática e manual, configurações antigas e persistência da skin e de sua música após recarregar ou reiniciar. Os WAVs passaram por validação de formato, duração, amostras, clipping e continuidade dos loops. A mistura da prévia final usa 22 efeitos e não apresentou clipping. A reprodução foi simulada nos testes; não houve avaliação auditiva em navegador nesta sessão.
 
 As imagens em `preview/` foram geradas pelos desenhos reais do jogo e revisadas. Para reproduzir essa verificação visual, instale apenas a dependência de desenvolvimento:
 

@@ -52,7 +52,7 @@
           <details class="menu-audio">
             <summary>Som e música</summary>
             <div class="audio-controls audio-controls-menu">
-              <label for="menuMusicTrack">Trilha
+              <label for="menuMusicTrack">Trilha da fazenda
                 <select id="menuMusicTrack"><option value="forest">Floresta encantada</option><option value="whistle">Assobio da galinha</option></select>
               </label>
               <label for="menuMusicVolume">Música <output id="menuMusicValue" for="menuMusicVolume">25%</output>
@@ -63,6 +63,7 @@
               </label>
               <button id="menuAudioMute" class="button-secondary" type="button" aria-pressed="false">Silenciar</button>
             </div>
+            <label class="skin-music-toggle" for="menuSkinMusic"><input id="menuSkinMusic" type="checkbox" checked /> Tema musical da skin</label>
             <p id="menuAudioStatus" class="audio-note">O som começa ao iniciar a aventura.</p>
           </details>
           <div class="overlay-actions">
@@ -98,7 +99,7 @@
 
     <section class="audio-panel" aria-label="Som e música">
       <div class="audio-controls">
-        <label for="musicTrack">Trilha
+        <label for="musicTrack">Trilha da fazenda
           <select id="musicTrack"><option value="forest">Floresta encantada</option><option value="whistle">Assobio da galinha</option></select>
         </label>
         <label for="musicVolume">Música <output id="musicValue" for="musicVolume">25%</output>
@@ -109,6 +110,7 @@
         </label>
         <button id="audioMute" class="button-secondary" type="button" aria-pressed="false">Silenciar</button>
       </div>
+      <label class="skin-music-toggle" for="skinMusic"><input id="skinMusic" type="checkbox" checked /> Tema musical da skin</label>
       <p id="audioStatus" class="audio-note">O som começa ao iniciar a aventura.</p>
     </section>
 
@@ -121,7 +123,7 @@
         <button id="skin-robocop" type="button" aria-pressed="false" disabled>Robocop · 4 pintinhos</button>
         <button id="skin-priest" type="button" aria-pressed="false" disabled>Padre · 6 pintinhos</button>
       </div>
-      <p class="wardrobe-note">Libere as skins resgatando 1, 2, 4 e 6 pintinhos numa aventura. Elas ficam disponíveis nas próximas partidas. Cada pintinho aumenta o desafio do lobo, até 1,5× com os seis.</p>
+      <p class="wardrobe-note">Libere as skins resgatando 1, 2, 4 e 6 pintinhos numa aventura. Cada skin secreta tem seu próprio tema musical. Elas ficam disponíveis nas próximas partidas. Cada pintinho aumenta o desafio do lobo, até 1,5× com os seis.</p>
     </section>
 
     <section class="instructions" aria-labelledby="controlsTitle">
@@ -148,8 +150,8 @@
   <script src="./systems/world-generator.js"></script>
   <script src="./systems/farm-art.js"></script>
   <script src="./systems/character-art.js"></script>
-  <script src="./systems/audio-system.js?v=20260915-animals"></script>
-  <script src="./systems/audio-controls.js"></script>
+  <script src="./systems/audio-system.js?v=20260915-skin-themes"></script>
+  <script src="./systems/audio-controls.js?v=20260915-skin-themes"></script>
   <script src="./systems/skin-system.js"></script>
   <script src="./systems/game-manager.js"></script>
   <script src="./systems/rescue-system.js?v=20260915-animals"></script>
@@ -159,7 +161,7 @@
   <script src="./systems/wolf-dialogue.js"></script>
   <script src="./systems/map-manager.js"></script>
   <script src="./systems/player.js"></script>
-  <script src="./systems/ui.js"></script>
+  <script src="./systems/ui.js?v=20260915-skin-themes"></script>
   <script src="./systems/end-game-sequence.js"></script>
   <script src="./game.js?v=20260915-audio"></script>
 </body>
