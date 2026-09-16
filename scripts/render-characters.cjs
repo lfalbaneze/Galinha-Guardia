@@ -42,10 +42,10 @@ const target = path.join(root, 'preview'); mkdirSync(target, { recursive: true }
 writeFileSync(path.join(target, 'characters.png'), canvas.toBuffer('image/png'));
 
 const wardrobe = createCanvas(1800, 1640), wc = wardrobe.getContext('2d');
-wc.fillStyle='#eee7d6';wc.fillRect(0,0,1800,1640);wc.fillStyle='#655143';wc.font='bold 38px sans-serif';wc.fillText('O guarda-roupa da galinha',45,60);
-wc.font='22px sans-serif';wc.fillText('Roupas completas nas quatro direções, durante a corrida e no esconderijo',45,102);
+wc.fillStyle='#eee7d6';wc.fillRect(0,0,1800,1640);wc.fillStyle='#655143';wc.font='bold 38px sans-serif';wc.fillText('O baú dos bichos',45,60);
+wc.font='22px sans-serif';wc.fillText('Personagens completos nas quatro direções, durante a corrida e no esconderijo',45,102);
 wc.textAlign='center';wc.font='19px sans-serif';['Frente','Direita','Costas','Esquerda','Escondida','Escala do jogo'].forEach((label,j)=>wc.fillText(label,330+j*260,141));
-const skins=[['classic','Clássica'],['punk','Punk'],['astronaut','Astronauta'],['robocop','Robocop'],['priest','Padre']];
+const skins=[['classic','Galinha'],['punk','Pato'],['astronaut','Coelho'],['robocop','Gato'],['priest','Cachorro']];
 skins.forEach(([skin,label],i)=>{
   const y=307+i*277;
   wc.fillStyle='#faf5e8';wc.beginPath();wc.roundRect(30,y-149,1740,249,20);wc.fill();

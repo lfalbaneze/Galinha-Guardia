@@ -468,6 +468,11 @@ function drawWorld() {
 
 function drawChicken(entity) {
   const p = worldToScreen(entity);
+  if (entity.skin && entity.skin !== 'classic' && !entity.hidden && state.phase === 'playing') {
+    // A player marker keeps animal appearances distinct from the friends being rescued.
+    ctx.save(); ctx.strokeStyle = '#fff0a1'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.ellipse(p.x, p.y+14, 29, 9, 0, 0, Math.PI*2); ctx.stroke(); ctx.restore();
+  }
   CharacterArt.draw(ctx, "chicken", p.x, p.y + (entity.hideBlend || 0) * 4, {
     facing: entity.facing, direction: entity.hidden ? "down" : entity.direction, anim: entity.anim, moving: entity.moving,
     hidden: entity.hidden, hideBlend: entity.hideBlend, sprinting: entity.sprinting,

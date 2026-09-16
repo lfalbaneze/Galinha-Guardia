@@ -8,8 +8,8 @@ const AudioSystem = (() => {
   ]);
   const TRACK_TITLES = new Map([
     ["forest", "Floresta encantada"], ["whistle", "Assobio da galinha"],
-    ["skin-punk", "Punk · Penas Rebeldes"], ["skin-astronaut", "Astronauta · Órbita do Galinheiro"],
-    ["skin-robocop", "Robocop · Patrulha de Aço"], ["skin-priest", "Padre · Sinos da Capelinha"],
+    ["skin-punk", "Pato · Passos no Terreiro"], ["skin-astronaut", "Coelho · Pulos ao Luar"],
+    ["skin-robocop", "Gato · Passo Furtivo"], ["skin-priest", "Cachorro · Companheiro da Roça"],
   ]);
   const ANIMAL_SPECIES = new Set(["sheep", "pig", "goat", "cow", "duck", "rabbit", "dog", "cat", "donkey", "lamb"]);
   const EFFECTS = new Set(["boing", "pop", "bonk", "squeak", "dizzy", "sob", "runaway", "rescue", "chick", "victory",

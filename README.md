@@ -9,21 +9,21 @@ Cada amigo resgatado aumenta de imediato a velocidade real, a visão, a abertura
 
 Os seis pintinhos são **segredos**: ficam sob tufos de mato, imóveis e sem sprite, coração ou marcador até serem descobertos. A menos de 190 px, com linha de visão, há um piado e a pista “Chegue de mansinho”. A até 48 px, aparece “Segure C · investigar”: segure **C por 0,85 segundo**, inclusive parada. Correr por cima, encostar, ficar atrás de uma parede ou pausar não revela nem resgata. Depois da descoberta, o pintinho aparece amarelinho, menor que a galinha, e pode fugir e ser resgatado normalmente. O contador, o ninho e os requisitos do baú só revelam os pintinhos depois do primeiro achado. Descobertas ficam salvas; novas aventuras escondem novamente os segredos. O final continua reunindo todos; após salvar os dez amigos, uma dica lembra os piados ainda não investigados.
 
-A interface usa placas de madeira, caderneta e um **Baú de domingo** com prévias dos trajes. As regiões ganharam plantas diferentes, frutas, bandeirolas e rastros de carroça. Os rostos laterais dos sprites têm dois olhos em três quartos; os bichos espiam por cima do ombro ao fugir.
+A interface usa placas de madeira, caderneta e um **Baú dos bichos** com prévias das aparências. As regiões ganharam plantas diferentes, frutas, bandeirolas e rastros de carroça. Os rostos laterais dos sprites têm dois olhos em três quartos; os bichos espiam por cima do ombro ao fugir.
 
 Os bichos agora fogem da galinha com falas próprias, como “Sai pra lá, esquisita!” e “Não tem lobo aqui!”. Correr assusta de mais longe. Segure **C** para se aproximar devagar e encoste, ou persiga até cansarem. A fuga dura até 2,8 / 4,4 / 6 segundos no Fácil / Médio / Difícil e dá uma janela de descanso de 3,1 segundos. Construções bloqueiam a percepção, e os bichos respeitam colisões e os limites da região. Descoberta e cansaço são salvos.
 
 ## Sprites prontos — troca concluída
 
-Os 13 personagens usam agora folhas de sprites licenciadas, com quatro direções, caminhada e parada. As quatro skins continuam disponíveis como sobreposições na nova galinha, inclusive escondida e no final. O desenho não altera colisões, resgates, progressão ou partidas salvas. As folhas originais, créditos, fontes e licenças estão em [assets/sprites/CREDITS.html](assets/sprites/CREDITS.html), acessíveis também pelo rodapé do jogo.
+Os 13 personagens usam folhas de sprites licenciadas, com quatro direções, caminhada e parada. As aparências desbloqueáveis substituem o personagem inteiro por **Pato, Coelho, Gato ou Cachorro**, inclusive no menu, nos esconderijos e no final. Os trajes sobrepostos foram removidos. A escala mantém os personagens legíveis e um aro sob o jogador diferencia sua aparência dos amigos. Colisões, velocidade e conquistas permanecem iguais. As folhas originais, créditos, fontes e licenças estão em [assets/sprites/CREDITS.html](assets/sprites/CREDITS.html), acessíveis também pelo rodapé do jogo.
 
-Abra [a prévia animada](preview/sprites.html) para testar direções, caminhada e roupas sem mudar seu progresso. [A comparação antes/depois](preview/sprites-before-after.png) mostra a substituição dos desenhos anteriores. O navegador interativo não estava disponível nesta sessão; a verificação visual foi feita renderizando os PNGs reais no Canvas, além dos testes automatizados e da entrega HTTP dos arquivos.
+Abra [a prévia animada](preview/sprites.html) para testar direções, caminhada e aparências sem mudar seu progresso. [A comparação antes/depois](preview/sprites-before-after.png) mostra a substituição dos desenhos anteriores. O navegador interativo não estava disponível nesta sessão; a verificação visual foi feita renderizando os PNGs reais no Canvas, além dos testes automatizados e da entrega HTTP dos arquivos.
 
-Para refazer as coordenadas dos quadros e as imagens do baú depois de alterar as folhas, instale as dependências de desenvolvimento e execute `npm run sprites:build`. `npm run sprites:review` atualiza as pranchas de personagens e roupas. O build público inclui as imagens e os créditos e continua funcionando offline, sem serviço externo de sprites.
+Para refazer as coordenadas dos quadros e as imagens do baú depois de alterar as folhas, instale as dependências de desenvolvimento e execute `npm run sprites:build`. `npm run sprites:review` atualiza as pranchas de personagens e aparências. O build público inclui as imagens e os créditos e continua funcionando offline, sem serviço externo de sprites.
 
 ## Jogar
 
-A interface acompanha a partida com JavaScript: placar com contagem animada, progresso dos resgates, indicador de alerta do lobo, moldura que reage ao perigo, avisos de chegada às regiões e teclas que acendem durante o uso. O menu tem abas **Aventura / Trajes / Som**, escolha rápida de dificuldade e a galinha animada com o traje equipado; na aba Trajes é possível girar e parar os passinhos. As setas navegam entre abas, e o foco não entra em painéis escondidos. A preferência de movimento reduzido desativa essas animações. A prévia do menu não avança a simulação nem modifica o salvamento.
+A interface acompanha a partida com JavaScript: placar com contagem animada, progresso dos resgates, indicador de alerta do lobo, moldura que reage ao perigo, avisos de chegada às regiões e teclas que acendem durante o uso. O menu tem abas **Aventura / Aparências / Som**, escolha rápida de dificuldade e o personagem animado com a aparência escolhida; na aba Aparências é possível girar e parar os passinhos. As setas navegam entre abas, e o foco não entra em painéis escondidos. A preferência de movimento reduzido desativa essas animações. A prévia do menu não avança a simulação nem modifica o salvamento.
 
 Abra `index.html` no navegador. Você também pode manter o salvamento em um endereço local fixo:
 
@@ -57,12 +57,12 @@ A corrida dá 32% de velocidade extra por até três segundos. O medidor aparece
 
 | Resgates na mesma aventura | Skin liberada | Tema musical exclusivo |
 | --- | --- | --- |
-| 2 pintinhos + 3 amigos | Punk — moicano, colete e rebites | Penas Rebeldes — guitarra, baixo e bateria |
-| 4 pintinhos + 6 amigos | Astronauta — capacete transparente, traje e mochila | Órbita do Galinheiro — sintetizadores e arpejos espaciais |
-| 6 pintinhos + 9 amigos | Robocop — armadura metálica e visor | Patrulha de Aço — baixo eletrônico e batida mecânica |
-| 6 pintinhos + 10 amigos | Padre — batina e colarinho branco | Sinos da Capelinha — órgão e sininhos |
+| 2 pintinhos + 3 amigos | Pato | Passos no Terreiro — guitarra, baixo e bateria |
+| 4 pintinhos + 6 amigos | Coelho | Pulos ao Luar — sintetizadores e arpejos |
+| 6 pintinhos + 9 amigos | Gato | Passo Furtivo — baixo eletrônico e percussão |
+| 6 pintinhos + 10 amigos | Cachorro | Companheiro da Roça — órgão e sininhos |
 
-Escolha no **guarda-roupa abaixo do jogo** ou na opção **Sua skin** do menu de pausa. As roupas funcionam nas quatro direções, durante a corrida, o esconderijo e a cena final. São cosméticas: não alteram velocidade, colisão, vidas nem pontos. As conquistas e a skin escolhida permanecem após perder, reiniciar ou recarregar o navegador. Os dois requisitos precisam ser atingidos na mesma aventura. Conquistas antigas de 1/2/4/6 pintinhos são migradas e preservadas; aventuras novas usam os requisitos conjuntos.
+Escolha no **Baú dos bichos** ou na aba **Aparências** do menu. Os personagens funcionam nas quatro direções, durante a corrida, o esconderijo e a cena final. A escolha é cosmética: não altera velocidade, colisão, vidas nem pontos. As conquistas e a aparência escolhida permanecem após perder, reiniciar ou recarregar. Os dois requisitos precisam ser atingidos na mesma aventura. Os IDs internos antigos foram preservados: Punk vira Pato, Astronauta vira Coelho, Robocop vira Gato e Padre vira Cachorro; ninguém perde um desbloqueio.
 
 Os seis pintinhos elevam gradualmente a pressão do lobo de **1,00× para 1,50× no total**: `1 + 0.5 × pintinhos / 6`. O fator aumenta a velocidade nominal, a visão e a duração de busca, além de reduzir o tempo para reagir. Limites de velocidade e percepção mantêm os esconderijos e a corrida úteis.
 
@@ -74,7 +74,7 @@ A cena dura 19 segundos e reúne os 16 resgatados. Os amigos e a galinha fazem c
 
 Há seis trilhas originais em loop: duas da fazenda e quatro das skins secretas. **Floresta encantada** tem flauta, cordas dedilhadas e percussão leve; **Assobio da galinha** tem uma melodia assobiada e saltitante. Escolha a trilha da fazenda abaixo do jogo ou em **Som e música** no menu de pausa. Música e efeitos têm volumes separados e um botão para desligar todo o som. As preferências ficam salvas na chave independente `galinha-resgate:audio:v1`.
 
-**Tema musical da skin** vem ativado: equipar Punk, Astronauta, Robocop ou Padre troca automaticamente para a música correspondente da tabela acima. Ao voltar à Clássica, retorna a trilha da fazenda que você escolheu. Desmarque essa opção para usar Floresta encantada ou Assobio com qualquer roupa. O nome da trilha aparece nos controles; a preferência acompanha o salvamento da skin entre aventuras, e as configurações antigas preservam os volumes e a trilha da fazenda. A troca reutiliza um único player e respeita pausa, silêncio e volume, incluindo o volume reduzido durante a confusão do final.
+**Tema musical da skin** vem ativado: equipar Pato, Coelho, Gato ou Cachorro troca automaticamente para a música correspondente da tabela acima. Ao voltar à Galinha, retorna a trilha da fazenda escolhida. Desmarque essa opção para usar Floresta encantada ou Assobio com qualquer aparência. As composições e os arquivos anteriores foram mantidos, com nomes atualizados no menu. A troca reutiliza um único player e respeita pausa, silêncio e volume, incluindo o volume reduzido durante a confusão do final.
 
 A confusão do final tem estalos, molas, pancadinhas e guinchos sincronizados com a animação. O lobo ganha efeitos de tontura, choramingo e fuga; a família termina com uma pequena fanfarra. A música abaixa durante a confusão e o choro. Esconderijo e captura também têm efeitos próprios.
 
@@ -128,6 +128,10 @@ Para alterar a geração, ajuste temas, posições possíveis, reservas e objeto
 
 ## Regras de detecção e progressão
 
+Cada espécie combina velocidade, sensibilidade e resistência próprias: o coelho é ligeiro e cansa cedo; a vaca e o burro são mais lentos e resistentes. A fuga guarda a última ameaça realmente vista, evita aglomerações e prefere curvas contínuas. Uma parede ou um esconderijo interrompe novas observações. Os animais também fogem de um lobo próximo e visível. Quando ficam encurralados, param brevemente; os passeios escolhem destinos acessíveis e têm pausas entre decisões.
+
+O lobo calcula uma antecipação curta a partir de duas observações visuais consecutivas. O alvo previsto nunca substitui a última posição realmente vista nem é projetado através de obstáculos. Ao perder a visão, ele procura a partir dessa lembrança e da direção observada. Investigar um som durante uma busca preserva o ponto e o tempo restantes. Nas quinas, o lobo sai da margem conservadora de navegação em passos fisicamente livres, sem atravessar a construção. Lembranças de fuga, direção observada e contexto da investigação são validados ao recarregar.
+
 Uma visão breve faz o lobo parar e desconfiar: a barra **DESCONFIOU** se preenche antes da perseguição. Sair do campo de visão faz a suspeita diminuir. A aquisição leva aproximadamente 0,16–0,73 segundo, conforme distância, amigos e pintinhos resgatados; contato muito próximo pode gerar uma reação imediata. A patrulha faz pausas para olhar em volta e segue marcos públicos da fazenda, sem consultar a posição oculta da galinha.
 
 O lobo só atualiza `lastKnown` após uma observação visual confirmada. Edificações, fardos e troncos bloqueiam a visão; água não. Correr fora de sua visão pode produzir **OUVIU ALGO**: ele investiga uma posição aproximada registrada em intervalos de 0,65 segundo, sem receber a localização visual exata. A audição alcança de 120 a 180 pixels conforme o nível; cada barreira reduz esse alcance. A investigação de som acaba se não houver novas pistas.
@@ -157,7 +161,7 @@ Se o navegador bloquear o armazenamento, o jogo continua funcionando e o HUD inf
 
 ## Verificação
 
-Validação final: **143 testes aprovados**, sintaxe conferida e prévias Canvas revisadas. Os oito testes da interface cobrem abas, foco, dificuldade da próxima aventura, placar, indicadores, transições, prévia e movimento reduzido; não substituem um teste visual no navegador.
+Validação final: **154 testes aprovados**, sintaxe conferida e prévias Canvas revisadas. Os testes incluem aparências completas, migração das conquistas, diferenças entre espécies, perda de visão, pânico diante do lobo, antecipação da perseguição, quinas e retomada da busca após um ruído. Os oito testes da interface cobrem abas, foco, dificuldade, placar, indicadores, transições, prévia e movimento reduzido; não substituem um teste visual no navegador.
 
 Requer Node.js apenas para rodar os testes, sem `npm install`:
 

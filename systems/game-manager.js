@@ -49,7 +49,8 @@ const GameManager = (() => {
     if (!phase || phase === "lose") return;
     const point = e => ({ x: e.x, y: e.y });
     const friend = a => ({ id: a.id, ...point(a), discovered: !!a.discovered, lastSeen: a.lastSeen || null,
-      fatigue: a.fatigue || 0, restTime: a.restTime || 0, fleeTime: a.fleeTime || 0 });
+      fatigue: a.fatigue || 0, restTime: a.restTime || 0, fleeTime: a.fleeTime || 0,
+      fleeFrom: a.fleeFrom || null, fleeHeading: a.fleeHeading ?? null });
     const wolf = game.entities.wolf, chicken = game.entities.chicken;
     const data = {
       version: 3, worldSeed: game.worldSeed, worldVersion: game.worldVersion, difficulty: game.difficultyKey, phase,
@@ -64,7 +65,8 @@ const GameManager = (() => {
         hearingCooldown: wolf.hearingCooldown, investigateTime: wolf.investigateTime,
         alertReturnMode: wolf.alertReturnMode, patrolPause: wolf.patrolPause,
         patrolScanHeading: wolf.patrolScanHeading, searchApproached: wolf.searchApproached,
-        searchIndex: wolf.searchIndex, scanTime: wolf.scanTime, exposedCover: wolf.exposedCover || null },
+        searchIndex: wolf.searchIndex, scanTime: wolf.scanTime, exposedCover: wolf.exposedCover || null,
+        seenVelocity: wolf.seenVelocity, investigateReturnMode: wolf.investigateReturnMode },
       animals: game.entities.animals.map(friend),
       chicks: game.entities.chicks.map(friend),
     };
@@ -129,9 +131,15 @@ const GameManager = (() => {
       animal.discoveryTime = 0;
       animal.lastSeen = animal.discovered && Number.isFinite(saved.lastSeen?.x) && Number.isFinite(saved.lastSeen?.y)
         ? { x: bounded(saved.lastSeen.x, 0, WORLD.width), y: bounded(saved.lastSeen.y, 0, WORLD.height) } : null;
-      animal.fatigue = bounded(saved.fatigue, 0, 6);
+      animal.fatigue = bounded(saved.fatigue, 0, 8);
       animal.restTime = bounded(saved.restTime, 0, 3.1);
       animal.fleeTime = bounded(saved.fleeTime, 0, .9);
+      const memory = saved.fleeFrom;
+      animal.fleeFrom = memory && ['player','wolf'].includes(memory.kind) && Number.isFinite(memory.x) && Number.isFinite(memory.y) &&
+        memory.x >= 0 && memory.x <= WORLD.width && memory.y >= 0 && memory.y <= WORLD.height ?
+        { x: memory.x, y: memory.y, kind: memory.kind } : null;
+      animal.fleeHeading = Number.isFinite(saved.fleeHeading) ? bounded(saved.fleeHeading,-Math.PI,Math.PI) : null;
+      animal.stuckTime = 0; animal.wanderTime = 1;
       animal.speechTime = 0;
     };
     const chicken = game.entities.chicken;
@@ -159,6 +167,11 @@ const GameManager = (() => {
     wolf.patrolPause = bounded(data.wolf.patrolPause, 0, 3);
     wolf.patrolScanHeading = bounded(data.wolf.patrolScanHeading, -Math.PI * 2, Math.PI * 2, wolf.heading);
     wolf.alertReturnMode = ["patrol", "investigate", "search"].includes(data.wolf.alertReturnMode) ? data.wolf.alertReturnMode : "patrol";
+    wolf.investigateReturnMode = data.wolf.investigateReturnMode === 'search' && wolf.lastKnown ? 'search' : 'patrol';
+    const velocity = data.wolf.seenVelocity, maxObservedSpeed = game.settings.chickenSpeed * Player.sprintMultiplier * 1.1;
+    wolf.seenVelocity = velocity && Number.isFinite(velocity.x) && Number.isFinite(velocity.y) && Math.hypot(velocity.x,velocity.y) <= maxObservedSpeed ?
+      { x: velocity.x, y: velocity.y } : { x: 0, y: 0 };
+    wolf.lastSight = null; wolf.sightAge = Infinity;
     wolf.searchApproached = data.wolf.searchApproached === true;
     wolf.searchIndex = Math.floor(bounded(data.wolf.searchIndex, 0, 1000, wolf.searchApproached ? 1 : 0));
     wolf.scanTime = bounded(data.wolf.scanTime, 0, 5);

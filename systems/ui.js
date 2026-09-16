@@ -141,8 +141,8 @@ const GameUI = (() => {
     }
     elements.menuSkinSelect.value = chicken.skin;
     const availableSkins = SkinSystem.catalog.filter(s => s.chicks > 0 && SkinSystem.unlocked(s.id)).length;
-    put("skinUnlockText", `${availableSkins} / 4 trajes no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
-    put("wardrobeNote", secretKnown ? "Resgate os pintinhos secretos e os amigos na mesma aventura para abrir o baú. Cada traje tem sua própria música; conquistas anteriores continuam suas." : "Nem todo tesouro fica à vista. Explore os cantinhos da fazenda para descobrir como abrir o baú.");
+    put("skinUnlockText", `${availableSkins} / 4 aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
+    put("wardrobeNote", secretKnown ? "Resgate os pintinhos secretos e os amigos na mesma aventura para abrir o baú. Cada aparência tem sua própria música; conquistas anteriores continuam suas." : "Nem todo tesouro fica à vista. Explore os cantinhos da fazenda para descobrir como abrir o baú.");
     put("hiddenText", exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
     put("contextHint", !playing ? (game.phase === "menu" ? "A fazenda espera por você." : "Juntos, os amigos ficam mais fortes.") : exposed ? "Ele viu você entrar! Saia com E ou movimento e quebre a visão." : hidden ? "E para sair. Recupere o fôlego e espere a busca passar." : wolf.mode === "alert" ? "O lobo desconfia! Saia da vista antes que a barra encha." : secret ? "Um piado no mato... chegue pertinho e segure C para investigar." : candidate ? "E para se esconder. Quebre a visão do lobo primeiro!" : chicken.exhausted && input.has("shift") ? "Solte Shift para voltar a correr quando recuperar o fôlego." : sprinting ? "Correr assusta os bichos e pode chamar o lobo." : game.rescuedCount === 10 && game.rescuedChicks < 6 ? "A turma ouviu uns piados pelos cantos da fazenda. Ainda tem alguém escondido!" : "Cada resgate aperta o cerco do lobo. Use C para chegar de mansinho.");
@@ -169,7 +169,7 @@ const GameUI = (() => {
       put("startBtn", canContinue ? "Gerar nova fazenda" : "Abrir a porteira");
       put("continueBtn", game.resumePhase === "won" ? "Voltar à comemoração" : "Voltar pro terreiro");
       put("menuTitle", canContinue ? "Um cafezinho na varanda." : "Deu a louca no terreiro!");
-      put("menuDescription", canContinue ? `${game.rescuedCount}/10 amigos${secretKnown ? ` e ${game.rescuedChicks}/6 pintinhos secretos` : ""} a salvo. Cada resgate deixa o lobo mais perigoso. Seus trajes ficam no baú.` : "O lobo chegou, mas ninguém acredita! Resgate os 10 amigos. Cada um salvo deixa o lobo mais perigoso... e a fazenda guarda seus segredos.");
+      put("menuDescription", canContinue ? `${game.rescuedCount}/10 amigos${secretKnown ? ` e ${game.rescuedChicks}/6 pintinhos secretos` : ""} a salvo. Cada resgate deixa o lobo mais perigoso. Suas aparências ficam no baú.` : "O lobo chegou, mas ninguém acredita! Resgate os 10 amigos. Cada um salvo deixa o lobo mais perigoso... e a fazenda guarda seus segredos.");
     }
     if (ended) {
       const won = game.phase === "won";
@@ -284,7 +284,7 @@ const GameUI = (() => {
       ctx.fillStyle = "#76552f"; ctx.textAlign = "center"; ctx.font = "bold 14px sans-serif";
       ctx.fillText(`ACHADO NO BAÚ: ${game.skinNotice.text.toUpperCase()}`, canvas.width - 171, canvas.height - 43);
       ctx.font = "11px sans-serif";
-      ctx.fillText("Vista seu novo traje no baú abaixo", canvas.width - 171, canvas.height - 25);
+      ctx.fillText("Escolha sua nova aparência no baú abaixo", canvas.width - 171, canvas.height - 25);
     }
     ctx.restore();
   }

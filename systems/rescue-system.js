@@ -1,6 +1,15 @@
 const RescueSystem = {
   names: { sheep: "Ovelha", pig: "Porquinho", goat: "Cabra", cow: "Vaquinha", duck: "Pato",
     rabbit: "Coelho", dog: "Cachorrinho", cat: "Gatinho", donkey: "Burrinho", lamb: "Cordeirinho", chick: "Pintinho" },
+  personalities: {
+    sheep: { pace: 1, nerve: 1, endurance: 1 }, pig: { pace: .9, nerve: .88, endurance: .9 },
+    goat: { pace: 1.04, nerve: 1.05, endurance: 1.1 }, cow: { pace: .86, nerve: .85, endurance: 1.18 },
+    duck: { pace: .96, nerve: 1.04, endurance: .9 }, rabbit: { pace: 1.08, nerve: 1.12, endurance: .76 },
+    dog: { pace: 1.02, nerve: .9, endurance: 1.1 }, cat: { pace: 1.06, nerve: 1.08, endurance: .84 },
+    donkey: { pace: .9, nerve: .82, endurance: 1.18 }, lamb: { pace: .96, nerve: 1.08, endurance: .82 },
+    chick: { pace: 1.02, nerve: 1.05, endurance: .8 }
+  },
+  personality(animal) { return RescueSystem.personalities[animal.species] || RescueSystem.personalities.sheep; },
   all(game) { return [...game.entities.animals, ...(game.entities.chicks || [])]; },
   safePosition(index) {
     return { x: 140 + (index % 5) * 45, y: 370 + Math.floor(index / 5) * 48 };
@@ -52,15 +61,34 @@ const RescueSystem = {
   talk(game, animal, tired = false) {
     if (game.animalSpeechCooldown > 0 || animal.speechTime > 0) return;
     const lines = RescueSystem.taunts[animal.species] || RescueSystem.taunts.chick;
-    animal.speech = tired ? "Tá bom... só uma respirada!" : lines[Math.floor(Math.random() * lines.length)];
+    animal.speech = tired ? "Tá bom... só uma respirada!" : animal.fleeFrom?.kind === 'wolf' ?
+      "É LOBO MESMO! SOCORRO!" : lines[Math.floor(Math.random() * lines.length)];
     animal.speechTime = 2.4;
     game.animalSpeechCooldown = 2.8;
   },
+  observeThreat(game, animal, visible) {
+    const chicken = game.entities.chicken, wolf = game.entities.wolf;
+    const profile = RescueSystem.personality(animal);
+    const facing = { up: [0,-1], down: [0,1], left: [-1,0], right: [1,0] }[animal.direction] || [0,1];
+    const toward = (chicken.x - animal.x) * facing[0] + (chicken.y - animal.y) * facing[1];
+    const alertRange = chicken.sneaking ? 22 : (chicken.sprinting ? 240 : toward > 0 ? 170 : 105) * profile.nerve;
+    const threats = [];
+    if (!chicken.hidden && visible && distance(chicken, animal) < alertRange)
+      threats.push({ x: chicken.x, y: chicken.y, kind: 'player', urgency: 1 - distance(chicken, animal) / alertRange });
+    const wolfRange = 190 * profile.nerve;
+    if (wolf.huntUnlockTimer <= 0 && wolf.pauseTimer <= 0 && distance(wolf, animal) < wolfRange &&
+      DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(wolf)))
+      threats.push({ x: wolf.x, y: wolf.y, kind: 'wolf', urgency: 1.15 - distance(wolf, animal) / wolfRange });
+    return threats.sort((a,b) => b.urgency - a.urgency)[0] || null;
+  },
   flee(game, animal, home, area, dt) {
-    const chicken = game.entities.chicken;
-    const dx = animal.x - chicken.x, dy = animal.y - chicken.y;
+    // Only the last actually perceived threat can influence a fleeing animal.
+    const threat = animal.fleeFrom;
+    if (!threat) return;
+    const dx = animal.x - threat.x, dy = animal.y - threat.y;
     const angle = Math.atan2(dy || .001, dx || .001);
-    const speed = chicken.speed * (game.difficultyKey === "easy" ? .97 : game.difficultyKey === "hard" ? 1.15 : 1.08) * (animal.type === "chick" ? 1.04 : 1);
+    const speed = game.entities.chicken.speed * (game.difficultyKey === "easy" ? .97 : game.difficultyKey === "hard" ? 1.15 : 1.08) * RescueSystem.personality(animal).pace;
+    const neighbours = RescueSystem.all(game).filter(a => a !== animal && !a.rescued && !RescueSystem.isSecret(a) && distance(a, animal) < 140);
     let best = null, score = -Infinity;
     // Look ahead around fences and tree trunks, then take a collision-safe small step.
     for (const turn of [0, .45, -.45, .9, -.9, 1.4, -1.4, 2.1, -2.1]) {
@@ -70,11 +98,30 @@ const RescueSystem = {
       if (probe.x < area.x + 32 || probe.x > area.x + area.w - 32 || probe.y < area.y + 32 || probe.y > area.y + area.h - 32) continue;
       const travel = distance(probe, animal);
       if (travel < 15) continue;
-      const value = distance(probe, chicken) + travel * .8 - Math.max(0, distance(probe, home) - 230) * 1.8 - Math.abs(turn) * 8;
-      if (value > score) { score = value; best = { x: ax, y: ay }; }
+      const heading = Math.atan2(probe.y - animal.y, probe.x - animal.x);
+      const continuity = Number.isFinite(animal.fleeHeading) ? Math.cos(heading - animal.fleeHeading) * 18 : 0;
+      const crowd = neighbours.reduce((sum,a) => sum + Math.max(0, 56 - distance(a, probe)), 0);
+      const value = distance(probe, threat) + travel * .8 + continuity - crowd * 1.4 -
+        Math.max(0, distance(probe, home) - 230) * 1.4 - Math.abs(turn) * 8;
+      if (value > score) { score = value; best = { x: (probe.x-animal.x)/travel, y: (probe.y-animal.y)/travel, heading }; }
     }
-    if (best) Player.move(animal, best.x * speed * dt, best.y * speed * dt);
+    const before = { x: animal.x, y: animal.y };
+    if (best) { Player.move(animal, best.x * speed * dt, best.y * speed * dt); animal.fleeHeading = best.heading; }
+    animal.stuckTime = distance(before, animal) < speed * dt * .1 ? (animal.stuckTime || 0) + dt : 0;
+    if (animal.stuckTime > .45) { animal.restTime = 1.2; animal.stuckTime = 0; animal.fleeHeading = null; }
     animal.targetX = animal.x; animal.targetY = animal.y;
+  },
+  wander(animal, home, area) {
+    for (let attempt=0;attempt<6;attempt++) {
+      const chick = animal.type === 'chick';
+      const target = { x: clamp(home.x + (chick ? rand(-18,18) : rand(-48,48)), area.x+55, area.x+area.w-55),
+        y: clamp(home.y + (chick ? rand(-14,14) : rand(-40,40)), area.y+55, area.y+area.h-55) };
+      const probe = { ...animal };
+      Player.move(probe, target.x-animal.x, target.y-animal.y);
+      if (distance(probe,target)>2) continue;
+      animal.targetX=target.x;animal.targetY=target.y;break;
+    }
+    animal.wanderTime = 1.8 + Math.random()*2.4;
   },
   update(game, dt) {
     if (game.phase !== "playing") return;
@@ -109,12 +156,11 @@ const RescueSystem = {
         animal.areaId = area.id;
         const visible = RescueSystem.visible(game, animal);
         if (visible) { animal.discovered = true; animal.lastSeen = { x: animal.x, y: animal.y }; }
-        const facing = { up: [0,-1], down: [0,1], left: [-1,0], right: [1,0] }[animal.direction] || [0,1];
-        const toward = (chicken.x - animal.x) * facing[0] + (chicken.y - animal.y) * facing[1];
-        const alertRange = chicken.sneaking ? 22 : chicken.sprinting ? 240 : toward > 0 ? 170 : 105;
-        const threat = !chicken.hidden && visible && distance(chicken, animal) < alertRange;
+        const threat = RescueSystem.observeThreat(game, animal, visible);
+        if (threat) animal.fleeFrom = { x: threat.x, y: threat.y, kind: threat.kind };
         animal.restTime = Math.max(0, (animal.restTime || 0) - dt);
         animal.fleeTime = threat ? .9 : Math.max(0, (animal.fleeTime || 0) - dt);
+        if (!animal.fleeFrom) animal.fleeTime = 0;
         const fleeing = animal.fleeTime > 0 && animal.restTime <= 0;
         animal.temper = animal.restTime > 0 ? "tired" : fleeing ? "fleeing" : "idle";
         const dx = animal.targetX - animal.x, dy = animal.targetY - animal.y;
@@ -123,24 +169,24 @@ const RescueSystem = {
           RescueSystem.flee(game, animal, home, area, dt);
           animal.fatigue = (animal.fatigue || 0) + dt;
           RescueSystem.talk(game, animal);
-          const endurance = game.difficultyKey === "easy" ? 2.8 : game.difficultyKey === "hard" ? 6 : 4.4;
+          const endurance = (game.difficultyKey === "easy" ? 2.8 : game.difficultyKey === "hard" ? 6 : 4.4) * RescueSystem.personality(animal).endurance;
           if (animal.fatigue >= endurance) {
             animal.restTime = 3.1; animal.fatigue = 0; animal.temper = "tired";
             animal.speechTime = 0; RescueSystem.talk(game, animal, true);
           }
         } else if (animal.restTime <= 0 && len > 5) {
-          const step = Math.min(len, (chick ? 27 : 35) * dt);
+          const step = Math.min(len, (chick ? 27 : 35) * RescueSystem.personality(animal).pace * dt);
           Player.move(animal, dx / len * step, dy / len * step);
         }
         if (!fleeing) animal.fatigue = Math.max(0, (animal.fatigue || 0) - dt * .25);
-        if (!fleeing && animal.restTime <= 0 && Math.random() < dt * 0.22) {
-          animal.targetX = clamp(home.x + (chick ? rand(-18, 18) : rand(-48, 48)), area.x + 55, area.x + area.w - 55);
-          animal.targetY = clamp(home.y + (chick ? rand(-14, 14) : rand(-40, 40)), area.y + 55, area.y + area.h - 55);
+        animal.wanderTime = Math.max(0, (animal.wanderTime ?? (1 + index*.17)) - dt);
+        if (!fleeing && animal.restTime <= 0 && animal.wanderTime <= 0 && dt > 0) {
+          RescueSystem.wander(animal, home, area);
         }
         resolveEnvironment(animal);
         animal.moving = dt > 0 && Math.hypot(animal.x - oldX, animal.y - oldY) > 0.02;
         if (animal.moving) Player.face(animal, animal.x - oldX, animal.y - oldY);
-        else if (!chicken.hidden && distance(chicken, animal) < 150) Player.face(animal, chicken.x - animal.x, chicken.y - animal.y);
+        else if (!chicken.hidden && visible && distance(chicken, animal) < 150) Player.face(animal, chicken.x - animal.x, chicken.y - animal.y);
         if (len > 5 && !animal.moving && dt > 0) {
           animal.targetX = animal.x; animal.targetY = animal.y;
         }

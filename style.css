@@ -220,11 +220,11 @@ canvas { border: 5px solid #805939; border-radius: 4px; box-shadow: 0 0 0 1px #4
 .skin-options button[data-active="true"] { background: #3d6548; color: #fff1be; border-color: #284533; box-shadow: 0 3px #284533; }
 .skin-options button::before { content: ""; display: block; height: 76px; margin-bottom: 4px; background: var(--outfit) center / 90px no-repeat; }
 .skin-options button:disabled::before { filter: saturate(.3); opacity: .7; }
-#skin-classic { --outfit: url('./assets/wardrobe/classic.png?v=pixel1'); }
-#skin-punk { --outfit: url('./assets/wardrobe/punk.png?v=pixel1'); }
-#skin-astronaut { --outfit: url('./assets/wardrobe/astronaut.png?v=pixel1'); }
-#skin-robocop { --outfit: url('./assets/wardrobe/robocop.png?v=pixel1'); }
-#skin-priest { --outfit: url('./assets/wardrobe/priest.png?v=pixel1'); }
+#skin-classic { --outfit: url('./assets/wardrobe/classic.png?v=animals3'); }
+#skin-punk { --outfit: url('./assets/wardrobe/punk.png?v=animals3'); }
+#skin-astronaut { --outfit: url('./assets/wardrobe/astronaut.png?v=animals3'); }
+#skin-robocop { --outfit: url('./assets/wardrobe/robocop.png?v=animals3'); }
+#skin-priest { --outfit: url('./assets/wardrobe/priest.png?v=animals3'); }
 .audio-panel { border-radius: 3px; background: #f2e4bd; border: 1px solid #ccb07b; padding: 15px; }
 .audio-controls label, .audio-controls button, .audio-controls select, .skin-music-toggle { font-size: .875rem; color: #5f543b; }
 .audio-controls output { color: #6b6745; }

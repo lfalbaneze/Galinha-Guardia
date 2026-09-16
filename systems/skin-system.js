@@ -2,11 +2,11 @@
 const SkinSystem = (() => {
   const KEY = "galinha-guardia-wardrobe-v1";
   const catalog = Object.freeze([
-    { id: "classic", name: "Clássica", chicks: 0, friends: 0, requirement: "Roupa de todo dia" },
-    { id: "punk", name: "Punk", chicks: 2, friends: 3, requirement: "2 pintinhos + 3 amigos" },
-    { id: "astronaut", name: "Astronauta", chicks: 4, friends: 6, requirement: "4 pintinhos + 6 amigos" },
-    { id: "robocop", name: "Robocop", chicks: 6, friends: 9, requirement: "6 pintinhos + 9 amigos" },
-    { id: "priest", name: "Padre", chicks: 6, friends: 10, requirement: "A turma inteira a salvo" },
+    { id: "classic", ...CharacterArt.appearances.classic, chicks: 0, friends: 0, requirement: "A guardiã da fazenda" },
+    { id: "punk", ...CharacterArt.appearances.punk, chicks: 2, friends: 3, requirement: "2 pintinhos + 3 amigos" },
+    { id: "astronaut", ...CharacterArt.appearances.astronaut, chicks: 4, friends: 6, requirement: "4 pintinhos + 6 amigos" },
+    { id: "robocop", ...CharacterArt.appearances.robocop, chicks: 6, friends: 9, requirement: "6 pintinhos + 9 amigos" },
+    { id: "priest", ...CharacterArt.appearances.priest, chicks: 6, friends: 10, requirement: "A turma inteira a salvo" },
   ]);
   let profile = null;
   let storageAvailable = true;

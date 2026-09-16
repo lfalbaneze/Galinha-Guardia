@@ -1,5 +1,13 @@
 /* Licensed pixel sprites shared by the game, wardrobe and finale. */
 const CharacterArt = (() => {
+  // Stable IDs preserve previously earned unlocks; each appearance is a complete sprite.
+  const appearances = Object.freeze({
+    classic: Object.freeze({ name: 'Galinha', species: 'chicken' }),
+    punk: Object.freeze({ name: 'Pato', species: 'duck' }),
+    astronaut: Object.freeze({ name: 'Coelho', species: 'rabbit' }),
+    robocop: Object.freeze({ name: 'Gato', species: 'cat' }),
+    priest: Object.freeze({ name: 'Cachorro', species: 'dog' })
+  });
   const species = Object.freeze(Object.keys(SpriteData));
   const sources = Object.freeze([...new Set(species.flatMap(s => Object.values(SpriteData[s].poses)
     .flatMap(p => p.frames.map(f => f.src))))]);
@@ -30,53 +38,22 @@ const CharacterArt = (() => {
     errors = [];
   }
   function frameFor(name, options = {}) {
-    const definition = SpriteData[name];
+    const appearance = name === 'chicken' ? appearances[options.skin] || appearances.classic : null;
+    const spriteName = appearance?.species || name;
+    const definition = SpriteData[spriteName];
     if (!definition) return null;
     const requested = options.direction || (options.facing < 0 ? 'left' : 'right');
     const direction = definition.poses[requested] ? requested : 'down';
     const pose = definition.poses[direction];
     // The simulation clock already advances faster during movement and sprinting.
     const index = options.moving ? Math.floor(Math.abs(options.anim || 0)) % pose.frames.length : 0;
-    return { definition, pose, frame: pose.frames[index], index, direction };
+    const size = appearance && spriteName !== 'chicken' ? Math.min(1.25,
+      64 / Math.max(...Object.values(definition.poses).map(p => p.width * definition.scale)),
+      58 / Math.max(...Object.values(definition.poses).map(p => (p.bottom - p.top) * definition.scale))) : 1;
+    return { definition, pose, frame: pose.frames[index], index, direction, spriteName, scale: definition.scale * size };
   }
   const block = (c, color, x, y, w, h) => { c.fillStyle = color; c.fillRect(x, y, w, h); };
 
-  // Costumes use the chicken's source grid, keeping its silhouette and face.
-  function clothes(c, skin, direction, index) {
-    if (!['punk', 'astronaut', 'robocop', 'priest'].includes(skin)) return;
-    const side = direction === 'left' || direction === 'right', back = direction === 'up';
-    c.save();
-    if (direction === 'left') { c.translate(32, 0); c.scale(-1, 1); }
-    c.translate(0, index === 2 ? -1 : 0);
-    const x = side ? 10 : 9, y = side ? 17 : 16, w = side ? 13 : 14;
-    block(c, '#343646', x, y, w, 7);
-    if (skin === 'punk') {
-      block(c, '#56556a', x + 2, y + 1, w - 4, 4);
-      block(c, '#e6bd64', x + 2, y + 1, 1, 1); block(c, '#e6bd64', x + w - 3, y + 1, 1, 1);
-      block(c, '#bbb8b2', side ? 20 : 15, y + 1, 1, 5);
-      const hx = side ? 24 : 15, hy = side ? 8 : back ? 4 : 8;
-      block(c, '#74335e', hx - 3, hy - 3, 7, 4);
-      for (let i = 0; i < 3; i++) block(c, '#e765a4', hx - 3 + i * 2, hy - 5 - (i % 2), 2, 5);
-    } else if (skin === 'priest') {
-      block(c, '#202631', x + 1, y + 2, w - 2, 6);
-      block(c, '#d9e0d8', side ? 22 : 14, y, side ? 2 : 4, 2);
-      if (!back) for (let i = 0; i < 3; i++) block(c, '#a8a9a0', side ? 21 : 16, y + 3 + i * 2, 1, 1);
-    } else if (skin === 'astronaut') {
-      block(c, '#edf0d8', x + 1, y, w - 2, 7);
-      block(c, '#6c929f', x + 3, y + 2, 6, 4); block(c, '#ee8c55', x + 4, y + 3, 2, 1);
-      if (back || side) { block(c, '#426778', side ? 8 : 11, y - 1, 4, 7); block(c, '#a4c0c8', side ? 9 : 12, y, 2, 5); }
-      const hx = side ? 25 : 16, hy = side ? 12 : back ? 9 : 11;
-      c.strokeStyle = '#436878'; c.lineWidth = 2; c.beginPath(); c.arc(hx, hy, 8, 0, Math.PI * 2); c.stroke();
-      c.strokeStyle = '#effbf3'; c.lineWidth = 1; c.stroke(); block(c, '#f7ffff', hx - 5, hy - 4, 1, 3);
-    } else {
-      block(c, '#a8bfce', x + 1, y, w - 2, 6); block(c, '#e3edf0', x + 2, y + 1, w - 4, 1);
-      block(c, '#557589', x + 3, y + 4, w - 6, 2);
-      const hx = side ? 21 : 10, hy = side ? 7 : back ? 3 : 7;
-      block(c, '#5a7188', hx, hy, side ? 9 : 12, 5); block(c, '#b9ced7', hx + 1, hy, side ? 7 : 10, 2);
-      if (!back) { block(c, '#223446', hx + 1, hy + 3, side ? 8 : 10, 2); block(c, '#f47566', hx + 2, hy + 3, side ? 6 : 8, 1); }
-    }
-    c.restore();
-  }
   function expression(c, name, direction, pose, scale, options) {
     const mood = options.mood, top = 14 - (pose.bottom - pose.top) * scale;
     const side = direction === 'left' ? -1 : direction === 'right' ? 1 : 0;
@@ -105,9 +82,9 @@ const CharacterArt = (() => {
   function draw(c, name, x, y, options = {}) {
     const current = frameFor(name, options);
     if (!current) return false;
-    const { definition, pose, frame, index, direction } = current, image = images.get(frame.src);
+    const { pose, frame, direction, spriteName, scale } = current, image = images.get(frame.src);
     if (!image) return false;
-    const scale = definition.scale, blend = Math.max(0, Math.min(1, options.hideBlend ?? (options.hidden ? 1 : 0)));
+    const blend = Math.max(0, Math.min(1, options.hideBlend ?? (options.hidden ? 1 : 0)));
     c.save(); c.translate(Math.round(x), Math.round(y)); c.scale(options.scale || 1, options.scale || 1);
     c.imageSmoothingEnabled = false;
     c.fillStyle = 'rgba(45,49,25,.23)'; c.beginPath();
@@ -117,15 +94,14 @@ const CharacterArt = (() => {
     c.translate(-pose.cx * scale, 14 - pose.bottom * scale); c.scale(scale, scale);
     if (name === 'chick') c.filter = 'sepia(1) saturate(4) brightness(.92)';
     c.drawImage(image, frame.x, frame.y, frame.w, frame.h, 0, 0, frame.w, frame.h);
-    if (name === 'chicken') clothes(c, options.skin, direction, index);
-    c.restore(); expression(c, name, direction, pose, scale, options); c.restore();
+    c.restore(); expression(c, spriteName, direction, pose, scale, options); c.restore();
     return true;
   }
   function markerOffset(name) {
     const d = SpriteData[name];
     return d ? Math.ceil(Math.max(...Object.values(d.poses).map(p => (p.bottom - p.top) * d.scale)) + 1) : 56;
   }
-  return Object.freeze({ draw, species, sources, frameFor, load, install, markerOffset,
+  return Object.freeze({ draw, species, sources, appearances, frameFor, load, install, markerOffset,
     get loading() { return loading; }, get ready() { return sources.every(src => images.has(src)); },
     get errors() { return errors.slice(); } });
 })();
