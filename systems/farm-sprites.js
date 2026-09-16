@@ -3,9 +3,9 @@ const FarmSprites = (() => {
   const frames = Object.freeze({
     barn: [18, 64, 405, 470], coop: [456, 185, 324, 361], silo: [846, 64, 212, 488],
     tree: [1123, 108, 400, 444], bush: [27, 652, 329, 267], hay: [410, 653, 315, 260],
-    fence: [793, 670, 322, 234], trough: [1175, 693, 329, 211]
+    fence: [793, 670, 322, 234], trough: [1175, 693, 329, 211], nursery: [156,194,1255,589]
   });
-  let atlas = null, pending = null;
+  let atlas = null, pending = null, nursery = null, nurseryPending = null;
   const surface = (w, h) => {
     if (typeof document === 'undefined' || typeof document.createElement !== 'function') return null;
     const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h; return canvas;
@@ -18,15 +18,9 @@ const FarmSprites = (() => {
       image.src = src;
     });
   }
-  function load(loader = browserImage, makeSurface = surface) {
-    if (atlas) return Promise.resolve(true);
-    if (pending) return pending;
-    if (typeof FarmAtlasData === 'undefined') return Promise.resolve(false);
-    pending = Promise.resolve().then(async () => {
-      try {
-        const image = await loader(FarmAtlasData);
+  function decode(image,makeSurface,closedFrames=[]) {
         const canvas = makeSurface(image.width, image.height);
-        if (!canvas) return false;
+        if (!canvas) return null;
         const c = canvas.getContext('2d'); c.drawImage(image, 0, 0);
         const pixels = c.getImageData(0, 0, canvas.width, canvas.height), data = pixels.data;
         const width = canvas.width, height = canvas.height, seen = new Uint8Array(width * height);
@@ -46,24 +40,45 @@ const FarmSprites = (() => {
           if (i>=width) visit(i-width); if (i<width*(height-1)) visit(i+width);
         }
         // Rails enclose white holes; unlike barn trim and flower petals they carry no white paint.
-        for(const name of ['fence','tree','hay','coop']) {
+        for(const name of closedFrames) {
           const [x,y,w,h]=frames[name];
           for(let yy=y;yy<y+h;yy++)for(let xx=x;xx<x+w;xx++) {
             const i=(yy*width+xx)*4;
             if(data[i]>231&&data[i+1]>231&&data[i+2]>226)data[i+3]=0;
           }
         }
-        c.putImageData(pixels,0,0); atlas=canvas; return true;
+        c.putImageData(pixels,0,0); return canvas;
+  }
+  function load(loader = browserImage, makeSurface = surface) {
+    if (atlas) return Promise.resolve(true);
+    if (pending) return pending;
+    if (typeof FarmAtlasData === 'undefined') return Promise.resolve(false);
+    pending = Promise.resolve().then(async () => {
+      try {
+        atlas=decode(await loader(FarmAtlasData),makeSurface,['fence','tree','hay','coop']);
+        return !!atlas;
       } catch { return false; }
       finally { pending=null; }
     });
     return pending;
   }
+  function loadNursery(loader = browserImage, makeSurface = surface) {
+    if(nursery)return Promise.resolve(true);
+    if(nurseryPending)return nurseryPending;
+    if(typeof FarmNurseryData==='undefined')return Promise.resolve(false);
+    nurseryPending=Promise.resolve().then(async()=>{
+      try { nursery=decode(await loader(FarmNurseryData),makeSurface);return !!nursery; }
+      catch { return false; }
+      finally { nurseryPending=null; }
+    });
+    return nurseryPending;
+  }
   function draw(c, name, x, y, w, h) {
-    if (!atlas || !frames[name]) return false;
+    const source=name==='nursery'?nursery:atlas;
+    if (!source || !frames[name]) return false;
     c.save(); c.imageSmoothingEnabled=false;
-    c.drawImage(atlas,...frames[name],Math.round(x),Math.round(y),Math.round(w),Math.round(h));
+    c.drawImage(source,...frames[name],Math.round(x),Math.round(y),Math.round(w),Math.round(h));
     c.restore(); return true;
   }
-  return { load, draw, frames, surface, get ready() { return !!atlas; } };
+  return { load, loadNursery, draw, frames, surface, get ready() { return !!atlas; } };
 })();

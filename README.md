@@ -17,6 +17,8 @@ A interface usa placas compactas e um **Baú dos bichos** com prévias das apar�
 
 No menu, **Dia tranquilo**, **Fuzuê no sítio** e **Lobo à solta** têm ilustrações dos próprios sprites e explicam a dificuldade. A escolha funciona com clique ou setas do teclado e vale para uma nova fazenda; continuar o resgate preserva a dificuldade salva. As abas Partida, Bichos e Som organizam os ajustes, e “Como jogar” abre os controles quando necessário.
 
+O refúgio junto ao celeiro tem um cercado de madeira com entrada pela direita, gramado e bebedouro. Os amigos resgatados ocupam pontos separados no pátio; os seis pintinhos ficam em três ninhos sob um abrigo de palha, dois por ninho. As cercas e a parte fechada do abrigo têm colisão. Os moradores de salvamentos anteriores são reposicionados no refúgio sem perder progresso, e uma posição antiga agora ocupada pela construção é corrigida ao carregar.
+
 Os bichos fogem da galinha com falas próprias, como “Mas a lama tá tão boa!” e “Só mais um bocadinho de capim!”. Correr assusta de mais longe. Segure **C** para se aproximar devagar e encoste, ou persiga até cansarem. A fuga dura até 2,8 / 4,4 / 6 segundos no Fácil / Médio / Difícil e dá uma janela de descanso de 3,1 segundos. Construções bloqueiam a percepção, e os bichos respeitam colisões e os limites da região. Descoberta e cansaço são salvos.
 
 ## Sprites prontos — troca concluída

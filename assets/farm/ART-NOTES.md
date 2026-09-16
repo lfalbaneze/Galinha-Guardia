@@ -5,7 +5,7 @@ Arte original produzida em 16 de setembro de 2026 com a ferramenta integrada **O
 - Arquivo final: `assets/farm/farm-atlas.png` (1536 × 1024).
 - Cópia embutida para uso offline: `assets/farm/atlas-data.js`.
 - A imagem original permanece intacta. O renderizador de sprites interpreta o fundo branco como transparência ao carregar, preservando flores e detalhes brancos. Os recortes são definidos em `systems/farm-sprites.js`.
-- Celeiro, galinheiro, silo, árvore, moita, feno e cerca são usados no mapa. O bebedouro é uma peça de reserva da mesma folha.
+- Celeiro, galinheiro, silo, árvore, moita, feno, cerca e bebedouro são usados no mapa. O cercado também usa um [abrigo próprio para os pintinhos](NURSERY-ART-NOTES.md).
 - Chão, trilhas, canteiros, pedras, palha e ninhos são desenhados pelo jogo. As texturas usam a semente salva e ficam em cache; a arte não modifica obstáculos nem pontos de resgate.
 
 ## Prompt final

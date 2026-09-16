@@ -12,9 +12,9 @@ const RescueSystem = {
   personality(animal) { return RescueSystem.personalities[animal.species] || RescueSystem.personalities.sheep; },
   all(game) { return [...game.entities.animals, ...(game.entities.chicks || [])]; },
   safePosition(index) {
-    return { x: 140 + (index % 5) * 45, y: 370 + Math.floor(index / 5) * 48 };
+    return FarmRefuge.home(index);
   },
-  chickPosition(index) { return { x: 135 + index * 37, y: 280 }; },
+  chickPosition(index) { return FarmRefuge.home(index, true); },
   knowsSecret(game) {
     return game.rescuedChicks > 0 || game.entities.chicks.some(c => c.discovered);
   },
@@ -230,8 +230,9 @@ const RescueSystem = {
         }
       } else {
         const safe = safePosition(index);
-        animal.x = safe.x + Math.sin(animal.anim * 0.35 + index) * 4;
-        animal.y = safe.y + Math.cos(animal.anim * 0.35 + index) * 3;
+        animal.x = safe.x + Math.sin(animal.anim * 0.35 + index) * (chick ? 1 : 4);
+        animal.y = safe.y + Math.cos(animal.anim * 0.35 + index) * (chick ? .5 : 3);
+        animal.direction = ['down','right','down','left'][Math.floor(animal.anim / 12 + index) % 4];
       }
       animal.anim += dt * (animal.moving ? 7 : 2.2);
     }

@@ -217,10 +217,10 @@ const FarmArt = (() => {
     for (const p of layout.vegetation || []) result.push({ ...p, depth: p.blockingRect ? p.blockingRect.y + p.blockingRect.h : p.y + p.h * .68 });
     for (const [i,p] of (layout.decorations || []).entries()) if(p.type==="fence") result.push({...p,id:`fence-${i}`,depth:p.y+4});
     const names = { poleiro: "TERREIRO", granja: "MILHARAL", estabulo: "CURRAL", horta: "HORTA", quintal: "POMAR" };
-    for (const a of layout.areas || []) result.push({ type: "sign", id: `sign-${a.id}`, name: names[a.id] || a.name,
+    for (const a of layout.areas || []) if(a.id!=='poleiro') result.push({ type: "sign", id: `sign-${a.id}`, name: names[a.id] || a.name,
       x: a.sign?.x ?? a.x + 48, y: a.sign?.y ?? a.y + a.h - 42, w: 186, h: 42,
       depth: (a.sign?.y ?? a.y + a.h - 42) + 42 });
-    return result;
+    return result.concat(FarmRefuge.props());
   }
   function building(c, p, barn) {
     const {x,y,w,h} = p, roof = h * .36, wallY = y + h * .14, wallH = h * .86;
@@ -306,6 +306,9 @@ const FarmArt = (() => {
   function drawProp(c,p,camera) {
     if(!visible(c,p,camera,160)) return;
     world(c,camera);
+    if(p.type.startsWith('refuge-')||p.type==='nursery'||p.type==='nursery-lip') {
+      FarmRefuge.drawProp(c,p);c.restore();return;
+    }
     if(FarmSprites.ready && ['barn','coop','hay','tree','bush','silo'].includes(p.type)) {
       const {x,y,w,h}=p;
       const shape = p.type==='tree' ? {x:x-16,y:(p.blockingRect?.y||y)+22-148,w:136,h:148} :

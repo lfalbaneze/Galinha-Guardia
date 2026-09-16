@@ -22,7 +22,7 @@ test('contact rescues once, awards points and moves friend to safety', () => {
   assert.equal(run('state.score'), 100);
   assert.equal(run('GameManager.rescue(state, friend)'), false);
   assert.equal(run('state.rescuedIds.has(friend.id)'), true);
-  assert.equal(run('friend.x < 400 && friend.y >= 367'), true);
+  assert.equal(run('distance(friend, RescueSystem.safePosition(0)) < .01'), true);
 });
 
 test('progress round-trips IDs, area positions, lives, score and difficulty', () => {

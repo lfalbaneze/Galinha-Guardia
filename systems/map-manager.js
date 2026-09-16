@@ -32,22 +32,7 @@ const MapManager = {
     areaTextEl.textContent = region.name;
   },
   draw(game) {
-    // Straw nests and a worn yard replace the large translucent objective rectangles.
-    ctx.save();
-    for(let i=0;i<6;i++) {
-      const p=worldPointToScreen(135+i*37,291);
-      ctx.fillStyle='#715931';ctx.beginPath();ctx.ellipse(p.x,p.y,18,8,0,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle='#c8a55b';ctx.beginPath();ctx.ellipse(p.x,p.y-1,16,6,0,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle='#e2c779';
-      for(let s=0;s<7;s++)ctx.fillRect(p.x-13+s*4,p.y+(s%3)-4,6,2);
-    }
-    const nest=worldPointToScreen(117,264),safe=worldPointToScreen(117,460);
-    ctx.font='bold 11px Trebuchet MS, sans-serif';ctx.textAlign='left';
-    for(const [p,label,width] of [[nest,'Ninho dos pequenos',126],[safe,'Turma a salvo',95]]) {
-      ctx.fillStyle='#5e482e';ctx.fillRect(p.x-5,p.y-13,width,20);
-      ctx.fillStyle='#f9e4ad';ctx.fillText(label,p.x,p.y+1);
-    }
-    ctx.restore();
+    FarmRefuge.drawGround(ctx,camera);
   },
   drawTransition(game) {
     const t = game.mapTransition;

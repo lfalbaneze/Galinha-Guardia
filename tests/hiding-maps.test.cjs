@@ -39,6 +39,7 @@ test('player movement remains normalized and solids prevent passage', () => {
   const { run } = createGame();
   run('input.add("w"); input.add("d");');
   assert.ok(Math.abs(run('Math.hypot(Player.moveVector().x,Player.moveVector().y)') - 1) < 0.001);
-  run('input.clear(); const solid=STRUCTURES.barn; state.entities.chicken.x=solid.x+solid.w/2; state.entities.chicken.y=solid.y+solid.h+20; input.add("w"); for(let i=0;i<30;i++) Player.update(state,0.02);');
-  assert.ok(run('getHitbox(state.entities.chicken).y >= solid.y+solid.h+16-0.01'));
+  // Approach the free west wall; the barn's south side now opens onto the nursery.
+  run('input.clear(); const solid=STRUCTURES.barn; state.entities.chicken.x=solid.x-30; state.entities.chicken.y=solid.y+solid.h/2; input.add("d"); for(let i=0;i<30;i++) Player.update(state,0.02);');
+  assert.ok(run('getHitbox(state.entities.chicken).x <= solid.x-16+0.01'));
 });

@@ -162,6 +162,7 @@ function buildObstacles() {
   list.push({ x: STRUCTURES.pond.x + 20, y: STRUCTURES.pond.y + 20, w: STRUCTURES.pond.w - 40, h: STRUCTURES.pond.h - 40, type: "pond" });
   list.push({ x: STRUCTURES.barn.x, y: STRUCTURES.barn.y, w: STRUCTURES.barn.w, h: STRUCTURES.barn.h, type: "barn" });
 
+  list.push(...FarmRefuge.obstacles());
   OBSTACLES = list;
 }
 
@@ -499,7 +500,8 @@ function drawAnimal(entity) {
   const p = worldToScreen(entity);
   CharacterArt.draw(ctx, entity.species, p.x, p.y, { facing: entity.facing, direction: entity.direction,
     anim: entity.anim, moving: entity.moving, sprinting: entity.temper === "fleeing",
-    lookBack: entity.temper === "fleeing", mood: entity.mood || "normal" });
+    lookBack: entity.temper === "fleeing", mood: entity.mood || "normal",
+    scale: entity.type === 'chick' && entity.rescued && !EndGameSequence.active(state) ? .72 : 1 });
   if (!entity.rescued && !entity.speechTime && !EndGameSequence.active(state) && RescueSystem.visible(state, entity)) {
     ctx.save(); ctx.translate(p.x, p.y - CharacterArt.markerOffset(entity.species));
     ctx.fillStyle = entity.type === "chick" ? "#ffb963" : "#fff1a0"; ctx.strokeStyle = "#a38c51"; ctx.lineWidth = 1;
@@ -717,6 +719,7 @@ GameUI.showMenu(state);
 GameUI.update(state);
 CharacterArt.load().then(() => GameUI.update(state));
 FarmSprites.load();
+FarmSprites.loadNursery();
 requestAnimationFrame((t) => {
   lastTime = t;
   tick(t);

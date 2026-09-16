@@ -179,12 +179,13 @@ const GameManager = (() => {
     for (const [index, animal] of game.entities.animals.entries()) {
       animal.rescued = game.rescuedIds.has(animal.id);
       // Older saves used a different geography: keep their progress and give friends legal new homes.
-      const saved = data.version === 1 ? (animal.rescued ? RescueSystem.safePosition(index) : WORLD.layout.animalSpawns[index])
+      const saved = animal.rescued ? RescueSystem.safePosition(index) : data.version === 1 ? WORLD.layout.animalSpawns[index]
         : data.animals.find(a => a.id === animal.id);
       animal.x = saved.x; animal.y = saved.y;
       animal.targetX = saved.x; animal.targetY = saved.y;
       restoreFriend(animal, saved);
       resolveEnvironment(animal);
+      FarmRefuge.ensureClear(animal);
     }
     const bonusHomes = HidingSpots.bonusHomes();
     for (const [index, chick] of game.entities.chicks.entries()) {
@@ -198,10 +199,13 @@ const GameManager = (() => {
       Object.assign(chick, { coverId, homeX: home.x, homeY: home.y, areaId: home.areaId });
       restoreFriend(chick, saved);
       resolveEnvironment(chick);
+      FarmRefuge.ensureClear(chick);
     }
     resolveEnvironment(game.entities.chicken);
+    FarmRefuge.ensureClear(game.entities.chicken);
     HidingSpots.restore(game, data.chicken);
     resolveEnvironment(wolf);
+    FarmRefuge.ensureClear(wolf);
     WolfAI.restoreCoverMemory(game, data.wolf.exposedCover);
     game.winBonusApplied = data.winBonusApplied === true;
     if (game.rescuedCount === WORLD.targetRescues) GameManager.win(game);

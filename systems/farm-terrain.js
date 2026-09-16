@@ -13,7 +13,9 @@ const FarmTerrain = (() => {
     const canvas=makeSurface(width,height); if(!canvas)return null;
     const c=canvas.getContext('2d'),image=c.createImageData(width,height),data=image.data;
     const seed=layout.seed||0;
-    const paths=(layout.paths||[]).map(p=>({...p,r:Math.min(p.w,p.h)/2-5}));
+    const paths=[...(layout.paths||[]),
+      {x:218,y:366,w:182,h:38},{x:209,y:260,w:30,h:126},{x:111,y:258,w:220,h:30}
+    ].map(p=>({...p,r:Math.min(p.w,p.h)/2-5}));
     const tones={granja:[117,139,59],estabulo:[115,130,64],horta:[77,120,49],quintal:[79,125,60]};
     for(let yy=0;yy<height;yy++) for(let xx=0;xx<width;xx++) {
       const x=xx*step,y=yy*step,n=hash(xx,yy,seed),broad=noise(x/115,y/115,seed),fine=noise(x/19,y/19,seed+4);
@@ -24,9 +26,8 @@ const FarmTerrain = (() => {
         const cy=Math.max(p.y+p.r,Math.min(p.y+p.h-p.r,y));
         edge=Math.min(edge,Math.hypot(x-cx,y-cy)-p.r);
       }
-      // A worn courtyard under the barn and the rescued animals.
-      const dx=(x-240)/177,dy=(y-358)/143;
-      edge=Math.min(edge,(Math.hypot(dx,dy)-1)*90);
+      // A narrow walk through a grassy paddock replaces the bare oval courtyard.
+      if(x>108&&x<337&&y>214&&y<271)edge=Math.min(edge,-8);
       edge += (fine-.5)*13+(n-.5)*3;
       let rgb;
       if(edge<0) {
@@ -36,6 +37,7 @@ const FarmTerrain = (() => {
       } else {
         const shade=(broad-.5)*28+(fine-.5)*13+(n<.1?-8:n>.90?7:0);
         rgb=[91+shade,130+shade,53+shade*.7];
+        if(x>96&&x<346&&y>280&&y<477)rgb=[100+shade,139+shade,64+shade*.7];
         for(const area of layout.areas||[]) {
           const tone=tones[area.id];if(!tone)continue;
           const inside=Math.min(x-area.x,area.x+area.w-x,y-area.y,area.y+area.h-y);
