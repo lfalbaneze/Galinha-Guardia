@@ -34,7 +34,8 @@ const WorldGenerator = (() => {
       a.y < b.y + b.h + gap && a.y + a.h > b.y - gap;
   }
 
-  function generate(value) {
+  function generate(value, version = 2) {
+    version = version === 1 ? 1 : 2;
     const seed = normalizeSeed(value);
     const random = randomSource(seed);
     const integer = (min, max) => Math.floor(min + random() * (max - min + 1));
@@ -45,29 +46,8 @@ const WorldGenerator = (() => {
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
-    // Slots leave generous meadow between districts; their identities and footprints change.
-    const slots = [
-      { x: 1920, y: 100, w: 750, h: 460 },
-      { x: 1030, y: 660, w: 740, h: 480 },
-      { x: 110, y: 1190, w: 740, h: 480 },
-      { x: 1930, y: 1200, w: 740, h: 470 },
-    ];
-    const areas = [{ ...THEMES[0], x: 80, y: 70, w: 760, h: 480, hub: { x: 620, y: 390 } }];
-    const slotAreas = slots.map((slot, i) => {
-      const x = slot.x + integer(-35, 35);
-      const y = slot.y + integer(-30, 30);
-      const w = slot.w + integer(-30, 20);
-      const h = slot.h + integer(-25, 20);
-      const area = { ...THEMES[shuffled[i]], x, y, w, h,
-        hub: { x: Math.round(x + w * 0.5), y: Math.round(y + h * 0.54) } };
-      areas.push(area);
-      return area;
-    });
-    // Preserve the familiar ID order for systems that use the fifth area as a fallback.
-    areas.sort((a, b) => THEMES.findIndex(t => t.id === a.id) - THEMES.findIndex(t => t.id === b.id));
-
-    const start = { x: 380, y: 390 };
-    const paths = [];
+    let areas, wolfStart;
+    const start = { x: 380, y: 390 }, paths = [], connections = [];
     function segment(a, b, width = 94) {
       if (a.x === b.x && a.y === b.y) return;
       paths.push({ x: Math.min(a.x, b.x) - width / 2, y: Math.min(a.y, b.y) - width / 2,
@@ -78,22 +58,107 @@ const WorldGenerator = (() => {
       segment(a, turn);
       segment(turn, b);
     }
-    const upperJunction = { x: slotAreas[1].hub.x + integer(-60, 60), y: 390 };
-    const lowerJunction = { x: upperJunction.x, y: integer(1390, 1450) };
-    connect(start, upperJunction);
-    connect(upperJunction, slotAreas[0].hub);
-    connect(upperJunction, slotAreas[1].hub, false);
-    connect(slotAreas[1].hub, lowerJunction);
-    connect(lowerJunction, slotAreas[2].hub);
-    connect(lowerJunction, slotAreas[3].hub);
-    // A second route makes chasing less linear and creates open loops through the farm.
-    const westLane = { x: integer(910, 955), y: 390 };
-    connect(westLane, { x: westLane.x, y: slotAreas[2].hub.y });
-    connect({ x: westLane.x, y: slotAreas[2].hub.y }, slotAreas[2].hub);
-    const eastLane = { x: integer(1820, 1880), y: slotAreas[0].hub.y };
-    connect(slotAreas[0].hub, eastLane);
-    connect(eastLane, { x: eastLane.x, y: slotAreas[3].hub.y });
-    connect({ x: eastLane.x, y: slotAreas[3].hub.y }, slotAreas[3].hub);
+    if (version === 1) {
+      // Slots leave generous meadow between districts; their identities and footprints change.
+      const slots = [
+        { x: 1920, y: 100, w: 750, h: 460 },
+        { x: 1030, y: 660, w: 740, h: 480 },
+        { x: 110, y: 1190, w: 740, h: 480 },
+        { x: 1930, y: 1200, w: 740, h: 470 },
+      ];
+      areas = [{ ...THEMES[0], x: 80, y: 70, w: 760, h: 480, hub: { x: 620, y: 390 } }];
+      const slotAreas = slots.map((slot, i) => {
+        const x = slot.x + integer(-35, 35);
+        const y = slot.y + integer(-30, 30);
+        const w = slot.w + integer(-30, 20);
+        const h = slot.h + integer(-25, 20);
+        const area = { ...THEMES[shuffled[i]], x, y, w, h,
+          hub: { x: Math.round(x + w * 0.5), y: Math.round(y + h * 0.54) } };
+        areas.push(area);
+        return area;
+      });
+      // Preserve the familiar ID order for systems that use the fifth area as a fallback.
+      areas.sort((a, b) => THEMES.findIndex(t => t.id === a.id) - THEMES.findIndex(t => t.id === b.id));
+
+      const upperJunction = { x: slotAreas[1].hub.x + integer(-60, 60), y: 390 };
+      const lowerJunction = { x: upperJunction.x, y: integer(1390, 1450) };
+      connect(start, upperJunction);
+      connect(upperJunction, slotAreas[0].hub);
+      connect(upperJunction, slotAreas[1].hub, false);
+      connect(slotAreas[1].hub, lowerJunction);
+      connect(lowerJunction, slotAreas[2].hub);
+      connect(lowerJunction, slotAreas[3].hub);
+      // A second route makes chasing less linear and creates open loops through the farm.
+      const westLane = { x: integer(910, 955), y: 390 };
+      connect(westLane, { x: westLane.x, y: slotAreas[2].hub.y });
+      connect({ x: westLane.x, y: slotAreas[2].hub.y }, slotAreas[2].hub);
+      const eastLane = { x: integer(1820, 1880), y: slotAreas[0].hub.y };
+      connect(slotAreas[0].hub, eastLane);
+      connect(eastLane, { x: eastLane.x, y: slotAreas[3].hub.y });
+      connect({ x: eastLane.x, y: slotAreas[3].hub.y }, slotAreas[3].hub);
+
+      wolfStart = { x: lowerJunction.x, y: lowerJunction.y };
+    } else {
+      // Sample entire districts, not identities in a fixed five-slot skeleton.
+      // Retry the bounded packing as a whole, preserving reproducibility.
+      for (let layoutTry = 0; layoutTry < 32; layoutTry++) {
+        areas = [{ ...THEMES[0], x: 80, y: 70, w: integer(740, 840), h: integer(480, 550),
+          hub: { x: integer(550, 660), y: integer(350, 430) } }];
+        for (const themeIndex of shuffled) {
+          for (let attempt = 0; attempt < 400; attempt++) {
+            const w = integer(700, 850), h = integer(460, 560);
+            const rect = { x: integer(65, WIDTH - w - 65), y: integer(65, HEIGHT - h - 65), w, h };
+            if (areas.some(a => overlaps(rect, a, 105))) continue;
+            areas.push({ ...THEMES[themeIndex], ...rect,
+              hub: { x: Math.round(rect.x + w * (.42 + random() * .16)),
+                y: Math.round(rect.y + h * (.47 + random() * .12)) } });
+            break;
+          }
+        }
+        if (areas.length === 5) break;
+      }
+      // Guaranteed, deterministic fallback for an unusually crowded packing.
+      if (areas.length !== 5) {
+        const fallback = [[1940,90],[1030,650],[100,1200],[1940,1200]];
+        areas = [{ ...THEMES[0], x:80,y:70,w:760,h:480,hub:{x:620,y:390} },
+          ...fallback.map(([x,y],i) => ({ ...THEMES[shuffled[i]],x,y,w:720,h:460,hub:{x:x+360,y:y+250} }))];
+      }
+      areas.sort((a,b) => THEMES.findIndex(t=>t.id===a.id)-THEMES.findIndex(t=>t.id===b.id));
+      connect(start, areas[0].hub, random() < .5);
+      const connected = new Set([0]);
+      const edgeKey = (a,b) => [Math.min(a,b),Math.max(a,b)].join('-');
+      const used = new Set();
+      function link(a,b) {
+        used.add(edgeKey(a,b));
+        connections.push([areas[a].id,areas[b].id]);
+        const from=areas[a].hub,to=areas[b].hub;
+        function crossingCost(horizontal) {
+          const turn=horizontal?{x:to.x,y:from.y}:{x:from.x,y:to.y};
+          const segments=[[from,turn],[turn,to]].map(([p,q])=>({
+            x:Math.min(p.x,q.x)-47,y:Math.min(p.y,q.y)-47,w:Math.abs(p.x-q.x)+94,h:Math.abs(p.y-q.y)+94}));
+          return areas.reduce((sum,area,i)=>i===a||i===b?sum:sum+segments.filter(s=>overlaps(s,area,25)).length,0);
+        }
+        const h=crossingCost(true),v=crossingCost(false);
+        connect(from,to,h===v?random()<.5:h<v);
+      }
+      // A randomized spanning tree guarantees access; extra links add escape loops.
+      while (connected.size < areas.length) {
+        let best;
+        for (const a of connected) for (let b=0;b<areas.length;b++) {
+          if (connected.has(b)) continue;
+          const cost = Math.hypot(areas[a].hub.x-areas[b].hub.x,areas[a].hub.y-areas[b].hub.y) * (.65+random()*.7);
+          if (!best || cost < best.cost) best = {a,b,cost};
+        }
+        link(best.a,best.b); connected.add(best.b);
+      }
+      const extras=[];
+      for(let a=0;a<areas.length;a++)for(let b=a+1;b<areas.length;b++)if(!used.has(edgeKey(a,b)))
+        extras.push({a,b,cost:Math.hypot(areas[a].hub.x-areas[b].hub.x,areas[a].hub.y-areas[b].hub.y)*(.65+random()*.7)});
+      extras.sort((a,b)=>a.cost-b.cost);
+      for(const edge of extras.slice(0,integer(1,2)))link(edge.a,edge.b);
+      const farthest=areas.slice(1).sort((a,b)=>Math.hypot(b.hub.x-start.x,b.hub.y-start.y)-Math.hypot(a.hub.x-start.x,a.hub.y-start.y))[0];
+      wolfStart={...farthest.hub};
+    }
 
     const animalSpawns = [];
     for (const area of areas) {
@@ -102,10 +167,10 @@ const WorldGenerator = (() => {
           y: area.hub.y + integer(-14, 14), areaId: area.id });
       }
     }
-    const wolfStart = { x: lowerJunction.x, y: lowerJunction.y };
     const reserves = [
       { x: 80, y: 160, w: 320, h: 330 },
-      ...animalSpawns.map(p => ({ x: p.x - 64, y: p.y - 64, w: 128, h: 128 })),
+      ...animalSpawns.map(p => version === 1 ? ({ x: p.x - 64, y: p.y - 64, w: 128, h: 128 }) :
+        ({ x: p.x - 40, y: p.y - 40, w: 80, h: 80 })),
       ...[start, wolfStart].map(p => ({ x: p.x - 60, y: p.y - 60, w: 120, h: 120 })),
     ];
     const structures = { coops: [], silos: [], hayBales: [],
@@ -167,6 +232,13 @@ const WorldGenerator = (() => {
       for (let i = 0; i < (area.id === "estabulo" ? 5 : 2); i++) {
         addStructure(area, "hayBales", integer(62, 78), integer(38, 47));
       }
+    }
+
+    // Even a district crossed by several roads must leave a useful farm to play in.
+    if (version === 2) for (const area of areas) {
+      if (structures.coops.length < 3) addStructure(area, "coops", 110, 72);
+      if (structures.silos.length < 1) addStructure(area, "silos", 80, 108);
+      if (structures.hayBales.length < 7) addStructure(area, "hayBales", 62, 38);
     }
 
     function addBush(x, y, areaId, suffix = "") {
@@ -249,7 +321,31 @@ const WorldGenerator = (() => {
       y: area.hub.y + integer(8, 22), areaId: area.id }));
     const lastArea = areas.find(area => area.id === "quintal");
     chickSpawns.push({ x: lastArea.hub.x - 40, y: lastArea.hub.y - 26, areaId: lastArea.id });
-    return { seed, width: WIDTH, height: HEIGHT, areas, paths, structures, vegetation,
+    // An independent stream relocates rescues without changing any old seed's geometry.
+    const exploreRandom = randomSource(seed ^ 0x65e32a91);
+    const blockers = [structures.barn, structures.pond, ...structures.coops, ...structures.silos,
+      ...structures.hayBales, ...vegetation.map(v => v.blockingRect).filter(Boolean)];
+    const chosen = [];
+    for (const spawn of [...chickSpawns, ...animalSpawns]) {
+      const area = areas.find(a => a.id === spawn.areaId);
+      const options = vegetation.filter(v => v.areaId === area.id).map(v => ({
+        x: v.x + v.w / 2, y: v.y + v.h - 12, areaId: area.id
+      }));
+      // Quiet corners of the orchard/fields provide fallback homes away from road centres.
+      for (let y = area.y + 70; y < area.y + area.h - 55; y += 48)
+        for (let x = area.x + 70; x < area.x + area.w - 55; x += 48)
+          if (!paths.some(p => overlaps({ x:x-22, y:y-22, w:44, h:44 },p))) options.push({x,y,areaId:area.id});
+      const candidates = options.filter(p => Math.hypot(p.x - area.hub.x, p.y - area.hub.y) > 165 &&
+        !(p.x < 405 && p.y < 485) &&
+        vegetation.some(v => Math.hypot(p.x-v.x-v.w/2,p.y-v.y-v.h+15) <= 180) &&
+        p.y < area.y + area.h - 30 && Math.hypot(p.x - start.x, p.y - start.y) > 230 &&
+        !chosen.some(q => Math.hypot(p.x - q.x, p.y - q.y) < 95) &&
+        blockers.every(o => Math.hypot(p.x - Math.max(o.x, Math.min(p.x, o.x+o.w)),
+          p.y - Math.max(o.y, Math.min(p.y, o.y+o.h))) > 30));
+      if (candidates.length) Object.assign(spawn, candidates[Math.floor(exploreRandom() * candidates.length)]);
+      chosen.push({ ...spawn });
+    }
+    return { seed, version, connections, width: WIDTH, height: HEIGHT, areas, paths, structures, vegetation,
       decorations, animalSpawns, chickSpawns, start, wolfStart };
   }
   return { generate, normalizeSeed };

@@ -3,54 +3,112 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#406b31" />
-  <title>Galinha Guardiã — Resgate na Fazenda</title>
-  <link rel="stylesheet" href="./style.css" />
+  <meta name="theme-color" content="#294b36" />
+  <meta name="description" content="Penas pro Ar! Dez bichos teimosos, um lobo sem modos e uma fazenda cheia de segredos. Abra a porteira do Sítio do Fuzuê." />
+  <title>Penas pro Ar! — Confusão no Sítio do Fuzuê</title>
+  <link rel="stylesheet" href="./style.css?v=20260916-refuge" />
 </head>
 <body>
-  <main class="game-shell">
+  <main id="gameShell" class="game-shell" data-phase="menu">
     <header class="game-heading">
       <div>
-        <p class="eyebrow">Uma pequena galinha. Uma grande missão.</p>
-        <h1>Galinha Guardiã <span>Resgate na Fazenda</span></h1>
+        <p class="eyebrow">Sítio do Fuzuê · a porteira tá aberta</p>
+        <h1>Penas pro Ar! <span>Confusão no Sítio do Fuzuê</span></h1>
       </div>
       <button id="pauseBtn" class="button-secondary" type="button" aria-label="Pausar e abrir o menu">Pausar <span class="key-note">Esc</span></button>
     </header>
 
-    <section class="hud" aria-label="Informações da partida">
-      <p class="rescue-counter"><strong>Amigos a salvo</strong> <span><b id="rescuedCount">0</b> / 10</span></p>
-      <p class="chick-counter"><strong>Pintinhos</strong> <span><b id="chicksCount">0</b> / 6</span></p>
+    <section id="farmHud" class="hud" data-secret-known="false" aria-label="Informações da partida">
+      <p class="rescue-counter"><strong>Turma no poleiro</strong> <span><b id="rescuedCount">0</b> / 10</span></p>
+      <p id="chickCounter" class="chick-counter" title="Siga o PIU-PIU nos esconderijos. Entre com E e segure C."><strong>Pintinhos · bônus</strong> <span><b id="chicksCount">0</b> / 6</span></p>
       <p><strong>Vidas</strong> <span><b id="livesCount">3</b> / 3</span></p>
       <p><strong>Pontos</strong> <b id="scoreCount">0</b></p>
-      <p class="area-counter"><strong>Área</strong> <span id="areaText">Quintal Central</span></p>
+      <p class="area-counter"><strong>Local</strong> <span id="areaText">Poleiro</span></p>
       <p class="wolf-counter"><strong>Lobo <span id="wolfLevelText">Atento</span> <span id="wolfMultiplier">1,00×</span></strong> <span id="wolfStateText">patrulhando</span></p>
     </section>
 
-    <div class="stage">
-      <canvas id="gameCanvas" width="900" height="520" tabindex="0" aria-label="Fazenda: resgate dez amigos e seis pintinhos, libere skins e despiste o lobo." aria-describedby="controlsText"></canvas>
+    <div class="mission-strip">
+      <div class="mission-progress"><span id="missionText">Encontre os 10 amigos</span><progress id="missionProgress" max="10" value="0" aria-label="Amigos resgatados">0 de 10</progress></div>
+      <div id="threatIndicator" class="threat-indicator" data-level="calm"><span id="threatText">O lobo está de ronda</span><progress id="threatProgress" max="1" value="0" aria-label="Alerta do lobo">0%</progress></div>
+    </div>
 
-      <section id="menuScreen" class="game-overlay" role="dialog" aria-modal="true" aria-labelledby="menuTitle" aria-describedby="menuDescription" hidden>
-        <div class="overlay-card">
-          <span class="menu-emblem" aria-hidden="true">🐔</span>
-          <p class="eyebrow">Resgate na Fazenda</p>
-          <h2 id="menuTitle">Uma missão de coração.</h2>
-          <p id="menuDescription">Dez amigos e seis pintinhos esperam por você. Os pintinhos liberam skins e deixam o lobo cada vez mais furioso!</p>
+    <div id="gameStage" class="stage" data-threat="calm">
+      <canvas id="gameCanvas" width="900" height="520" tabindex="0" aria-label="Fazenda: resgate dez amigos, investigue os segredos e despiste o lobo." aria-describedby="controlsText"></canvas>
+      <div id="regionNotice" class="region-notice" aria-hidden="true" hidden><span>Você chegou!</span><strong id="regionNoticeName">Poleiro</strong></div>
+
+      <section id="menuScreen" class="game-overlay farm-menu" role="dialog" aria-modal="true" aria-labelledby="farmTitle" aria-describedby="menuDescription" hidden>
+        <div id="menuWorld" class="menu-world">
+          <img id="menuBackdrop" class="menu-backdrop" src="./assets/menu/farm-title.png" alt="" width="1536" height="1024" fetchpriority="high" />
+          <canvas id="menuScene" class="menu-scene" width="700" height="240" aria-hidden="true"></canvas>
+          <p id="menuBanter" class="menu-reaction" role="status" hidden></p>
+        </div>
+        <div class="menu-title-scene">
+          <p class="farm-kicker">Uma aventura de arrepiar as penas</p>
+          <h2 id="farmTitle" class="farm-title"><span>Penas</span><span>pro Ar!</span></h2>
+          <p class="farm-subtitle">Confusão no Sítio do Fuzuê</p>
+          <p class="farm-tagline">Dez teimosos. Um lobo sem modos.</p>
+        </div>
+        <div class="menu-mischief">
+          <button id="menuScatter" type="button">Mexer com a turma <span aria-hidden="true">↗</span></button>
+        </div>
+        <div id="menuCard" class="overlay-card">
+          <canvas id="menuPortrait" class="menu-portrait" width="160" height="100" aria-hidden="true"></canvas>
+          <p class="eyebrow">O terreiro te espera</p>
+          <h2 id="menuTitle">Bora abrir a porteira?</h2>
+          <p id="menuDescription">Tem lobo rondando o sítio e a turma ainda está passeando. Traga os 10 amigos de volta ao poleiro!</p>
+          <p id="spriteStatus" role="status" hidden></p>
+          <div class="overlay-actions">
+            <button id="continueBtn" type="button" hidden>Continuar resgate</button>
+          </div>
+          <div class="menu-tabs" role="tablist" aria-label="Preparar aventura">
+            <button id="tab-adventure" type="button" role="tab" aria-selected="true" aria-controls="panel-adventure">Partida</button>
+            <button id="tab-outfit" type="button" role="tab" aria-selected="false" aria-controls="panel-outfit" tabindex="-1">Bichos</button>
+            <button id="tab-audio" type="button" role="tab" aria-selected="false" aria-controls="panel-audio" tabindex="-1">Som</button>
+          </div>
+          <div id="panel-adventure" class="menu-panel" role="tabpanel" aria-labelledby="tab-adventure">
+            <div class="difficulty-heading"><h3 id="difficultyHeading">Qual é o ritmo?</h3><span>Nova fazenda</span></div>
+            <div class="difficulty-picks" role="radiogroup" aria-labelledby="difficultyHeading" aria-describedby="difficultyPreview">
+              <button id="difficulty-easy" type="button" role="radio" aria-checked="false" tabindex="-1">
+                <canvas id="difficultyArt-easy" class="difficulty-art" width="64" height="64" aria-hidden="true"></canvas>
+                <span class="difficulty-copy"><span class="difficulty-name">Dia tranquilo <small>Fácil</small></span><span class="difficulty-detail">Lobo mais lento. Explore sem pressa.</span></span>
+                <span class="difficulty-check" aria-hidden="true">✓</span>
+              </button>
+              <button id="difficulty-normal" type="button" role="radio" aria-checked="true" tabindex="0">
+                <canvas id="difficultyArt-normal" class="difficulty-art" width="64" height="64" aria-hidden="true"></canvas>
+                <span class="difficulty-copy"><span class="difficulty-name">Fuzuê no sítio <small>Médio</small></span><span class="difficulty-detail">Resgate a turma e despiste o lobo.</span></span>
+                <span class="difficulty-check" aria-hidden="true">✓</span>
+              </button>
+              <button id="difficulty-hard" type="button" role="radio" aria-checked="false" tabindex="-1">
+                <canvas id="difficultyArt-hard" class="difficulty-art" width="64" height="64" aria-hidden="true"></canvas>
+                <span class="difficulty-copy"><span class="difficulty-name">Lobo à solta <small>Difícil</small></span><span class="difficulty-detail">Lobo veloz. Cada esconderijo conta.</span></span>
+                <span class="difficulty-check" aria-hidden="true">✓</span>
+              </button>
+            </div>
+            <p id="difficultyPreview" class="difficulty-preview" aria-live="polite">Fuzuê no sítio escolhido para a nova fazenda.</p>
+          <details class="menu-howto"><summary>Como jogar <span aria-hidden="true">+</span></summary>
           <div class="menu-tips">
             <p><kbd>WASD</kbd> ou <kbd>↑ ↓ ← →</kbd> <span>para caminhar</span></p>
-            <p><kbd>Shift</kbd> <span>para correr enquanto houver fôlego — o lobo pode ouvir!</span></p>
-            <p><kbd>E</kbd> <span>para se esconder perto de feno ou vegetação</span></p>
+            <p><kbd>Shift</kbd> <span>correr — cuidado com o barulho!</span></p>
+            <p><kbd>E</kbd> <span>esconder no feno ou no mato</span></p>
+            <p><kbd>C</kbd> <span>chegar de mansinho e investigar</span></p>
           </div>
-          <label class="menu-skin" for="menuSkinSelect">Sua skin
+          <p class="menu-panel-note">Ouviu piu-piu? Tem pintinho escondido! Entre com <kbd>E</kbd> e segure <kbd>C</kbd> para procurar. São 6 pequenos para levar ao ninho.</p>
+          </details>
+          </div>
+          <div id="panel-outfit" class="menu-panel" role="tabpanel" aria-labelledby="tab-outfit" hidden>
+          <label class="menu-skin" for="menuSkinSelect">Aparência da lida
             <select id="menuSkinSelect">
-              <option id="menu-skin-classic" value="classic">Clássica</option>
-              <option id="menu-skin-punk" value="punk" disabled>Punk · 1 pintinho</option>
-              <option id="menu-skin-astronaut" value="astronaut" disabled>Astronauta · 2 pintinhos</option>
-              <option id="menu-skin-robocop" value="robocop" disabled>Robocop · 4 pintinhos</option>
-              <option id="menu-skin-priest" value="priest" disabled>Padre · 6 pintinhos</option>
+              <option id="menu-skin-classic" value="classic">Galinha</option>
+              <option id="menu-skin-punk" value="punk" disabled>Pato · Segredo da fazenda</option>
+              <option id="menu-skin-astronaut" value="astronaut" disabled>Coelho · Segredo da fazenda</option>
+              <option id="menu-skin-robocop" value="robocop" disabled>Gato · Segredo da fazenda</option>
+              <option id="menu-skin-priest" value="priest" disabled>Cachorro · Segredo da fazenda</option>
             </select>
           </label>
-          <details class="menu-audio">
-            <summary>Som e música</summary>
+          <div class="portrait-controls"><button id="portraitTurn" type="button" class="button-secondary">Girar personagem ↻</button><button id="portraitWalk" type="button" class="button-secondary" aria-pressed="true">Parar passinhos</button></div>
+          <p class="menu-panel-note">Escolha uma aparência do seu baú. O personagem acima mostra sua escolha em movimento.</p>
+          </div>
+          <div id="panel-audio" class="menu-panel menu-audio" role="tabpanel" aria-labelledby="tab-audio" hidden>
             <div class="audio-controls audio-controls-menu">
               <label for="menuMusicTrack">Trilha da fazenda
                 <select id="menuMusicTrack"><option value="forest">Floresta encantada</option><option value="whistle">Assobio da galinha</option></select>
@@ -64,13 +122,12 @@
               <button id="menuAudioMute" class="button-secondary" type="button" aria-pressed="false">Silenciar</button>
             </div>
             <label class="skin-music-toggle" for="menuSkinMusic"><input id="menuSkinMusic" type="checkbox" checked /> Tema musical da skin</label>
-            <p id="menuAudioStatus" class="audio-note">O som começa ao iniciar a aventura.</p>
-          </details>
-          <div class="overlay-actions">
-            <button id="continueBtn" type="button" hidden>Continuar aventura</button>
-            <button id="startBtn" type="button">Começar aventura</button>
+            <p id="menuAudioStatus" class="audio-note">Clique em Mexer com a turma para ouvir os bichos.</p>
+            <p class="audio-note"><a href="./assets/audio/CREDITS.html?v=2" target="_blank" rel="noopener">Ouvir as vozes da fazenda ↗</a></p>
           </div>
+          <div class="overlay-actions new-adventure-action"><button id="startBtn" type="button">Entrar na fazenda</button></div>
           <p id="menuSaveText" class="fine-print">Seu progresso é salvo automaticamente neste navegador.</p>
+          <a class="menu-credits" href="./assets/sprites/CREDITS.html" target="_blank" rel="noopener">Quem deu vida à fazendinha ↗</a>
         </div>
       </section>
 
@@ -89,13 +146,29 @@
       </section>
     </div>
 
+    <div id="liveControls" class="live-controls" aria-label="Controles da partida">
+      <span><kbd id="keyMove">WASD / setas</kbd> mover</span><span><kbd id="keySneak">C</kbd> de mansinho</span><span><kbd id="keySprint">Shift</kbd> correr</span><span><kbd id="keyHide">E</kbd> esconder</span>
+    </div>
+
     <div class="game-feedback">
       <p id="hiddenText" class="stealth-badge">À vista</p>
       <label class="stamina-meter" for="staminaMeter"><span id="staminaText">Fôlego</span><progress id="staminaMeter" max="1" value="1">100%</progress></label>
-      <p id="contextHint">Encoste nos animais para resgatá-los.</p>
+      <p id="contextHint">Segure C para chegar de mansinho. Se fugirem, espere cansar!</p>
       <p id="saveText" class="save-note">Salvamento automático</p>
     </div>
-    <p class="status-line" role="status"><span id="statusText">Resgate dez amigos e seis pintinhos e leve todos para um final feliz.</span></p>
+    <p class="status-line" role="status"><span id="statusText">Cada resgate deixa o lobo mais perigoso. Explore os segredos da fazenda.</span></p>
+
+    <section class="wardrobe" aria-labelledby="wardrobeTitle">
+      <div class="wardrobe-heading"><h2 id="wardrobeTitle">Baú dos bichos</h2><p id="skinUnlockText">Novas aparências se conquistam na lida.</p></div>
+      <div class="skin-options" role="group" aria-label="Escolher aparência">
+        <button id="skin-classic" type="button" aria-pressed="true">Galinha</button>
+        <button id="skin-punk" type="button" aria-pressed="false" disabled>Pato · Segredo da fazenda</button>
+        <button id="skin-astronaut" type="button" aria-pressed="false" disabled>Coelho · Segredo da fazenda</button>
+        <button id="skin-robocop" type="button" aria-pressed="false" disabled>Gato · Segredo da fazenda</button>
+        <button id="skin-priest" type="button" aria-pressed="false" disabled>Cachorro · Segredo da fazenda</button>
+      </div>
+      <p id="wardrobeNote" class="wardrobe-note">Nem todo tesouro fica à vista. Explore os cantinhos da fazenda para descobrir como abrir o baú.</p>
+    </section>
 
     <section class="audio-panel" aria-label="Som e música">
       <div class="audio-controls">
@@ -112,57 +185,54 @@
       </div>
       <label class="skin-music-toggle" for="skinMusic"><input id="skinMusic" type="checkbox" checked /> Tema musical da skin</label>
       <p id="audioStatus" class="audio-note">O som começa ao iniciar a aventura.</p>
-    </section>
-
-    <section class="wardrobe" aria-labelledby="wardrobeTitle">
-      <div class="wardrobe-heading"><h2 id="wardrobeTitle">Guarda-roupa da galinha</h2><p id="skinUnlockText">Resgate pintinhos para liberar novos visuais.</p></div>
-      <div class="skin-options" role="group" aria-label="Escolher skin da galinha">
-        <button id="skin-classic" type="button" aria-pressed="true">Clássica</button>
-        <button id="skin-punk" type="button" aria-pressed="false" disabled>Punk · 1 pintinho</button>
-        <button id="skin-astronaut" type="button" aria-pressed="false" disabled>Astronauta · 2 pintinhos</button>
-        <button id="skin-robocop" type="button" aria-pressed="false" disabled>Robocop · 4 pintinhos</button>
-        <button id="skin-priest" type="button" aria-pressed="false" disabled>Padre · 6 pintinhos</button>
-      </div>
-      <p class="wardrobe-note">Libere as skins resgatando 1, 2, 4 e 6 pintinhos numa aventura. Cada skin secreta tem seu próprio tema musical. Elas ficam disponíveis nas próximas partidas. Cada pintinho aumenta o desafio do lobo, até 1,5× com os seis.</p>
+      <p class="audio-note"><a href="./assets/audio/CREDITS.html?v=2" target="_blank" rel="noopener">Ouvir cada bicho e ver os créditos ↗</a></p>
     </section>
 
     <section class="instructions" aria-labelledby="controlsTitle">
       <div>
-        <h2 id="controlsTitle">Pequenos passos, grandes resgates</h2>
-        <p id="controlsText"><kbd>WASD</kbd> / <kbd>setas</kbd> mover · <kbd>Shift</kbd> correr · <kbd>E</kbd> esconder / sair · <kbd>Esc</kbd> / <kbd>P</kbd> pausar.</p>
-        <p>O lobo demonstra suspeita antes de perseguir. Quebre a visão com árvores e construções, ou use <kbd>E</kbd> no feno e na vegetação. Solte <kbd>Shift</kbd> para recuperar o fôlego.</p>
+        <h2 id="controlsTitle">Os macetes da roça</h2>
+        <p id="controlsText"><kbd>WASD</kbd> / <kbd>setas</kbd> mover · <kbd>C</kbd> de mansinho · <kbd>Shift</kbd> correr · <kbd>E</kbd> esconder / sair · <kbd>Esc</kbd> / <kbd>P</kbd> pausar.</p>
+        <p>Resgate os dez amigos para completar a missão. Cada animal salvo aumenta a velocidade, a visão e a busca do lobo. Use árvores e feno para escapar. Ouviu um piado? Entre nesse esconderijo com <kbd>E</kbd> e segure <kbd>C</kbd>: alguns guardam uma surpresa opcional. A caderneta só guarda pistas que você já viu.</p>
       </div>
       <div class="game-settings">
         <label class="difficulty-control" for="difficultySelect">
           <span>Dificuldade</span>
           <select id="difficultySelect">
-            <option value="easy">Fácil</option>
-            <option value="normal" selected>Médio</option>
-            <option value="hard">Difícil</option>
+            <option value="easy">Dia tranquilo · Fácil</option>
+            <option value="normal" selected>Fuzuê no sítio · Médio</option>
+            <option value="hard">Lobo à solta · Difícil</option>
           </select>
         </label>
         <button id="restartBtn" class="button-secondary" type="button">Reiniciar</button>
         <small>A dificuldade vale na próxima partida.</small>
       </div>
     </section>
+    <footer class="sprite-credits"><a href="./assets/sprites/CREDITS.html" target="_blank" rel="noopener">Arte e créditos do jogo</a></footer>
   </main>
 
-  <script src="./systems/world-generator.js"></script>
-  <script src="./systems/farm-art.js"></script>
-  <script src="./systems/character-art.js"></script>
-  <script src="./systems/audio-system.js?v=20260915-skin-themes"></script>
-  <script src="./systems/audio-controls.js?v=20260915-skin-themes"></script>
-  <script src="./systems/skin-system.js"></script>
-  <script src="./systems/game-manager.js"></script>
-  <script src="./systems/rescue-system.js?v=20260915-animals"></script>
-  <script src="./systems/detection-system.js"></script>
-  <script src="./systems/hiding-spots.js"></script>
-  <script src="./systems/wolf-ai.js"></script>
-  <script src="./systems/wolf-dialogue.js"></script>
-  <script src="./systems/map-manager.js"></script>
-  <script src="./systems/player.js"></script>
-  <script src="./systems/ui.js?v=20260915-skin-themes"></script>
-  <script src="./systems/end-game-sequence.js"></script>
-  <script src="./game.js?v=20260915-audio"></script>
+  <script src="./systems/world-generator.js?v=20260916-refuge"></script>
+  <script src="./assets/farm/atlas-data.js?v=20260916-refuge"></script>
+  <script src="./systems/farm-sprites.js?v=20260916-refuge"></script>
+  <script src="./systems/farm-refuge.js?v=20260916-refuge"></script>
+  <script src="./systems/farm-terrain.js?v=20260916-refuge"></script>
+  <script src="./systems/farm-art.js?v=20260916-refuge"></script>
+  <script src="./systems/sprite-data.js?v=20260916-refuge"></script>
+  <script src="./systems/character-art.js?v=20260916-refuge"></script>
+  <script src="./systems/audio-system.js?v=20260916-refuge"></script>
+  <script src="./systems/audio-controls.js?v=20260916-refuge"></script>
+  <script src="./systems/skin-system.js?v=20260916-refuge"></script>
+  <script src="./systems/game-manager.js?v=20260916-refuge"></script>
+  <script src="./systems/rescue-system.js?v=20260916-refuge"></script>
+  <script src="./systems/detection-system.js?v=20260916-refuge"></script>
+  <script src="./systems/hiding-spots.js?v=20260916-refuge"></script>
+  <script src="./systems/wolf-ai.js?v=20260916-refuge"></script>
+  <script src="./systems/wolf-dialogue.js?v=20260916-refuge"></script>
+  <script src="./systems/map-manager.js?v=20260916-refuge"></script>
+  <script src="./systems/player.js?v=20260916-refuge"></script>
+  <script src="./systems/menu-scene.js?v=20260916-refuge"></script>
+  <script src="./systems/interface-motion.js?v=20260916-refuge"></script>
+  <script src="./systems/ui.js?v=20260916-refuge"></script>
+  <script src="./systems/end-game-sequence.js?v=20260916-refuge"></script>
+  <script src="./game.js?v=20260916-refuge"></script>
 </body>
 </html>

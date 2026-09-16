@@ -26,9 +26,10 @@ const Player = {
     if (moving) { chicken.hidden = false; chicken.hidingSpotId = null; }
     const shift = input.has("shift");
     if (!shift && chicken.stamina >= 0.25) chicken.exhausted = false;
-    const wantsSprint = moving && shift && !chicken.exhausted && chicken.stamina > 0;
+    chicken.sneaking = input.has("c") && !chicken.hidden;
+    const wantsSprint = moving && shift && !chicken.sneaking && !chicken.exhausted && chicken.stamina > 0;
     const sprintPart = wantsSprint && dt > 0 ? Math.min(1, chicken.stamina * Player.sprintSeconds / dt) : 0;
-    const speed = chicken.speed * (1 + (Player.sprintMultiplier - 1) * sprintPart);
+    const speed = chicken.speed * (chicken.sneaking ? .4 : 1 + (Player.sprintMultiplier - 1) * sprintPart);
     const oldX = chicken.x, oldY = chicken.y;
     Player.move(chicken, move.x * speed * dt, move.y * speed * dt);
     const traveled = Math.hypot(chicken.x - oldX, chicken.y - oldY);

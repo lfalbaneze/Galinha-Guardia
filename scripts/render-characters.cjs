@@ -1,9 +1,10 @@
+async function main() {
 const { createCanvas } = require('@napi-rs/canvas');
 const { readFileSync, writeFileSync, mkdirSync } = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-const art = vm.runInNewContext(readFileSync(path.join(root, 'systems/character-art.js'), 'utf8') + '\nCharacterArt;');
+const art = await require('./sprite-loader.cjs').loadArt();
 const canvas = createCanvas(2400, 1760), ctx = canvas.getContext('2d');
 ctx.fillStyle = '#eee7d6'; ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.fillStyle = '#655143'; ctx.font = 'bold 42px sans-serif'; ctx.fillText('Amigos do campo', 52, 62);
@@ -41,10 +42,10 @@ const target = path.join(root, 'preview'); mkdirSync(target, { recursive: true }
 writeFileSync(path.join(target, 'characters.png'), canvas.toBuffer('image/png'));
 
 const wardrobe = createCanvas(1800, 1640), wc = wardrobe.getContext('2d');
-wc.fillStyle='#eee7d6';wc.fillRect(0,0,1800,1640);wc.fillStyle='#655143';wc.font='bold 38px sans-serif';wc.fillText('O guarda-roupa da galinha',45,60);
-wc.font='22px sans-serif';wc.fillText('Roupas completas nas quatro direções, durante a corrida e no esconderijo',45,102);
+wc.fillStyle='#eee7d6';wc.fillRect(0,0,1800,1640);wc.fillStyle='#655143';wc.font='bold 38px sans-serif';wc.fillText('O baú dos bichos',45,60);
+wc.font='22px sans-serif';wc.fillText('Personagens completos nas quatro direções, durante a corrida e no esconderijo',45,102);
 wc.textAlign='center';wc.font='19px sans-serif';['Frente','Direita','Costas','Esquerda','Escondida','Escala do jogo'].forEach((label,j)=>wc.fillText(label,330+j*260,141));
-const skins=[['classic','Clássica'],['punk','Punk'],['astronaut','Astronauta'],['robocop','Robocop'],['priest','Padre']];
+const skins=[['classic','Galinha'],['punk','Pato'],['astronaut','Coelho'],['robocop','Gato'],['priest','Cachorro']];
 skins.forEach(([skin,label],i)=>{
   const y=307+i*277;
   wc.fillStyle='#faf5e8';wc.beginPath();wc.roundRect(30,y-149,1740,249,20);wc.fill();
@@ -84,3 +85,6 @@ for(let i=0;i<6;i++){
 }
 writeFileSync(path.join(target,'expressions.png'),expressions.toBuffer('image/png'));
 console.log('preview/characters.png\npreview/costumes.png\npreview/expressions.png');
+
+}
+main().catch(error => { console.error(error); process.exitCode = 1; });

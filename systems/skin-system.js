@@ -2,21 +2,27 @@
 const SkinSystem = (() => {
   const KEY = "galinha-guardia-wardrobe-v1";
   const catalog = Object.freeze([
-    { id: "classic", name: "Clássica", chicks: 0 },
-    { id: "punk", name: "Punk", chicks: 1 },
-    { id: "astronaut", name: "Astronauta", chicks: 2 },
-    { id: "robocop", name: "Robocop", chicks: 4 },
-    { id: "priest", name: "Padre", chicks: 6 },
+    { id: "classic", ...CharacterArt.appearances.classic, chicks: 0, friends: 0, requirement: "A guardiã da fazenda" },
+    { id: "punk", ...CharacterArt.appearances.punk, chicks: 2, friends: 3, requirement: "2 pintinhos + 3 amigos" },
+    { id: "astronaut", ...CharacterArt.appearances.astronaut, chicks: 4, friends: 6, requirement: "4 pintinhos + 6 amigos" },
+    { id: "robocop", ...CharacterArt.appearances.robocop, chicks: 6, friends: 9, requirement: "6 pintinhos + 9 amigos" },
+    { id: "priest", ...CharacterArt.appearances.priest, chicks: 6, friends: 10, requirement: "A turma inteira a salvo" },
   ]);
   let profile = null;
   let storageAvailable = true;
   function load() {
     if (profile) return profile;
-    profile = { best: 0, selected: "classic" };
+    profile = { version: 2, best: 0, selected: "classic", unlocked: ["classic"] };
     try {
       const saved = JSON.parse(localStorage.getItem(KEY));
       if (saved && Number.isInteger(saved.best)) profile.best = Math.max(0, Math.min(6, saved.best));
-      if (catalog.some(s => s.id === saved?.selected && s.chicks <= profile.best)) profile.selected = saved.selected;
+      if (saved?.version === 2 && Array.isArray(saved.unlocked)) {
+        profile.unlocked = catalog.filter(s => s.id === "classic" || saved.unlocked.includes(s.id)).map(s => s.id);
+      } else if (saved && saved.version == null) {
+        const legacy = { classic: 0, punk: 1, astronaut: 2, robocop: 4, priest: 6 };
+        profile.unlocked = catalog.filter(s => legacy[s.id] <= profile.best).map(s => s.id);
+      }
+      if (profile.unlocked.includes(saved?.selected)) profile.selected = saved.selected;
     } catch (_) { storageAvailable = false; }
     return profile;
   }
@@ -24,15 +30,15 @@ const SkinSystem = (() => {
     try { localStorage.setItem(KEY, JSON.stringify(load())); storageAvailable = true; }
     catch (_) { storageAvailable = false; }
   }
-  function unlocked(id) { return catalog.some(s => s.id === id && s.chicks <= load().best); }
+  function unlocked(id) { return load().unlocked.includes(id); }
   function initialize(game) { game.entities.chicken.skin = load().selected; }
   function record(game, announce = true) {
     const previous = load().best;
     profile.best = Math.max(previous, Math.min(6, game.rescuedChicks || 0));
-    if (profile.best === previous) return;
-    const gained = catalog.filter(s => s.chicks > previous && s.chicks <= profile.best);
+    const gained = catalog.filter(s => !unlocked(s.id) && s.chicks <= game.rescuedChicks && s.friends <= game.rescuedCount);
+    for (const skin of gained) profile.unlocked.push(skin.id);
     if (announce && gained.length) game.skinNotice = { text: gained.map(s => s.name).join(" / "), time: 5 };
-    persist();
+    if (gained.length || profile.best !== previous) persist();
   }
   function equip(game, id) {
     if (!unlocked(id)) return false;

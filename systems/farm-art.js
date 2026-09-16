@@ -39,6 +39,38 @@ const FarmArt = (() => {
   }
   function decoration(c, d) {
     const x = d.x, y = d.y, n = hash(x, y), s = d.scale || .8 + n * .5;
+    if(FarmSprites.ready) {
+      const px=(dx,dy,w,h,color)=>{c.fillStyle=color;c.fillRect(Math.round(x+dx*s),Math.round(y+dy*s),Math.max(1,Math.round(w*s)),Math.max(1,Math.round(h*s)));};
+      if(d.type==='flower'||d.type==='sunflower') {
+        const tall=d.type==='sunflower',top=tall?-20:-9,r=tall?3:2;
+        px(0,top+3,2,-top,'#3e6c35');px(-4,top/2,4,2,'#65933e');
+        const color=tall?'#f2c84b':['#f1e6b0','#e5acc1','#bcb3d6','#eace64'][Math.floor(n*4)];
+        for(const [dx,dy] of [[-r,0],[r,0],[0,-r],[0,r]])px(dx-r,top+dy-r,r*2,r*2,color);
+        px(-r/2,top-r/2,r+1,r+1,tall?'#795631':'#d79e45');return;
+      }
+      if(d.type==='crop') {
+        px(-9,0,18,4,'#765635');
+        if(d.variant===2) {
+          px(-7,-9,14,10,'#b95f29');px(-5,-12,10,16,'#d88730');
+          px(-2,-12,4,16,'#eaa042');px(0,-16,3,5,'#48652f');
+          px(-5,-9,2,10,'#f0ae50');return;
+        }
+        if(d.variant===1){px(-3,-2,6,6,'#cc7933');px(0,1,2,3,'#eca74a');}
+        for(const [dx,dy,color] of [[-8,-5,'#426f33'],[2,-8,'#56863b'],[-4,-11,'#739c48'],[-2,-7,'#89ac58']])
+          {px(dx,dy,7,6,color);px(dx+2,dy-2,4,2,color);}
+        return;
+      }
+      if(d.type==='wheat') {
+        for(const k of [-1,0,1]) {
+          const t=-14-Math.floor(hash(x,k)*8);px(k*4,t,2,-t,'#af8b3b');
+          for(let j=0;j<3;j++){px(k*4-3,t+j*4,3,2,'#e1b64c');px(k*4+1,t+j*4+2,3,2,'#edcc70');}
+        }return;
+      }
+      if(d.type==='stone'||d.type==='rock') {
+        px(-5,-1,10,5,'#727c5c');px(-4,-3,8,5,'#a5aa84');px(-2,-4,5,2,'#c3c2a0');return;
+      }
+      px(-3,-4,2,5,'#4d7936');px(0,-7,2,8,'#74994a');px(3,-3,3,2,'#8fab5a');return;
+    }
     if (d.type === "stone" || d.type === "rock") {
       ellipse(c, x + 1, y + 3, 7 * s, 3 * s, "#65865335");
       ellipse(c, x, y, 6 * s, 4 * s, "#b8b9a0");
@@ -55,6 +87,16 @@ const FarmArt = (() => {
       for (const [dx, dy] of [[-3, 0], [3, 0], [0, -4]]) ellipse(c, x + dx * s, y + dy * s, 3.5 * s, 2.5 * s, "#76a853");
     } else if (d.type === "crop") {
       ellipse(c, x, y + 2, 10 * s, 4 * s, "#98764e");
+      if (d.variant === 2) {
+        for (const dx of [-4, 0, 4]) ellipse(c,x+dx*s,y-3*s,5*s,7*s,dx===0?"#ec9b39":"#c66b2e",true);
+        line(c,[[x,y-10*s],[x+2,y-14*s]],"#487542",3);
+        return;
+      }
+      if (d.variant === 1) {
+        ellipse(c,x,y,4*s,4*s,"#e99737",true);
+        for(const dx of [-7,0,7]) line(c,[[x,y-2],[x+dx*s,y-(15-Math.abs(dx))*s]],"#4b813b",3);
+        return;
+      }
       for (const [dx, dy] of [[-5, -2], [5, -2], [0, -6]]) ellipse(c, x + dx * s, y + dy * s, 5.5 * s, 4 * s, dy < -3 ? "#8aaf55" : "#5f8c46");
       line(c, [[x, y], [x, y - 7 * s]], "#b4cc72", 1.5);
     } else if (d.type === "wheat") {
@@ -91,9 +133,11 @@ const FarmArt = (() => {
     }
   }
   function drawGround(c, layout, camera) {
-    c.fillStyle = "#94b76a"; c.fillRect(0, 0, c.canvas.width, c.canvas.height);
+    c.fillStyle = "#83a952"; c.fillRect(0, 0, c.canvas.width, c.canvas.height);
+    const textured = FarmTerrain.draw(c,layout,camera);
     world(c, camera);
-    const colors = { poleiro: "#a6be78", granja: "#b1bb73", estabulo: "#b8bc79", horta: "#85ac66", quintal: "#9bbb73" };
+    if (!textured) {
+    const colors = { poleiro: "#9fb866", granja: "#c1b563", estabulo: "#b5a16a", horta: "#6e994e", quintal: "#79a666" };
     for (const a of layout.areas || []) {
       if (!visible(c, a, camera, 80)) continue;
       patch(c, a.x + a.w * .5, a.y + a.h * .5, a.w * .6, a.h * .58, a.x, colors[a.id] || "#a0b86f");
@@ -113,11 +157,18 @@ const FarmArt = (() => {
       if (!visible(c, p, camera)) continue;
       rounded(c, p.x + 7, p.y + 7, Math.max(1,p.w - 14), Math.max(1,p.h - 14), Math.max(1,Math.min(p.w, p.h) / 2 - 7), "#e2cea0");
       const horizontal = p.w > p.h, length = horizontal ? p.w : p.h;
+      // Cart ruts make the lanes feel travelled, with broken wheel tracks.
+      for (let t = 28; t < length - 28; t += 53) for (const offset of [-17,17]) {
+        const cx = p.x + p.w/2, cy = p.y + p.h/2;
+        line(c, horizontal ? [[p.x+t,cy+offset],[Math.min(p.x+t+30,p.x+p.w-20),cy+offset]] :
+          [[cx+offset,p.y+t],[cx+offset,Math.min(p.y+t+30,p.y+p.h-20)]], "#b99b6848", 2.5);
+      }
       for (let i = 35; i < length - 20; i += 91) {
         const jitter = hash(i, p.x + p.y), xx = p.x + (horizontal ? i : 13 + jitter * (p.w - 26)),
           yy = p.y + (horizontal ? 13 + jitter * (p.h - 26) : i);
         ellipse(c, xx, yy, 2.5, 1.2, "#c4ac7f"); ellipse(c, xx + 9, yy + 4, 1.5, 1, "#f2dfb5");
       }
+    }
     }
     const structures = layout.structures || {};
     if (structures.pond && visible(c, structures.pond, camera)) pond(c, structures.pond);
@@ -153,6 +204,7 @@ const FarmArt = (() => {
     c.restore();
   }
   function fence(c, x, y, w) {
+    if(FarmSprites.draw(c,'fence',x-4,y-36,w+8,43))return;
     line(c, [[x, y - 14], [x + w, y - 14]], "#b59a6d", 6);
     line(c, [[x, y - 5], [x + w, y - 5]], "#ceb385", 5);
     rounded(c, x - 4, y - 24, 8, 27, 2, "#e4ca94", true);
@@ -164,15 +216,17 @@ const FarmArt = (() => {
     if (s.barn) result.push({ ...s.barn, type: "barn", id: "barn", depth: s.barn.y + s.barn.h });
     for (const p of layout.vegetation || []) result.push({ ...p, depth: p.blockingRect ? p.blockingRect.y + p.blockingRect.h : p.y + p.h * .68 });
     for (const [i,p] of (layout.decorations || []).entries()) if(p.type==="fence") result.push({...p,id:`fence-${i}`,depth:p.y+4});
-    for (const a of layout.areas || []) result.push({ type: "sign", id: `sign-${a.id}`, name: a.name,
-      x: a.sign?.x ?? a.x + 48, y: a.sign?.y ?? a.y + a.h - 42, w: 108, h: 42,
+    const names = { poleiro: "TERREIRO", granja: "MILHARAL", estabulo: "CURRAL", horta: "HORTA", quintal: "POMAR" };
+    for (const a of layout.areas || []) if(a.id!=='poleiro') result.push({ type: "sign", id: `sign-${a.id}`, name: names[a.id] || a.name,
+      x: a.sign?.x ?? a.x + 48, y: a.sign?.y ?? a.y + a.h - 42, w: 186, h: 42,
       depth: (a.sign?.y ?? a.y + a.h - 42) + 42 });
-    return result;
+    return result.concat(FarmRefuge.props());
   }
   function building(c, p, barn) {
     const {x,y,w,h} = p, roof = h * .36, wallY = y + h * .14, wallH = h * .86;
+    const stable = p.areaId === "estabulo";
     ellipse(c, x + w * .53, y + h + 5, w * .59, h * .12, "#526b452d");
-    rounded(c, x, wallY, w, wallH, 4, barn ? "#b9614e" : "#d7a96f", true);
+    rounded(c, x, wallY, w, wallH, 4, barn ? "#b54e38" : stable ? "#947049" : "#deb169", true);
     rounded(c, x + w * .80, wallY + 2, w * .18, wallH - 3, 2, barn ? "#a25143" : "#c19058");
     for (let xx = x + 14; xx < x + w - 5; xx += 18) line(c, [[xx,wallY+5],[xx,y+h-4]], barn ? "#995246" : "#bd8a53", 1.5);
     polygon(c, [[x - 12,wallY+3],[x + w * .5,y-roof],[x+w+12,wallY+3]], barn ? "#775744" : "#9b6147");
@@ -193,6 +247,22 @@ const FarmArt = (() => {
     }
     line(c, [[x+3,y+h-1],[x+w-3,y+h-1]], "#ecd3a1", 4);
     if (barn) { rounded(c,x+w*.5-15,y-10,30,22,3,"#e9ce99",true); ellipse(c,x+w*.5,y+1,6,7,"#796340"); }
+    if (barn || p.areaId === "poleiro") {
+      line(c,[[x+5,wallY+4],[x+w*.5,wallY+12],[x+w-5,wallY+4]],"#705135",1.5);
+      for(let i=0;i<7;i++) {
+        const xx=x+10+i*(w-20)/7, yy=wallY+5+Math.sin(i/7*Math.PI)*6;
+        polygon(c,[[xx,yy],[xx+12,yy+1],[xx+6,yy+15]],["#c3533e","#e9c752","#568577"][i%3]);
+      }
+    }
+    if (stable) {
+      c.beginPath(); c.arc(x+w*.5,y+2,11,0,Math.PI); c.strokeStyle="#f1d99c"; c.lineWidth=4; c.stroke();
+    }
+    // Farm clutter stays against existing walls, inside their collision footprint.
+    for(let i=0;i<2;i++) {
+      const xx=x+w-22-i*17, yy=y+h-17;
+      rounded(c,xx,yy,14,17,3,barn?"#a9bab4":"#b98348",true);
+      ellipse(c,xx+7,yy,7,3,barn?"#d7dfd0":"#e5be72",true);
+    }
   }
   function hay(c, p) {
     const {x,y,w,h} = p;
@@ -220,7 +290,7 @@ const FarmArt = (() => {
       for(let i=0;i<10;i++) {
         const xx=cx+(hash(i,x)-.5)*75, yy=cy-29+hash(i,y)*45;
         ellipse(c,xx,yy,4,2.5,"#b3c77770");
-        if(i%3===0) { ellipse(c,xx+3,yy+10,4.5,4.5,"#d58259"); ellipse(c,xx+2,yy+8,1.5,1.4,"#f0b177"); }
+        if(i%3===0) { ellipse(c,xx+3,yy+10,4.5,4.5,p.areaId==="quintal"?"#60445c":p.areaId==="horta"?"#dab449":"#c66739"); ellipse(c,xx+2,yy+8,1.5,1.4,p.areaId==="quintal"?"#c698b0":"#f0b177"); }
       }
       for(let i=0;i<7;i++) decoration(c,{type:"grass",x:x+10+i*13,y:y+h*.64+hash(i,x)*12,scale:1.25});
     } else {
@@ -236,6 +306,21 @@ const FarmArt = (() => {
   function drawProp(c,p,camera) {
     if(!visible(c,p,camera,160)) return;
     world(c,camera);
+    if(p.type.startsWith('refuge-')||p.type==='nursery'||p.type==='nursery-lip') {
+      FarmRefuge.drawProp(c,p);c.restore();return;
+    }
+    if(FarmSprites.ready && ['barn','coop','hay','tree','bush','silo'].includes(p.type)) {
+      const {x,y,w,h}=p;
+      const shape = p.type==='tree' ? {x:x-16,y:(p.blockingRect?.y||y)+22-148,w:136,h:148} :
+        p.type==='bush' ? {x:x-4,y:y-18,w:w+8,h:h+23} :
+        p.type==='hay' ? {x:x-3,y:y-16,w:w+6,h:h+20} :
+        p.type==='barn' ? {x:x-8,y:y+h-195,w:w+16,h:195} :
+        p.type==='silo' ? {x:x+1,y:y+h-174,w:w-2,h:174} :
+        {x:x-7,y:y+h-(w+14)*1.1,w:w+14,h:(w+14)*1.1};
+      ellipse(c,shape.x+shape.w*.54,shape.y+shape.h-2,shape.w*.45,Math.min(15,shape.h*.1),'#203e2845');
+      FarmSprites.draw(c,p.type,shape.x,shape.y,shape.w,shape.h);
+      c.restore();return;
+    }
     if(p.type==="barn"||p.type==="coop") building(c,p,p.type==="barn");
     else if(p.type==="hay") hay(c,p);
     else if(p.type==="tree"||p.type==="bush") vegetation(c,p);
@@ -256,8 +341,9 @@ const FarmArt = (() => {
       rounded(c,p.x+p.w-4,p.y-24,8,27,2,"#e4ca94",true);
     } else if(p.type==="sign") {
       rounded(c,p.x+p.w/2-4,p.y+15,8,27,2,"#a38555",true);
-      rounded(c,p.x,p.y-4,p.w,28,6,"#476957",true);
-      c.strokeStyle="#a3b48b";c.lineWidth=1;c.strokeRect(p.x+4,p.y,p.w-8,20);
+      rounded(c,p.x,p.y-4,p.w,28,3,"#855b37",true);
+      line(c,[[p.x+5,p.y+2],[p.x+p.w-5,p.y+2]],"#b9935b",1);
+      ellipse(c,p.x+7,p.y+10,2,2,"#40382b");ellipse(c,p.x+p.w-7,p.y+10,2,2,"#40382b");
       c.fillStyle="#f4e7bd";c.font="bold 12px Trebuchet MS, sans-serif";c.textAlign="center";c.textBaseline="middle";
       c.fillText(p.name,p.x+p.w/2,p.y+10,p.w-12);
     }
@@ -266,6 +352,20 @@ const FarmArt = (() => {
   function drawCoverForeground(c,spot,camera,opacity=1,player=null) {
     world(c,camera); c.globalAlpha=opacity;
     const x=player?.x ?? spot.x+spot.w/2, y=player?.y ?? spot.y+spot.h*.65;
+    if(FarmSprites.ready && spot.type==='hay') {
+      for(let i=0;i<25;i++) {
+        const xx=Math.round(x-28+i*2.3),height=19+Math.floor(hash(i,spot.x)*16);
+        c.fillStyle=['#b98935','#dcb252','#f0ce71'][i%3];
+        c.fillRect(xx,Math.round(y+14-height),3,height);
+        c.fillRect(xx-2,Math.round(y+9-height),3,7);
+      }
+      c.restore();return;
+    }
+    if(FarmSprites.ready) {
+      c.beginPath();c.rect(x-30,y-18,60,39);c.clip();
+      FarmSprites.draw(c,spot.type==='hay'?'hay':'bush',x-34,y-33,68,56);
+      c.restore();return;
+    }
     if(spot.type==="hay") {
       for(let i=0;i<13;i++) {
         const dx=(i-6)*4, height=12+hash(i,spot.x)*13;
@@ -280,6 +380,18 @@ const FarmArt = (() => {
     }
     c.restore();
   }
-  return {drawGround,getProps,drawProp,drawCoverForeground};
+  function drawSecretCover(c,chick,camera,time) {
+    if (!visible(c,chick,camera,25)) return;
+    world(c,camera);
+    const sway = Math.sin(time*2.3+chick.x)*1.2;
+    ellipse(c,chick.x,chick.y+9,17,5,"#5b78342b");
+    for (const side of [-1,0,1]) {
+      const x=chick.x+side*9;
+      line(c,[[x-6,chick.y+6],[x,chick.y-5+sway],[x+6,chick.y+7]],"#76974c",3);
+      line(c,[[x,chick.y+6],[x+3,chick.y-7+sway]],"#a8b86a",2);
+    }
+    c.restore();
+  }
+  return {drawGround,getProps,drawProp,drawCoverForeground,drawSecretCover};
 })();
 if (typeof module !== "undefined" && module.exports) module.exports = FarmArt;

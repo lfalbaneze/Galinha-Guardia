@@ -447,7 +447,7 @@ function costumeVoice(song, type, at, duration, pitch, volume = .12, pan = 0, op
   }
 }
 
-// Penas Rebeldes: a playful original garage-rock riff in E minor, 140 BPM.
+// Passos no Terreiro: a playful original garage-rock riff in E minor, 140 BPM.
 // Two choruses keep the same hook, then vary its answer and drum fills.
 const punkBeat = 60 / 140, punkBar = punkBeat * 4, punk = track(punkBar * 16, true);
 const punkRoots = ['E3','C3','G3','D3','E3','C3','A2','B2'];
@@ -481,7 +481,7 @@ for (let b = 0; b < 16; b++) {
     costumeVoice(punk,'guitar',start + beat * punkBeat,duration * punkBeat,variant,.099,.10,{release:.055});
   });
 }
-save('skin-punk.wav',punk,'Original playful garage-rock theme with overdriven guitar power chords, a melodic riff, electric bass and energetic drums.',{music:true,skin:'punk',bpm:140,timeSignature:'4/4',bars:16,title:'Penas Rebeldes'});
+save('skin-punk.wav',punk,'Original playful garage-rock theme with overdriven guitar power chords, a melodic riff, electric bass and energetic drums.',{music:true,skin:'punk',bpm:140,timeSignature:'4/4',bars:16,title:'Passos no Terreiro'});
 
 // Orbita do Galinheiro: weightless major-seventh pads and answering FM keys.
 const spaceBeat = .75, spaceBar = spaceBeat * 4, astronaut = track(spaceBar * 8,true);
@@ -507,7 +507,7 @@ for (let b = 0; b < 8; b++) {
   spaceMelody[b].forEach(([beat,duration,pitch]) => costumeVoice(astronaut,'spaceKey',start + beat * spaceBeat,duration * spaceBeat,pitch,.150,-.04,{release:.44}));
   if (b % 2) voice(astronaut,'bell',start + spaceBeat * 3,.36,note(chord[3]) * 2,.069,.35,{release:.52});
 }
-save('skin-astronaut.wav',astronaut,'Original gentle orbital theme with floating detuned pads, shimmering FM-key arpeggios and spacious bell answers.',{music:true,skin:'astronaut',bpm:80,timeSignature:'4/4',bars:8,title:'Órbita do Galinheiro'});
+save('skin-astronaut.wav',astronaut,'Original gentle orbital theme with floating detuned pads, shimmering FM-key arpeggios and spacious bell answers.',{music:true,skin:'astronaut',bpm:80,timeSignature:'4/4',bars:8,title:'Pulos ao Luar'});
 
 // Patrulha de Aco: original D-minor mechanical funk, with syncopated bass.
 const robotBeat = 60 / 112, robotBar = robotBeat * 4, robocop = track(robotBar * 8,true);
@@ -538,9 +538,9 @@ for (let b = 0; b < 8; b++) {
   for (const beat of [.5,2.5]) [1,1.4983,2].forEach((ratio,i) => costumeVoice(robocop,'robotKey',start + beat * robotBeat,.13,root * ratio * 4,.030,i * .34 - .34,{release:.055}));
   robotMelody[b].forEach(([beat,duration,pitch]) => costumeVoice(robocop,'robotKey',start + beat * robotBeat,duration * robotBeat,pitch,.133,.08,{release:.085}));
 }
-save('skin-robocop.wav',robocop,'Original mechanical funk theme with a syncopated rounded synth bass, precise electronic percussion and robotic FM-key motifs.',{music:true,skin:'robocop',bpm:112,timeSignature:'4/4',bars:8,title:'Patrulha de Aço'});
+save('skin-robocop.wav',robocop,'Original mechanical funk theme with a syncopated rounded synth bass, precise electronic percussion and robotic FM-key motifs.',{music:true,skin:'robocop',bpm:112,timeSignature:'4/4',bars:8,title:'Passo Furtivo'});
 
-// Sinos da Capelinha: a light original organ waltz, with little bell replies.
+// Companheiro da Roça: a light original organ waltz, with little bell replies.
 const priestBeat = 60 / 72, priestBar = priestBeat * 3, priest = track(priestBar * 8,true);
 const priestChords = [
   ['F3','A3','C4'],['C3','E3','G3'],['D3','F3','A3'],['A#2','D3','F3'],
@@ -560,7 +560,7 @@ for (let b = 0; b < 8; b++) {
   for (const beat of [1,2]) voice(priest,'bell',start + beat * priestBeat,.30,note(chord[(b + beat) % 3]) * 4,.058,beat === 1 ? -.36 : .36,{release:.45});
   if (b % 2 === 0) voice(priest,'bell',start,.45,note(chord[0]),.057,0,{release:.52});
 }
-save('skin-priest.wav',priest,'Original light chapel waltz with warm pipe-organ harmony, a gentle melodic line and small answering bells.',{music:true,skin:'priest',bpm:72,timeSignature:'3/4',bars:8,title:'Sinos da Capelinha'});
+save('skin-priest.wav',priest,'Original light chapel waltz with warm pipe-organ harmony, a gentle melodic line and small answering bells.',{music:true,skin:'priest',bpm:72,timeSignature:'3/4',bars:8,title:'Companheiro da Roça'});
 
 const totalBytes=files.reduce((sum,file)=>sum+file.bytes,0);
 if(totalBytes>22000000)throw new Error(`Audio package exceeds 22 MB: ${totalBytes}`);

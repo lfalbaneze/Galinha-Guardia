@@ -2,6 +2,38 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createGame } = require('./helpers.cjs');
 
+test('new farm never repeats the current seed even when the random source repeats', () => {
+  const { run } = createGame(() => .5);
+  let previous = run('JSON.stringify(WORLD.layout)');
+  for (let i = 0; i < 3; i++) {
+    run('resetGame();');
+    const next = run('JSON.stringify(WORLD.layout)');
+    assert.notEqual(next, previous);
+    assert.equal(run('state.worldVersion'), 2);
+    previous = next;
+  }
+});
+
+test('existing saves without a generation version reopen the original farm and keep discoveries', () => {
+  const first = createGame(() => .5);
+  first.run(`resetGame(814237, 1); state.entities.chicks[2].discovered=true;
+    GameManager.rescue(state,state.entities.animals[3]); GameManager.save(state);`);
+  const saved = JSON.parse(first.storage.get('galinha-guardia-save-v1'));
+  delete saved.worldVersion;
+  first.storage.set('galinha-guardia-save-v1', JSON.stringify(saved));
+  const loaded = createGame(() => .5, { storage: new Map(first.storage), fullStartup: true });
+  assert.equal(loaded.run('state.worldVersion'), 1);
+  assert.equal(loaded.run('JSON.stringify(WORLD.layout)'), first.run('JSON.stringify(WORLD.layout)'));
+  assert.equal(loaded.run('state.rescuedIds.has("animal_3")'), true);
+  assert.equal(loaded.run('state.entities.chicks[2].discovered'), true);
+  loaded.run('GameManager.save(state);');
+  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 1);
+  loaded.run('resetGame(814237); GameManager.save(state);');
+  assert.equal(loaded.run('state.worldVersion'), 2);
+  assert.notEqual(loaded.run('JSON.stringify(WORLD.layout)'), first.run('JSON.stringify(WORLD.layout)'));
+  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 2);
+});
+
 test('a fresh farm changes its geography, while reload restores the exact saved layout', () => {
   const first = createGame();
   first.run('resetGame(145); const oldLayout=JSON.stringify(WORLD.layout); GameManager.rescue(state,state.entities.animals[3]); GameManager.save(state);');
@@ -40,7 +72,7 @@ test('hidden status is rendered in the canvas, and the peeking chicken precedes 
     drawChicken=()=>layers.push('chicken');
     FarmArt.drawCoverForeground=()=>layers.push('cover');
     renderGame();`);
-  assert.equal(run('visibleLabels.includes("ESCONDIDA")'), true);
+  assert.equal(run('visibleLabels.some(label=>label.startsWith("Escondida"))'), true);
   assert.deepEqual(JSON.parse(run('JSON.stringify(layers)')), ['chicken','cover']);
 });
 

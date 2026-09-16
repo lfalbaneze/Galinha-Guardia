@@ -22,19 +22,20 @@ const GameManager = (() => {
   function rescue(game, animal) {
     const chick = animal.type === "chick";
     const ids = chick ? game.rescuedChickIds : game.rescuedIds;
-    if (game.phase !== "playing" || ids.has(animal.id)) return false;
+    if (game.phase !== "playing" || ids.has(animal.id) || (chick && !animal.discovered)) return false;
     ids.add(animal.id);
     animal.rescued = true;
+    animal.discovered = true;
     animal.lost = false;
     game.rescuedCount = game.rescuedIds.size;
     game.rescuedChicks = game.rescuedChickIds.size;
     game.wolfLevel = level(game.rescuedCount);
     game.score += SCORE_PER_RESCUE;
-    if (chick) SkinSystem.record(game);
+    SkinSystem.record(game);
     return true;
   }
   function win(game) {
-    if (game.phase !== "playing" || game.rescuedIds.size !== WORLD.targetRescues || game.rescuedChickIds.size !== WORLD.targetChicks) return false;
+    if (game.phase !== "playing" || game.rescuedIds.size !== WORLD.targetRescues) return false;
     if (!game.winBonusApplied) {
       game.score += game.lives * SCORE_BONUS_PER_LIFE;
       game.winBonusApplied = true;
@@ -47,9 +48,12 @@ const GameManager = (() => {
     const phase = game.phase === "menu" ? game.resumePhase : game.phase;
     if (!phase || phase === "lose") return;
     const point = e => ({ x: e.x, y: e.y });
+    const friend = a => ({ id: a.id, ...point(a), discovered: !!a.discovered, coverId: a.coverId || null, lastSeen: a.lastSeen || null,
+      fatigue: a.fatigue || 0, restTime: a.restTime || 0, fleeTime: a.fleeTime || 0,
+      fleeFrom: a.fleeFrom || null, fleeHeading: a.fleeHeading ?? null });
     const wolf = game.entities.wolf, chicken = game.entities.chicken;
     const data = {
-      version: 3, worldSeed: game.worldSeed, difficulty: game.difficultyKey, phase,
+      version: 4, worldSeed: game.worldSeed, worldVersion: game.worldVersion, difficulty: game.difficultyKey, phase,
       rescuedIds: [...game.rescuedIds], lives: game.lives, score: game.score, winBonusApplied: game.winBonusApplied,
       rescuedChickIds: [...game.rescuedChickIds],
       elapsed: game.elapsed, chicken: { ...point(chicken), hidden: chicken.hidden,
@@ -61,9 +65,10 @@ const GameManager = (() => {
         hearingCooldown: wolf.hearingCooldown, investigateTime: wolf.investigateTime,
         alertReturnMode: wolf.alertReturnMode, patrolPause: wolf.patrolPause,
         patrolScanHeading: wolf.patrolScanHeading, searchApproached: wolf.searchApproached,
-        searchIndex: wolf.searchIndex, scanTime: wolf.scanTime, exposedCover: wolf.exposedCover || null },
-      animals: game.entities.animals.map(a => ({ id: a.id, ...point(a) })),
-      chicks: game.entities.chicks.map(a => ({ id: a.id, ...point(a) })),
+        searchIndex: wolf.searchIndex, scanTime: wolf.scanTime, exposedCover: wolf.exposedCover || null,
+        seenVelocity: wolf.seenVelocity, investigateReturnMode: wolf.investigateReturnMode },
+      animals: game.entities.animals.map(friend),
+      chicks: game.entities.chicks.map(friend),
     };
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); storageAvailable = true; }
     catch (_) { storageAvailable = false; }
@@ -71,9 +76,11 @@ const GameManager = (() => {
   function read() {
     try {
       const data = JSON.parse(localStorage.getItem(SAVE_KEY));
-      if (!data || ![1, 2, 3].includes(data.version) || !DIFFICULTIES[data.difficulty]) return null;
+      if (!data || ![1, 2, 3, 4].includes(data.version) || !DIFFICULTIES[data.difficulty]) return null;
       if (data.version >= 2 && (!Number.isInteger(data.worldSeed) || data.worldSeed < 0 || data.worldSeed > 4294967295)) return null;
       if (data.version === 1) data.worldSeed = 20260915;
+      if (data.worldVersion === undefined) data.worldVersion = 1;
+      if (![1, 2].includes(data.worldVersion)) return null;
       if (!Array.isArray(data.rescuedIds) || !Array.isArray(data.animals)) return null;
       if (!Number.isInteger(data.lives) || data.lives < 1 || data.lives > MAX_LIVES) return null;
       if (!Number.isFinite(data.score) || data.score < 0) return null;
@@ -92,9 +99,9 @@ const GameManager = (() => {
           data.rescuedChickIds.some(id => !chickIds.has(id)) || new Set(data.rescuedChickIds).size !== data.rescuedChickIds.length ||
           data.chicks.length !== WORLD.targetChicks || new Set(data.chicks.map(c => c.id)).size !== WORLD.targetChicks ||
           data.chicks.some(c => !chickIds.has(c.id) || !validPoint(c))) return null;
-        if (data.phase !== "playing" && data.rescuedChickIds.length !== WORLD.targetChicks) return null;
+        if (data.version === 3 && data.phase !== "playing" && data.rescuedChickIds.length !== WORLD.targetChicks) return null;
       } else {
-        // The new chicks extend existing adventures without discarding their map or score.
+        // Old adventures retain their score; their optional bonuses start undiscovered.
         data.rescuedChickIds = [];
         data.chicks = [];
         data.phase = "playing";
@@ -104,8 +111,10 @@ const GameManager = (() => {
   }
   function restore(game, data) {
     const seed = data.worldSeed ?? 20260915;
-    if (game.worldSeed !== seed) {
-      MapManager.generate(seed); buildObstacles(); game.worldSeed = seed;
+    const worldVersion = data.worldVersion ?? 1;
+    if (game.worldSeed !== seed || game.worldVersion !== worldVersion) {
+      MapManager.generate(seed, worldVersion); buildObstacles(); game.worldSeed = seed;
+      game.worldVersion = worldVersion;
     }
     game.rescuedIds = new Set(data.rescuedIds);
     game.rescuedCount = game.rescuedIds.size;
@@ -117,6 +126,22 @@ const GameManager = (() => {
     game.score = data.score;
     game.elapsed = Number.isFinite(data.elapsed) ? Math.max(0, data.elapsed) : 0;
     const bounded = (value, min, max, fallback = min) => Number.isFinite(value) ? clamp(value, min, max) : fallback;
+    const restoreFriend = (animal, saved) => {
+      animal.discovered = animal.rescued || saved.discovered === true;
+      animal.discoveryTime = 0;
+      animal.lastSeen = animal.discovered && Number.isFinite(saved.lastSeen?.x) && Number.isFinite(saved.lastSeen?.y)
+        ? { x: bounded(saved.lastSeen.x, 0, WORLD.width), y: bounded(saved.lastSeen.y, 0, WORLD.height) } : null;
+      animal.fatigue = bounded(saved.fatigue, 0, 8);
+      animal.restTime = bounded(saved.restTime, 0, 3.1);
+      animal.fleeTime = bounded(saved.fleeTime, 0, .9);
+      const memory = saved.fleeFrom;
+      animal.fleeFrom = memory && ['player','wolf'].includes(memory.kind) && Number.isFinite(memory.x) && Number.isFinite(memory.y) &&
+        memory.x >= 0 && memory.x <= WORLD.width && memory.y >= 0 && memory.y <= WORLD.height ?
+        { x: memory.x, y: memory.y, kind: memory.kind } : null;
+      animal.fleeHeading = Number.isFinite(saved.fleeHeading) ? bounded(saved.fleeHeading,-Math.PI,Math.PI) : null;
+      animal.stuckTime = 0; animal.wanderTime = 1;
+      animal.speechTime = 0;
+    };
     const chicken = game.entities.chicken;
     Object.assign(chicken, { x: data.chicken.x, y: data.chicken.y, invulnerable: 2,
       stamina: bounded(data.chicken.stamina, 0, 1, 1),
@@ -142,6 +167,11 @@ const GameManager = (() => {
     wolf.patrolPause = bounded(data.wolf.patrolPause, 0, 3);
     wolf.patrolScanHeading = bounded(data.wolf.patrolScanHeading, -Math.PI * 2, Math.PI * 2, wolf.heading);
     wolf.alertReturnMode = ["patrol", "investigate", "search"].includes(data.wolf.alertReturnMode) ? data.wolf.alertReturnMode : "patrol";
+    wolf.investigateReturnMode = data.wolf.investigateReturnMode === 'search' && wolf.lastKnown ? 'search' : 'patrol';
+    const velocity = data.wolf.seenVelocity, maxObservedSpeed = game.settings.chickenSpeed * Player.sprintMultiplier * 1.1;
+    wolf.seenVelocity = velocity && Number.isFinite(velocity.x) && Number.isFinite(velocity.y) && Math.hypot(velocity.x,velocity.y) <= maxObservedSpeed ?
+      { x: velocity.x, y: velocity.y } : { x: 0, y: 0 };
+    wolf.lastSight = null; wolf.sightAge = Infinity;
     wolf.searchApproached = data.wolf.searchApproached === true;
     wolf.searchIndex = Math.floor(bounded(data.wolf.searchIndex, 0, 1000, wolf.searchApproached ? 1 : 0));
     wolf.scanTime = bounded(data.wolf.scanTime, 0, 5);
@@ -149,25 +179,36 @@ const GameManager = (() => {
     for (const [index, animal] of game.entities.animals.entries()) {
       animal.rescued = game.rescuedIds.has(animal.id);
       // Older saves used a different geography: keep their progress and give friends legal new homes.
-      const saved = data.version === 1 ? (animal.rescued ? RescueSystem.safePosition(index) : WORLD.layout.animalSpawns[index])
+      const saved = animal.rescued ? RescueSystem.safePosition(index) : data.version === 1 ? WORLD.layout.animalSpawns[index]
         : data.animals.find(a => a.id === animal.id);
       animal.x = saved.x; animal.y = saved.y;
       animal.targetX = saved.x; animal.targetY = saved.y;
+      restoreFriend(animal, saved);
       resolveEnvironment(animal);
+      FarmRefuge.ensureClear(animal);
     }
+    const bonusHomes = HidingSpots.bonusHomes();
     for (const [index, chick] of game.entities.chicks.entries()) {
       chick.rescued = game.rescuedChickIds.has(chick.id);
-      const saved = data.chicks?.find(c => c.id === chick.id) || WORLD.layout.chickSpawns[index];
-      const point = chick.rescued ? RescueSystem.chickPosition(index) : saved;
+      const home = bonusHomes[index];
+      const saved = data.chicks?.find(c => c.id === chick.id) || home;
+      // Already revealed chicks stay where the player left them; unopened bonuses use real cover.
+      const coverId = !saved.discovered || saved.coverId === home.coverId ? home.coverId : null;
+      const point = chick.rescued ? RescueSystem.chickPosition(index) : coverId ? home : saved;
       Object.assign(chick, { x: point.x, y: point.y, targetX: point.x, targetY: point.y, moving: false });
+      Object.assign(chick, { coverId, homeX: home.x, homeY: home.y, areaId: home.areaId });
+      restoreFriend(chick, saved);
       resolveEnvironment(chick);
+      FarmRefuge.ensureClear(chick);
     }
     resolveEnvironment(game.entities.chicken);
+    FarmRefuge.ensureClear(game.entities.chicken);
     HidingSpots.restore(game, data.chicken);
     resolveEnvironment(wolf);
+    FarmRefuge.ensureClear(wolf);
     WolfAI.restoreCoverMemory(game, data.wolf.exposedCover);
     game.winBonusApplied = data.winBonusApplied === true;
-    if (game.rescuedCount === WORLD.targetRescues && game.rescuedChicks === WORLD.targetChicks) GameManager.win(game);
+    if (game.rescuedCount === WORLD.targetRescues) GameManager.win(game);
     refreshHud();
     MapManager.initialize(game);
   }

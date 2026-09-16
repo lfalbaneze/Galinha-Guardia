@@ -10,7 +10,13 @@ const WolfAI = (() => {
 
   function getConfig(game) {
     const level = Number.isFinite(game.wolfLevel) ? clamp(Math.floor(game.wolfLevel), 0, 3) : 0;
-    const config = levels[level];
+    // Labels still have four tiers; the actual challenge advances at EVERY rescue.
+    const count = Number.isFinite(game.rescuedCount) ? clamp(Math.floor(game.rescuedCount), 0, 10) : 0;
+    const rescuedFriends = Math.max(count, level * 3);
+    const progress = rescuedFriends / 10;
+    const config = Object.fromEntries(Object.keys(levels[0]).map(key =>
+      [key, levels[0][key] + (levels[3][key] - levels[0][key]) * progress]));
+    config.searchPoints = Math.floor(config.searchPoints);
     const rescuedChicks = Number.isFinite(game.rescuedChicks) ? clamp(Math.floor(game.rescuedChicks), 0, 6) : 0;
     const chickMultiplier = 1 + 0.5 * rescuedChicks / 6;
     const difficulty = game.difficultyKey || "normal";
@@ -19,15 +25,18 @@ const WolfAI = (() => {
     const sprintMultiplier = typeof Player !== "undefined" && Number.isFinite(Player.sprintMultiplier) ? Player.sprintMultiplier : 1.32;
     const nominalSpeed = game.settings.wolfMaxSpeed * config.speedScale * chickMultiplier;
     // Chicks sharpen pursuit, but full sprint always opens a gap even at the final tier.
-    const speed = Math.min(nominalSpeed, game.settings.chickenSpeed * sprintMultiplier * sprintCap);
-    return { ...config, level, rescuedChicks, chickMultiplier, nominalSpeed, sprintCap, speed,
+    const totalProgress = (rescuedFriends + rescuedChicks * .5) / 13;
+    const ceilingProgress = .88 + .12 * totalProgress;
+    const speed = Math.min(nominalSpeed, game.settings.chickenSpeed * sprintMultiplier * sprintCap * ceilingProgress);
+    return { ...config, level, rescuedFriends, rescuedChicks, chickMultiplier, nominalSpeed, sprintCap, speed,
+      pressure: config.speedScale / levels[0].speedScale * chickMultiplier,
       fov: Math.min(165, config.fov + rescuedChicks * 2.5) * Math.PI / 180,
-      range: Math.min(840, config.range * chickMultiplier),
+      range: Math.min(840 * ceilingProgress, config.range * chickMultiplier),
       awarenessTime: Math.max(0.18, config.awarenessTime / chickMultiplier),
       searchDuration: Math.min(24, config.searchDuration * chickMultiplier),
       searchRadius: Math.min(310, config.searchRadius * (1 + rescuedChicks / 24)),
       hideWitnessRange: difficulty === "easy" ? 180 : difficulty === "hard" ? 260 : 220,
-      hideMemoryDuration: 8 + level * 2,
+      hideMemoryDuration: 8 + rescuedFriends * .6,
       patrolSpeed: speed * (level === 3 ? 0.80 : 0.70), awarenessDecay: 0.9,
       contactRange: 28, soundInterval: 0.65, investigateDuration: 2.6 + level * 0.3 };
   }
@@ -40,7 +49,8 @@ const WolfAI = (() => {
       moveSpeed: 0, patrolIndex: 0, detected: false,
       awareness: 0, heardPoint: null, hearingCooldown: 0, investigateTime: 0,
       alertReturnMode: "patrol", patrolPause: 0, patrolScanHeading: Math.PI,
-      exposedCover: null,
+      exposedCover: null, seenVelocity: { x: 0, y: 0 }, lastSight: null, sightAge: Infinity,
+      investigateReturnMode: 'patrol',
     });
   }
 
@@ -227,7 +237,9 @@ const WolfAI = (() => {
       points.push(...spots.slice(0, 3));
     }
     for (let i = 0; i < config.searchPoints; i += 1) {
-      const angle = wolf.heading + Math.PI * 2 * i / config.searchPoints;
+      const velocity = wolf.seenVelocity || { x: 0, y: 0 };
+      const heading = Math.hypot(velocity.x, velocity.y) > 20 ? Math.atan2(velocity.y, velocity.x) : wolf.heading;
+      const angle = heading + Math.PI * 2 * i / config.searchPoints;
       const radius = config.searchRadius * (i % 2 ? 0.65 : 1);
       points.push({ x: origin.x + Math.cos(angle) * radius, y: origin.y + Math.sin(angle) * radius });
     }
@@ -266,7 +278,48 @@ const WolfAI = (() => {
     wolf.scanTime = 0;
     wolf.heardPoint = null;
     wolf.investigateTime = 0;
+    wolf.investigateReturnMode = 'patrol';
     wolf.routeTimer = 0;
+  }
+
+  function observe(wolf, point, game) {
+    const maxSpeed = game.settings.chickenSpeed * Player.sprintMultiplier;
+    let velocity = { x: 0, y: 0 };
+    if (wolf.lastSight && wolf.sightAge > 0 && wolf.sightAge <= .25) {
+      const vx = (point.x - wolf.lastSight.x) / wolf.sightAge;
+      const vy = (point.y - wolf.lastSight.y) / wolf.sightAge;
+      // Ignore teleports/invalid old positions instead of inventing an enormous lead.
+      if (Math.hypot(vx, vy) <= maxSpeed * 1.1) velocity = { x: vx, y: vy };
+    }
+    wolf.seenVelocity = velocity;
+    wolf.lastSight = { ...point };
+    wolf.sightAge = 0;
+  }
+
+  function pursuitTarget(wolf, game, config) {
+    const observed = wolf.lastKnown;
+    if (!observed || !wolf.detected) return observed;
+    const velocity = wolf.seenVelocity || { x: 0, y: 0 };
+    const lead = Math.min(game.difficultyKey === 'easy' ? .18 : game.difficultyKey === 'hard' ? .42 : .32,
+      distance(wolf, observed) / Math.max(1, config.speed) * .3);
+    const proposed = { x: observed.x + velocity.x * lead, y: observed.y + velocity.y * lead };
+    const nav = navigation(wolf), offset = wolf.hitbox || { ox: 0, oy: 0 };
+    const from = { x: observed.x + offset.ox, y: observed.y + offset.oy };
+    const to = { x: proposed.x + offset.ox, y: proposed.y + offset.oy };
+    return freePoint(to, nav) && clearSegment(from, to, nav) ? proposed : observed;
+  }
+
+  function finishInvestigation(wolf) {
+    if (wolf.investigateReturnMode === 'search' && wolf.lastKnown && wolf.searchTime > 0) {
+      wolf.mode = 'search'; wolf.scanTime = 0; wolf.routeTimer = 0; wolf.routeTarget = null;
+      wolf.heardPoint = null; wolf.investigateReturnMode = 'patrol';
+    } else resumePatrol(wolf);
+  }
+
+  function physicallyFree(point, nav) {
+    return point.x >= nav.radius && point.y >= nav.radius && point.x <= WORLD.width-nav.radius && point.y <= WORLD.height-nav.radius &&
+      nav.source.every(rect => rect.blocking === false || Math.hypot(point.x-clamp(point.x,rect.x,rect.x+rect.w),
+        point.y-clamp(point.y,rect.y,rect.y+rect.h)) >= nav.radius-.001);
   }
 
   function moveToward(wolf, target, speed, dt) {
@@ -287,7 +340,19 @@ const WolfAI = (() => {
       wolf.x = start.x - (wolf.hitbox?.ox || 0);
       wolf.y = start.y - (wolf.hitbox?.oy || 0);
     } else {
-      // A malformed/old save must not teleport the wolf through a building.
+      // Rounded collision corners can be outside a real prop but inside its inflated navigation box.
+      // Walk out in small verified steps; an actually embedded old save must stay put.
+      const from = center(wolf), gap = distance(from, start);
+      if (gap <= 32 && physicallyFree(from, nav)) {
+        const step = Math.min(gap, 90 * dt);
+        const next = { x: from.x + (start.x-from.x)/gap*step, y: from.y + (start.y-from.y)/gap*step };
+        if ([.25,.5,.75,1].every(t => physicallyFree({x:from.x+(next.x-from.x)*t,y:from.y+(next.y-from.y)*t},nav))) {
+          wolf.x = next.x - (wolf.hitbox?.ox || 0); wolf.y = next.y - (wolf.hitbox?.oy || 0);
+          wolf.vx = (wolf.x-original.x)/dt; wolf.vy = (wolf.y-original.y)/dt;
+          wolf.route = []; wolf.routeTimer = 0; wolf.moveSpeed = 0; wolf.anim += dt*8;
+          return false;
+        }
+      }
       wolf.route = [];
       stop(wolf, dt);
       return false;
@@ -330,6 +395,7 @@ const WolfAI = (() => {
     wolf.areaId = getAreaAt(wolf.x, wolf.y).id;
     wolf.hearingCooldown = Math.max(0, (wolf.hearingCooldown || 0) - dt);
     wolf.awareness = clamp(Number.isFinite(wolf.awareness) ? wolf.awareness : 0, 0, 1);
+    wolf.sightAge = (wolf.sightAge ?? Infinity) + dt;
     if (wolf.exposedCover) {
       wolf.exposedCover.remaining = Math.max(0, wolf.exposedCover.remaining - dt);
       if (wolf.exposedCover.remaining <= 0) {
@@ -344,6 +410,7 @@ const WolfAI = (() => {
       { visible: false, contact: false, heardPoint: null };
     wolf.detected = false;
     if (perception.visible) {
+      observe(wolf, perception.seenPoint, game);
       wolf.exposedCover = null;
       // A distant glimpse gives the player time to break sight. Awareness survives brief gaps.
       const closeness = 1 - Math.min(1, perception.distance / config.range);
@@ -371,7 +438,7 @@ const WolfAI = (() => {
       if (!memory) beginSearch(wolf, config);
       else {
         wolf.awareness = 1;
-        const arrived = moveToward(wolf, memory, config.speed, dt);
+        const arrived = moveToward(wolf, { x: memory.x, y: memory.y }, config.speed, dt);
         // At the remembered entrance, physical contact can expose the chicken. A wall cannot.
         if ((arrived || (!wolf.route.length && wolf.routeTimer > 0)) && !canCatchHidden(game)) {
           memory.inspectTime = Math.max(0, memory.inspectTime - dt);
@@ -390,6 +457,7 @@ const WolfAI = (() => {
       wolf.routeTimer = 0;
     }
     if (!perception.visible && perception.heardPoint && wolf.hearingCooldown <= 0) {
+      if (wolf.mode !== 'investigate') wolf.investigateReturnMode = wolf.mode === 'search' ? 'search' : 'patrol';
       wolf.heardPoint = { ...perception.heardPoint };
       wolf.hearingCooldown = config.soundInterval;
       wolf.investigateTime = config.investigateDuration;
@@ -402,7 +470,7 @@ const WolfAI = (() => {
     if (wolf.mode === "investigate") {
       wolf.investigateTime = Math.max(0, (wolf.investigateTime || 0) - dt);
       if (!wolf.heardPoint || wolf.investigateTime <= 0) {
-        resumePatrol(wolf);
+        finishInvestigation(wolf);
       } else if (wolf.scanTime > 0) {
         wolf.scanTime = Math.max(0, wolf.scanTime - dt);
         turnToward(wolf, wolf.heading + 0.9, dt, 1.4);
@@ -439,7 +507,7 @@ const WolfAI = (() => {
         target = wolf.searchPoints[wolf.searchIndex % wolf.searchPoints.length];
       }
     }
-    if (wolf.mode === "chase") target = wolf.lastKnown;
+    if (wolf.mode === "chase") target = pursuitTarget(wolf, game, config);
     if (wolf.mode === "patrol") {
       if (wolf.patrolPause > 0) {
         wolf.patrolPause = Math.max(0, wolf.patrolPause - dt);

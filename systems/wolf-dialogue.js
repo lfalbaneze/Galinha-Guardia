@@ -1,11 +1,11 @@
 /* Speech reacts to observed AI state, without granting any new perception. */
 const WolfDialogue = (() => {
   const lines = {
-    chase: ["GRRR! VOLTA AQUI!", "NINGUÉM ME DESAFIA!", "EU VOU TE PEGAR!", "ESSA GALINHA ME PAGA!"],
-    alert: ["Ei... quem está aí?", "Eu vi essas penas!"],
-    investigate: ["Ouvi uns passinhos...", "Que barulho foi esse?"],
-    search: ["Cadê aquela galinha?!", "GRRR... perdi a pista!", "Sai daí, sua danada!"],
-    inspect: ["EU VI VOCÊ ENTRAR AÍ!", "ESSE ESCONDERIJO NÃO ME ENGANA!", "TE ACHEI, GALINHA!"],
+    chase: ["Grrr! Volta aqui!", "Pode correr. Eu vou atrás!", "Hoje eu não fico sem almoço!", "Essa turma me paga!"],
+    alert: ["Opa… quem passou ali?", "Eu vi alguma coisa…"],
+    investigate: ["Esses passos não me enganam…", "Tem alguém por aqui."],
+    search: ["Cadê? Tava aqui agora!", "Grrr… perdi o rastro!", "Pode sair. Eu espero."],
+    inspect: ["Eu vi você entrar!", "Nem adianta se encolher!", "Te achei!"],
   };
   function update(game, dt) {
     const wolf = game.entities.wolf;

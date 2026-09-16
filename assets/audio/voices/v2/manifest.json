@@ -1,0 +1,193 @@
+{
+  "sampleRate": 22050,
+  "channels": 1,
+  "bits": 16,
+  "recordings": [
+    {
+      "species": "cow",
+      "file": "animal-cow.wav",
+      "source": "mudchuteanimals/MudchuteAnimals/Mudchute_cow_1.ogg",
+      "start": 0,
+      "end": null,
+      "repeats": 1,
+      "seconds": 2.1943,
+      "peak": 0.82,
+      "rms": 0.1898,
+      "sha256": "408978ac27d30fd18c48bf10642f58c35442df4c5d08275426fe8b6a93520a9b"
+    },
+    {
+      "species": "duck",
+      "file": "animal-duck.wav",
+      "source": "mudchuteanimals/MudchuteAnimals/Mudchute_duck_2.ogg",
+      "start": 0,
+      "end": null,
+      "repeats": 1,
+      "seconds": 1.4512,
+      "peak": 0.82,
+      "rms": 0.0945,
+      "sha256": "d62e73a6b0dedeffd3d3b21873854201649760f82040213abd0973da929723c6"
+    },
+    {
+      "species": "sheep",
+      "file": "animal-sheep.wav",
+      "source": "mudchuteanimals/MudchuteAnimals/Mudchute_sheep_1.ogg",
+      "start": 0,
+      "end": null,
+      "repeats": 1,
+      "seconds": 1.1378,
+      "peak": 0.82,
+      "rms": 0.2878,
+      "sha256": "457b5017c7ff71f2ed77d0350a2d44d6d828db30dd6ff3166eb177767ed62618"
+    },
+    {
+      "species": "lamb",
+      "file": "animal-lamb.wav",
+      "source": "mudchuteanimals/MudchuteAnimals/Mudchute_lamb_1.ogg",
+      "start": 0,
+      "end": null,
+      "repeats": 2,
+      "seconds": 1.3042,
+      "peak": 0.76,
+      "rms": 0.1247,
+      "sha256": "518eca673b2365d1132e1ab7e37969c4c514af464f99f1a86da247e83da2b45f"
+    },
+    {
+      "species": "pig",
+      "file": "animal-pig.wav",
+      "source": "mudchuteanimals/MudchuteAnimals/Mudchute_pig_1.ogg",
+      "start": 0,
+      "end": null,
+      "repeats": 2,
+      "seconds": 0.9398,
+      "peak": 0.82,
+      "rms": 0.1242,
+      "sha256": "32b283ad3444a82ca3d50021e0e4cc8e5027e70a609ecea566181016f3ce67d9"
+    },
+    {
+      "species": "goat",
+      "file": "animal-goat.wav",
+      "source": "goat-field.mp3",
+      "start": 0,
+      "end": null,
+      "repeats": 1,
+      "seconds": 1.112,
+      "peak": 0.82,
+      "rms": 0.1538,
+      "sha256": "c1bc9cefaa5f4392de0f74f36c773fd60e0b393e1b0b7d7ba6c313d746c9f363"
+    },
+    {
+      "species": "dog",
+      "file": "animal-dog.wav",
+      "source": "dog-clean.mp3",
+      "start": 0,
+      "end": null,
+      "repeats": 2,
+      "seconds": 0.998,
+      "peak": 0.82,
+      "rms": 0.1743,
+      "sha256": "5c7deef34c40c5b26fd4302d8a8b812f338423b5ae4429dd99ddb4030900c974"
+    },
+    {
+      "species": "cat",
+      "file": "animal-cat.wav",
+      "source": "Meow.ogg",
+      "start": 0,
+      "end": null,
+      "repeats": 1,
+      "seconds": 0.7788,
+      "peak": 0.8,
+      "rms": 0.1497,
+      "sha256": "2cdde327c29e2c58f5ea75848e2a84f28bcc50631767729dd998b763c1c2fef1"
+    },
+    {
+      "species": "donkey",
+      "file": "animal-donkey.wav",
+      "source": "donkey.wav",
+      "start": 5.75,
+      "end": 8.9,
+      "repeats": 1,
+      "seconds": 3.15,
+      "peak": 0.82,
+      "rms": 0.1653,
+      "sha256": "11da084d2c8cd65ed20b9d6166cecb29f3328ff273a850b999d31c1b40cd698c"
+    },
+    {
+      "species": "rabbit",
+      "file": "animal-rabbit.wav",
+      "source": "RabbitEating.wav",
+      "start": 1.5,
+      "end": 3.3,
+      "repeats": 1,
+      "seconds": 1.8,
+      "peak": 0.5,
+      "rms": 0.0182,
+      "sha256": "69ce4c620ca304c3c895dc2f58f88922144d4d9bdd9ed72ffa6e4643f60527ed"
+    },
+    {
+      "species": "chicken",
+      "file": "animal-chicken.wav",
+      "source": "hen-clucks.mp3",
+      "start": 1.12,
+      "end": 3.52,
+      "repeats": 1,
+      "seconds": 2.4,
+      "peak": 0.82,
+      "rms": 0.1558,
+      "sha256": "f3f32326b97e2933ec05088812713773e88ad48716e4cb3956ecc0f4bcc6119e"
+    },
+    {
+      "species": "chick",
+      "file": "chick.wav",
+      "source": "chicks.mp3",
+      "start": 1,
+      "end": 2.2,
+      "repeats": 1,
+      "seconds": 1.2,
+      "peak": 0.82,
+      "rms": 0.1152,
+      "sha256": "e598ed06d158d78eec2dbc12a33e83dc7d9cc4301438b5752f28210e452a019d"
+    }
+  ],
+  "downloads": [
+    {
+      "file": "mudchuteanimals.7z",
+      "url": "https://opengameart.org/sites/default/files/mudchuteanimals.7z",
+      "sha256": "d6ea10434245890ec60be4a353b6b5b4abd5fd13ea17f54406141d8566552235"
+    },
+    {
+      "file": "dog-clean.mp3",
+      "url": "https://cdn.freesound.org/previews/277/277058_4486188-hq.mp3",
+      "sha256": "af621c68568e6c5178d38e2a464eddd21be8b5822475b29f5ebfe10f5feb1a25"
+    },
+    {
+      "file": "goat-field.mp3",
+      "url": "https://cdn.freesound.org/previews/343/343025_1648170-hq.mp3",
+      "sha256": "a73ed57e1b2fd48b0206c1d302497a9712f4289c7772a8fc0a3c98a3142e18c0"
+    },
+    {
+      "file": "RabbitEating.wav",
+      "url": "https://opengameart.org/sites/default/files/RabbitEating.wav",
+      "sha256": "f6ccbfdde9880fb33df0ba28356f34f5e45e380ad15d98661b42be4213d3b49a"
+    },
+    {
+      "file": "hen-clucks.mp3",
+      "url": "https://cdn.freesound.org/previews/456/456803_9159316-hq.mp3",
+      "sha256": "4d4bbffa4297df2c4a61afc9acb348567e59a3b32ac819a1494a3897097cfff0"
+    },
+    {
+      "file": "Meow.ogg",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/6/62/Meow.ogg",
+      "sha256": "34d45db58a5ad7b9586514bd30350f0e6c43ad9391b253cfee82a08da21eab67"
+    },
+    {
+      "file": "donkey.wav",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/2/25/157763_felix-blume_a-donkey-is-braying-in-his-enclosure-in-south-of-france.wav",
+      "sha256": "2f4ed7ead67ff07eddeaad33d6a69d039727644307a456b63a908b6e8fe07aaa"
+    },
+    {
+      "file": "chicks.mp3",
+      "url": "https://cdn.freesound.org/previews/243/243503_582848-hq.mp3",
+      "sha256": "5175a7cbdd9a9ae51e25cc9f2b6ae28d8d45853a106a1ca477ff0e618bc573c4"
+    }
+  ]
+}

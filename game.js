@@ -162,6 +162,7 @@ function buildObstacles() {
   list.push({ x: STRUCTURES.pond.x + 20, y: STRUCTURES.pond.y + 20, w: STRUCTURES.pond.w - 40, h: STRUCTURES.pond.h - 40, type: "pond" });
   list.push({ x: STRUCTURES.barn.x, y: STRUCTURES.barn.y, w: STRUCTURES.barn.w, h: STRUCTURES.barn.h, type: "barn" });
 
+  list.push(...FarmRefuge.obstacles());
   OBSTACLES = list;
 }
 
@@ -284,6 +285,7 @@ function createState() {
   return {
     difficultyKey,
     worldSeed: WORLD.layout.seed,
+    worldVersion: WORLD.layout.version,
     settings,
     phase: "playing",
     rescuedCount: 0,
@@ -297,10 +299,10 @@ function createState() {
       chicken,
       wolf,
       animals: spawnAnimals(settings, wolf),
-      chicks: WORLD.layout.chickSpawns.map((point, i) => {
+      chicks: HidingSpots.bonusHomes().map((point, i) => {
         const chick = makeEntity(`chick_${i}`, "chick", point.x, point.y, 14);
         return Object.assign(chick, { species: "chick", rescued: false, targetX: point.x, targetY: point.y,
-          homeX: point.x, homeY: point.y, hitbox: { ox: 0, oy: 5, r: 10 } });
+          homeX: point.x, homeY: point.y, coverId: point.coverId, hitbox: { ox: 0, oy: 5, r: 10 } });
       }),
       effects: [],
     },
@@ -319,10 +321,11 @@ function createState() {
   };
 }
 
-function resetGame(seed) {
+function resetGame(seed, worldVersion = 2) {
   AudioSystem.reset();
-  const chosenSeed = Number.isInteger(seed) ? seed >>> 0 : Math.floor(Math.random() * 4294967296) >>> 0;
-  MapManager.generate(chosenSeed);
+  let chosenSeed = Number.isInteger(seed) ? seed >>> 0 : Math.floor(Math.random() * 4294967296) >>> 0;
+  if (!Number.isInteger(seed) && chosenSeed === state?.worldSeed) chosenSeed = (chosenSeed + 0x9e3779b9) >>> 0;
+  MapManager.generate(chosenSeed, worldVersion);
   buildObstacles();
   state = createState();
   GameManager.initialize(state);
@@ -343,7 +346,7 @@ function resetGame(seed) {
   livesCountEl.textContent = String(MAX_LIVES);
   scoreCountEl.textContent = "0";
   areaTextEl.textContent = "Poleiro";
-  setStatus(`Dificuldade ${state.settings.label}. Resgate 10 amigos + 6 pintinhos. Use E para se esconder.`);
+  setStatus(`A porteira abriu! Junte os dez amigos e fique de olho nos piados pelo caminho.`);
   input.clear();
   GameManager.save(state);
   GameUI.update(state);
@@ -466,6 +469,11 @@ function drawWorld() {
 
 function drawChicken(entity) {
   const p = worldToScreen(entity);
+  if (entity.skin && entity.skin !== 'classic' && !entity.hidden && state.phase === 'playing') {
+    // A player marker keeps animal appearances distinct from the friends being rescued.
+    ctx.save(); ctx.strokeStyle = '#fff0a1'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.ellipse(p.x, p.y+14, 29, 9, 0, 0, Math.PI*2); ctx.stroke(); ctx.restore();
+  }
   CharacterArt.draw(ctx, "chicken", p.x, p.y + (entity.hideBlend || 0) * 4, {
     facing: entity.facing, direction: entity.hidden ? "down" : entity.direction, anim: entity.anim, moving: entity.moving,
     hidden: entity.hidden, hideBlend: entity.hideBlend, sprinting: entity.sprinting,
@@ -488,11 +496,14 @@ function drawAnimalCharacter(species, x, y, facing, anim) {
 }
 
 function drawAnimal(entity) {
+  if (RescueSystem.isSecret(entity) && !EndGameSequence.active(state)) return;
   const p = worldToScreen(entity);
   CharacterArt.draw(ctx, entity.species, p.x, p.y, { facing: entity.facing, direction: entity.direction,
-    anim: entity.anim, moving: entity.moving, mood: entity.mood || "normal" });
-  if (!entity.rescued && !EndGameSequence.active(state)) {
-    ctx.save(); ctx.translate(p.x, p.y - (entity.type === "chick" ? 33 : 49));
+    anim: entity.anim, moving: entity.moving, sprinting: entity.temper === "fleeing",
+    lookBack: entity.temper === "fleeing", mood: entity.mood || "normal",
+    scale: entity.type === 'chick' && entity.rescued && !EndGameSequence.active(state) ? .72 : 1 });
+  if (!entity.rescued && !entity.speechTime && !EndGameSequence.active(state) && RescueSystem.visible(state, entity)) {
+    ctx.save(); ctx.translate(p.x, p.y - CharacterArt.markerOffset(entity.species));
     ctx.fillStyle = entity.type === "chick" ? "#ffb963" : "#fff1a0"; ctx.strokeStyle = "#a38c51"; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(0, 6); ctx.bezierCurveTo(-15, -2, -7, -12, 0, -5);
     ctx.bezierCurveTo(7, -12, 15, -2, 0, 6); ctx.fill(); ctx.stroke(); ctx.restore();
@@ -555,6 +566,7 @@ function drawDebugHitboxes() {
   drawEntity(state.entities.wolf, "#ff5959");
 
   for (const animal of RescueSystem.all(state)) {
+    if (RescueSystem.isSecret(animal)) continue;
     if (animal.lost && state.phase !== "win_cutscene") continue;
     drawEntity(animal, animal.rescued ? "#4ca6ff" : "#ffe85a");
   }
@@ -569,69 +581,53 @@ function drawDebugHitboxes() {
 }
 
 function drawMiniMap() {
-  const w = 175;
-  const h = 112;
-  const x = canvas.width - w - 14;
-  const y = 12;
-
-  ctx.fillStyle = "rgba(0,0,0,0.48)";
-  ctx.fillRect(x, y, w, h);
-
-  const sx = w / WORLD.width;
-  const sy = h / WORLD.height;
-
-  ctx.strokeStyle = "#f7f7f7";
-  ctx.lineWidth = 1;
-  for (const area of WORLD.areas) {
-    ctx.strokeRect(x + area.x * sx, y + area.y * sy, area.w * sx, area.h * sy);
+  const w=146,h=88,x=canvas.width-w-15,y=34;
+  ctx.save();
+  ctx.fillStyle='#293c28';ctx.beginPath();ctx.roundRect(x-5,y-23,w+10,h+43,5);ctx.fill();
+  ctx.strokeStyle='#b19b61';ctx.lineWidth=1;ctx.stroke();
+  ctx.font='bold 11px Trebuchet MS, sans-serif';ctx.textAlign='left';ctx.fillStyle='#f5e1ae';
+  ctx.fillText('Mapa do sítio',x+3,y-8);
+  ctx.fillStyle='#758b4e';ctx.fillRect(x,y,w,h);
+  const textured=FarmTerrain.drawMap(ctx,WORLD.layout,x,y,w,h);
+  const sx=w/WORLD.width,sy=h/WORLD.height;
+  if(!textured){ctx.fillStyle='#c6a06c';for(const path of WORLD.paths)ctx.fillRect(x+path.x*sx,y+path.y*sy,path.w*sx,path.h*sy);}
+  ctx.fillStyle='#995f3e';
+  for(const prop of [STRUCTURES.barn,...STRUCTURES.coops,...STRUCTURES.silos])
+    ctx.fillRect(x+prop.x*sx,y+prop.y*sy,Math.max(3,prop.w*sx),Math.max(3,prop.h*sy));
+  ctx.strokeStyle='#eee9c278';ctx.lineWidth=1;
+  ctx.strokeRect(x+camera.x*sx,y+camera.y*sy,canvas.width*sx,canvas.height*sy);
+  for(const animal of state.entities.animals) {
+    if(animal.rescued||!animal.discovered||!animal.lastSeen)continue;
+    ctx.fillStyle=RescueSystem.visible(state,animal)?'#ffdf88':'#b0aa7a';
+    ctx.beginPath();ctx.arc(x+animal.lastSeen.x*sx,y+animal.lastSeen.y*sy,2.2,0,Math.PI*2);ctx.fill();
   }
-
-  ctx.fillStyle = "#ffe893";
-  for (const animal of state.entities.animals) {
-    if (animal.rescued) continue;
-    ctx.beginPath(); ctx.arc(x + animal.x * sx, y + animal.y * sy, 2.8, 0, Math.PI * 2); ctx.fill();
+  for(const chick of state.entities.chicks) {
+    if(!chick.rescued&&chick.discovered&&chick.lastSeen){
+      ctx.fillStyle='#f7bf58';ctx.fillRect(x+chick.lastSeen.x*sx-2,y+chick.lastSeen.y*sy-2,4,4);
+    }
   }
-  ctx.fillStyle = "#ffaf55";
-  for (const chick of state.entities.chicks) {
-    if (!chick.rescued) ctx.fillRect(x + chick.x * sx - 2, y + chick.y * sy - 2, 4, 4);
+  ctx.fillStyle='#fffce7';ctx.strokeStyle='#293c28';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.arc(x+state.entities.chicken.x*sx,y+state.entities.chicken.y*sy,3.3,0,Math.PI*2);ctx.fill();ctx.stroke();
+  if(!state.cutscene.done&&distance(state.entities.chicken,state.entities.wolf)<450&&
+    DetectionSystem.hasLineOfSight(getHitbox(state.entities.chicken),getHitbox(state.entities.wolf))){
+    ctx.fillStyle='#ef8262';ctx.beginPath();ctx.arc(x+state.entities.wolf.x*sx,y+state.entities.wolf.y*sy,3,0,Math.PI*2);ctx.fill();
   }
-  ctx.fillStyle = "rgba(24, 53, 35, .8)"; ctx.fillRect(x, y + h, w, 20);
-  ctx.font = "10px sans-serif"; ctx.textAlign = "left";
-  ctx.fillStyle = "#ffe893"; ctx.beginPath(); ctx.arc(x + 9, y + h + 10, 3, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = "#fff4d1"; ctx.fillText("Amigos", x + 17, y + h + 14);
-  ctx.fillStyle = "#ffaf55"; ctx.fillRect(x + 61, y + h + 7, 6, 6);
-  ctx.fillStyle = "#fff4d1"; ctx.fillText("Pintinhos", x + 71, y + h + 14);
-  ctx.fillStyle = "#e27968"; ctx.beginPath(); ctx.arc(x + 121, y + h + 10, 3, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = "#fff4d1"; ctx.fillText("Lobo", x + 130, y + h + 14);
-
-  ctx.fillStyle = "#fff0cf";
-  ctx.beginPath();
-  ctx.arc(x + state.entities.chicken.x * sx, y + state.entities.chicken.y * sy, 3.5, 0, Math.PI * 2);
-  ctx.fill();
-
-  if (!state.cutscene.done) {
-    ctx.fillStyle = "#d64040";
-    ctx.beginPath();
-    ctx.arc(x + state.entities.wolf.x * sx, y + state.entities.wolf.y * sy, 3.5, 0, Math.PI * 2);
-    ctx.fill();
-  }
+  ctx.fillStyle='#cbd0b0';ctx.font='10px Trebuchet MS, sans-serif';ctx.fillText('Você · amigos avistados',x+3,y+h+13);
+  ctx.restore();
 }
 
 function drawOverlay() {
-  if (state.phase === "playing" && state.entities.wolf.huntUnlockTimer > 0) {
-    ctx.fillStyle = "rgba(0,0,0,0.34)";
-    ctx.fillRect(18, canvas.height - 42, 280, 26);
-    ctx.fillStyle = "#ffe9a9"; ctx.font = "16px sans-serif"; ctx.textAlign = "left";
-    ctx.fillText(`Lobo distraído por ${state.entities.wolf.huntUnlockTimer.toFixed(1)}s`, 24, canvas.height - 23);
-  }
-  MapManager.drawTransition(state);
+  // Context, danger and arrival messages live in the HUD; keep the playfield clear.
 }
 
 function renderGame() {
   const ending = EndGameSequence.active(state);
   if (ending) EndGameSequence.drawBackdrop(state);
   else drawWorld();
-  const layers = [...RescueSystem.all(state), state.entities.chicken, state.entities.wolf]
+  if (!ending) for (const chick of state.entities.chicks) {
+    if (RescueSystem.isSecret(chick) && !chick.coverId) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
+  }
+  const layers = [...RescueSystem.all(state).filter(a => !ending || a.rescued), state.entities.chicken, state.entities.wolf]
     .map(entity => ({ depth: entity.y + 12, entity }));
   if (!ending) for (const prop of FarmArt.getProps(WORLD.layout)) layers.push({ depth: prop.depth, prop });
   layers.sort((a, b) => a.depth - b.depth);
@@ -664,7 +660,8 @@ function tick(timestamp) {
   lastTime = timestamp;
 
   updateGame(dt);
-  renderGame();
+  if (state.phase !== "menu") renderGame();
+  InterfaceMotion.frame(state, dt);
   requestAnimationFrame(tick);
 }
 
@@ -711,7 +708,7 @@ buildObstacles();
 GameUI.initialize();
 const savedGame = GameManager.read();
 if (savedGame) difficultySelect.value = savedGame.difficulty;
-resetGame(savedGame?.worldSeed);
+resetGame(savedGame?.worldSeed, savedGame ? savedGame.worldVersion : 2);
 if (savedGame) {
   GameManager.restore(state, savedGame);
   MapManager.initialize(state);
@@ -720,6 +717,9 @@ if (savedGame) {
 state.hasSave = Boolean(savedGame);
 GameUI.showMenu(state);
 GameUI.update(state);
+CharacterArt.load().then(() => GameUI.update(state));
+FarmSprites.load();
+FarmSprites.loadNursery();
 requestAnimationFrame((t) => {
   lastTime = t;
   tick(t);

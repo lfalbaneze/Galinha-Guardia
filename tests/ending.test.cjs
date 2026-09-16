@@ -3,7 +3,8 @@ const assert = require('node:assert/strict');
 const { createGame } = require('./helpers.cjs');
 
 function rescueAll(run) {
-  run(`for (const animal of [...state.entities.animals, ...state.entities.chicks].filter(a => !a.rescued)) {
+  run(`for (const animal of [...state.entities.chicks, ...state.entities.animals].filter(a => !a.rescued)) {
+    animal.discovered=true;
     state.entities.chicken.x = animal.x; state.entities.chicken.y = animal.y; updateGame(0.016);
   }`);
 }

@@ -49,8 +49,9 @@ const AudioControls = (() => {
       group.track.disabled = status.unsupported || status.skinTheme;
       group.track.title = status.skinTheme ? "Desmarque Tema musical da skin para escolher a trilha da fazenda." : "Escolher a trilha da fazenda";
       put(group.status, status.unsupported ? "Áudio indisponível neste navegador." : settings.muted ? "Som desligado." :
-        status.blocked ? "Clique em Ativar som para tentar novamente." : !status.unlocked ? "O som começa ao iniciar a aventura." :
-        menu ? `Som pausado · ${status.trackTitle}.` : `Trilha: ${status.trackTitle}.`);
+        status.blocked ? "Clique em Ativar som para tentar novamente." : !status.unlocked ?
+        (menu ? "Clique em Mexer com a turma para ouvir os bichos." : "O som começa ao iniciar a aventura.") :
+        menu ? `Trilha pausada · ${status.trackTitle}.` : `Trilha: ${status.trackTitle}.`);
     }
   }
   return { initialize, update };

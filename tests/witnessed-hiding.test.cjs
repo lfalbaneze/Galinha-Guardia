@@ -57,6 +57,11 @@ test('pressing E while the wolf watches records that entrance immediately, befor
   assert.equal(run('WolfAI.isExposed(state)'), true);
   assert.equal(run('DetectionSystem.canSee(wolf,chicken,WolfAI.getConfig(state))'), false);
   assert.equal(run('WolfAI.canCatchHidden(state)'), false, 'remembering a spot does not mean catching from a distance');
+  assert.equal(game.elements.get('hiddenText').textContent, 'Ele viu você!');
+  run(`const witnessText = []; ctx.fillText = text => witnessText.push(text);
+    camera.x = wolf.x - 450; camera.y = wolf.y - 250; renderGame();`);
+  assert.equal(run('witnessText.includes("Ele viu você! Saia daí!")'), true);
+  assert.equal(run('witnessText.includes("! TE VI ENTRAR")'), true);
 });
 
 test('witness range has an inclusive boundary for each difficulty', () => {
@@ -194,7 +199,7 @@ test('escaping unseen to another cover keeps the old snapshot until its empty sp
   assert.equal(run('wolf.exposedCover.spotId'), run('cover.id'));
   run('WolfAI.update(state,0.05);');
   assert.deepEqual(plain(game, 'wolf.lastKnown'), original);
-  assert.deepEqual(plain(game, 'wolf.routeTarget'), original);
+  assert.deepEqual(plain(game, '({x:wolf.routeTarget.x,y:wolf.routeTarget.y})'), original);
   run(`for(let i=0;i<200 && wolf.exposedCover;i++) {
     WolfAI.update(state,0.025); Player.checkCatch(state);
   }`);
@@ -246,8 +251,10 @@ test('legacy and malformed exposure saves do not create knowledge of an unseen h
     ['outside its cover', 'saved.wolf.exposedCover.x=0; saved.wolf.exposedCover.y=0;'],
     ['expired memory', 'saved.wolf.exposedCover.remaining=0;'],
     ['invalid countdown', `saved.wolf.exposedCover.remaining='forever';`],
-    ['unbounded countdown', 'saved.wolf.exposedCover.remaining=999999;'],
+    ['infinite countdown', 'saved.wolf.exposedCover.remaining=Infinity;'],
+    ['negative countdown', 'saved.wolf.exposedCover.remaining=-1;'],
     ['invalid coordinates', 'saved.wolf.exposedCover.x=NaN;'],
+    ['orphaned memory outside inspection', `saved.wolf.mode='patrol';`],
   ];
   for (const [label, mutation] of variants) {
     const game = coverScenario({ real: true });
@@ -262,4 +269,18 @@ test('legacy and malformed exposure saves do not create knowledge of an unseen h
       pauseTimer:0,huntUnlockTimer:0}); state.entities.chicken.invulnerable=0;`);
     assert.equal(game.run('Player.checkCatch(state)'), false, label);
   }
+});
+
+test('finite edited save timers are bounded instead of making a cover permanently exposed', () => {
+  const game = coverScenario({ real: true });
+  pressE(game);
+  game.run(`GameManager.save(state); const saved=GameManager.read();
+    saved.wolf.exposedCover.remaining=999999; saved.wolf.exposedCover.inspectTime=999999;
+    resetGame(saved.worldSeed); GameManager.restore(state,saved); state.phase='playing';`);
+  assert.equal(game.run('WolfAI.isExposed(state)'), true);
+  assert.equal(game.run('state.entities.wolf.exposedCover.remaining'), game.run('WolfAI.getConfig(state).hideMemoryDuration'));
+  assert.ok(game.run('state.entities.wolf.exposedCover.inspectTime <= 0.8'));
+  game.run(`Object.assign(state.entities.wolf,{accel:0,moveSpeed:0});
+    for(let i=0;i<160 && state.entities.wolf.exposedCover;i++) WolfAI.update(state,0.1);`);
+  assert.equal(game.run('state.entities.wolf.exposedCover == null'), true);
 });
