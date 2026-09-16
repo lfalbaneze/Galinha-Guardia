@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR"><meta charset="utf-8"><title>Prancha de personagens</title>
+<style>body{margin:0;background:#eee5d0;display:grid;place-items:center;min-height:100vh}canvas{max-width:100%;height:auto}</style>
+<canvas width="1000" height="820" id="art"></canvas>
+<script src="../systems/character-art.js"></script>
+<script>
+const ctx = document.getElementById('art').getContext('2d');
+ctx.fillStyle='#eee5d0';ctx.fillRect(0,0,1000,820);
+ctx.fillStyle='#44372f';ctx.font='bold 26px sans-serif';ctx.fillText('Amigos do campo',40,50);
+ctx.font='15px sans-serif';ctx.fillText('Estudo dos personagens · tamanho ampliado para revisão',40,80);
+const names=['Galinha','Lobo','Ovelha','Porco','Cabra','Vaca','Pato','Coelho','Cão','Gato','Burro','Cordeiro'];
+CharacterArt.species.forEach((s,i)=>{
+const x=125+(i%4)*250, y=190+Math.floor(i/4)*205;
+ctx.fillStyle='#e2dcc8';ctx.beginPath();ctx.ellipse(x,y+27,92,25,0,0,Math.PI*2);ctx.fill();
+CharacterArt.draw(ctx,s,x,y,{scale:2,anim:0});
+ctx.fillStyle='#44372f';ctx.font='bold 17px sans-serif';ctx.textAlign='center';ctx.fillText(names[i],x,y+65);
+});
+ctx.font='16px sans-serif';ctx.fillText('Galinha escondida',235,787);
+CharacterArt.draw(ctx,'chicken',235,732,{scale:1.8,hidden:true});
+ctx.fillText('Lobo no final',495,787);
+CharacterArt.draw(ctx,'wolf',495,732,{scale:1.8,mood:'hurt'});
+ctx.fillText('Escala do jogo',760,787);
+CharacterArt.draw(ctx,'chicken',730,735,{});CharacterArt.draw(ctx,'rabbit',795,735,{});
+</script></html>

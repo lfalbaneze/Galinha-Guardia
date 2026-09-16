@@ -1,0 +1,16 @@
+{
+  "name": "galinha-guardia",
+  "private": true,
+  "version": "1.1.0",
+  "description": "Jogo Canvas 2D; dependências usadas somente na verificação visual.",
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "test": "node --test",
+    "preview:render": "node scripts/render-preview.cjs",
+    "audio:generate": "node scripts/generate-audio.cjs",
+    "audio:preview": "node scripts/render-audio-preview.cjs"
+  },
+  "devDependencies": {
+    "@napi-rs/canvas": "1.0.9"
+  }
+}
