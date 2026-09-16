@@ -76,7 +76,7 @@ function voice(song, type, at, duration, pitch, volume = .15, pan = 0, extra = {
       value = (Math.sin(phase) + .23 * Math.sin(phase * 2) + .06 * Math.sin(phase * 3) + filteredNoise * .11)
         * envelope(t, duration, .065, release) * (.65 + .3 * Math.sin(TAU * 5.3 * t) ** 2);
     } else if (type === 'chirp') {
-      value = (Math.sin(phase) + .025 * Math.sin(phase * 2)) * envelope(t, duration, .013, release);
+      value = (Math.sin(phase) + .025 * Math.sin(phase * 2)) * envelope(t, duration, extra.attack ?? .013, release);
     } else if (type === 'slide') {
       value = (Math.sin(phase) + .05 * Math.sin(phase * 2)) * envelope(t, duration, .014, release);
     }
@@ -245,7 +245,7 @@ for(let b=0;b<16;b++){
 }
 save('whistle.wav',whistle,'Passeio da Galinha — original cheerful whistled tune with bouncing bass, plucked accompaniment and tiny chicken chirps.',{music:true,bpm:120,timeSignature:'4/4',bars:16,title:'Passeio da Galinha'});
 
-function effect(name,duration,description,build){const song=track(duration);if(name.startsWith('animal-'))song.silentEdge=.015;build(song);save(name+'.wav',song,description);}
+function effect(name,duration,description,build){const song=track(duration);if(name.startsWith('animal-')||name==='chick')song.silentEdge=.015;build(song);save(name+'.wav',song,description);}
 effect('boing',.65,'Soft rubbery spring bounce.',s=>voice(s,'boing',0,.47,200,.44,0,{release:.12}));
 effect('pop',.22,'Small rounded bubble pop.',s=>voice(s,'pop',0,.12,440,.47,0,{release:.06}));
 effect('bonk',.36,'Hollow wooden comic bonk, without a sharp realistic impact.',s=>voice(s,'bonk',0,.19,184,.40,0,{release:.1}));
@@ -254,7 +254,8 @@ effect('dizzy',1.55,'A tiny tumbling bell constellation.',s=>['G6','E6','C6','A5
 effect('sob',1.42,'Three synthetic cartoon whimpers with a trembling pitch.',s=>{voice(s,'sob',.01,.34,390,.24,-.05,{release:.14});voice(s,'sob',.48,.28,350,.23,.05,{release:.13});voice(s,'sob',.93,.31,315,.22,0,{release:.14});});
 effect('runaway',1.15,'Hurrying little wooden footsteps and a slide whistle.',s=>{for(let i=0;i<7;i++)voice(s,'bonk',i*.095,.07,160+i*24,.2,i%2?.18:-.18,{release:.04});voice(s,'slide',.45,.48,850,.14,.2,{semitones:9,release:.12});});
 effect('rescue',1.15,'A warm four-note rescue chime.',s=>['G5','B5','D6','G6'].forEach((p,i)=>voice(s,'bell',i*.14,.29,p,.19,i*.12-.18,{release:.37})));
-effect('chick',.37,'Two small soft peeps for a chick.',s=>{voice(s,'chirp',0,.092,1470,.16,-.08,{release:.034});voice(s,'chirp',.17,.104,1640,.145,.08,{release:.036});});
+// Keep the two voice lengths unchanged to preserve the following effects' random stream.
+effect('chick',.43,'Chick: two tiny rounded peeps, with gentle attacks and a playful rising answer.',s=>{voice(s,'chirp',.025,.092,1190,.135,-.06,{release:.034,attack:.027});voice(s,'chirp',.215,.104,1320,.12,.06,{release:.036,attack:.027});});
 effect('victory',1.95,'Original short woodland celebration fanfare.',s=>{
   ['G4','B4','D5'].forEach((p,i)=>voice(s,'pizz',0,.42,p,.12,i*.25-.25));
   [['G5',0,.25],['B5',.29,.25],['D6',.57,.33],['G5',.94,.65]].forEach(([p,t,d])=>voice(s,'flute',t,d,p,.18,.05));
@@ -262,8 +263,9 @@ effect('victory',1.95,'Original short woodland celebration fanfare.',s=>{
   voice(s,'brush',.95,.12,300,.10,.1,{release:.07});
 });
 
-// Animal calls use a vocal source shaped by moving mouth resonances. These
-// differ in articulation, breath, roughness and rhythm, not just oscillator pitch.
+// Young cartoon voices retain each animal's mouth shape and syllable rhythm.
+// A stronger fundamental, restrained upper formants and smooth amplitude ramps
+// keep them rounded and friendly without reducing every call to a pitched beep.
 function curve(points, position) {
   if (position <= points[0][0]) return points[0][1];
   for (let i = 1; i < points.length; i++) {
@@ -277,30 +279,33 @@ function curve(points, position) {
 }
 function animalVoice(song, at, duration, options) {
   const start = Math.round(at * SR), count = Math.round(duration * SR);
-  const volume = options.volume ?? .3, pitch = options.pitch;
+  const volume = options.volume ?? .24, pitch = options.pitch;
   const mouths = options.mouths;
   const formantCurves = [0,1,2].map(index => mouths.map(([time, values]) => [time, values[index]]));
-  const bandwidth = options.bandwidth ?? [95,150,260];
-  const weights = new Float64Array(40), shimmer = options.shimmer ?? .07;
-  let phase = 0, lowNoise = 0, slowNoise = 0, weightNorm = 1;
-  const attack = options.attack ?? .04, release = options.release ?? .16;
+  const bandwidth = options.bandwidth ?? [140,210,320];
+  const weights = new Float64Array(28), shimmer = options.shimmer ?? .035;
+  const color = options.color ?? [.95,.38,.10];
+  const cutoff = options.cutoff ?? 2400;
+  const smoothing = 1 - Math.exp(-TAU * cutoff / SR);
+  let phase = 0, lowNoise = 0, slowNoise = 0, rounded = 0, weightNorm = 1;
+  const attack = options.attack ?? .065, release = options.release ?? .17;
   for (let i = 0; i < count && start + i < song.length; i++) {
     const time = i / SR, position = i / (count - 1), white = noise();
-    lowNoise += (white - lowNoise) * .19;
+    lowNoise += (white - lowNoise) * .10;
     slowNoise += (white - slowNoise) * .013;
     const tremble = Math.sin(TAU * (options.vibrato ?? 5.4) * time);
-    const frequency = curve(pitch, position) * (1 + (options.wobble ?? .018) * tremble + (options.jitter ?? .008) * slowNoise);
+    const frequency = curve(pitch, position) * (1 + (options.wobble ?? .01) * tremble + (options.jitter ?? .004) * slowNoise);
     phase += TAU * frequency / SR;
     if (i % 32 === 0) {
       weightNorm = 0;
       const formants = formantCurves.map(points => curve(points, position));
       for (let harmonic = 1; harmonic < weights.length; harmonic++) {
         const hz = harmonic * frequency;
-        let weight = .035 / harmonic;
+        let weight = .065 / harmonic + (harmonic === 1 ? .38 : harmonic === 2 ? .075 : 0);
         for (let band = 0; band < 3; band++) {
-          weight += [.95,.65,.3][band] * Math.exp(-.5 * ((hz - formants[band]) / bandwidth[band]) ** 2) / Math.sqrt(harmonic);
+          weight += color[band] * Math.exp(-.5 * ((hz - formants[band]) / bandwidth[band]) ** 2) / Math.sqrt(harmonic);
         }
-        weights[harmonic] = hz < SR * .42 ? weight : 0;
+        weights[harmonic] = hz < SR * .42 ? weight * Math.exp(-(harmonic - 1) * .085) : 0;
         weightNorm += weights[harmonic] ** 2;
       }
       weightNorm = Math.sqrt(Math.max(weightNorm, .01));
@@ -310,79 +315,80 @@ function animalVoice(song, at, duration, options) {
       sound += Math.sin(phase * harmonic + harmonic * .13) * weights[harmonic];
     }
     sound /= weightNorm;
-    // Low subharmonics make barks, grunts and a donkey's exhalation rougher.
-    sound = sound * (1 - (options.rough ?? 0)) + Math.sin(phase * .5) * (options.rough ?? 0) * 1.7;
-    sound += lowNoise * (options.breath ?? .04) * (1 + .7 * Math.sin(phase));
-    sound *= 1 - shimmer + shimmer * Math.sin(TAU * (options.pulse ?? 8) * time);
+    // Just a hint of soft throat texture: no growling sub-bass or hard distortion.
+    sound = sound * (1 - (options.rough ?? 0)) + Math.sin(phase * .5) * (options.rough ?? 0) * .65;
+    sound += lowNoise * (options.breath ?? .035) * (1 + .35 * Math.sin(phase));
+    sound *= 1 - shimmer + shimmer * Math.sin(TAU * (options.pulse ?? 7) * time);
+    rounded += (sound - rounded) * smoothing;
     const shape = Math.sin(Math.min(1, time / attack) * Math.PI / 2) ** 2
       * Math.sin(Math.min(1, (duration - time) / release) * Math.PI / 2) ** 2
-      * curve(options.loudness ?? [[0,.8],[.3,1],[1,.5]], position);
-    const value = Math.tanh(sound * .85) * shape * volume;
+      * curve(options.loudness ?? [[0,.65],[.3,1],[1,.38]], position);
+    const value = Math.tanh(rounded * .62) * shape * volume;
     song.left[start + i] += value * .7071;
     song.right[start + i] += value * .7071;
   }
 }
 const mouth = (start, middle, end = middle) => [[0,start],[.4,middle],[1,end]];
 
-effect('animal-sheep',1.25,'Sheep: a warm, throaty baa with a fluttering open vowel.',s=>animalVoice(s,.035,1.08,{
-  pitch:[[0,215],[.18,275],[.68,238],[1,190]], mouths:mouth([280,780,2100],[680,1180,2400],[470,1020,2200]),
-  wobble:.041,vibrato:8.3,shimmer:.15,pulse:8.3,rough:.11,volume:.34,release:.23
+effect('animal-sheep',.94,'Sheep: one cuddly, rounded baa with a little gentle flutter.',s=>animalVoice(s,.04,.77,{
+  pitch:[[0,280],[.22,340],[.63,314],[1,265]], mouths:mouth([340,920,2020],[620,1190,2220],[440,950,2040]),
+  wobble:.016,vibrato:6.8,shimmer:.045,pulse:6.8,rough:.018,volume:.34,attack:.085,release:.20
 }));
-effect('animal-pig',.94,'Pig: two low nasal oinks with breathy snorting attacks.',s=>{
-  for (const [at,duration,pitch] of [[.035,.32,152],[.48,.34,132]]) animalVoice(s,at,duration,{
-    pitch:[[0,pitch*1.23],[.15,pitch],[.55,pitch*.83],[1,pitch*.68]], mouths:mouth([380,1120,2450],[580,860,2200],[330,700,1800]),
-    bandwidth:[170,190,330],attack:.017,release:.095,breath:.8,rough:.34,shimmer:.18,pulse:21,wobble:.075,jitter:.12,volume:.38
+effect('animal-pig',.79,'Piglet: two soft oink-oinks, with a tiny rounded snuffle and no coarse growl.',s=>{
+  for (const [at,duration,pitch] of [[.035,.265,285],[.385,.28,315]]) animalVoice(s,at,duration,{
+    pitch:[[0,pitch*.96],[.2,pitch*1.08],[.64,pitch*.9],[1,pitch*.82]], mouths:mouth([340,980,2210],[560,890,2120],[340,720,1820]),
+    bandwidth:[180,220,330],attack:.045,release:.105,breath:.16,rough:.035,shimmer:.055,pulse:16,wobble:.013,jitter:.018,volume:.34,cutoff:2100
   });
 });
-effect('animal-goat',1.19,'Goat: two bright nasal meh calls with a quick, strongly wavering bleat.',s=>{
-  for (const [at,duration,pitch] of [[.035,.35,310],[.48,.56,290]]) animalVoice(s,at,duration,{
-    pitch:[[0,pitch*.85],[.15,pitch*1.2],[.8,pitch],[1,pitch*.8]], mouths:mouth([420,1620,2850],[580,1800,3000],[480,1610,2720]),
-    bandwidth:[95,170,230],wobble:.10,vibrato:12,shimmer:.23,pulse:12,rough:.045,volume:.31,attack:.018,release:.11
+effect('animal-goat',.90,'Young goat: two sweet meh calls with a light quick wobble, softened nasal vowels.',s=>{
+  for (const [at,duration,pitch] of [[.035,.29,390],[.40,.36,415]]) animalVoice(s,at,duration,{
+    pitch:[[0,pitch*.90],[.23,pitch*1.08],[.72,pitch],[1,pitch*.88]], mouths:mouth([420,1410,2520],[580,1540,2720],[470,1380,2440]),
+    bandwidth:[165,240,340],wobble:.022,vibrato:9.5,shimmer:.06,pulse:9.5,rough:.012,volume:.33,attack:.052,release:.12,color:[.95,.34,.09]
   });
 });
-effect('animal-cow',1.6,'Cow: a deep rounded moo, opening slowly and falling into a closed hum.',s=>animalVoice(s,.035,1.42,{
-  pitch:[[0,94],[.2,115],[.5,123],[.8,96],[1,79]], mouths:mouth([180,430,1700],[400,740,1900],[190,480,1550]),
-  bandwidth:[90,140,230],rough:.16,breath:.045,wobble:.022,vibrato:4.4,shimmer:.035,volume:.38,attack:.15,release:.32
+effect('animal-cow',1.16,'Calf: a small warm moo, opening into a soft smile and closing to a hum.',s=>animalVoice(s,.04,.98,{
+  pitch:[[0,190],[.22,242],[.51,250],[.82,208],[1,183]], mouths:mouth([230,570,1590],[410,820,1900],[260,630,1550]),
+  bandwidth:[145,195,300],rough:.018,breath:.04,wobble:.009,vibrato:4.6,shimmer:.02,volume:.34,attack:.13,release:.26,cutoff:2000
 }));
-effect('animal-duck',.91,'Duck: two scratchy, flat-billed quacks with a steep clipped pitch fall.',s=>{
-  for (const [at,duration,base] of [[.035,.3,430],[.46,.3,390]]) animalVoice(s,at,duration,{
-    pitch:[[0,base*1.12],[.17,base],[.5,base*.67],[1,base*.45]], mouths:mouth([700,1280,3100],[830,1500,3300],[670,1180,2600]),
-    bandwidth:[220,240,380],rough:.18,breath:.65,jitter:.16,wobble:.045,shimmer:.22,pulse:32,volume:.31,attack:.012,release:.10,
-    loudness:[[0,.35],[.13,1],[.6,.85],[1,.2]]
+effect('animal-duck',.72,'Duckling: two little rounded quacks with a bouncy fall and a soft bill-like buzz.',s=>{
+  for (const [at,duration,base] of [[.035,.24,510],[.36,.245,555]]) animalVoice(s,at,duration,{
+    pitch:[[0,base*1.08],[.2,base],[.56,base*.82],[1,base*.69]], mouths:mouth([650,1220,2560],[780,1420,2810],[620,1080,2380]),
+    bandwidth:[230,290,380],rough:.023,breath:.16,jitter:.02,wobble:.012,shimmer:.045,pulse:22,volume:.315,attack:.04,release:.095,
+    loudness:[[0,.35],[.22,1],[.58,.84],[1,.23]],color:[.95,.31,.085],cutoff:2400
   });
 });
-effect('animal-rabbit',1.0,'Rabbit: a quiet low purr and three soft friendly nasal grunts.',s=>{
-  for (const [at,duration] of [[.04,.26],[.36,.23],[.67,.20]]) animalVoice(s,at,duration,{
-    pitch:[[0,180],[.45,205],[1,158]], mouths:mouth([190,680,1500],[280,720,1560],[210,650,1490]),
-    bandwidth:[100,160,280],rough:.31,breath:.23,wobble:.012,shimmer:.34,pulse:25,volume:.20,attack:.055,release:.09
+effect('animal-rabbit',.78,'Rabbit: three very soft friendly hums, with a tiny purring texture.',s=>{
+  for (const [at,duration,base] of [[.04,.20,290],[.30,.18,315],[.545,.14,340]]) animalVoice(s,at,duration,{
+    pitch:[[0,base*.95],[.45,base*1.04],[1,base*.92]], mouths:mouth([260,720,1500],[340,790,1620],[280,710,1480]),
+    bandwidth:[135,220,330],rough:.026,breath:.065,wobble:.008,shimmer:.075,pulse:20,volume:.275,attack:.05,release:.075,color:[.95,.25,.07],cutoff:1850
   });
 });
-effect('animal-dog',1.02,'Dog: a pair of cheerful woof barks, with a chesty attack and rough falling tail.',s=>{
-  for (const [at,duration,base] of [[.035,.32,190],[.49,.36,170]]) animalVoice(s,at,duration,{
-    pitch:[[0,base*.72],[.045,base*1.42],[.2,base],[1,base*.64]], mouths:mouth([430,900,2300],[680,1280,2700],[320,720,1700]),
-    bandwidth:[185,260,380],rough:.28,breath:.48,jitter:.13,shimmer:.08,pulse:33,wobble:.035,volume:.38,attack:.012,release:.16,
-    loudness:[[0,.6],[.06,1],[.25,.88],[1,.14]]
+effect('animal-dog',.80,'Puppy: two friendly little woofs with a cushioned attack and a playful upward answer.',s=>{
+  for (const [at,duration,base] of [[.035,.275,335],[.415,.27,375]]) animalVoice(s,at,duration,{
+    pitch:[[0,base*.91],[.15,base*1.15],[.4,base],[1,base*.77]], mouths:mouth([420,1000,2140],[650,1370,2450],[340,800,1820]),
+    bandwidth:[190,270,370],rough:.045,breath:.12,jitter:.016,shimmer:.035,pulse:19,wobble:.009,volume:.35,attack:.036,release:.14,
+    loudness:[[0,.4],[.16,1],[.4,.82],[1,.18]],cutoff:2350
   });
 });
-effect('animal-cat',1.36,'Cat: a clear upward meow turning from a bright ee into an open ah and rounded ow.',s=>animalVoice(s,.035,1.18,{
-  pitch:[[0,430],[.13,670],[.3,740],[.48,630],[.76,400],[1,310]],
-  mouths:[[0,[310,2280,3120]],[.18,[420,2200,3090]],[.48,[880,1480,2760]],[.75,[570,950,2210]],[1,[320,740,1900]]],
-  bandwidth:[155,220,330],rough:.045,breath:.045,wobble:.028,vibrato:7.6,shimmer:.045,volume:.32,attack:.08,release:.25
+effect('animal-cat',1.03,'Kitten: one sweet meow with a gentle rising greeting and a warm rounded ending.',s=>animalVoice(s,.035,.86,{
+  pitch:[[0,440],[.2,570],[.39,605],[.60,525],[.82,435],[1,370]],
+  mouths:[[0,[330,1940,2770]],[.21,[430,1840,2680]],[.49,[730,1380,2430]],[.75,[520,980,2080]],[1,[350,790,1830]]],
+  bandwidth:[185,255,360],rough:.009,breath:.045,wobble:.01,vibrato:5.9,shimmer:.018,volume:.33,attack:.085,release:.23,color:[.95,.40,.10],cutoff:2550
 }));
-effect('animal-donkey',1.73,'Donkey: an exaggerated high nasal hee followed by a coarse low haw.',s=>{
-  animalVoice(s,.035,.64,{
-    pitch:[[0,280],[.15,480],[.65,575],[1,450]], mouths:mouth([380,2130,3180],[420,2280,3280],[500,1920,2980]),
-    bandwidth:[140,180,270],wobble:.06,vibrato:9.5,shimmer:.14,pulse:9.5,breath:.18,volume:.30,attack:.08,release:.12
+effect('animal-donkey',1.27,'Young donkey: a playful little hee-haw, with a sweet lifted first syllable and warm low answer.',s=>{
+  animalVoice(s,.035,.44,{
+    pitch:[[0,330],[.2,455],[.65,480],[1,405]], mouths:mouth([360,1830,2770],[430,1950,2830],[470,1690,2570]),
+    bandwidth:[175,250,340],wobble:.018,vibrato:7.2,shimmer:.04,pulse:7.2,breath:.075,volume:.32,attack:.075,release:.14,color:[.95,.35,.09]
   });
-  animalVoice(s,.75,.81,{
-    pitch:[[0,235],[.17,195],[.6,155],[1,105]], mouths:mouth([630,1020,2380],[760,1250,2640],[370,720,1800]),
-    bandwidth:[160,240,340],wobble:.085,vibrato:6.2,shimmer:.18,pulse:6.2,rough:.28,breath:.23,volume:.36,attack:.035,release:.23
+  animalVoice(s,.57,.56,{
+    pitch:[[0,300],[.2,290],[.64,250],[1,215]], mouths:mouth([530,1020,2180],[650,1210,2370],[360,770,1790]),
+    bandwidth:[185,265,365],wobble:.017,vibrato:5.8,shimmer:.045,pulse:5.8,rough:.035,breath:.075,volume:.335,attack:.065,release:.19,cutoff:2150
   });
 });
-effect('animal-lamb',.99,'Lamb: two small, soft, high baa syllables, lighter and shorter than the adult sheep.',s=>{
-  for (const [at,duration,base] of [[.035,.3,410],[.44,.4,440]]) animalVoice(s,at,duration,{
-    pitch:[[0,base*.86],[.17,base*1.1],[.6,base],[1,base*.82]], mouths:mouth([450,1330,2800],[770,1520,3020],[500,1240,2690]),
-    bandwidth:[170,210,330],wobble:.035,vibrato:9,shimmer:.11,pulse:9,rough:.025,breath:.035,volume:.27,attack:.035,release:.14
+effect('animal-lamb',.80,'Baby lamb: two tiny airy baa syllables, delicate and higher than the sheep.',s=>{
+  for (const [at,duration,base] of [[.035,.26,465],[.39,.29,495]]) animalVoice(s,at,duration,{
+    pitch:[[0,base*.93],[.24,base*1.065],[.62,base],[1,base*.89]], mouths:mouth([430,1160,2490],[670,1380,2680],[470,1090,2330]),
+    bandwidth:[195,260,370],wobble:.014,vibrato:7.7,shimmer:.035,pulse:7.7,rough:.006,breath:.05,volume:.30,attack:.055,release:.125,color:[.95,.29,.075],cutoff:2350
   });
 });
 

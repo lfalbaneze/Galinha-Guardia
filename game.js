@@ -479,7 +479,7 @@ function drawWolf(entity) {
     Math.abs(Math.cos(heading)) > Math.abs(Math.sin(heading)) ? (Math.cos(heading) < 0 ? "left" : "right") : (Math.sin(heading) < 0 ? "up" : "down");
   CharacterArt.draw(ctx, "wolf", p.x, p.y, { facing: entity.facing, direction, anim: entity.anim,
     moving: Math.hypot(entity.vx, entity.vy) > 10 || state.cutscene.stage === "flee",
-    mood: EndGameSequence.active(state) ? entity.mood || "normal" : entity.mode === "chase" ? "furious" : entity.mode === "alert" ? "alert" :
+    mood: EndGameSequence.active(state) ? entity.mood || "normal" : ["chase", "inspect"].includes(entity.mode) ? "furious" : entity.mode === "alert" ? "alert" :
       entity.mode === "investigate" ? "sniff" : entity.mode === "search" ? "search" : "normal" });
 }
 

@@ -32,12 +32,14 @@ const HidingSpots = (() => {
       setStatus("Entre na vegetação ou chegue junto ao feno. O aviso E aparece quando você pode se esconder.");
       return;
     }
+    WolfAI.witnessHide(game, spot);
     chicken.hidden = true; chicken.hidingSpotId = spot.id; chicken.hidingCandidate = spot.id;
     AudioSystem.play("pop", { volume: 0.35 });
     chicken.vx = 0; chicken.vy = 0; chicken.moving = false; chicken.sprinting = false; chicken.state = "idle";
     // A fresh directional press deliberately leaves cover; a key held before E does not.
     input.clear();
-    setStatus(`Escondida ${labels[spot.type] || "aqui"}! O lobo não consegue ver você.`);
+    setStatus(WolfAI.isExposed(game) ? "ELE VIU VOCÊ ENTRAR! Saia e quebre a visão do lobo!" :
+      `Escondida ${labels[spot.type] || "aqui"}! Sua entrada passou despercebida.`);
     spawnBurst(chicken.x, chicken.y, spot.type === "hay" ? "#ebc774" : "#94ba71", 9);
     GameUI.update(game); GameManager.save(game);
   }
@@ -61,13 +63,13 @@ const HidingSpots = (() => {
     const spot = spots.find(s => s.id === chicken.hidingSpotId) || candidate(chicken);
     if (spot) FarmArt.drawCoverForeground(ctx, spot, camera, Math.max(0.35, chicken.hideBlend || 0), chicken);
   }
-  function pill(x, y, width, title, detail, hidden) {
+  function pill(x, y, width, title, detail, hidden, exposed = false) {
     x = clamp(x, width / 2 + 12, canvas.width - width / 2 - 12);
     y = clamp(y, 20, canvas.height - 75);
     ctx.save(); ctx.translate(x, y);
     ctx.shadowColor = "rgba(29, 53, 33, .2)"; ctx.shadowBlur = 10; ctx.shadowOffsetY = 3;
-    ctx.fillStyle = hidden ? "#245a43" : "#fffae9";
-    ctx.strokeStyle = hidden ? "#bbdfa0" : "#8c9770"; ctx.lineWidth = 2;
+    ctx.fillStyle = exposed ? "#8b302b" : hidden ? "#245a43" : "#fffae9";
+    ctx.strokeStyle = exposed ? "#ffd19e" : hidden ? "#bbdfa0" : "#8c9770"; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.roundRect(-width / 2, 0, width, 53, 13); ctx.fill(); ctx.stroke();
     ctx.shadowColor = "transparent";
     ctx.fillStyle = hidden ? "#f4ffda" : "#3c563b";
@@ -78,17 +80,19 @@ const HidingSpots = (() => {
   function drawIndicators(game) {
     if (game.phase !== "playing") return;
     const chicken = game.entities.chicken, p = worldToScreen(chicken), spot = candidate(chicken);
+    const exposed = WolfAI.isExposed(game);
     if (spot) {
-      ctx.save(); ctx.strokeStyle = chicken.hidden ? "#e6f6be" : "#fff6bf";
+      ctx.save(); ctx.strokeStyle = exposed ? "#ff956c" : chicken.hidden ? "#e6f6be" : "#fff6bf";
       ctx.lineWidth = 2.5; ctx.setLineDash(chicken.hidden ? [] : [5, 5]);
       ctx.beginPath(); ctx.ellipse(worldX(spot.x + spot.w / 2), worldY(spot.y + spot.h / 2) + 8,
         spot.w / 2 - 4, spot.h / 2, 0, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
     }
     if (chicken.hidden) {
-      pill(p.x, p.y - 110, 208, "ESCONDIDA", "E ou movimento para sair", true);
-      ctx.fillStyle = "#245a43"; ctx.beginPath(); ctx.roundRect(16, canvas.height - 49, 310, 33, 10); ctx.fill();
+      pill(p.x, p.y - 110, exposed ? 250 : 208, exposed ? "ELE VIU VOCÊ!" : "ESCONDIDA",
+        exposed ? "Saia e quebre a visão do lobo" : "E ou movimento para sair", true, exposed);
+      ctx.fillStyle = exposed ? "#8b302b" : "#245a43"; ctx.beginPath(); ctx.roundRect(16, canvas.height - 49, exposed ? 350 : 310, 33, 10); ctx.fill();
       ctx.fillStyle = "#effadb"; ctx.font = "bold 14px sans-serif"; ctx.textAlign = "left";
-      ctx.fillText("Protegida pela cobertura · fique quietinha", 29, canvas.height - 27);
+      ctx.fillText(exposed ? "Esconderijo descoberto · fuja agora!" : "Protegida pela cobertura · fique quietinha", 29, canvas.height - 27);
     } else if (spot) {
       pill(p.x, p.y - 104, 216, "E  ·  ESCONDER", `Aconchegue-se ${labels[spot.type]}`, false);
     } else if (chicken.hideHintTimer > 0) {

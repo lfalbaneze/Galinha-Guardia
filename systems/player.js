@@ -53,8 +53,13 @@ const Player = {
   },
   checkCatch(game) {
     const chicken = game.entities.chicken, wolf = game.entities.wolf;
-    if (game.phase !== "playing" || chicken.hidden || chicken.invulnerable > 0 ||
-      wolf.pauseTimer > 0 || wolf.huntUnlockTimer > 0 || !circleVsCircle(chicken, wolf)) return false;
+    if (game.phase !== "playing" || (chicken.hidden && !WolfAI.canCatchHidden(game)) || chicken.invulnerable > 0 ||
+      wolf.pauseTimer > 0 || wolf.huntUnlockTimer > 0 || !circleVsCircle(chicken, wolf) ||
+      !DetectionSystem.hasLineOfSight(getHitbox(wolf), getHitbox(chicken))) return false;
+    const caughtInCover = chicken.hidden;
+    chicken.hidden = false; chicken.hidingSpotId = null; chicken.hideBlend = 0;
+    wolf.exposedCover = null;
+    if (wolf.mode === "inspect") wolf.mode = "chase";
     game.lives -= 1;
     AudioSystem.play("squeak");
     game.score = Math.max(0, game.score - SCORE_PENALTY_LOSS);
@@ -63,7 +68,8 @@ const Player = {
     const dx = chicken.x - wolf.x, dy = chicken.y - wolf.y, len = Math.hypot(dx, dy);
     Player.move(chicken, (len > 0 ? dx / len : 1) * 65, (len > 0 ? dy / len : 0) * 65);
     spawnBurst(chicken.x, chicken.y, "#ffdfaa", 18);
-    setStatus(`Por uma pena! Restam ${game.lives} vidas. Corra para um esconderijo.`);
+    setStatus(caughtInCover ? `Ele viu seu esconderijo! Restam ${game.lives} vidas. Fuja e quebre a visão antes de se esconder.` :
+      `Por uma pena! Restam ${game.lives} vidas. Quebre a visão do lobo e procure cobertura.`);
     refreshHud();
     if (game.lives <= 0) {
       GameManager.clear(); finishLose("O lobo alcançou você. Seus amigos torcem pela próxima aventura!");

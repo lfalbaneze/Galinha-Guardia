@@ -5,6 +5,7 @@ const WolfDialogue = (() => {
     alert: ["Ei... quem está aí?", "Eu vi essas penas!"],
     investigate: ["Ouvi uns passinhos...", "Que barulho foi esse?"],
     search: ["Cadê aquela galinha?!", "GRRR... perdi a pista!", "Sai daí, sua danada!"],
+    inspect: ["EU VI VOCÊ ENTRAR AÍ!", "ESSE ESCONDERIJO NÃO ME ENGANA!", "TE ACHEI, GALINHA!"],
   };
   function update(game, dt) {
     const wolf = game.entities.wolf;

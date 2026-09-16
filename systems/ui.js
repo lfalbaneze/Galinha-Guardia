@@ -2,7 +2,7 @@
 const GameUI = (() => {
   const elements = {};
   const wolfLevels = ["Atento", "Farejador", "Feroz", "Implacável"];
-  const wolfModes = { patrol: "patrulhando", alert: "desconfiado", investigate: "investigando ruído", search: "procurando", chase: "perseguindo" };
+  const wolfModes = { patrol: "patrulhando", alert: "desconfiado", investigate: "investigando ruído", search: "procurando", chase: "perseguindo", inspect: "viu o esconderijo!" };
   let initialized = false;
   let lastPhase = null;
 
@@ -105,6 +105,7 @@ const GameUI = (() => {
     const chicken = game.entities.chicken;
     const wolf = game.entities.wolf;
     const hidden = !!chicken.hidden;
+    const exposed = WolfAI.isExposed(game);
     const sprinting = !!chicken.sprinting;
     const candidate = chicken.hidingCandidate;
     const playing = game.phase === "playing";
@@ -124,9 +125,9 @@ const GameUI = (() => {
     elements.menuSkinSelect.value = chicken.skin;
     const availableSkins = SkinSystem.catalog.filter(s => s.chicks > 0 && SkinSystem.unlocked(s.id)).length;
     put("skinUnlockText", `${availableSkins} / 4 skins liberadas${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
-    put("hiddenText", hidden ? "Escondida" : sprinting ? "Correndo" : "À vista");
-    elements.hiddenText.dataset.state = hidden ? "hidden" : sprinting ? "sprinting" : "visible";
-    put("contextHint", !playing ? (game.phase === "menu" ? "A fazenda espera por você." : "Juntos, os amigos ficam mais fortes.") : hidden ? "E para sair. Recupere o fôlego e espere a busca passar." : candidate ? "E para se esconder aqui." : chicken.exhausted && input.has("shift") ? "Solte Shift para voltar a correr quando recuperar o fôlego." : sprinting ? "Correr faz barulho e pode chamar o lobo." : wolf.mode === "alert" ? "O lobo desconfia! Saia da vista antes que a barra encha." : "Encoste nos animais para resgatá-los.");
+    put("hiddenText", exposed ? "Ele viu você!" : hidden ? "Escondida" : sprinting ? "Correndo" : "À vista");
+    elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
+    put("contextHint", !playing ? (game.phase === "menu" ? "A fazenda espera por você." : "Juntos, os amigos ficam mais fortes.") : exposed ? "Ele viu você entrar! Saia com E ou movimento e quebre a visão." : hidden ? "E para sair. Recupere o fôlego e espere a busca passar." : candidate ? "E para se esconder. Quebre a visão do lobo primeiro!" : chicken.exhausted && input.has("shift") ? "Solte Shift para voltar a correr quando recuperar o fôlego." : sprinting ? "Correr faz barulho e pode chamar o lobo." : wolf.mode === "alert" ? "O lobo desconfia! Saia da vista antes que a barra encha." : "Encoste nos animais para resgatá-los.");
     elements.staminaMeter.value = chicken.stamina;
     elements.staminaMeter.parentElement.dataset.tired = String(chicken.exhausted);
     put("staminaText", chicken.exhausted ? "Recuperando" : "Fôlego");

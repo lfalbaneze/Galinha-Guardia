@@ -26,6 +26,8 @@ const WolfAI = (() => {
       awarenessTime: Math.max(0.18, config.awarenessTime / chickMultiplier),
       searchDuration: Math.min(24, config.searchDuration * chickMultiplier),
       searchRadius: Math.min(310, config.searchRadius * (1 + rescuedChicks / 24)),
+      hideWitnessRange: difficulty === "easy" ? 180 : difficulty === "hard" ? 260 : 220,
+      hideMemoryDuration: 8 + level * 2,
       patrolSpeed: speed * (level === 3 ? 0.80 : 0.70), awarenessDecay: 0.9,
       contactRange: 28, soundInterval: 0.65, investigateDuration: 2.6 + level * 0.3 };
   }
@@ -38,7 +40,54 @@ const WolfAI = (() => {
       moveSpeed: 0, patrolIndex: 0, detected: false,
       awareness: 0, heardPoint: null, hearingCooldown: 0, investigateTime: 0,
       alertReturnMode: "patrol", patrolPause: 0, patrolScanHeading: Math.PI,
+      exposedCover: null,
     });
+  }
+
+  // Record the visible entrance once. Hidden movement never updates this observation.
+  function witnessHide(game, spot) {
+    const wolf = game.entities.wolf, chicken = game.entities.chicken, config = getConfig(game);
+    if (game.phase !== "playing" || chicken.hidden || !spot || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
+      distance(wolf, chicken) > config.hideWitnessRange ||
+      !DetectionSystem.canSee(wolf, chicken, { ...config, range: config.hideWitnessRange })) return false;
+    wolf.exposedCover = { spotId: spot.id, x: chicken.x, y: chicken.y,
+      remaining: config.hideMemoryDuration, inspectTime: 0.8 };
+    wolf.lastKnown = { x: chicken.x, y: chicken.y };
+    wolf.mode = "inspect"; wolf.awareness = 1; wolf.detected = true;
+    wolf.route = []; wolf.routeTarget = null; wolf.routeTimer = 0; wolf.patrolPause = 0;
+    wolf.speech = "EU VI VOCÊ ENTRAR AÍ!"; wolf.speechTime = 2.4;
+    wolf.speechCooldown = 4; wolf.speechMode = "inspect";
+    return true;
+  }
+
+  function isExposed(game) {
+    const memory = game.entities.wolf.exposedCover, chicken = game.entities.chicken;
+    return !!(memory && memory.remaining > 0 && chicken.hidden && chicken.hidingSpotId === memory.spotId);
+  }
+
+  function canCatchHidden(game) {
+    const wolf = game.entities.wolf, chicken = game.entities.chicken;
+    return isExposed(game) && circleVsCircle(chicken, wolf) &&
+      DetectionSystem.hasLineOfSight(getHitbox(wolf), getHitbox(chicken));
+  }
+
+  function restoreCoverMemory(game, saved) {
+    const wolf = game.entities.wolf;
+    wolf.exposedCover = null;
+    const spot = saved && HidingSpots.getSpots().find(item => item.id === saved.spotId);
+    if (wolf.mode === "inspect" && spot && Number.isFinite(saved.x) && Number.isFinite(saved.y) &&
+      saved.x >= spot.x + 8 && saved.x <= spot.x + spot.w - 8 &&
+      saved.y >= spot.y + 8 && saved.y <= spot.y + spot.h - 8 &&
+      Number.isFinite(saved.remaining) && saved.remaining > 0) {
+      wolf.exposedCover = { spotId: spot.id, x: saved.x, y: saved.y,
+        remaining: Math.min(saved.remaining, getConfig(game).hideMemoryDuration),
+        inspectTime: Number.isFinite(saved.inspectTime) ? clamp(saved.inspectTime, 0, 0.8) : 0.8 };
+      wolf.mode = "inspect";
+      wolf.lastKnown = { x: saved.x, y: saved.y };
+      wolf.awareness = 1;
+    } else if (wolf.mode === "inspect") {
+      beginSearch(wolf, getConfig(game));
+    }
   }
 
   function navigation(wolf) {
@@ -212,6 +261,7 @@ const WolfAI = (() => {
 
   function resumePatrol(wolf) {
     wolf.mode = "patrol";
+    wolf.exposedCover = null;
     wolf.searchPoints = [];
     wolf.scanTime = 0;
     wolf.heardPoint = null;
@@ -280,6 +330,13 @@ const WolfAI = (() => {
     wolf.areaId = getAreaAt(wolf.x, wolf.y).id;
     wolf.hearingCooldown = Math.max(0, (wolf.hearingCooldown || 0) - dt);
     wolf.awareness = clamp(Number.isFinite(wolf.awareness) ? wolf.awareness : 0, 0, 1);
+    if (wolf.exposedCover) {
+      wolf.exposedCover.remaining = Math.max(0, wolf.exposedCover.remaining - dt);
+      if (wolf.exposedCover.remaining <= 0) {
+        wolf.exposedCover = null;
+        if (wolf.mode === "inspect") beginSearch(wolf, config);
+      }
+    }
     if (wolf.pauseTimer > 0) { wolf.detected = false; stop(wolf, dt); return; }
 
     const perception = wolf.huntUnlockTimer <= 0 ?
@@ -287,6 +344,7 @@ const WolfAI = (() => {
       { visible: false, contact: false, heardPoint: null };
     wolf.detected = false;
     if (perception.visible) {
+      wolf.exposedCover = null;
       // A distant glimpse gives the player time to break sight. Awareness survives brief gaps.
       const closeness = 1 - Math.min(1, perception.distance / config.range);
       wolf.awareness = Math.min(1, wolf.awareness + dt * (0.85 + closeness * 0.3) / config.awarenessTime);
@@ -307,6 +365,20 @@ const WolfAI = (() => {
       }
     } else {
       wolf.awareness = Math.max(0, wolf.awareness - config.awarenessDecay * dt);
+    }
+    if (!perception.visible && wolf.mode === "inspect") {
+      const memory = wolf.exposedCover;
+      if (!memory) beginSearch(wolf, config);
+      else {
+        wolf.awareness = 1;
+        const arrived = moveToward(wolf, memory, config.speed, dt);
+        // At the remembered entrance, physical contact can expose the chicken. A wall cannot.
+        if ((arrived || (!wolf.route.length && wolf.routeTimer > 0)) && !canCatchHidden(game)) {
+          memory.inspectTime = Math.max(0, memory.inspectTime - dt);
+          if (memory.inspectTime <= 0) { wolf.exposedCover = null; beginSearch(wolf, config); }
+        }
+        return;
+      }
     }
     if (!perception.visible && wolf.mode === "chase") {
       beginSearch(wolf, config);
@@ -400,5 +472,5 @@ const WolfAI = (() => {
     wolf.areaId = getAreaAt(wolf.x, wolf.y).id;
   }
 
-  return { initialize, update, getConfig, findPath, patrolPoints };
+  return { initialize, update, getConfig, findPath, patrolPoints, witnessHide, isExposed, canCatchHidden, restoreCoverMemory };
 })();

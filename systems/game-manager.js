@@ -61,7 +61,7 @@ const GameManager = (() => {
         hearingCooldown: wolf.hearingCooldown, investigateTime: wolf.investigateTime,
         alertReturnMode: wolf.alertReturnMode, patrolPause: wolf.patrolPause,
         patrolScanHeading: wolf.patrolScanHeading, searchApproached: wolf.searchApproached,
-        searchIndex: wolf.searchIndex, scanTime: wolf.scanTime },
+        searchIndex: wolf.searchIndex, scanTime: wolf.scanTime, exposedCover: wolf.exposedCover || null },
       animals: game.entities.animals.map(a => ({ id: a.id, ...point(a) })),
       chicks: game.entities.chicks.map(a => ({ id: a.id, ...point(a) })),
     };
@@ -125,7 +125,7 @@ const GameManager = (() => {
       vx: 0, vy: 0, moving: false, sprinting: false, state: "idle" });
     const wolf = game.entities.wolf;
     wolf.x = data.wolf.x; wolf.y = data.wolf.y;
-    wolf.mode = ["patrol", "alert", "investigate", "chase", "search"].includes(data.wolf.mode) ? data.wolf.mode : "patrol";
+    wolf.mode = ["patrol", "alert", "investigate", "chase", "search", "inspect"].includes(data.wolf.mode) ? data.wolf.mode : "patrol";
     const last = data.wolf.lastKnown;
     wolf.lastKnown = last && Number.isFinite(last.x) && Number.isFinite(last.y)
       ? { x: clamp(last.x, 0, WORLD.width), y: clamp(last.y, 0, WORLD.height) } : null;
@@ -165,6 +165,7 @@ const GameManager = (() => {
     resolveEnvironment(game.entities.chicken);
     HidingSpots.restore(game, data.chicken);
     resolveEnvironment(wolf);
+    WolfAI.restoreCoverMemory(game, data.wolf.exposedCover);
     game.winBonusApplied = data.winBonusApplied === true;
     if (game.rescuedCount === WORLD.targetRescues && game.rescuedChicks === WORLD.targetChicks) GameManager.win(game);
     refreshHud();

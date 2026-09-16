@@ -46,7 +46,8 @@ h1 span { display: block; margin-top: 4px; color: var(--muted); font-size: .83re
 .hud b { font-size: 1rem; }
 .hud .rescue-counter b { color: #356e3f; }
 #wolfLevelText { text-transform: none; letter-spacing: 0; }
-.wolf-counter[data-mode="chase"] { background: #fae9d7; border-color: #e4bb8e; }
+.wolf-counter[data-mode="chase"], .wolf-counter[data-mode="inspect"] { background: #fae9d7; border-color: #e4bb8e; }
+.stealth-badge[data-state="exposed"] { background: #8b302b; color: #fff5d9; border-color: #ffb585; }
 .wolf-counter[data-mode="alert"] { background: #fff4d5; border-color: #e3cc84; }
 .wolf-counter[data-mode="investigate"] { background: #e7eff4; border-color: #b3ccda; }
 button, select { font: inherit; }
