@@ -124,8 +124,8 @@ const GameUI = (() => {
     const playing = game.phase === "playing";
     const secretKnown = RescueSystem.knowsSecret(game);
     const secret = RescueSystem.secretHint(game);
-    elements.chickCounter.hidden = !secretKnown;
-    elements.farmHud.dataset.secretKnown = String(secretKnown);
+    elements.chickCounter.hidden = false;
+    elements.farmHud.dataset.secretKnown = 'true';
     put("chicksCount", game.rescuedChicks);
     put("wolfMultiplier", `Cerco ${WolfAI.getConfig(game).pressure.toFixed(2).replace(".", ",")}×`);
     for (const skin of SkinSystem.catalog) {
@@ -134,7 +134,7 @@ const GameUI = (() => {
       button.disabled = !available;
       button.dataset.active = String(selected);
       button.setAttribute("aria-pressed", String(selected));
-      const requirement = secretKnown ? skin.requirement : "Segredo da fazenda";
+      const requirement = skin.requirement;
       put(`skin-${skin.id}`, available ? `${skin.name}${selected ? " · usando" : ""}` : `${skin.name} · ${requirement}`);
       const option = elements[`menu-skin-${skin.id}`];
       option.disabled = !available;
@@ -143,7 +143,7 @@ const GameUI = (() => {
     elements.menuSkinSelect.value = chicken.skin;
     const availableSkins = SkinSystem.catalog.filter(s => s.chicks > 0 && SkinSystem.unlocked(s.id)).length;
     put("skinUnlockText", `${availableSkins} / 4 aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
-    put("wardrobeNote", secretKnown ? "Pintinhos são bônus opcionais dos esconderijos. Encontre-os antes de salvar o último amigo para abrir novas aparências. Suas conquistas continuam no baú." : "Nem todo tesouro fica à vista. Alguns esconderijos guardam mais do que folhas e feno.");
+    put("wardrobeNote", "6 pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o PIU-PIU, entre com E e segure C. São bônus opcionais: encontre-os antes do último amigo para abrir novas aparências.");
     put("hiddenText", exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
     put("contextHint", !playing ? (game.phase === "menu" ? "A fazenda espera por você." : "Juntos, os amigos ficam mais fortes.") : exposed ? "Ele viu você entrar! Saia com E ou movimento e quebre a visão." : hidden ? (secret?.coverId === chicken.hidingSpotId ? "Tem um piado aqui! Segure C para investigar o esconderijo." : "E para sair. Recupere o fôlego e espere a busca passar.") : wolf.mode === "alert" ? "O lobo desconfia! Saia da vista antes que a barra encha." : secret ? (secret.coverId ? "Piado no esconderijo! Entre com E e segure C para investigar." : "Um piado no mato... chegue pertinho e segure C para investigar.") : candidate ? "E para se esconder. Quebre a visão do lobo primeiro!" : chicken.exhausted && input.has("shift") ? "Solte Shift para voltar a correr quando recuperar o fôlego." : sprinting ? "Correr assusta os bichos e pode chamar o lobo." : "Cada resgate aperta o cerco do lobo. Use C para chegar de mansinho.");
@@ -201,15 +201,16 @@ const GameUI = (() => {
     const chicken = game.entities.chicken, wolf = game.entities.wolf;
     const p = worldToScreen(chicken), w = worldToScreen(wolf);
     const secret = RescueSystem.secretHint(game);
-    if (secret && !(secret.coverId && HidingSpots.candidate(chicken)?.id === secret.coverId)) {
+    // Real cover bonuses have one marker, drawn with the hiding-place controls.
+    if (secret && !secret.coverId) {
       const at = worldToScreen(secret);
       const sx = clamp(at.x,80,canvas.width-80), sy = clamp(at.y-36,30,canvas.height-60);
       const closeEnough = distance(chicken, secret) <= 48;
       panel(sx-93,sy-21,186,48,"rgba(255,245,208,.97)");
       ctx.font = "bold 14px Trebuchet MS, sans-serif"; ctx.textAlign = "center"; ctx.fillStyle = "#665026";
-      ctx.fillText(secret.coverId ? 'Piu... nesse esconderijo!' : closeEnough ? "Segure C · investigar" : "Piu... tem algo aqui!",sx,sy-2);
+      ctx.fillText(closeEnough ? "Segure C · investigar" : "Piu... tem algo aqui!",sx,sy-2);
       ctx.font = "12px Trebuchet MS, sans-serif";
-      ctx.fillText(secret.coverId ? 'Entre com E para espiar' : closeEnough ? "Procure no matinho" : "Chegue de mansinho",sx,sy+16);
+      ctx.fillText(closeEnough ? "Procure no matinho" : "Chegue de mansinho",sx,sy+16);
       if (secret.discoveryTime > 0) {
         panel(sx-32,sy+30,64,7,"#547247");
         ctx.fillStyle="#ffe49b";ctx.fillRect(sx-30,sy+32,60*Math.min(1,secret.discoveryTime/.85),3);

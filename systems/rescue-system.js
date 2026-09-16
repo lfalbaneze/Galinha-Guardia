@@ -22,10 +22,12 @@ const RescueSystem = {
   secretHint(game) {
     if (game.phase !== "playing") return null;
     const chicken = game.entities.chicken;
+    const currentCover = HidingSpots.candidate(chicken)?.id;
     return game.entities.chicks.filter(c => RescueSystem.isSecret(c) &&
-      ((c.coverId && chicken.hidden && chicken.hidingSpotId === c.coverId) ||
-      (distance(chicken, c) < 190 && DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(c)))))
-      .sort((a,b) => distance(chicken,a) - distance(chicken,b))[0] || null;
+      (c.coverId ? HidingSpots.hasBonusClue(chicken, c) :
+        distance(chicken, c) < 190 && DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(c))))
+      .sort((a,b) => Number(b.coverId === currentCover) - Number(a.coverId === currentCover) ||
+        distance(chicken,a) - distance(chicken,b))[0] || null;
   },
   discover(game, chick, dt) {
     if (game.phase !== 'playing' || dt <= 0 || !RescueSystem.isSecret(chick)) return false;
@@ -81,6 +83,8 @@ const RescueSystem = {
       "É LOBO MESMO! SOCORRO!" : lines[Math.floor(Math.random() * lines.length)];
     animal.speechTime = 2.4;
     game.animalSpeechCooldown = 2.8;
+    if (!tired && RescueSystem.visible(game, animal) && !circleVsCircle(game.entities.chicken, animal))
+      AudioSystem.playAnimal(animal.species, { volume: .8 });
   },
   observeThreat(game, animal, visible) {
     const chicken = game.entities.chicken, wolf = game.entities.wolf;
@@ -144,9 +148,10 @@ const RescueSystem = {
     const chicken = game.entities.chicken;
     game.animalSpeechCooldown = Math.max(0, (game.animalSpeechCooldown || 0) - dt);
     game.secretSoundCooldown = Math.max(0, (game.secretSoundCooldown || 0) - dt);
-    if (dt > 0 && game.secretSoundCooldown <= 0 && RescueSystem.secretHint(game)) {
-      AudioSystem.play("chick", { volume: .14 });
-      game.secretSoundCooldown = 4.5;
+    const secret = RescueSystem.secretHint(game);
+    if (dt > 0 && game.secretSoundCooldown <= 0 && secret) {
+      AudioSystem.playAnimal("chick", { volume: .4 + .4 * Math.max(0, 1 - distance(chicken, secret) / 280) });
+      game.secretSoundCooldown = 3.5;
     }
     if (game.rescueNotice) game.rescueNotice.time = Math.max(0, game.rescueNotice.time - dt);
     if (game.skinNotice) game.skinNotice.time = Math.max(0, game.skinNotice.time - dt);
@@ -184,11 +189,11 @@ const RescueSystem = {
         if (fleeing) {
           RescueSystem.flee(game, animal, home, area, dt);
           animal.fatigue = (animal.fatigue || 0) + dt;
-          RescueSystem.talk(game, animal);
+          if (dt > 0) RescueSystem.talk(game, animal);
           const endurance = (game.difficultyKey === "easy" ? 2.8 : game.difficultyKey === "hard" ? 6 : 4.4) * RescueSystem.personality(animal).endurance;
           if (animal.fatigue >= endurance) {
             animal.restTime = 3.1; animal.fatigue = 0; animal.temper = "tired";
-            animal.speechTime = 0; RescueSystem.talk(game, animal, true);
+            animal.speechTime = 0; if (dt > 0) RescueSystem.talk(game, animal, true);
           }
         } else if (animal.restTime <= 0 && len > 5) {
           const step = Math.min(len, (chick ? 27 : 35) * RescueSystem.personality(animal).pace * dt);

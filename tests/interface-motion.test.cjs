@@ -69,7 +69,7 @@ test('live hints reflect danger and held keys without spoiling undiscovered chic
   assert.equal(elements.get('gameStage').dataset.threat, 'danger');
   assert.equal(elements.get('threatProgress').value, 1);
   assert.doesNotMatch(elements.get('missionText').textContent, /pintinho/);
-  assert.equal(elements.get('chickCounter').hidden, true);
+  assert.equal(elements.get('chickCounter').hidden, false);
   run(`state.entities.chicken.hidden=true;GameUI.update(state);`);
   assert.equal(elements.get('gameStage').dataset.threat, 'safe');
   run('GameUI.showMenu(state);');

@@ -79,7 +79,7 @@ test('nearby animals call without rescue, with distance falloff and no secret di
   assert.deepEqual(near.effects(), ['animal-cow']);
   assert.ok(near.plays.at(-1).volume > far.plays.at(-1).volume);
   assert.deepEqual(outside.effects(), []); assert.deepEqual(blocked.effects(), []);
-  assert.match(near.plays.at(-1).src, /audio\/voices\/animal-cow\.wav$/);
+  assert.match(near.plays.at(-1).src, /audio\/voices\/v2\/animal-cow\.wav$/);
 });
 
 test('farm calls are spaced, rotate among nearby animals, and stop while paused or muted', () => {
@@ -98,7 +98,7 @@ test('animal recordings are real local PCM assets and new adventures do not repl
   const h = audioHarness(), step = farm(h);
   step(2); h.audio.reset(); h.game.entities.animals = [{ species: 'cat', x: 40, y: 0 }]; h.start(); step(.1);
   assert.deepEqual(h.effects(), ['animal-cow']);
-  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '../assets/audio/voices/manifest.json')));
+  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '../assets/audio/voices/v2/manifest.json')));
   for (const item of manifest.recordings) {
     h.audio.playAnimal(item.species);
     const file = path.resolve(__dirname, '..', h.plays.at(-1).src);
@@ -145,6 +145,24 @@ test('animal calls respect audio lock, mute, pause and effect volume, with safe 
   h.audio.setEffectsVolume(.55);
   assert.equal(h.audio.playAnimal('unknown'), true);
   assert.deepEqual(h.effects(), ['animal-cow', 'rescue']);
+});
+
+test('animal calls keep their natural pitch and lower music only until the final call ends', () => {
+  const h=audioHarness();h.start();
+  const music=h.instances[0];
+  h.audio.playAnimal('chicken',{rate:1.4});
+  const hen=h.instances[1];
+  assert.equal(hen.playbackRate,1);
+  assert.match(hen.src,/voices\/v2\/animal-chicken\.wav$/);
+  assert.equal(music.volume,.25*.24);
+  h.audio.playAnimal('chick');
+  const chick=h.instances[2];
+  hen.end();assert.equal(music.volume,.25*.24);
+  chick.end();assert.equal(music.volume,.25);
+  h.audio.playAnimal('dog');h.instances[1].onerror();
+  assert.equal(music.volume,.25,'a failed recording must not leave the music lowered');
+  h.audio.playAnimal('goat');h.audio.setEffectsVolume(0);
+  assert.equal(music.volume,.25);
 });
 
 test('music uses one looping element through track switches and clamps independent volumes', () => {

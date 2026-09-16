@@ -2,3 +2,4 @@ node_modules/
 .cache/
 .openai/
 dist/
+gcm-diagnose.log

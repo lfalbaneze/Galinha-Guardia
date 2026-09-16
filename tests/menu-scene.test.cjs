@@ -30,7 +30,7 @@ test('farm menu animates its own herd while saved animals, chicks, map, clock an
   run('for(let i=0;i<70;i++)InterfaceMotion.frame(state,.05);');
   assert.equal(run('JSON.stringify(state)===snapshot'), true);
   assert.deepEqual([...storage], beforeStorage);
-  assert.equal(elements.get('chickCounter').hidden, true);
+  assert.equal(elements.get('chickCounter').hidden, false);
   assert.equal(run('sceneDraws.some(args=>args[0].src.includes("Chick_"))'), false);
   events.elements.continueBtn.click();
   assert.equal(elements.get('gameShell').dataset.phase, 'playing');
@@ -115,7 +115,7 @@ test('the button jumps one animal, plays its recording and anchors a temporary c
   const h = audibleMenu();
   assert.equal(h.plays.length, 0, 'no menu autoplay');
   h.events.elements.menuScatter.click();
-  assert.match(h.plays[0].src, /voices\/animal-chicken\.wav$/);
+  assert.match(h.plays[0].src, /voices\/v2\/animal-chicken\.wav$/);
   assert.equal(h.plays[0].loop, false);
   assert.equal(h.elements.get('menuBanter').hidden, false);
   assert.match(h.elements.get('menuBanter').textContent, /Galinha/);

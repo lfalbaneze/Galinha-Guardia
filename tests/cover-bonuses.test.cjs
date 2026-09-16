@@ -9,6 +9,52 @@ function enterBonus(game, index = 0) {
     HidingSpots.update(state,0); HidingSpots.toggle(state);`);
 }
 
+test('cover clues show their location before entry, carry through their own hay and stop at walls', () => {
+  const h = createGame(() => .5);
+  h.run(`var chick=state.entities.chicks.find(c=>c.coverId.startsWith('hay-'));
+    var chicken=state.entities.chicken, cover=HidingSpots.getSpots().find(s=>s.id===chick.coverId);
+    Object.assign(chicken,{x:chick.x,y:cover.y-45,hidden:false,hidingSpotId:null});
+    OBSTACLES=[{...cover.bale,type:'hay'}];
+    var labels=[];ctx.fillText=text=>labels.push(text);
+    HidingSpots.drawIndicators(state);`);
+  assert.equal(h.run('DetectionSystem.hasLineOfSight(getHitbox(chicken),getHitbox(chick))'), false);
+  assert.equal(h.run('RescueSystem.secretHint(state)===chick'), true);
+  assert.equal(h.run('labels.includes("PIU-PIU! · PINTINHO")'), true);
+  assert.equal(h.run('!!chick.discovered'), false);
+  h.run(`OBSTACLES.push({x:chicken.x-150,y:chicken.y+20,w:300,h:8,type:'fence'});labels.length=0;
+    HidingSpots.drawIndicators(state);`);
+  assert.equal(h.run('HidingSpots.hasBonusClue(chicken,chick)'), false);
+  assert.equal(h.run('labels.includes("PIU-PIU! · PINTINHO")'), false);
+  h.run('OBSTACLES=[];chicken.x=chick.x+281;chicken.y=chick.y;');
+  assert.equal(h.run('HidingSpots.hasBonusClue(chicken,chick)'), false);
+  enterBonus(h, h.run('state.entities.chicks.indexOf(chick)'));
+  h.run('input.add("c");for(let i=0;i<17;i++)RescueSystem.update(state,.05);');
+  assert.equal(h.run('state.rescuedChicks'), 1);
+  assert.equal(h.run('RescueSystem.secretHint(state)===chick'), false);
+});
+
+test('a walking approach encounters a clue on all six real bonus routes', () => {
+  const h = createGame(() => .5);
+  for (const seed of [1, 29, 814237]) {
+    h.run(`resetGame(${seed});state.entities.wolf.huntUnlockTimer=100;`);
+    for (let i=0;i<6;i++) {
+      h.run(`var chick=state.entities.chicks[${i}],chicken=state.entities.chicken;
+        Object.assign(chicken,{...WORLD.layout.start,hidden:false,hidingSpotId:null});
+        var route=WolfAI.findPath(chicken,chick),sawClue=false;
+        for(const point of route){
+          while(distance(chicken,point)>2){
+            var before={x:chicken.x,y:chicken.y};
+            var dx=point.x-chicken.x,dy=point.y-chicken.y,len=Math.hypot(dx,dy);
+            Player.move(chicken,dx/len*Math.min(12,len),dy/len*Math.min(12,len));
+            if(distance(before,chicken)<.1)break;
+            if(distance(chicken,chick)>80 && HidingSpots.hasBonusClue(chicken,chick))sawClue=true;
+          }
+        }`);
+      assert.equal(h.run('sawClue'), true, `${seed}/${i}: must be noticeable before entering`);
+    }
+  }
+});
+
 test('six deterministic bonus homes occupy only a subset of usable cover across 60 farms', () => {
   const h = createGame(() => .5), signatures = new Set(), types = new Set();
   for (const version of [1, 2]) for (let seed = 0; seed < 30; seed++) {

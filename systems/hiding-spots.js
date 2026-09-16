@@ -17,6 +17,16 @@ const HidingSpots = (() => {
     return spots.find(s => s.id === chicken.hidingSpotId && contains(s, chicken)) ||
       spots.find(s => contains(s, chicken)) || null;
   }
+  function hasBonusClue(chicken, chick) {
+    const spot = spots.find(s => s.id === chick.coverId);
+    if (!spot || distance(chicken, chick) >= 280) return false;
+    if (candidate(chicken)?.id === spot.id) return true;
+    // The chick can be heard through its own cover, but never through a building or fence.
+    const cover = spot.bale || spot.blockingRect;
+    const walls = cover ? OBSTACLES.filter(o =>
+      o.x !== cover.x || o.y !== cover.y || o.w !== cover.w || o.h !== cover.h) : OBSTACLES;
+    return DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(chick), walls);
+  }
   function bonusHomes(layout = WORLD.layout) {
     // A separate deterministic selection keeps saved buildings and cover IDs intact.
     const rank = id => {
@@ -118,6 +128,15 @@ const HidingSpots = (() => {
     const hint = RescueSystem.secretHint(game);
     const bonus = hint?.coverId && hint.coverId === spot?.id ? hint : null;
     const celebrating = game.secretNotice?.bonus && game.secretNotice.time > 0;
+    if (hint?.coverId && !bonus && !chicken.hidden) {
+      const cover = spots.find(s => s.id === hint.coverId);
+      const bob = Math.sin((game.elapsed || 0) * 3) * 3;
+      ctx.save(); ctx.strokeStyle = '#ffe496'; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.ellipse(worldX(cover.x + cover.w / 2), worldY(cover.y + cover.h / 2) + 8,
+        cover.w / 2 + 3, cover.h / 2 + 3, 0, 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+      pill(worldX(cover.x + cover.w / 2), worldY(cover.y) - 60 + bob, 280,
+        'PIU-PIU! · PINTINHO', 'Chegue aqui · E e depois segure C', false);
+    }
     if (spot) {
       ctx.save(); ctx.strokeStyle = exposed ? "#ff956c" : chicken.hidden ? "#e6f6be" : "#fff6bf";
       ctx.lineWidth = 2.5; ctx.setLineDash(chicken.hidden ? [] : [5, 5]);
@@ -134,12 +153,12 @@ const HidingSpots = (() => {
       ctx.fillText(exposed ? "Esconderijo descoberto · fuja agora!" : "Protegida pela cobertura · fique quietinha", 29, canvas.height - 27);
       }
     } else if (spot) {
-      pill(p.x, p.y - 104, 245, bonus ? 'E · ESPIAR ESCONDERIJO' : "E  ·  ESCONDER",
-        bonus ? 'Entre e segure C para investigar' : `Aconchegue-se ${labels[spot.type]}`, false);
+      pill(p.x, p.y - 104, 245, bonus ? 'E · TEM PINTINHO AQUI!' : "E  ·  ESCONDER",
+        bonus ? 'Entre e segure C para encontrar' : `Aconchegue-se ${labels[spot.type]}`, false);
     } else if (chicken.hideHintTimer > 0) {
       pill(p.x, p.y - 104, 238, "Procure feno ou folhas", "Chegue perto para aparecer o E", false);
     }
   }
-  return { initialize, candidate, bonusHomes, toggle, update, restore, drawForeground, drawIndicators,
+  return { initialize, candidate, hasBonusClue, bonusHomes, toggle, update, restore, drawForeground, drawIndicators,
     getSpots: () => spots, obstacles: () => spots.filter(s => s.blockingRect).map(s => s.blockingRect) };
 })();

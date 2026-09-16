@@ -16,7 +16,7 @@ test('a local clue guides the player from farther away without revealing the sec
   run(`chicken.x=420; const labels=[];ctx.fillText=text=>labels.push(text); renderGame();`);
   assert.equal(run('RescueSystem.secretHint(state)===chick'), true);
   assert.equal(run('labels.includes("Chegue de mansinho")'), true);
-  assert.equal(elements.get('chickCounter').hidden, true);
+  assert.equal(elements.get('chickCounter').hidden, false);
   assert.equal(run('RescueSystem.isSecret(chick)'), true);
   run(`chicken.x=560;labels.length=0;renderGame();`);
   assert.equal(run('labels.includes("Segure C · investigar")'), true);
@@ -64,13 +64,15 @@ test('every friend rescue increases actual wolf pressure in all difficulties and
   }
 });
 
-test('new game, pause, wardrobe and defeat do not spoil the secret', () => {
+test('the chick objective and wardrobe requirements are explained before the first discovery', () => {
   const {run,elements}=secretArena();
   for(const phase of ['playing','menu','lose']) {
     run(`state.phase='${phase}';GameUI.update(state);`);
-    assert.equal(elements.get('chickCounter').hidden,true);
-    for(const id of ['menuDescription','wardrobeNote','skin-punk','menu-skin-punk','endSummary'])
-      assert.doesNotMatch(elements.get(id).textContent,/pintinh|\/6/i,id);
+    assert.equal(elements.get('chickCounter').hidden,false);
+    assert.match(elements.get('wardrobeNote').textContent,/6 pintinhos.*escondem.*E.*C/);
+    for(const id of ['skin-punk','menu-skin-punk'])
+      assert.match(elements.get(id).textContent,/2 pintinhos/);
+    assert.equal(run('state.entities.chicks.every(c=>RescueSystem.isSecret(c))'),true);
   }
 });
 
@@ -125,7 +127,7 @@ test('legacy discovery without capture persists and leaves other secrets hidden 
   assert.equal(loaded.run('!!state.entities.chicks[1].discovered'),false);
   assert.equal(loaded.elements.get('chickCounter').hidden,false);
   loaded.run('resetGame(814237);GameUI.update(state);');
-  assert.equal(loaded.elements.get('chickCounter').hidden,true);
+  assert.equal(loaded.elements.get('chickCounter').hidden,false);
   assert.equal(loaded.run('state.entities.chicks.every(c=>RescueSystem.isSecret(c))'),true);
 });
 
@@ -142,12 +144,13 @@ test('secret sprites and hearts are absent until discovered', () => {
   assert.ok(draws.length>0);
 });
 
-test('the nearby piu is quiet, spaced out and respects a wall', () => {
+test('the nearby piu is audible, spaced out and respects a wall', () => {
   const {run}=secretArena();
-  run(`const sounds=[];AudioSystem.play=(name,options)=>sounds.push({name,...options});
+  run(`const sounds=[];AudioSystem.playAnimal=(name,options)=>{if(name==='chick')sounds.push({name,...options});};
     RescueSystem.update(state,.05);for(let i=0;i<20;i++)RescueSystem.update(state,.05);`);
   assert.equal(run('sounds.length'),1);
-  assert.equal(run('sounds[0].volume'),.14);
+  assert.equal(run('sounds[0].name'),'chick');
+  assert.ok(run('sounds[0].volume') >= .4);
   run(`OBSTACLES=[{x:577,y:300,w:4,h:200}];for(let i=0;i<110;i++)RescueSystem.update(state,.05);`);
   assert.equal(run('sounds.length'),1);
 });

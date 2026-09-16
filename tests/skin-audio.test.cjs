@@ -185,6 +185,8 @@ test('skin themes preserve rescue effects and lower the music during the wolf fi
   const chickCalls = h.plays.filter(play => /chick\.wav$/.test(play.src));
   assert.equal(chickCalls.length, 1);
   assert.equal(chickCalls[0].volume, .55);
+  // Finish the actual 1.2-second recording before fast-forwarding the mock clock.
+  h.players.find(player => /chick\.wav$/.test(player.src)).onended();
   h.run('for (const friend of RescueSystem.all(state)) GameManager.rescue(state, Object.assign(friend,{discovered:true})); GameManager.win(state);');
   advanceFinale(h, 7.1);
   assert.equal(h.run('state.cutscene.stage'), 'cloud');

@@ -35,7 +35,9 @@ const AudioSystem = (() => {
   let menuVoice = null;
   let scene = null, lastTime = -1, cloudBucket = -1, sobBucket = -1;
   const oneShots = new Set();
-  const path = name => `./assets/audio/${name === 'chick' || name.startsWith('animal-') ? 'voices/' : ''}${name}.wav`;
+  const isAnimal = name => name === 'chick' || name.startsWith('animal-');
+  // A versioned directory also replaces clips cached by an older copy of the game.
+  const path = name => `./assets/audio/${isAnimal(name) ? 'voices/v2/' : ''}${name}.wav`;
   let flock = null, farmTime = 0, nextCall = 1.8, playerCall = 16;
   const heard = new Map();
   const hidden = () => typeof document !== "undefined" && document.hidden === true;
@@ -63,6 +65,7 @@ const AudioSystem = (() => {
     voice.active = false;
     voice.audio.pause();
     rewind(voice.audio);
+    volumes();
   }
   function stopEffects(keepVictory = false) {
     for (const voice of voices) if (voice.active && !(keepVictory && voice.name === "victory")) release(voice);
@@ -71,7 +74,8 @@ const AudioSystem = (() => {
     if (menuVoice?.active) release(menuVoice);
   }
   function volumes() {
-    if (music) music.volume = settings.muted ? 0 : settings.musicVolume * duck;
+    const animalSpeaking = voices.some(voice => voice.active && isAnimal(voice.name));
+    if (music) music.volume = settings.muted ? 0 : settings.musicVolume * duck * (animalSpeaking ? .24 : 1);
     for (const voice of voices) if (voice.active) voice.audio.volume = settings.muted ? 0 : settings.effectsVolume * voice.gain;
     if (menuVoice?.active) menuVoice.audio.volume = settings.muted ? 0 : settings.effectsVolume * menuVoice.gain;
   }
@@ -138,10 +142,11 @@ const AudioSystem = (() => {
     voice.active = true;
     voice.audio.loop = false;
     voice.audio.volume = settings.effectsVolume * gain;
-    voice.audio.playbackRate = Number.isFinite(options.rate) ? Math.max(0.7, Math.min(1.4, options.rate)) : 1;
+    voice.audio.playbackRate = !isAnimal(name) && Number.isFinite(options.rate) ? Math.max(0.7, Math.min(1.4, options.rate)) : 1;
     const token = ++voice.token;
-    voice.audio.onended = () => { if (voice.token === token) voice.active = false; };
+    voice.audio.onended = () => { if (voice.token === token) { voice.active = false; volumes(); } };
     voice.audio.onerror = () => { if (voice.token === token) release(voice); };
+    volumes();
     attempt(voice.audio, error => {
       if (voice.token !== token) return;
       release(voice);

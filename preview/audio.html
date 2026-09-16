@@ -44,7 +44,7 @@
       const card = document.createElement('section'); card.className = 'listen-card';
       const heading = document.createElement('h2'); heading.textContent = title;
       const player = document.createElement('audio'); player.controls = true; player.preload = 'none';
-      player.src = '../assets/audio/' + (id === 'animals' ? 'voices/' : '') + file + '.wav'; player.setAttribute('aria-label', title);
+      player.src = '../assets/audio/' + (id === 'animals' ? 'voices/v2/' : '') + file + '.wav'; player.setAttribute('aria-label', title);
       card.append(heading, player); document.getElementById(id).append(card);
     }
   }

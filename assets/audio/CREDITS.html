@@ -6,18 +6,19 @@
 <p>Gravações de bichos para acompanhar a exploração e os resgates. Os trechos receberam ajuste de volume, cortes e entradas e saídas suaves, sem mudar a afinação. Todas as adaptações mantêm a licença indicada abaixo.</p>
 <ul>
 <li><strong>Vaca, pato, porco, ovelha e cordeirinho:</strong> Secretlondon, <a href="https://opengameart.org/content/farm-animals">Farm Animals — Mudchute Park and Farm</a>, distribuído por qubodup. <a href="../sprites/licenses/CC-BY-SA-3.0.txt">CC BY-SA 3.0</a>. Porco e cordeirinho repetem a chamada com uma pequena pausa.</li>
-<li><strong>Cabra:</strong> leone, <a href="https://opengameart.org/content/goat-bleat">Goat Bleat</a>. <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</li>
-<li><strong>Cachorro:</strong> pauliuw, <a href="https://opengameart.org/content/dog-sounds">Dog sounds</a>. Dois latidos do arquivo Dog Bark.wav. <a href="../sprites/licenses/CC0-1.0.txt">CC0 1.0</a>.</li>
+<li><strong>Cabra:</strong> <a href="https://freesound.org/people/klankbeeld/">klankbeeld</a>, <a href="https://freesound.org/people/klankbeeld/sounds/343025/">goat bleat 01.wav — Freesound</a>, gravação com microfones Primo EM 172 e gravador Sony PCM D50. <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</li>
+<li><strong>Cachorro:</strong> kwahmah_02, <a href="https://freesound.org/people/kwahmah_02/sounds/277058/">Single Dog Bark</a>, latido repetido com uma pausa. <a href="../sprites/licenses/CC0-1.0.txt">CC0 1.0</a>.</li>
 <li><strong>Gato:</strong> Dan Crosby (Dcrosby), <a href="https://commons.wikimedia.org/wiki/File:Meow.ogg">Meow — gato Silas</a>. <a href="../sprites/licenses/CC-BY-SA-3.0.txt">CC BY-SA 3.0</a>.</li>
 <li><strong>Burro:</strong> Félix Blume, <a href="https://freesound.org/people/felix.blume/sounds/157763/">A donkey is braying in his enclosure, in south of France</a>, trecho de 5,75–8,9 s. <a href="../sprites/licenses/CC0-1.0.txt">CC0 1.0</a>.</li>
 <li><strong>Coelho:</strong> Voltiment555, <a href="https://opengameart.org/content/rabbit-eating">Rabbit Eating</a>, trecho de 1,5–3,3 s: coelho mastigando, com volume discreto. <a href="../sprites/licenses/CC0-1.0.txt">CC0 1.0</a>.</li>
-<li><strong>Galinha:</strong> IMadeIt, <a href="https://opengameart.org/content/chicken-sound-effect">Chicken Sound Effect</a>. <a href="../sprites/licenses/CC-BY-3.0.txt">CC BY 3.0</a>.</li>
+<li><strong>Galinha:</strong> Breviceps, <a href="https://freesound.org/people/Breviceps/sounds/456803/">Chicken clucking</a>, trecho de 1,12–3,52 s. <a href="../sprites/licenses/CC0-1.0.txt">CC0 1.0</a>.</li>
 <li><strong>Pintinhos:</strong> Lexana.uk, <a href="https://freesound.org/people/Lexana.uk/sounds/243503/">chicks.mp3</a>, trecho de 1–2,2 s da prévia pública em alta qualidade. <a href="../sprites/licenses/CC0-1.0.txt">CC0 1.0</a>.</li>
 </ul>
+<p>As amostras do Freesound usam as prévias públicas em alta qualidade. Os trechos foram convertidos para mono, recortados e tiveram o volume ajustado, mantendo a velocidade e a altura originais. As adaptações preservam as licenças indicadas acima.</p>
 <h2>Ouça a turma</h2><div id="voices"></div>
 <p>As músicas e os efeitos cômicos do final são composições e sons sintetizados para este jogo. Créditos das imagens: <a href="../sprites/CREDITS.html">artistas da fazendinha</a>.</p>
 </main>
 <script>
 const names={cow:'Vaca',duck:'Pato',pig:'Porco',sheep:'Ovelha',lamb:'Cordeirinho',goat:'Cabra',dog:'Cachorro',cat:'Gato',donkey:'Burro',rabbit:'Coelho mastigando',chicken:'Galinha',chick:'Pintinhos'};
-for(const [id,name] of Object.entries(names)){const label=document.createElement('label');label.textContent=name;const sound=document.createElement('audio');sound.controls=true;sound.preload='none';sound.volume=.55;sound.src='voices/'+(id==='chick'?'chick':'animal-'+id)+'.wav';sound.setAttribute('aria-label',name);sound.addEventListener('play',()=>document.querySelectorAll('audio').forEach(other=>{if(other!==sound)other.pause();}));label.append(sound);document.getElementById('voices').append(label);}
+for(const [id,name] of Object.entries(names)){const label=document.createElement('label');label.textContent=name;const sound=document.createElement('audio');sound.controls=true;sound.preload='none';sound.volume=.55;sound.src='voices/v2/'+(id==='chick'?'chick':'animal-'+id)+'.wav';sound.setAttribute('aria-label',name);sound.addEventListener('play',()=>document.querySelectorAll('audio').forEach(other=>{if(other!==sound)other.pause();}));label.append(sound);document.getElementById('voices').append(label);}
 </script></html>

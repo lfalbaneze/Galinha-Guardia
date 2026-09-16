@@ -9,7 +9,6 @@ import hashlib
 import json
 import sys
 import urllib.request
-import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / '.cache/audio-tools'))
@@ -18,16 +17,16 @@ import soundfile as sf
 import py7zr
 
 CACHE = ROOT / '.cache/audio-sources'
-OUT = ROOT / 'assets/audio/voices'
+OUT = ROOT / 'assets/audio/voices/v2'
 CACHE.mkdir(parents=True, exist_ok=True)
 OUT.mkdir(parents=True, exist_ok=True)
 OGA = 'https://opengameart.org/sites/default/files/'
 DOWNLOADS = {
     'mudchuteanimals.7z': OGA + 'mudchuteanimals.7z',
-    'dog.7z': OGA + 'dog.7z',
-    'snom-ringtone.wav': OGA + 'snom-ringtone.wav',
+    'dog-clean.mp3': 'https://cdn.freesound.org/previews/277/277058_4486188-hq.mp3',
+    'goat-field.mp3': 'https://cdn.freesound.org/previews/343/343025_1648170-hq.mp3',
     'RabbitEating.wav': OGA + 'RabbitEating.wav',
-    'chicken_sound_effect.zip': OGA + 'chicken_sound_effect.zip',
+    'hen-clucks.mp3': 'https://cdn.freesound.org/previews/456/456803_9159316-hq.mp3',
     'Meow.ogg': 'https://upload.wikimedia.org/wikipedia/commons/6/62/Meow.ogg',
     'donkey.wav': 'https://upload.wikimedia.org/wikipedia/commons/2/25/157763_felix-blume_a-donkey-is-braying-in-his-enclosure-in-south-of-france.wav',
     'chicks.mp3': 'https://cdn.freesound.org/previews/243/243503_582848-hq.mp3',
@@ -37,15 +36,12 @@ for filename, url in DOWNLOADS.items():
     if not destination.exists():
         request = urllib.request.Request(url, headers={'User-Agent': 'FarmGameAssetPreparation/1.0'})
         destination.write_bytes(urllib.request.urlopen(request, timeout=60).read())
-for filename in ['mudchuteanimals', 'dog']:
+for filename in ['mudchuteanimals']:
     if not (CACHE / filename).exists():
         with py7zr.SevenZipFile(CACHE / (filename + '.7z')) as archive:
             if any('..' in Path(name).parts or Path(name).is_absolute() for name in archive.getnames()):
                 raise ValueError('Unsafe archive path')
             archive.extractall(CACHE / filename)
-if not (CACHE / 'chicken').exists():
-    with zipfile.ZipFile(CACHE / 'chicken_sound_effect.zip') as archive:
-        archive.extractall(CACHE / 'chicken')
 
 farm = 'mudchuteanimals/MudchuteAnimals/Mudchute_'
 # name, source, start/end in seconds, additional identical calls, target peak
@@ -55,13 +51,13 @@ CLIPS = [
     ('sheep', farm + 'sheep_1.ogg', 0, None, 1, .82),
     ('lamb', farm + 'lamb_1.ogg', 0, None, 2, .76),
     ('pig', farm + 'pig_1.ogg', 0, None, 2, .82),
-    ('goat', 'snom-ringtone.wav', 0, None, 1, .78),
-    ('dog', 'dog/Dog/Dog Bark.wav', 0, None, 2, .82),
+    ('goat', 'goat-field.mp3', 0, None, 1, .82),
+    ('dog', 'dog-clean.mp3', 0, None, 2, .82),
     ('cat', 'Meow.ogg', 0, None, 1, .80),
     ('donkey', 'donkey.wav', 5.75, 8.9, 1, .82),
     ('rabbit', 'RabbitEating.wav', 1.5, 3.3, 1, .50),
-    ('chicken', 'chicken/Chicken Sound Effect.ogg', 0, None, 1, .80),
-    ('chick', 'chicks.mp3', 1, 2.2, 1, .70),
+    ('chicken', 'hen-clucks.mp3', 1.12, 3.52, 1, .82),
+    ('chick', 'chicks.mp3', 1, 2.2, 1, .82),
 ]
 RATE = 22050
 manifest = {'sampleRate': RATE, 'channels': 1, 'bits': 16, 'recordings': [],
