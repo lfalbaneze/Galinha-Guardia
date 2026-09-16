@@ -342,3 +342,129 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
   .mission-strip progress::-webkit-progress-value, .stamina-meter progress::-webkit-progress-value { transition: none; }
   .overlay-actions button:hover:not(:disabled) { transform: none; }
 }
+
+/* A full farm title scene, with gameplay chrome restored when the gate opens. */
+.game-shell[data-phase="menu"] {
+  width: min(1440px, 100%); padding: 0; overflow: hidden;
+  border: 4px solid #493c26; border-radius: 12px;
+  background: #7b9346; box-shadow: 0 7px 0 #243c2d, 0 22px 60px #132b2970;
+}
+.game-shell[data-phase="menu"] > :not(.stage),
+.game-shell[data-phase="menu"] #gameCanvas { display: none; }
+#menuScreen.farm-menu {
+  position: relative; inset: auto; margin: 0; padding: 46px 42px 44px;
+  display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 38px;
+  align-items: center; min-height: max(730px, calc(100svh - 58px));
+  overflow: hidden; background: #8d9d47; backdrop-filter: none; isolation: isolate;
+}
+.menu-backdrop {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  object-position: 42% center; z-index: -3; image-rendering: pixelated;
+  transform: scale(1.025); will-change: transform;
+}
+.farm-menu::before {
+  content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none;
+  background: linear-gradient(0deg, #233d32b8, transparent 24%), linear-gradient(90deg, #f9e7a52b, transparent 60%);
+}
+.menu-title-scene { align-self: start; padding: 0 0 0 8px; position: relative; z-index: 1; pointer-events: none; }
+.farm-kicker { margin: 0 0 21px 4px; color: #304b35; font-size: .73rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+.farm-title {
+  margin: 0; width: fit-content; color: #fff3c2;
+  font: 900 clamp(80px, 8.6vw, 126px)/.85 "Arial Black", Impact, sans-serif;
+  letter-spacing: -.055em; transform: rotate(-4deg); transform-origin: left center;
+  -webkit-text-stroke: 2px #683b25; paint-order: stroke fill;
+  text-shadow: 2px 3px 0 #683b25, 4px 6px 0 #683b25, 6px 9px 0 #b56832, 8px 13px 0 #573c2933;
+}
+.farm-title span { display: block; }
+.farm-title span + span { color: #ffd65c; margin-left: 23px; margin-top: 5px; }
+.farm-subtitle {
+  display: inline-block; margin: 22px 0 0; padding: 9px 15px;
+  background: #9d3b28; border: 2px solid #f5d78d; color: #fff0bc;
+  box-shadow: 0 3px 0 #633826; font-size: .88rem; font-weight: 800;
+  letter-spacing: .035em; transform: rotate(-2deg);
+}
+.farm-tagline { margin: 13px 0 0 7px; color: #25402e; font-size: .9rem; font-weight: 800; text-shadow: 0 1px #e7f5ab; }
+#menuScene.menu-scene {
+  position: absolute; z-index: 0; left: 20px; bottom: 86px; width: calc(100% - 452px); height: 235px;
+  border: 0; border-radius: 0; box-shadow: none; background: transparent;
+  image-rendering: pixelated; pointer-events: none;
+}
+.menu-mischief { position: absolute; z-index: 1; left: 49px; bottom: 29px; max-width: calc(100% - 485px); }
+#menuScatter { background: #fff0ba; color: #544123; border: 2px solid #5e512f; box-shadow: 0 3px 0 #4b4427; padding: 9px 15px; font-size: .85rem; }
+#menuScatter:hover { background: #ffe18c; transform: rotate(-2deg); }
+#menuScatter span { margin-left: 13px; }
+#menuBanter { color: #fff5cf; font-size: .78rem; margin: 10px 0 0; min-height: 1.3em; text-shadow: 0 1px 2px #273e24; }
+.farm-menu #menuCard {
+  position: relative; grid-column: 2; width: 100%; margin: 0;
+  padding: 26px 24px 21px; text-align: left; border: 5px solid #785331; border-radius: 7px;
+  background: #fff1cc; box-shadow: 0 7px 0 #4b3626, 0 15px 28px #293b3659, inset 0 0 0 2px #d0a365;
+}
+.farm-menu #menuCard > .eyebrow { font-size: .75rem; letter-spacing: .07em; margin: 1px 0 8px; }
+.farm-menu #menuCard h2 { font: 900 1.7rem/1.12 "Trebuchet MS", sans-serif; color: #6f4026; margin: 0 0 13px; }
+.farm-menu #menuDescription { font-size: 1rem; line-height: 1.5; color: #705334; }
+.farm-menu .menu-portrait { width: 96px; height: 60px; margin: -7px -12px 0 0; }
+.farm-menu #menuCard .overlay-actions { display: grid; gap: 10px; margin: 19px 0 22px; }
+.farm-menu .overlay-actions button { width: 100%; min-height: 52px; border: 2px solid #70301f; font-size: 1.08rem; background: #ad432a; color: #fff3c8; box-shadow: 0 4px 0 #70301f; text-align: left; }
+.farm-menu .overlay-actions button::after { content: "→"; float: right; margin-left: 8px; }
+.farm-menu .overlay-actions button:hover:not(:disabled) { background: #913722; box-shadow: 0 6px 0 #70301f; }
+.farm-menu .overlay-actions .button-secondary { min-height: 40px; font-size: .86rem; background: #eedcaf; color: #654b2b; border-color: #b49157; box-shadow: 0 3px #b49157; }
+.farm-menu .overlay-actions .button-secondary:hover:not(:disabled) { background: #e5c88a; box-shadow: 0 5px #b49157; }
+.farm-menu .overlay-actions button:disabled { opacity: .55; }
+.farm-menu .menu-tabs { margin-top: 0; }
+.farm-menu .menu-tabs button { padding: 9px 6px; font-size: .875rem; }
+.farm-menu .menu-panel { min-height: 226px; }
+.farm-menu .difficulty-picks { gap: 5px; }
+.farm-menu .difficulty-picks button { font-size: .875rem; min-height: 62px; padding: 7px 3px; }
+.farm-menu .difficulty-picks small { font-size: .75rem; }
+.farm-menu .difficulty-preview { font-size: .875rem; min-height: 2.8em; }
+.farm-menu #panel-adventure .menu-tips { display: grid; grid-template-columns: 1fr; gap: 3px; padding-top: 10px; }
+.farm-menu #panel-adventure .menu-tips p { font-size: .875rem; margin: 1px 0; }
+.farm-menu .menu-skin { justify-content: flex-start; font-size: .875rem; }
+.farm-menu .menu-skin select { width: 100%; }
+.farm-menu .portrait-controls { gap: 8px; margin-top: 12px; justify-content: flex-start; }
+.farm-menu .portrait-controls button { font-size: .875rem; padding: 8px; }
+.farm-menu .menu-panel-note { font-size: .875rem; }
+.farm-menu .audio-controls label, .farm-menu .audio-controls select, .farm-menu .skin-music-toggle { font-size: .875rem; }
+.farm-menu #menuSaveText { padding-top: 13px; border-top: 1px dashed #c8a36a; font-size: .75rem !important; line-height: 1.45; margin: 12px 0 8px; }
+.menu-credits { font-size: .75rem; color: #765535; text-underline-offset: 3px; }
+.farm-menu :is(button, a, select, input):focus-visible { outline: 3px solid #173e62; outline-offset: 4px; }
+@media (min-width: 980px) and (max-width: 1140px) {
+  #menuScreen.farm-menu { grid-template-columns: minmax(0, 1fr) 355px; gap: 20px; padding: 34px 27px; }
+  .farm-title { font-size: 83px; }
+  .farm-kicker { font-size: .75rem; letter-spacing: .07em; }
+  .farm-subtitle { font-size: .76rem; padding: 8px 10px; }
+  .farm-tagline { font-size: .8rem; }
+  #menuScene.menu-scene { width: calc(100% - 395px); }
+  .menu-mischief { left: 32px; max-width: calc(100% - 412px); }
+  .farm-menu #menuCard { padding: 23px 18px 18px; }
+}
+@media (max-width: 979px) {
+  body:has(.game-shell[data-phase="menu"]) { padding: 10px; }
+  #menuScreen.farm-menu { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 28px 20px 26px; min-height: 0; }
+  .menu-backdrop { height: 540px; object-position: 28% center; }
+  .farm-menu::before { background: linear-gradient(0deg, #455b32 0%, #455b32 43%, transparent 63%); }
+  .menu-title-scene { padding: 0; min-height: 416px; width: min(490px, 100%); margin: 0 auto; }
+  .farm-kicker { margin-bottom: 16px; font-size: .75rem; letter-spacing: .06em; }
+  .farm-title { font-size: clamp(66px, 11vw, 98px); }
+  .farm-subtitle { margin-top: 18px; font-size: .75rem; }
+  .farm-tagline { font-size: .78rem; }
+  #menuScene.menu-scene { top: 251px; bottom: auto; left: 0; width: 100%; height: 145px; }
+  .menu-mischief { top: 364px; bottom: auto; left: 50%; transform: translateX(-50%); width: min(490px, calc(100% - 40px)); max-width: none; }
+  #menuScatter { font-size: .75rem; padding: 7px 12px; min-height: 36px; }
+  #menuBanter { font-size: .75rem; margin-top: 8px; }
+  .farm-menu #menuCard { grid-column: 1; max-width: 490px; margin: 0 auto; }
+  .farm-menu .menu-panel { min-height: 226px; }
+}
+@media (max-width: 390px) {
+  #menuScreen.farm-menu { padding-left: 12px; padding-right: 12px; }
+  .farm-title { font-size: 66px; }
+  .farm-kicker { font-size: .75rem; letter-spacing: .01em; }
+  .farm-subtitle { padding: 8px; font-size: .75rem; }
+  .farm-menu #menuCard { padding: 22px 16px 18px; }
+  .farm-menu #menuCard h2 { font-size: 1.5rem; }
+  .farm-menu .menu-portrait { width: 80px; height: 50px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-backdrop { will-change: auto; }
+  #menuScatter:hover { transform: none; }
+}

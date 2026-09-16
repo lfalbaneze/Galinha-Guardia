@@ -42,6 +42,7 @@ const GameUI = (() => {
     InterfaceMotion.initialize();
     const ids = ["gameCanvas", "menuScreen", "menuTitle", "menuDescription", "menuSaveText", "endScreen", "endTitle", "endMessage", "endSummary", "endEmblem", "endEyebrow", "startBtn", "continueBtn", "pauseBtn", "replayBtn", "menuBtn", "hiddenText", "contextHint", "wolfLevelText", "wolfStateText", "saveText", "staminaMeter", "staminaText", "chicksCount", "chickCounter", "farmHud", "wardrobeNote", "wolfMultiplier", "skinUnlockText", ...SkinSystem.catalog.map(s => `skin-${s.id}`)];
     for (const id of ids) elements[id] = document.getElementById(id);
+    elements.gameShell = document.getElementById("gameShell");
     elements.menuSkinSelect = document.getElementById("menuSkinSelect");
     for (const skin of SkinSystem.catalog) elements[`menu-skin-${skin.id}`] = document.getElementById(`menu-skin-${skin.id}`);
     elements.startBtn.addEventListener("click", newGame);
@@ -74,7 +75,7 @@ const GameUI = (() => {
       if (event.key !== "Tab") return;
       const overlay = !elements.menuScreen.hidden ? elements.menuScreen : !elements.endScreen.hidden ? elements.endScreen : null;
       if (!overlay) return;
-      const buttons = [...overlay.querySelectorAll("button, select, input, summary")].filter(button =>
+      const buttons = [...overlay.querySelectorAll("button, select, input, summary, a[href]")].filter(button =>
         !button.hidden && !button.disabled && button.tabIndex !== -1 && !button.closest?.('[hidden]') &&
         !(button.tagName !== "SUMMARY" && button.closest?.("details:not([open])")));
       const first = buttons[0];
@@ -157,6 +158,7 @@ const GameUI = (() => {
     put("menuSaveText", saved ? "Seu progresso é salvo automaticamente neste navegador." : "Este navegador não permitiu salvar. Seu progresso continua ao trocar de área nesta partida.");
 
     const menu = game.phase === "menu";
+    elements.gameShell.dataset.phase = game.phase;
     const ended = game.phase === "won" || game.phase === "lose";
     elements.menuScreen.hidden = !menu;
     elements.endScreen.hidden = !ended;
@@ -168,8 +170,8 @@ const GameUI = (() => {
       elements.startBtn.classList.toggle("button-secondary", canContinue);
       put("startBtn", canContinue ? "Gerar nova fazenda" : "Abrir a porteira");
       put("continueBtn", game.resumePhase === "won" ? "Voltar à comemoração" : "Voltar pro terreiro");
-      put("menuTitle", canContinue ? "Um cafezinho na varanda." : "Deu a louca no terreiro!");
-      put("menuDescription", canContinue ? `${game.rescuedCount}/10 amigos${secretKnown ? ` e ${game.rescuedChicks}/6 pintinhos secretos` : ""} a salvo. Cada resgate deixa o lobo mais perigoso. Suas aparências ficam no baú.` : "O lobo chegou, mas ninguém acredita! Resgate os 10 amigos. Cada um salvo deixa o lobo mais perigoso... e a fazenda guarda seus segredos.");
+      put("menuTitle", canContinue ? "De volta à bagunça?" : "Bora pra lida?");
+      put("menuDescription", canContinue ? `${game.rescuedCount}/10 amigos${secretKnown ? ` e ${game.rescuedChicks}/6 pintinhos secretos` : ""} a salvo. A turma espera por você. E o lobo também...` : "O lobo chegou. Ninguém acreditou. Junte os 10 amigos antes que a confusão vire almoço!");
     }
     if (ended) {
       const won = game.phase === "won";

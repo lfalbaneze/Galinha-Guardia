@@ -48,6 +48,7 @@ const InterfaceMotion = (() => {
   function initialize() {
     if (initialized) return;
     initialized = true;
+    MenuScene.initialize();
     for (const id of ['scoreCount', 'rescuedCount', 'chicksCount', 'livesCount', 'chickCounter', 'hiddenText',
       'contextHint', 'areaText', 'gameStage', 'menuCard', 'endScreen', 'menuPortrait', 'portraitTurn', 'portraitWalk',
       'missionText', 'missionProgress', 'threatIndicator', 'threatText', 'threatProgress', 'regionNotice', 'regionNoticeName',
@@ -160,6 +161,7 @@ const InterfaceMotion = (() => {
   }
 
   function frame(game, dt) {
+    MenuScene.frame(game, dt, reduced);
     if (!initialized || document.hidden) return;
     if (scoreTime < 1) {
       scoreTime = Math.min(1, scoreTime + dt / .45);

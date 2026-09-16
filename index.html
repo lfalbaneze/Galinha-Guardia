@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#294b36" />
-  <meta name="description" content="O lobo chegou e os bichos não acreditam! Explore a fazenda, alcance os teimosos e resgate sua turma em Galinha Guardiã." />
-  <title>Galinha Guardiã — Resgate na Fazenda</title>
-  <link rel="stylesheet" href="./style.css?v=20260916-animals3" />
+  <meta name="description" content="Penas pro Ar! Dez bichos teimosos, um lobo sem modos e uma fazenda cheia de segredos. Abra a porteira do Sítio do Fuzuê." />
+  <title>Penas pro Ar! — Confusão no Sítio do Fuzuê</title>
+  <link rel="stylesheet" href="./style.css?v=20260916-farmmenu" />
 </head>
 <body>
-  <main class="game-shell">
+  <main id="gameShell" class="game-shell" data-phase="menu">
     <header class="game-heading">
       <div>
         <p class="eyebrow">Sítio do Fuzuê · a porteira tá aberta</p>
-        <h1>Galinha Guardiã <span>Resgate na Fazenda</span></h1>
+        <h1>Penas pro Ar! <span>Confusão no Sítio do Fuzuê</span></h1>
       </div>
       <button id="pauseBtn" class="button-secondary" type="button" aria-label="Pausar e abrir o menu">Pausar <span class="key-note">Esc</span></button>
     </header>
@@ -36,13 +36,29 @@
       <canvas id="gameCanvas" width="900" height="520" tabindex="0" aria-label="Fazenda: resgate dez amigos, investigue os segredos e despiste o lobo." aria-describedby="controlsText"></canvas>
       <div id="regionNotice" class="region-notice" aria-hidden="true" hidden><span>Pelos cantos de</span><strong id="regionNoticeName">Poleiro</strong></div>
 
-      <section id="menuScreen" class="game-overlay" role="dialog" aria-modal="true" aria-labelledby="menuTitle" aria-describedby="menuDescription" hidden>
+      <section id="menuScreen" class="game-overlay farm-menu" role="dialog" aria-modal="true" aria-labelledby="farmTitle" aria-describedby="menuDescription" hidden>
+        <img id="menuBackdrop" class="menu-backdrop" src="./assets/menu/farm-title.png" alt="" width="1536" height="1024" fetchpriority="high" />
+        <canvas id="menuScene" class="menu-scene" width="700" height="240" aria-hidden="true"></canvas>
+        <div class="menu-title-scene">
+          <p class="farm-kicker">Uma aventura de arrepiar as penas</p>
+          <h2 id="farmTitle" class="farm-title"><span>Penas</span><span>pro Ar!</span></h2>
+          <p class="farm-subtitle">Confusão no Sítio do Fuzuê</p>
+          <p class="farm-tagline">Dez teimosos. Um lobo sem modos.</p>
+        </div>
+        <div class="menu-mischief">
+          <button id="menuScatter" type="button">Mexer com a turma <span aria-hidden="true">↗</span></button>
+          <p id="menuBanter" role="status">Tá tranquilo até demais por aqui...</p>
+        </div>
         <div id="menuCard" class="overlay-card">
           <canvas id="menuPortrait" class="menu-portrait" width="160" height="100" aria-hidden="true"></canvas>
-          <p class="eyebrow">Confusão das boas no Sítio do Fuzuê</p>
-          <h2 id="menuTitle">Deu a louca no terreiro!</h2>
-          <p id="menuDescription">O lobo chegou, mas ninguém acredita! Resgate os 10 amigos. Cada um salvo deixa o lobo mais perigoso... e a fazenda guarda seus segredos.</p>
+          <p class="eyebrow">O terreiro te espera</p>
+          <h2 id="menuTitle">Bora pra lida?</h2>
+          <p id="menuDescription">O lobo chegou. Ninguém acreditou. Junte os 10 amigos antes que a confusão vire almoço!</p>
           <p id="spriteStatus" role="status" hidden></p>
+          <div class="overlay-actions">
+            <button id="continueBtn" type="button" hidden>Voltar pro terreiro</button>
+            <button id="startBtn" type="button">Abrir a porteira</button>
+          </div>
           <div class="menu-tabs" role="tablist" aria-label="Preparar aventura">
             <button id="tab-adventure" type="button" role="tab" aria-selected="true" aria-controls="panel-adventure">Aventura</button>
             <button id="tab-outfit" type="button" role="tab" aria-selected="false" aria-controls="panel-outfit" tabindex="-1">Aparências</button>
@@ -91,11 +107,8 @@
             <label class="skin-music-toggle" for="menuSkinMusic"><input id="menuSkinMusic" type="checkbox" checked /> Tema musical da skin</label>
             <p id="menuAudioStatus" class="audio-note">O som começa ao iniciar a aventura.</p>
           </div>
-          <div class="overlay-actions">
-            <button id="continueBtn" type="button" hidden>Voltar pro terreiro</button>
-            <button id="startBtn" type="button">Abrir a porteira</button>
-          </div>
           <p id="menuSaveText" class="fine-print">Seu progresso é salvo automaticamente neste navegador.</p>
+          <a class="menu-credits" href="./assets/sprites/CREDITS.html" target="_blank" rel="noopener">Quem deu vida à fazendinha ↗</a>
         </div>
       </section>
 
@@ -177,24 +190,25 @@
     <footer class="sprite-credits"><a href="./assets/sprites/CREDITS.html" target="_blank" rel="noopener">Artistas e créditos dos bichos</a></footer>
   </main>
 
-  <script src="./systems/world-generator.js?v=20260916-animals3"></script>
-  <script src="./systems/farm-art.js?v=20260916-animals3"></script>
-  <script src="./systems/sprite-data.js?v=20260916-animals3"></script>
-  <script src="./systems/character-art.js?v=20260916-animals3"></script>
-  <script src="./systems/audio-system.js?v=20260916-animals3"></script>
-  <script src="./systems/audio-controls.js?v=20260916-animals3"></script>
-  <script src="./systems/skin-system.js?v=20260916-animals3"></script>
-  <script src="./systems/game-manager.js?v=20260916-animals3"></script>
-  <script src="./systems/rescue-system.js?v=20260916-animals3"></script>
-  <script src="./systems/detection-system.js?v=20260916-animals3"></script>
-  <script src="./systems/hiding-spots.js?v=20260916-animals3"></script>
-  <script src="./systems/wolf-ai.js?v=20260916-animals3"></script>
-  <script src="./systems/wolf-dialogue.js?v=20260916-animals3"></script>
-  <script src="./systems/map-manager.js?v=20260916-animals3"></script>
-  <script src="./systems/player.js?v=20260916-animals3"></script>
-  <script src="./systems/interface-motion.js?v=20260916-animals3"></script>
-  <script src="./systems/ui.js?v=20260916-animals3"></script>
-  <script src="./systems/end-game-sequence.js?v=20260916-animals3"></script>
-  <script src="./game.js?v=20260916-animals3"></script>
+  <script src="./systems/world-generator.js?v=20260916-farmmenu"></script>
+  <script src="./systems/farm-art.js?v=20260916-farmmenu"></script>
+  <script src="./systems/sprite-data.js?v=20260916-farmmenu"></script>
+  <script src="./systems/character-art.js?v=20260916-farmmenu"></script>
+  <script src="./systems/audio-system.js?v=20260916-farmmenu"></script>
+  <script src="./systems/audio-controls.js?v=20260916-farmmenu"></script>
+  <script src="./systems/skin-system.js?v=20260916-farmmenu"></script>
+  <script src="./systems/game-manager.js?v=20260916-farmmenu"></script>
+  <script src="./systems/rescue-system.js?v=20260916-farmmenu"></script>
+  <script src="./systems/detection-system.js?v=20260916-farmmenu"></script>
+  <script src="./systems/hiding-spots.js?v=20260916-farmmenu"></script>
+  <script src="./systems/wolf-ai.js?v=20260916-farmmenu"></script>
+  <script src="./systems/wolf-dialogue.js?v=20260916-farmmenu"></script>
+  <script src="./systems/map-manager.js?v=20260916-farmmenu"></script>
+  <script src="./systems/player.js?v=20260916-farmmenu"></script>
+  <script src="./systems/menu-scene.js?v=20260916-farmmenu"></script>
+  <script src="./systems/interface-motion.js?v=20260916-farmmenu"></script>
+  <script src="./systems/ui.js?v=20260916-farmmenu"></script>
+  <script src="./systems/end-game-sequence.js?v=20260916-farmmenu"></script>
+  <script src="./game.js?v=20260916-farmmenu"></script>
 </body>
 </html>

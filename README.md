@@ -1,9 +1,11 @@
-# Galinha Guardiã — Resgate na Fazenda
+# Penas pro Ar! — Confusão no Sítio do Fuzuê
 
 Evolução do jogo original em **JavaScript puro + Canvas 2D**, sem dependências para jogar. Movimento, câmera, colisões, resgate e IA foram mantidos; os personagens usam sprites licenciados, o cenário é desenhado no Canvas e a fazenda é gerada proceduralmente. Uma cópia dos três arquivos originais está em `.baseline/`.
 
 
 ## Sítio do Fuzuê
+
+A tela inicial tem uma cena própria de fazenda em pixel art: celeiro, silo, horta e terreiro. O nome aparece sobre o céu e os controles ficam numa placa lateral, com disposição vertical em telas menores. Os sprites passeiam por rotas independentes e reagem a “Mexer com a turma”; a aparência equipada também aparece no terreiro. O cenário acompanha suavemente o ponteiro. Tudo respeita movimento reduzido, pausa fora do menu e não altera a simulação nem o salvamento. A arte e seu prompt estão em [assets/menu/ART-NOTES.md](assets/menu/ART-NOTES.md). As chaves antigas de progresso foram preservadas.
 
 Cada amigo resgatado aumenta de imediato a velocidade real, a visão, a abertura do campo de visão e a duração de busca do lobo, além de reduzir seu tempo de reação. Os nomes dos quatro níveis continuam, mas não há mais intervalos de resgates sem aumento de dificuldade. Os tetos também avançam aos poucos: mesmo perto do final, cada resgate aumenta a pressão, preservando uma vantagem de velocidade para a corrida da galinha. O HUD mostra o **Cerco** e o aviso de resgate confirma o aumento.
 

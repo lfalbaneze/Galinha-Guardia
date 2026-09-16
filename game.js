@@ -681,7 +681,7 @@ function tick(timestamp) {
   lastTime = timestamp;
 
   updateGame(dt);
-  renderGame();
+  if (state.phase !== "menu") renderGame();
   InterfaceMotion.frame(state, dt);
   requestAnimationFrame(tick);
 }

@@ -2,7 +2,7 @@
   "name": "galinha-guardia",
   "private": true,
   "version": "1.1.0",
-  "description": "Jogo Canvas 2D; dependências usadas somente na verificação visual.",
+  "description": "Penas pro Ar! Confusão no Sítio do Fuzuê — aventura em JavaScript e Canvas 2D.",
   "scripts": {
     "build": "node scripts/build.cjs",
     "test": "node --test tests",
