@@ -357,10 +357,13 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
   align-items: center; min-height: max(730px, calc(100svh - 58px));
   overflow: hidden; background: #8d9d47; backdrop-filter: none; isolation: isolate;
 }
+.menu-world {
+  position: absolute; inset: 0; z-index: -3; pointer-events: none;
+  transform: scale(1.025); transform-origin: center; will-change: transform;
+}
 .menu-backdrop {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  object-position: 42% center; z-index: -3; image-rendering: pixelated;
-  transform: scale(1.025); will-change: transform;
+  object-position: 42% center; z-index: 0; image-rendering: pixelated;
 }
 .farm-menu::before {
   content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none;
@@ -385,7 +388,7 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 }
 .farm-tagline { margin: 13px 0 0 7px; color: #25402e; font-size: .9rem; font-weight: 800; text-shadow: 0 1px #e7f5ab; }
 #menuScene.menu-scene {
-  position: absolute; z-index: 0; left: 20px; bottom: 86px; width: calc(100% - 452px); height: 235px;
+  position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%;
   border: 0; border-radius: 0; box-shadow: none; background: transparent;
   image-rendering: pixelated; pointer-events: none;
 }
@@ -434,26 +437,28 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
   .farm-kicker { font-size: .75rem; letter-spacing: .07em; }
   .farm-subtitle { font-size: .76rem; padding: 8px 10px; }
   .farm-tagline { font-size: .8rem; }
-  #menuScene.menu-scene { width: calc(100% - 395px); }
   .menu-mischief { left: 32px; max-width: calc(100% - 412px); }
   .farm-menu #menuCard { padding: 23px 18px 18px; }
 }
 @media (max-width: 979px) {
   body:has(.game-shell[data-phase="menu"]) { padding: 10px; }
   #menuScreen.farm-menu { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 28px 20px 26px; min-height: 0; }
-  .menu-backdrop { height: 540px; object-position: 28% center; }
+  .menu-world { height: 540px; bottom: auto; }
   .farm-menu::before { background: linear-gradient(0deg, #455b32 0%, #455b32 43%, transparent 63%); }
-  .menu-title-scene { padding: 0; min-height: 416px; width: min(490px, 100%); margin: 0 auto; }
+  .menu-title-scene { padding: 0; min-height: 524px; width: min(490px, 100%); margin: 0 auto; }
   .farm-kicker { margin-bottom: 16px; font-size: .75rem; letter-spacing: .06em; }
   .farm-title { font-size: clamp(66px, 11vw, 98px); }
   .farm-subtitle { margin-top: 18px; font-size: .75rem; }
   .farm-tagline { font-size: .78rem; }
-  #menuScene.menu-scene { top: 251px; bottom: auto; left: 0; width: 100%; height: 145px; }
-  .menu-mischief { top: 364px; bottom: auto; left: 50%; transform: translateX(-50%); width: min(490px, calc(100% - 40px)); max-width: none; }
+  .menu-mischief { top: 480px; bottom: auto; left: 50%; transform: translateX(-50%); width: min(490px, calc(100% - 40px)); max-width: none; }
   #menuScatter { font-size: .75rem; padding: 7px 12px; min-height: 36px; }
   #menuBanter { font-size: .75rem; margin-top: 8px; }
   .farm-menu #menuCard { grid-column: 1; max-width: 490px; margin: 0 auto; }
   .farm-menu .menu-panel { min-height: 226px; }
+}
+@media (min-width: 810px) and (max-width: 979px) {
+  .menu-title-scene { min-height: 574px; }
+  .menu-mischief { top: 530px; }
 }
 @media (max-width: 390px) {
   #menuScreen.farm-menu { padding-left: 12px; padding-right: 12px; }
@@ -465,6 +470,6 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
   .farm-menu .menu-portrait { width: 80px; height: 50px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .menu-backdrop { will-change: auto; }
+  .menu-world { will-change: auto; }
   #menuScatter:hover { transform: none; }
 }
