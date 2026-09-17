@@ -6,6 +6,10 @@ const FarmDetails = (() => {
     a.y < b.y + b.h + gap && a.y + a.h + gap > b.y;
   function shape(p) {
     const { x, y, w, h } = p;
+    if (p.type === 'corn') return {x:x-16,y:y-68,w:34,h:72};
+    if (p.type === 'stable') return {x:x-8,y:y+h-172,w:w+16,h:172};
+    if (p.type === 'trough') return {x:x-3,y:y+h-42,w:w+6,h:42};
+    if (p.type === 'paddock-fence') return {x:x-4,y:y-32,w:w+8,h:h+36};
     if (p.type === 'tree') return { x: x - 16, y: (p.blockingRect?.y ?? y) + (p.blockingRect?.h ?? 22) - 148, w: 136, h: 148 };
     if (p.type === 'bush') return { x: x - 4, y: y - 14, w: w + 8, h: h + 14 };
     if (p.type === 'hay') return { x: x - 3, y: y - 16, w: w + 6, h: h + 16 };
@@ -28,6 +32,7 @@ const FarmDetails = (() => {
       return { ...p, variant, flip: false, palette: variant };
     });
     const occupied = dressed.map(shape);
+    occupied.push(...(layout.plots||[]));
     if (layout.structures?.pond) occupied.push(layout.structures.pond);
     // Keep every sign off the lanes, entrances and the locations used for resuming a save.
     occupied.push(...(layout.paths || []));
@@ -36,7 +41,8 @@ const FarmDetails = (() => {
     for (const area of layout.areas || []) {
       if (!names[area.id]) continue;
       const name = names[area.id], w = Math.max(92, name.length * 7 + 32), h = 49;
-      const preferred = { x: area.sign?.x ?? area.x + 48, y: area.sign?.y ?? area.y + area.h - 70 };
+      const plot=(layout.plots||[]).find(p=>p.areaId===area.id);
+      const preferred = plot ? {x:plot.x,y:plot.y+plot.h+18} : { x: area.sign?.x ?? area.x + 48, y: area.sign?.y ?? area.y + area.h - 70 };
       const candidates = [preferred];
       for (let y = area.y + 45; y <= area.y + area.h - h - 24; y += 24)
         for (let x = area.x + 24; x <= area.x + area.w - w - 24; x += 24) candidates.push({ x, y });

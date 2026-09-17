@@ -1,12 +1,12 @@
 "use strict";
 /* The original farm is a seamless world. Regions change without recreating entities. */
 const MapManager = {
-    generate(seed, version = 2) {
+    generate(seed, version = 3) {
         const layout = WorldGenerator.generate(seed, version);
         WORLD.layout = layout;
         WORLD.areas = layout.areas;
         WORLD.paths = layout.paths;
-        Object.assign(STRUCTURES, layout.structures);
+        Object.assign(STRUCTURES, { stables: [], troughs: [], paddockFences: [] }, layout.structures);
         return layout;
     },
     paths: { id: "caminhos", name: "Caminhos da fazenda", x: 0, y: 0, w: 2800, h: 1800 },

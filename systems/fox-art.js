@@ -7,7 +7,8 @@ const FoxArt = (() => {
         return { row: rows[fox.direction] ?? 2, column: fox.moving && !InterfaceMotion.reduced ? [0, 1, 2, 1][Math.floor(Math.abs(fox.anim)) % 4] : 1 };
     }
     function draw(c, fox, view) {
-        if (!sheet.ready || fox.mode === 'hidden' || fox.mode === 'warning')
+        // Waiting in cover is a behavior, not invisibility.
+        if (!sheet.ready)
             return false;
         const x = Math.round(fox.x - view.x + (view.shakeX || 0)), y = Math.round(fox.y - view.y + (view.shakeY || 0)), frame = frameFor(fox);
         c.save();

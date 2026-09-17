@@ -6,7 +6,8 @@ const FoxArt = (() => {
     return {row:rows[fox.direction]??2,column:fox.moving&&!InterfaceMotion.reduced?[0,1,2,1][Math.floor(Math.abs(fox.anim))%4]:1};
   }
   function draw(c:CanvasRenderingContext2D,fox:Farm.Fox,view:Farm.Camera):boolean {
-    if(!sheet.ready||fox.mode==='hidden'||fox.mode==='warning')return false;
+    // Waiting in cover is a behavior, not invisibility.
+    if(!sheet.ready)return false;
     const x=Math.round(fox.x-view.x+(view.shakeX||0)),y=Math.round(fox.y-view.y+(view.shakeY||0)),frame=frameFor(fox);
     c.save();c.fillStyle='rgba(45,49,25,.2)';c.beginPath();c.ellipse(x,y+14,17,3,0,0,Math.PI*2);c.fill();c.restore();
     return sheet.drawFrame(c,x,y+14,frame.row,frame.column,1.5);

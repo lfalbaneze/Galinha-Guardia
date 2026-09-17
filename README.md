@@ -59,7 +59,7 @@ Ao desviar três vezes, você ganha o respeito do dono do lago: ele para de atac
 
 ## Raposa e coruja
 
-Nas moitas junto aos caminhos, a **raposa** mostra os olhos e a direção do bote antes de sair. Desvie para o lado: ela não corrige a direção no meio da investida. Depois, descansa e volta para a mesma moita. O contato empurra a galinha, sem descontar vidas, pontos ou resgates, e dá uma proteção breve contra outro inimigo.
+Nas moitas junto aos caminhos, a **raposa fica visível na borda da vegetação**, mesmo enquanto espera. Antes do bote, um aviso e uma linha mostram a direção da investida. Desvie para o lado: ela não corrige a direção no meio do ataque. Depois, descansa e volta para a mesma moita. O contato empurra a galinha, sem descontar vidas, pontos ou resgates, e dá uma proteção breve contra outro inimigo.
 
 A **coruja** fica em uma árvore e observa um setor marcado no chão. O alerta só completa enquanto ela continua vendo a galinha. Saia do campo de visão ou entre em cobertura para interrompê-lo. Quando o alarme completa, um lobo próximo pode investigar o ponto observado — a coruja não acompanha a galinha escondida.
 
@@ -67,7 +67,9 @@ Os encontros aproveitam árvores e moitas existentes, longe do início, dos pint
 
 ## Cenário e placas
 
-As cercas delimitam a fazenda e o refúgio dos animais; não há trechos decorativos soltos pelo campo. Placas, árvores e construções têm a base alinhada ao chão. Os elementos do cenário usam uma paleta comum e pixels de tamanho próximo aos personagens. Feno e moitas continuam servindo de esconderijo, inclusive para os pintinhos. A revisão visual mantém os mapas, as colisões e os salvamentos existentes.
+As novas fazendas reservam terrenos completos para cada atividade. A **horta** tem canteiros retangulares, fileiras contínuas e corredores; o **milharal** tem pés de milho, um galinheiro e um silo; o **curral** tem vaca, cabra, bebedouro, estábulo e cercas com dois portões abertos. Os galinheiros ficam apenas no poleiro e no milharal, e o pomar concentra as árvores frutíferas. Copas e construções não invadem os canteiros.
+
+As cercas do curral bloqueiam a passagem, e os portões permitem atravessá-lo e chegar aos animais. Feno e moitas continuam servindo de esconderijo, inclusive para os pintinhos. **Partidas salvas mantêm seu terreno original**; use **Começar nova fazenda** para jogar com a nova organização. A raposa visível também funciona nas partidas antigas.
 
 ## Pintinhos e aparências
 

@@ -11,7 +11,7 @@ const FoxSystem = (() => {
     function initialize(game) {
         const bonus = new Set(game.entities.chicks.map(c => c.coverId));
         const candidates = HidingSpots.getSpots().filter(s => s.type === 'bush' && !bonus.has(s.id)).map(s => ({
-            spot: s, home: { x: s.x + s.w / 2, y: s.y + s.h - 30 }, rank: WildlifeRules.rank(s.id, 0x715be19)
+            spot: s, home: { x: s.x + s.w / 2, y: s.y + s.h - 9 }, rank: WildlifeRules.rank(s.id, 0x715be19)
         })).filter(c => !WildlifeRules.reserved(game, c.home) && WildlifeRules.pathDistance(c.home) <= 190 &&
             WildlifeRules.clear(c.home, c.home, HITBOX)).sort((a, b) => a.rank - b.rank);
         const chosen = [];
@@ -172,11 +172,11 @@ const FoxSystem = (() => {
             ctx.stroke();
             ctx.setLineDash([]);
             const shake = InterfaceMotion.reduced ? 0 : Math.sin(fox.anim * 15) * 2;
-            ctx.fillStyle = '#312d2b';
-            ctx.fillRect(Math.round(x - 12 + shake), y - 30, 24, 8);
+            ctx.fillStyle = '#493322';
+            ctx.fillRect(Math.round(x - 5 + shake), y - 34, 10, 19);
             ctx.fillStyle = '#f7d99a';
-            ctx.fillRect(Math.round(x - 8 + shake), y - 28, 4, 3);
-            ctx.fillRect(Math.round(x + 4 + shake), y - 28, 4, 3);
+            ctx.fillRect(Math.round(x - 2 + shake), y - 32, 4, 10);
+            ctx.fillRect(Math.round(x - 2 + shake), y - 19, 4, 3);
             ctx.restore();
         }
     }

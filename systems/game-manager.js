@@ -103,7 +103,7 @@ const GameManager = (() => {
                 data.worldSeed = 20260915;
             if (data.worldVersion === undefined)
                 data.worldVersion = 1;
-            if (![1, 2].includes(data.worldVersion))
+            if (![1, 2, 3].includes(data.worldVersion))
                 return null;
             if (!Array.isArray(data.rescuedIds) || !Array.isArray(data.animals))
                 return null;

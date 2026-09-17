@@ -13,7 +13,7 @@ declare namespace Farm {
   interface Area extends Rect { id: string; name: string; hub?: Point; }
   interface Spawn extends Point { areaId: string; }
   interface Cover extends Rect { id: string; type: string; bale?: Rect; blockingRect?: Obstacle; }
-  interface Structures { coops: Rect[]; silos: Rect[]; hayBales: Rect[]; pond: Rect; barn: Rect; }
+  interface Structures { coops: Rect[]; silos: Rect[]; hayBales: Rect[]; pond: Rect; barn: Rect; stables?: Rect[]; troughs?: Rect[]; paddockFences?: Rect[]; }
   interface Layout {
     seed: number;
     start: Point;

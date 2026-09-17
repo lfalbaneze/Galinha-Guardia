@@ -36,7 +36,7 @@ test('new farms vary district geometry and connected road networks beyond fixed 
   }
   const graphs = new Set();
   for (const world of worlds) {
-    assert.equal(world.version, 2);
+    assert.equal(world.version, 3);
     graphs.add(world.connections.map(edge => [...edge].sort().join('-')).sort().join(','));
     const reached = new Set(['poleiro']);
     for (let pass = 0; pass < 5; pass++) for (const [a, b] of world.connections) {
@@ -54,9 +54,10 @@ function intersects(a, b, gap = 0) {
     a.y < b.y + b.h + gap && a.y + a.h > b.y - gap;
 }
 
-function getSolids(world) {
+function getSolids(world, fences = true) {
   const s = world.structures;
-  return [...s.coops, ...s.silos, ...s.hayBales, s.barn, s.pond,
+  return [...s.coops, ...s.silos, ...s.hayBales, ...(s.stables||[]), ...(s.troughs||[]),
+    ...(fences?s.paddockFences||[]:[]), s.barn, s.pond,
     ...world.vegetation.filter(v => v.blockingRect).map(v => v.blockingRect)];
 }
 
@@ -136,21 +137,21 @@ test('different seeds rearrange the districts and vary buildings, roads, and det
 test('30 seeds keep legal separated districts, useful structures, and a clear refuge', () => {
   for (let seed = 0; seed < 30; seed++) {
     const world = generate(seed);
-    const solids = getSolids(world);
+    const solids = getSolids(world, false);
     const refuge = { x: 100, y: 340, w: 290, h: 120 };
     assert.deepEqual(world.start, { x: 380, y: 390 });
     assert.deepEqual(world.areas.map(a => a.id), ['poleiro', 'granja', 'estabulo', 'horta', 'quintal']);
     assert.equal(world.animalSpawns.length, 10);
     assert.equal(world.chickSpawns.length, 6);
     assert.equal(new Set(world.chickSpawns.map(c => c.areaId)).size, 5);
-    assert.ok(world.structures.coops.length >= 3, `seed ${seed}: coops`);
+    assert.ok(world.structures.coops.length === 2, `seed ${seed}: coops`);
     assert.ok(world.structures.silos.length >= 1, `seed ${seed}: silos`);
-    assert.ok(world.structures.hayBales.length >= 7, `seed ${seed}: hay`);
+    assert.ok(world.structures.hayBales.length >= 1, `seed ${seed}: hay`);
     assert.ok(world.decorations.filter(d => d.type === 'crop').length >= 20, `seed ${seed}: crops`);
     for (const [i, area] of world.areas.entries()) {
       assert.ok(area.x >= 0 && area.y >= 0 && area.x + area.w <= world.width && area.y + area.h <= world.height);
       assert.equal(world.animalSpawns.filter(a => a.areaId === area.id).length, 2);
-      assert.ok(world.vegetation.some(v => v.areaId === area.id && v.type === 'tree'), `seed ${seed}: trees in ${area.id}`);
+      if(area.id==='quintal') assert.ok(world.vegetation.filter(v => v.areaId === area.id && v.type === 'tree').length>=2, `seed ${seed}: orchard trees`);
       assert.equal(world.areas.slice(i + 1).some(a => intersects(a, area)), false);
     }
     for (const [i, solid] of solids.entries()) {

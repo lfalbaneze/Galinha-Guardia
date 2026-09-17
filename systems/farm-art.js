@@ -172,9 +172,28 @@ const FarmArt = (() => {
     }
     const structures = layout.structures || {};
     if (structures.pond && visible(c, structures.pond, camera)) pond(c, structures.pond);
+    for (const plot of layout.plots || []) {
+      if (!visible(c,plot,camera)) continue;
+      const {x,y,w,h}=plot, pasture=plot.kind==='pasture';
+      c.fillStyle=pasture?'#8a8b4a':'#735236'; c.fillRect(x,y,w,h);
+      c.fillStyle=pasture?'#9b9958':'#936b42'; c.fillRect(x+3,y+3,w-6,h-6);
+      for(let yy=y+5;yy<y+h-4;yy+=4)for(let xx=x+5;xx<x+w-4;xx+=4) {
+        const n=hash(xx,yy);
+        if(n<.26){c.fillStyle=pasture?'#838648':'#80603b';c.fillRect(xx,yy,3,2);}
+        else if(n>.87){c.fillStyle=pasture?'#b0a467':'#a47c4a';c.fillRect(xx,yy,2,2);}
+      }
+      if(!pasture) for(let yy=y+24;yy<=y+h-16;yy+=40) {
+        c.fillStyle='#60482f';c.fillRect(x+10,yy+3,w-20,3);
+        c.fillStyle='#b18a54';c.fillRect(x+10,yy+6,w-20,2);
+      }
+      if(plot.kind==='garden') {
+        c.fillStyle='#c09b60';c.fillRect(x,y,w,3);c.fillRect(x,y,3,h);
+        c.fillStyle='#654d32';c.fillRect(x,y+h-3,w,3);c.fillRect(x+w-3,y,3,h);
+      }
+    }
     const beds = new Map();
     for (const d of layout.decorations || []) {
-      if (d.type !== "crop" || !visible(c,d,camera,90)) continue;
+      if (d.type !== "crop" || d.plotId || !visible(c,d,camera,90)) continue;
       if (!beds.has(d.y)) beds.set(d.y,[]);
       beds.get(d.y).push(d.x);
     }
@@ -191,13 +210,13 @@ const FarmArt = (() => {
       }
     }
     for (const d of layout.decorations || []) {
-      if (d.type === 'fence' || !visible(c,d,camera,35)) continue;
+      if (d.type === 'fence' || d.type === 'corn' || !visible(c,d,camera,35)) continue;
       // Wheat belongs to the field, not to the livestock yard.
       if (d.type === 'wheat' || d.type === 'sunflower') {
         const field=(layout.areas||[]).find(a=>a.id==='granja');
         if(!field||d.x<field.x||d.x>field.x+field.w||d.y<field.y||d.y>field.y+field.h)continue;
       }
-      decoration(c,d);
+      decoration(c,d.plotId ? {...d,scale:1} : d);
     }
     // Low split-rail boundary, leaving the meadow itself free of a square grid.
     for (let x = 35; x < layout.width - 25; x += 84) {
@@ -223,9 +242,48 @@ const FarmArt = (() => {
       for (const [i, p] of (s[key] || []).entries()) result.push({ ...p, type, id: p.id || `${type}-${i}`, depth: p.y + p.h });
     if (s.barn) result.push({ ...s.barn, type: "barn", id: "barn", depth: s.barn.y + s.barn.h });
     for (const p of layout.vegetation || []) result.push({ ...p, depth: p.blockingRect ? p.blockingRect.y + p.blockingRect.h : p.y + p.h * .68 });
+    for(const [key,type] of [['stables','stable'],['troughs','trough'],['paddockFences','paddock-fence']])
+      for(const [i,p] of (s[key]||[]).entries()) {
+        if(type==='paddock-fence'&&p.h>p.w) {
+          for(let y=p.y;y<p.y+p.h;y+=32)result.push({...p,y,h:Math.min(32,p.y+p.h-y),type,id:`${type}-${i}-${y}`,depth:y+32});
+        } else result.push({...p,type,id:`${type}-${i}`,depth:p.y+p.h});
+      }
+    for(const d of layout.decorations||[])if(d.type==='corn')
+      result.push({...d,w:28,h:1,depth:d.y+3,id:`corn-${d.x}-${d.y}`});
     // Old generators scatter short decorative rails around district rectangles.
     // They enclose nothing and have no collisions. Keep only the actual refuge and world boundary fences.
     return FarmDetails.decorate(layout, result.concat(FarmRefuge.props()));
+  }
+
+  function corn(c,p) {
+    const x=Math.round(p.x),y=Math.round(p.y),height=48+(p.variant===1?6:0);
+    const px=(dx,dy,w,h,color)=>{c.fillStyle=color;c.fillRect(x+dx,y+dy,w,h);};
+    px(-9,0,20,3,'#493d284d');px(-1,-height,3,height,'#657735');px(1,-height+6,2,height-6,'#9aab49');
+    for(const [level,side] of [[12,-1],[22,1],[31,-1],[39,1]]) {
+      for(let k=0;k<5;k++) {
+        const dx=side*k*3;
+        px(dx,-level-k*2,side===1?5:4,5,k<3?'#487032':'#749540');
+        px(dx,-level-k*2,3,2,'#96ae4d');
+      }
+    }
+    // Thick yellow ears and branching tassels distinguish corn from scattered wheat.
+    px(3,-27,7,14,'#b98b32');px(4,-29,5,15,'#e1b84f');px(5,-27,2,11,'#f0d27a');
+    px(2,-18,4,7,'#73943b');px(8,-25,3,10,'#5a8036');
+    for(const [dx,dy] of [[-5,-3],[-3,-7],[0,-10],[4,-6],[6,-2]])px(dx,-height+dy,2,7,'#d5bb67');
+  }
+
+  function paddockFence(c,p) {
+    if(p.w>p.h) {
+      const count=Math.ceil(p.w/70),span=p.w/count;
+      for(let i=0;i<count;i++) fence(c,p.x+i*span,p.y+4,span);
+      return;
+    }
+    const x=Math.round(p.x),y=Math.round(p.y);
+    c.fillStyle='#57482f';c.fillRect(x+1,y-24,7,p.h+25);
+    c.fillStyle='#ae8b53';c.fillRect(x+2,y-24,3,p.h+25);
+    c.fillStyle='#705837';c.fillRect(x-2,y-31,12,36);
+    c.fillStyle='#c3a16a';c.fillRect(x,y-30,6,33);
+    c.fillStyle='#e0c28b';c.fillRect(x,y-30,6,3);
   }
 
   function building(c, p, barn) {
@@ -312,6 +370,14 @@ const FarmArt = (() => {
   function drawProp(c,p,camera) {
     if(!visible(c,p,camera,160)) return;
     world(c,camera);
+    if(p.type==='corn') {corn(c,p);c.restore();return;}
+    if(p.type==='paddock-fence') {paddockFence(c,p);c.restore();return;}
+    if(p.type==='stable'||p.type==='trough') {
+      const box=FarmDetails.shape(p);FarmDetails.drawFooting(c,p,box);
+      if(!FarmSprites.draw(c,p.type==='stable'?'barn':'trough',box.x,box.y,box.w,box.h,{grounded:true,palette:p.type==='stable'?2:0}))
+        rounded(c,p.x,p.y,p.w,p.h,2,'#97734b',true);
+      c.restore();return;
+    }
     if(p.type.startsWith('refuge-')||p.type==='nursery'||p.type==='nursery-lip') {
       FarmRefuge.drawProp(c,p);c.restore();return;
     }

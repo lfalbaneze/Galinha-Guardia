@@ -159,6 +159,9 @@ function buildObstacles(game = state) {
     list.push({ x: bale.x, y: bale.y, w: bale.w, h: bale.h, type: "hay" });
   }
 
+  for (const [key,type] of [['stables','stable'],['troughs','trough'],['paddockFences','paddock-fence']])
+    for (const p of STRUCTURES[key] || []) list.push({...p,type,opaque:type!=='paddock-fence'});
+
   list.push(...LakeChallenge.pondObstacles(game));
   list.push({ x: STRUCTURES.barn.x, y: STRUCTURES.barn.y, w: STRUCTURES.barn.w, h: STRUCTURES.barn.h, type: "barn" });
 
@@ -257,7 +260,8 @@ function resolveEnvironment(entity) {
 function spawnAnimals(settings, wolfStart) {
   return WORLD.layout.animalSpawns.map((point, i) => {
     const animal = makeEntity(`animal_${i}`, "animal", point.x, point.y, 22);
-    Object.assign(animal, { species: SPECIES[i], rescued: false, lost: false,
+    const species = WORLD.layout.version >= 3 ? ['sheep','pig','duck','lamb','cow','goat','rabbit','cat','donkey','dog'] : SPECIES;
+    Object.assign(animal, { species: species[i], rescued: false, lost: false,
       targetX: point.x, targetY: point.y, homeX: point.x, homeY: point.y,
       hitbox: { ox: 0, oy: 6, r: 13 } });
     return animal;
@@ -323,7 +327,7 @@ function createState() {
   };
 }
 
-function resetGame(seed, worldVersion = 2) {
+function resetGame(seed, worldVersion = 3) {
   AudioSystem.reset();
   let chosenSeed = Number.isInteger(seed) ? seed >>> 0 : Math.floor(Math.random() * 4294967296) >>> 0;
   if (!Number.isInteger(seed) && chosenSeed === state?.worldSeed) chosenSeed = (chosenSeed + 0x9e3779b9) >>> 0;
@@ -607,13 +611,17 @@ function drawMiniMap() {
   ctx.fillStyle='#758b4e';ctx.fillRect(x,y,w,h);
   const textured=FarmTerrain.drawMap(ctx,WORLD.layout,x,y,w,h);
   const sx=w/WORLD.width,sy=h/WORLD.height;
+  for(const plot of WORLD.layout.plots||[]) {
+    ctx.fillStyle=plot.kind==='corn'?'#b9ae4b':plot.kind==='garden'?'#8b623d':'#a7a273';
+    ctx.fillRect(x+plot.x*sx,y+plot.y*sy,plot.w*sx,plot.h*sy);
+  }
   if(!textured){ctx.fillStyle='#c6a06c';for(const path of WORLD.paths)ctx.fillRect(x+path.x*sx,y+path.y*sy,path.w*sx,path.h*sy);}
   if(state.lake?.completed) {
     const bridge=LakeChallenge.bridge();ctx.fillStyle='#e0bc72';
     ctx.fillRect(x+bridge.x*sx,y+bridge.y*sy,Math.max(3,bridge.w*sx),bridge.h*sy);
   }
   ctx.fillStyle='#995f3e';
-  for(const prop of [STRUCTURES.barn,...STRUCTURES.coops,...STRUCTURES.silos])
+  for(const prop of [STRUCTURES.barn,...STRUCTURES.coops,...STRUCTURES.silos,...(STRUCTURES.stables||[])])
     ctx.fillRect(x+prop.x*sx,y+prop.y*sy,Math.max(3,prop.w*sx),Math.max(3,prop.h*sy));
   ctx.strokeStyle='#eee9c278';ctx.lineWidth=1;
   ctx.strokeRect(x+camera.x*sx,y+camera.y*sy,canvas.width*sx,canvas.height*sy);
@@ -637,7 +645,7 @@ function drawMiniMap() {
     ctx.fillStyle='#f3c45e'; const g=state.entities.goose;
     ctx.fillRect(x+g.x*sx-2,y+g.y*sy-2,4,4);
   }
-  for (const fox of state.entities.foxes || []) if (fox.mode !== 'hidden' && FoxSystem.visible(state,fox)) {
+  for (const fox of state.entities.foxes || []) if (FoxSystem.visible(state,fox)) {
     ctx.fillStyle='#ef8a52';ctx.fillRect(x+fox.x*sx-2,y+fox.y*sy-2,4,4);
   }
   for (const owl of state.entities.owls || []) if (OwlSystem.visible(state,owl)) {
@@ -661,7 +669,7 @@ function renderGame() {
   const layers = [...RescueSystem.all(state).filter(a => !ending || a.rescued), state.entities.chicken, state.entities.wolf]
     .map(entity => ({ depth: entity.y + 12, entity }));
   if (!ending && state.entities.goose) layers.push({ depth: state.entities.goose.y + 12, entity: state.entities.goose });
-  if (!ending) for (const fox of state.entities.foxes || []) if (fox.mode !== 'hidden' && fox.mode !== 'warning')
+  if (!ending) for (const fox of state.entities.foxes || [])
     layers.push({ depth: fox.y + 12, entity: fox });
   if (!ending) for (const owl of state.entities.owls || []) layers.push({depth: owl.perch.y + .1, entity: owl});
   if (!ending) for (const prop of FarmArt.getProps(WORLD.layout)) layers.push({ depth: prop.depth, prop });
@@ -753,7 +761,7 @@ buildObstacles();
 GameUI.initialize();
 const savedGame = GameManager.read();
 if (savedGame) difficultySelect.value = savedGame.difficulty;
-resetGame(savedGame?.worldSeed, savedGame ? savedGame.worldVersion : 2);
+resetGame(savedGame?.worldSeed, savedGame ? savedGame.worldVersion : 3);
 if (savedGame) {
   GameManager.restore(state, savedGame);
   MapManager.initialize(state);
