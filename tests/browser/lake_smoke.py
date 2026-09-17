@@ -52,6 +52,7 @@ with sync_playwright() as p:
  }""")
  page.locator('#lakeChallengeBtn').click()
  assert page.evaluate('state.lake.active')
+ assert page.locator('#lakeTitle').inner_text() == 'Panto, o dono do lago'
  assert page.evaluate('distance(state.entities.wolf,state.entities.goose.home)>400')
  result['checks'].append('Opt-in button and wolf exclusion in real seeded farm')
  def until(condition):
@@ -94,6 +95,7 @@ with sync_playwright() as p:
  page.locator('#pauseBtn').click();page.locator('#tab-outfit').click()
  page.locator('#menuSkinSelect').select_option('goose');page.locator('#continueBtn').click()
  assert page.evaluate('state.entities.chicken.skin==="goose"')
+ assert page.evaluate('CharacterArt.appearances.goose.name') == 'Panto'
  page.evaluate('GameUI.update(state);updateCamera(1);renderGame();GameManager.save(state)')
  page.screenshot(path=str(OUT/'browser-goose-skin.png'))
  page.reload(wait_until='networkidle');page.wait_for_function('CharacterArt.ready && GooseArt.ready')
