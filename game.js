@@ -725,7 +725,8 @@ if (savedGame) {
 state.hasSave = Boolean(savedGame);
 GameUI.showMenu(state);
 GameUI.update(state);
-CharacterArt.load().then(() => GameUI.update(state));
+Promise.all([CharacterArt.load(), GooseArt.load()]).then(() => GameUI.update(state));
+GameUI.update(state);
 FarmSprites.load();
 FarmSprites.loadNursery();
 requestAnimationFrame((t) => {

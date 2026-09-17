@@ -37,6 +37,8 @@ function createGame(random = Math.random, options = {}) {
     let source = fs.readFileSync(path.join(root, match[1]), 'utf8');
     if (match[1] === 'game.js' && !options.fullStartup) source = source.slice(0, source.lastIndexOf('\nbuildObstacles();'));
     vm.runInContext(source, context, { filename: match[1] });
+    if (match[1] === 'systems/goose-art.js' && !options.drawingContext && !options.skipGooseInstall)
+      vm.runInContext('GooseArt.install(() => ({}));', context);
     if (match[1] === 'systems/character-art.js' && !options.drawingContext)
       vm.runInContext('CharacterArt.install(() => ({}));', context);
   }

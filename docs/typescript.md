@@ -1,6 +1,6 @@
 # Desenvolvimento em TypeScript
 
-O núcleo de gameplay usa TypeScript com verificação estrita. A migração é gradual: o loop principal, o gerador de mundo, os sistemas visuais e o áudio continuam em JavaScript. Não foi adicionado framework. O ganso territorial também usa TypeScript, inclusive em seu desenho em pixels.
+O núcleo de gameplay usa TypeScript com verificação estrita. A migração é gradual: o loop principal, o gerador de mundo, os sistemas visuais e o áudio continuam em JavaScript. Não foi adicionado framework. O ganso territorial também usa TypeScript, inclusive no carregamento e na renderização de seus sprites.
 
 ## Onde editar
 
@@ -14,7 +14,8 @@ O núcleo de gameplay usa TypeScript com verificação estrita. A migração é 
 | `src/systems/game-manager.ts` | Estado da aventura, pontuação e salvamentos |
 | `src/systems/map-manager.ts` | Regiões e transições dentro da fazenda |
 | `src/systems/goose-system.ts` | Território, aviso, investida, empurrão e retorno do ganso |
-| `src/systems/goose-art.ts` | Desenho e animação do ganso em pixels |
+| `src/systems/goose-art.ts` | Carregamento, recortes, animação e alinhamento do sprite do ganso |
+| `src/systems/gameplay-hud.ts` | Corações de vida e retratos da HUD, sem alterar a simulação |
 
 Os tipos compartilhados ficam em `src/types/game.d.ts`: jogador, lobo, animais, fases, dificuldade, coordenadas, obstáculos, navegação e dados de salvamento. Os contratos com o JavaScript que ainda não foi migrado ficam em `src/types/browser-bridge.d.ts`. Esses arquivos de declaração não geram código e não substituem a validação de dados lidos do navegador.
 
@@ -66,3 +67,9 @@ O ganso tem tipos próprios em `src/types/goose.d.ts`, testes de comportamento e
 ## Compatibilidade
 
 A saída usa scripts clássicos, na mesma ordem de `index.html`, sem importações que exijam um servidor de módulos. Imagens, sons, créditos, controles e chaves do armazenamento local permanecem nos mesmos caminhos. A verificação de tipos cobre os sistemas migrados; os chamadores que continuam em JavaScript dependem dos testes de integração e dos contratos da ponte.
+
+## HUD e sprite do ganso
+
+O estilo da partida fica em `gameplay.css`, separado do menu ilustrado de `style.css`. Os IDs dos contadores, barras e botões continuam ligados ao estado do jogo. A apresentação usa os recursos já carregados e só redesenha os retratos quando a aparência muda. Som, aparências e dificuldade ficam nas abas do menu de pausa.
+
+`assets/sprites/sources/goose.png` contém 12 quadros de 64 × 64 pixels: linhas cima, direita, frente e esquerda; colunas parado, passo e aviso com asas abertas. Todos usam a mesma escala e a linha 60 como base dos pés. O carregamento participa do bloqueio de início da partida: uma imagem ausente não cria um inimigo invisível. `tests/hud-sprites.test.cjs` cobre imagens, animação, alinhamento, falhas de carregamento e a HUD.
