@@ -64,7 +64,7 @@ const HidingSpots = (() => {
     if (chicken.hidden) {
       chicken.hidden = false; chicken.hidingSpotId = null;
       setStatus("De volta à lida. Olho no lobo!");
-      GameUI.update(game);
+      GameUI.update(game); GameManager.save(game);
       return;
     }
     const spot = candidate(chicken);
