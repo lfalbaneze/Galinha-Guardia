@@ -3,6 +3,7 @@
 'use strict';
 const fs = require('node:fs');
 const path = require('node:path');
+require('./generate-goose-audio.cjs');
 const SR = 22050, TAU = Math.PI * 2;
 const output = path.resolve(__dirname, '..', 'assets', 'audio');
 fs.mkdirSync(output, { recursive: true });

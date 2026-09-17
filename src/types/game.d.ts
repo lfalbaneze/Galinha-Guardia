@@ -33,7 +33,7 @@ declare namespace Farm {
   interface Camera extends Point { shakeX: number; shakeY: number; }
   interface Body extends Point { radius: number; hitbox: Hitbox; }
   interface Entity extends Body {
-    id: string; type: 'chicken' | 'wolf' | 'animal' | 'chick';
+    id: string; type: 'chicken' | 'wolf' | 'animal' | 'chick' | 'goose';
     vx: number; vy: number; facing: number; direction: Direction;
     moving: boolean; anim: number; areaId: string; state: string;
   }
@@ -82,7 +82,7 @@ declare namespace Farm {
   interface RescueNotice extends TimedNotice { name: string; count: number; total: number; chick: boolean; }
   interface GameState {
     phase: Phase; resumePhase?: Phase; difficultyKey: Difficulty; settings: DifficultySettings;
-    entities: { chicken: Chicken; wolf: Wolf; animals: Animal[]; chicks: Animal[]; };
+    entities: { chicken: Chicken; wolf: Wolf; animals: Animal[]; chicks: Animal[]; goose?: Goose; };
     worldSeed: number; worldVersion: number;
     rescuedIds: Set<string>; rescuedChickIds: Set<string>;
     rescuedCount: number; rescuedChicks: number; wolfLevel: number;
@@ -132,5 +132,6 @@ declare namespace Farm {
     rescuedIds: string[]; rescuedChickIds: string[]; lives: number; score: number;
     winBonusApplied?: boolean; elapsed?: number;
     chicken: ChickenSnapshot; wolf: WolfSnapshot; animals: AnimalSnapshot[]; chicks: AnimalSnapshot[];
+    goose?: GooseSnapshot;
   }
 }

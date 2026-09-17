@@ -6,3 +6,5 @@ systems/map-manager.js linguist-generated=true
 systems/player.js linguist-generated=true
 systems/rescue-system.js linguist-generated=true
 systems/wolf-ai.js linguist-generated=true
+systems/goose-system.js linguist-generated=true
+systems/goose-art.js linguist-generated=true
