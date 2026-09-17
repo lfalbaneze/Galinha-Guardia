@@ -44,6 +44,12 @@ Encoste nos amigos para resgatá-los. Eles vão para o refúgio e ficam a salvo 
 
 **Cuidado com os esconderijos:** se o lobo vir você entrar, ele pode ir até lá. Saia, despiste-o e procure outra cobertura sem ser vista. A corrida tem fôlego limitado; caminhar recupera a reserva, e se esconder recupera mais rápido.
 
+## O dono do lago
+
+Um ganso territorial patrulha a margem do lago. Quando você chega perto, ele abre as asas, grita e marca a direção da investida. Saia dessa linha ou recue para fora do território pontilhado. O ganso não muda de direção durante a arrancada e descansa antes de tentar novamente.
+
+A bicada dá um empurrão, **sem tirar vidas ou pontos**. Paredes bloqueiam a investida e os esconderijos protegem a galinha. O grito pode atrair um lobo próximo para o local do barulho, mas não revela onde você está escondida.
+
 ## Pintinhos e aparências
 
 Ao ouvir um piado, procure o esconderijo próximo. Entre com **E** e segure **C** para investigar. Cada pintinho encontrado rende 100 pontos e vai direto para o ninho.
@@ -67,16 +73,16 @@ O progresso pertence ao navegador e ao endereço usado para jogar. Abrir por `fi
 
 ## Desenvolvimento
 
-O núcleo de gameplay usa **TypeScript**, com **HTML, CSS e Canvas 2D**, sem framework ou serviço externo necessário para jogar. Os sistemas visuais, o áudio, o gerador de mundo e o loop principal continuam em JavaScript durante a migração gradual. Imagens e sons acompanham o repositório.
+O núcleo de gameplay usa **TypeScript**, com **HTML, CSS e Canvas 2D**, sem framework ou serviço externo necessário para jogar. O áudio, o gerador de mundo, o loop principal e parte dos sistemas visuais continuam em JavaScript durante a migração gradual. Imagens e sons acompanham o repositório.
 
-Os sete sistemas de jogador, lobo, detecção, esconderijos, resgates, salvamento e regiões são editados em `src/systems/`. O compilador atualiza suas versões em `systems/`, nos mesmos caminhos usados pelo navegador. Consulte o [guia de TypeScript](docs/typescript.md) para detalhes sobre os tipos, a compilação e os testes.
+Os sistemas de jogador, lobo, ganso, detecção, esconderijos, resgates, salvamento e regiões são editados em `src/systems/`. O desenho do ganso também fica nessa pasta. O compilador atualiza suas versões em `systems/`, nos mesmos caminhos usados pelo navegador. Consulte o [guia de TypeScript](docs/typescript.md) para detalhes sobre os tipos, a compilação e os testes.
 
 ### Estrutura
 
 | Caminho | Conteúdo |
 | --- | --- |
 | `index.html` | Página do jogo e carregamento dos scripts |
-| `src/systems/` | Fontes TypeScript dos sete sistemas de gameplay |
+| `src/systems/` | Fontes TypeScript do gameplay e do desenho do ganso |
 | `src/types/` | Tipos compartilhados e contratos com o JavaScript existente |
 | `game.js` | Loop principal, integração dos sistemas e colisões |
 | `systems/` | JavaScript do navegador: sistemas compilados e módulos ainda não migrados |

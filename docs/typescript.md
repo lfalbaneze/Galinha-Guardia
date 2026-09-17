@@ -1,6 +1,6 @@
 # Desenvolvimento em TypeScript
 
-O núcleo de gameplay usa TypeScript com verificação estrita. A migração é gradual: o loop principal, o gerador de mundo, os sistemas visuais e o áudio continuam em JavaScript. Não foi adicionado framework nem alterada a jogabilidade.
+O núcleo de gameplay usa TypeScript com verificação estrita. A migração é gradual: o loop principal, o gerador de mundo, os sistemas visuais e o áudio continuam em JavaScript. Não foi adicionado framework. O ganso territorial também usa TypeScript, inclusive em seu desenho em pixels.
 
 ## Onde editar
 
@@ -13,10 +13,12 @@ O núcleo de gameplay usa TypeScript com verificação estrita. A migração é 
 | `src/systems/rescue-system.ts` | Resgates, fuga dos animais e pintinhos |
 | `src/systems/game-manager.ts` | Estado da aventura, pontuação e salvamentos |
 | `src/systems/map-manager.ts` | Regiões e transições dentro da fazenda |
+| `src/systems/goose-system.ts` | Território, aviso, investida, empurrão e retorno do ganso |
+| `src/systems/goose-art.ts` | Desenho e animação do ganso em pixels |
 
 Os tipos compartilhados ficam em `src/types/game.d.ts`: jogador, lobo, animais, fases, dificuldade, coordenadas, obstáculos, navegação e dados de salvamento. Os contratos com o JavaScript que ainda não foi migrado ficam em `src/types/browser-bridge.d.ts`. Esses arquivos de declaração não geram código e não substituem a validação de dados lidos do navegador.
 
-**Edite os sete sistemas em `src/systems/`, não suas cópias em `systems/`.** O compilador grava o JavaScript correspondente nos caminhos já usados pelo jogo. Esses arquivos compilados permanecem no Git para permitir jogar sem instalar Node.js.
+**Edite os sistemas em `src/systems/`, não suas cópias em `systems/`.** O compilador grava o JavaScript correspondente nos caminhos já usados pelo jogo. Esses arquivos compilados permanecem no Git para permitir jogar sem instalar Node.js.
 
 ## Preparar e verificar
 
@@ -55,9 +57,11 @@ Se ela falhar, execute `npm run compile`, confira o diff e adicione os arquivos 
 
 ## Testes
 
-`tests/typescript-gameplay.test.cjs` exercita em conjunto os sete sistemas compilados, com substitutos para navegador, desenho e áudio. Cobre movimento, fôlego, dano, visão, audição, resgates, esconderijos, regiões e compatibilidade de salvamentos. Esses testes complementam a suíte existente; não substituem jogar no navegador.
+`tests/typescript-gameplay.test.cjs` exercita em conjunto os sistemas compilados, com substitutos para navegador, desenho e áudio. Cobre movimento, fôlego, dano, visão, audição, resgates, esconderijos, regiões e compatibilidade de salvamentos. Esses testes complementam a suíte existente; não substituem jogar no navegador.
 
 `tests/types/gameplay.contracts.ts` contém exemplos que devem ser aceitos ou rejeitados pelo compilador. Entre os casos rejeitados estão resgatar um lobo como animal, usar texto no número de vidas, informar uma fase inexistente e restaurar um salvamento sem tratar a possibilidade de ausência. Esses exemplos são verificados por `npm run typecheck` e nunca carregados pelo jogo.
+
+O ganso tem tipos próprios em `src/types/goose.d.ts`, testes de comportamento em `tests/goose.test.cjs` e contratos em `tests/types/goose.contracts.ts`. Ele não pertence à lista de amigos resgatáveis. Salvamentos antigos recebem o morador do lago sem perder progresso. O som pode ser reconstruído com `node scripts/generate-goose-audio.cjs`.
 
 ## Compatibilidade
 

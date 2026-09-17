@@ -58,7 +58,7 @@ function createFarm() {
     localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value), removeItem: key => storage.delete(key) },
   });
   const sourceDirectory = process.env.GAMEPLAY_SOURCE_DIRECTORY || path.join(__dirname, '..', 'systems');
-  for (const file of ['game-manager', 'rescue-system', 'detection-system', 'hiding-spots', 'wolf-ai', 'map-manager', 'player']) {
+  for (const file of ['game-manager', 'rescue-system', 'detection-system', 'hiding-spots', 'wolf-ai', 'map-manager', 'player', 'goose-system']) {
     vm.runInContext(fs.readFileSync(path.join(sourceDirectory, `${file}.js`), 'utf8'), context, { filename: `${file}.js` });
   }
   const api = vm.runInContext('({ GameManager, RescueSystem, DetectionSystem, HidingSpots, WolfAI, MapManager, Player })', context);

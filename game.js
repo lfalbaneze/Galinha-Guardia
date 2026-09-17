@@ -447,6 +447,7 @@ function updateGame(dt) {
     updateChicken(dt);
     updateAnimals(dt);
     if (state.phase === "playing") {
+      GooseSystem.update(state, dt);
       updateWolf(dt);
       Player.checkCatch(state);
       MapManager.update(state, dt);
@@ -612,6 +613,10 @@ function drawMiniMap() {
     DetectionSystem.hasLineOfSight(getHitbox(state.entities.chicken),getHitbox(state.entities.wolf))){
     ctx.fillStyle='#ef8262';ctx.beginPath();ctx.arc(x+state.entities.wolf.x*sx,y+state.entities.wolf.y*sy,3,0,Math.PI*2);ctx.fill();
   }
+  if (state.entities.goose && GooseSystem.visible(state, state.entities.goose)) {
+    ctx.fillStyle='#f3c45e'; const g=state.entities.goose;
+    ctx.fillRect(x+g.x*sx-2,y+g.y*sy-2,4,4);
+  }
   ctx.fillStyle='#cbd0b0';ctx.font='10px Trebuchet MS, sans-serif';ctx.fillText('Você · amigos avistados',x+3,y+h+13);
   ctx.restore();
 }
@@ -623,12 +628,13 @@ function drawOverlay() {
 function renderGame() {
   const ending = EndGameSequence.active(state);
   if (ending) EndGameSequence.drawBackdrop(state);
-  else drawWorld();
+  else { drawWorld(); GooseSystem.drawTerritory(state); }
   if (!ending) for (const chick of state.entities.chicks) {
     if (RescueSystem.isSecret(chick) && !chick.coverId) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
   }
   const layers = [...RescueSystem.all(state).filter(a => !ending || a.rescued), state.entities.chicken, state.entities.wolf]
     .map(entity => ({ depth: entity.y + 12, entity }));
+  if (!ending && state.entities.goose) layers.push({ depth: state.entities.goose.y + 12, entity: state.entities.goose });
   if (!ending) for (const prop of FarmArt.getProps(WORLD.layout)) layers.push({ depth: prop.depth, prop });
   layers.sort((a, b) => a.depth - b.depth);
   for (const layer of layers) {
@@ -642,7 +648,8 @@ function renderGame() {
       ctx.save();
       if (entity.invulnerable > 0 && !entity.hidden) ctx.globalAlpha = 0.6 + Math.sin(entity.invulnerable * 25) * 0.25;
       drawChicken(entity); ctx.restore();
-    } else drawAnimal(entity);
+    } else if (entity.type === 'goose') GooseArt.draw(ctx, entity, camera);
+    else drawAnimal(entity);
   }
   if (ending) EndGameSequence.draw(state);
   else {
@@ -650,6 +657,7 @@ function renderGame() {
     if (state.entities.chicken.hidden) drawChicken(state.entities.chicken);
     HidingSpots.drawForeground(state);
     drawEffects(); drawDebugHitboxes(); drawMiniMap(); drawOverlay();
+    GooseSystem.drawIndicator(state);
     HidingSpots.drawIndicators(state);
     GameUI.render(state);
   }

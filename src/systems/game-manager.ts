@@ -16,10 +16,12 @@ const GameManager = (() => {
     game.entities.chicken.staminaDelay = 0;
     game.entities.chicken.exhausted = false;
     SkinSystem.initialize(game);
+    GooseSystem.initialize(game);
     saveTimer = 0;
   }
   function level(count: number): number { return count >= 9 ? 3 : count >= 6 ? 2 : count >= 3 ? 1 : 0; }
   function rescue(game: Farm.GameState, animal: Farm.Animal): boolean {
+    if (animal.type !== "animal" && animal.type !== "chick") return false;
     const chick = animal.type === "chick";
     const ids = chick ? game.rescuedChickIds : game.rescuedIds;
     if (game.phase !== "playing" || ids.has(animal.id) || (chick && !animal.discovered)) return false;
@@ -69,6 +71,7 @@ const GameManager = (() => {
         seenVelocity: wolf.seenVelocity, investigateReturnMode: wolf.investigateReturnMode },
       animals: game.entities.animals.map(friend),
       chicks: game.entities.chicks.map(friend),
+      goose: GooseSystem.snapshot(game),
     };
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); storageAvailable = true; }
     catch (_) { storageAvailable = false; }
@@ -208,6 +211,7 @@ const GameManager = (() => {
     resolveEnvironment(wolf);
     FarmRefuge.ensureClear(wolf);
     WolfAI.restoreCoverMemory(game, data.wolf.exposedCover);
+    GooseSystem.restore(game, data.goose);
     game.winBonusApplied = data.winBonusApplied === true;
     if (game.rescuedCount === WORLD.targetRescues) GameManager.win(game);
     refreshHud();
