@@ -10,7 +10,7 @@
     "dev": "tsc -p tsconfig.json --watch",
     "build": "node scripts/build.cjs",
     "pretest": "npm run compile",
-    "test": "node --test tests",
+    "test": "node scripts/test.cjs",
     "verify": "npm run typecheck && npm test && npm run build",
     "sprites:build": "node scripts/build-sprite-data.cjs && node scripts/render-wardrobe.cjs",
     "sprites:review": "node scripts/render-sprite-review.cjs && node scripts/render-characters.cjs",
