@@ -557,18 +557,22 @@ const WolfAI = (() => {
   }
 
   // An environmental sound identifies its source, never the hidden player's position.
-  function investigateSound(game: Farm.GameState, source: Farm.Point, radius = 360): boolean {
+  function investigateSound(game: Farm.GameState, source: Farm.Point, radius = 360,
+    reportedPoint: Farm.Point = source, acousticObstacles: Farm.Obstacle[] = OBSTACLES): boolean {
     const wolf = game.entities.wolf;
     if (game.lake?.active || game.phase !== 'playing' || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
       ['chase', 'inspect', 'alert'].includes(wolf.mode) || !Number.isFinite(source.x) || !Number.isFinite(source.y) ||
       source.x < 0 || source.y < 0 || source.x > WORLD.width || source.y > WORLD.height ||
-      !Number.isFinite(radius) || radius <= 0) return false;
-    const walls = OBSTACLES.filter(rect => rect.type !== 'pond' && rect.opaque !== false &&
+      !Number.isFinite(radius) || radius <= 0 || !Number.isFinite(reportedPoint.x) || !Number.isFinite(reportedPoint.y) ||
+      reportedPoint.x<0 || reportedPoint.y<0 || reportedPoint.x>WORLD.width || reportedPoint.y>WORLD.height) return false;
+    // Hearing is measured from the emitter. A sentinel may report one observed
+    // location, but that report never becomes live knowledge of the player.
+    const walls = acousticObstacles.filter(rect => rect.type !== 'pond' && rect.opaque !== false &&
       DetectionSystem.segmentIntersectsRect(wolf, source, rect)).length;
     if (distance(wolf, source) > Math.min(360, radius) * Math.pow(.6, walls)) return false;
     const config = getConfig(game);
     if (wolf.mode !== 'investigate') wolf.investigateReturnMode = wolf.mode === 'search' ? 'search' : 'patrol';
-    wolf.heardPoint = { x: source.x, y: source.y };
+    wolf.heardPoint = { x: reportedPoint.x, y: reportedPoint.y };
     wolf.hearingCooldown = config.soundInterval; wolf.investigateTime = config.investigateDuration;
     wolf.scanTime = 0; wolf.mode = 'investigate'; wolf.detected = false;
     wolf.route = []; wolf.routeTarget = null; wolf.routeTimer = 0;

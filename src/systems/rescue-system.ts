@@ -146,7 +146,7 @@ const RescueSystem = {
   },
   update(game: Farm.GameState, dt: number): void {
     if (!Number.isFinite(dt) || dt < 0) return;
-    if (game.phase !== "playing") return;
+    if (game.phase !== "playing" || game.lake?.active) return;
     const chicken = game.entities.chicken;
     game.animalSpeechCooldown = Math.max(0, (game.animalSpeechCooldown || 0) - dt);
     game.secretSoundCooldown = Math.max(0, (game.secretSoundCooldown || 0) - dt);

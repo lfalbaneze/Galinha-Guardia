@@ -69,6 +69,15 @@ const GooseSystem = (() => {
       DetectionSystem.hasLineOfSight(getHitbox(goose), getHitbox(chicken));
   }
 
+  function canCommit(game: Farm.GameState, goose: Farm.Goose, config: Farm.GooseConfig): boolean {
+    const chicken=game.entities.chicken;
+    // Acquisition range is not a dodge boundary. Once warned, the marked line
+    // remains fixed while the player moves aside anywhere inside the encounter.
+    return !chicken.hidden && chicken.invulnerable<=0 &&
+      distance(chicken,goose.home)<=(game.lake?.active?LakeChallenge.radius:config.territory) &&
+      DetectionSystem.hasLineOfSight(getHitbox(goose),getHitbox(chicken));
+  }
+
   function honk(game: Farm.GameState, goose: Farm.Goose): void {
     if (goose.honkCooldown > 0) return;
     goose.honkCooldown = 4;
@@ -119,20 +128,44 @@ const GooseSystem = (() => {
     return length <= amount + .01;
   }
 
+  function chargeTarget(goose: Farm.Goose, origin: Farm.Point, observed: Farm.Point, config: Farm.GooseConfig): Farm.Point {
+    const dx=observed.x-origin.x,dy=observed.y-origin.y,length=Math.hypot(dx,dy)||1;
+    let target=point(origin);
+    for(let step=6;step<=config.chargeSpeed*config.chargeSeconds;step+=6) {
+      const next={x:origin.x+dx/length*step,y:origin.y+dy/length*step};
+      if(distance(next,goose.home)>config.territory||!clearLeg(target,next))break;
+      target=next;
+    }
+    return target;
+  }
+
+  function makeRoom(goose: Farm.Goose, observed: Farm.Point, config: Farm.GooseConfig): boolean {
+    const candidates: Farm.Point[]=[];
+    for(const radius of [40,64,88])for(let i=0;i<8;i++)
+      candidates.push({x:goose.home.x+Math.cos(i*Math.PI/4)*radius,y:goose.home.y+Math.sin(i*Math.PI/4)*radius});
+    candidates.sort((a,b)=>distance(a,goose)-distance(b,goose));
+    const target=candidates.find(p=>distance(p,goose)>=24&&clearLeg(goose,p)&&clearLeg(goose.home,p)&&
+      distance(p,observed)<=config.alertRange&&DetectionSystem.hasLineOfSight(center(p),center(observed))&&
+      distance(p,chargeTarget(goose,p,observed,config))>=60);
+    if(!target)return false;
+    goose.mode='reposition';goose.anchor=point(goose);goose.target=target;goose.timer=2;
+    return true;
+  }
+
   function warn(game: Farm.GameState, goose: Farm.Goose, config: Farm.GooseConfig): void {
+    const chicken=game.entities.chicken, target=chargeTarget(goose,goose,chicken,config);
+    if(distance(goose,target)<36&&!circleVsCircle(goose,chicken)) {
+      // Never ask the player to dodge a charge that cannot leave its starting corner.
+      if(!makeRoom(goose,point(chicken),config))recover(goose,config);
+      return;
+    }
     goose.attempts = (goose.attempts || 0) + 1;
     const feint = game.difficultyKey !== 'easy' && goose.attempts % 3 === 0;
     goose.mode = feint ? 'feint' : 'warning'; goose.timer = feint ? .55 : config.warning; goose.anchor = point(goose);
     goose.chargeHit = false; goose.chargeCounted = false;
-    const chicken = game.entities.chicken;
-    const dx = chicken.x - goose.x, dy = chicken.y - goose.y, length = Math.hypot(dx, dy) || 1;
-    goose.target = point(goose);
+    const dx = chicken.x - goose.x, dy = chicken.y - goose.y;
     // Lock the direction at the warning, not at impact. The player can bait and dodge it.
-    for (let step = 6; step <= config.chargeSpeed * config.chargeSeconds; step += 6) {
-      const next = { x: goose.anchor.x + dx / length * step, y: goose.anchor.y + dy / length * step };
-      if (distance(next, goose.home) > config.territory || !clearLeg(goose.target, next)) break;
-      goose.target = next;
-    }
+    goose.target=target;
     Player.face(goose, dx, dy);
     honk(game, goose);
     setStatus(feint ? 'Só um blefe! Espere a linha de investida. Blefes não contam.' :
@@ -174,18 +207,25 @@ const GooseSystem = (() => {
         Player.face(goose,goose.noticedPoint.x-goose.x,goose.noticedPoint.y-goose.y);
         if (goose.timer <= 0) warn(game,goose,config);
       }
+    } else if (goose.mode === 'reposition') {
+      if(game.entities.chicken.hidden || distance(game.entities.chicken,goose.home)>config.territory)recover(goose,config);
+      else {
+        const arrived=advance(game,goose,goose.target,70*dt,config);
+        if(arrived){goose.mode='patrol';goose.anchor=point(goose.home);goose.timer=.3;goose.cooldown=.3;goose.patrolIndex=0;}
+        else if(goose.timer<=0||distance(before,goose)<.01)recover(goose,config);
+      }
     } else if (goose.mode === 'feint') {
-      if (!canNotice(game,goose,config) || goose.timer <= 0) {
+      if (!canCommit(game,goose,config) || goose.timer <= 0) {
         recover(goose,config); goose.cooldown = Math.max(1.1, config.cooldown*.5);
       }
     } else if (goose.mode === 'warning') {
-      if (!canNotice(game, goose, config)) recover(goose, config);
+      if (!canCommit(game, goose, config)) recover(goose, config);
       else if (goose.timer <= 0) { goose.mode = 'charge'; goose.timer = config.chargeSeconds; }
     } else if (goose.mode === 'charge') {
       if (!peck(game, goose, config)) {
         const arrived = advance(game, goose, goose.target, config.chargeSpeed * dt, config, true);
         if (goose.mode === 'charge' && (arrived || goose.timer <= 0 || distance(before, goose) < .01)) {
-          const counted = LakeChallenge.recordMiss(game,goose);
+          const counted = arrived && LakeChallenge.recordMiss(game,goose);
           if (!game.lake?.completed) {
             recover(goose,config);
             if (counted || distance(goose,goose.anchor) >= 36) { goose.mode='stunned'; goose.timer=1.05; }
@@ -251,6 +291,9 @@ const GooseSystem = (() => {
     ctx.beginPath(); ctx.arc(p.x, p.y + OFFSET_Y, game.lake?.active ? LakeChallenge.radius : TERRITORY, 0, Math.PI * 2); ctx.stroke();
     if (goose.mode === 'warning' && visible(game, goose)) {
       const from = worldToScreen(goose), to = worldToScreen(goose.target);
+      const contact=(goose.hitbox.r+game.entities.chicken.hitbox.r)*2;
+      ctx.setLineDash([]);ctx.lineCap='round';ctx.strokeStyle='#f4bf5730';ctx.lineWidth=contact;
+      ctx.beginPath();ctx.moveTo(from.x,from.y+OFFSET_Y);ctx.lineTo(to.x,to.y+OFFSET_Y);ctx.stroke();
       ctx.strokeStyle = '#f4bf57'; ctx.lineWidth = 4; ctx.setLineDash([8, 6]);
       ctx.beginPath(); ctx.moveTo(from.x, from.y + OFFSET_Y); ctx.lineTo(to.x, to.y + OFFSET_Y); ctx.stroke();
       ctx.setLineDash([]); ctx.beginPath(); ctx.arc(to.x, to.y + OFFSET_Y, 6, 0, Math.PI * 2); ctx.stroke();

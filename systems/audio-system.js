@@ -12,7 +12,7 @@ const AudioSystem = (() => {
     ["skin-robocop", "Gato · Passo Furtivo"], ["skin-priest", "Cachorro · Companheiro da Roça"],
   ]);
   const ANIMAL_SPECIES = new Set(["sheep", "pig", "goat", "cow", "duck", "rabbit", "dog", "cat", "donkey", "lamb", "chicken"]);
-  const EFFECTS = new Set(["boing", "pop", "bonk", "squeak", "dizzy", "sob", "runaway", "rescue", "chick", "victory", "goose-honk", "owl-hoot",
+  const EFFECTS = new Set(["boing", "pop", "bonk", "squeak", "dizzy", "sob", "runaway", "rescue", "chick", "victory", "goose-honk", "owl-hoot", "fox-rustle",
     ...Array.from(ANIMAL_SPECIES, species => `animal-${species}`)]);
   const defaults = { musicVolume: 0.25, effectsVolume: 0.55, track: "forest", muted: false, skinThemes: true };
   const settings = { ...defaults };

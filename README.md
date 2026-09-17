@@ -51,6 +51,8 @@ Encoste nos amigos para resgatá-los. Eles vão para o refúgio e ficam a salvo 
 
 O ganso patrulha a margem, para para observar você e abre as asas antes de avançar. A direção da investida fica marcada no chão e não muda durante o ataque. Às vezes ele blefa: observe a indicação antes de gastar fôlego. Depois de errar, fica atordoado e precisa se recuperar.
 
+A faixa no chão mostra a largura de contato. Depois do aviso, afastar-se para o lado continua valendo como esquiva, mesmo saindo do alcance em que ele percebe você. Se uma cerca deixa o ganso sem espaço para investir, ele se reposiciona devagar e dá um aviso completo antes de tentar. O painel do desafio indica quando se aproximar, desviar ou esperar.
+
 Perto dele, pressione **F** ou use **Desafiar o ganso** para iniciar um desafio opcional. Provoque **três investidas de verdade e desvie**, permanecendo dentro do círculo. Blefes, ataques parados contra uma parede e investidas que acertam a galinha não contam. Esconder-se protege você, mas não vale como esquiva para o desafio.
 
 Durante a tentativa, o lobo espera fora da área e os outros bichos ficam pausados. A bicada apenas empurra: não tira vidas, pontos ou fôlego. **F novamente** ou sair do círculo interrompe a tentativa, zerando somente a contagem do desafio. Pausar mantém a tentativa; fechar e recarregar a página exige iniciá-la de novo com segurança.
@@ -59,9 +61,11 @@ Ao desviar três vezes, você ganha o respeito do dono do lago: ele para de atac
 
 ## Raposa e coruja
 
-Nas moitas junto aos caminhos, a **raposa fica visível na borda da vegetação**, mesmo enquanto espera. Antes do bote, um aviso e uma linha mostram a direção da investida. Desvie para o lado: ela não corrige a direção no meio do ataque. Depois, descansa e volta para a mesma moita. O contato empurra a galinha, sem descontar vidas, pontos ou resgates, e dá uma proteção breve contra outro inimigo.
+Nas moitas junto aos caminhos, a **raposa fica visível na borda da vegetação**, mesmo enquanto espera. Antes do bote, ela faz as folhas farfalharem, e uma faixa mostra a direção e a largura da investida. Desvie para o lado: ela não corrige a direção no meio do ataque. Depois, descansa e volta para a mesma moita. O contato empurra a galinha, sem descontar vidas, pontos ou resgates, e dá uma proteção breve contra outro inimigo.
 
 A **coruja** fica em uma árvore e observa um setor marcado no chão. O alerta só completa enquanto ela continua vendo a galinha. Saia do campo de visão ou entre em cobertura para interrompê-lo. Quando o alarme completa, um lobo próximo pode investigar o ponto observado — a coruja não acompanha a galinha escondida.
+
+O alcance do pio parte da coruja, e paredes entre ela e o lobo abafam o som. Se ele ouvir, investiga apenas a posição que ela viu naquele instante; não recebe a posição atual de quem já saiu dali ou se escondeu.
 
 Os encontros aproveitam árvores e moitas existentes, longe do início, dos pintinhos escondidos e da arena do ganso. A quantidade depende dos locais seguros disponíveis, até duas raposas e duas corujas por fazenda. Eles ficam pausados durante o desafio do lago e não participam da cena final. As novas folhas de sprites acompanham o jogo offline; se uma imagem falhar, o menu oferece uma nova tentativa antes de liberar a partida.
 

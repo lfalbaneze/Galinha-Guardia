@@ -173,7 +173,7 @@ const RescueSystem = {
     update(game, dt) {
         if (!Number.isFinite(dt) || dt < 0)
             return;
-        if (game.phase !== "playing")
+        if (game.phase !== "playing" || game.lake?.active)
             return;
         const chicken = game.entities.chicken;
         game.animalSpeechCooldown = Math.max(0, (game.animalSpeechCooldown || 0) - dt);

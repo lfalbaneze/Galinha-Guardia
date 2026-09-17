@@ -204,8 +204,14 @@ const LakeChallenge = (() => {
         panel.hidden = game.phase !== 'playing' || !near;
         const completed = game.lake?.completed, active = game.lake?.active;
         title.textContent = completed ? 'Respeito conquistado' : 'O dono do lago';
+        const cue = goose?.mode === 'warning' || goose?.mode === 'charge' ? 'Saia da faixa marcada para desviar!' :
+            goose?.mode === 'feint' ? 'Foi um blefe. Aguarde a investida de verdade.' :
+                goose?.mode === 'stunned' ? (goose.chargeCounted ? 'Boa esquiva! Espere o ganso se recuperar.' :
+                    'Ele parou antes do fim. Espere o próximo aviso.') :
+                    ['return', 'recover', 'reposition'].includes(goose?.mode || '') ? 'Ele está se posicionando. Espere o próximo aviso.' :
+                        'Aproxime-se para provocar; depois saia da faixa marcada.';
         text.textContent = completed ? 'Atalho aberto. Aparência de ganso disponível no baú.' : active ?
-            `${game.lake.misses}/3 investidas desviadas · O lobo espera fora. Desvie da linha; blefes não contam.` :
+            `${game.lake.misses}/3 investidas desviadas · ${cue} O lobo espera fora.` :
             'Desafio opcional: provoque três investidas e desvie. Ganhe um atalho e a aparência de ganso.';
         button.hidden = !!completed;
         button.disabled = !active && !available(game);

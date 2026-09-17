@@ -65,6 +65,7 @@ const FoxSystem = (() => {
           if(distance(fox,target)<40){fox.cooldown=1;continue;}
           fox.mode='warning';fox.anchor=point(fox);fox.target=target;fox.timer=config.warning;fox.hit=false;
           Player.face(fox,target.x-fox.x,target.y-fox.y);
+          AudioSystem.play('fox-rustle',{volume:.36});
           setStatus('Olhos no mato! Saia da direção marcada antes do bote.');
         }
       }else if(fox.mode==='warning'){
@@ -101,7 +102,9 @@ const FoxSystem = (() => {
     for(const fox of game.entities.foxes||[]){
       if(fox.mode!=='warning'||!visible(game,fox))continue;
       const x=worldX(fox.x),y=worldY(fox.y),to=worldToScreen(fox.target);
-      ctx.save();ctx.strokeStyle='#efb47d';ctx.lineWidth=2;ctx.setLineDash([5,6]);
+      ctx.save();ctx.lineCap='round';ctx.strokeStyle='#efb47d30';ctx.lineWidth=2*(fox.hitbox.r+game.entities.chicken.hitbox.r);
+      ctx.beginPath();ctx.moveTo(x,y+8);ctx.lineTo(to.x,to.y+8);ctx.stroke();
+      ctx.strokeStyle='#efb47d';ctx.lineWidth=2;ctx.setLineDash([5,6]);
       ctx.beginPath();ctx.moveTo(x,y+8);ctx.lineTo(to.x,to.y+8);ctx.stroke();ctx.setLineDash([]);
       const shake=InterfaceMotion.reduced?0:Math.sin(fox.anim*15)*2;
       ctx.fillStyle='#493322';ctx.fillRect(Math.round(x-5+shake),y-34,10,19);

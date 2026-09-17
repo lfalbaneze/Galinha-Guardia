@@ -94,6 +94,7 @@ const FoxSystem = (() => {
                     fox.timer = config.warning;
                     fox.hit = false;
                     Player.face(fox, target.x - fox.x, target.y - fox.y);
+                    AudioSystem.play('fox-rustle', { volume: .36 });
                     setStatus('Olhos no mato! Saia da direção marcada antes do bote.');
                 }
             }
@@ -163,6 +164,13 @@ const FoxSystem = (() => {
                 continue;
             const x = worldX(fox.x), y = worldY(fox.y), to = worldToScreen(fox.target);
             ctx.save();
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#efb47d30';
+            ctx.lineWidth = 2 * (fox.hitbox.r + game.entities.chicken.hitbox.r);
+            ctx.beginPath();
+            ctx.moveTo(x, y + 8);
+            ctx.lineTo(to.x, to.y + 8);
+            ctx.stroke();
             ctx.strokeStyle = '#efb47d';
             ctx.lineWidth = 2;
             ctx.setLineDash([5, 6]);
