@@ -9,7 +9,7 @@ function createWildlifeSheet(source, width, height, bottoms) {
             const timeout = setTimeout(() => reject(new Error(src)), 10000);
             candidate.onload = () => { clearTimeout(timeout); resolve(candidate); };
             candidate.onerror = () => { clearTimeout(timeout); reject(new Error(src)); };
-            candidate.src = src;
+            candidate.src = `${src}?v=approved-20260917`;
         });
     }
     function load(loader = browserImage) {
