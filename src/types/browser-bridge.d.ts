@@ -25,7 +25,7 @@ declare function getAreaAt(x: number, y: number): Farm.Area;
 declare function worldX(x: number): number;
 declare function worldY(y: number): number;
 declare function worldToScreen(point: Farm.Point): Farm.Point;
-declare function buildObstacles(): void;
+declare function buildObstacles(game?: Farm.GameState | null): void;
 declare function refreshHud(): void;
 declare function setStatus(message: string, kind?: string): void;
 declare function spawnBurst(x: number, y: number, color: string, count: number): void;
@@ -33,7 +33,7 @@ declare function startWinCutscene(): void;
 declare function finishLose(message: string): void;
 declare const WorldGenerator: { generate(seed: number, version?: number): Farm.Layout; };
 declare const GameUI: { update(game: Farm.GameState): void; };
-declare const SkinSystem: { initialize(game: Farm.GameState): void; record(game: Farm.GameState, notify?: boolean): void; };
+declare const SkinSystem: { initialize(game: Farm.GameState): void; record(game: Farm.GameState, notify?: boolean): void; unlockLake(game: Farm.GameState, notify?: boolean): void; };
 declare const AudioSystem: {
   play(name: string, options?: { volume?: number }): void;
   playAnimal(species: Farm.Species, options?: { volume?: number }): void;

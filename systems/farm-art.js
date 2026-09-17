@@ -216,12 +216,9 @@ const FarmArt = (() => {
     if (s.barn) result.push({ ...s.barn, type: "barn", id: "barn", depth: s.barn.y + s.barn.h });
     for (const p of layout.vegetation || []) result.push({ ...p, depth: p.blockingRect ? p.blockingRect.y + p.blockingRect.h : p.y + p.h * .68 });
     for (const [i,p] of (layout.decorations || []).entries()) if(p.type==="fence") result.push({...p,id:`fence-${i}`,depth:p.y+4});
-    const names = { poleiro: "TERREIRO", granja: "MILHARAL", estabulo: "CURRAL", horta: "HORTA", quintal: "POMAR" };
-    for (const a of layout.areas || []) if(a.id!=='poleiro') result.push({ type: "sign", id: `sign-${a.id}`, name: names[a.id] || a.name,
-      x: a.sign?.x ?? a.x + 48, y: a.sign?.y ?? a.y + a.h - 42, w: 186, h: 42,
-      depth: (a.sign?.y ?? a.y + a.h - 42) + 42 });
-    return result.concat(FarmRefuge.props());
+    return FarmDetails.decorate(layout, result.concat(FarmRefuge.props()));
   }
+
   function building(c, p, barn) {
     const {x,y,w,h} = p, roof = h * .36, wallY = y + h * .14, wallH = h * .86;
     const stable = p.areaId === "estabulo";
@@ -311,14 +308,10 @@ const FarmArt = (() => {
     }
     if(FarmSprites.ready && ['barn','coop','hay','tree','bush','silo'].includes(p.type)) {
       const {x,y,w,h}=p;
-      const shape = p.type==='tree' ? {x:x-16,y:(p.blockingRect?.y||y)+22-148,w:136,h:148} :
-        p.type==='bush' ? {x:x-4,y:y-18,w:w+8,h:h+23} :
-        p.type==='hay' ? {x:x-3,y:y-16,w:w+6,h:h+20} :
-        p.type==='barn' ? {x:x-8,y:y+h-195,w:w+16,h:195} :
-        p.type==='silo' ? {x:x+1,y:y+h-174,w:w-2,h:174} :
-        {x:x-7,y:y+h-(w+14)*1.1,w:w+14,h:(w+14)*1.1};
+      const shape = FarmDetails.shape(p);
       ellipse(c,shape.x+shape.w*.54,shape.y+shape.h-2,shape.w*.45,Math.min(15,shape.h*.1),'#203e2845');
-      FarmSprites.draw(c,p.type,shape.x,shape.y,shape.w,shape.h);
+      const sprite = p.type === 'coop' && p.variant === 1 ? 'barn' : p.type;
+      FarmSprites.draw(c,sprite,shape.x,shape.y,shape.w,shape.h,{palette:p.palette,flip:p.flip});
       c.restore();return;
     }
     if(p.type==="barn"||p.type==="coop") building(c,p,p.type==="barn");
@@ -338,14 +331,9 @@ const FarmArt = (() => {
       line(c,[[x+w*.35+4,y+h-32],[x+w*.35+4,y+h-7]],"#b7c4b5",2);
     } else if(p.type==="fence") {
       fence(c,p.x,p.y,p.w);
-      rounded(c,p.x+p.w-4,p.y-24,8,27,2,"#e4ca94",true);
+      if (!FarmSprites.ready) rounded(c,p.x+p.w-4,p.y-24,8,27,2,"#e4ca94",true);
     } else if(p.type==="sign") {
-      rounded(c,p.x+p.w/2-4,p.y+15,8,27,2,"#a38555",true);
-      rounded(c,p.x,p.y-4,p.w,28,3,"#855b37",true);
-      line(c,[[p.x+5,p.y+2],[p.x+p.w-5,p.y+2]],"#b9935b",1);
-      ellipse(c,p.x+7,p.y+10,2,2,"#40382b");ellipse(c,p.x+p.w-7,p.y+10,2,2,"#40382b");
-      c.fillStyle="#f4e7bd";c.font="bold 12px Trebuchet MS, sans-serif";c.textAlign="center";c.textBaseline="middle";
-      c.fillText(p.name,p.x+p.w/2,p.y+10,p.w-12);
+      FarmDetails.drawSign(c,p);
     }
     c.restore();
   }

@@ -30,7 +30,7 @@ const GooseArt = (() => {
     image = loader(source); errors = [];
   }
   function frameFor(goose: Farm.Goose): { row: number; column: number } {
-    const alert = goose.mode === 'warning' || goose.mode === 'charge';
+    const alert = goose.mode === 'warning' || goose.mode === 'charge' || goose.mode === 'feint';
     // The sheet has one idle, one stepping and one wings-open pose per direction.
     const column = alert ? 2 : goose.moving && !InterfaceMotion.reduced
       ? Math.floor(Math.abs(goose.anim)) % 2 : 0;
@@ -48,6 +48,17 @@ const GooseArt = (() => {
     // Sprite feet occupy row 60. The cast's ground plane is entity.y + 14.
     context.drawImage(image, frame.column * cell, frame.row * cell, cell, cell,
       x - 32, y + 14 - 60, cell, cell);
+    if (goose.mode === 'stunned') {
+      context.fillStyle='#e8c65a';
+      for (let i=0;i<3;i++) {
+        const angle=i*Math.PI*2/3+(InterfaceMotion.reduced ? 0 : goose.anim);
+        const sx=Math.round(x+Math.cos(angle)*14), sy=Math.round(y-49+Math.sin(angle)*4);
+        context.fillRect(sx-3,sy-1,7,3); context.fillRect(sx-1,sy-3,3,7);
+      }
+    } else if (goose.mode === 'notice') {
+      context.font='bold 15px Trebuchet MS,sans-serif';context.textAlign='center';
+      context.fillStyle='#f8e6ac';context.fillText('?',x,y-52);
+    }
     context.restore();
     return true;
   }

@@ -370,6 +370,103 @@ const SpriteData = {
       }
     }
   },
+  "goose": {
+    "scale": 1,
+    "poses": {
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/sources/goose.png",
+            "x": 0,
+            "y": 0,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "src": "assets/sprites/sources/goose.png",
+            "x": 64,
+            "y": 0,
+            "w": 64,
+            "h": 64
+          }
+        ],
+        "cx": 31.5,
+        "bottom": 60,
+        "top": 4,
+        "width": 29,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/sources/goose.png",
+            "x": 0,
+            "y": 64,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "src": "assets/sprites/sources/goose.png",
+            "x": 64,
+            "y": 64,
+            "w": 64,
+            "h": 64
+          }
+        ],
+        "cx": 35.5,
+        "bottom": 60,
+        "top": 7,
+        "width": 45,
+        "flip": false
+      },
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/sources/goose.png",
+            "x": 0,
+            "y": 128,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "src": "assets/sprites/sources/goose.png",
+            "x": 64,
+            "y": 128,
+            "w": 64,
+            "h": 64
+          }
+        ],
+        "cx": 32,
+        "bottom": 60,
+        "top": 6,
+        "width": 28,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/sources/goose.png",
+            "x": 0,
+            "y": 192,
+            "w": 64,
+            "h": 64
+          },
+          {
+            "src": "assets/sprites/sources/goose.png",
+            "x": 64,
+            "y": 192,
+            "w": 64,
+            "h": 64
+          }
+        ],
+        "cx": 28,
+        "bottom": 60,
+        "top": 9,
+        "width": 48,
+        "flip": false
+      }
+    }
+  },
   "sheep": {
     "scale": 1.2,
     "poses": {

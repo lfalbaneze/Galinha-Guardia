@@ -6,7 +6,8 @@ const CharacterArt = (() => {
     punk: Object.freeze({ name: 'Pato', species: 'duck' }),
     astronaut: Object.freeze({ name: 'Coelho', species: 'rabbit' }),
     robocop: Object.freeze({ name: 'Gato', species: 'cat' }),
-    priest: Object.freeze({ name: 'Cachorro', species: 'dog' })
+    priest: Object.freeze({ name: 'Cachorro', species: 'dog' }),
+    goose: Object.freeze({ name: 'Ganso do lago', species: 'goose' })
   });
   const species = Object.freeze(Object.keys(SpriteData));
   const sources = Object.freeze([...new Set(species.flatMap(s => Object.values(SpriteData[s].poses)

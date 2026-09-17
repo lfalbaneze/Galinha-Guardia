@@ -145,7 +145,7 @@ function worldToScreen(entity) {
   return worldPointToScreen(entity.x, entity.y);
 }
 
-function buildObstacles() {
+function buildObstacles(game = state) {
   HidingSpots.initialize();
   const list = [...HidingSpots.obstacles()];
 
@@ -159,7 +159,7 @@ function buildObstacles() {
     list.push({ x: bale.x, y: bale.y, w: bale.w, h: bale.h, type: "hay" });
   }
 
-  list.push({ x: STRUCTURES.pond.x + 20, y: STRUCTURES.pond.y + 20, w: STRUCTURES.pond.w - 40, h: STRUCTURES.pond.h - 40, type: "pond" });
+  list.push(...LakeChallenge.pondObstacles(game));
   list.push({ x: STRUCTURES.barn.x, y: STRUCTURES.barn.y, w: STRUCTURES.barn.w, h: STRUCTURES.barn.h, type: "barn" });
 
   list.push(...FarmRefuge.obstacles());
@@ -326,7 +326,7 @@ function resetGame(seed, worldVersion = 2) {
   let chosenSeed = Number.isInteger(seed) ? seed >>> 0 : Math.floor(Math.random() * 4294967296) >>> 0;
   if (!Number.isInteger(seed) && chosenSeed === state?.worldSeed) chosenSeed = (chosenSeed + 0x9e3779b9) >>> 0;
   MapManager.generate(chosenSeed, worldVersion);
-  buildObstacles();
+  buildObstacles(null);
   state = createState();
   GameManager.initialize(state);
   WolfAI.initialize(state);
@@ -445,7 +445,8 @@ function updateGame(dt) {
   if (state.phase === "menu") return;
   if (state.phase === "playing") {
     updateChicken(dt);
-    updateAnimals(dt);
+    LakeChallenge.update(state, dt);
+    if (!state.lake?.active) updateAnimals(dt);
     if (state.phase === "playing") {
       GooseSystem.update(state, dt);
       updateWolf(dt);
@@ -592,6 +593,10 @@ function drawMiniMap() {
   const textured=FarmTerrain.drawMap(ctx,WORLD.layout,x,y,w,h);
   const sx=w/WORLD.width,sy=h/WORLD.height;
   if(!textured){ctx.fillStyle='#c6a06c';for(const path of WORLD.paths)ctx.fillRect(x+path.x*sx,y+path.y*sy,path.w*sx,path.h*sy);}
+  if(state.lake?.completed) {
+    const bridge=LakeChallenge.bridge();ctx.fillStyle='#e0bc72';
+    ctx.fillRect(x+bridge.x*sx,y+bridge.y*sy,Math.max(3,bridge.w*sx),bridge.h*sy);
+  }
   ctx.fillStyle='#995f3e';
   for(const prop of [STRUCTURES.barn,...STRUCTURES.coops,...STRUCTURES.silos])
     ctx.fillRect(x+prop.x*sx,y+prop.y*sy,Math.max(3,prop.w*sx),Math.max(3,prop.h*sy));
@@ -628,7 +633,7 @@ function drawOverlay() {
 function renderGame() {
   const ending = EndGameSequence.active(state);
   if (ending) EndGameSequence.drawBackdrop(state);
-  else { drawWorld(); GooseSystem.drawTerritory(state); }
+  else { drawWorld(); LakeChallenge.drawGround(state); GooseSystem.drawTerritory(state); }
   if (!ending) for (const chick of state.entities.chicks) {
     if (RescueSystem.isSecret(chick) && !chick.coverId) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
   }
@@ -683,6 +688,10 @@ window.addEventListener("keydown", (event) => {
   }
   if (state.phase !== "playing") return;
   if (state.entities.chicken.hidden && event.repeat && ["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) return;
+  if (key === "f" && !event.repeat) {
+    if (state.lake?.active) LakeChallenge.cancel(state); else LakeChallenge.start(state);
+    return;
+  }
   if (key === "e" && !event.repeat) HidingSpots.toggle(state);
   if (key === "h" && !event.repeat) state.debugHitboxes = !state.debugHitboxes;
   input.add(key);

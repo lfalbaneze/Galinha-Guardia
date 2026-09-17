@@ -7,9 +7,9 @@ function renderer() {
     vm.runInContext(fs.readFileSync(path.join(root, 'systems', file), 'utf8'), context);
   return vm.runInContext('CharacterArt', context);
 }
-test('all 13 characters have four nonempty poses inside real PNG files', () => {
+test('all 14 characters have four nonempty poses inside real PNG files', () => {
   const art = renderer();
-  assert.equal(art.species.length, 13);
+  assert.equal(art.species.length, 14);
   for (const species of art.species) for (const direction of ['up', 'right', 'down', 'left']) {
     const { pose } = art.frameFor(species, { direction });
     assert.ok(pose.bottom > pose.top && pose.width > 0, `${species}/${direction}`);
@@ -66,6 +66,6 @@ test('each rendered character uses its image and preserves the caller canvas sta
     assert.equal(art.draw(c, species, 50, 60, { direction, moving: true, anim: 1.2 }), true);
     assert.equal(c.imageSmoothingEnabled, true); assert.equal(stack.length, 0);
   }
-  assert.equal(draws.length, 52); assert.ok(modes.every(value => value === false));
+  assert.equal(draws.length, 56); assert.ok(modes.every(value => value === false));
   assert.equal(renderer().draw(c, 'chicken', 0, 0), false, 'never draw an undecoded image');
 });

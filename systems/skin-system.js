@@ -7,6 +7,7 @@ const SkinSystem = (() => {
     { id: "astronaut", ...CharacterArt.appearances.astronaut, chicks: 4, friends: 6, requirement: "4 pintinhos + 6 amigos" },
     { id: "robocop", ...CharacterArt.appearances.robocop, chicks: 6, friends: 9, requirement: "6 pintinhos + 9 amigos" },
     { id: "priest", ...CharacterArt.appearances.priest, chicks: 6, friends: 10, requirement: "A turma inteira a salvo" },
+    { id: "goose", ...CharacterArt.appearances.goose, chicks: 0, friends: 0, challenge: "lake", requirement: "Vença o dono do lago" },
   ]);
   let profile = null;
   let storageAvailable = true;
@@ -35,10 +36,17 @@ const SkinSystem = (() => {
   function record(game, announce = true) {
     const previous = load().best;
     profile.best = Math.max(previous, Math.min(6, game.rescuedChicks || 0));
-    const gained = catalog.filter(s => !unlocked(s.id) && s.chicks <= game.rescuedChicks && s.friends <= game.rescuedCount);
+    const gained = catalog.filter(s => !s.challenge && !unlocked(s.id) && s.chicks <= game.rescuedChicks && s.friends <= game.rescuedCount);
     for (const skin of gained) profile.unlocked.push(skin.id);
     if (announce && gained.length) game.skinNotice = { text: gained.map(s => s.name).join(" / "), time: 5 };
     if (gained.length || profile.best !== previous) persist();
+  }
+  function unlockLake(game, announce = true) {
+    load();
+    if (unlocked('goose')) return false;
+    profile.unlocked.push('goose'); persist();
+    if (announce) game.skinNotice = { text: 'Ganso do lago', time: 6 };
+    return true;
   }
   function equip(game, id) {
     if (!unlocked(id)) return false;
@@ -47,6 +55,6 @@ const SkinSystem = (() => {
     persist();
     return true;
   }
-  return { catalog, initialize, record, equip, unlocked, get best() { return load().best; },
+  return { catalog, initialize, record, equip, unlocked, unlockLake, get best() { return load().best; },
     get storageAvailable() { return storageAvailable; } };
 })();
