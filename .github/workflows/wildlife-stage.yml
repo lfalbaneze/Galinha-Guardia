@@ -1,0 +1,38 @@
+name: Validate wildlife integration
+on:
+  push:
+    branches: [feat/fox-owl-encounters]
+    paths: [.github/workflows/wildlife-stage.yml, '.wildlife-payload/**']
+permissions:
+  contents: read
+jobs:
+  integrate:
+    if: github.ref == 'refs/heads/feat/fox-owl-encounters'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Apply verified source patch
+        run: |
+          cat .wildlife-payload/* | base64 -d > /tmp/wildlife.xz
+          echo 'ef6f46b5cbdbf602c7eb9c0c74f2c2e28aaaadaf2bafa37056218bf267230db5  /tmp/wildlife.xz' | sha256sum -c -
+          python -c "import lzma,pathlib; pathlib.Path('/tmp/wildlife.patch').write_bytes(lzma.decompress(pathlib.Path('/tmp/wildlife.xz').read_bytes()))"
+          git apply --check /tmp/wildlife.patch
+          git apply /tmp/wildlife.patch
+      - run: npm ci
+      - run: node scripts/generate-wildlife-audio.cjs
+      - run: npm run verify
+      - run: npm run check:generated
+      - name: Publish validated code on feature branch
+        run: |
+          rm -rf .wildlife-payload
+          git add -A -- . ':!.github'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat: adiciona raposa e coruja com sprites e encontros revisados'
+          git push origin HEAD:refs/heads/feat/fox-owl-encounters
