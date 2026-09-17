@@ -12,14 +12,26 @@ class Handler(SimpleHTTPRequestHandler):
 server = ThreadingHTTPServer(('127.0.0.1', 0), partial(Handler, directory=str(root)))
 threading.Thread(target=server.serve_forever, daemon=True).start()
 url = f'http://127.0.0.1:{server.server_port}/index.html'
-results = {'checks': [], 'viewports': [], 'errors': [], 'failed_requests': []}
+results = {'checks': [], 'viewports': [], 'errors': [], 'failed_requests': [], 'cancelled_media_on_reload': [], 'http_errors': []}
+reloading = False
 def checked(name): results['checks'].append(name)
+def request_failed(request):
+    entry = {'url': request.url, 'error': request.failure, 'type': request.resource_type}
+    # Navigation deliberately cancels media streams from the previous document.
+    if reloading and request.resource_type == 'media' and request.failure == 'net::ERR_ABORTED':
+        results['cancelled_media_on_reload'].append(entry)
+    else:
+        results['failed_requests'].append(entry)
+def response_received(response):
+    if response.status >= 400:
+        results['http_errors'].append({'url': response.url, 'status': response.status})
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True)
     context = browser.new_context(viewport={'width':1440,'height':1050})
     page = context.new_page()
     page.on('pageerror', lambda e: results['errors'].append(str(e)))
-    page.on('requestfailed', lambda r: results['failed_requests'].append(r.url))
+    page.on('requestfailed', request_failed)
+    page.on('response', response_received)
     page.goto(url, wait_until='networkidle')
     page.wait_for_function('CharacterArt.ready && GooseArt.ready')
     assert page.locator('#startBtn').is_enabled()
@@ -33,12 +45,18 @@ with sync_playwright() as p:
     assert page.locator('#farmHud').is_visible()
     assert not page.locator('.wardrobe').is_visible()
     checked('compact gameplay header and pause-only settings')
+    audio = context.request.get(url.replace('index.html', 'assets/audio/forest.wav'))
+    assert audio.status == 200 and audio.body()[:4] == b'RIFF'
+    checked('forest music is served successfully as a local WAV')
     page.evaluate('''() => {
         for(const a of state.entities.animals.slice(0,3))GameManager.rescue(state,a);
         for(const c of state.entities.chicks.slice(0,2)){c.discovered=true;GameManager.rescue(state,c);}
         state.lives=2;GameManager.save(state);GameUI.update(state);
     }''')
-    page.reload(wait_until='networkidle');page.wait_for_function('CharacterArt.ready && GooseArt.ready')
+    reloading = True
+    page.reload(wait_until='networkidle')
+    reloading = False
+    page.wait_for_function('CharacterArt.ready && GooseArt.ready')
     page.locator('#continueBtn').click()
     assert page.evaluate('state.rescuedCount') == 3
     assert page.evaluate('state.rescuedChicks') == 2
@@ -105,9 +123,10 @@ with sync_playwright() as p:
     assert off.evaluate('state.phase')=='playing'
     assert off.evaluate("GooseArt.frameFor({...state.entities.goose,moving:true,anim:1}).column")==0
     checked('file:// startup with local PNG and reduced motion')
+    (output/'browser-validation.json').write_text(json.dumps(results,ensure_ascii=False,indent=2))
     assert not results['errors'],results['errors']
     assert not results['failed_requests'],results['failed_requests']
+    assert not results['http_errors'],results['http_errors']
     browser.close()
 server.shutdown()
-(output/'browser-validation.json').write_text(json.dumps(results,ensure_ascii=False,indent=2))
 print(json.dumps(results,ensure_ascii=False))
