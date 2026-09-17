@@ -1,0 +1,25 @@
+name: HUD development workspace
+on:
+  push:
+    branches: [feature/gameplay-hud-polish]
+    paths: [.github/workflows/hud-workspace.yml]
+permissions:
+  contents: read
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: tar --exclude=.git -czf "$RUNNER_TEMP/hud-workspace.tar.gz" .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hud-development-workspace
+          path: ${{ runner.temp }}/hud-workspace.tar.gz
+          retention-days: 1
