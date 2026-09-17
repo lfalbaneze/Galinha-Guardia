@@ -1,0 +1,21 @@
+name: Scenery workspace
+on:
+  push:
+    branches: [fix/scenery-cohesion-authorship]
+    paths: [.github/workflows/scenery-workspace.yml]
+permissions:
+  contents: read
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - run: git archive --format=tar.gz HEAD > /tmp/scenery-workspace.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: scenery-workspace
+          path: /tmp/scenery-workspace.tar.gz
+          retention-days: 1
