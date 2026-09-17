@@ -69,6 +69,8 @@ Os encontros aproveitam árvores e moitas existentes, longe do início, dos pint
 
 As novas fazendas reservam terrenos completos para cada atividade. A **horta** tem canteiros retangulares, fileiras contínuas e corredores; o **milharal** tem pés de milho, um galinheiro e um silo; o **curral** tem vaca, cabra, bebedouro, estábulo e cercas com dois portões abertos. Os galinheiros ficam apenas no poleiro e no milharal, e o pomar concentra as árvores frutíferas. Copas e construções não invadem os canteiros.
 
+Os acessos às construções e aos portões se ligam à estrada. A vegetação fica fora dos caminhos e das fachadas; flores aparecem em pequenos grupos junto aos plantios, e taboas acompanham a margem do lago. O curral tem um abrigo aberto de madeira, o pomar mistura macieiras e pereiras, e um salgueiro marca a margem quando há espaço seguro. Objetos redundantes que não cabem com folga são retirados. A [folha de arte complementar e seu prompt](assets/farm/HABITAT-ART-NOTES.md) estão documentados no projeto.
+
 As cercas do curral bloqueiam a passagem, e os portões permitem atravessá-lo e chegar aos animais. Feno e moitas continuam servindo de esconderijo, inclusive para os pintinhos. **Partidas salvas mantêm seu terreno original**; use **Começar nova fazenda** para jogar com a nova organização. A raposa visível também funciona nas partidas antigas.
 
 ## Pintinhos e aparências

@@ -1,7 +1,7 @@
 "use strict";
 /* The original farm is a seamless world. Regions change without recreating entities. */
 const MapManager = {
-    generate(seed, version = 3) {
+    generate(seed, version = 4) {
         const layout = WorldGenerator.generate(seed, version);
         WORLD.layout = layout;
         WORLD.areas = layout.areas;

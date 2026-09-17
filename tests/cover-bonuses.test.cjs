@@ -11,8 +11,8 @@ function enterBonus(game, index = 0) {
 
 test('cover clues show their location before entry, carry through their own hay and stop at walls', () => {
   const h = createGame(() => .5);
-  h.run(`var chick=state.entities.chicks[0], chicken=state.entities.chicken;
-    var cover=HidingSpots.getSpots().find(s=>s.type==='hay');
+  h.run(`var cover=HidingSpots.getSpots().find(s=>s.type==='hay');
+    var chick=state.entities.chicks.find(c=>c.coverId===cover.id)||state.entities.chicks[0], chicken=state.entities.chicken;
     Object.assign(chick,{coverId:cover.id,x:cover.x+cover.w/2,y:cover.y+cover.h-18});
     Object.assign(chicken,{x:chick.x,y:cover.y-45,hidden:false,hidingSpotId:null});
     OBSTACLES=[{...cover.bale,type:'hay'}];

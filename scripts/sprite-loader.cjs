@@ -19,6 +19,7 @@ async function loadGameSprites(game) {
   await game.run('OwlArt').load(src => loadImage(path.join(root, src)));
   await game.run('FarmSprites').load(loadImage, createCanvas);
   await game.run('FarmSprites').loadNursery(loadImage, createCanvas);
+  await game.run('FarmSprites').loadHabitats(loadImage, createCanvas);
   game.run('FarmTerrain').install(createCanvas);
 }
 module.exports = { loadArt, loadGameSprites };

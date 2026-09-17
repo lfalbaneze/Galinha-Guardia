@@ -39,6 +39,14 @@ const FarmArt = (() => {
   }
   function decoration(c, d) {
     const x = d.x, y = d.y, n = hash(x, y), s = d.scale || .8 + n * .5;
+    if(d.type==='reeds') {
+      for(let i=-1;i<=1;i++) {
+        const height=16+Math.floor(hash(x+i,y)*12);
+        c.fillStyle='#527142';c.fillRect(x+i*4,y-height,2,height);
+        c.fillStyle='#795531';c.fillRect(x+i*4-1,y-height-5,4,9);
+        c.fillStyle='#99a453';c.fillRect(x+i*4+2,y-9,3,2);
+      }return;
+    }
     if(FarmSprites.ready) {
       const px=(dx,dy,w,h,color)=>{c.fillStyle=color;c.fillRect(Math.round(x+dx*s),Math.round(y+dy*s),Math.max(1,Math.round(w*s)),Math.max(1,Math.round(h*s)));};
       if(d.type==='flower'||d.type==='sunflower') {
@@ -170,6 +178,8 @@ const FarmArt = (() => {
       }
     }
     }
+    if(!textured)for(const p of [...layout.lanes||[],...layout.clearings||[]])if(visible(c,p,camera))
+      rounded(c,p.x,p.y,p.w,p.h,Math.min(p.w,p.h)/2,'#bd975f');
     const structures = layout.structures || {};
     if (structures.pond && visible(c, structures.pond, camera)) pond(c, structures.pond);
     for (const plot of layout.plots || []) {
@@ -222,10 +232,9 @@ const FarmArt = (() => {
     for (let x = 35; x < layout.width - 25; x += 84) {
       for (const y of [28, layout.height - 23]) if (visible(c, { x, y, w: 84, h: 24 }, camera, 30)) fence(c, x, y, 84);
     }
-    for (let y = 75; y < layout.height - 60; y += 84) {
+    for (let y = 28; y < layout.height - 23; y += 64) {
       for (const x of [23, layout.width - 23]) if (visible(c, { x, y, w: 16, h: 84 }, camera, 30)) {
-        line(c, [[x, y - 15], [x, y + 66]], "#9e8860", 5);
-        rounded(c, x - 4, y - 24, 8, 22, 2, "#d6ba86", true);
+        verticalFence(c,x,y,Math.min(64,layout.height-23-y));
       }
     }
     c.restore();
@@ -278,12 +287,19 @@ const FarmArt = (() => {
       for(let i=0;i<count;i++) fence(c,p.x+i*span,p.y+4,span);
       return;
     }
-    const x=Math.round(p.x),y=Math.round(p.y);
-    c.fillStyle='#57482f';c.fillRect(x+1,y-24,7,p.h+25);
-    c.fillStyle='#ae8b53';c.fillRect(x+2,y-24,3,p.h+25);
-    c.fillStyle='#705837';c.fillRect(x-2,y-31,12,36);
-    c.fillStyle='#c3a16a';c.fillRect(x,y-30,6,33);
-    c.fillStyle='#e0c28b';c.fillRect(x,y-30,6,3);
+    verticalFence(c,p.x+4,p.y,p.h);
+  }
+
+  function verticalFence(c,x,y,height) {
+    x=Math.round(x);y=Math.round(y);height=Math.ceil(height);
+    c.fillStyle='#57482f';c.fillRect(x-3,y-23,7,height+3);
+    c.fillStyle='#b58a4c';c.fillRect(x-2,y-22,3,height+2);
+    c.fillStyle='#e0b263';c.fillRect(x-3,y-22,2,height+2);
+    for(const base of [y,y+height]) {
+      c.fillStyle='#644526';c.fillRect(x-5,base-30,10,34);
+      c.fillStyle='#ab773e';c.fillRect(x-3,base-28,6,30);
+      c.fillStyle='#e0b264';c.fillRect(x-3,base-28,3,28);c.fillRect(x-4,base-29,8,3);
+    }
   }
 
   function building(c, p, barn) {
@@ -374,7 +390,7 @@ const FarmArt = (() => {
     if(p.type==='paddock-fence') {paddockFence(c,p);c.restore();return;}
     if(p.type==='stable'||p.type==='trough') {
       const box=FarmDetails.shape(p);FarmDetails.drawFooting(c,p,box);
-      if(!FarmSprites.draw(c,p.type==='stable'?'barn':'trough',box.x,box.y,box.w,box.h,{grounded:true,palette:p.type==='stable'?2:0}))
+      if(!FarmSprites.draw(c,p.type==='stable'?(FarmSprites.habitatsReady?'shelter':'barn'):'trough',box.x,box.y,box.w,box.h,{grounded:true,palette:0}))
         rounded(c,p.x,p.y,p.w,p.h,2,'#97734b',true);
       c.restore();return;
     }
@@ -385,7 +401,8 @@ const FarmArt = (() => {
       const {x,y,w,h}=p;
       const shape = FarmDetails.shape(p);
       FarmDetails.drawFooting(c,p,shape);
-      FarmSprites.draw(c,p.type,shape.x,shape.y,shape.w,shape.h,{palette:p.palette,grounded:true});
+      FarmSprites.draw(c,FarmSprites.habitatsReady&&p.art?p.art:p.type,shape.x,shape.y,shape.w,shape.h,
+        {palette:p.art==='bush'?p.material||0:p.art?0:p.palette,grounded:true});
       c.restore();return;
     }
     if(p.type==="barn"||p.type==="coop") building(c,p,p.type==="barn");
@@ -425,7 +442,8 @@ const FarmArt = (() => {
     }
     if(FarmSprites.ready) {
       c.beginPath();c.rect(x-30,y-18,60,39);c.clip();
-      FarmSprites.draw(c,spot.type==='hay'?'hay':'bush',x-34,y-33,68,56,{grounded:true});
+      FarmSprites.draw(c,FarmSprites.habitatsReady&&spot.art==='bramble'?'bramble':'bush',x-34,y-33,68,56,
+        {grounded:true,palette:spot.art==='bush'?spot.material||0:0});
       c.restore();return;
     }
     if(spot.type==="hay") {

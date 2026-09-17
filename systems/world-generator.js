@@ -34,7 +34,14 @@ const WorldGenerator = (() => {
       a.y < b.y + b.h + gap && a.y + a.h > b.y - gap;
   }
 
-  function generate(value, version = 3, layoutAttempt = 0) {
+  function generate(value, version = 4, layoutAttempt = 0, onPacked = null) {
+    if(version>=4) {
+      let packedAttempt=layoutAttempt;
+      const composed=compose(generate(value,3,layoutAttempt,attempt=>{packedAttempt=attempt;}));
+      if(composed)return composed;
+      if(packedAttempt<128)return generate(value,4,packedAttempt+1);
+      throw new Error('Unable to compose accessible farm habitats');
+    }
     version = version === 1 ? 1 : version === 2 ? 2 : 3;
     const seed = normalizeSeed(value);
     const random = randomSource(seed ^ Math.imul(layoutAttempt, 0x9e3779b9));
@@ -417,11 +424,191 @@ const WorldGenerator = (() => {
       ![...animalSpawns,...chickSpawns].every(freeHome) ||
       animalSpawns.some(p=>!vegetation.some(v=>Math.hypot(p.x-v.x-v.w/2,p.y-v.y-v.h+15)<=180)))) {
       // Reject the complete packing, never ship a labelled district without its purpose.
-      if(layoutAttempt<64)return generate(value,version,layoutAttempt+1);
+      if(layoutAttempt<(onPacked?128:64))return generate(value,version,layoutAttempt+1,onPacked);
       throw new Error('Unable to reserve complete farm districts');
     }
+    if(onPacked)onPacked(layoutAttempt);
     return { seed, version, connections, ...(version>=3?{plots}:{}), width: WIDTH, height: HEIGHT, areas, paths, structures, vegetation,
       decorations, animalSpawns, chickSpawns, start, wolfStart };
+  }
+  // The saved version-3 geometry stays intact. New farms add composed planting,
+  // usable approaches and distinct habitats instead of scattering more props.
+  function compose(layout) {
+    layout.version=4;
+    const {structures:s,paths,plots,vegetation,width,height}=layout;
+    const bounds=p=>p.type==='tree'?{x:p.x-16,y:p.y-138,w:136,h:208}:
+      p.type==='bush'?{x:p.x-4,y:p.y-14,w:p.w+8,h:p.h+14}:p;
+    const buildings=[{...s.barn,top:195-s.barn.h},
+      ...s.coops.map(p=>({...p,top:(p.w+14)*1.1-p.h})),
+      ...s.silos.map(p=>({...p,top:174-p.h})),
+      ...s.stables.map(p=>({...p,top:100-p.h})),
+      ...s.hayBales.map(p=>({...p,top:16}))];
+    const occupied=[...buildings.map(p=>({x:p.x-12,y:p.y-p.top,w:p.w+24,h:p.h+p.top})),
+      ...[...s.coops,...s.stables,...s.silos].map(p=>({x:p.x+p.w/2-35,y:p.y+p.h,w:70,h:70})),
+      ...plots.map(p=>({x:p.x+p.w/2-35,y:p.y+p.h,w:70,h:72})),
+      ...plots.filter(p=>p.kind==='pasture').map(p=>({x:p.x+p.w/2-35,y:p.y-72,w:70,h:72})),
+      s.pond,{x:80,y:160,w:280,h:332},...s.paddockFences.map(p=>({...p,y:p.y-32,h:p.h+36}))];
+    const physical=[s.barn,s.pond,...s.coops,...s.silos,...s.stables,...s.hayBales,...s.troughs,...s.paddockFences];
+    const root=p=>({x:p.x+42,y:p.y+4,w:20,h:18,type:'tree'});
+    const away=(p,o,r)=>Math.hypot(p.x-Math.max(o.x,Math.min(p.x,o.x+o.w)),p.y-Math.max(o.y,Math.min(p.y,o.y+o.h)))>r;
+    const within=p=>p.x>=40&&p.y>=45&&p.x+p.w<=width-40&&p.y+p.h<=height-40;
+    const clearPlant=(p,self)=>within(bounds(p)) && !occupied.some(o=>overlaps(bounds(p),o,10)) &&
+      !plots.some(o=>overlaps(bounds(p),o,16)) && !vegetation.some(v=>v!==self&&overlaps(bounds(p),bounds(v),8)) &&
+      physical.every(o=>away({x:p.x+p.w/2,y:p.y+p.h-15},o,24)) &&
+      (p.type!=='tree'||(!physical.some(o=>overlaps(root(p),o,42))&&
+        !paths.some(o=>overlaps(root(p),o,24))&&
+        ![...layout.animalSpawns,...layout.chickSpawns,layout.wolfStart].some(a=>!away(a,root(p),34))));
+    // Plant on verges and in clear groups, never across a road or a front wall.
+    // Preserve each cover ID; saved version-3 farms still use the old geometry.
+    for(const plant of [...vegetation]) {
+      if(clearPlant(plant,plant)&&!paths.some(p=>overlaps(bounds(plant),p,4)))continue;
+      const area=layout.areas.find(a=>a.id===plant.areaId);
+      const candidates=[];
+      for(let dy=-384;dy<=384;dy+=24)for(let dx=-384;dx<=384;dx+=24) {
+        if(!dx&&!dy)continue;
+        const p={...plant,x:plant.x+dx,y:plant.y+dy};
+        if(area&&(p.x<area.x+20||p.x+p.w>area.x+area.w-20||p.y<area.y+20||p.y+p.h>area.y+area.h-20))continue;
+        candidates.push(p);
+      }
+      candidates.sort((a,b)=>(a.x-plant.x)**2+(a.y-plant.y)**2-((b.x-plant.x)**2+(b.y-plant.y)**2));
+      const place=candidates.find(p=>clearPlant(p,plant)&&!paths.some(r=>overlaps(bounds(p),r,4)));
+      if(!place) {
+        // Redundant cover is better omitted than squeezed between a roof and road.
+        vegetation.splice(vegetation.indexOf(plant),1);continue;
+      }
+      plant.x=place.x;plant.y=place.y;
+      if(plant.type==='tree')plant.blockingRect=root(plant);
+    }
+    if(vegetation.filter(v=>v.areaId==='quintal'&&v.type==='tree').length<2)return null;
+    // Compact brambles flank the south gate: cattle can reach cover without
+    // filling the entrance or planting vegetation inside the livestock yard.
+    const pasture=plots.find(p=>p.kind==='pasture');
+    for(const [i,animal] of layout.animalSpawns.filter(a=>a.areaId==='estabulo').entries()) {
+      if(vegetation.some(v=>Math.hypot(animal.x-v.x-v.w/2,animal.y-v.y-v.h+15)<=180))continue;
+      const candidates=[];
+      for(const offset of [0,16,32,48])for(const side of [i?-1:1,i?1:-1])
+        candidates.push({id:`gate-bramble-${i}`,type:'bush',x:pasture.x+pasture.w/2+side*(112+offset)-36,
+          y:pasture.y+pasture.h+32,w:72,h:48,areaId:'estabulo',variant:0,blockingRect:null});
+      const place=candidates.find(p=>clearPlant(p,null)&&!paths.some(r=>overlaps(bounds(p),r,4))&&
+        Math.hypot(animal.x-p.x-p.w/2,animal.y-p.y-p.h+15)<=180);
+      if(place)vegetation.push(place);
+    }
+    // A single shore tree becomes a landmark, with a real, visible trunk collider.
+    const pond=s.pond;
+    const shoreCandidates=[-1,1].flatMap(side=>[40,95,155].map(offset=>({
+      id:'shore-willow',type:'tree',x:side<0?pond.x-155:pond.x+pond.w+55,
+      y:pond.y+pond.h+offset,w:104,h:70,areaId:null,variant:0,art:'willow'
+    })));
+    const willow=shoreCandidates.find(p=>clearPlant(p,null)&&!paths.some(r=>overlaps(bounds(p),r,12))&&
+      ![...layout.animalSpawns,...layout.chickSpawns].some(a=>Math.hypot(a.x-p.x-52,a.y-p.y-30)<100));
+    if(willow){willow.blockingRect={x:willow.x+42,y:willow.y+4,w:20,h:18,type:'tree'};vegetation.push(willow);}
+    let orchardIndex=0,shrubIndex=0;
+    for(const p of vegetation) {
+      if(p.type==='tree'&&p.areaId==='quintal')p.art=orchardIndex++%2?'pear':'tree';
+      if(p.type==='bush') {
+        const index=shrubIndex++;
+        p.art=index%3===0?'bush':'bramble';
+        p.material=p.art==='bush'&&['horta','poleiro'].includes(p.areaId)?0:index%2+1;
+      }
+    }
+    const blockers=[s.barn,s.pond,...s.coops,...s.silos,...s.stables,...s.hayBales,...s.troughs,
+      ...s.paddockFences,...vegetation.map(v=>v.blockingRect).filter(Boolean)];
+    const pointFree=(p,margin=22)=>p.x>margin&&p.y>margin&&p.x<width-margin&&p.y<height-margin&&
+      blockers.every(o=>Math.hypot(p.x-Math.max(o.x,Math.min(p.x,o.x+o.w)),p.y-Math.max(o.y,Math.min(p.y,o.y+o.h)))>margin);
+    const gardenWalls=plots.filter(p=>p.kind!=='pasture');
+    const inflate=(p,r)=>({x:p.x-r,y:p.y-r,w:p.w+r*2,h:p.h+r*2});
+    const laneWalls=[...blockers.map(p=>inflate(p,22)),...gardenWalls.map(p=>inflate(p,20)),
+      ...vegetation.map(p=>inflate(bounds(p),24))];
+    const laneFree=p=>p.x>22&&p.y>22&&p.x<width-22&&p.y<height-22&&
+      laneWalls.every(o=>p.x<o.x||p.x>o.x+o.w||p.y<o.y||p.y>o.y+o.h);
+    const clearLeg=(a,b)=>{
+      const steps=Math.ceil(Math.hypot(a.x-b.x,a.y-b.y)/6);
+      for(let i=0;i<=steps;i++)if(!laneFree({x:a.x+(b.x-a.x)*i/Math.max(1,steps),y:a.y+(b.y-a.y)*i/Math.max(1,steps)}))return false;
+      return true;
+    };
+    // One distance field connects every front door to the existing road network.
+    const cell=20,cols=width/cell,rows=height/cell,parent=new Int32Array(cols*rows);parent.fill(-2);
+    const point=i=>({x:(i%cols)*cell+10,y:Math.floor(i/cols)*cell+10});
+    const queue=[];
+    for(let i=0;i<parent.length;i++) {
+      const p=point(i);
+      if(!laneFree(p)){parent[i]=-3;continue;}
+      if(paths.some(r=>p.x>=r.x+16&&p.x<=r.x+r.w-16&&p.y>=r.y+16&&p.y<=r.y+r.h-16)) {parent[i]=-1;queue.push(i);}
+    }
+    for(let n=0;n<queue.length;n++) {
+      const i=queue[n],x=i%cols,y=Math.floor(i/cols);
+      for(const next of [x>0?i-1:-1,x<cols-1?i+1:-1,y>0?i-cols:-1,y<rows-1?i+cols:-1]) {
+        // Inflated rectangular blockers are wider than a grid step. Adjacent
+        // free cells therefore have a free axis-aligned connecting segment.
+        if(next<0||parent[next]!==-2)continue;
+        parent[next]=i;queue.push(next);
+      }
+    }
+    layout.lanes=[];layout.entrances=[];
+    function approach(id,p) {
+      if(!laneFree(p))return false;
+      const nearby=[];
+      for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++) {
+        const xx=Math.floor(p.x/cell)+dx,yy=Math.floor(p.y/cell)+dy;
+        if(xx>=0&&xx<cols&&yy>=0&&yy<rows)nearby.push(yy*cols+xx);
+      }
+      nearby.sort((a,b)=>Math.hypot(point(a).x-p.x,point(a).y-p.y)-Math.hypot(point(b).x-p.x,point(b).y-p.y));
+      let index=nearby.find(i=>parent[i]>=-1&&clearLeg(p,point(i)));
+      if(index===undefined)return false;
+      const route=[p,point(index)];
+      while(parent[index]>=0){index=parent[index];route.push(point(index));}
+      // Merge collinear runs so footprints and cache keys stay small.
+      const corners=[route[0]];
+      for(let i=1;i<route.length-1;i++)if((route[i].x-route[i-1].x)*(route[i+1].y-route[i].y)!==
+        (route[i].y-route[i-1].y)*(route[i+1].x-route[i].x))corners.push(route[i]);
+      corners.push(route[route.length-1]);
+      for(let i=1;i<corners.length;i++) {
+        const a=corners[i-1],b=corners[i];
+        if(a.x===b.x&&a.y===b.y)continue;
+        layout.lanes.push({x:Math.min(a.x,b.x)-18,y:Math.min(a.y,b.y)-18,w:Math.abs(a.x-b.x)+36,h:Math.abs(a.y-b.y)+36,entranceId:id});
+      }
+      layout.entrances.push({...p,id});
+      return true;
+    }
+    for(const [key,name] of [['coops','coop'],['stables','stable'],['silos','silo']])
+      for(const [i,p] of s[key].entries())
+        if(!approach(`${name}-${i}`,{x:Math.round(p.x+p.w/2),y:p.y+p.h+32}))return null;
+    for(const p of plots) {
+      if(!approach(p.id,{x:p.x+p.w/2,y:p.y+p.h+32}))return null;
+      if(p.kind==='pasture'&&!approach(p.id+'-north',{x:p.x+p.w/2,y:p.y-32}))return null;
+    }
+    if(!approach('lake',{x:pond.x+pond.w/2,y:pond.y+pond.h+45}))return null;
+    // Small worn thresholds join the route to the actual ramp, gate or bed edge.
+    layout.clearings=[...[...s.coops,...s.stables,...s.silos].map(p=>({x:p.x+p.w/2-26,y:p.y+p.h-8,w:52,h:56})),
+      ...plots.map(p=>({x:p.x+p.w/2-22,y:p.y+p.h-4,w:44,h:52})),
+      ...plots.filter(p=>p.kind==='pasture').map(p=>({x:p.x+p.w/2-22,y:p.y-48,w:44,h:52}))];
+    // Relocate only a displaced rescue's quiet waiting point, never inside a crop.
+    for(const animal of layout.animalSpawns) {
+      if(vegetation.some(v=>Math.hypot(animal.x-v.x-v.w/2,animal.y-v.y-v.h+15)<=180))continue;
+      if(animal.areaId==='estabulo')return null;
+      const area=layout.areas.find(a=>a.id===animal.areaId);
+      const homes=vegetation.flatMap(v=>[0,-48,48,-96,96].map(dx=>({x:v.x+v.w/2+dx,y:v.y+v.h-12}))).filter(p=>pointFree(p,30)&&
+        p.x>area.x&&p.x<area.x+area.w&&p.y>area.y&&p.y<area.y+area.h&&
+        !plots.some(o=>overlaps({x:p.x-22,y:p.y-22,w:44,h:44},o))&&
+        !layout.animalSpawns.some(a=>a!==animal&&Math.hypot(a.x-p.x,a.y-p.y)<95)&&
+        !layout.chickSpawns.some(a=>Math.hypot(a.x-p.x,a.y-p.y)<55));
+      homes.sort((a,b)=>Math.hypot(a.x-animal.x,a.y-animal.y)-Math.hypot(b.x-animal.x,b.y-animal.y));
+      if(homes[0])Object.assign(animal,homes[0]);else return null;
+    }
+    // Every small accent belongs to a planting group, shore or working plot.
+    const random=randomSource(layout.seed^0x501aa19),tracks=[...paths,...layout.lanes];
+    layout.decorations=layout.decorations.filter(d=>d.plotId);
+    const groups=[...vegetation.filter(v=>v.type==='tree'||v.art==='bush').map(v=>({x:v.x+v.w/2,y:v.y+v.h-8,id:v.id,kind:'flower'})),
+      ...plots.filter(p=>p.kind!=='pasture').map(p=>({x:p.x-24,y:p.y+p.h-10,id:p.id,kind:'flower'})),
+      {x:pond.x-20,y:pond.y+pond.h*.7,id:'lake',kind:'reeds'},
+      {x:pond.x+pond.w+18,y:pond.y+pond.h*.6,id:'lake',kind:'reeds'}];
+    for(const g of groups)for(let i=0;i<(g.kind==='reeds'?7:5);i++) {
+      const x=Math.round(g.x+(random()-.5)*65),y=Math.round(g.y+(random()-.5)*34);
+      const rect={x:x-6,y:y-12,w:12,h:18};
+      if(!within(rect)||tracks.some(p=>overlaps(rect,p,8))||plots.some(p=>overlaps(rect,p,8))||!pointFree({x,y},10))continue;
+      layout.decorations.push({type:g.kind,x,y,variant:Math.floor(random()*3),size:6,groupId:g.id});
+    }
+    return layout;
   }
   return { generate, normalizeSeed };
 })();

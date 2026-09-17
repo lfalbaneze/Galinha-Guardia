@@ -26,11 +26,20 @@ test('100 new farms have complete useful districts, unbroken beds and clear crop
         coops:STRUCTURES.coops.length===2&&STRUCTURES.coops.every(p=>['poleiro','granja'].includes(p.areaId)),
         animals:state.entities.animals.filter(a=>a.areaId==='estabulo').map(a=>a.species).sort().join(','),
         fox:state.entities.foxes.length>=1,
+        accents:layout.decorations.every(d=>d.plotId||d.groupId),
+        access:layout.entrances.length===STRUCTURES.coops.length+STRUCTURES.silos.length+STRUCTURES.stables.length+plots.length+2,
+        clearLanes:props.filter(p=>['tree','bush'].includes(p.type)).every(p=>
+          [...layout.paths,...layout.lanes].every(r=>!overlap(FarmDetails.shape(p),r))),
+        fronts:props.filter(p=>['tree','bush'].includes(p.type)).every(p=>
+          props.filter(q=>['coop','stable','silo','hay','barn'].includes(q.type)).every(q=>!overlap(FarmDetails.shape(p),FarmDetails.shape(q)))),
+        livestock:layout.animalSpawns.filter(a=>a.areaId==='estabulo').every(a=>{
+          const yard=plots.find(p=>p.kind==='pasture');return a.x>yard.x&&a.x<yard.x+yard.w&&a.y>yard.y&&a.y<yard.y+yard.h;
+        }),
         signs:props.filter(p=>p.type==='sign').length
       };
     })()`);
-    assert.equal(result.version,3);
-    for(const key of ['corn','garden','yard','roads','scenery','rows','coops','fox'])
+    assert.equal(result.version,4);
+    for(const key of ['corn','garden','yard','roads','scenery','rows','coops','fox','accents','access','clearLanes','fronts','livestock'])
       assert.equal(result[key],true,`${seed}: ${key}`);
     assert.equal(result.animals,'cow,goat',`${seed}: livestock`);
     assert.equal(result.signs,4,`${seed}: signs`);

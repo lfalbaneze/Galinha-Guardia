@@ -7,10 +7,14 @@ const FarmDetails = (() => {
   function shape(p) {
     const { x, y, w, h } = p;
     if (p.type === 'corn') return {x:x-16,y:y-68,w:34,h:72};
-    if (p.type === 'stable') return {x:x-8,y:y+h-172,w:w+16,h:172};
+    if (p.type === 'stable') return {x:x-8,y:y+h-100,w:w+16,h:100};
     if (p.type === 'trough') return {x:x-3,y:y+h-42,w:w+6,h:42};
     if (p.type === 'paddock-fence') return {x:x-4,y:y-32,w:w+8,h:h+36};
-    if (p.type === 'tree') return { x: x - 16, y: (p.blockingRect?.y ?? y) + (p.blockingRect?.h ?? 22) - 148, w: 136, h: 148 };
+    if (p.type === 'tree') {
+      const width=p.art==='pear'?106:136,height=p.art==='pear'?156:p.art==='willow'?158:148;
+      return { x:x+w/2-width/2,y:(p.blockingRect?.y??y)+(p.blockingRect?.h??22)-height,w:width,h:height };
+    }
+    if (p.type === 'bush'&&p.art==='bramble') return {x:x-4,y:y+h-62,w:w+8,h:62};
     if (p.type === 'bush') return { x: x - 4, y: y - 14, w: w + 8, h: h + 14 };
     if (p.type === 'hay') return { x: x - 3, y: y - 16, w: w + 6, h: h + 16 };
     if (p.type === 'barn') return { x: x - 8, y: y + h - 195, w: w + 16, h: 195 };
@@ -36,6 +40,7 @@ const FarmDetails = (() => {
     if (layout.structures?.pond) occupied.push(layout.structures.pond);
     // Keep every sign off the lanes, entrances and the locations used for resuming a save.
     occupied.push(...(layout.paths || []));
+    occupied.push(...(layout.lanes||[]));
     for (const home of [...(layout.animalSpawns || []), ...(layout.chickSpawns || []), layout.start].filter(Boolean))
       occupied.push({ x: home.x - 35, y: home.y - 40, w: 70, h: 75 });
     for (const area of layout.areas || []) {

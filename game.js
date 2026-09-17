@@ -327,7 +327,7 @@ function createState() {
   };
 }
 
-function resetGame(seed, worldVersion = 3) {
+function resetGame(seed, worldVersion = 4) {
   AudioSystem.reset();
   let chosenSeed = Number.isInteger(seed) ? seed >>> 0 : Math.floor(Math.random() * 4294967296) >>> 0;
   if (!Number.isInteger(seed) && chosenSeed === state?.worldSeed) chosenSeed = (chosenSeed + 0x9e3779b9) >>> 0;
@@ -761,7 +761,7 @@ buildObstacles();
 GameUI.initialize();
 const savedGame = GameManager.read();
 if (savedGame) difficultySelect.value = savedGame.difficulty;
-resetGame(savedGame?.worldSeed, savedGame ? savedGame.worldVersion : 3);
+resetGame(savedGame?.worldSeed, savedGame ? savedGame.worldVersion : 4);
 if (savedGame) {
   GameManager.restore(state, savedGame);
   MapManager.initialize(state);
@@ -774,6 +774,7 @@ Promise.all([CharacterArt.load(), GooseArt.load(), FoxArt.load(), OwlArt.load()]
 GameUI.update(state);
 FarmSprites.load();
 FarmSprites.loadNursery();
+FarmSprites.loadHabitats();
 requestAnimationFrame((t) => {
   lastTime = t;
   tick(t);

@@ -83,6 +83,25 @@ test('grounded drawing preserves the caller canvas state and original PNG bytes'
   const t=c.getTransform();assert.equal(t.a,1);assert.equal(t.d,1);assert.equal(t.e,0);assert.equal(t.f,0);
 });
 
+test('habitat atlas keeps transparent backgrounds and loads each distinct silhouette once', async () => {
+  const game=createGame(()=>.5),art=game.run('FarmSprites');let loads=0;
+  await art.load(loadImage,createCanvas);
+  const load=src=>{loads++;return loadImage(src);};
+  assert.equal(await art.loadHabitats(load,createCanvas),true);
+  assert.equal(await art.loadHabitats(load,createCanvas),true);
+  assert.equal(loads,1);
+  const hashes=new Set();
+  for(const name of ['shelter','willow','bramble','pear']) {
+    const c=createCanvas(180,180).getContext('2d');
+    assert.equal(art.draw(c,name,10,10,160,160,{grounded:true}),true);
+    const data=c.getImageData(0,0,180,180).data;
+    assert.equal(data[3],0,name+' background');
+    assert.ok(data.filter((v,i)=>i%4===3&&v===255).length>1500,name+' silhouette');
+    hashes.add(require('node:crypto').createHash('sha256').update(data).digest('hex'));
+  }
+  assert.equal(hashes.size,4);
+});
+
 test('Luis Albaneze is credited as game author separately from the original sprite artists', () => {
   const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
   assert.match(read('index.html'),/Feito por <strong>Luis Albaneze<\/strong>/);

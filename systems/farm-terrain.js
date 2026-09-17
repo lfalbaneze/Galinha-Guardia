@@ -13,7 +13,7 @@ const FarmTerrain = (() => {
     const canvas=makeSurface(width,height); if(!canvas)return null;
     const c=canvas.getContext('2d'),image=c.createImageData(width,height),data=image.data;
     const seed=layout.seed||0;
-    const paths=[...(layout.paths||[]),
+    const paths=[...(layout.paths||[]),...(layout.lanes||[]),...(layout.clearings||[]),
       {x:218,y:366,w:182,h:38},{x:209,y:260,w:30,h:126},{x:111,y:258,w:220,h:30}
     ].map(p=>({...p,r:Math.min(p.w,p.h)/2-5}));
     const tones={granja:[117,139,59],estabulo:[115,130,64],horta:[77,120,49],quintal:[79,125,60]};

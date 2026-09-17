@@ -9,7 +9,7 @@ test('new farm never repeats the current seed even when the random source repeat
     run('resetGame();');
     const next = run('JSON.stringify(WORLD.layout)');
     assert.notEqual(next, previous);
-    assert.equal(run('state.worldVersion'), 3);
+    assert.equal(run('state.worldVersion'), 4);
     previous = next;
   }
 });
@@ -29,9 +29,9 @@ test('existing saves without a generation version reopen the original farm and k
   loaded.run('GameManager.save(state);');
   assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 1);
   loaded.run('resetGame(814237); GameManager.save(state);');
-  assert.equal(loaded.run('state.worldVersion'), 3);
+  assert.equal(loaded.run('state.worldVersion'), 4);
   assert.notEqual(loaded.run('JSON.stringify(WORLD.layout)'), first.run('JSON.stringify(WORLD.layout)'));
-  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 3);
+  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 4);
 });
 
 test('a fresh farm changes its geography, while reload restores the exact saved layout', () => {

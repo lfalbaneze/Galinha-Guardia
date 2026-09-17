@@ -25,6 +25,17 @@ test('old saved seeds retain their original geography exactly', () => {
   }
 });
 
+test('version-3 saves retain their full geometry, vegetation and rescue locations', () => {
+  for(const [seed,expected] of [
+    [0,'b3507b0d5a729ae3006f629a41bba11e03f22d8fb2987f4f7b747deb5201dcdf'],
+    [814237,'ab1c46f4c4b822f3e0b18defd7417ee2ccc58a3d539a04b5715e91a1b85d77e7'],
+    [391602,'0d96631c2c62f6f7502adeac2c04d25101106cb2a23c050d59236515d823f597']
+  ]) {
+    const json=vm.runInContext(`JSON.stringify(WorldGenerator.generate(${seed},3))`,context);
+    assert.equal(createHash('sha256').update(json).digest('hex'),expected);
+  }
+});
+
 test('new farms vary district geometry and connected road networks beyond fixed slots', () => {
   const worlds = Array.from({ length: 30 }, (_, i) => generate(i));
   for (const id of ['granja', 'estabulo', 'horta', 'quintal']) {
@@ -36,7 +47,7 @@ test('new farms vary district geometry and connected road networks beyond fixed 
   }
   const graphs = new Set();
   for (const world of worlds) {
-    assert.equal(world.version, 3);
+    assert.equal(world.version, 4);
     graphs.add(world.connections.map(edge => [...edge].sort().join('-')).sort().join(','));
     const reached = new Set(['poleiro']);
     for (let pass = 0; pass < 5; pass++) for (const [a, b] of world.connections) {

@@ -3,9 +3,12 @@ const FarmSprites = (() => {
   const frames = Object.freeze({
     barn: [18, 64, 405, 470], coop: [456, 185, 324, 361], silo: [846, 64, 212, 488],
     tree: [1123, 108, 400, 444], bush: [27, 652, 329, 267], hay: [410, 653, 315, 260],
-    fence: [793, 670, 322, 234], trough: [1175, 693, 329, 211], nursery: [156,194,1255,589]
+    fence: [793, 670, 322, 234], trough: [1175, 693, 329, 211], nursery: [156,194,1255,589],
+    shelter:[32,231,626,359],willow:[707,44,527,610],bramble:[52,859,581,318],pear:[787,671,374,539]
   });
   let atlas = null, pending = null, nursery = null, nurseryPending = null;
+  let habitats=null,habitatsPending=null;
+  const habitatNames=new Set(['shelter','willow','bramble','pear']);
   const surface = (w, h) => {
     if (typeof document === 'undefined' || typeof document.createElement !== 'function') return null;
     const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h; return canvas;
@@ -74,6 +77,21 @@ const FarmSprites = (() => {
     });
     return nurseryPending;
   }
+  function loadHabitats(loader=browserImage,makeSurface=surface) {
+    if(habitats)return Promise.resolve(true);
+    if(habitatsPending)return habitatsPending;
+    if(typeof FarmHabitatData==='undefined')return Promise.resolve(false);
+    habitatsPending=Promise.resolve().then(async()=>{
+      try {
+        // Native alpha is kept; no white color key is applied to this new sheet.
+        const source=await loader(FarmHabitatData);
+        habitats=makeSurface(source.width,source.height);
+        if(!habitats)return false;
+        habitats.getContext('2d').drawImage(source,0,0);return true;
+      }catch{return false;}finally{habitatsPending=null;}
+    });
+    return habitatsPending;
+  }
   const variants = new Map();
   let makeVariantSurface = surface;
   function variant(name, palette, source) {
@@ -102,7 +120,8 @@ const FarmSprites = (() => {
     c.putImageData(pixels,0,0); variants.set(key,tile); return tile;
   }
   const groundedTiles = new Map();
-  const pixelWidths = { barn:80, coop:56, silo:36, tree:60, bush:44, hay:32, fence:44, trough:32, nursery:112 };
+  const pixelWidths = { barn:80, coop:56, silo:36, tree:60, bush:44, hay:32, fence:44, trough:32, nursery:112,
+    shelter:78,willow:58,bramble:48,pear:42 };
   // Shared muted ramps remove sub-pixel texture noise without touching the source PNGs.
   const colors = [
     [38,43,31],[60,58,39],[83,70,44],[110,84,49],[140,106,58],[169,134,75],[199,163,96],[219,194,133],
@@ -156,7 +175,7 @@ const FarmSprites = (() => {
     out.putImageData(pixels,0,0);groundedTiles.set(key,tile);return tile;
   }
   function draw(c, name, x, y, w, h, options = {}) {
-    const source=name==='nursery'?nursery:atlas;
+    const source=habitatNames.has(name)?habitats:name==='nursery'?nursery:atlas;
     if (!source || !frames[name]) return false;
     c.save(); c.imageSmoothingEnabled=false;
     const grounded = options.grounded ? groundedTile(name,options.palette || 0,source) : null;
@@ -167,5 +186,5 @@ const FarmSprites = (() => {
     else c.drawImage(source,...frames[name],0,0,Math.round(w),Math.round(h));
     c.restore(); return true;
   }
-  return { load, loadNursery, draw, frames, surface, get ready() { return !!atlas; } };
+  return { load, loadNursery, loadHabitats, draw, frames, surface, get ready() { return !!atlas; },get habitatsReady(){return !!habitats;} };
 })();

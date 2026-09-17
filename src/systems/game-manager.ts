@@ -89,7 +89,7 @@ const GameManager = (() => {
       if (data.version >= 2 && (!Number.isInteger(data.worldSeed) || data.worldSeed < 0 || data.worldSeed > 4294967295)) return null;
       if (data.version === 1) data.worldSeed = 20260915;
       if (data.worldVersion === undefined) data.worldVersion = 1;
-      if (![1, 2, 3].includes(data.worldVersion)) return null;
+      if (![1, 2, 3, 4].includes(data.worldVersion)) return null;
       if (!Array.isArray(data.rescuedIds) || !Array.isArray(data.animals)) return null;
       if (!Number.isInteger(data.lives) || data.lives < 1 || data.lives > MAX_LIVES) return null;
       if (!Number.isFinite(data.score) || data.score < 0) return null;
