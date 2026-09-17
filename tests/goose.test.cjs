@@ -223,10 +223,11 @@ test('the goose honk is a reproducible local PCM effect, not an external recordi
   assert.ok(peak>1000&&peak<32767);
 });
 
-test('the new goose art renders all directions, states and reduced-motion settings',()=>{
+test('the goose sprite renders all directions and states from a decoded PNG',async()=>{
   const {createCanvas}=require('@napi-rs/canvas'),canvas=createCanvas(180,180);
   const h=setup();h.context.art=canvas.getContext('2d');
-  h.run('g.x=90;g.y=100');
+  h.context.gooseImage=await require('@napi-rs/canvas').loadImage(path.join(__dirname,'../assets/sprites/sources/goose.png'));
+  h.run('GooseArt.install(() => gooseImage);g.x=90;g.y=100');
   for(const mode of ['patrol','warning','charge','recover','return'])for(const dir of ['up','down','left','right']){
     h.run(`g.mode='${mode}';g.direction='${dir}';GooseArt.draw(art,g,{x:0,y:0,shakeX:0,shakeY:0})`);
   }

@@ -16,7 +16,7 @@ const GameUI = (() => {
   }
 
   function newGame() {
-    if (CharacterArt.loading || CharacterArt.errors.length) return;
+    if (CharacterArt.loading || GooseArt.loading || GooseArt.errors.length || CharacterArt.errors.length) return;
     resetGame();
     AudioSystem.sync(state);
     AudioSystem.unlock();
@@ -25,7 +25,7 @@ const GameUI = (() => {
   }
 
   function resumeGame() {
-    if (CharacterArt.loading || CharacterArt.errors.length) return;
+    if (CharacterArt.loading || GooseArt.loading || GooseArt.errors.length || CharacterArt.errors.length) return;
     if (!state || !state.hasSave) return;
     state.phase = state.resumePhase || "playing";
     input.clear();
@@ -106,12 +106,12 @@ const GameUI = (() => {
 
   function update(game) {
     if (!initialized) initialize();
-    const spritesBlocked = CharacterArt.loading || CharacterArt.errors.length > 0;
+    const spritesBlocked = CharacterArt.loading || GooseArt.loading || GooseArt.errors.length > 0 || CharacterArt.errors.length > 0;
     for (const id of ['startBtn', 'continueBtn', 'replayBtn']) elements[id].disabled = spritesBlocked;
     document.getElementById('restartBtn').disabled = spritesBlocked;
     const spriteStatus = document.getElementById('spriteStatus');
     spriteStatus.hidden = !spritesBlocked;
-    spriteStatus.textContent = CharacterArt.errors.length
+    spriteStatus.textContent = CharacterArt.errors.length || GooseArt.errors.length
       ? 'Alguns bichos não chegaram. Recarregue a página para tentar novamente.'
       : 'Chamando a turma da fazenda…';
     AudioControls.update(game);
@@ -192,6 +192,7 @@ const GameUI = (() => {
       put("endSummary", `${game.rescuedCount}/10 amigos${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos` : ""} · ${Math.max(0, Math.floor(game.score))} pontos · ${Math.max(0, game.lives)} vidas`);
     }
     InterfaceMotion.update(game);
+    GameplayHud.update(game);
     if (lastPhase !== game.phase) {
       if (menu) (elements.continueBtn.hidden ? elements.startBtn : elements.continueBtn).focus({ preventScroll: true });
       else if (ended) elements.replayBtn.focus({ preventScroll: true });

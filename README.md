@@ -46,7 +46,7 @@ Encoste nos amigos para resgatá-los. Eles vão para o refúgio e ficam a salvo 
 
 ## O dono do lago
 
-Um ganso territorial patrulha a margem do lago. Quando você chega perto, ele abre as asas, grita e marca a direção da investida. Saia dessa linha ou recue para fora do território pontilhado. O ganso não muda de direção durante a arrancada e descansa antes de tentar novamente.
+Um ganso territorial patrulha a margem do lago, com sprites em quatro direções e poses de caminhada e aviso. Quando você chega perto, ele abre as asas, grita e marca a direção da investida. Saia dessa linha ou recue para fora do território pontilhado. O ganso não muda de direção durante a arrancada e descansa antes de tentar novamente.
 
 A bicada dá um empurrão, **sem tirar vidas ou pontos**. Paredes bloqueiam a investida e os esconderijos protegem a galinha. O grito pode atrair um lobo próximo para o local do barulho, mas não revela onde você está escondida.
 
@@ -70,6 +70,10 @@ O jogo tem músicas para a fazenda e para as aparências, gravações dos animai
 O salvamento automático permite continuar a mesma fazenda, com os resgates, a pontuação e a dificuldade escolhida. **Reiniciar** ou **Gerar nova fazenda** substitui a aventura atual, mas mantém as aparências desbloqueadas.
 
 O progresso pertence ao navegador e ao endereço usado para jogar. Abrir por `file://` e acessar pelo servidor local não compartilha o mesmo salvamento. Se o armazenamento estiver bloqueado, o jogo avisa que o progresso vale apenas para a sessão.
+
+## Interface da partida
+
+A HUD reúne corações de vida, resgates, pintinhos, pontos e o alerta do lobo em painéis compactos. A localização fica no topo; fôlego e dicas continuam próximos ao mapa. Som, aparências e dificuldade estão nas abas do menu de pausa. As animações respeitam a preferência por movimento reduzido.
 
 ## Desenvolvimento
 

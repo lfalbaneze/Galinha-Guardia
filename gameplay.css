@@ -1,0 +1,159 @@
+/* The live HUD is deliberately separate from the illustrated title screen. */
+.sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip-path: inset(50%); white-space: nowrap; border: 0 !important; }
+.game-shell:not([data-phase="menu"]) {
+  --play-ink: #243f34; --play-muted: #50695a; --play-line: #cdddc4;
+  width: min(1120px, 100%); padding: 0 14px 12px;
+  border: 1px solid #829976; border-radius: 16px;
+  background: #eef3e2; color: var(--play-ink);
+  box-shadow: 0 5px 0 #163b30, 0 18px 50px #112b2566;
+}
+.game-shell:not([data-phase="menu"]) > .play-header {
+  min-height: 72px; margin: 0 -14px; padding: 9px 18px;
+  border: 0; border-bottom: 1px solid #52715a; border-radius: 15px 15px 0 0;
+  background: #244c3d; color: #f8f3d9;
+}
+.play-brand, .play-actions, .play-region, .play-pause { display: flex; align-items: center; }
+.play-brand { gap: 10px; min-width: 0; }
+.play-brand .hud-portrait { width: 48px; height: 48px; border: 1px solid #799569; border-radius: 12px; background: #c9dba4; box-shadow: inset 0 0 0 3px #dce7bc; image-rendering: pixelated; }
+.play-header .play-brand .eyebrow { margin: 0 0 3px; font-size: 10px; letter-spacing: .13em; color: #c2d3ac; }
+.play-header h1 { margin: 0; color: #fff6cf; font: 900 24px/1.08 "Trebuchet MS", sans-serif; letter-spacing: -.04em; text-shadow: none; }
+.play-actions { gap: 20px; }
+.play-region { gap: 8px; min-width: 0; }
+.play-region > svg { width: 20px; height: 22px; flex: none; color: #d9df99; }
+.play-region > span { display: grid; gap: 3px; }
+.play-region small { color: #c2d3ac; font-size: 10px; }
+.play-region b { font-size: 13px; font-weight: 700; line-height: 1.2; }
+.game-heading .play-pause.button-secondary { gap: 8px; padding: 9px 12px; min-height: 42px; border: 1px solid #9db289; border-radius: 8px; color: #f9f4d5; background: #385e4a; box-shadow: 0 2px 0 #193e2e; }
+.game-heading .play-pause:hover { background: #476e55; }
+.play-pause > svg { width: 14px; height: 14px; fill: currentColor; }
+.play-pause .key-note { margin-left: 4px; font: 10px "Trebuchet MS", sans-serif; color: #d1dfbd; opacity: 1; }
+.game-shell:not([data-phase="menu"]) .play-hud {
+  display: grid; grid-template-columns: 1.1fr 1.25fr 1fr .85fr 1.85fr;
+  gap: 9px; margin: 12px 0; padding: 0; border: 0; border-radius: 0; background: none;
+}
+.play-hud .run-card {
+  position: relative; display: flex; flex-direction: column; justify-content: space-between;
+  min-width: 0; min-height: 104px; padding: 12px 14px;
+  background: #fffcf0; border: 1px solid var(--play-line); border-radius: 10px;
+  box-shadow: 0 2px 0 #becfb34d; gap: 6px;
+}
+.play-hud .run-label { display: flex; align-items: center; gap: 6px; color: var(--play-muted); font-size: 11px; font-weight: 700; line-height: 1.2; letter-spacing: .01em; }
+.play-hud .run-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+.run-icon { width: 18px; height: 18px; color: #6c9262; flex-shrink: 0; }
+.star-icon { width: 15px; height: 15px; color: #c0942e; }
+.play-hud .run-value { display: flex; align-items: baseline; gap: 5px; font-variant-numeric: tabular-nums; line-height: 1; }
+.play-hud .run-value > b { font: 900 30px/1 "Trebuchet MS", sans-serif; letter-spacing: -.045em; color: #294f3c; }
+.play-hud .run-value > span { font-size: 14px; color: #61765e; }
+.play-hud .run-detail { font-size: 10px; color: #62735b; line-height: 1.2; }
+.play-hud .rescue-counter { background: #e3edcf; border-color: #bfcea9; }
+.play-hud .chick-counter { background: #fff0c3; border-color: #e3d297; }
+.play-hud .chick-counter .run-value > b { color: #725619; }
+.play-hud .bonus-value { display: flex; align-items: center; justify-content: space-between; }
+.play-hud canvas { border: 0; border-radius: 0; background: transparent; box-shadow: none; image-rendering: pixelated; }
+.play-hud .hud-chick { flex: none; width: 34px; height: 34px; margin: -3px -3px -3px 0; }
+.play-hud .life-count { margin-left: auto; white-space: nowrap; font-size: 10px; color: #6b7c68; }
+.play-hud .life-count > b { color: inherit; font: inherit; }
+.heart-row { display: flex; gap: 7px; align-items: center; min-height: 30px; }
+.life-heart { display: inline-flex; color: #d45749; filter: drop-shadow(0 2px 0 #923a3355); transition: color .18s, opacity .18s; }
+.life-heart > svg { display: block; width: 27px; height: 24px; fill: currentColor; }
+.life-heart[data-full="false"] { color: #d4decd; filter: none; }
+.lives-card[data-critical="true"] { border-color: #d98970; background: #fff1e7; }
+.lives-card[data-critical="true"] #livesHint { color: #9f4033; font-weight: 700; }
+.play-hud progress { appearance: none; display: block; height: 6px; width: 100%; border: 0; border-radius: 6px; overflow: hidden; background: #c7d4b4; accent-color: #5b8447; }
+.play-hud progress::-webkit-progress-bar { background: #c7d4b4; border-radius: 6px; }
+.play-hud progress::-webkit-progress-value { background: #5b8447; border-radius: 6px; transition: width .3s ease; }
+.play-hud progress::-moz-progress-bar { background: #5b8447; border-radius: 6px; }
+.play-hud .wolf-counter { background: #e0e9dd; border-color: #bed0bc; gap: 6px; }
+.wolf-heading { display: flex; align-items: center; gap: 7px; min-height: 19px; }
+.play-hud .hud-wolf { flex: none; width: 34px; height: 25px; margin: -6px 0 -3px -2px; }
+.wolf-heading .run-label { flex: 1; flex-wrap: wrap; }
+.wolf-heading #wolfLevelText { padding: 2px 4px; background: #c6d9c0; border-radius: 4px; color: #31563e; font-size: 9px; }
+.threat-dot { height: 7px; width: 7px; flex: none; background: #5c885b; border-radius: 50%; }
+.play-hud .threat-title { color: #32523f; font-size: 14px; font-weight: 800; line-height: 1.2; }
+.play-hud #wolfMultiplier { color: #5c7059; font-size: 10px; }
+.play-hud .threat-indicator[data-level="danger"] { background: #fbe2d4; border-color: #d9987e; }
+.play-hud .threat-indicator[data-level="danger"] .threat-title { color: #973d31; }
+.threat-indicator[data-level="danger"] .threat-dot { background: #bb473a; }
+.play-hud .threat-indicator[data-level="danger"] progress::-webkit-progress-value { background: #bc5140; }
+.play-hud .threat-indicator[data-level="danger"] progress::-moz-progress-bar { background: #bc5140; }
+.play-hud .threat-indicator[data-level="suspect"] { background: #f9ebc2; border-color: #d5bd7a; }
+.play-hud .threat-indicator[data-level="suspect"] .threat-title { color: #7a591c; }
+.threat-indicator[data-level="suspect"] .threat-dot { background: #ae7a22; }
+.play-hud .threat-indicator[data-level="search"] { background: #e0ebeb; border-color: #b8d0cf; }
+.play-hud .threat-indicator[data-level="safe"] { background: #d8ead3; border-color: #a0c598; }
+.game-shell:not([data-phase="menu"]) #gameCanvas { border: 2px solid #79966c; border-radius: 10px; box-shadow: 0 2px 0 #bfd0af; }
+.game-shell:not([data-phase="menu"]) .stage[data-threat="danger"] > #gameCanvas { border-color: #be6752; box-shadow: 0 0 0 2px #d6a18b55; }
+.game-shell:not([data-phase="menu"]) .stage[data-threat="suspect"] > #gameCanvas { border-color: #bb973e; }
+.game-shell:not([data-phase="menu"]) .stage[data-threat="safe"] > #gameCanvas { border-color: #67a369; }
+.game-shell:not([data-phase="menu"]) .game-feedback { gap: 9px; font-size: 12px; margin-top: 10px; color: #4a6550; }
+.game-shell:not([data-phase="menu"]) .stealth-badge { border-radius: 6px; border-color: #bfcfb3; background: #e0ead3; color: #36553b; padding: 5px 9px; }
+.game-shell:not([data-phase="menu"]) .stealth-badge[data-state="exposed"] { background: #ab4839; color: #fff8e2; border-color: #953d31; }
+.game-shell:not([data-phase="menu"]) .stealth-badge[data-state="hidden"] { background: #cee4c4; color: #285637; border-color: #a2c394; }
+.game-shell:not([data-phase="menu"]) .stamina-meter { font-size: 11px; color: #3d6648; }
+.game-shell:not([data-phase="menu"]) .stamina-meter progress { height: 8px; width: 76px; background: #cedbc2; }
+.game-shell:not([data-phase="menu"]) .save-note { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #597150; }
+.game-shell:not([data-phase="menu"]) .save-note::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #6c965b; }
+.game-shell:not([data-phase="menu"]) #contextHint { flex: 1 1 280px; line-height: 1.5; }
+.game-shell:not([data-phase="menu"]) .status-line { font-size: 11px; color: #52714c; line-height: 1.5; margin: 8px 0 0; }
+.game-shell:not([data-phase="menu"]) .live-controls { gap: 10px 22px; padding: 10px 0 0; font-size: 11px; color: #536b4d; }
+.game-shell:not([data-phase="menu"]) .live-controls kbd { background: #fafbef; border-color: #bacdaf; color: #426241; padding: 3px 6px; font-size: 10px; border-radius: 4px; }
+.game-shell:not([data-phase="menu"]) .live-controls kbd[data-pressed="true"] { background: #446f49; border-color: #2b5136; color: #fff9dc; }
+/* Outfit, audio and difficulty controls are available from the pause menu tabs. */
+.game-shell:not([data-phase="menu"]) > :is(.wardrobe, .audio-panel, .instructions, .sprite-credits) { display: none; }
+.game-shell:not([data-phase="menu"]) :is(button, canvas):focus-visible { outline: 3px solid #dcad40; outline-offset: 3px; }
+.game-shell:not([data-phase="menu"]) .region-notice { border-radius: 6px; border-left-color: #e6cf79; background: #244c3df2; box-shadow: 0 2px 8px #233e2a22; }
+@media (max-width: 800px) {
+  .game-shell:not([data-phase="menu"]) .play-hud { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .play-hud .run-card { padding: 10px; min-height: 95px; }
+  .play-hud .wolf-counter { grid-column: 1 / -1; display: grid; grid-template-columns: 130px 1fr 84px; min-height: 54px; align-items: center; gap: 4px 12px; }
+  .wolf-counter .wolf-heading { grid-row: 1 / 3; }
+  .wolf-counter .threat-title { grid-column: 2; font-size: 12px; }
+  .wolf-counter #threatProgress { grid-column: 2; }
+  .wolf-counter #wolfMultiplier { grid-column: 3; grid-row: 1 / 3; text-align: right; }
+  .wolf-heading .threat-dot { display: none; }
+  .play-actions { gap: 12px; }
+  .heart-row { gap: 5px; }
+  .life-heart > svg { width: 23px; height: 21px; }
+  .game-shell:not([data-phase="menu"]) .save-note { width: auto; margin-left: auto !important; }
+}
+@media (max-width: 500px) {
+  .game-shell:not([data-phase="menu"]) { padding: 0 8px 10px; border-radius: 10px; }
+  .game-shell:not([data-phase="menu"]) > .play-header { padding: 9px 10px; margin: 0 -8px; min-height: 64px; border-radius: 9px 9px 0 0; }
+  .play-brand { gap: 7px; }
+  .play-brand .hud-portrait { width: 38px; height: 38px; border-radius: 9px; }
+  .play-header h1 { font-size: 20px; }
+  .play-header .play-brand .eyebrow { font-size: 8px; }
+  .play-region { display: none; }
+  .game-heading .play-pause.button-secondary { min-height: 38px; padding: 8px 9px; font-size: 11px; }
+  .play-pause .key-note { display: none; }
+  .game-shell:not([data-phase="menu"]) .play-hud { gap: 6px; margin: 8px 0; }
+  .play-hud .run-card { min-height: 85px; padding: 8px 7px; border-radius: 7px; }
+  .play-hud .run-label { font-size: 9px; }
+  .play-hud .run-value > b { font-size: 24px; }
+  .play-hud .run-value > span { font-size: 11px; }
+  .play-hud .run-detail { font-size: 9px; }
+  .play-hud .life-count { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .heart-row { gap: 3px; min-height: 24px; }
+  .life-heart > svg { width: 18px; height: 16px; }
+  .play-hud .hud-chick { width: 24px; height: 24px; margin-right: -4px; }
+  .run-icon { display: none; }
+  .play-hud .wolf-counter { min-height: 50px; grid-template-columns: 80px 1fr 64px; gap: 4px 8px; }
+  .play-hud .hud-wolf { display: none; }
+  .wolf-heading .run-label { gap: 3px; }
+  .wolf-counter .threat-title { font-size: 11px; }
+  .play-hud #wolfMultiplier { font-size: 9px; }
+  .game-shell:not([data-phase="menu"]) .game-feedback { gap: 7px; font-size: 11px; }
+  .game-shell:not([data-phase="menu"]) .live-controls { gap: 6px 12px; }
+  .game-shell:not([data-phase="menu"]) .status-line { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .life-heart, .play-hud progress::-webkit-progress-value { transition: none; }
+}
+
+@media (max-width: 360px) {
+  .heart-row { gap: 3px; }
+  .life-heart > svg { width: 14px; height: 13px; }
+  .play-hud .run-value > b { font-size: 21px; }
+  .play-hud .run-value { gap: 2px; }
+  .play-hud .hud-chick { display: none; }
+}

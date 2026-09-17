@@ -48,3 +48,13 @@ declare const FarmArt: {
     camera: Farm.Camera, alpha: number, chicken: Farm.Chicken): void;
 };
 declare const InterfaceMotion: { readonly reduced: boolean; };
+
+/** Read-only rendering API used by the live HUD portraits. */
+declare const CharacterArt: {
+  readonly ready: boolean;
+  frameFor(name: string, options?: { direction?: Farm.Direction; skin?: string }): {
+    pose: { width: number; top: number; bottom: number }; scale: number;
+  } | null;
+  draw(context: CanvasRenderingContext2D, name: string, x: number, y: number,
+    options?: { direction?: Farm.Direction; scale?: number; skin?: string; moving?: boolean }): boolean;
+};
