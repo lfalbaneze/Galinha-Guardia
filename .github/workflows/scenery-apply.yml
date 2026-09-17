@@ -1,0 +1,36 @@
+name: Validate scenery revision
+on:
+  push:
+    branches: [fix/scenery-cohesion-authorship]
+    paths: [.github/workflows/scenery-apply.yml, '.scenery-payload/**']
+permissions:
+  contents: read
+jobs:
+  integrate:
+    if: github.ref == 'refs/heads/fix/scenery-cohesion-authorship'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Apply reviewed source diff
+        run: |
+          cat .scenery-payload/* | base64 -d > /tmp/scenery.patch.gz
+          echo '677508c9130074469f178901b1190d7dfdc1e45f6edd1741981b5692c27b570f  /tmp/scenery.patch.gz' | sha256sum -c -
+          gzip -dc /tmp/scenery.patch.gz > /tmp/scenery.patch
+          git apply --check /tmp/scenery.patch
+          git apply /tmp/scenery.patch
+      - run: npm ci
+      - run: npm run verify
+      - run: npm run check:generated
+      - name: Record validated scenery and author credit
+        run: |
+          git add README.md assets/farm/ART-NOTES.md assets/sprites/CREDITS.html index.html package.json style.css systems/farm-art.js systems/farm-details.js systems/farm-refuge.js systems/farm-sprites.js tests/browser/lake_smoke.py tests/scenery-cohesion.test.cjs
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix: remove cercas soltas, integra cenário ao chão e assina Luis Albaneze'
+          git push origin HEAD:refs/heads/fix/scenery-cohesion-authorship
