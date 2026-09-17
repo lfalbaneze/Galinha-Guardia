@@ -103,14 +103,23 @@ const WolfAI = (() => {
   function navigation(wolf) {
     const radius = wolf.hitbox ? wolf.hitbox.r : wolf.radius;
     if (navigationCache && navigationCache.source === OBSTACLES &&
-      navigationCache.count === OBSTACLES.length && navigationCache.radius === radius) return navigationCache;
+      navigationCache.count === OBSTACLES.length && navigationCache.radius === radius &&
+      navigationCache.width === WORLD.width && navigationCache.height === WORLD.height) return navigationCache;
     const padding = radius + 2;
     const rects = OBSTACLES.filter(rect => rect.blocking !== false).map(rect => ({
       x: rect.x - padding, y: rect.y - padding,
       w: rect.w + padding * 2, h: rect.h + padding * 2,
     }));
-    const nav = { source: OBSTACLES, count: OBSTACLES.length, radius, padding, rects, nodes: [], edges: [] };
-    for (const rect of rects) {
+    const nav = { source: OBSTACLES, count: OBSTACLES.length, radius, padding, rects,
+      width: WORLD.width, height: WORLD.height, nodes: null, edges: null };
+    navigationCache = nav;
+    return nav;
+  }
+
+  function navigationNodes(nav) {
+    if (nav.nodes) return nav.nodes;
+    nav.nodes = [];
+    for (const rect of nav.rects) {
       for (const x of [rect.x - 0.5, rect.x + rect.w + 0.5]) {
         for (const y of [rect.y - 0.5, rect.y + rect.h + 0.5]) {
           const point = { x, y };
@@ -118,7 +127,14 @@ const WolfAI = (() => {
         }
       }
     }
-    nav.edges = nav.nodes.map(() => []);
+    return nav.nodes;
+  }
+
+  function navigationEdges(nav) {
+    if (nav.edges) return nav.edges;
+    // Direct routes need only obstacle checks; build the detour graph on demand.
+    const nodes = navigationNodes(nav);
+    nav.edges = nodes.map(() => []);
     for (let i = 0; i < nav.nodes.length; i += 1) {
       for (let j = i + 1; j < nav.nodes.length; j += 1) {
         if (!clearSegment(nav.nodes[i], nav.nodes[j], nav)) continue;
@@ -127,8 +143,7 @@ const WolfAI = (() => {
         nav.edges[j].push({ index: i, length });
       }
     }
-    navigationCache = nav;
-    return nav;
+    return nav.edges;
   }
 
   function freePoint(point, nav) {
@@ -147,7 +162,7 @@ const WolfAI = (() => {
       y: clamp(point.y, nav.radius, WORLD.height - nav.radius) };
     if (freePoint(bounded, nav)) return bounded;
     // Project obstructed destinations (hay/trees) to an accessible edge, never into a prop.
-    const candidates = [...nav.nodes];
+    const candidates = [...navigationNodes(nav)];
     for (const rect of nav.rects) {
       candidates.push({ x: rect.x - 0.5, y: bounded.y },
         { x: rect.x + rect.w + 0.5, y: bounded.y },
@@ -171,10 +186,11 @@ const WolfAI = (() => {
     if (clearSegment(start, end, nav)) {
       path = [end];
     } else {
+      const graph = navigationEdges(nav);
       const nodes = [...nav.nodes, start, end];
       const startIndex = nodes.length - 2;
       const endIndex = nodes.length - 1;
-      const edges = nav.edges.map(row => [...row]);
+      const edges = graph.map(row => [...row]);
       edges.push([], []);
       for (const index of [startIndex, endIndex]) {
         for (let j = 0; j < startIndex; j += 1) {
