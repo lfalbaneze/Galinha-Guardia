@@ -73,3 +73,19 @@ A saída usa scripts clássicos, na mesma ordem de `index.html`, sem importaçõ
 O estilo da partida fica em `gameplay.css`, separado do menu ilustrado de `style.css`. Os IDs dos contadores, barras e botões continuam ligados ao estado do jogo. A apresentação usa os recursos já carregados e só redesenha os retratos quando a aparência muda. Som, aparências e dificuldade ficam nas abas do menu de pausa.
 
 `assets/sprites/sources/goose.png` contém 12 quadros de 64 × 64 pixels: linhas cima, direita, frente e esquerda; colunas parado, passo e aviso com asas abertas. Todos usam a mesma escala e a linha 60 como base dos pés. O carregamento participa do bloqueio de início da partida: uma imagem ausente não cria um inimigo invisível. `tests/hud-sprites.test.cjs` cobre imagens, animação, alinhamento, falhas de carregamento e a HUD.
+
+## Desafio opcional do lago
+
+`src/systems/lake-challenge.ts` controla início, cancelamento, contagem, recompensa, persistência e colisões da ponte. A tecla F e o botão de contexto passam pelo mesmo método. `src/types/lake.d.ts` define os contratos. Os estados `notice`, `feint`, `stunned` e `defeated` complementam a máquina do ganso em `goose-system.ts`; a direção só é fixada no aviso e não segue uma galinha escondida.
+
+O salvamento da aventura ganha o campo opcional `lake`, sem mudar sua chave ou invalidar versões anteriores. Uma vitória válida requer `version: 1`, `completed: true` e `misses: 3`. Tentativas interrompidas não retomam ataques. O baú preserva a chave anterior; `goose` é uma aparência exclusiva, não liberada por contagens de resgate.
+
+A ponte divide o obstáculo do lago em duas margens, deixando 72 pixels livres entre elas. Reconstruir os obstáculos invalida a navegação do lobo. `systems/farm-details.js` calcula e armazena as variantes e os locais livres para placas, sem consumir a sequência aleatória da simulação. `FarmSprites` prepara variantes de materiais em cache, não por quadro.
+
+Testes específicos: `tests/lake-challenge.test.cjs`, `tests/farm-details.test.cjs` e `tests/types/lake.contracts.ts`.
+
+### Navegador
+
+A verificação `Check lake in browser` joga o desafio com posições iniciais controladas, usando as teclas de movimento e os métodos normais de simulação. Os três pontos são obtidos por investidas reais, não inseridos no estado. Ela verifica a ponte, o baú, a recarga, a pausa, `file://` e quatro larguras de tela. Os PNGs e o relatório ficam no artefato `lake-browser-review`.
+
+Para repetir localmente, compile o projeto, instale `tests/browser/requirements.txt`, execute `python -m playwright install chromium`, sirva o repositório com `python -m http.server 8765 --bind 127.0.0.1` e rode `python tests/browser/lake_smoke.py` em outro terminal.

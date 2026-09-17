@@ -55,6 +55,7 @@ const FarmSprites = (() => {
     if (typeof FarmAtlasData === 'undefined') return Promise.resolve(false);
     pending = Promise.resolve().then(async () => {
       try {
+        makeVariantSurface = makeSurface; variants.clear();
         atlas=decode(await loader(FarmAtlasData),makeSurface,['fence','tree','hay','coop']);
         return !!atlas;
       } catch { return false; }
@@ -73,11 +74,42 @@ const FarmSprites = (() => {
     });
     return nurseryPending;
   }
-  function draw(c, name, x, y, w, h) {
+  const variants = new Map();
+  let makeVariantSurface = surface;
+  function variant(name, palette, source) {
+    const key = `${name}/${palette}`;
+    if (variants.has(key)) return variants.get(key);
+    const [x,y,w,h] = frames[name], tile = makeVariantSurface(w,h);
+    if (!tile) return null;
+    const c = tile.getContext('2d'); c.drawImage(source,x,y,w,h,0,0,w,h);
+    const pixels = c.getImageData(0,0,w,h), data = pixels.data;
+    for (let i=0;i<data.length;i+=4) {
+      if (!data[i+3]) continue;
+      const r=data[i], g=data[i+1], b=data[i+2];
+      // Tint materials, not silhouettes. Dark outlines and highlights remain legible.
+      if (['tree','bush'].includes(name) && g > r * 1.08 && g > b * 1.08) {
+        data[i] = r * (palette === 1 ? 1.08 : .92);
+        data[i+1] = g * (palette === 1 ? .93 : 1.04);
+        data[i+2] = b * (palette === 1 ? .92 : 1.2);
+      } else if (name === 'bush' && r > 190 && g > 185 && b > 165) {
+        data[i+1] = g * (palette === 1 ? .86 : .98); data[i+2] = b * (palette === 1 ? .93 : .67);
+      } else if (['coop','barn','hay','fence'].includes(name) && r > b * 1.2 && r > 65) {
+        data[i] = r * (palette === 1 ? .90 : .84);
+        data[i+1] = g * (palette === 1 ? 1.02 : .96);
+        data[i+2] = b * (palette === 1 ? 1.18 : 1.3);
+      }
+    }
+    c.putImageData(pixels,0,0); variants.set(key,tile); return tile;
+  }
+  function draw(c, name, x, y, w, h, options = {}) {
     const source=name==='nursery'?nursery:atlas;
     if (!source || !frames[name]) return false;
     c.save(); c.imageSmoothingEnabled=false;
-    c.drawImage(source,...frames[name],Math.round(x),Math.round(y),Math.round(w),Math.round(h));
+    const tinted = options.palette > 0 && name !== 'nursery' ? variant(name,options.palette,source) : null;
+    c.translate(Math.round(x),Math.round(y));
+    if (options.flip) { c.translate(Math.round(w),0); c.scale(-1,1); }
+    if (tinted) c.drawImage(tinted,0,0,tinted.width,tinted.height,0,0,Math.round(w),Math.round(h));
+    else c.drawImage(source,...frames[name],0,0,Math.round(w),Math.round(h));
     c.restore(); return true;
   }
   return { load, loadNursery, draw, frames, surface, get ready() { return !!atlas; } };

@@ -402,7 +402,7 @@ const WolfAI = (() => {
   }
 
   function update(game: Farm.GameState, dt: number): void {
-    if (game.phase !== "playing" || dt <= 0) return;
+    if (game.lake?.active || game.phase !== "playing" || dt <= 0) return;
     const wolf = game.entities.wolf;
     const config = getConfig(game);
     if (!wolf.mode) initialize(game);

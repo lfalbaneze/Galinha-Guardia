@@ -67,8 +67,8 @@ const FarmRefuge = (() => {
       if(p.w) {
         if(!FarmSprites.draw(c,'fence',p.x-4,p.y-35,p.w+8,39)) {
           c.fillStyle='#b68b4d';c.fillRect(p.x,p.y-23,p.w,5);c.fillRect(p.x,p.y-10,p.w,5);
+          post(c,p.x,p.y);post(c,p.x+p.w,p.y);
         }
-        post(c,p.x,p.y);post(c,p.x+p.w,p.y);
       } else {
         c.fillStyle='#61492f';c.fillRect(p.x-3,p.y-22,6,p.h+16);
         c.fillStyle='#a77d41';c.fillRect(p.x-2,p.y-22,3,p.h+16);

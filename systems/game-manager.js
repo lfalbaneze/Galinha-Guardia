@@ -17,6 +17,7 @@ const GameManager = (() => {
         game.entities.chicken.staminaDelay = 0;
         game.entities.chicken.exhausted = false;
         SkinSystem.initialize(game);
+        LakeChallenge.initialize(game);
         GooseSystem.initialize(game);
         saveTimer = 0;
     }
@@ -77,6 +78,7 @@ const GameManager = (() => {
             animals: game.entities.animals.map(friend),
             chicks: game.entities.chicks.map(friend),
             goose: GooseSystem.snapshot(game),
+            lake: LakeChallenge.snapshot(game),
         };
         try {
             localStorage.setItem(SAVE_KEY, JSON.stringify(data));
@@ -151,6 +153,7 @@ const GameManager = (() => {
             game.worldSeed = seed;
             game.worldVersion = worldVersion;
         }
+        LakeChallenge.restore(game, data.lake);
         game.rescuedIds = new Set(data.rescuedIds);
         game.rescuedCount = game.rescuedIds.size;
         game.rescuedChickIds = new Set(data.rescuedChickIds || []);

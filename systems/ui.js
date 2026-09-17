@@ -53,6 +53,10 @@ const GameUI = (() => {
       else showMenu(state);
     });
     elements.menuBtn.addEventListener("click", () => showMenu(state));
+    document.getElementById('lakeChallengeBtn').addEventListener('click', () => {
+      if (state.lake?.active) LakeChallenge.cancel(state); else LakeChallenge.start(state);
+      update(state); focusCanvas();
+    });
     elements.menuSkinSelect.addEventListener("change", () => {
       if (SkinSystem.equip(state, elements.menuSkinSelect.value)) {
         AudioSystem.sync(state);
@@ -141,8 +145,8 @@ const GameUI = (() => {
       put(`menu-skin-${skin.id}`, available ? skin.name : `${skin.name} · ${requirement}`);
     }
     elements.menuSkinSelect.value = chicken.skin;
-    const availableSkins = SkinSystem.catalog.filter(s => s.chicks > 0 && SkinSystem.unlocked(s.id)).length;
-    put("skinUnlockText", `${availableSkins} / 4 aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
+    const availableSkins = SkinSystem.catalog.filter(s => s.id !== "classic" && SkinSystem.unlocked(s.id)).length;
+    put("skinUnlockText", `${availableSkins} / ${SkinSystem.catalog.length - 1} aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
     put("wardrobeNote", "6 pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o piado, entre com E e segure C. São bônus opcionais: procure antes de salvar o último amigo e ganhe novas aparências.");
     put("hiddenText", exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
@@ -161,7 +165,7 @@ const GameUI = (() => {
     elements.staminaMeter.parentElement.dataset.tired = String(chicken.exhausted);
     put("staminaText", chicken.exhausted ? "Recuperando" : "Fôlego");
     put("wolfLevelText", wolfLevels[game.wolfLevel] || wolfLevels[0]);
-    put("wolfStateText", game.phase === "won" || game.phase === "win_cutscene" ? "surpreendido!" : wolfModes[wolf.mode] || "patrulhando");
+    put("wolfStateText", game.lake?.active ? "esperando fora do lago" : game.phase === "won" || game.phase === "win_cutscene" ? "surpreendido!" : wolfModes[wolf.mode] || "patrulhando");
     elements.wolfStateText.parentElement.dataset.mode = wolf.mode || "patrol";
     const saved = GameManager.storageAvailable;
     put("saveText", saved ? "Anotado na caderneta" : "Progresso mantido nesta partida");
@@ -193,6 +197,7 @@ const GameUI = (() => {
     }
     InterfaceMotion.update(game);
     GameplayHud.update(game);
+    LakeChallenge.updateUI(game);
     if (lastPhase !== game.phase) {
       if (menu) (elements.continueBtn.hidden ? elements.startBtn : elements.continueBtn).focus({ preventScroll: true });
       else if (ended) elements.replayBtn.focus({ preventScroll: true });

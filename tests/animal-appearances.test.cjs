@@ -4,7 +4,7 @@ const { createGame } = require('./helpers.cjs');
 
 test('each unlocked appearance selects a complete animal in every direction and keeps its source animation', () => {
   const { run } = createGame(() => .5);
-  for (const [id,species] of [['classic','chicken'],['punk','duck'],['astronaut','rabbit'],['robocop','cat'],['priest','dog']]) {
+  for (const [id,species] of [['classic','chicken'],['punk','duck'],['astronaut','rabbit'],['robocop','cat'],['priest','dog'],['goose','goose']]) {
     for (const direction of ['down','left','up','right']) {
       const pose = JSON.parse(run(`JSON.stringify(CharacterArt.frameFor('chicken',{skin:'${id}',direction:'${direction}',moving:true,anim:1}))`));
       assert.equal(pose.spriteName, species);

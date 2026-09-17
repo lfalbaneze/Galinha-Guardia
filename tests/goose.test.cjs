@@ -17,6 +17,8 @@ function setup() {
 const step = (h, seconds) => h.run(`for(let i=0;i<${Math.ceil(seconds/.05)};i++) GooseSystem.update(state,.05);`);
 function charge(h) {
   h.run('GooseSystem.update(state,.05)');
+  assert.equal(h.run('g.mode'),'notice');
+  step(h,.4);
   assert.equal(h.run('g.mode'),'warning');
   step(h,1.15);
   assert.equal(h.run('g.mode'),'charge');
@@ -54,7 +56,7 @@ test('the warning gives time to dodge and does not hurt a touching player', () =
 });
 
 test('the dash direction is fixed at the warning, not updated to follow the player',()=>{
-  const h=setup();h.run('GooseSystem.update(state,.05)');
+  const h=setup();h.run('GooseSystem.update(state,.05)');step(h,.4);
   const target=h.run('JSON.stringify(g.target)');h.run('c.x=1000;c.y=900');step(h,1.15);
   assert.equal(h.run('g.mode'),'charge');assert.equal(h.run('JSON.stringify(g.target)'),target);
   step(h,.8);assert.equal(h.run('c.invulnerable'),0);assert.equal(h.run('state.lives'),3);
@@ -135,7 +137,7 @@ test('invalid and zero delta times do not mutate goose state',()=>{
 });
 
 test('the real game loop updates and renders the goose',()=>{
-  const h=setup();h.run('updateGame(.05); renderGame()');assert.equal(h.run('g.mode'),'warning');
+  const h=setup();h.run('updateGame(.05); renderGame()');assert.equal(h.run('g.mode'),'notice');
   h.run("state.phase='menu'");const before=h.run('JSON.stringify(g)');h.run('updateGame(.05)');
   assert.equal(h.run('JSON.stringify(g)'),before);
 });
@@ -178,7 +180,7 @@ test('loading an attack always returns peacefully with a new reaction grace peri
 });
 
 test('a nearby wolf investigates the honk source, not the player coordinates',()=>{
-  const h=setup();h.run('w.x=1000;w.y=1060;GooseSystem.update(state,.05)');
+  const h=setup();h.run('w.x=1000;w.y=1060;GooseSystem.update(state,.05)');step(h,.4);
   assert.equal(h.run('w.mode'),'investigate');
   assert.deepEqual(plain(h.run('w.heardPoint')),{x:1000,y:800});
   assert.equal(h.run('w.lastKnown'),null);assert.equal(h.run('w.detected'),false);

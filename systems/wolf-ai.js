@@ -423,7 +423,7 @@ const WolfAI = (() => {
         return arrived || (!wolf.route.length && distance(wolf, target) < 12);
     }
     function update(game, dt) {
-        if (game.phase !== "playing" || dt <= 0)
+        if (game.lake?.active || game.phase !== "playing" || dt <= 0)
             return;
         const wolf = game.entities.wolf;
         const config = getConfig(game);
