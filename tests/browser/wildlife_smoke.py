@@ -14,7 +14,7 @@ with sync_playwright() as p:
  page.on('pageerror',lambda e:report['page_errors'].append(str(e)))
  page.on('response',lambda r:report['http_errors'].append([r.url,r.status]) if r.status>=400 else None)
  try:
-  page.goto(BASE,wait_until='networkidle');page.wait_for_function(READY)
+  page.goto(BASE,wait_until='networkidle');page.wait_for_function(READY,polling=50)
   page.locator('#startBtn').click();page.wait_for_timeout(120)
   assert 'Luis Albaneze' in page.locator('.game-author').inner_text()
   before=page.evaluate('state.entities.chicken.x')
@@ -26,7 +26,7 @@ with sync_playwright() as p:
   page.add_init_script('window.requestAnimationFrame=()=>0')
   page.on('pageerror',lambda e:report['page_errors'].append(str(e)))
   page.on('response',lambda r:report['http_errors'].append([r.url,r.status]) if r.status>=400 else None)
-  page.goto(BASE,wait_until='networkidle');page.wait_for_function(READY);page.locator('#startBtn').click()
+  page.goto(BASE,wait_until='networkidle');page.wait_for_function(READY,polling=50);page.locator('#startBtn').click()
   page.evaluate("""()=>{
     resetGame(2147483648);state.phase='playing';
     window.foxApproach=()=>{
@@ -98,7 +98,7 @@ with sync_playwright() as p:
   page.keyboard.press('Escape');page.evaluate('for(let i=0;i<20;i++){FoxSystem.update(state,.05);OwlSystem.update(state,.05)}')
   assert page.evaluate('JSON.stringify([state.entities.foxes,state.entities.owls])')==before
   page.locator('#continueBtn').click();page.evaluate('GameManager.save(state)')
-  saved_ids=page.evaluate('state.entities.foxes.map(f=>f.id)');page.reload(wait_until='networkidle');page.wait_for_function(READY);page.locator('#continueBtn').click()
+  saved_ids=page.evaluate('state.entities.foxes.map(f=>f.id)');page.reload(wait_until='networkidle');page.wait_for_function(READY,polling=50);page.locator('#continueBtn').click()
   assert page.evaluate('state.entities.foxes.map(f=>f.id)')==saved_ids
   assert page.evaluate('state.entities.foxes.every(f=>f.mode!=="dash"&&f.mode!=="warning"&&f.grace>0)')
   assert page.evaluate('state.entities.owls.every(o=>o.alertProgress===0&&o.grace>0)')
@@ -110,15 +110,17 @@ with sync_playwright() as p:
    failure=browser.new_page();failure.add_init_script('window.requestAnimationFrame=()=>0')
    pattern=f'**/assets/sprites/sources/{name}.png'
    failure.route(pattern,lambda route:route.abort())
-   failure.goto(BASE,wait_until='networkidle');failure.wait_for_function(f'{name.capitalize()}Art.errors.length>0')
+   failure.goto(BASE,wait_until='networkidle');failure.wait_for_function(f'{name.capitalize()}Art.errors.length>0',polling=50)
    assert failure.locator('#startBtn').is_disabled();assert failure.locator('#retrySprites').is_visible()
-   failure.unroute(pattern);failure.locator('#retrySprites').click();failure.wait_for_function(READY)
+   failure.unroute(pattern);failure.locator('#retrySprites').click()
+   # Gameplay RAF is intentionally stopped in this test; image readiness uses a separate poll.
+   failure.wait_for_function(READY,polling=50)
    assert failure.locator('#startBtn').is_enabled()
    failure.locator('#startBtn').click();assert failure.evaluate('state.phase')=='playing';failure.close()
   report['checks'].append('Each missing enemy PNG blocks start and can be retried successfully')
   offline=browser.new_page();offline.add_init_script('window.requestAnimationFrame=()=>0')
   offline.on('pageerror',lambda e:report['page_errors'].append(str(e)))
-  offline.goto((ROOT/'dist/index.html').as_uri(),wait_until='networkidle');offline.wait_for_function(READY)
+  offline.goto((ROOT/'dist/index.html').as_uri(),wait_until='networkidle');offline.wait_for_function(READY,polling=50)
   offline.locator('#startBtn').click();offline.evaluate('updateGame(.05);renderGame()')
   assert offline.evaluate('state.entities.foxes.length>0 || state.entities.owls.length>0')
   offline.screenshot(path=str(OUT/'offline.png'));offline.close()
