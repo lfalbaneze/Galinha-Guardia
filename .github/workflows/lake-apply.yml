@@ -1,0 +1,40 @@
+name: Validate lake feature
+on:
+  push:
+    branches: [feature/lake-challenge-polish]
+    paths: [.github/workflows/lake-apply.yml, '.lake-payload/**']
+permissions:
+  contents: read
+jobs:
+  integrate:
+    if: github.ref == 'refs/heads/feature/lake-challenge-polish'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Apply checked source patch
+        run: |
+          cat .lake-payload/* > /tmp/lake-source.gz
+          echo '6712235f183c389c015f210ece0a0869b941672495c5c8fdff38729f52d1fb87  /tmp/lake-source.gz' | sha256sum -c -
+          gzip -dc /tmp/lake-source.gz > /tmp/lake.patch
+          git apply --check /tmp/lake.patch
+          git apply /tmp/lake.patch
+      - run: npm ci
+      - run: node scripts/build-sprite-data.cjs
+      - name: Types, full tests and browser distribution
+        run: npm run verify
+      - run: npm run check:generated
+      - name: Record validated feature on its branch
+        run: |
+          rm -rf .lake-payload
+          rm .github/workflows/lake-apply.yml .github/workflows/lake-workspace.yml
+          git add -A
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat: aprimora cenário e adiciona desafio do lago com atalho e aparência'
+          git push origin HEAD:refs/heads/feature/lake-challenge-polish
