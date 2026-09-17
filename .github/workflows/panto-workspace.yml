@@ -1,0 +1,26 @@
+name: Prepare sprite workspace
+on:
+  push:
+    branches: [art/approved-sprites-panto]
+    paths: [.github/workflows/panto-workspace.yml]
+permissions:
+  contents: read
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Package source and validation dependencies
+        run: tar --exclude='./.git' --exclude='./.cache' -czf /tmp/panto-workspace.tar.gz .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: panto-workspace
+          path: /tmp/panto-workspace.tar.gz
+          retention-days: 1
