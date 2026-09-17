@@ -7,7 +7,7 @@ const SkinSystem = (() => {
     { id: "astronaut", ...CharacterArt.appearances.astronaut, chicks: 4, friends: 6, requirement: "4 pintinhos + 6 amigos" },
     { id: "robocop", ...CharacterArt.appearances.robocop, chicks: 6, friends: 9, requirement: "6 pintinhos + 9 amigos" },
     { id: "priest", ...CharacterArt.appearances.priest, chicks: 6, friends: 10, requirement: "A turma inteira a salvo" },
-    { id: "goose", ...CharacterArt.appearances.goose, chicks: 0, friends: 0, challenge: "lake", requirement: "Vença o dono do lago" },
+    { id: "goose", ...CharacterArt.appearances.goose, chicks: 0, friends: 0, challenge: "lake", requirement: "Vença o desafio de PANTO" },
   ]);
   let profile = null;
   let storageAvailable = true;

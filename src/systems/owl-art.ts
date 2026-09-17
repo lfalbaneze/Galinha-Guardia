@@ -1,13 +1,19 @@
 /* Four-direction pixel sheet with the same world foot plane as the farm cast. */
 const OwlArt = (() => {
-  const sheet=createWildlifeSheet('assets/sprites/sources/owl.png',32,32,[30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30]);
-  const rows: Record<Farm.Direction,number>={up:0,right:1,down:2,left:3};
+  const frames = [
+    {x:92,y:56,w:244,h:300},{x:419,y:56,w:247,h:300},{x:746,y:56,w:247,h:300},
+    {x:77,y:382,w:264,h:303},{x:402,y:382,w:278,h:303},{x:729,y:382,w:280,h:303},
+    {x:59,y:705,w:280,h:309},{x:398,y:705,w:281,h:309},{x:729,y:705,w:275,h:309},
+    {x:91,y:1033,w:245,h:304},{x:419,y:1033,w:247,h:304},{x:749,y:1033,w:244,h:304}
+  ];
+  const sheet=createWildlifeSheet('assets/sprites/sources/owl-custom.png',1086,1448,frames);
+  const rows: Record<Farm.Direction,number>={down:0,left:1,right:2,up:3};
   function frameFor(owl: Farm.Owl): {row:number;column:number} {
-    return {row:rows[owl.direction]??2,column:owl.mode==='alert'?2:owl.mode==='cooldown'?1:0};
+    return {row:rows[owl.direction]??0,column:owl.mode==='alert'?2:owl.mode==='cooldown'?1:0};
   }
   function draw(c:CanvasRenderingContext2D,owl:Farm.Owl,view:Farm.Camera):boolean {
     const x=Math.round(owl.perch.x-view.x+(view.shakeX||0)),feet=Math.round(owl.perch.y-view.y+(view.shakeY||0))-42;
-    const frame=frameFor(owl);return sheet.drawFrame(c,x,feet,frame.row,frame.column,1.6);
+    const frame=frameFor(owl);return sheet.drawFrame(c,x,feet,frame.row,frame.column,.15);
   }
-  return {draw,frameFor,load:sheet.load,install:sheet.install,get ready(){return sheet.ready;},get loading(){return sheet.loading;},get errors(){return sheet.errors;}};
+  return {draw,frameFor,frames,load:sheet.load,install:sheet.install,get ready(){return sheet.ready;},get loading(){return sheet.loading;},get errors(){return sheet.errors;}};
 })();

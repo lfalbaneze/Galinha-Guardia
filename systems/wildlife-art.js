@@ -1,6 +1,5 @@
 "use strict";
-/* Shared PNG loading and foot alignment for wildlife; no shape-based fallback enemies. */
-function createWildlifeSheet(source, width, height, bottoms) {
+function createWildlifeSheet(source, width, height, frames) {
     let image = null, pending = null;
     let errors = [];
     function browserImage(src) {
@@ -20,7 +19,7 @@ function createWildlifeSheet(source, width, height, bottoms) {
         errors = [];
         pending = Promise.resolve().then(() => loader(source)).then(loaded => {
             const size = loaded;
-            if (size.width !== width * 3 || size.height !== height * 4)
+            if (size.width !== width || size.height !== height || frames.length !== 12)
                 throw new Error('Invalid sprite dimensions');
             image = loaded;
             pending = null;
@@ -32,9 +31,12 @@ function createWildlifeSheet(source, width, height, bottoms) {
     function drawFrame(c, x, feet, row, column, scale) {
         if (!image)
             return false;
+        const frame = frames[row * 3 + column];
+        if (!frame)
+            return false;
         c.save();
         c.imageSmoothingEnabled = false;
-        c.drawImage(image, column * width, row * height, width, height, Math.round(x - width * scale / 2), Math.round(feet - bottoms[row * 3 + column] * scale), width * scale, height * scale);
+        c.drawImage(image, frame.x, frame.y, frame.w, frame.h, Math.round(x - frame.w * scale / 2), Math.round(feet - frame.h * scale), frame.w * scale, frame.h * scale);
         c.restore();
         return true;
     }

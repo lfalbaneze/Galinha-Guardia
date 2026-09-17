@@ -114,7 +114,7 @@ const GooseSystem = (() => {
         AudioSystem.play('bonk', { volume: .38 });
         spawnBurst(chicken.x, chicken.y, '#fff0c9', 8);
         setStatus(game.lake?.active ? `Ele acertou! Ainda ${game.lake.misses}/3. Espere o aviso e saia da linha.` :
-            'Xô! O ganso deu um empurrão. Contorne o lago ou desvie da investida!');
+            'Xô! PANTO deu um empurrão. Contorne o lago ou desvie da investida!');
         GameManager.save(game);
         return true;
     }
@@ -184,7 +184,7 @@ const GooseSystem = (() => {
         Player.face(goose, dx, dy);
         honk(game, goose);
         setStatus(feint ? 'Só um blefe! Espere a linha de investida. Blefes não contam.' :
-            'HÓÓÓNK! O ganso vai avançar na direção marcada. Saia da frente!');
+            'HÓÓÓNK! PANTO vai avançar na direção marcada. Saia da frente!');
     }
     function patrolTarget(goose) {
         // Every patrol leg passes through home, so a dash has a known, reversible return path.
@@ -387,21 +387,24 @@ const GooseSystem = (() => {
         const p = worldToScreen(goose);
         if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height)
             return;
-        if (['notice', 'warning', 'feint', 'charge', 'stunned', 'defeated'].includes(goose.mode) || goose.notice > 0) {
-            ctx.save();
-            const x = clamp(p.x, 80, canvas.width - 80), y = Math.max(42, p.y - 76);
-            ctx.fillStyle = '#503b27';
-            ctx.beginPath();
-            ctx.roundRect(x - 67, y - 19, 134, 28, 5);
-            ctx.fill();
+        const speaking = ['notice', 'warning', 'feint', 'charge', 'stunned', 'defeated'].includes(goose.mode) || goose.notice > 0;
+        ctx.save();
+        const x = clamp(p.x, 80, canvas.width - 80), y = Math.max(50, p.y - (speaking ? 96 : 69));
+        ctx.fillStyle = '#503b27';
+        ctx.beginPath();
+        ctx.roundRect(x - (speaking ? 72 : 35), y - 19, speaking ? 144 : 70, speaking ? 44 : 27, 5);
+        ctx.fill();
+        ctx.fillStyle = '#f4d28c';
+        ctx.font = 'bold 12px Trebuchet MS, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('PANTO', x, y);
+        if (speaking) {
             ctx.fillStyle = '#fff1be';
-            ctx.font = 'bold 12px Trebuchet MS, sans-serif';
-            ctx.textAlign = 'center';
             ctx.fillText(goose.mode === 'defeated' ? 'Pode passar…' : goose.mode === 'stunned' ? 'Cadê você?!' :
                 goose.mode === 'notice' ? 'Quem vem lá?' : goose.mode === 'feint' ? 'Só um blefe…' :
-                    goose.mode === 'warning' ? 'HÓÓÓNK! Desvie!' : goose.mode === 'charge' ? 'Sai do meu lago!' : 'Xô! Xô!', x, y);
-            ctx.restore();
+                    goose.mode === 'warning' ? 'HÓÓÓNK! Desvie!' : goose.mode === 'charge' ? 'Sai do meu lago!' : 'Xô! Xô!', x, y + 17);
         }
+        ctx.restore();
     }
     return { initialize, update, getConfig, snapshot, restore, visible, drawTerritory, drawIndicator };
 })();

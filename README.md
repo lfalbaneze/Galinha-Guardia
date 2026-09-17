@@ -47,19 +47,21 @@ Encoste nos amigos para resgatá-los. Eles vão para o refúgio e ficam a salvo 
 
 **Cuidado com os esconderijos:** se o lobo vir você entrar, ele pode ir até lá. Saia, despiste-o e procure outra cobertura sem ser vista. A corrida tem fôlego limitado; caminhar recupera a reserva, e se esconder recupera mais rápido.
 
-## O dono do lago
+## PANTO, o dono do lago
 
 O ganso patrulha a margem, para para observar você e abre as asas antes de avançar. A direção da investida fica marcada no chão e não muda durante o ataque. Às vezes ele blefa: observe a indicação antes de gastar fôlego. Depois de errar, fica atordoado e precisa se recuperar.
 
 A faixa no chão mostra a largura de contato. Depois do aviso, afastar-se para o lado continua valendo como esquiva, mesmo saindo do alcance em que ele percebe você. Se uma cerca deixa o ganso sem espaço para investir, ele se reposiciona devagar e dá um aviso completo antes de tentar. O painel do desafio indica quando se aproximar, desviar ou esperar.
 
-Perto dele, pressione **F** ou use **Desafiar o ganso** para iniciar um desafio opcional. Provoque **três investidas de verdade e desvie**, permanecendo dentro do círculo. Blefes, ataques parados contra uma parede e investidas que acertam a galinha não contam. Esconder-se protege você, mas não vale como esquiva para o desafio.
+O ganso se chama **PANTO**, com o nome visível sobre ele e no painel do lago. Perto dele, pressione **F** ou use **Desafiar PANTO** para iniciar um desafio opcional. Provoque **três investidas de verdade e desvie**, permanecendo dentro do círculo. Blefes, ataques parados contra uma parede e investidas que acertam a galinha não contam. Esconder-se protege você, mas não vale como esquiva para o desafio.
 
 Durante a tentativa, o lobo espera fora da área e os outros bichos ficam pausados. A bicada apenas empurra: não tira vidas, pontos ou fôlego. **F novamente** ou sair do círculo interrompe a tentativa, zerando somente a contagem do desafio. Pausar mantém a tentativa; fechar e recarregar a página exige iniciá-la de novo com segurança.
 
 Ao desviar três vezes, você ganha o respeito do dono do lago: ele para de atacar, a **ponte sobre o lago abre um atalho real** e a **aparência de ganso** fica disponível no baú. A ponte permanece aberta nessa fazenda; a aparência continua desbloqueada nas próximas aventuras. Nenhum dos dez amigos ou seis pintinhos exige vencer esse desafio.
 
 ## Raposa e coruja
+
+As duas usam as folhas de sprites fornecidas pelo usuário, com 12 poses e quatro direções. As imagens originais são preservadas; recortes individuais evitam cortar orelhas, caudas e patas. Consulte as [notas da arte](assets/sprites/USER-WILDLIFE-NOTES.md).
 
 Nas moitas junto aos caminhos, a **raposa fica visível na borda da vegetação**, mesmo enquanto espera. Antes do bote, ela faz as folhas farfalharem, e uma faixa mostra a direção e a largura da investida. Desvie para o lado: ela não corrige a direção no meio do ataque. Depois, descansa e volta para a mesma moita. O contato empurra a galinha, sem descontar vidas, pontos ou resgates, e dá uma proteção breve contra outro inimigo.
 

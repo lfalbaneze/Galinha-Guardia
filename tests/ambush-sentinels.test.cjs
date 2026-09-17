@@ -135,14 +135,20 @@ test('hidden and distant enemies do not leak their positions onto the minimap',(
 
 test('both sprite sheets contain twelve complete frames, distinct directions and transparent margins',async()=>{
  const {loadImage,createCanvas}=require('@napi-rs/canvas');
- for(const [name,cw,ch] of [['fox',48,64],['owl',32,32]]){
-  const image=await loadImage(path.join(__dirname,`../assets/sprites/sources/${name}.png`));assert.equal(image.width,cw*3);assert.equal(image.height,ch*4);
-  const c=createCanvas(cw*3,ch*4),ctx=c.getContext('2d');ctx.drawImage(image,0,0);const signatures=[];
-  for(let r=0;r<4;r++)for(let col=0;col<3;col++){
-   const data=ctx.getImageData(col*cw,r*ch,cw,ch).data;let pixels=0;for(let i=3;i<data.length;i+=4)if(data[i])pixels++;
-   assert.ok(pixels>100&&pixels<cw*ch*.8);if(col===0)signatures.push(Buffer.from(data).toString('base64'));
+ const game=createGame(()=>.5);
+ for(const [name,api] of [['fox','FoxArt'],['owl','OwlArt']]){
+  const image=await loadImage(path.join(__dirname,`../assets/sprites/sources/${name}-custom.png`));assert.equal(image.width,1086);assert.equal(image.height,1448);
+  const c=createCanvas(image.width,image.height),ctx=c.getContext('2d');ctx.drawImage(image,0,0);const signatures=[];
+  const frames=game.run(`${api}.frames`);assert.equal(frames.length,12);
+  for(const frame of frames){
+   assert.ok(frame.x>=0&&frame.y>=0&&frame.x+frame.w<=image.width&&frame.y+frame.h<=image.height);
+   const data=ctx.getImageData(frame.x,frame.y,frame.w,frame.h).data;let pixels=0;for(let i=3;i<data.length;i+=4)if(data[i]>100)pixels++;
+   assert.ok(pixels>10000&&pixels<frame.w*frame.h*.8);signatures.push(Buffer.from(data).toString('base64'));
+   for(let x=0;x<frame.w;x++)assert.ok(data[x*4+3]<100&&data[((frame.h-1)*frame.w+x)*4+3]<100,'feet and ears are not clipped');
   }
-  assert.equal(new Set(signatures).size,4);
+  assert.equal(new Set(signatures).size,12);
+  for(const [direction,row] of [['down',0],['left',1],['right',2],['up',3]])
+   assert.equal(game.run(`${api}.frameFor({direction:'${direction}',moving:false,mode:'watch'}).row`),row);
  }
 });
 test('PNG load requests are shared, invalid sheets fail, retries reuse success',async()=>{
@@ -158,7 +164,7 @@ test('PNG load requests are shared, invalid sheets fail, retries reuse success',
 });
 test('renderers use decoded PNGs and restore the callers canvas state',async()=>{
  const {createCanvas,loadImage}=require('@napi-rs/canvas'),h=setup(),c=createCanvas(220,180),ctx=c.getContext('2d');
- h.context.art=ctx;h.context.foxImage=await loadImage(path.join(__dirname,'../assets/sprites/sources/fox.png'));h.context.owlImage=await loadImage(path.join(__dirname,'../assets/sprites/sources/owl.png'));
+ h.context.art=ctx;h.context.foxImage=await loadImage(path.join(__dirname,'../assets/sprites/sources/fox-custom.png'));h.context.owlImage=await loadImage(path.join(__dirname,'../assets/sprites/sources/owl-custom.png'));
  h.run('FoxArt.install(()=>foxImage);OwlArt.install(()=>owlImage);f.x=60;f.y=120;f.mode="dash";o.perch={x:160,y:170}');
  ctx.globalAlpha=.6;ctx.imageSmoothingEnabled=true;const before=ctx.getTransform();
  for(const direction of ['up','down','left','right'])h.run(`f.direction='${direction}';o.direction='${direction}';FoxArt.draw(art,f,{x:0,y:0,shakeX:0,shakeY:0});OwlArt.draw(art,o,{x:0,y:0,shakeX:0,shakeY:0})`);
