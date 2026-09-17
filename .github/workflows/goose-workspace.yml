@@ -1,0 +1,29 @@
+name: Goose development workspace
+on:
+  push:
+    branches: [feature/territorial-goose]
+    paths: [.github/workflows/goose-workspace.yml]
+permissions:
+  contents: read
+jobs:
+  workspace:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Package tracked sources and development dependencies
+        run: |
+          mkdir -p /tmp/goose-workspace
+          git archive HEAD | tar -x -C /tmp/goose-workspace
+          cp -a node_modules /tmp/goose-workspace/
+          tar -czf /tmp/goose-workspace.tar.gz -C /tmp/goose-workspace .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: goose-development-workspace
+          path: /tmp/goose-workspace.tar.gz
+          retention-days: 1
