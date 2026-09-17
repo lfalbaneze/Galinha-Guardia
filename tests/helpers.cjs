@@ -43,6 +43,8 @@ function createGame(random = Math.random, options = {}) {
       vm.runInContext('FoxArt.install(() => ({}));', context);
     if (match[1] === 'systems/owl-art.js' && !options.drawingContext)
       vm.runInContext('OwlArt.install(() => ({}));', context);
+    if (match[1] === 'systems/thor-art.js' && !options.drawingContext && !options.skipThorInstall)
+      vm.runInContext('ThorArt.install(() => ({}));', context);
     if (match[1] === 'systems/character-art.js' && !options.drawingContext)
       vm.runInContext('CharacterArt.install(() => ({}));', context);
   }

@@ -2,7 +2,7 @@
 const GameUI = (() => {
   const elements = {};
   const wolfLevels = ["Atento", "Farejador", "Feroz", "Implacável"];
-  const wolfModes = { patrol: "patrulhando", alert: "desconfiado", investigate: "investigando ruído", search: "procurando", chase: "perseguindo", inspect: "viu o esconderijo!" };
+  const wolfModes = { frightened: "assustado pelo Thor", patrol: "patrulhando", alert: "desconfiado", investigate: "investigando ruído", search: "procurando", chase: "perseguindo", inspect: "viu o esconderijo!" };
   let initialized = false;
   let lastPhase = null;
 
@@ -16,7 +16,7 @@ const GameUI = (() => {
   }
 
   function newGame() {
-    if (![CharacterArt, GooseArt, FoxArt, OwlArt].every(art => art.ready)) return;
+    if (![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt].every(art => art.ready)) return;
     resetGame();
     AudioSystem.sync(state);
     AudioSystem.unlock();
@@ -25,7 +25,7 @@ const GameUI = (() => {
   }
 
   function resumeGame() {
-    if (![CharacterArt, GooseArt, FoxArt, OwlArt].every(art => art.ready)) return;
+    if (![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt].every(art => art.ready)) return;
     if (!state || !state.hasSave) return;
     state.phase = state.resumePhase || "playing";
     input.clear();
@@ -46,7 +46,7 @@ const GameUI = (() => {
     elements.menuSkinSelect = document.getElementById("menuSkinSelect");
     for (const skin of SkinSystem.catalog) elements[`menu-skin-${skin.id}`] = document.getElementById(`menu-skin-${skin.id}`);
     document.getElementById('retrySprites').addEventListener('click', async () => {
-      const loading=Promise.all([CharacterArt.load(),GooseArt.load(),FoxArt.load(),OwlArt.load()]);
+      const loading=Promise.all([CharacterArt.load(),GooseArt.load(),FoxArt.load(),OwlArt.load(),ThorArt.load()]);
       update(state); await loading; update(state);
     });
     elements.startBtn.addEventListener("click", newGame);
@@ -114,13 +114,13 @@ const GameUI = (() => {
 
   function update(game) {
     if (!initialized) initialize();
-    const spritesBlocked = ![CharacterArt, GooseArt, FoxArt, OwlArt].every(art => art.ready);
+    const spritesBlocked = ![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt].every(art => art.ready);
     for (const id of ['startBtn', 'continueBtn', 'replayBtn']) elements[id].disabled = spritesBlocked;
     document.getElementById('restartBtn').disabled = spritesBlocked;
     const spriteStatus = document.getElementById('spriteStatus');
     spriteStatus.hidden = !spritesBlocked;
-    document.getElementById('retrySprites').hidden = !spritesBlocked || [CharacterArt,GooseArt,FoxArt,OwlArt].some(a=>a.loading);
-    spriteStatus.textContent = [CharacterArt, GooseArt, FoxArt, OwlArt].some(art => art.errors.length)
+    document.getElementById('retrySprites').hidden = !spritesBlocked || [CharacterArt,GooseArt,FoxArt,OwlArt,ThorArt].some(a=>a.loading);
+    spriteStatus.textContent = [CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt].some(art => art.errors.length)
       ? 'Alguns bichos não chegaram. Recarregue a página para tentar novamente.'
       : 'Chamando a turma da fazenda…';
     AudioControls.update(game);
@@ -159,6 +159,7 @@ const GameUI = (() => {
     const hint = !playing ? (game.phase === "menu" ? "A turma espera por você." : "Todo mundo junto. Até o lobo perdeu a coragem!") :
       exposed ? "Ele viu você! Saia com E e procure outro esconderijo." :
       callableChick ? "Piu-piu! Aperte E uma vez para chamar o pintinho ao ninho." :
+      wolf.mode === "frightened" ? "Thor espantou o lobo! Aproveite para seguir seu caminho." :
       hidden ? "Quietinha… deixe o lobo passar. E ou movimento para sair." :
       wolf.mode === "chase" ? "Corra e saia da vista do lobo antes de se esconder!" :
       wolf.mode === "alert" ? "Ele percebeu alguma coisa. Saia da vista!" :
@@ -247,7 +248,7 @@ const GameUI = (() => {
     // Brief, local feedback ties each state to the character causing it.
     if (wolf.mode !== "patrol" && w.x > 65 && w.x < canvas.width - 65 && w.y > 93 && w.y < canvas.height + 20) {
       const color = ["chase", "inspect"].includes(wolf.mode) ? "#f6b9a4" : wolf.mode === "alert" ? "#ffe398" : "#cce2e6";
-      const labels = { chase: "! PERSEGUINDO", alert: "? DESCONFIOU", investigate: "OUVIU ALGO", search: "PROCURANDO", inspect: "! TE VI ENTRAR" };
+      const labels = { frightened: "THOR ME ASSUSTOU!", chase: "! PERSEGUINDO", alert: "? DESCONFIOU", investigate: "OUVIU ALGO", search: "PROCURANDO", inspect: "! TE VI ENTRAR" };
       panel(w.x - 60, w.y - 94, 120, wolf.mode === "alert" ? 33 : 25, "rgba(42, 57, 46, .92)");
       ctx.fillStyle = color; ctx.textAlign = "center"; ctx.font = "bold 10px sans-serif";
       ctx.fillText(labels[wolf.mode] || "", w.x, w.y - 77);
@@ -297,6 +298,8 @@ const GameUI = (() => {
   }
 
   function activeNotice(game) {
+    if(game.thorNotice?.time>0)return {time:game.thorNotice.time,title:game.thorNotice.healed?"Thor chegou! +1 coração":"Thor chegou!",
+      detail:game.thorNotice.healed?"O lobo levou um susto. Aproveite a ajuda!":"Corações cheios · o lobo levou um susto!"};
     if(game.skinNotice?.time>0)return {time:game.skinNotice.time,title:`Nova aparência: ${game.skinNotice.text}`,
       detail:game.secretNotice?.time>0?'Pintinho salvo! Sua recompensa está no baú.':'Já está no baú. Experimente quando quiser!'};
     if(game.secretNotice?.time>0)return {time:game.secretNotice.time,

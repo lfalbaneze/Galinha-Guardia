@@ -10,7 +10,8 @@ test('ten unique, reachable friends are always spawned, including adversarial ra
       assert.equal(run('state.entities.animals.length'), 10);
       assert.equal(run('new Set(state.entities.animals.map(a => a.id)).size'), 10);
       assert.equal(run(`state.entities.animals.every(a => { const h = getHitbox(a); return OBSTACLES.every(r =>
-        Math.hypot(h.x - clamp(h.x,r.x,r.x+r.w), h.y-clamp(h.y,r.y,r.y+r.h)) >= h.r - 0.01); })`), true);
+        Math.hypot(h.x - clamp(h.x,r.x,r.x+r.w), h.y-clamp(h.y,r.y,r.y+r.h)) >= h.r - 0.01); })`), true,
+        `overlapping spawn, seed ${run('state.worldSeed')}, difficulty ${mode}`);
     }
   }
 });
@@ -23,6 +24,17 @@ test('contact rescues once, awards points and moves friend to safety', () => {
   assert.equal(run('GameManager.rescue(state, friend)'), false);
   assert.equal(run('state.rescuedIds.has(friend.id)'), true);
   assert.equal(run('distance(friend, RescueSystem.safePosition(0)) < .01'), true);
+});
+
+test('a generated waiting point overlapping a runtime prop gets a clear nearby home',()=>{
+  const {run}=createGame(()=>.5);
+  run(`var blockedHome=WORLD.layout.animalSpawns[0];
+    OBSTACLES=[{x:blockedHome.x-18,y:blockedHome.y-18,w:36,h:36}];
+    var friends=spawnAnimals(state.settings,state.entities.wolf),relocated=friends[0];`);
+  assert.ok(run('distance(relocated,blockedHome)>20 && distance(relocated,blockedHome)<65'));
+  assert.equal(run(`friends.every(a=>{const h=getHitbox(a);return OBSTACLES.every(r=>
+    Math.hypot(h.x-clamp(h.x,r.x,r.x+r.w),h.y-clamp(h.y,r.y,r.y+r.h))>=h.r);})`),true);
+  assert.equal(run('relocated.homeX===relocated.x && relocated.homeY===relocated.y'),true);
 });
 
 test('progress round-trips IDs, area positions, lives, score and difficulty', () => {

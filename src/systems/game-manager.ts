@@ -20,6 +20,7 @@ const GameManager = (() => {
     GooseSystem.initialize(game);
     FoxSystem.initialize(game);
     OwlSystem.initialize(game);
+    ThorSystem.initialize(game);
     saveTimer = 0;
   }
   function level(count: number): number { return count >= 9 ? 3 : count >= 6 ? 2 : count >= 3 ? 1 : 0; }
@@ -71,11 +72,13 @@ const GameManager = (() => {
         alertReturnMode: wolf.alertReturnMode, patrolPause: wolf.patrolPause,
         patrolScanHeading: wolf.patrolScanHeading, searchApproached: wolf.searchApproached,
         searchIndex: wolf.searchIndex, scanTime: wolf.scanTime, exposedCover: wolf.exposedCover || null,
-        seenVelocity: wolf.seenVelocity, investigateReturnMode: wolf.investigateReturnMode },
+        seenVelocity: wolf.seenVelocity, investigateReturnMode: wolf.investigateReturnMode,
+        fearTime: wolf.fearTime || 0, fearFrom: wolf.fearFrom || null },
       animals: game.entities.animals.map(friend),
       chicks: game.entities.chicks.map(friend),
       goose: GooseSystem.snapshot(game),
       foxes: FoxSystem.snapshot(game), owls: OwlSystem.snapshot(game),
+      thor: ThorSystem.snapshot(game),
       lake: LakeChallenge.snapshot(game),
     };
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); storageAvailable = true; }
@@ -219,6 +222,9 @@ const GameManager = (() => {
     GooseSystem.restore(game, data.goose);
     FoxSystem.restore(game, data.foxes);
     OwlSystem.restore(game, data.owls);
+    ThorSystem.restore(game, data.thor);
+    if(data.wolf.mode==='frightened' && Number.isFinite(data.wolf.fearTime) && data.wolf.fearTime!>0 &&
+      WildlifeRules.validPoint(data.wolf.fearFrom))WolfAI.frighten(game,data.wolf.fearFrom,bounded(data.wolf.fearTime,0,6));
     game.winBonusApplied = data.winBonusApplied === true;
     if (game.rescuedCount === WORLD.targetRescues) GameManager.win(game);
     refreshHud();

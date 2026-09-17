@@ -72,7 +72,7 @@ const Player = {
     checkCatch(game) {
         const chicken = game.entities.chicken, wolf = game.entities.wolf;
         if (game.lake?.active || game.phase !== "playing" || (chicken.hidden && !WolfAI.canCatchHidden(game)) || chicken.invulnerable > 0 ||
-            wolf.pauseTimer > 0 || wolf.huntUnlockTimer > 0 || !circleVsCircle(chicken, wolf) ||
+            wolf.mode === 'frightened' || wolf.pauseTimer > 0 || wolf.huntUnlockTimer > 0 || !circleVsCircle(chicken, wolf) ||
             !DetectionSystem.hasLineOfSight(getHitbox(wolf), getHitbox(chicken)))
             return false;
         const caughtInCover = chicken.hidden;

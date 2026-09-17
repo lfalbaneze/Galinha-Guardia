@@ -7,7 +7,9 @@ const WolfAI = (() => {
         { speedScale: 1.36, range: 520, fov: 132, closeRange: 60, noiseRange: 160, awarenessTime: 0.39, searchDuration: 11.5, searchRadius: 185, searchPoints: 4 },
         { speedScale: 1.48, range: 610, fov: 150, closeRange: 66, noiseRange: 180, awarenessTime: 0.30, searchDuration: 16, searchRadius: 245, searchPoints: 6 },
     ];
-    let navigationCache = null;
+    // Thor and the wolf have different footprints. Keep both navigation graphs so
+    // alternating their updates does not rebuild the whole farm graph each frame.
+    const navigationCache = new Map();
     function getConfig(game) {
         const level = Number.isFinite(game.wolfLevel) ? clamp(Math.floor(game.wolfLevel), 0, 3) : 0;
         // Labels still have four tiers; the actual challenge advances at EVERY rescue.
@@ -49,12 +51,13 @@ const WolfAI = (() => {
             alertReturnMode: "patrol", patrolPause: 0, patrolScanHeading: Math.PI,
             exposedCover: null, seenVelocity: { x: 0, y: 0 }, lastSight: null, sightAge: Infinity,
             investigateReturnMode: 'patrol',
+            fearTime: 0, fearFrom: null, escapeTarget: null,
         });
     }
     // Record the visible entrance once. Hidden movement never updates this observation.
     function witnessHide(game, spot) {
         const wolf = game.entities.wolf, chicken = game.entities.chicken, config = getConfig(game);
-        if (game.phase !== "playing" || chicken.hidden || !spot || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
+        if (game.phase !== "playing" || wolf.mode === 'frightened' || chicken.hidden || !spot || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
             distance(wolf, chicken) > config.hideWitnessRange ||
             !DetectionSystem.canSee(wolf, chicken, { ...config, range: config.hideWitnessRange }))
             return false;
@@ -104,10 +107,13 @@ const WolfAI = (() => {
     }
     function navigation(wolf) {
         const radius = wolf.hitbox ? wolf.hitbox.r : wolf.radius;
-        if (navigationCache && navigationCache.source === OBSTACLES &&
-            navigationCache.count === OBSTACLES.length && navigationCache.radius === radius &&
-            navigationCache.width === WORLD.width && navigationCache.height === WORLD.height)
-            return navigationCache;
+        const cached = navigationCache.get(radius);
+        const current = (nav) => nav.source === OBSTACLES && nav.count === OBSTACLES.length &&
+            nav.width === WORLD.width && nav.height === WORLD.height;
+        if (cached && current(cached))
+            return cached;
+        if ([...navigationCache.values()].some(nav => !current(nav)))
+            navigationCache.clear();
         const padding = radius + 2;
         const rects = OBSTACLES.filter(rect => rect.blocking !== false).map(rect => ({
             x: rect.x - padding, y: rect.y - padding,
@@ -115,7 +121,7 @@ const WolfAI = (() => {
         }));
         const nav = { source: OBSTACLES, count: OBSTACLES.length, radius, padding, rects,
             width: WORLD.width, height: WORLD.height, nodes: null, edges: null };
-        navigationCache = nav;
+        navigationCache.set(radius, nav);
         return nav;
     }
     function navigationNodes(nav) {
@@ -422,6 +428,51 @@ const WolfAI = (() => {
         wolf.anim += dt * (Math.hypot(wolf.vx, wolf.vy) > 10 ? 8 : 3);
         return arrived || (!wolf.route.length && distance(wolf, target) < 12);
     }
+    function frighten(game, source, seconds = 6) {
+        if (game.phase !== 'playing' || game.lake?.active || !WildlifeRules.validPoint(source))
+            return;
+        const wolf = game.entities.wolf;
+        resumePatrol(wolf);
+        wolf.mode = 'frightened';
+        wolf.fearTime = clamp(seconds, 0, 6);
+        wolf.fearFrom = { x: source.x, y: source.y };
+        wolf.escapeTarget = null;
+        wolf.awareness = 0;
+        wolf.detected = false;
+        wolf.exposedCover = null;
+        wolf.lastKnown = null;
+        wolf.heardPoint = null;
+        wolf.lastSight = null;
+        wolf.seenVelocity = { x: 0, y: 0 };
+        wolf.speech = 'Thor?! Tô saindo!';
+        wolf.speechTime = 3;
+        wolf.speechCooldown = 6;
+        wolf.speechMode = 'frightened';
+    }
+    function flee(wolf, speed, dt) {
+        if (!wolf.escapeTarget) {
+            const from = wolf.fearFrom || wolf;
+            const heading = distance(wolf, from) > 1 ? Math.atan2(wolf.y - from.y, wolf.x - from.x) : wolf.heading + Math.PI;
+            const nav = navigation(wolf), origin = center(wolf);
+            let bestScore = -Infinity;
+            for (const turn of [0, .45, -.45, .9, -.9, 1.5, -1.5, Math.PI]) {
+                const aim = openPoint({ x: origin.x + Math.cos(heading + turn) * 360, y: origin.y + Math.sin(heading + turn) * 360 }, nav);
+                const target = { x: aim.x - (wolf.hitbox.ox || 0), y: aim.y - (wolf.hitbox.oy || 0) };
+                const score = distance(target, from) - Math.abs(turn) * 40;
+                if (score <= bestScore || distance(wolf, target) < 30)
+                    continue;
+                const route = findPath(wolf, target);
+                if (!route.length)
+                    continue;
+                bestScore = score;
+                wolf.escapeTarget = target;
+            }
+        }
+        if (wolf.escapeTarget)
+            moveToward(wolf, wolf.escapeTarget, speed, dt);
+        else
+            stop(wolf, dt);
+    }
     function update(game, dt) {
         if (game.lake?.active || game.phase !== "playing" || !Number.isFinite(dt) || dt <= 0)
             return;
@@ -435,6 +486,20 @@ const WolfAI = (() => {
         wolf.hearingCooldown = Math.max(0, (wolf.hearingCooldown || 0) - dt);
         wolf.awareness = clamp(Number.isFinite(wolf.awareness) ? wolf.awareness : 0, 0, 1);
         wolf.sightAge = (wolf.sightAge ?? Infinity) + dt;
+        if (wolf.mode === 'frightened') {
+            wolf.fearTime = Math.max(0, (wolf.fearTime || 0) - dt);
+            wolf.awareness = 0;
+            wolf.detected = false;
+            if (wolf.fearTime > 0)
+                flee(wolf, config.speed * 1.12, dt);
+            else {
+                wolf.fearFrom = null;
+                wolf.escapeTarget = null;
+                resumePatrol(wolf);
+                stop(wolf, dt);
+            }
+            return;
+        }
         if (wolf.exposedCover) {
             wolf.exposedCover.remaining = Math.max(0, wolf.exposedCover.remaining - dt);
             if (wolf.exposedCover.remaining <= 0) {
@@ -602,7 +667,7 @@ const WolfAI = (() => {
     function investigateSound(game, source, radius = 360, reportedPoint = source, acousticObstacles = OBSTACLES) {
         const wolf = game.entities.wolf;
         if (game.lake?.active || game.phase !== 'playing' || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
-            ['chase', 'inspect', 'alert'].includes(wolf.mode) || !Number.isFinite(source.x) || !Number.isFinite(source.y) ||
+            ['chase', 'inspect', 'alert', 'frightened'].includes(wolf.mode) || !Number.isFinite(source.x) || !Number.isFinite(source.y) ||
             source.x < 0 || source.y < 0 || source.x > WORLD.width || source.y > WORLD.height ||
             !Number.isFinite(radius) || radius <= 0 || !Number.isFinite(reportedPoint.x) || !Number.isFinite(reportedPoint.y) ||
             reportedPoint.x < 0 || reportedPoint.y < 0 || reportedPoint.x > WORLD.width || reportedPoint.y > WORLD.height)
@@ -627,5 +692,5 @@ const WolfAI = (() => {
         wolf.routeTimer = 0;
         return true;
     }
-    return { initialize, update, getConfig, findPath, patrolPoints, witnessHide, isExposed, canCatchHidden, restoreCoverMemory, investigateSound };
+    return { initialize, update, getConfig, findPath, patrolPoints, witnessHide, isExposed, canCatchHidden, restoreCoverMemory, investigateSound, frighten };
 })();

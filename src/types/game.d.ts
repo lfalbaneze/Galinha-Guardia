@@ -3,7 +3,7 @@ declare namespace Farm {
   type Direction = 'up' | 'down' | 'left' | 'right';
   type Difficulty = 'easy' | 'normal' | 'hard';
   type Phase = 'menu' | 'playing' | 'win_cutscene' | 'won' | 'lose';
-  type WolfMode = 'patrol' | 'alert' | 'investigate' | 'chase' | 'search' | 'inspect';
+  type WolfMode = 'patrol' | 'alert' | 'investigate' | 'chase' | 'search' | 'inspect' | 'frightened';
   type Species = 'sheep' | 'pig' | 'goat' | 'cow' | 'duck' | 'rabbit' | 'dog' | 'cat' | 'donkey' | 'lamb' | 'chick';
   interface Point { x: number; y: number; }
   interface Rect extends Point { w: number; h: number; }
@@ -36,7 +36,7 @@ declare namespace Farm {
   interface Camera extends Point { shakeX: number; shakeY: number; }
   interface Body extends Point { radius: number; hitbox: Hitbox; }
   interface Entity extends Body {
-    id: string; type: 'chicken' | 'wolf' | 'animal' | 'chick' | 'goose' | 'fox' | 'owl';
+    id: string; type: 'chicken' | 'wolf' | 'animal' | 'chick' | 'goose' | 'fox' | 'owl' | 'thor';
     vx: number; vy: number; facing: number; direction: Direction;
     moving: boolean; anim: number; areaId: string; state: string;
   }
@@ -59,6 +59,7 @@ declare namespace Farm {
     alertReturnMode: WolfMode; patrolPause: number; patrolScanHeading: number;
     exposedCover: CoverMemory | null; seenVelocity: Point; lastSight: Point | null; sightAge: number;
     investigateReturnMode: 'patrol' | 'search';
+    fearTime?: number; fearFrom?: Point | null; escapeTarget?: Point | null;
     speech?: string; speechTime?: number; speechCooldown?: number; speechMode?: WolfMode;
   }
   interface Threat extends Point { kind: 'player' | 'wolf'; }
@@ -89,6 +90,14 @@ declare namespace Farm {
 
   interface FoxSnapshot extends Point { id: string; cooldown: number; }
   interface OwlSnapshot { id: string; cooldown: number; }
+  interface Thor extends Entity {
+    type: 'thor'; mode: 'enter' | 'greet' | 'leave'; timer: number;
+    exit: Point; route: Point[]; routeTimer: number; age: number;
+  }
+  interface ThorSnapshot {
+    nextIn: number; visits: number;
+    visitor: (Point & { mode: Thor['mode']; timer: number; exit: Point; age: number; direction: Direction }) | null;
+  }
   interface DifficultySettings {
     chickenSpeed: number; wolfMaxSpeed: number; wolfSprintCap?: number;
     label: string; wolfAccel: number; wolfPauseAfterCatch: number;
@@ -99,7 +108,9 @@ declare namespace Farm {
   interface RescueNotice extends TimedNotice { name: string; count: number; total: number; chick: boolean; }
   interface GameState {
     phase: Phase; resumePhase?: Phase; difficultyKey: Difficulty; settings: DifficultySettings;
-    entities: { chicken: Chicken; wolf: Wolf; animals: Animal[]; chicks: Animal[]; goose?: Goose; foxes?: Fox[]; owls?: Owl[]; };
+    entities: { chicken: Chicken; wolf: Wolf; animals: Animal[]; chicks: Animal[]; goose?: Goose; foxes?: Fox[]; owls?: Owl[]; thor?: Thor | null; };
+    thorVisit?: { nextIn: number; visits: number };
+    thorNotice?: TimedNotice & { healed: boolean };
     worldSeed: number; worldVersion: number;
     rescuedIds: Set<string>; rescuedChickIds: Set<string>;
     rescuedCount: number; rescuedChicks: number; wolfLevel: number;
@@ -143,7 +154,7 @@ declare namespace Farm {
     'mode' | 'lastKnown' | 'searchTime' | 'patrolIndex' | 'heading' | 'huntUnlockTimer' | 'awareness' |
     'heardPoint' | 'hearingCooldown' | 'investigateTime' | 'alertReturnMode' | 'patrolPause' |
     'patrolScanHeading' | 'searchApproached' | 'searchIndex' | 'scanTime' | 'exposedCover' |
-    'seenVelocity' | 'investigateReturnMode'>>;
+    'seenVelocity' | 'investigateReturnMode' | 'fearTime' | 'fearFrom'>>;
   interface SaveData {
     version: 1 | 2 | 3 | 4; worldSeed: number; worldVersion?: number; difficulty: Difficulty; phase: Phase;
     rescuedIds: string[]; rescuedChickIds: string[]; lives: number; score: number;
@@ -151,5 +162,6 @@ declare namespace Farm {
     chicken: ChickenSnapshot; wolf: WolfSnapshot; animals: AnimalSnapshot[]; chicks: AnimalSnapshot[];
     goose?: GooseSnapshot;
     foxes?: FoxSnapshot[]; owls?: OwlSnapshot[];
+    thor?: ThorSnapshot;
   }
 }

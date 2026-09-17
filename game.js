@@ -264,6 +264,14 @@ function spawnAnimals(settings, wolfStart) {
     Object.assign(animal, { species: species[i], rescued: false, lost: false,
       targetX: point.x, targetY: point.y, homeX: point.x, homeY: point.y,
       hitbox: { ox: 0, oy: 6, r: 13 } });
+    // Check the actual offset hitbox against runtime geometry (including refuge
+    // rails). An unlucky generated home must not start an animal inside a prop.
+    const h = getHitbox(animal);
+    if (OBSTACLES.some(r => r.blocking !== false &&
+      Math.hypot(h.x-clamp(h.x,r.x,r.x+r.w),h.y-clamp(h.y,r.y,r.y+r.h)) < h.r)) {
+      const clear = WolfAI.findPath(animal,animal).pop();
+      if (clear) Object.assign(animal,clear,{targetX:clear.x,targetY:clear.y,homeX:clear.x,homeY:clear.y});
+    }
     return animal;
   });
 }
@@ -459,6 +467,7 @@ function updateGame(dt) {
       GooseSystem.update(state, dt);
       FoxSystem.update(state, dt);
       OwlSystem.update(state, dt);
+      ThorSystem.update(state, dt);
       updateWolf(dt);
       Player.checkCatch(state);
       MapManager.update(state, dt);
@@ -672,6 +681,7 @@ function renderGame() {
   if (!ending) for (const fox of state.entities.foxes || [])
     layers.push({ depth: fox.y + 12, entity: fox });
   if (!ending) for (const owl of state.entities.owls || []) layers.push({depth: owl.perch.y + .1, entity: owl});
+  if (!ending && !state.lake?.active && state.entities.thor) layers.push({depth:state.entities.thor.y+12,entity:state.entities.thor});
   if (!ending) for (const prop of FarmArt.getProps(WORLD.layout)) layers.push({ depth: prop.depth, prop });
   layers.sort((a, b) => a.depth - b.depth);
   for (const layer of layers) {
@@ -688,6 +698,7 @@ function renderGame() {
     } else if (entity.type === 'goose') GooseArt.draw(ctx, entity, camera);
     else if (entity.type === 'fox') FoxArt.draw(ctx, entity, camera);
     else if (entity.type === 'owl') OwlSystem.drawEntity(entity);
+    else if (entity.type === 'thor') ThorArt.draw(ctx,entity,camera);
     else drawAnimal(entity);
   }
   if (ending) EndGameSequence.draw(state);
@@ -770,7 +781,7 @@ if (savedGame) {
 state.hasSave = Boolean(savedGame);
 GameUI.showMenu(state);
 GameUI.update(state);
-Promise.all([CharacterArt.load(), GooseArt.load(), FoxArt.load(), OwlArt.load()]).then(() => GameUI.update(state));
+Promise.all([CharacterArt.load(), GooseArt.load(), FoxArt.load(), OwlArt.load(), ThorArt.load()]).then(() => GameUI.update(state));
 GameUI.update(state);
 FarmSprites.load();
 FarmSprites.loadNursery();

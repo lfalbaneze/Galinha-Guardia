@@ -150,6 +150,7 @@ const InterfaceMotion = (() => {
     else if (wolf.mode === 'alert') { level = 'suspect'; label = 'Ele está desconfiando…'; amount = Math.max(.12, wolf.awareness || 0); }
     else if (['search', 'investigate'].includes(wolf.mode)) { level = 'search'; label = 'Ele procura uma pista'; amount = .45; }
     if (chicken.hidden && !exposed) { level = 'safe'; label = 'Quietinha no esconderijo'; amount = 0; }
+    if (wolf.mode === 'frightened') { level = 'safe'; label = 'Thor espantou o lobo!'; amount = 0; }
     if (game.lake?.active) { level = 'safe'; label = 'O lobo espera fora do lago'; amount = 0; }
     if (!playing) { level = 'calm'; label = game.phase === 'menu' ? 'A fazenda está em pausa' : 'Fim da aventura'; amount = 0; }
     data('gameStage', 'threat', level); data('threatIndicator', 'level', level);
@@ -157,7 +158,7 @@ const InterfaceMotion = (() => {
     el.threatProgress.setAttribute('aria-valuetext', label);
     const transition = game.mapTransition;
     el.regionNotice.hidden = !playing || !transition || transition.time <= 0 ||
-      !!game.rescueNotice?.time || !!game.secretNotice?.time || !!game.skinNotice?.time;
+      !!game.rescueNotice?.time || !!game.secretNotice?.time || !!game.skinNotice?.time || !!game.thorNotice?.time;
     if (!el.regionNotice.hidden) {
       text('regionNoticeName', transition.name);
       el.regionNotice.style.opacity = reduced ? '1' : String(Math.min(1, transition.time / .5));
