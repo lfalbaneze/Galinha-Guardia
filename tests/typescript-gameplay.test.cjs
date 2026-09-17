@@ -58,10 +58,10 @@ function createFarm() {
     localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value), removeItem: key => storage.delete(key) },
   });
   const sourceDirectory = process.env.GAMEPLAY_SOURCE_DIRECTORY || path.join(__dirname, '..', 'systems');
-  for (const file of ['game-manager', 'rescue-system', 'detection-system', 'hiding-spots', 'wolf-ai', 'map-manager', 'player', 'lake-challenge', 'goose-system']) {
+  for (const file of ['game-manager', 'rescue-system', 'detection-system', 'hiding-spots', 'wolf-ai', 'map-manager', 'player', 'lake-challenge', 'goose-system', 'wildlife-rules', 'fox-system', 'owl-system']) {
     vm.runInContext(fs.readFileSync(path.join(sourceDirectory, `${file}.js`), 'utf8'), context, { filename: `${file}.js` });
   }
-  const api = vm.runInContext('({ GameManager, RescueSystem, DetectionSystem, HidingSpots, WolfAI, MapManager, Player })', context);
+  const api = vm.runInContext('({ GameManager, RescueSystem, DetectionSystem, HidingSpots, WolfAI, MapManager, Player, FoxSystem, OwlSystem })', context);
   api.GameManager.initialize(state); api.WolfAI.initialize(state); api.HidingSpots.initialize(); api.MapManager.initialize(state);
   return { ...api, state, input, storage, context, world };
 }
@@ -224,7 +224,7 @@ test('each rescue raises pressure while full sprint remains faster than the wolf
 
 test('the compiled systems remain usable as classic scripts without a module loader', () => {
   const e = createFarm();
-  for (const name of ['Player','WolfAI','GameManager','RescueSystem','DetectionSystem','MapManager','HidingSpots']) {
+  for (const name of ['Player','WolfAI','GameManager','RescueSystem','DetectionSystem','MapManager','HidingSpots','FoxSystem','OwlSystem']) {
     assert.equal(typeof e[name], 'object');
   }
 });

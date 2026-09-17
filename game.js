@@ -249,7 +249,7 @@ function clampToWorld(entity) {
 function resolveEnvironment(entity) {
   clampToWorld(entity);
   for (const obstacle of OBSTACLES) {
-    resolveCircleVsRect(entity, obstacle);
+    if (obstacle.blocking !== false) resolveCircleVsRect(entity, obstacle);
   }
   clampToWorld(entity);
 }
@@ -304,6 +304,8 @@ function createState() {
         return Object.assign(chick, { species: "chick", rescued: false, targetX: point.x, targetY: point.y,
           homeX: point.x, homeY: point.y, coverId: point.coverId, hitbox: { ox: 0, oy: 5, r: 10 } });
       }),
+      foxes: [],
+      owls: [],
       effects: [],
     },
     cutscene: {
@@ -442,6 +444,8 @@ function updateCutscene(dt) {
 }
 
 function updateGame(dt) {
+  if (!Number.isFinite(dt) || dt <= 0) return;
+
   if (state.phase === "menu") return;
   if (state.phase === "playing") {
     updateChicken(dt);
@@ -449,6 +453,8 @@ function updateGame(dt) {
     if (!state.lake?.active) updateAnimals(dt);
     if (state.phase === "playing") {
       GooseSystem.update(state, dt);
+      FoxSystem.update(state, dt);
+      OwlSystem.update(state, dt);
       updateWolf(dt);
       Player.checkCatch(state);
       MapManager.update(state, dt);
@@ -566,6 +572,15 @@ function drawDebugHitboxes() {
 
   drawEntity(state.entities.chicken, "#4bd0ff");
   drawEntity(state.entities.wolf, "#ff5959");
+  for (const fox of state.entities.foxes || []) if (fox.mode !== 'hidden') drawEntity(fox, '#ffab66');
+  for (const owl of state.entities.owls || []) {
+    const x = worldX(owl.perch.x), y = worldY(owl.perch.y);
+    ctx.strokeStyle = owl.mode === 'alert' ? '#ffe780' : '#c7c2b1';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(x, y, 6, 0, Math.PI * 2);
+    ctx.stroke();
+  }
 
   for (const animal of RescueSystem.all(state)) {
     if (RescueSystem.isSecret(animal)) continue;
@@ -622,6 +637,12 @@ function drawMiniMap() {
     ctx.fillStyle='#f3c45e'; const g=state.entities.goose;
     ctx.fillRect(x+g.x*sx-2,y+g.y*sy-2,4,4);
   }
+  for (const fox of state.entities.foxes || []) if (fox.mode !== 'hidden' && FoxSystem.visible(state,fox)) {
+    ctx.fillStyle='#ef8a52';ctx.fillRect(x+fox.x*sx-2,y+fox.y*sy-2,4,4);
+  }
+  for (const owl of state.entities.owls || []) if (OwlSystem.visible(state,owl)) {
+    ctx.fillStyle=owl.mode==='alert'?'#f6da6e':'#c8c2ae';ctx.fillRect(x+owl.perch.x*sx-1.5,y+owl.perch.y*sy-1.5,3,3);
+  }
   ctx.fillStyle='#cbd0b0';ctx.font='10px Trebuchet MS, sans-serif';ctx.fillText('Você · amigos avistados',x+3,y+h+13);
   ctx.restore();
 }
@@ -633,13 +654,16 @@ function drawOverlay() {
 function renderGame() {
   const ending = EndGameSequence.active(state);
   if (ending) EndGameSequence.drawBackdrop(state);
-  else { drawWorld(); LakeChallenge.drawGround(state); GooseSystem.drawTerritory(state); }
+  else { drawWorld(); LakeChallenge.drawGround(state); OwlSystem.drawGround(state); GooseSystem.drawTerritory(state); }
   if (!ending) for (const chick of state.entities.chicks) {
     if (RescueSystem.isSecret(chick) && !chick.coverId) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
   }
   const layers = [...RescueSystem.all(state).filter(a => !ending || a.rescued), state.entities.chicken, state.entities.wolf]
     .map(entity => ({ depth: entity.y + 12, entity }));
   if (!ending && state.entities.goose) layers.push({ depth: state.entities.goose.y + 12, entity: state.entities.goose });
+  if (!ending) for (const fox of state.entities.foxes || []) if (fox.mode !== 'hidden' && fox.mode !== 'warning')
+    layers.push({ depth: fox.y + 12, entity: fox });
+  if (!ending) for (const owl of state.entities.owls || []) layers.push({depth: owl.perch.y + .1, entity: owl});
   if (!ending) for (const prop of FarmArt.getProps(WORLD.layout)) layers.push({ depth: prop.depth, prop });
   layers.sort((a, b) => a.depth - b.depth);
   for (const layer of layers) {
@@ -654,10 +678,14 @@ function renderGame() {
       if (entity.invulnerable > 0 && !entity.hidden) ctx.globalAlpha = 0.6 + Math.sin(entity.invulnerable * 25) * 0.25;
       drawChicken(entity); ctx.restore();
     } else if (entity.type === 'goose') GooseArt.draw(ctx, entity, camera);
+    else if (entity.type === 'fox') FoxArt.draw(ctx, entity, camera);
+    else if (entity.type === 'owl') OwlSystem.drawEntity(entity);
     else drawAnimal(entity);
   }
   if (ending) EndGameSequence.draw(state);
   else {
+    FoxSystem.drawWarnings(state);
+    OwlSystem.drawIndicators(state);
     // Keep a peeking silhouette legible above the prop, then cover its lower body.
     if (state.entities.chicken.hidden) drawChicken(state.entities.chicken);
     HidingSpots.drawForeground(state);
@@ -734,7 +762,7 @@ if (savedGame) {
 state.hasSave = Boolean(savedGame);
 GameUI.showMenu(state);
 GameUI.update(state);
-Promise.all([CharacterArt.load(), GooseArt.load()]).then(() => GameUI.update(state));
+Promise.all([CharacterArt.load(), GooseArt.load(), FoxArt.load(), OwlArt.load()]).then(() => GameUI.update(state));
 GameUI.update(state);
 FarmSprites.load();
 FarmSprites.loadNursery();

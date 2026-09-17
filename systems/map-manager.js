@@ -21,6 +21,8 @@ const MapManager = {
         areaTextEl.textContent = MapManager.getRegion(chicken.x, chicken.y).name;
     },
     update(game, dt) {
+        if (game.phase !== "playing" || !Number.isFinite(dt) || dt < 0)
+            return;
         game.mapTransition.time = Math.max(0, game.mapTransition.time - dt);
         const chicken = game.entities.chicken;
         const region = MapManager.getRegion(chicken.x, chicken.y);

@@ -11,3 +11,9 @@ systems/goose-art.js linguist-generated=true
 systems/gameplay-hud.js linguist-generated=true
 
 systems/lake-challenge.js linguist-generated=true
+systems/wildlife-rules.js linguist-generated=true
+systems/wildlife-art.js linguist-generated=true
+systems/fox-system.js linguist-generated=true
+systems/fox-art.js linguist-generated=true
+systems/owl-system.js linguist-generated=true
+systems/owl-art.js linguist-generated=true

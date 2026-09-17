@@ -30,7 +30,7 @@ const RescueSystem = {
         distance(chicken,a) - distance(chicken,b))[0] || null;
   },
   discover(game: Farm.GameState, chick: Farm.Animal, dt: number): boolean {
-    if (game.phase !== 'playing' || dt <= 0 || !RescueSystem.isSecret(chick)) return false;
+    if (game.phase !== 'playing' || !Number.isFinite(dt) || dt <= 0 || !RescueSystem.isSecret(chick)) return false;
     const chicken = game.entities.chicken;
     const inside = chick.coverId && chicken.hidden && chicken.hidingSpotId === chick.coverId &&
       HidingSpots.candidate(chicken)?.id === chick.coverId;
@@ -145,6 +145,7 @@ const RescueSystem = {
     animal.wanderTime = 1.8 + Math.random()*2.4;
   },
   update(game: Farm.GameState, dt: number): void {
+    if (!Number.isFinite(dt) || dt < 0) return;
     if (game.phase !== "playing") return;
     const chicken = game.entities.chicken;
     game.animalSpeechCooldown = Math.max(0, (game.animalSpeechCooldown || 0) - dt);

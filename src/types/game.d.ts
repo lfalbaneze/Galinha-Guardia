@@ -33,7 +33,7 @@ declare namespace Farm {
   interface Camera extends Point { shakeX: number; shakeY: number; }
   interface Body extends Point { radius: number; hitbox: Hitbox; }
   interface Entity extends Body {
-    id: string; type: 'chicken' | 'wolf' | 'animal' | 'chick' | 'goose';
+    id: string; type: 'chicken' | 'wolf' | 'animal' | 'chick' | 'goose' | 'fox' | 'owl';
     vx: number; vy: number; facing: number; direction: Direction;
     moving: boolean; anim: number; areaId: string; state: string;
   }
@@ -72,6 +72,20 @@ declare namespace Farm {
     speech?: string; speechTime: number;
     temper: 'secret' | 'tired' | 'fleeing' | 'idle' | 'safe';
   }
+  interface Fox extends Entity {
+    type: 'fox'; mode: 'hidden' | 'warning' | 'dash' | 'rest' | 'return';
+    home: Point; anchor: Point; target: Point; bushId: string | null;
+    timer: number; cooldown: number; grace: number; notice: number; attempts: number; hit: boolean; route: Point[];
+  }
+  interface Owl extends Entity {
+    type: 'owl'; mode: 'watch' | 'alert' | 'cooldown';
+    perch: Point; treeId: string; heading: number;
+    range: number; fov: number; alertTime: number; alertProgress: number; cooldown: number; grace: number;
+    target: Point | null;
+  }
+
+  interface FoxSnapshot extends Point { id: string; cooldown: number; }
+  interface OwlSnapshot { id: string; cooldown: number; }
   interface DifficultySettings {
     chickenSpeed: number; wolfMaxSpeed: number; wolfSprintCap?: number;
     label: string; wolfAccel: number; wolfPauseAfterCatch: number;
@@ -82,7 +96,7 @@ declare namespace Farm {
   interface RescueNotice extends TimedNotice { name: string; count: number; total: number; chick: boolean; }
   interface GameState {
     phase: Phase; resumePhase?: Phase; difficultyKey: Difficulty; settings: DifficultySettings;
-    entities: { chicken: Chicken; wolf: Wolf; animals: Animal[]; chicks: Animal[]; goose?: Goose; };
+    entities: { chicken: Chicken; wolf: Wolf; animals: Animal[]; chicks: Animal[]; goose?: Goose; foxes?: Fox[]; owls?: Owl[]; };
     worldSeed: number; worldVersion: number;
     rescuedIds: Set<string>; rescuedChickIds: Set<string>;
     rescuedCount: number; rescuedChicks: number; wolfLevel: number;
@@ -133,5 +147,6 @@ declare namespace Farm {
     winBonusApplied?: boolean; elapsed?: number;
     chicken: ChickenSnapshot; wolf: WolfSnapshot; animals: AnimalSnapshot[]; chicks: AnimalSnapshot[];
     goose?: GooseSnapshot;
+    foxes?: FoxSnapshot[]; owls?: OwlSnapshot[];
   }
 }

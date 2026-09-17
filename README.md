@@ -57,6 +57,14 @@ Durante a tentativa, o lobo espera fora da área e os outros bichos ficam pausad
 
 Ao desviar três vezes, você ganha o respeito do dono do lago: ele para de atacar, a **ponte sobre o lago abre um atalho real** e a **aparência de ganso** fica disponível no baú. A ponte permanece aberta nessa fazenda; a aparência continua desbloqueada nas próximas aventuras. Nenhum dos dez amigos ou seis pintinhos exige vencer esse desafio.
 
+## Raposa e coruja
+
+Nas moitas junto aos caminhos, a **raposa** mostra os olhos e a direção do bote antes de sair. Desvie para o lado: ela não corrige a direção no meio da investida. Depois, descansa e volta para a mesma moita. O contato empurra a galinha, sem descontar vidas, pontos ou resgates, e dá uma proteção breve contra outro inimigo.
+
+A **coruja** fica em uma árvore e observa um setor marcado no chão. O alerta só completa enquanto ela continua vendo a galinha. Saia do campo de visão ou entre em cobertura para interrompê-lo. Quando o alarme completa, um lobo próximo pode investigar o ponto observado — a coruja não acompanha a galinha escondida.
+
+Os encontros aproveitam árvores e moitas existentes, longe do início, dos pintinhos escondidos e da arena do ganso. A quantidade depende dos locais seguros disponíveis, até duas raposas e duas corujas por fazenda. Eles ficam pausados durante o desafio do lago e não participam da cena final. As novas folhas de sprites acompanham o jogo offline; se uma imagem falhar, o menu oferece uma nova tentativa antes de liberar a partida.
+
 ## Cenário e placas
 
 As cercas delimitam a fazenda e o refúgio dos animais; não há trechos decorativos soltos pelo campo. Placas, árvores e construções têm a base alinhada ao chão. Os elementos do cenário usam uma paleta comum e pixels de tamanho próximo aos personagens. Feno e moitas continuam servindo de esconderijo, inclusive para os pintinhos. A revisão visual mantém os mapas, as colisões e os salvamentos existentes.

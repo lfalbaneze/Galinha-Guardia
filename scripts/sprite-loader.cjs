@@ -15,6 +15,8 @@ async function loadGameSprites(game) {
   await art.load(src => loadImage(path.join(root, src)));
   if (!art.ready) throw Error('Game preview failed: ' + art.errors.join(', '));
   await game.run('GooseArt').load(src => loadImage(path.join(root, src)));
+  await game.run('FoxArt').load(src => loadImage(path.join(root, src)));
+  await game.run('OwlArt').load(src => loadImage(path.join(root, src)));
   await game.run('FarmSprites').load(loadImage, createCanvas);
   await game.run('FarmSprites').loadNursery(loadImage, createCanvas);
   game.run('FarmTerrain').install(createCanvas);

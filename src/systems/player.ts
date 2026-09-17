@@ -7,6 +7,7 @@ const Player = {
     entity.direction = Math.abs(x) > Math.abs(y) ? (x < 0 ? "left" : "right") : (y < 0 ? "up" : "down");
   },
   move(entity: Farm.Body, dx: number, dy: number): void {
+    if (!Number.isFinite(dx) || !Number.isFinite(dy)) return;
     // Resolve short steps so fast movement cannot jump across narrow obstacles.
     const steps = Math.max(1, Math.ceil(Math.hypot(dx, dy) / 8));
     for (let i = 0; i < steps; i++) {
@@ -21,6 +22,7 @@ const Player = {
     return { x: x / length, y: y / length };
   },
   update(game: Farm.GameState, dt: number): void {
+    if (game.phase !== "playing" || !Number.isFinite(dt) || dt < 0) return;
     const chicken = game.entities.chicken, move = Player.moveVector();
     const moving = move.x !== 0 || move.y !== 0;
     if (moving) { chicken.hidden = false; chicken.hidingSpotId = null; }
