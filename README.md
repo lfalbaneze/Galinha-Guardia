@@ -2,6 +2,8 @@
 
 ### Confusão no Sítio do Fuzuê
 
+Feito por **Luis Albaneze**.
+
 O lobo está à solta, os bichos se espalharam pela fazenda e sobrou para uma galinha colocar ordem na bagunça.
 
 **Penas pro Ar!** é uma aventura 2D de exploração e furtividade para jogar direto no navegador. Encontre os **dez amigos**, use o feno e a vegetação para se esconder e escolha a hora certa de correr. A cada resgate, o lobo fica mais atento — salvar a turma vai exigir mais do que sair correndo pelo sítio.
@@ -57,7 +59,7 @@ Ao desviar três vezes, você ganha o respeito do dono do lago: ele para de atac
 
 ## Cenário e placas
 
-As placas têm proporções menores, dois postes apoiados no chão e posições escolhidas fora de cercas, construções e caminhos. Galinheiros, pequenos depósitos, vegetação e feno alternam aparências e materiais de maneira determinística. A mesma semente mantém a mesma decoração; as variações visuais não mudam a área de colisão dos objetos.
+As cercas delimitam a fazenda e o refúgio dos animais; não há trechos decorativos soltos pelo campo. Placas, árvores e construções têm a base alinhada ao chão. Os elementos do cenário usam uma paleta comum e pixels de tamanho próximo aos personagens. Feno e moitas continuam servindo de esconderijo, inclusive para os pintinhos. A revisão visual mantém os mapas, as colisões e os salvamentos existentes.
 
 ## Pintinhos e aparências
 

@@ -55,7 +55,7 @@ const FarmSprites = (() => {
     if (typeof FarmAtlasData === 'undefined') return Promise.resolve(false);
     pending = Promise.resolve().then(async () => {
       try {
-        makeVariantSurface = makeSurface; variants.clear();
+        makeVariantSurface = makeSurface; variants.clear(); groundedTiles.clear();
         atlas=decode(await loader(FarmAtlasData),makeSurface,['fence','tree','hay','coop']);
         return !!atlas;
       } catch { return false; }
@@ -101,11 +101,66 @@ const FarmSprites = (() => {
     }
     c.putImageData(pixels,0,0); variants.set(key,tile); return tile;
   }
+  const groundedTiles = new Map();
+  const pixelWidths = { barn:80, coop:56, silo:36, tree:60, bush:44, hay:32, fence:44, trough:32, nursery:112 };
+  // Shared muted ramps remove sub-pixel texture noise without touching the source PNGs.
+  const colors = [
+    [38,43,31],[60,58,39],[83,70,44],[110,84,49],[140,106,58],[169,134,75],[199,163,96],[219,194,133],
+    [59,77,35],[77,97,42],[97,120,51],[119,139,62],[145,158,78],[173,180,106],
+    [111,54,40],[143,64,44],[174,86,51],[199,115,64],[225,157,81],
+    [99,111,102],[133,146,131],[166,179,161],[198,207,186],[237,233,209],
+    [69,109,104],[97,143,131],[133,173,157],[215,194,166]
+  ];
+  function groundedTile(name, palette, source) {
+    const key=`${name}/${palette}`;
+    if (groundedTiles.has(key)) return groundedTiles.get(key);
+    const [x,y,w,h]=frames[name], full=makeVariantSurface(w,h);
+    if (!full) return null;
+    const c=full.getContext('2d'), tinted=palette>0&&name!=='nursery'?variant(name,palette,source):null;
+    if(tinted)c.drawImage(tinted,0,0);else c.drawImage(source,x,y,w,h,0,0,w,h);
+    const data=c.getImageData(0,0,w,h).data;
+    let left=w,top=h,right=0,bottom=0;
+    for(let yy=0;yy<h;yy++)for(let xx=0;xx<w;xx++)if(data[(yy*w+xx)*4+3]>=96){
+      left=Math.min(left,xx);top=Math.min(top,yy);right=Math.max(right,xx+1);bottom=Math.max(bottom,yy+1);
+    }
+    if(right<=left||bottom<=top)return null;
+    const tw=pixelWidths[name]||64,th=Math.max(1,Math.round((bottom-top)*tw/(right-left)));
+    const tile=makeVariantSurface(tw,th);if(!tile)return null;
+    const out=tile.getContext('2d');out.imageSmoothingEnabled=true;
+    // Reduce in stages: one large bilinear reduction aliases high-frequency straw and leaf detail.
+    let sample=makeVariantSurface(right-left,bottom-top);
+    if(!sample)return null;
+    sample.getContext('2d').drawImage(full,left,top,right-left,bottom-top,0,0,right-left,bottom-top);
+    while(sample.width>tw*2&&sample.height>th*2){
+      const next=makeVariantSurface(Math.ceil(sample.width/2),Math.ceil(sample.height/2));if(!next)break;
+      const ctx=next.getContext('2d');ctx.imageSmoothingEnabled=true;
+      ctx.drawImage(sample,0,0,next.width,next.height);sample=next;
+    }
+    out.drawImage(sample,0,0,tw,th);
+    const pixels=out.getImageData(0,0,tw,th),rgba=pixels.data;
+    for(let i=0;i<rgba.length;i+=4){
+      if(rgba[i+3]<112){rgba[i+3]=0;continue;}rgba[i+3]=255;
+      // Two leaf-only shrub variants break the repeated white-flower silhouette.
+      // Keep the flowering version for palette 0; no cover or collision changes.
+      if(name==='bush'&&palette>0&&rgba[i]>150&&rgba[i+1]>135&&rgba[i]>rgba[i+2]*.9){
+        const light=(rgba[i]+rgba[i+1]+rgba[i+2])/3;
+        rgba[i]=light*.50;rgba[i+1]=light*.65;rgba[i+2]=light*(palette===1?.27:.34);
+      }
+      let best=colors[0],cost=Infinity;
+      for(const color of colors){
+        const d=(rgba[i]-color[0])**2*2+(rgba[i+1]-color[1])**2*3+(rgba[i+2]-color[2])**2;
+        if(d<cost){cost=d;best=color;}
+      }
+      rgba[i]=best[0];rgba[i+1]=best[1];rgba[i+2]=best[2];
+    }
+    out.putImageData(pixels,0,0);groundedTiles.set(key,tile);return tile;
+  }
   function draw(c, name, x, y, w, h, options = {}) {
     const source=name==='nursery'?nursery:atlas;
     if (!source || !frames[name]) return false;
     c.save(); c.imageSmoothingEnabled=false;
-    const tinted = options.palette > 0 && name !== 'nursery' ? variant(name,options.palette,source) : null;
+    const grounded = options.grounded ? groundedTile(name,options.palette || 0,source) : null;
+    const tinted = grounded || (options.palette > 0 && name !== 'nursery' ? variant(name,options.palette,source) : null);
     c.translate(Math.round(x),Math.round(y));
     if (options.flip) { c.translate(Math.round(w),0); c.scale(-1,1); }
     if (tinted) c.drawImage(tinted,0,0,tinted.width,tinted.height,0,0,Math.round(w),Math.round(h));

@@ -505,3 +505,5 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
   #menuScatter:hover { transform: none; }
   .difficulty-picks button { transition: none; }
 }
+
+.game-author { margin: 10px 0 3px; text-align: center; font: 12px/1.4 "Trebuchet MS", sans-serif; color: #4e583c; }

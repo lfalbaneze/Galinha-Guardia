@@ -190,7 +190,15 @@ const FarmArt = (() => {
         last=xs[i];
       }
     }
-    for (const d of layout.decorations || []) if (d.type!=="fence" && visible(c, d, camera, 35)) decoration(c, d);
+    for (const d of layout.decorations || []) {
+      if (d.type === 'fence' || !visible(c,d,camera,35)) continue;
+      // Wheat belongs to the field, not to the livestock yard.
+      if (d.type === 'wheat' || d.type === 'sunflower') {
+        const field=(layout.areas||[]).find(a=>a.id==='granja');
+        if(!field||d.x<field.x||d.x>field.x+field.w||d.y<field.y||d.y>field.y+field.h)continue;
+      }
+      decoration(c,d);
+    }
     // Low split-rail boundary, leaving the meadow itself free of a square grid.
     for (let x = 35; x < layout.width - 25; x += 84) {
       for (const y of [28, layout.height - 23]) if (visible(c, { x, y, w: 84, h: 24 }, camera, 30)) fence(c, x, y, 84);
@@ -204,7 +212,7 @@ const FarmArt = (() => {
     c.restore();
   }
   function fence(c, x, y, w) {
-    if(FarmSprites.draw(c,'fence',x-4,y-36,w+8,43))return;
+    if(FarmSprites.draw(c,'fence',x-4,y-36,w+8,43,{grounded:true}))return;
     line(c, [[x, y - 14], [x + w, y - 14]], "#b59a6d", 6);
     line(c, [[x, y - 5], [x + w, y - 5]], "#ceb385", 5);
     rounded(c, x - 4, y - 24, 8, 27, 2, "#e4ca94", true);
@@ -215,7 +223,8 @@ const FarmArt = (() => {
       for (const [i, p] of (s[key] || []).entries()) result.push({ ...p, type, id: p.id || `${type}-${i}`, depth: p.y + p.h });
     if (s.barn) result.push({ ...s.barn, type: "barn", id: "barn", depth: s.barn.y + s.barn.h });
     for (const p of layout.vegetation || []) result.push({ ...p, depth: p.blockingRect ? p.blockingRect.y + p.blockingRect.h : p.y + p.h * .68 });
-    for (const [i,p] of (layout.decorations || []).entries()) if(p.type==="fence") result.push({...p,id:`fence-${i}`,depth:p.y+4});
+    // Old generators scatter short decorative rails around district rectangles.
+    // They enclose nothing and have no collisions. Keep only the actual refuge and world boundary fences.
     return FarmDetails.decorate(layout, result.concat(FarmRefuge.props()));
   }
 
@@ -309,9 +318,8 @@ const FarmArt = (() => {
     if(FarmSprites.ready && ['barn','coop','hay','tree','bush','silo'].includes(p.type)) {
       const {x,y,w,h}=p;
       const shape = FarmDetails.shape(p);
-      ellipse(c,shape.x+shape.w*.54,shape.y+shape.h-2,shape.w*.45,Math.min(15,shape.h*.1),'#203e2845');
-      const sprite = p.type === 'coop' && p.variant === 1 ? 'barn' : p.type;
-      FarmSprites.draw(c,sprite,shape.x,shape.y,shape.w,shape.h,{palette:p.palette,flip:p.flip});
+      FarmDetails.drawFooting(c,p,shape);
+      FarmSprites.draw(c,p.type,shape.x,shape.y,shape.w,shape.h,{palette:p.palette,grounded:true});
       c.restore();return;
     }
     if(p.type==="barn"||p.type==="coop") building(c,p,p.type==="barn");
@@ -351,7 +359,7 @@ const FarmArt = (() => {
     }
     if(FarmSprites.ready) {
       c.beginPath();c.rect(x-30,y-18,60,39);c.clip();
-      FarmSprites.draw(c,spot.type==='hay'?'hay':'bush',x-34,y-33,68,56);
+      FarmSprites.draw(c,spot.type==='hay'?'hay':'bush',x-34,y-33,68,56,{grounded:true});
       c.restore();return;
     }
     if(spot.type==="hay") {
