@@ -19,7 +19,9 @@ function coverScenario({ real = false, type = 'bush' } = {}) {
           Math.hypot(h.x - clamp(h.x,r.x,r.x+r.w), h.y - clamp(h.y,r.y,r.y+r.h)) >= h.r + 2);
     };
     let cover = null;
-    for (const spot of HidingSpots.getSpots().filter(s => s.type === '${type}')) {
+    // Test the hiding action; occupied cover now advertises a chick call on the first E.
+    for (const spot of HidingSpots.getSpots().filter(s => s.type === '${type}' &&
+      !state.entities.chicks.some(chick => chick.coverId === s.id))) {
       const points = spot.bale ? [
         { x: spot.bale.x - 23, y: spot.bale.y + spot.bale.h / 2, dx: -140, dy: 0 },
         { x: spot.bale.x + spot.bale.w + 23, y: spot.bale.y + spot.bale.h / 2, dx: 140, dy: 0 },
@@ -29,7 +31,7 @@ function coverScenario({ real = false, type = 'bush' } = {}) {
         Object.assign(chicken, { x: point.x, y: point.y, hidden: false, hidingSpotId: null, invulnerable: 0 });
         Object.assign(wolf, { x: point.x + point.dx, y: point.y + point.dy,
           heading: Math.atan2(-point.dy,-point.dx), huntUnlockTimer: 0, pauseTimer: 0 });
-        if (isFree(chicken) && isFree(wolf) && HidingSpots.candidate(chicken)?.id === spot.id &&
+        if (isFree(chicken) && isFree(wolf) && HidingSpots.candidate(chicken)?.id === spot.id && !RescueSystem.callTarget(state) &&
             DetectionSystem.canSee(wolf,chicken,WolfAI.getConfig(state))) { cover = spot; break; }
       }
       if (cover) break;

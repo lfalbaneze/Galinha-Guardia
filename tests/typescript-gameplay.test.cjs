@@ -24,7 +24,7 @@ function createFarm() {
   const body = (id, type, x, y) => ({ id, type, x, y, radius: 12, hitbox: { ox: 0, oy: 0, r: 10 },
     vx: 0, vy: 0, facing: 1, direction: 'down', moving: false, anim: 0, areaId: 'west', state: 'idle' });
   const animal = (id, type, point) => ({ ...body(id, type, point.x, point.y), species: type === 'chick' ? 'chick' : 'sheep',
-    rescued: false, discovered: false, lost: false, discoveryTime: 0, lastSeen: null, fatigue: 0, restTime: 0,
+    rescued: false, discovered: false, lost: false, lastSeen: null, fatigue: 0, restTime: 0,
     fleeTime: 0, fleeFrom: null, fleeHeading: null, stuckTime: 0, wanderTime: 1, targetX: point.x, targetY: point.y,
     speechTime: 0, temper: 'idle' });
   const state = { phase: 'playing', difficultyKey: 'normal', settings, worldSeed: 17, worldVersion: 2,
@@ -161,12 +161,12 @@ test('entering and leaving cover persist the corresponding state', () => {
   assert.equal(e.GameManager.read().chicken.hidden, false);
 });
 
-test('investigating cover rescues its chick and sends it to the nest', () => {
+test('calling from the edge of cover rescues its chick and sends it to the nest', () => {
   const e = createFarm(), p = e.state.entities.chicken, chick = e.state.entities.chicks[0];
   const cover = e.HidingSpots.getSpots()[0];
-  p.x = cover.x+60; p.y = cover.y+60; e.HidingSpots.toggle(e.state); e.input.add('c');
-  assert.equal(e.RescueSystem.discover(e.state, chick, .84), false);
-  assert.equal(e.RescueSystem.discover(e.state, chick, .02), true);
+  p.x = cover.x+60; p.y = cover.y+cover.h+35;
+  assert.equal(e.RescueSystem.callChick(e.state), true);
+  assert.equal(e.RescueSystem.callChick(e.state), false);
   assert.equal(chick.rescued, true); assert.equal(e.state.rescuedChicks, 1); assert.equal(e.state.score, 100);
   assert.deepEqual({ x: chick.x, y: chick.y }, { x: 100, y: 180 });
 });

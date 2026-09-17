@@ -15,16 +15,16 @@ test('a local clue guides the player from farther away without revealing the sec
   const { run, elements } = secretArena();
   run(`chicken.x=420; const labels=[];ctx.fillText=text=>labels.push(text); renderGame();`);
   assert.equal(run('RescueSystem.secretHint(state)===chick'), true);
-  assert.equal(run('labels.includes("Chegue de mansinho")'), true);
+  assert.equal(run('labels.includes("Piu-piu…")'), true);
   assert.equal(elements.get('chickCounter').hidden, false);
   assert.equal(run('RescueSystem.isSecret(chick)'), true);
   run(`chicken.x=560;labels.length=0;renderGame();`);
-  assert.equal(run('labels.includes("Segure C · investigar")'), true);
+  assert.equal(run('labels.includes("E · chamar pintinho")'), true);
   run('chicken.x=400;');
   assert.equal(run('RescueSystem.secretHint(state)'), null);
 });
 
-test('all six cover bonuses can be investigated in actual generated farms', () => {
+test('all six cover bonuses can be called in actual generated farms', () => {
   const { run } = createGame(() => .5);
   for (const version of [1, 2]) for (const seed of [0, 814237, 391602]) {
     run(`resetGame(${seed},${version}); state.entities.wolf.huntUnlockTimer=100;`);
@@ -32,9 +32,8 @@ test('all six cover bonuses can be investigated in actual generated farms', () =
       run(`Object.assign(state.entities.chicken,{x:state.entities.chicks[${i}].x,
         y:state.entities.chicks[${i}].y,sprinting:false,hidden:false});`);
       assert.equal(run(`RescueSystem.secretHint(state)===state.entities.chicks[${i}]`), true);
-      run(`HidingSpots.toggle(state); input.add('c');`);
-      assert.equal(run('state.entities.chicken.hidden'), true);
-      run('for(let step=0;step<17;step++)RescueSystem.update(state,.05);');
+      assert.equal(run('RescueSystem.callChick(state)'), true);
+      assert.equal(run('state.entities.chicken.hidden'), false);
       assert.equal(run(`state.entities.chicks[${i}].discovered`), true);
       run('RescueSystem.update(state,.016);');
       assert.equal(run('state.rescuedChicks'), i + 1);
@@ -69,7 +68,7 @@ test('the chick objective and wardrobe requirements are explained before the fir
   for(const phase of ['playing','menu','lose']) {
     run(`state.phase='${phase}';GameUI.update(state);`);
     assert.equal(elements.get('chickCounter').hidden,false);
-    assert.match(elements.get('wardrobeNote').textContent,/6 pintinhos.*escondem.*E.*C/);
+    assert.match(elements.get('wardrobeNote').textContent,/6 pintinhos.*escondem.*E uma vez/);
     for(const id of ['skin-punk','menu-skin-punk'])
       assert.match(elements.get(id).textContent,/2 pintinhos/);
     assert.equal(run('state.entities.chicks.every(c=>RescueSystem.isSecret(c))'),true);
@@ -88,44 +87,49 @@ test('running over a secret cannot reveal or rescue it, including direct rescue 
   assert.equal(run('RescueSystem.visible(state,chick)'),false);
 });
 
-test('legacy unbound secrets retain their old investigation and contact interaction', () => {
+test('legacy unbound secrets use the same single call and go directly to the nest', () => {
   const {run,elements}=secretArena();
-  run(`input.add('c');for(let i=0;i<16;i++){Player.update(state,.05);RescueSystem.update(state,.05);}`);
-  assert.equal(run('!!chick.discovered'),false);
-  run('RescueSystem.update(state,.05);');
+  run('chicken.x=525;');
+  assert.equal(run('RescueSystem.callChick(state)'),true);
   assert.equal(run('chick.discovered'),true);
-  assert.equal(run('state.rescuedChicks'),0);
+  assert.equal(run('state.rescuedChicks'),1);
   assert.equal(elements.get('chickCounter').hidden,false);
   assert.match(elements.get('skin-punk').textContent,/pintinhos/);
-  run('Player.update(state,.05);RescueSystem.update(state,.05);');
-  assert.equal(run('chick.temper'),'idle','holding C must remain quiet after finding the chick');
-  run('chicken.x=chick.x;chicken.y=chick.y;RescueSystem.update(state,.016);');
-  assert.equal(run('state.rescuedChicks'),1);
+  assert.equal(run('chick.temper'),'safe');
+  assert.equal(run('RescueSystem.callChick(state)'),false);
 });
 
-test('walls, distance, movement without C, pauses and zero-time updates cannot investigate', () => {
+test('walls and distance block calls; C, pauses and zero-time updates do not collect secrets', () => {
   const {run}=secretArena();
   run('for(let i=0;i<30;i++)RescueSystem.update(state,.05);');
   assert.equal(run('!!chick.discovered'),false);
   run(`input.add('c');OBSTACLES=[{x:577,y:300,w:4,h:200}];
     for(let i=0;i<30;i++)RescueSystem.update(state,.05);`);
   assert.equal(run('RescueSystem.secretHint(state)'),null);
+  assert.equal(run('RescueSystem.callChick(state)'),false);
   assert.equal(run('!!chick.discovered'),false);
   run(`OBSTACLES=[];chicken.x=490;for(let i=0;i<30;i++)RescueSystem.update(state,.05);`);
+  assert.equal(run('RescueSystem.callChick(state)'),false);
   assert.equal(run('!!chick.discovered'),false);
   run(`chicken.x=560;for(let i=0;i<30;i++)RescueSystem.update(state,0);
     state.phase='menu';for(let i=0;i<30;i++)RescueSystem.update(state,.05);`);
   assert.equal(run('!!chick.discovered'),false);
+  assert.equal(run('RescueSystem.callChick(state)'),false);
 });
 
-test('legacy discovery without capture persists and leaves other secrets hidden on reload', () => {
+test('previously revealed legacy chicks persist, accept a call and leave other secrets hidden', () => {
   const {run,storage}=secretArena();
-  run(`input.add('c');for(let i=0;i<17;i++)RescueSystem.update(state,.05);`);
+  run('chick.discovered=true;GameManager.save(state);');
   const loaded=createGame(() => .5,{storage:new Map(storage),fullStartup:true});
   assert.equal(loaded.run('state.rescuedChicks'),0);
   assert.equal(loaded.run('state.entities.chicks[0].discovered'),true);
   assert.equal(loaded.run('!!state.entities.chicks[1].discovered'),false);
   assert.equal(loaded.elements.get('chickCounter').hidden,false);
+  loaded.run(`GameUI.resume();var oldChick=state.entities.chicks[0];
+    Object.assign(state.entities.chicken,{x:oldChick.x,y:oldChick.y+60,hidden:false});OBSTACLES=[];`);
+  assert.equal(loaded.run('RescueSystem.callChick(state)'),true);
+  assert.equal(loaded.run('state.rescuedChicks'),1);
+  assert.equal(loaded.run('state.score'),100);
   loaded.run('resetGame(814237);GameUI.update(state);');
   assert.equal(loaded.elements.get('chickCounter').hidden,false);
   assert.equal(loaded.run('state.entities.chicks.every(c=>RescueSystem.isSecret(c))'),true);

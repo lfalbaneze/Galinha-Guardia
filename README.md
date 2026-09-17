@@ -36,8 +36,8 @@ Depois, abra **http://127.0.0.1:8765**.
 | --- | --- |
 | WASD ou setas | Mover a galinha |
 | Shift | Correr enquanto houver fôlego |
-| C | Andar de mansinho; dentro de um esconderijo com piados, segurar para procurar um pintinho |
-| E | Entrar ou sair do esconderijo indicado |
+| C | Andar de mansinho |
+| E | Chamar o pintinho próximo; sem pintinho ao alcance, entrar ou sair do esconderijo indicado |
 | Pressionar uma direção novamente | Sair do esconderijo |
 | Esc ou P | Pausar e abrir o menu |
 | H | Exibir colisões para depuração |
@@ -79,7 +79,9 @@ As cercas do curral bloqueiam a passagem, e os portões permitem atravessá-lo e
 
 ## Pintinhos e aparências
 
-Ao ouvir um piado, procure o esconderijo próximo. Entre com **E** e segure **C** para investigar. Cada pintinho encontrado rende 100 pontos e vai direto para o ninho.
+Ao ouvir um piado, aproxime-se da moita, árvore ou feno indicado. Quando aparecer **E · chamar pintinho**, aperte **E uma vez**: o pequeno aparece, vem até a galinha e fica a salvo no ninho. Não é preciso entrar no esconderijo nem segurar uma tecla. Cada resgate rende 100 pontos, com confirmação imediata e salvamento automático.
+
+A chamada funciona pela borda do esconderijo e respeita cercas e construções. Se a galinha estiver num esconderijo que o lobo viu, **E continua sendo a saída**. Pintinhos já revelados em partidas antigas também atendem ao E quando estão próximos, sem exigir outra perseguição.
 
 | Resgates na mesma aventura | Aparência desbloqueada | Tema musical |
 | --- | --- | --- |

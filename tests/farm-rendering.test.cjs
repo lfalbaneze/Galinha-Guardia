@@ -41,10 +41,10 @@ test('terrain is deterministic, cached across camera moves, and does not mutate 
 test('a found chick clears an older rescue notice and suppresses the region banner',()=>{
   const h=createGame(()=>.5);
   h.run(`var chick=state.entities.chicks[0];Object.assign(state.entities.chicken,{x:chick.x,y:chick.y});
-    state.entities.wolf.huntUnlockTimer=100;HidingSpots.toggle(state);
+    state.entities.wolf.huntUnlockTimer=100;
     state.rescueNotice={name:'Cordeirinho',count:1,total:10,time:2.5};
     state.mapTransition={time:2.5,name:'Horta'};
-    input.add('c');for(let i=0;i<17;i++)RescueSystem.update(state,.05);GameUI.update(state);
+    RescueSystem.callChick(state);GameUI.update(state);
     var labels=[];ctx.fillText=text=>labels.push(text);GameUI.render(state);`);
   assert.equal(h.run('state.rescueNotice'),null);
   assert.equal(h.elements.get('regionNotice').hidden,true);

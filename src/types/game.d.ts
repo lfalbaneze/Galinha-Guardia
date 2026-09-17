@@ -67,7 +67,7 @@ declare namespace Farm {
   interface Animal extends Entity {
     type: 'animal' | 'chick'; species: Species;
     rescued: boolean; discovered: boolean; lost: boolean;
-    discoveryTime: number; coverId?: string | null; lastSeen: Point | null;
+    coverId?: string | null; lastSeen: Point | null;
     fatigue: number; restTime: number; fleeTime: number;
     fleeFrom: Threat | null; fleeHeading: number | null;
     stuckTime: number; wanderTime: number;
@@ -95,7 +95,7 @@ declare namespace Farm {
     huntDelay: number; spawnPlan: string[]; minSpawnWolfDistance: number;
   }
   interface TimedNotice { time: number; }
-  interface SecretNotice extends TimedNotice { bonus?: boolean; x?: number; y?: number; }
+  interface SecretNotice extends TimedNotice { bonus?: boolean; x?: number; y?: number; targetX?: number; targetY?: number; }
   interface RescueNotice extends TimedNotice { name: string; count: number; total: number; chick: boolean; }
   interface GameState {
     phase: Phase; resumePhase?: Phase; difficultyKey: Difficulty; settings: DifficultySettings;

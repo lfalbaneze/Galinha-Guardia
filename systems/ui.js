@@ -133,6 +133,7 @@ const GameUI = (() => {
     const playing = game.phase === "playing";
     const secretKnown = RescueSystem.knowsSecret(game);
     const secret = RescueSystem.secretHint(game);
+    const callableChick = RescueSystem.callTarget(game);
     elements.chickCounter.hidden = false;
     elements.farmHud.dataset.secretKnown = 'true';
     put("chicksCount", game.rescuedChicks);
@@ -152,15 +153,16 @@ const GameUI = (() => {
     elements.menuSkinSelect.value = chicken.skin;
     const availableSkins = SkinSystem.catalog.filter(s => s.id !== "classic" && SkinSystem.unlocked(s.id)).length;
     put("skinUnlockText", `${availableSkins} / ${SkinSystem.catalog.length - 1} aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
-    put("wardrobeNote", "6 pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o piado, entre com E e segure C. São bônus opcionais: procure antes de salvar o último amigo e ganhe novas aparências.");
+    put("wardrobeNote", "6 pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o piado, chegue perto e aperte E uma vez para chamar. São bônus opcionais: procure antes de salvar o último amigo e ganhe novas aparências.");
     put("hiddenText", exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
     const hint = !playing ? (game.phase === "menu" ? "A turma espera por você." : "Todo mundo junto. Até o lobo perdeu a coragem!") :
       exposed ? "Ele viu você! Saia com E e procure outro esconderijo." :
-      hidden ? (secret?.coverId === chicken.hidingSpotId ? "Piu-piu! Segure C para procurar o pintinho." : "Quietinha… deixe o lobo passar. E ou movimento para sair.") :
+      callableChick ? "Piu-piu! Aperte E uma vez para chamar o pintinho ao ninho." :
+      hidden ? "Quietinha… deixe o lobo passar. E ou movimento para sair." :
       wolf.mode === "chase" ? "Corra e saia da vista do lobo antes de se esconder!" :
       wolf.mode === "alert" ? "Ele percebeu alguma coisa. Saia da vista!" :
-      secret ? (secret.coverId ? "Tem um pintinho ali! Entre no esconderijo com E e segure C." : "Siga o piado. Chegue pertinho e segure C.") :
+      secret ? "Siga o piado! Chegue perto até aparecer E para chamar o pintinho." :
       candidate ? "E para se esconder. Espere o lobo olhar para outro lado." :
       chicken.exhausted ? "Sem fôlego? Solte Shift e respire um pouquinho." :
       sprinting ? "Pé leve! A correria espanta os bichos e chama o lobo." :
@@ -221,22 +223,6 @@ const GameUI = (() => {
     ctx.save();
     const chicken = game.entities.chicken, wolf = game.entities.wolf;
     const p = worldToScreen(chicken), w = worldToScreen(wolf);
-    const secret = RescueSystem.secretHint(game);
-    // Real cover bonuses have one marker, drawn with the hiding-place controls.
-    if (secret && !secret.coverId) {
-      const at = worldToScreen(secret);
-      const sx = clamp(at.x,80,canvas.width-80), sy = clamp(at.y-36,30,canvas.height-60);
-      const closeEnough = distance(chicken, secret) <= 48;
-      panel(sx-93,sy-21,186,48,"rgba(255,245,208,.97)");
-      ctx.font = "bold 14px Trebuchet MS, sans-serif"; ctx.textAlign = "center"; ctx.fillStyle = "#665026";
-      ctx.fillText(closeEnough ? "Segure C · investigar" : "Piu... tem algo aqui!",sx,sy-2);
-      ctx.font = "12px Trebuchet MS, sans-serif";
-      ctx.fillText(closeEnough ? "Procure no matinho" : "Chegue de mansinho",sx,sy+16);
-      if (secret.discoveryTime > 0) {
-        panel(sx-32,sy+30,64,7,"#547247");
-        ctx.fillStyle="#ffe49b";ctx.fillRect(sx-30,sy+32,60*Math.min(1,secret.discoveryTime/.85),3);
-      }
-    }
     const talkers = RescueSystem.all(game).filter(a => !a.rescued && RescueSystem.visible(game, a))
       .sort((a, b) => distance(a, chicken) - distance(b, chicken));
     for (const animal of talkers.slice(0, 2)) {
@@ -296,12 +282,15 @@ const GameUI = (() => {
       ctx.restore();
     }
     if (game.secretNotice?.bonus && game.secretNotice.time > 0) {
-      const notice = game.secretNotice, at = worldPointToScreen(notice.x, notice.y);
+      const notice = game.secretNotice;
       const age=4-notice.time;
+      const approach=InterfaceMotion.reduced?1:Math.min(1,age/.55);
+      const at=worldPointToScreen(lerp(notice.x,notice.targetX ?? notice.x,approach),
+        lerp(notice.y,notice.targetY ?? notice.y,approach));
       ctx.save();ctx.globalAlpha=Math.max(0,1-age/1.5);
-      CharacterArt.draw(ctx, 'chick', at.x+28, at.y-8,
-        { scale: 1, direction: 'down', moving: false,
-          lift: InterfaceMotion.reduced?0:Math.sin(Math.min(1,age/.65)*Math.PI)*18 });
+      CharacterArt.draw(ctx, 'chick', at.x, at.y-8,
+        { scale: 1, direction: approach<1?(notice.targetX<notice.x?'left':'right'):'down', moving: approach<1,
+          anim:age*10, lift: InterfaceMotion.reduced?0:Math.sin(Math.min(1,age/.65)*Math.PI)*18 });
       ctx.restore();
     }
     ctx.restore();

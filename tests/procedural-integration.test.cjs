@@ -50,7 +50,13 @@ test('a fresh farm changes its geography, while reload restores the exact saved 
 
 test('hiding stays engaged when E interrupts walking, ignores held key repeats, and leaves on a new press', () => {
   const { run, events, elements } = createGame();
-  run('const spot=HidingSpots.getSpots().find(s=>s.type==="bush"); const c=state.entities.chicken; c.x=spot.x+spot.w/2; c.y=spot.y+spot.h/2; input.add("d");');
+  run(`const c=state.entities.chicken;
+    const spot=HidingSpots.getSpots().find(s=>{
+      if(s.type!=='bush')return false;
+      c.x=s.x+s.w/2;c.y=s.y+s.h/2;
+      return !RescueSystem.callTarget(state);
+    });
+    if(!spot)throw Error('No empty hiding place');input.add('d');`);
   const press = (key, repeat = false) => events.window.keydown({ key, repeat, target: { tagName: 'CANVAS' }, preventDefault() {} });
   press('e');
   assert.equal(run('state.entities.chicken.hidden'), true);
@@ -65,8 +71,12 @@ test('hiding stays engaged when E interrupts walking, ignores held key repeats, 
 
 test('hidden status is rendered in the canvas, and the peeking chicken precedes foreground leaves', () => {
   const { run } = createGame();
-  run(`const spot=HidingSpots.getSpots().find(s=>s.type==='bush');
-    state.entities.chicken.x=spot.x+52;state.entities.chicken.y=spot.y+35;
+  run(`const spot=HidingSpots.getSpots().find(s=>{
+      if(s.type!=='bush')return false;
+      state.entities.chicken.x=s.x+52;state.entities.chicken.y=s.y+35;
+      return !RescueSystem.callTarget(state);
+    });
+    if(!spot)throw Error('No empty hiding place');
     HidingSpots.toggle(state); const visibleLabels=[],layers=[];
     ctx.fillText=(text)=>visibleLabels.push(text);
     drawChicken=()=>layers.push('chicken');

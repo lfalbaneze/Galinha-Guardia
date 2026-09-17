@@ -35,7 +35,7 @@
         <progress id="missionProgress" max="10" value="0" aria-label="Amigos resgatados">0 de 10</progress>
         <span id="missionText" class="sr-only">Encontre os 10 amigos</span>
       </div>
-      <div id="chickCounter" class="run-card chick-counter" title="Siga o piado. Entre no esconderijo com E e segure C.">
+      <div id="chickCounter" class="run-card chick-counter" title="Siga o piado. Chegue perto e aperte E uma vez para chamar o pintinho.">
         <strong class="run-label">Pintinhos</strong>
         <div class="bonus-value"><span class="run-value"><b id="chicksCount">0</b><span>/ 6</span></span><canvas id="hudChick" class="hud-chick" width="48" height="48" aria-hidden="true"></canvas></div>
         <span class="run-detail">Bônus no ninho</span>
@@ -112,11 +112,11 @@
           <div class="menu-tips">
             <p><kbd>WASD</kbd> ou <kbd>↑ ↓ ← →</kbd> <span>para caminhar</span></p>
             <p><kbd>Shift</kbd> <span>correr — cuidado com o barulho!</span></p>
-            <p><kbd>E</kbd> <span>esconder no feno ou no mato</span></p>
-            <p><kbd>C</kbd> <span>chegar de mansinho e investigar</span></p>
+            <p><kbd>E</kbd> <span>chamar pintinho próximo ou se esconder</span></p>
+            <p><kbd>C</kbd> <span>chegar de mansinho</span></p>
           </div>
           <p class="menu-panel-note">O ganso guarda o lago: espere o aviso e desvie da investida. Ele empurra, não tira vidas — mas o grito pode atrair o lobo próximo.</p>
-          <p class="menu-panel-note">Ouviu piu-piu? Tem pintinho escondido! Entre com <kbd>E</kbd> e segure <kbd>C</kbd> para procurar. São 6 pequenos para levar ao ninho.</p>
+          <p class="menu-panel-note">Ouviu piu-piu? Tem pintinho escondido! Chegue perto e aperte <kbd>E</kbd> uma vez para chamar. São 6 pequenos para levar ao ninho.</p>
           </details>
           </div>
           <div id="panel-outfit" class="menu-panel" role="tabpanel" aria-labelledby="tab-outfit" hidden>
@@ -177,7 +177,7 @@
       <button id="lakeChallengeBtn" type="button">Desafiar o ganso · F</button>
     </section>
     <div id="liveControls" class="live-controls" aria-label="Controles da partida">
-      <span><kbd id="keyMove">WASD / setas</kbd> mover</span><span><kbd id="keySneak">C</kbd> de mansinho</span><span><kbd id="keySprint">Shift</kbd> correr</span><span><kbd id="keyHide">E</kbd> esconder</span>
+      <span><kbd id="keyMove">WASD / setas</kbd> mover</span><span><kbd id="keySneak">C</kbd> de mansinho</span><span><kbd id="keySprint">Shift</kbd> correr</span><span><kbd id="keyHide">E</kbd> chamar / esconder</span>
     </div>
 
     <div class="game-feedback">
@@ -222,8 +222,8 @@
     <section class="instructions" aria-labelledby="controlsTitle">
       <div>
         <h2 id="controlsTitle">Os macetes da roça</h2>
-        <p id="controlsText"><kbd>WASD</kbd> / <kbd>setas</kbd> mover · <kbd>C</kbd> de mansinho · <kbd>Shift</kbd> correr · <kbd>E</kbd> esconder / sair · <kbd>Esc</kbd> / <kbd>P</kbd> pausar.</p>
-        <p>Resgate os dez amigos para completar a missão. Cada animal salvo aumenta a velocidade, a visão e a busca do lobo. Use árvores e feno para escapar. Ouviu um piado? Entre nesse esconderijo com <kbd>E</kbd> e segure <kbd>C</kbd>: alguns guardam uma surpresa opcional. A caderneta só guarda pistas que você já viu.</p>
+        <p id="controlsText"><kbd>WASD</kbd> / <kbd>setas</kbd> mover · <kbd>C</kbd> de mansinho · <kbd>Shift</kbd> correr · <kbd>E</kbd> chamar pintinho / esconder / sair · <kbd>Esc</kbd> / <kbd>P</kbd> pausar.</p>
+        <p>Resgate os dez amigos para completar a missão. Cada animal salvo aumenta a velocidade, a visão e a busca do lobo. Use árvores e feno para escapar. Ouviu um piado? Chegue perto e aperte <kbd>E</kbd> uma vez para chamar o pintinho ao ninho. A caderneta só guarda pistas que você já viu.</p>
       </div>
       <div class="game-settings">
         <label class="difficulty-control" for="difficultySelect">
@@ -253,10 +253,10 @@
   <script src="./systems/audio-system.js?v=wildlife-behavior-5"></script>
   <script src="./systems/audio-controls.js?v=farm-habitats-4"></script>
   <script src="./systems/skin-system.js?v=farm-habitats-4"></script>
-  <script src="./systems/game-manager.js?v=farm-habitats-4"></script>
-  <script src="./systems/rescue-system.js?v=wildlife-behavior-5"></script>
+  <script src="./systems/game-manager.js?v=chick-call-6"></script>
+  <script src="./systems/rescue-system.js?v=chick-call-6"></script>
   <script src="./systems/detection-system.js?v=farm-habitats-4"></script>
-  <script src="./systems/hiding-spots.js?v=farm-habitats-4"></script>
+  <script src="./systems/hiding-spots.js?v=chick-call-6"></script>
   <script src="./systems/wolf-ai.js?v=wildlife-behavior-5"></script>
   <script src="./systems/wolf-dialogue.js?v=farm-habitats-4"></script>
   <script src="./systems/lake-challenge.js?v=wildlife-behavior-5"></script>
@@ -273,8 +273,8 @@
   <script src="./systems/menu-scene.js?v=farm-habitats-4"></script>
   <script src="./systems/interface-motion.js?v=farm-habitats-4"></script>
   <script src="./systems/gameplay-hud.js?v=farm-habitats-4"></script>
-  <script src="./systems/ui.js?v=farm-habitats-4"></script>
+  <script src="./systems/ui.js?v=chick-call-6"></script>
   <script src="./systems/end-game-sequence.js?v=farm-habitats-4"></script>
-  <script src="./game.js?v=farm-habitats-4"></script>
+  <script src="./game.js?v=chick-call-6"></script>
 </body>
 </html>

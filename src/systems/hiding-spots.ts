@@ -19,12 +19,18 @@ const HidingSpots = (() => {
   function hasBonusClue(chicken: Farm.Chicken, chick: Farm.Animal): boolean {
     const spot = spots.find(s => s.id === chick.coverId);
     if (!spot || distance(chicken, chick) >= 280) return false;
-    if (candidate(chicken)?.id === spot.id) return true;
     // The chick can be heard through its own cover, but never through a building or fence.
     const cover = spot.bale || spot.blockingRect;
     const walls = cover ? OBSTACLES.filter(o =>
       o.x !== cover.x || o.y !== cover.y || o.w !== cover.w || o.h !== cover.h) : OBSTACLES;
     return DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(chick), walls);
+  }
+  function bonusInReach(chicken: Farm.Chicken, chick: Farm.Animal): boolean {
+    const spot = spots.find(s => s.id === chick.coverId);
+    if (!spot || !hasBonusClue(chicken, chick)) return false;
+    // Call from any nearby edge instead of requiring a precise step inside the foliage.
+    return Math.hypot(chicken.x - clamp(chicken.x, spot.x, spot.x + spot.w),
+      chicken.y - clamp(chicken.y, spot.y, spot.y + spot.h)) <= 40;
   }
   function bonusHomes(layout: Farm.Layout = WORLD.layout): Farm.BonusHome[] {
     // A separate deterministic selection keeps saved buildings and cover IDs intact.
@@ -104,7 +110,7 @@ const HidingSpots = (() => {
     const spot = spots.find(s => s.id === chicken.hidingSpotId) || candidate(chicken);
     if (spot) FarmArt.drawCoverForeground(ctx, spot, camera, Math.max(0.35, chicken.hideBlend || 0), chicken);
   }
-  function pill(x: number, y: number, width: number, title: string, detail: string, hidden: boolean, exposed = false, progress = 0): void {
+  function pill(x: number, y: number, width: number, title: string, exposed = false): void {
     x = clamp(x, width / 2 + 12, canvas.width - width / 2 - 12);
     y = clamp(y, 66, canvas.height - 48);
     if(x+width/2>canvas.width-174 && y<144)y=149;
@@ -114,7 +120,6 @@ const HidingSpots = (() => {
     ctx.beginPath();ctx.roundRect(-width/2,0,width,30,5);ctx.fill();ctx.stroke();
     ctx.fillStyle='#fff4cf';ctx.textAlign='center';ctx.font='bold 12px Trebuchet MS, sans-serif';
     ctx.fillText(title,0,20,width-16);
-    if(progress>0){ctx.fillStyle='#f1cb68';ctx.fillRect(-width/2+4,27,(width-8)*Math.min(1,progress),3);}
     ctx.restore();
   }
   function drawIndicators(game: Farm.GameState): void {
@@ -122,28 +127,29 @@ const HidingSpots = (() => {
     const chicken = game.entities.chicken, p = worldToScreen(chicken), spot = candidate(chicken);
     const exposed = WolfAI.isExposed(game);
     const hint = RescueSystem.secretHint(game);
-    const bonus = hint?.coverId && hint.coverId === spot?.id ? hint : null;
+    const bonus = RescueSystem.callTarget(game);
     const celebrating = game.secretNotice?.bonus && game.secretNotice.time > 0;
-    if (hint?.coverId && !bonus && !chicken.hidden) {
-      const cover = spots.find(s => s.id === hint.coverId)!;
+    if (hint && !bonus && !chicken.hidden) {
+      const cover = spots.find(s => s.id === hint.coverId);
       const bob = InterfaceMotion.reduced ? 0 : Math.sin((game.elapsed || 0) * 3)*2;
-      pill(worldX(cover.x+cover.w/2),worldY(cover.y)-45+bob,112,'Piu-piu…','',false);
+      pill(worldX(cover ? cover.x+cover.w/2 : hint.x),worldY(cover ? cover.y : hint.y)-45+bob,112,'Piu-piu…');
     }
     if (spot) {
       ctx.save(); ctx.strokeStyle = exposed ? "#ff956c" : chicken.hidden ? "#e6f6be" : "#fff6bf";
       ctx.lineWidth = 1.5;ctx.setLineDash(chicken.hidden?[]:[3,4]);
       ctx.beginPath();ctx.ellipse(p.x,p.y+14,29,11,0,0,Math.PI*2);ctx.stroke();ctx.restore();
     }
-    if (chicken.hidden) {
-      if (!celebrating || exposed) pill(p.x, p.y - 73, bonus ? 220 : 185, exposed ? "Ele viu você! Saia daí!" : bonus ? 'Segure C · procurar pintinho' : "Escondida · E para sair",
-        '', true, exposed,
-        bonus && !exposed ? bonus.discoveryTime / .85 : 0);
+    if (bonus) {
+      pill(p.x,p.y-73,180,'E · chamar pintinho');
+    } else if (chicken.hidden) {
+      if (!celebrating || exposed) pill(p.x, p.y - 73, 185,
+        exposed ? "Ele viu você! Saia daí!" : "Escondida · E para sair", exposed);
     } else if (spot) {
-      pill(p.x,p.y-73,bonus?190:130,bonus?'E · procurar o piado':'E · esconder','',false);
+      if (!celebrating) pill(p.x,p.y-73,130,'E · esconder');
     } else if (chicken.hideHintTimer! > 0) {
-      pill(p.x,p.y-73,180,'Procure uma moita ou feno','',false);
+      pill(p.x,p.y-73,180,'Procure uma moita ou feno');
     }
   }
-  return { initialize, candidate, hasBonusClue, bonusHomes, toggle, update, restore, drawForeground, drawIndicators,
+  return { initialize, candidate, hasBonusClue, bonusInReach, bonusHomes, toggle, update, restore, drawForeground, drawIndicators,
     getSpots: () => spots, obstacles: () => spots.filter(s => s.blockingRect).map(s => s.blockingRect!) };
 })();

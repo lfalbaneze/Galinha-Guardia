@@ -169,7 +169,6 @@ const GameManager = (() => {
         const bounded = (value, min, max, fallback = min) => Number.isFinite(value) ? clamp(value, min, max) : fallback;
         const restoreFriend = (animal, saved) => {
             animal.discovered = animal.rescued || saved.discovered === true;
-            animal.discoveryTime = 0;
             animal.lastSeen = animal.discovered && Number.isFinite(saved.lastSeen?.x) && Number.isFinite(saved.lastSeen?.y)
                 ? { x: bounded(saved.lastSeen.x, 0, WORLD.width), y: bounded(saved.lastSeen.y, 0, WORLD.height) } : null;
             animal.fatigue = bounded(saved.fatigue, 0, 8);

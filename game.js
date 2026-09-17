@@ -728,7 +728,7 @@ window.addEventListener("keydown", (event) => {
     if (state.lake?.active) LakeChallenge.cancel(state); else LakeChallenge.start(state);
     return;
   }
-  if (key === "e" && !event.repeat) HidingSpots.toggle(state);
+  if (key === "e" && !event.repeat && !RescueSystem.callChick(state)) HidingSpots.toggle(state);
   if (key === "h" && !event.repeat) state.debugHitboxes = !state.debugHitboxes;
   input.add(key);
 });
