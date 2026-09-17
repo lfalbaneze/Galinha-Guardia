@@ -89,3 +89,9 @@ Testes específicos: `tests/lake-challenge.test.cjs`, `tests/farm-details.test.c
 A verificação `Check lake in browser` joga o desafio com posições iniciais controladas, usando as teclas de movimento e os métodos normais de simulação. Os três pontos são obtidos por investidas reais, não inseridos no estado. Ela verifica a ponte, o baú, a recarga, a pausa, `file://` e quatro larguras de tela. Os PNGs e o relatório ficam no artefato `lake-browser-review`.
 
 Para repetir localmente, compile o projeto, instale `tests/browser/requirements.txt`, execute `python -m playwright install chromium`, sirva o repositório com `python -m http.server 8765 --bind 127.0.0.1` e rode `python tests/browser/lake_smoke.py` em outro terminal.
+
+## Encontros nos caminhos
+
+`fox-system.ts` e `owl-system.ts` mantêm estados independentes do lobo e do ganso. `wildlife-rules.ts` compartilha apenas geometria e critérios de posicionamento; o destino da raposa é congelado no aviso. `wildlife-art.ts`, `fox-art.ts` e `owl-art.ts` carregam folhas PNG locais, validam suas dimensões e alinham o apoio de cada quadro. As posições são escolhidas pela semente sem consumir a sequência do gerador de mundo.
+
+Salvamentos antigos continuam válidos. Os registros opcionais `foxes` e `owls` preservam posição validada e espera; um ataque ou alarme parcial não é retomado ao recarregar. `tests/ambush-sentinels.test.cjs` cobre visão, colisões, esquiva real, espera, persistência e carregamento; `tests/browser/wildlife_smoke.py` verifica a integração no Chromium.

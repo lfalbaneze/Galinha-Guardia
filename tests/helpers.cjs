@@ -39,6 +39,10 @@ function createGame(random = Math.random, options = {}) {
     vm.runInContext(source, context, { filename: match[1] });
     if (match[1] === 'systems/goose-art.js' && !options.drawingContext && !options.skipGooseInstall)
       vm.runInContext('GooseArt.install(() => ({}));', context);
+    if (match[1] === 'systems/fox-art.js' && !options.drawingContext)
+      vm.runInContext('FoxArt.install(() => ({}));', context);
+    if (match[1] === 'systems/owl-art.js' && !options.drawingContext)
+      vm.runInContext('OwlArt.install(() => ({}));', context);
     if (match[1] === 'systems/character-art.js' && !options.drawingContext)
       vm.runInContext('CharacterArt.install(() => ({}));', context);
   }

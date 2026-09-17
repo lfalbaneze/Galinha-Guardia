@@ -423,7 +423,7 @@ const WolfAI = (() => {
         return arrived || (!wolf.route.length && distance(wolf, target) < 12);
     }
     function update(game, dt) {
-        if (game.lake?.active || game.phase !== "playing" || dt <= 0)
+        if (game.lake?.active || game.phase !== "playing" || !Number.isFinite(dt) || dt <= 0)
             return;
         const wolf = game.entities.wolf;
         const config = getConfig(game);
@@ -601,7 +601,7 @@ const WolfAI = (() => {
     // An environmental sound identifies its source, never the hidden player's position.
     function investigateSound(game, source, radius = 360) {
         const wolf = game.entities.wolf;
-        if (game.phase !== 'playing' || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
+        if (game.lake?.active || game.phase !== 'playing' || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
             ['chase', 'inspect', 'alert'].includes(wolf.mode) || !Number.isFinite(source.x) || !Number.isFinite(source.y) ||
             source.x < 0 || source.y < 0 || source.x > WORLD.width || source.y > WORLD.height ||
             !Number.isFinite(radius) || radius <= 0)

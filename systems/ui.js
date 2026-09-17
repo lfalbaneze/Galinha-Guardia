@@ -16,7 +16,7 @@ const GameUI = (() => {
   }
 
   function newGame() {
-    if (CharacterArt.loading || GooseArt.loading || GooseArt.errors.length || CharacterArt.errors.length) return;
+    if (![CharacterArt, GooseArt, FoxArt, OwlArt].every(art => art.ready)) return;
     resetGame();
     AudioSystem.sync(state);
     AudioSystem.unlock();
@@ -25,7 +25,7 @@ const GameUI = (() => {
   }
 
   function resumeGame() {
-    if (CharacterArt.loading || GooseArt.loading || GooseArt.errors.length || CharacterArt.errors.length) return;
+    if (![CharacterArt, GooseArt, FoxArt, OwlArt].every(art => art.ready)) return;
     if (!state || !state.hasSave) return;
     state.phase = state.resumePhase || "playing";
     input.clear();
@@ -45,6 +45,10 @@ const GameUI = (() => {
     elements.gameShell = document.getElementById("gameShell");
     elements.menuSkinSelect = document.getElementById("menuSkinSelect");
     for (const skin of SkinSystem.catalog) elements[`menu-skin-${skin.id}`] = document.getElementById(`menu-skin-${skin.id}`);
+    document.getElementById('retrySprites').addEventListener('click', async () => {
+      const loading=Promise.all([CharacterArt.load(),GooseArt.load(),FoxArt.load(),OwlArt.load()]);
+      update(state); await loading; update(state);
+    });
     elements.startBtn.addEventListener("click", newGame);
     elements.replayBtn.addEventListener("click", newGame);
     elements.continueBtn.addEventListener("click", resumeGame);
@@ -110,12 +114,13 @@ const GameUI = (() => {
 
   function update(game) {
     if (!initialized) initialize();
-    const spritesBlocked = CharacterArt.loading || GooseArt.loading || GooseArt.errors.length > 0 || CharacterArt.errors.length > 0;
+    const spritesBlocked = ![CharacterArt, GooseArt, FoxArt, OwlArt].every(art => art.ready);
     for (const id of ['startBtn', 'continueBtn', 'replayBtn']) elements[id].disabled = spritesBlocked;
     document.getElementById('restartBtn').disabled = spritesBlocked;
     const spriteStatus = document.getElementById('spriteStatus');
     spriteStatus.hidden = !spritesBlocked;
-    spriteStatus.textContent = CharacterArt.errors.length || GooseArt.errors.length
+    document.getElementById('retrySprites').hidden = !spritesBlocked || [CharacterArt,GooseArt,FoxArt,OwlArt].some(a=>a.loading);
+    spriteStatus.textContent = [CharacterArt, GooseArt, FoxArt, OwlArt].some(art => art.errors.length)
       ? 'Alguns bichos não chegaram. Recarregue a página para tentar novamente.'
       : 'Chamando a turma da fazenda…';
     AudioControls.update(game);

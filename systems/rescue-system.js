@@ -32,7 +32,7 @@ const RescueSystem = {
             distance(chicken, a) - distance(chicken, b))[0] || null;
     },
     discover(game, chick, dt) {
-        if (game.phase !== 'playing' || dt <= 0 || !RescueSystem.isSecret(chick))
+        if (game.phase !== 'playing' || !Number.isFinite(dt) || dt <= 0 || !RescueSystem.isSecret(chick))
             return false;
         const chicken = game.entities.chicken;
         const inside = chick.coverId && chicken.hidden && chicken.hidingSpotId === chick.coverId &&
@@ -171,6 +171,8 @@ const RescueSystem = {
         animal.wanderTime = 1.8 + Math.random() * 2.4;
     },
     update(game, dt) {
+        if (!Number.isFinite(dt) || dt < 0)
+            return;
         if (game.phase !== "playing")
             return;
         const chicken = game.entities.chicken;

@@ -18,6 +18,8 @@ const GameManager = (() => {
     SkinSystem.initialize(game);
     LakeChallenge.initialize(game);
     GooseSystem.initialize(game);
+    FoxSystem.initialize(game);
+    OwlSystem.initialize(game);
     saveTimer = 0;
   }
   function level(count: number): number { return count >= 9 ? 3 : count >= 6 ? 2 : count >= 3 ? 1 : 0; }
@@ -73,6 +75,7 @@ const GameManager = (() => {
       animals: game.entities.animals.map(friend),
       chicks: game.entities.chicks.map(friend),
       goose: GooseSystem.snapshot(game),
+      foxes: FoxSystem.snapshot(game), owls: OwlSystem.snapshot(game),
       lake: LakeChallenge.snapshot(game),
     };
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); storageAvailable = true; }
@@ -215,6 +218,8 @@ const GameManager = (() => {
     FarmRefuge.ensureClear(wolf);
     WolfAI.restoreCoverMemory(game, data.wolf.exposedCover);
     GooseSystem.restore(game, data.goose);
+    FoxSystem.restore(game, data.foxes);
+    OwlSystem.restore(game, data.owls);
     game.winBonusApplied = data.winBonusApplied === true;
     if (game.rescuedCount === WORLD.targetRescues) GameManager.win(game);
     refreshHud();
@@ -224,6 +229,7 @@ const GameManager = (() => {
     try { localStorage.removeItem(SAVE_KEY); } catch (_) { storageAvailable = false; }
   }
   function update(game: Farm.GameState, dt: number): void {
+    if (game.phase !== "playing" || !Number.isFinite(dt) || dt < 0) return;
     game.elapsed += dt;
     saveTimer += dt;
     if (saveTimer >= 2) { saveTimer = 0; save(game); }
