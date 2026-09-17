@@ -1,0 +1,55 @@
+name: Validate gameplay HUD
+on:
+  push:
+    branches: [feature/gameplay-hud-polish]
+    paths:
+      - .github/workflows/hud-validation.yml
+      - .hud-apply.py
+      - .hud-payload/**
+      - .hud-browser-check.py
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Apply verified HUD and sprite sources
+        run: python .hud-apply.py
+      - run: npm ci
+      - name: Types, complete tests and distribution
+        run: npm run verify
+      - run: npm run check:generated
+      - name: Install browser test tools
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps chromium
+      - name: Validate gameplay, sprite loading, pause, saved progress and responsive HUD
+        env:
+          HUD_REVIEW_DIR: ${{ runner.temp }}/hud-review
+        run: python .hud-browser-check.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hud-visual-review
+          path: ${{ runner.temp }}/hud-review
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Record validated changes and remove temporary development files
+        run: |
+          python - <<'PY'
+          import json, subprocess
+          from pathlib import Path
+          files = json.loads(Path('.hud-files.json').read_text())
+          subprocess.run(['git', 'add', '--', *files], check=True)
+          Path('.hud-files.json').unlink()
+          PY
+          git rm .github/workflows/hud-workspace.yml .github/workflows/hud-validation.yml .hud-apply.py .hud-browser-check.py .hud-payload/part-1 .hud-payload/part-2 .hud-payload/part-3
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat: refina HUD da partida e integra sprites do ganso [skip ci]'
+          git push origin HEAD:refs/heads/feature/gameplay-hud-polish
