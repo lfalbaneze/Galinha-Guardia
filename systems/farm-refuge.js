@@ -51,7 +51,7 @@ const FarmRefuge = (() => {
   }
   function drawProp(c,p) {
     if(p.type==='nursery') {
-      if(!FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h)) FarmSprites.draw(c,'coop',p.x+65,p.y,105,p.h);
+      if(!FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true})) FarmSprites.draw(c,'coop',p.x+65,p.y,105,p.h,{grounded:true});
     } else if(p.type==='nursery-lip') {
       // Only the low front boards cover the chicks' feet, never their faces.
       c.save();c.beginPath();
@@ -60,12 +60,12 @@ const FarmRefuge = (() => {
         if(i)c.lineTo(x,y);else c.moveTo(x,y);
       }
       c.lineTo(p.x+p.w,p.y+p.h);c.lineTo(p.x,p.y+p.h);c.closePath();c.clip();
-      FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h);c.restore();
+      FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true});c.restore();
     } else if(p.type==='refuge-trough') {
-      FarmSprites.draw(c,'trough',p.x,p.y,p.w,p.h);
+      FarmSprites.draw(c,'trough',p.x,p.y,p.w,p.h,{grounded:true});
     } else if(p.type==='refuge-rail') {
       if(p.w) {
-        if(!FarmSprites.draw(c,'fence',p.x-4,p.y-35,p.w+8,39)) {
+        if(!FarmSprites.draw(c,'fence',p.x-4,p.y-35,p.w+8,39,{grounded:true})) {
           c.fillStyle='#b68b4d';c.fillRect(p.x,p.y-23,p.w,5);c.fillRect(p.x,p.y-10,p.w,5);
           post(c,p.x,p.y);post(c,p.x+p.w,p.y);
         }

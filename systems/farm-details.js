@@ -6,13 +6,13 @@ const FarmDetails = (() => {
     a.y < b.y + b.h + gap && a.y + a.h + gap > b.y;
   function shape(p) {
     const { x, y, w, h } = p;
-    if (p.type === 'tree') return { x: x - 16, y: (p.blockingRect?.y ?? y) + 22 - 148, w: 136, h: 148 };
-    if (p.type === 'bush') return { x: x - 4, y: y - 18, w: w + 8, h: h + 23 };
-    if (p.type === 'hay') return { x: x - 3, y: y - 16, w: w + 6, h: h + 20 };
+    if (p.type === 'tree') return { x: x - 16, y: (p.blockingRect?.y ?? y) + (p.blockingRect?.h ?? 22) - 148, w: 136, h: 148 };
+    if (p.type === 'bush') return { x: x - 4, y: y - 14, w: w + 8, h: h + 14 };
+    if (p.type === 'hay') return { x: x - 3, y: y - 16, w: w + 6, h: h + 16 };
     if (p.type === 'barn') return { x: x - 8, y: y + h - 195, w: w + 16, h: 195 };
     if (p.type === 'silo') return { x: x + 1, y: y + h - 174, w: w - 2, h: 174 };
     if (p.type === 'coop') {
-      const height = (w + 14) * (p.variant === 1 ? .88 : 1.1);
+      const height = (w + 14) * 1.1;
       return { x: x - 7, y: y + h - height, w: w + 14, h: height };
     }
     if (p.type === 'fence') return { x: x - 4, y: y - 36, w: w + 8, h: 43 };
@@ -24,7 +24,8 @@ const FarmDetails = (() => {
     const dressed = props.map(p => {
       const index = counts[p.type] || 0; counts[p.type] = index + 1;
       const variant = ((layout.seed >>> 0) % 3 + index) % 3;
-      return { ...p, variant, flip: variant === 2, palette: variant };
+      // Buildings share one light direction. Never mirror a roof or replace a coop with a barn.
+      return { ...p, variant, flip: false, palette: variant };
     });
     const occupied = dressed.map(shape);
     if (layout.structures?.pond) occupied.push(layout.structures.pond);
@@ -59,10 +60,32 @@ const FarmDetails = (() => {
     cache.set(layout, dressed);
     return dressed;
   }
+  function drawFooting(c, p, box = shape(p)) {
+    const base = Math.round(box.y + box.h), center = Math.round(box.x + box.w / 2);
+    const tree = p.type === 'tree', hay = p.type === 'hay';
+    const width = tree ? 24 : Math.round(box.w * (p.type === 'bush' ? .64 : .76));
+    c.save(); c.imageSmoothingEnabled = false;
+    c.fillStyle = hay ? '#8d803a38' : '#33472d2a';
+    c.beginPath(); c.ellipse(center, base - 2, width / 2 + 5, tree ? 5 : 6, 0, 0, Math.PI * 2); c.fill();
+    c.fillStyle = '#26332350';
+    c.beginPath(); c.ellipse(center, base - 2, width / 2, 2.5, 0, 0, Math.PI * 2); c.fill();
+    if (hay) {
+      c.fillStyle = '#b99b5466';
+      for (let i=0;i<7;i++) {
+        const xx=center-width/2+(i*13+p.x)%Math.max(1,width), yy=base-2+(i%3)*2;
+        c.fillRect(Math.round(xx),yy,4+(i%2)*2,1);
+      }
+    } else if (tree) {
+      c.fillStyle = '#537638'; c.fillRect(center-12,base-5,2,5); c.fillRect(center+10,base-3,3,3);
+    }
+    c.restore();
+  }
   function drawSign(c, p) {
     const x = Math.round(p.x), y = Math.round(p.y), w = p.w;
     c.save(); c.imageSmoothingEnabled = false;
-    c.fillStyle = '#233d2938'; c.beginPath(); c.ellipse(x + w / 2 + 3, y + 48, w * .36, 5, 0, 0, Math.PI * 2); c.fill();
+    // Each post touches its own patch; no detached oval makes the sign look suspended.
+    c.fillStyle = '#30402650';
+    for (const at of [x + 20, x + w - 19]) { c.beginPath(); c.ellipse(at,y+48,7,2,0,0,Math.PI*2); c.fill(); }
     for (const at of [x + 17, x + w - 22]) {
       c.fillStyle = '#57452e'; c.fillRect(at, y + 15, 7, 34);
       c.fillStyle = '#b28b56'; c.fillRect(at + 1, y + 16, 3, 32);
@@ -83,5 +106,5 @@ const FarmDetails = (() => {
     c.fillStyle = '#507334'; c.fillRect(x + 12, y + 45, 3, 5); c.fillRect(x + w - 14, y + 44, 2, 6);
     c.restore();
   }
-  return { decorate, shape, overlaps, drawSign };
+  return { decorate, shape, overlaps, drawSign, drawFooting };
 })();

@@ -15,7 +15,12 @@ with sync_playwright() as p:
  page.on('response',lambda r:result['failed_requests'].append({'url':r.url,'status':r.status}) if r.status>=400 else None)
  page.goto('http://127.0.0.1:8765',wait_until='networkidle')
  page.wait_for_function('CharacterArt.ready && GooseArt.ready && FarmSprites.ready')
+ assert page.locator('.game-author').inner_text()=='Feito por Luis Albaneze'
  page.locator('#startBtn').click();page.wait_for_timeout(300)
+ assert page.evaluate("!FarmArt.getProps(WORLD.layout).some(p=>p.type==='fence')")
+ assert page.evaluate("FarmArt.getProps(WORLD.layout).some(p=>p.type==='refuge-rail')")
+ assert 'Feito por Luis Albaneze' in page.locator('footer.sprite-credits').inner_text()
+ result['checks'].append('Authorship in menu/footer; no decorative fence fragments; functional refuge retained')
  x=page.evaluate('state.entities.chicken.x')
  page.keyboard.down('d');page.wait_for_timeout(180);page.keyboard.up('d')
  assert page.evaluate('state.entities.chicken.x')!=x
