@@ -18,7 +18,7 @@ Pelo caminho, piados revelam **seis pintinhos escondidos**. Encontrá-los é opc
 
 ## Como jogar
 
-Baixe ou clone o repositório e abra `index.html` no navegador. Não é necessário instalar dependências para jogar.
+Baixe ou clone o repositório e abra `index.html` no navegador. Não é necessário instalar dependências para jogar; os scripts compilados acompanham o projeto.
 
 Para servir os arquivos em um endereço local fixo, execute na pasta do projeto, com Python instalado:
 
@@ -67,30 +67,39 @@ O progresso pertence ao navegador e ao endereço usado para jogar. Abrir por `fi
 
 ## Desenvolvimento
 
-O projeto usa **JavaScript puro, HTML, CSS e Canvas 2D**, sem framework ou serviço externo necessário para jogar. Os arquivos de imagem e áudio acompanham o repositório. A fazenda é gerada a partir de uma semente, e os sistemas de movimento, percepção, resgate e salvamento ficam separados em `systems/`.
+O núcleo de gameplay usa **TypeScript**, com **HTML, CSS e Canvas 2D**, sem framework ou serviço externo necessário para jogar. Os sistemas visuais, o áudio, o gerador de mundo e o loop principal continuam em JavaScript durante a migração gradual. Imagens e sons acompanham o repositório.
+
+Os sete sistemas de jogador, lobo, detecção, esconderijos, resgates, salvamento e regiões são editados em `src/systems/`. O compilador atualiza suas versões em `systems/`, nos mesmos caminhos usados pelo navegador. Consulte o [guia de TypeScript](docs/typescript.md) para detalhes sobre os tipos, a compilação e os testes.
 
 ### Estrutura
 
 | Caminho | Conteúdo |
 | --- | --- |
 | `index.html` | Página do jogo e carregamento dos scripts |
+| `src/systems/` | Fontes TypeScript dos sete sistemas de gameplay |
+| `src/types/` | Tipos compartilhados e contratos com o JavaScript existente |
 | `game.js` | Loop principal, integração dos sistemas e colisões |
-| `systems/` | Jogador, comportamento do lobo, mundo, resgates, interface, áudio e salvamento |
+| `systems/` | JavaScript do navegador: sistemas compilados e módulos ainda não migrados |
 | `assets/` | Sprites, cenários, músicas, efeitos e créditos |
-| `tests/` | Testes automatizados |
-| `scripts/` | Build e ferramentas de preparação de recursos e prévias |
+| `tests/` | Testes de comportamento e contratos de tipos |
+| `scripts/` | Compilação, build e ferramentas de preparação de recursos e prévias |
 | `preview/` | Prévias visuais e de áudio |
 | `.baseline/` | Cópia dos arquivos da versão inicial |
 
 ### Preparar o ambiente
 
-Com Node.js e npm instalados:
+Com Node.js 20 ou superior e npm instalados:
 
 ```sh
 npm ci
+npm run typecheck
 npm test
 npm run build
 ```
+
+`npm test` compila antes de executar a suíte. O build também compila e prepara os arquivos públicos em `dist/`. Para executar checagem de tipos, testes e build em sequência, use `npm run verify`.
+
+Durante a edição, `npm run dev` recompila os arquivos TypeScript a cada alteração; não inicia servidor nem recarrega a página. **Edite os sistemas migrados em `src/systems/` e inclua seus JavaScript compilados no commit.** `npm run check:generated` verifica se essas saídas estão atualizadas.
 
 Os testes cobrem resgates, progressão, desbloqueios, salvamento, detecção, esconderijos, navegação, interface e áudio. As verificações automatizadas complementam os testes de jogabilidade no navegador.
 

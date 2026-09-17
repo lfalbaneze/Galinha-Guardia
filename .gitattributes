@@ -1,0 +1,8 @@
+# TypeScript sources are edited in src/systems; these browser files are compiler outputs.
+systems/detection-system.js linguist-generated=true
+systems/game-manager.js linguist-generated=true
+systems/hiding-spots.js linguist-generated=true
+systems/map-manager.js linguist-generated=true
+systems/player.js linguist-generated=true
+systems/rescue-system.js linguist-generated=true
+systems/wolf-ai.js linguist-generated=true

@@ -2,8 +2,13 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
+const { execFileSync } = require('node:child_process');
 const root = path.resolve(__dirname, '..');
 const output = path.join(root, 'dist');
+// Compile before packaging, including when this script is invoked directly.
+execFileSync(process.execPath, [require.resolve('typescript/bin/tsc'), '-p', path.join(root, 'tsconfig.json')], {
+  cwd: root, stdio: 'inherit',
+});
 require('./build-farm-data.cjs');
 fs.mkdirSync(output,{recursive:true});
 for(const name of fs.readdirSync(path.join(root,'systems')).filter(n=>n.endsWith('.js')))

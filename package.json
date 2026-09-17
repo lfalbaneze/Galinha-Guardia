@@ -2,10 +2,16 @@
   "name": "galinha-guardia",
   "private": true,
   "version": "1.1.0",
-  "description": "Penas pro Ar! Confusão no Sítio do Fuzuê — aventura em JavaScript e Canvas 2D.",
+  "description": "Penas pro Ar! Confusão no Sítio do Fuzuê — aventura em TypeScript e Canvas 2D.",
   "scripts": {
+    "compile": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.tests.json",
+    "check:generated": "node scripts/check-generated.cjs",
+    "dev": "tsc -p tsconfig.json --watch",
     "build": "node scripts/build.cjs",
-    "test": "node --test tests",
+    "pretest": "npm run compile",
+    "test": "node scripts/test.cjs",
+    "verify": "npm run typecheck && npm test && npm run build",
     "sprites:build": "node scripts/build-sprite-data.cjs && node scripts/render-wardrobe.cjs",
     "sprites:review": "node scripts/render-sprite-review.cjs && node scripts/render-characters.cjs",
     "preview:render": "node scripts/render-preview.cjs",
@@ -13,6 +19,10 @@
     "audio:preview": "node scripts/render-audio-preview.cjs"
   },
   "devDependencies": {
-    "@napi-rs/canvas": "1.0.9"
+    "@napi-rs/canvas": "1.0.9",
+    "typescript": "5.8.3"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
