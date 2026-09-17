@@ -261,6 +261,7 @@ const GooseSystem = (() => {
   function drawIndicator(game: Farm.GameState): void {
     const goose = game.entities.goose;
     if (!goose || game.phase !== 'playing' || !visible(game, goose)) return;
+    if (goose.mode === 'defeated' && (game.skinNotice?.time || 0) > 0) return;
     const p = worldToScreen(goose);
     if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) return;
     if (['notice','warning','feint','charge','stunned','defeated'].includes(goose.mode) || goose.notice > 0) {
