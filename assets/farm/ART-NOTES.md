@@ -1,6 +1,6 @@
 # Arte do cenário — Penas pro Ar!
 
-A folha `farm-atlas.png` reúne os elementos de cenário usados durante a partida.
+A folha `farm-atlas.png` reúne a vegetação e os objetos de fallback. Celeiro, galinheiro, silo, feno, bebedouro e cerca usam agora a folha [farm-props.png](farm-props.png), descrita em [PROP-ART-NOTES.md](PROP-ART-NOTES.md).
 
 ## Arquivos e integração
 
@@ -20,7 +20,7 @@ As imagens não definem as colisões: trocar um recorte ou sua escala não alter
 
 ## Apresentação no mapa
 
-`FarmSprites.draw` aceita `grounded: true`: recorta margens transparentes, reduz o desenho em etapas e aplica uma paleta de 28 cores. O resultado fica em cache por elemento e material. O PNG original não é modificado. Duas variantes das moitas mostram só folhas; a terceira mantém as flores.
+`FarmSprites.draw` aceita `grounded: true`: recorta margens transparentes e reduz o desenho em etapas. A vegetação e o atlas antigo usam uma paleta de 28 cores; os novos objetos preservam suas cores de madeira, água e metal. O resultado fica em cache por elemento e material. O PNG original não é modificado. Duas variantes das moitas mostram só folhas; a terceira mantém as flores.
 
 `FarmDetails.drawFooting` posiciona a sombra junto à base. Árvores usam o pé do tronco, não a copa; as placas têm contato em cada poste. O desenho não espelha construções nem usa um celeiro no lugar de um galinheiro.
 

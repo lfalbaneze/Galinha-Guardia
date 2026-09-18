@@ -75,7 +75,7 @@ declare namespace Farm {
     stuckTime: number; wanderTime: number;
     targetX: number; targetY: number; homeX?: number; homeY?: number;
     speech?: string; speechTime: number;
-    temper: 'secret' | 'tired' | 'fleeing' | 'idle' | 'safe';
+    temper: 'secret' | 'tired' | 'fleeing' | 'calm' | 'idle' | 'safe';
   }
   interface Fox extends Entity {
     type: 'fox'; mode: 'hidden' | 'warning' | 'dash' | 'rest' | 'return';

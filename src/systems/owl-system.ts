@@ -52,7 +52,9 @@ const OwlSystem = (() => {
       if(canSee(owl,game.entities.chicken)&&visible(game,owl)){
         owl.mode='alert';owl.target=point(game.entities.chicken);
         owl.direction=direction(Math.atan2(owl.target.y-owl.y,owl.target.x-owl.x));
-        owl.alertProgress=Math.min(1,owl.alertProgress+dt/owl.alertTime);
+        // Quiet movement gives time to cross the edge of the cone; it is not invisibility.
+        const attention = game.entities.chicken.sneaking ? .45 : 1;
+        owl.alertProgress=Math.min(1,owl.alertProgress+dt/owl.alertTime*attention);
         if(owl.alertProgress>=1){
           const heard=WolfAI.investigateSound(game,point(owl.perch),360,point(owl.target),obstacles(owl));
           AudioSystem.play('owl-hoot',{volume:.45});

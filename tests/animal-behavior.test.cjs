@@ -32,6 +32,49 @@ test('animals neither face nor panic at someone behind an opaque wall', () => {
   assert.equal(run('!!friend.fleeFrom'), false);
 });
 
+test('approaching gently calms a fleeing friend and completes a rescue without a chase', () => {
+  const h=arena();
+  h.run('RescueSystem.update(state,.05)');
+  assert.equal(h.run('friend.temper'),'fleeing');
+  const before=h.run('distance(chicken,friend)');
+  h.run("input.add('c');Player.update(state,.05);RescueSystem.update(state,.05)");
+  assert.equal(h.run('friend.temper'),'calm');
+  assert.equal(h.run('friend.fleeFrom'),null);
+  assert.ok(h.run('distance(chicken,friend)')<before);
+  h.run('for(let i=0;i<60;i++)RescueSystem.update(state,.05)');
+  assert.equal(h.run('friend.rescued'),true);
+  assert.equal(h.run('state.rescuedCount'),1);
+});
+
+test('a calm approach cannot attract or rescue an animal through a fence', () => {
+  const h=arena();
+  h.run(`chicken.x=470;chicken.sneaking=true;OBSTACLES=[{x:485,y:700,w:5,h:200}];
+    chicken.hitbox={ox:0,oy:0,r:10};friend.hitbox={ox:0,oy:0,r:10};
+    for(let i=0;i<20;i++)RescueSystem.update(state,.05);`);
+  assert.equal(h.run('friend.rescued'),false);
+  assert.notEqual(h.run('friend.temper'),'calm');
+  assert.equal(h.run('RescueSystem.inRescueReach(chicken,friend)'),false);
+});
+
+test('a real wolf takes priority over a gentle invitation; Thor then clears that panic', () => {
+  const h=arena();
+  h.run('chicken.sneaking=true;Object.assign(wolf,{x:600,y:800,huntUnlockTimer:0});RescueSystem.update(state,.05)');
+  assert.equal(h.run('friend.temper'),'fleeing');
+  assert.equal(h.run('friend.fleeFrom.kind'),'wolf');
+  h.run("wolf.mode='frightened';RescueSystem.update(state,.05)");
+  assert.equal(h.run('friend.temper'),'calm');
+  assert.equal(h.run('friend.fleeFrom'),null);
+});
+
+test('the forgiving contact margin still requires line of sight and rescues only once', () => {
+  const h=arena();
+  h.run('chicken.x=473;chicken.hitbox={ox:0,oy:0,r:10};friend.hitbox={ox:0,oy:0,r:10}');
+  assert.equal(h.run('circleVsCircle(chicken,friend)'),false);
+  h.run('RescueSystem.update(state,.05);RescueSystem.update(state,.05)');
+  assert.equal(h.run('friend.rescued'),true);
+  assert.equal(h.run('state.rescuedCount'),1);
+});
+
 test('a rabbit runs faster but tires earlier than a cow under the same pursuit', () => {
   const results = {};
   for (const species of ['rabbit','cow']) {

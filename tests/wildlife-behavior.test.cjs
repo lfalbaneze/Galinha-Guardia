@@ -86,6 +86,30 @@ test('a fox rustles once before its dash and stays silent when it cannot see the
   step(h,'FoxSystem',.5);assert.equal(h.run('sounds.filter(s=>s==="fox-rustle").length'),1);
 });
 
+test('sneaking gives more time under the owl, but standing in its sight still triggers an alarm',()=>{
+  const h=arena();h.run('c.x=1400;c.y=620;c.sneaking=true;w.x=950;w.y=620');
+  step(h,'OwlSystem',1.5);
+  assert.equal(h.run('o.mode'),'alert');assert.equal(h.run('w.mode'),'patrol');
+  assert.ok(h.run('o.alertProgress')<.55);
+  step(h,'OwlSystem',1.8);
+  assert.equal(h.run('o.mode'),'cooldown');assert.equal(h.run('w.mode'),'investigate');
+});
+
+test('breaking sight cancels even a nearly complete slow owl alarm',()=>{
+  const h=arena();h.run('c.x=1400;c.y=620;c.sneaking=true');step(h,'OwlSystem',2.8);
+  h.run('OBSTACLES=[{x:1280,y:550,w:10,h:150}]');step(h,'OwlSystem',.1);
+  assert.equal(h.run('o.alertProgress'),0);assert.equal(h.run('o.target'),null);
+  assert.equal(h.run('sounds.includes("owl-hoot")'),false);
+});
+
+test('the fox anticipates a visible runner but never changes the announced dash',()=>{
+  const h=arena();h.run('c.sprinting=true;c.vy=250;FoxSystem.update(state,.05)');
+  assert.equal(h.run('f.mode'),'warning');assert.ok(h.run('f.target.y')>800);
+  const aim=h.run('JSON.stringify(f.target)');
+  h.run('c.vy=-250;c.y=730');step(h,'FoxSystem',1.15);
+  assert.equal(h.run('f.mode'),'dash');assert.equal(h.run('JSON.stringify(f.target)'),aim);
+});
+
 test('wildlife warning corridors show the full contact width, even with sound muted',()=>{
   const h=arena();h.run(`var widths=[];ctx.stroke=()=>widths.push(ctx.lineWidth);
     g.mode='warning';g.target={x:1120,y:800};f.mode='warning';f.target={x:1140,y:800};

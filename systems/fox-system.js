@@ -83,7 +83,11 @@ const FoxSystem = (() => {
             fox.timer = Math.max(0, fox.timer - dt);
             if (fox.mode === 'hidden') {
                 if (fox.cooldown <= 0 && fox.grace <= 0 && visible(game, fox) && WildlifeRules.observe(game, getHitbox(fox), 135)) {
-                    const target = plan(fox, game.entities.chicken);
+                    const chicken = game.entities.chicken;
+                    // Lead a visible runner a little, then commit to that one announced line.
+                    const speed = Math.hypot(chicken.vx, chicken.vy), lead = chicken.sprinting ? Math.min(28, speed * .12) : 0;
+                    const observed = { x: chicken.x + (speed ? chicken.vx / speed * lead : 0), y: chicken.y + (speed ? chicken.vy / speed * lead : 0) };
+                    const target = plan(fox, DetectionSystem.hasLineOfSight(getHitbox(fox), observed) ? observed : chicken);
                     if (distance(fox, target) < 40) {
                         fox.cooldown = 1;
                         continue;
@@ -160,6 +164,19 @@ const FoxSystem = (() => {
         if (game.phase !== 'playing' || game.lake?.active)
             return;
         for (const fox of game.entities.foxes || []) {
+            if (fox.mode === 'rest' && visible(game, fox)) {
+                const x = worldX(fox.x), y = worldY(fox.y) - 59;
+                ctx.save();
+                ctx.fillStyle = '#324634ed';
+                ctx.beginPath();
+                ctx.roundRect(x - 44, y, 88, 22, 5);
+                ctx.fill();
+                ctx.fillStyle = '#fff1be';
+                ctx.font = 'bold 12px Trebuchet MS, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('Pode passar', x, y + 15);
+                ctx.restore();
+            }
             if (fox.mode !== 'warning' || !visible(game, fox))
                 continue;
             const x = worldX(fox.x), y = worldY(fox.y), to = worldToScreen(fox.target);
@@ -185,6 +202,10 @@ const FoxSystem = (() => {
             ctx.fillStyle = '#f7d99a';
             ctx.fillRect(Math.round(x - 2 + shake), y - 32, 4, 10);
             ctx.fillRect(Math.round(x - 2 + shake), y - 19, 4, 3);
+            ctx.fillStyle = '#493322';
+            ctx.fillRect(x - 24, y - 46, 48, 7);
+            ctx.fillStyle = '#f7d99a';
+            ctx.fillRect(x - 22, y - 44, 44 * clamp(1 - fox.timer / getConfig(game).warning, 0, 1), 3);
             ctx.restore();
         }
     }

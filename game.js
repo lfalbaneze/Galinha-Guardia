@@ -525,9 +525,17 @@ function drawAnimal(entity) {
     scale: entity.type === 'chick' && entity.rescued && !EndGameSequence.active(state) ? .72 : 1 });
   if (!entity.rescued && !entity.speechTime && !EndGameSequence.active(state) && RescueSystem.visible(state, entity)) {
     ctx.save(); ctx.translate(p.x, p.y - CharacterArt.markerOffset(entity.species));
-    ctx.fillStyle = entity.type === "chick" ? "#ffb963" : "#fff1a0"; ctx.strokeStyle = "#a38c51"; ctx.lineWidth = 1;
+    ctx.fillStyle = entity.type === "chick" ? "#ffb963" : entity.temper === 'calm' ? '#c9f0be' : "#fff1a0"; ctx.strokeStyle = "#a38c51"; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(0, 6); ctx.bezierCurveTo(-15, -2, -7, -12, 0, -5);
     ctx.bezierCurveTo(7, -12, 15, -2, 0, 6); ctx.fill(); ctx.stroke(); ctx.restore();
+    const closestCalm = state.entities.animals.filter(a=>!a.rescued&&a.temper==='calm')
+      .sort((a,b)=>distance(a,state.entities.chicken)-distance(b,state.entities.chicken))[0];
+    if (entity.temper === 'calm' && entity === closestCalm) {
+      ctx.save();ctx.font='bold 12px Trebuchet MS, sans-serif';ctx.textAlign='center';
+      const y=p.y-CharacterArt.markerOffset(entity.species)-24;
+      ctx.fillStyle='#254c3eed';ctx.beginPath();ctx.roundRect(p.x-47,y,94,22,5);ctx.fill();
+      ctx.fillStyle='#fff1bd';ctx.fillText('Eu vou com você',p.x,y+15,86);ctx.restore();
+    }
   }
 }
 
@@ -786,6 +794,7 @@ GameUI.update(state);
 FarmSprites.load();
 FarmSprites.loadNursery();
 FarmSprites.loadHabitats();
+FarmSprites.loadProps();
 requestAnimationFrame((t) => {
   lastTime = t;
   tick(t);

@@ -82,6 +82,11 @@ const RescueSystem = {
         return !RescueSystem.isSecret(animal) && distance(game.entities.chicken, animal) < 300 &&
             DetectionSystem.hasLineOfSight(getHitbox(game.entities.chicken), getHitbox(animal));
     },
+    inRescueReach(chicken, animal) {
+        const a = getHitbox(chicken), b = getHitbox(animal);
+        // A small margin avoids pixel-perfect contact without reaching through fences.
+        return distance(a, b) <= a.r + b.r + 8 && DetectionSystem.hasLineOfSight(a, b);
+    },
     talk(game, animal, tired = false) {
         if (game.animalSpeechCooldown > 0 || animal.speechTime > 0)
             return;
@@ -100,10 +105,10 @@ const RescueSystem = {
         const toward = (chicken.x - animal.x) * facing[0] + (chicken.y - animal.y) * facing[1];
         const alertRange = chicken.sneaking ? 22 : (chicken.sprinting ? 240 : toward > 0 ? 170 : 105) * profile.nerve;
         const threats = [];
-        if (!chicken.hidden && visible && distance(chicken, animal) < alertRange)
+        if (!chicken.hidden && !chicken.sneaking && visible && distance(chicken, animal) < alertRange)
             threats.push({ x: chicken.x, y: chicken.y, kind: 'player', urgency: 1 - distance(chicken, animal) / alertRange });
         const wolfRange = 190 * profile.nerve;
-        if (wolf.huntUnlockTimer <= 0 && wolf.pauseTimer <= 0 && distance(wolf, animal) < wolfRange &&
+        if (wolf.mode !== 'frightened' && wolf.huntUnlockTimer <= 0 && wolf.pauseTimer <= 0 && distance(wolf, animal) < wolfRange &&
             DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(wolf)))
             threats.push({ x: wolf.x, y: wolf.y, kind: 'wolf', urgency: 1.15 - distance(wolf, animal) / wolfRange });
         return threats.sort((a, b) => b.urgency - a.urgency)[0] || null;
@@ -200,8 +205,7 @@ const RescueSystem = {
                 continue;
             }
             if (!animal.rescued) {
-                const touchedBeforeMove = circleVsCircle(chicken, animal) &&
-                    DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(animal));
+                const touchedBeforeMove = RescueSystem.inRescueReach(chicken, animal);
                 const home = (chick ? WORLD.layout.chickSpawns : WORLD.layout.animalSpawns)[index];
                 const area = WORLD.areas.find(a => a.id === home.areaId);
                 animal.areaId = area.id;
@@ -211,6 +215,15 @@ const RescueSystem = {
                     animal.lastSeen = { x: animal.x, y: animal.y };
                 }
                 const threat = RescueSystem.observeThreat(game, animal, visible);
+                const calm = !chick && !threat && visible && !chicken.hidden && chicken.sneaking && distance(chicken, animal) <= 140;
+                const wolf = game.entities.wolf;
+                const relieved = animal.fleeFrom?.kind === 'wolf' && wolf.mode === 'frightened' && distance(animal, wolf) < 190 &&
+                    DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(wolf));
+                if (calm || (relieved && !threat)) {
+                    animal.fleeFrom = null;
+                    animal.fleeTime = 0;
+                    animal.fleeHeading = null;
+                }
                 if (threat)
                     animal.fleeFrom = { x: threat.x, y: threat.y, kind: threat.kind };
                 animal.restTime = Math.max(0, (animal.restTime || 0) - dt);
@@ -218,7 +231,7 @@ const RescueSystem = {
                 if (!animal.fleeFrom)
                     animal.fleeTime = 0;
                 const fleeing = animal.fleeTime > 0 && animal.restTime <= 0;
-                animal.temper = animal.restTime > 0 ? "tired" : fleeing ? "fleeing" : "idle";
+                animal.temper = calm ? "calm" : animal.restTime > 0 ? "tired" : fleeing ? "fleeing" : "idle";
                 const dx = animal.targetX - animal.x, dy = animal.targetY - animal.y;
                 const len = Math.hypot(dx, dy);
                 if (fleeing) {
@@ -236,6 +249,17 @@ const RescueSystem = {
                             RescueSystem.talk(game, animal, true);
                     }
                 }
+                else if (calm) {
+                    // A gentle approach invites a short, slow walk toward the chicken.
+                    // Use the same collision model, so a friend never walks through a fence.
+                    const dx = chicken.x - animal.x, dy = chicken.y - animal.y, gap = Math.hypot(dx, dy);
+                    const step = Math.min(gap, 44 * RescueSystem.personality(animal).pace * dt);
+                    if (gap > 1)
+                        Player.move(animal, dx / gap * step, dy / gap * step);
+                    animal.targetX = animal.x;
+                    animal.targetY = animal.y;
+                    animal.speechTime = 0;
+                }
                 else if (animal.restTime <= 0 && len > 5) {
                     const step = Math.min(len, (chick ? 27 : 35) * RescueSystem.personality(animal).pace * dt);
                     Player.move(animal, dx / len * step, dy / len * step);
@@ -243,7 +267,7 @@ const RescueSystem = {
                 if (!fleeing)
                     animal.fatigue = Math.max(0, (animal.fatigue || 0) - dt * .25);
                 animal.wanderTime = Math.max(0, (animal.wanderTime ?? (1 + index * .17)) - dt);
-                if (!fleeing && animal.restTime <= 0 && animal.wanderTime <= 0 && dt > 0) {
+                if (!fleeing && !calm && animal.restTime <= 0 && animal.wanderTime <= 0 && dt > 0) {
                     RescueSystem.wander(animal, home, area);
                 }
                 resolveEnvironment(animal);
@@ -256,8 +280,7 @@ const RescueSystem = {
                     animal.targetX = animal.x;
                     animal.targetY = animal.y;
                 }
-                if ((touchedBeforeMove || (circleVsCircle(chicken, animal) &&
-                    DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(animal)))) && GameManager.rescue(game, animal)) {
+                if ((touchedBeforeMove || RescueSystem.inRescueReach(chicken, animal)) && GameManager.rescue(game, animal)) {
                     spawnBurst(animal.x, animal.y, "#fff5a6", 22);
                     AudioSystem.playAnimal(animal.species);
                     const count = chick ? game.rescuedChicks : game.rescuedCount;

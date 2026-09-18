@@ -403,6 +403,12 @@ const GooseSystem = (() => {
             ctx.fillText(goose.mode === 'defeated' ? 'Pode passar…' : goose.mode === 'stunned' ? 'Cadê você?!' :
                 goose.mode === 'notice' ? 'Quem vem lá?' : goose.mode === 'feint' ? 'Só um blefe…' :
                     goose.mode === 'warning' ? 'HÓÓÓNK! Desvie!' : goose.mode === 'charge' ? 'Sai do meu lago!' : 'Xô! Xô!', x, y + 17);
+            if (goose.mode === 'warning') {
+                ctx.fillStyle = '#2e3025';
+                ctx.fillRect(x - 54, y + 29, 108, 7);
+                ctx.fillStyle = '#f4d28c';
+                ctx.fillRect(x - 52, y + 31, 104 * clamp(1 - goose.timer / getConfig(game).warning, 0, 1), 3);
+            }
         }
         ctx.restore();
     }
