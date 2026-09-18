@@ -108,7 +108,7 @@ with sync_playwright() as p:
   report['checks'].append('Pause freezes encounters; reload restores identities with grace; four viewport widths')
   for name in ['fox','owl']:
    failure=browser.new_page();failure.add_init_script('window.requestAnimationFrame=()=>0')
-   pattern=f'**/assets/sprites/sources/{name}.png*'
+   pattern=f'**/assets/sprites/sources/{name}.png'
    failure.route(pattern,lambda route:route.abort())
    failure.goto(BASE,wait_until='networkidle');failure.wait_for_function(f'{name.capitalize()}Art.errors.length>0',polling=50)
    assert failure.locator('#startBtn').is_disabled();assert failure.locator('#retrySprites').is_visible()

@@ -6,7 +6,7 @@ function createWildlifeSheet(source: string, width: number, height: number, bott
     return new Promise((resolve,reject)=>{
       const candidate=new Image();const timeout=setTimeout(()=>reject(new Error(src)),10000);
       candidate.onload=()=>{clearTimeout(timeout);resolve(candidate);};
-      candidate.onerror=()=>{clearTimeout(timeout);reject(new Error(src));};candidate.src=`${src}?v=approved-20260917`;
+      candidate.onerror=()=>{clearTimeout(timeout);reject(new Error(src));};candidate.src=src;
     });
   }
   function load(loader: (src:string)=>Promise<CanvasImageSource>=browserImage): Promise<boolean> {

@@ -1,7 +1,6 @@
 "use strict";
 /* Territorial state machine: attention, readable feints, fixed dashes and a peaceful defeat. */
 const GooseSystem = (() => {
-    const name = 'Panto';
     const RADIUS = 17;
     const OFFSET_Y = 8;
     const TERRITORY = 220;
@@ -107,7 +106,7 @@ const GooseSystem = (() => {
         AudioSystem.play('bonk', { volume: .38 });
         spawnBurst(chicken.x, chicken.y, '#fff0c9', 8);
         setStatus(game.lake?.active ? `Ele acertou! Ainda ${game.lake.misses}/3. Espere o aviso e saia da linha.` :
-            'Xô! Panto deu um empurrão. Contorne o lago ou desvie da investida!');
+            'Xô! O ganso deu um empurrão. Contorne o lago ou desvie da investida!');
         GameManager.save(game);
         return true;
     }
@@ -149,7 +148,7 @@ const GooseSystem = (() => {
         Player.face(goose, dx, dy);
         honk(game, goose);
         setStatus(feint ? 'Só um blefe! Espere a linha de investida. Blefes não contam.' :
-            'HÓÓÓNK! Panto vai avançar na direção marcada. Saia da frente!');
+            'HÓÓÓNK! O ganso vai avançar na direção marcada. Saia da frente!');
     }
     function patrolTarget(goose) {
         // Every patrol leg passes through home, so a dash has a known, reversible return path.
@@ -327,20 +326,7 @@ const GooseSystem = (() => {
         const p = worldToScreen(goose);
         if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height)
             return;
-        const talking = ['notice', 'warning', 'feint', 'charge', 'stunned', 'defeated'].includes(goose.mode) || goose.notice > 0;
-        const nameX = clamp(p.x, 80, canvas.width - 80);
-        const nameY = talking ? Math.max(16, Math.max(42, p.y - 76) - 31) : Math.max(20, p.y - 57);
-        ctx.save();
-        ctx.fillStyle = '#503b27';
-        ctx.beginPath();
-        ctx.roundRect(nameX - 28, nameY - 12, 56, 18, 4);
-        ctx.fill();
-        ctx.fillStyle = '#fff1be';
-        ctx.font = 'bold 11px Trebuchet MS, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(name, nameX, nameY + 1);
-        ctx.restore();
-        if (talking) {
+        if (['notice', 'warning', 'feint', 'charge', 'stunned', 'defeated'].includes(goose.mode) || goose.notice > 0) {
             ctx.save();
             const x = clamp(p.x, 80, canvas.width - 80), y = Math.max(42, p.y - 76);
             ctx.fillStyle = '#503b27';
@@ -356,5 +342,5 @@ const GooseSystem = (() => {
             ctx.restore();
         }
     }
-    return { name, initialize, update, getConfig, snapshot, restore, visible, drawTerritory, drawIndicator };
+    return { initialize, update, getConfig, snapshot, restore, visible, drawTerritory, drawIndicator };
 })();

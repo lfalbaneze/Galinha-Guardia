@@ -15,7 +15,7 @@ Pelo caminho, piados revelam **seis pintinhos escondidos**. Encontrá-los é opc
 - **Uma fazenda diferente a cada aventura.** Explore regiões conectadas, com caminhos, construções e esconderijos que mudam a cada nova partida.
 - **Um lobo que não larga do seu pé.** Ele patrulha, investiga barulhos e procura no último lugar em que viu você. Quebrar a linha de visão é tão importante quanto correr.
 - **Resgates que dão trabalho.** Os bichos também se assustam e fogem da galinha. Chegue de mansinho ou aproveite quando eles pararem para descansar.
-- **Segredos e aparências.** Procure os pintinhos para liberar Pato, Coelho, Gato e Cachorro, cada um com seu tema musical. O desafio do lago libera também Panto, o ganso do lago.
+- **Segredos e aparências.** Procure os pintinhos para liberar Pato, Coelho, Gato e Cachorro, cada um com seu tema musical. O desafio do lago libera também o Ganso.
 - **Três dificuldades.** Escolha entre Dia tranquilo, Fuzuê no sítio e Lobo à solta. O progresso e as preferências ficam salvos no navegador quando o armazenamento local está disponível.
 
 ## Como jogar
@@ -47,15 +47,15 @@ Encoste nos amigos para resgatá-los. Eles vão para o refúgio e ficam a salvo 
 
 **Cuidado com os esconderijos:** se o lobo vir você entrar, ele pode ir até lá. Saia, despiste-o e procure outra cobertura sem ser vista. A corrida tem fôlego limitado; caminhar recupera a reserva, e se esconder recupera mais rápido.
 
-## Panto, o dono do lago
+## O dono do lago
 
-Panto é o ganso que patrulha a margem, para para observar você e abre as asas antes de avançar. A direção da investida fica marcada no chão e não muda durante o ataque. Às vezes ele blefa: observe a indicação antes de gastar fôlego. Depois de errar, fica atordoado e precisa se recuperar.
+O ganso patrulha a margem, para para observar você e abre as asas antes de avançar. A direção da investida fica marcada no chão e não muda durante o ataque. Às vezes ele blefa: observe a indicação antes de gastar fôlego. Depois de errar, fica atordoado e precisa se recuperar.
 
-Perto dele, pressione **F** ou use **Desafiar Panto** para iniciar um desafio opcional. Provoque **três investidas de verdade e desvie**, permanecendo dentro do círculo. Blefes, ataques parados contra uma parede e investidas que acertam a galinha não contam. Esconder-se protege você, mas não vale como esquiva para o desafio.
+Perto dele, pressione **F** ou use **Desafiar o ganso** para iniciar um desafio opcional. Provoque **três investidas de verdade e desvie**, permanecendo dentro do círculo. Blefes, ataques parados contra uma parede e investidas que acertam a galinha não contam. Esconder-se protege você, mas não vale como esquiva para o desafio.
 
 Durante a tentativa, o lobo espera fora da área e os outros bichos ficam pausados. A bicada apenas empurra: não tira vidas, pontos ou fôlego. **F novamente** ou sair do círculo interrompe a tentativa, zerando somente a contagem do desafio. Pausar mantém a tentativa; fechar e recarregar a página exige iniciá-la de novo com segurança.
 
-Ao desviar três vezes, você ganha o respeito de Panto: ele para de atacar, a **ponte sobre o lago abre um atalho real** e a **aparência de Panto** fica disponível no baú. A ponte permanece aberta nessa fazenda; a aparência continua desbloqueada nas próximas aventuras. Nenhum dos dez amigos ou seis pintinhos exige vencer esse desafio.
+Ao desviar três vezes, você ganha o respeito do dono do lago: ele para de atacar, a **ponte sobre o lago abre um atalho real** e a **aparência de ganso** fica disponível no baú. A ponte permanece aberta nessa fazenda; a aparência continua desbloqueada nas próximas aventuras. Nenhum dos dez amigos ou seis pintinhos exige vencer esse desafio.
 
 ## Raposa e coruja
 
@@ -79,7 +79,7 @@ Ao ouvir um piado, procure o esconderijo próximo. Entre com **E** e segure **C*
 | 6 amigos + 4 pintinhos | Coelho | Pulos ao Luar |
 | 9 amigos + 6 pintinhos | Gato | Passo Furtivo |
 | 10 amigos + 6 pintinhos | Cachorro | Companheiro da Roça |
-| Vencer o desafio do lago | Panto | Trilha da fazenda selecionada |
+| Vencer o desafio do lago | Ganso do lago | Trilha da fazenda selecionada |
 
 As aparências são escolhidas no **Baú dos bichos** e não alteram velocidade, vidas ou colisões. Os desbloqueios permanecem entre aventuras. Para conquistar todos na mesma partida, encontre os pintinhos **antes de resgatar o último amigo**.
 

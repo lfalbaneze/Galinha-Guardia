@@ -40,7 +40,7 @@ const LakeChallenge = (() => {
     goose.mode = 'return'; goose.grace = 1.5;
     goose.cooldown = 1; goose.chargeHit = false; goose.timer = .8;
     input.clear();
-    setStatus('Panto, o dono do lago! Provoque 3 investidas e desvie. O lobo espera fora. F para sair.');
+    setStatus('O dono do lago! Provoque 3 investidas e desvie. O lobo espera fora. F para sair.');
     GameManager.save(game); updateUI(game);
     return true;
   }
@@ -78,8 +78,8 @@ const LakeChallenge = (() => {
       buildObstacles(game);
       releaseWolf(game);
       AudioSystem.play('rescue', { volume: .5 });
-      setStatus('Respeito conquistado! Atalho do lago aberto e aparência de Panto no baú.', 'win');
-    } else setStatus(`Panto errou! ${lake.misses}/3 investidas desviadas. Espere o próximo aviso.`, 'win');
+      setStatus('Respeito conquistado! Atalho do lago aberto e aparência de ganso no baú.', 'win');
+    } else setStatus(`Ele errou! ${lake.misses}/3 investidas desviadas. Espere o próximo aviso.`, 'win');
     GameManager.save(game); updateUI(game); return true;
   }
   function blocksWolf(game: Farm.GameState): boolean { return game.lake?.active === true; }
@@ -138,13 +138,13 @@ const LakeChallenge = (() => {
     const goose = game.entities.goose, near = goose && distance(game.entities.chicken,goose.home)<420;
     panel.hidden = game.phase !== 'playing' || !near;
     const completed = game.lake?.completed, active = game.lake?.active;
-    title.textContent = completed ? 'Panto: respeito conquistado' : 'Panto, o dono do lago';
-    text.textContent = completed ? 'Atalho aberto. Aparência de Panto disponível no baú.' : active ?
+    title.textContent = completed ? 'Respeito conquistado' : 'O dono do lago';
+    text.textContent = completed ? 'Atalho aberto. Aparência de ganso disponível no baú.' : active ?
       `${game.lake!.misses}/3 investidas desviadas · O lobo espera fora. Desvie da linha; blefes não contam.` :
-      'Desafio opcional: provoque três investidas e desvie. Ganhe um atalho e a aparência de Panto.';
+      'Desafio opcional: provoque três investidas e desvie. Ganhe um atalho e a aparência de ganso.';
     button.hidden = !!completed;
     (button as HTMLButtonElement).disabled = !active && !available(game);
-    button.textContent = active ? 'Sair do desafio · F' : 'Desafiar Panto · F';
+    button.textContent = active ? 'Sair do desafio · F' : 'Desafiar o ganso · F';
   }
   return { initialize, available, start, cancel, update, recordMiss, blocksWolf, snapshot, restore, pondObstacles, bridge, drawGround, updateUI, radius: ARENA };
 })();

@@ -135,7 +135,7 @@ test('hidden and distant enemies do not leak their positions onto the minimap',(
 
 test('both sprite sheets contain twelve complete frames, distinct directions and transparent margins',async()=>{
  const {loadImage,createCanvas}=require('@napi-rs/canvas');
- for(const [name,cw,ch] of [['fox',64,64],['owl',48,48]]){
+ for(const [name,cw,ch] of [['fox',48,64],['owl',32,32]]){
   const image=await loadImage(path.join(__dirname,`../assets/sprites/sources/${name}.png`));assert.equal(image.width,cw*3);assert.equal(image.height,ch*4);
   const c=createCanvas(cw*3,ch*4),ctx=c.getContext('2d');ctx.drawImage(image,0,0);const signatures=[];
   for(let r=0;r<4;r++)for(let col=0;col<3;col++){
