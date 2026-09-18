@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#294b36" />
   <meta name="description" content="Penas pro Ar! Dez bichos teimosos, um lobo sem modos e uma fazenda cheia de segredos. Abra a porteira do Sítio do Fuzuê." />
   <title>Penas pro Ar! — Luis Albaneze</title>
-  <link rel="stylesheet" href="./style.css?v=compact-help-1" />
-  <link rel="stylesheet" href="./gameplay.css?v=farm-habitats-4" />
+  <link rel="stylesheet" href="./style.css?v=modern-controls-1" />
+  <link rel="stylesheet" href="./gameplay.css?v=modern-controls-1" />
 </head>
 <body>
   <main id="gameShell" class="game-shell" data-phase="menu">
@@ -87,6 +87,7 @@
             <button id="tab-adventure" type="button" role="tab" aria-selected="true" aria-controls="panel-adventure">Partida</button>
             <button id="tab-outfit" type="button" role="tab" aria-selected="false" aria-controls="panel-outfit" tabindex="-1">Bichos</button>
             <button id="tab-audio" type="button" role="tab" aria-selected="false" aria-controls="panel-audio" tabindex="-1">Som</button>
+            <button id="tab-controls" type="button" role="tab" aria-selected="false" aria-controls="panel-controls" tabindex="-1">Controles</button>
           </div>
           <div id="panel-adventure" class="menu-panel" role="tabpanel" aria-labelledby="tab-adventure">
             <div class="difficulty-heading"><h3 id="difficultyHeading">Qual é o ritmo?</h3><span>Nova fazenda</span></div>
@@ -141,6 +142,14 @@
             <p id="menuAudioStatus" class="audio-note">Clique em Mexer com a turma para ouvir os bichos.</p>
             <p class="audio-note"><a href="./assets/audio/CREDITS.html?v=2" target="_blank" rel="noopener">Ouvir as vozes da fazenda ↗</a></p>
           </div>
+          <div id="panel-controls" class="menu-panel control-settings" role="tabpanel" aria-labelledby="tab-controls" hidden>
+            <label><input id="controlToggleSneak" type="checkbox" /> Andar de mansinho com um toque em C</label>
+            <label><input id="controlToggleSprint" type="checkbox" /> Correr com um toque em Shift</label>
+            <label><input id="controlTouch" type="checkbox" /> Mostrar botões de toque na partida</label>
+            <p>Com as duas primeiras opções, aperte de novo para desligar. Suas escolhas ficam salvas.</p>
+            <p><strong>Controle:</strong> analógico ou direcional para mover · A interage · B liga/desliga mansinho · RT corre · X desafia PANTO · Menu pausa.</p>
+            <p id="controlDevice" role="status">Teclado · WASD ou setas para mover; E para interagir.</p>
+          </div>
           <div class="overlay-actions new-adventure-action"><button id="startBtn" type="button">Entrar na fazenda</button></div>
           <p id="menuSaveText" class="fine-print">Seu progresso é salvo automaticamente neste navegador.</p>
           <p class="game-author">Feito por <strong>Luis Albaneze</strong></p>
@@ -166,6 +175,20 @@
     <section id="lakePanel" class="lake-panel" aria-labelledby="lakeTitle" hidden>
       <div><h2 id="lakeTitle">PANTO · O dono do lago</h2><p id="lakeHelp" role="status">Desafio opcional do lago.</p></div>
       <button id="lakeChallengeBtn" type="button">Desafiar PANTO · F</button>
+    </section>
+    <section id="touchControls" class="touch-controls" aria-label="Controles de toque" hidden>
+      <div class="touch-dpad" role="group" aria-label="Direção">
+        <button id="touchUp" type="button" aria-label="Andar para cima">↑</button>
+        <button id="touchLeft" type="button" aria-label="Andar para a esquerda">←</button>
+        <button id="touchDown" type="button" aria-label="Andar para baixo">↓</button>
+        <button id="touchRight" type="button" aria-label="Andar para a direita">→</button>
+      </div>
+      <div class="touch-actions">
+        <button id="touchInteract" type="button">Chamar</button>
+        <button id="touchPause" type="button" class="button-secondary">Pausar</button>
+        <button id="touchSneak" type="button" class="button-secondary" aria-pressed="false">Mansinho</button>
+        <button id="touchRun" type="button" class="button-secondary" aria-pressed="false">Correr</button>
+      </div>
     </section>
     <div id="liveControls" class="live-controls" aria-label="Controles da partida">
       <span><kbd id="keyMove">WASD / setas</kbd> mover</span><span><kbd id="keySneak">C</kbd> de mansinho</span><span><kbd id="keySprint">Shift</kbd> correr</span><span><kbd id="keyHide">E</kbd> chamar / esconder</span>
@@ -247,8 +270,12 @@
         <dt><kbd>E</kbd></dt><dd>Chamar um pintinho próximo, se esconder ou sair do esconderijo.</dd>
         <dt><kbd>Esc</kbd></dt><dd>Pausar a aventura.</dd>
       </dl>
+      <p><strong>No celular:</strong> use as setas e os botões abaixo da fazenda. Mansinho e Correr ligam e desligam com um toque.</p>
+      <p><strong>Com controle:</strong> analógico ou direcional move, A interage, B liga/desliga mansinho, RT corre e Menu pausa. Nos menus, navegue com o direcional, confirme com A e volte com B.</p>
+      <p>Prefere não segurar C ou Shift? Mude isso na aba <strong>Controles</strong>.</p>
       <p><strong>Ouviu piu-piu?</strong> Chegue perto e aperte <kbd>E</kbd> uma vez. Há 6 pintinhos escondidos.</p>
       <p><strong>PANTO guarda o lago.</strong> Espere o aviso e saia da linha da investida. Ele empurra; seu grito pode atrair o lobo.</p>
+      <p><strong>Acabaram os corações?</strong> Retome do poleiro com a vida cheia. Seus resgates, descobertas e aparências continuam guardados.</p>
     </div>
     <form method="dialog" class="howto-footer"><button type="submit">Entendi</button></form>
   </dialog>
@@ -265,13 +292,14 @@
   <script src="./systems/audio-system.js?v=wildlife-behavior-5"></script>
   <script src="./systems/audio-controls.js?v=farm-habitats-4"></script>
   <script src="./systems/skin-system.js?v=panto-art-7"></script>
-  <script src="./systems/game-manager.js?v=map-cleanup-9"></script>
+  <script src="./systems/game-input.js?v=modern-controls-1"></script>
+  <script src="./systems/game-manager.js?v=modern-controls-1"></script>
   <script src="./systems/rescue-system.js?v=chick-call-6"></script>
   <script src="./systems/detection-system.js?v=farm-habitats-4"></script>
-  <script src="./systems/hiding-spots.js?v=chick-call-6"></script>
+  <script src="./systems/hiding-spots.js?v=modern-controls-1"></script>
   <script src="./systems/wolf-ai.js?v=thor-8"></script>
   <script src="./systems/wolf-dialogue.js?v=farm-habitats-4"></script>
-  <script src="./systems/lake-challenge.js?v=panto-art-7"></script>
+  <script src="./systems/lake-challenge.js?v=modern-controls-1"></script>
   <script src="./systems/goose-system.js?v=panto-art-7"></script>
   <script src="./systems/goose-art.js?v=farm-habitats-4"></script>
   <script src="./systems/wildlife-rules.js?v=farm-habitats-4"></script>
@@ -283,12 +311,12 @@
   <script src="./systems/thor-system.js?v=thor-8"></script>
   <script src="./systems/thor-art.js?v=thor-8"></script>
   <script src="./systems/map-manager.js?v=map-cleanup-9"></script>
-  <script src="./systems/player.js?v=thor-8"></script>
+  <script src="./systems/player.js?v=modern-controls-1"></script>
   <script src="./systems/menu-scene.js?v=farm-habitats-4"></script>
-  <script src="./systems/interface-motion.js?v=compact-help-1"></script>
+  <script src="./systems/interface-motion.js?v=modern-controls-1"></script>
   <script src="./systems/gameplay-hud.js?v=farm-habitats-4"></script>
-  <script src="./systems/ui.js?v=compact-help-1"></script>
+  <script src="./systems/ui.js?v=modern-controls-1"></script>
   <script src="./systems/end-game-sequence.js?v=farm-habitats-4"></script>
-  <script src="./game.js?v=map-cleanup-9"></script>
+  <script src="./game.js?v=modern-controls-1"></script>
 </body>
 </html>

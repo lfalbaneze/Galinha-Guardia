@@ -76,7 +76,7 @@ const HidingSpots = (() => {
     const spot = candidate(chicken);
     if (!spot) {
       chicken.hideHintTimer = 2.5;
-      setStatus("Chegue perto de uma moita ou do feno. Quando aparecer E, você pode se esconder.");
+      setStatus("Chegue perto de uma moita ou do feno até aparecer a opção de se esconder.");
       return;
     }
     WolfAI.witnessHide(game, spot);
@@ -84,7 +84,7 @@ const HidingSpots = (() => {
     AudioSystem.play("pop", { volume: 0.35 });
     chicken.vx = 0; chicken.vy = 0; chicken.moving = false; chicken.sprinting = false; chicken.state = "idle";
     // A fresh directional press deliberately leaves cover; a key held before E does not.
-    input.clear();
+    if (typeof GameInput !== 'undefined') GameInput.clear(); else input.clear();
     setStatus(WolfAI.isExposed(game) ? "O lobo viu você entrar! Saia daí e encontre outro abrigo." :
       "Ufa, ele não viu! Espere a ronda passar.");
     spawnBurst(chicken.x, chicken.y, spot.type === "hay" ? "#ebc774" : "#94ba71", 9);
@@ -129,6 +129,7 @@ const HidingSpots = (() => {
     const hint = RescueSystem.secretHint(game);
     const bonus = RescueSystem.callTarget(game);
     const celebrating = game.secretNotice?.bonus && game.secretNotice.time > 0;
+    const control = (action: 'interact' | 'hide' | 'exit') => typeof GameInput === 'undefined' ? 'E' : GameInput.label(action);
     if (hint && !bonus && !chicken.hidden) {
       const cover = spots.find(s => s.id === hint.coverId);
       const bob = InterfaceMotion.reduced ? 0 : Math.sin((game.elapsed || 0) * 3)*2;
@@ -140,12 +141,12 @@ const HidingSpots = (() => {
       ctx.beginPath();ctx.ellipse(p.x,p.y+14,29,11,0,0,Math.PI*2);ctx.stroke();ctx.restore();
     }
     if (bonus) {
-      pill(p.x,p.y-73,180,'E · chamar pintinho');
+      pill(p.x,p.y-73,180,`${control('interact')} · chamar pintinho`);
     } else if (chicken.hidden) {
       if (!celebrating || exposed) pill(p.x, p.y - 73, 185,
-        exposed ? "Ele viu você! Saia daí!" : "Escondida · E para sair", exposed);
+        exposed ? "Ele viu você! Saia daí!" : `Escondida · ${control('exit')} para sair`, exposed);
     } else if (spot) {
-      if (!celebrating) pill(p.x,p.y-73,130,'E · esconder');
+      if (!celebrating) pill(p.x,p.y-73,155,`${control('hide')} · esconder`);
     } else if (chicken.hideHintTimer! > 0) {
       pill(p.x,p.y-73,180,'Procure uma moita ou feno');
     }

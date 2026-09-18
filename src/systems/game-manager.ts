@@ -52,15 +52,17 @@ const GameManager = (() => {
   }
   function save(game: Farm.GameState): void {
     const phase = game.phase === "menu" ? game.resumePhase : game.phase;
-    if (!phase || phase === "lose") return;
+    if (!phase) return;
+    const recovering = phase === 'lose' || game.needsRecovery === true;
     const point = (e: Farm.Point) => ({ x: e.x, y: e.y });
     const friend = (a: Farm.Animal): Farm.AnimalSnapshot => ({ id: a.id, ...point(a), discovered: !!a.discovered, coverId: a.coverId || null, lastSeen: a.lastSeen || null,
       fatigue: a.fatigue || 0, restTime: a.restTime || 0, fleeTime: a.fleeTime || 0,
       fleeFrom: a.fleeFrom || null, fleeHeading: a.fleeHeading ?? null });
     const wolf = game.entities.wolf, chicken = game.entities.chicken;
     const data: Farm.SaveData = {
-      version: 4, worldSeed: game.worldSeed, worldVersion: game.worldVersion, difficulty: game.difficultyKey, phase,
-      rescuedIds: [...game.rescuedIds], lives: game.lives, score: game.score, winBonusApplied: game.winBonusApplied,
+      version: 4, worldSeed: game.worldSeed, worldVersion: game.worldVersion, difficulty: game.difficultyKey, phase: recovering ? 'playing' : phase,
+      needsRecovery: recovering,
+      rescuedIds: [...game.rescuedIds], lives: recovering ? MAX_LIVES : game.lives, score: game.score, winBonusApplied: game.winBonusApplied,
       rescuedChickIds: [...game.rescuedChickIds],
       elapsed: game.elapsed, chicken: { ...point(chicken), hidden: chicken.hidden,
         hidingSpotId: chicken.hidingSpotId || null, direction: chicken.direction,
@@ -246,10 +248,34 @@ const GameManager = (() => {
     if(!newGeography && data.wolf.mode==='frightened' && Number.isFinite(data.wolf.fearTime) && data.wolf.fearTime!>0 &&
       WildlifeRules.validPoint(data.wolf.fearFrom))WolfAI.frighten(game,data.wolf.fearFrom,bounded(data.wolf.fearTime,0,6));
     game.winBonusApplied = data.winBonusApplied === true;
+    game.needsRecovery = data.needsRecovery === true;
+    if (game.needsRecovery) recover(game);
     if (game.rescuedCount === WORLD.targetRescues) GameManager.win(game);
     refreshHud();
     MapManager.initialize(game);
     if(migrating)save(game);
+  }
+  function recover(game: Farm.GameState): boolean {
+    if (!game.needsRecovery && game.phase !== 'lose' && game.resumePhase !== 'lose') return false;
+    game.phase = 'playing'; game.resumePhase = 'playing'; game.needsRecovery = false; game.lives = MAX_LIVES;
+    Object.assign(game.entities.chicken, WORLD.layout.start, { hidden: false, hidingSpotId: null, hideBlend: 0,
+      vx: 0, vy: 0, moving: false, sprinting: false, sneaking: false, invulnerable: 4,
+      stamina: 1, staminaDelay: 0, exhausted: false, direction: 'down', state: 'idle' });
+    Object.assign(game.entities.wolf, WORLD.layout.wolfStart, { vx: 0, vy: 0, moving: false,
+      huntUnlockTimer: 5, pauseTimer: 0, speechTime: 0 });
+    WolfAI.initialize(game);
+    resolveEnvironment(game.entities.chicken); resolveEnvironment(game.entities.wolf);
+    if (typeof camera !== 'undefined') Object.assign(camera, {
+      x: clamp(game.entities.chicken.x - canvas.width / 2, 0, WORLD.width - canvas.width),
+      y: clamp(game.entities.chicken.y - canvas.height / 2, 0, WORLD.height - canvas.height),
+      shake: 0, shakeX: 0, shakeY: 0,
+    });
+    GooseSystem.initialize(game); FoxSystem.initialize(game); OwlSystem.initialize(game);
+    if (typeof GameInput !== 'undefined') GameInput.clear(); else input.clear();
+    MapManager.initialize(game);
+    setStatus('De volta ao poleiro! Seus amigos e pintinhos continuam a salvo.');
+    save(game); refreshHud();
+    return true;
   }
   function clear(): void {
     try { localStorage.removeItem(SAVE_KEY); } catch (_) { storageAvailable = false; }
@@ -260,6 +286,6 @@ const GameManager = (() => {
     saveTimer += dt;
     if (saveTimer >= 2) { saveTimer = 0; save(game); }
   }
-  return { initialize, level, rescue, win, save, read, restore, clear, update,
+  return { initialize, level, rescue, win, save, read, restore, recover, clear, update,
     get storageAvailable() { return storageAvailable; } };
 })();

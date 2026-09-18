@@ -159,6 +159,42 @@
 }
 
 .lake-panel { display:flex; align-items:center; justify-content:space-between; gap:14px; margin:10px 0; padding:12px 16px; border:1px solid #b6c69f; border-radius:9px; background:#eef0d5; color:#344d36; }
+.touch-controls { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; }
+.touch-controls button { min-width: 44px; min-height: 48px; padding: 8px; touch-action: none; user-select: none; -webkit-user-select: none; }
+.touch-dpad { display: grid; grid-template: repeat(2, 48px) / repeat(3, 48px); gap: 5px; }
+.touch-dpad button { font: 700 24px/1 "Segoe UI", sans-serif; }
+#touchUp { grid-column: 2; }
+#touchLeft { grid-row: 2; grid-column: 1; }
+#touchDown { grid-row: 2; grid-column: 2; }
+#touchRight { grid-row: 2; grid-column: 3; }
+.touch-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; max-width: 260px; flex: 1; }
+.touch-actions button { font-size: 12px; }
+.touch-actions button[aria-pressed="true"] { background: #355c41; color: #fff9dd; box-shadow: inset 0 0 0 2px #e5c66e; }
+@media (max-width: 380px) {
+  .touch-controls { gap: 8px; }
+  .touch-dpad { grid-template-columns: repeat(3, 44px); }
+  .touch-actions button { padding-inline: 3px; font-size: 11px; }
+}
+@media (orientation: landscape) and (max-height: 560px) and (min-width: 600px) {
+  body:has(.game-shell[data-touch="true"][data-phase="playing"]) { padding: 6px; }
+  .game-shell[data-touch="true"][data-phase="playing"] { display: grid; grid-template-columns: 154px minmax(0, 1fr) 140px; align-items: center; gap: 6px 10px; padding: 6px 10px; }
+  .game-shell[data-touch="true"][data-phase="playing"] > .play-header { display: none; }
+  .game-shell[data-touch="true"][data-phase="playing"] .play-hud { grid-column: 1 / -1; grid-row: 1; grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(170px, 1.5fr); margin: 0; }
+  .game-shell[data-touch="true"][data-phase="playing"] .run-card { min-height: 0; padding: 5px 8px; gap: 2px; }
+  .game-shell[data-touch="true"][data-phase="playing"] .wolf-counter { grid-column: auto; display: flex; gap: 3px; }
+  .game-shell[data-touch="true"][data-phase="playing"] .run-label { font-size: 10px; }
+  .game-shell[data-touch="true"][data-phase="playing"] .run-value > b { font-size: 22px; }
+  .game-shell[data-touch="true"][data-phase="playing"] .run-detail,
+  .game-shell[data-touch="true"][data-phase="playing"] .hud-chick,
+  .game-shell[data-touch="true"][data-phase="playing"] .status-line,
+  .game-shell[data-touch="true"][data-phase="playing"] .save-note { display: none; }
+  .game-shell[data-touch="true"][data-phase="playing"] .stage { grid-column: 2; grid-row: 2; width: min(100%, calc((100dvh - 125px) * 1.73)); justify-self: center; }
+  .game-shell[data-touch="true"][data-phase="playing"] .touch-controls { display: contents; }
+  .game-shell[data-touch="true"][data-phase="playing"] .touch-dpad { grid-column: 1; grid-row: 2; }
+  .game-shell[data-touch="true"][data-phase="playing"] .touch-actions { grid-column: 3; grid-row: 2; }
+  .game-shell[data-touch="true"][data-phase="playing"] .game-feedback { grid-column: 1 / -1; grid-row: 3; margin: 0; font-size: 11px; }
+  .game-shell[data-touch="true"][data-phase="playing"] .lake-panel { grid-column: 1 / -1; margin: 0; padding: 6px 10px; }
+}
 .lake-panel[hidden] { display:none; }
 .lake-panel h2 { margin:0 0 4px; font:700 15px Trebuchet MS,sans-serif; }
 .lake-panel p { margin:0; font:12px/1.4 Trebuchet MS,sans-serif; }

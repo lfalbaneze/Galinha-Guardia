@@ -24,7 +24,8 @@ const Player = {
         const x = Number(input.has("arrowright") || input.has("d")) - Number(input.has("arrowleft") || input.has("a"));
         const y = Number(input.has("arrowdown") || input.has("s")) - Number(input.has("arrowup") || input.has("w"));
         const length = Math.hypot(x, y) || 1;
-        return { x: x / length, y: y / length };
+        const keyboard = { x: x / length, y: y / length };
+        return typeof GameInput === 'undefined' ? keyboard : GameInput.vector(keyboard);
     },
     update(game, dt) {
         if (game.phase !== "playing" || !Number.isFinite(dt) || dt < 0)
@@ -35,10 +36,10 @@ const Player = {
             chicken.hidden = false;
             chicken.hidingSpotId = null;
         }
-        const shift = input.has("shift");
+        const shift = typeof GameInput === 'undefined' ? input.has('shift') : GameInput.held('shift');
         if (!shift && chicken.stamina >= 0.25)
             chicken.exhausted = false;
-        chicken.sneaking = input.has("c") && !chicken.hidden;
+        chicken.sneaking = (typeof GameInput === 'undefined' ? input.has('c') : GameInput.held('c')) && !chicken.hidden;
         const wantsSprint = moving && shift && !chicken.sneaking && !chicken.exhausted && chicken.stamina > 0;
         const sprintPart = wantsSprint && dt > 0 ? Math.min(1, chicken.stamina * Player.sprintSeconds / dt) : 0;
         const speed = chicken.speed * (chicken.sneaking ? .4 : 1 + (Player.sprintMultiplier - 1) * sprintPart);
@@ -94,8 +95,9 @@ const Player = {
             `Por uma pena! Restam ${game.lives} vidas. Quebre a visão do lobo e procure cobertura.`);
         refreshHud();
         if (game.lives <= 0) {
-            GameManager.clear();
-            finishLose("O lobo alcançou você. Seus amigos torcem pela próxima aventura!");
+            game.needsRecovery = true;
+            finishLose('Descanse no poleiro e tente de novo. Todos os resgates desta aventura estão guardados.');
+            GameManager.save(game);
         }
         else
             GameManager.save(game);

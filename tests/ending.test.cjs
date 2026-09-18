@@ -135,14 +135,45 @@ test('real bootstrap restores correct HUD and menu, and victory reload cannot du
   assert.equal(victoryReload.run('state.cutscene.attackers.length'), 16);
 });
 
-test('losing all lives stops play and removes a resumable defeat', () => {
-  const { run, elements } = createGame();
-  run(`state.lives=1; state.entities.wolf.x=state.entities.chicken.x;
+test('defeat offers a safe return to the same farm, preserving progress even across reload', () => {
+  const first = createGame(), { run, elements, events } = first;
+  run(`GameManager.rescue(state,state.entities.animals[0]);
+    state.entities.chicks[0].discovered=true;GameManager.rescue(state,state.entities.chicks[0]);
+    state.entities.animals[2].discovered=true;state.lake.completed=true;state.lake.misses=3;
+    state.lives=1; state.entities.wolf.x=state.entities.chicken.x;
     state.entities.wolf.y=state.entities.chicken.y; state.entities.wolf.huntUnlockTimer=0;
     Player.checkCatch(state); GameUI.update(state);`);
   assert.equal(run('state.phase'), 'lose');
-  assert.equal(run('GameManager.read()'), null);
+  assert.equal(run('GameManager.read().needsRecovery'), true);
+  const seed=run('state.worldSeed'),score=run('state.score'),elapsed=run('state.elapsed');
+  const savedStorage=new Map(first.storage);
   assert.equal(elements.get('endScreen').hidden, false);
+  assert.equal(elements.get('replayBtn').textContent, 'Retomar do poleiro');
+  events.elements.replayBtn.click();
+  function verifyRecovered(h) {
+    assert.equal(h.run('state.lives'),3);
+    assert.equal(h.run('state.worldSeed'),seed);
+    assert.equal(h.run('state.score'),score);
+    assert.equal(h.run('state.elapsed'),elapsed);
+    assert.equal(h.run('state.rescuedCount'),1);
+    assert.equal(h.run('state.rescuedChicks'),1);
+    assert.equal(h.run('state.entities.animals[2].discovered'),true);
+    assert.equal(h.run('state.lake.completed'),true);
+    assert.equal(h.run('state.entities.chicken.x'),h.run('WORLD.layout.start.x'));
+    assert.equal(h.run('state.entities.chicken.y'),h.run('WORLD.layout.start.y'));
+    assert.ok(h.run('distance(state.entities.wolf,state.entities.chicken)')>500);
+    assert.ok(h.run('state.entities.chicken.invulnerable')>=4);
+    assert.equal(h.run('state.entities.wolf.mode'),'patrol');
+    assert.equal(h.run('GameManager.recover(state)'),false,'cannot heal repeatedly while playing');
+    assert.equal(h.run('GameManager.rescue(state,state.entities.animals[0])'),false);
+    assert.equal(h.run('GameManager.read().needsRecovery'),false);
+  }
+  verifyRecovered(first);
+  const reload=createGame(Math.random,{storage:savedStorage,fullStartup:true});
+  reload.run('GameUI.resume();');verifyRecovered(reload);
+  run('state.lives=0;state.phase="lose";state.needsRecovery=true;');
   run('GameUI.showMenu(state);');
-  assert.equal(elements.get('continueBtn').hidden, true);
+  assert.equal(elements.get('continueBtn').hidden, false);
+  assert.equal(elements.get('continueBtn').textContent,'Retomar do poleiro');
+  run('GameUI.resume();');verifyRecovered(first);
 });

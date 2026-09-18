@@ -307,6 +307,11 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 .menu-tabs button:hover { background: #f4e6c5; color: #3b5433; }
 .menu-tabs button[aria-selected="true"] { color: #304f37; border-color: #ceb888; background: #fff8e5; box-shadow: 0 2px 3px #69492720; }
 .menu-tabs button[aria-selected="true"]::after { content: ""; position: absolute; height: 3px; left: 30%; right: 30%; bottom: 3px; border-radius: 2px; background: #6e873d; }
+.control-settings { text-align: left; color: #594b34; }
+.control-settings label { display: flex; align-items: center; gap: 10px; min-height: 48px; font-size: .875rem; line-height: 1.4; cursor: pointer; }
+.control-settings input { flex: none; width: 20px; height: 20px; accent-color: #426547; }
+.control-settings p { font-size: .8125rem; line-height: 1.5; margin: 12px 0; }
+.control-settings #controlDevice { border-top: 1px solid #d4b87d; padding-top: 10px; }
 .menu-panel { min-height: 160px; padding: 12px 0 0; }
 .menu-panel.menu-audio { margin: 0; padding: 12px 0 0; border: 0; background: transparent; }
 .difficulty-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 3px 0 11px; }

@@ -1,7 +1,7 @@
 /* Presentation follows the live game state. It never advances or mutates the simulation. */
 const InterfaceMotion = (() => {
   const el = {}, animations = new Map();
-  const tabs = ['adventure', 'outfit', 'audio'];
+  const tabs = ['adventure', 'outfit', 'audio', 'controls'];
   const difficultyModes = ['easy', 'normal', 'hard'];
   const difficultyNames = { easy: 'Dia tranquilo', normal: 'Fuzuê no sítio', hard: 'Lobo à solta' };
   const directions = ['down', 'left', 'up', 'right'];
@@ -168,9 +168,10 @@ const InterfaceMotion = (() => {
       el.regionNotice.style.opacity = reduced ? '1' : String(Math.min(1, transition.time / .5));
     }
     el.liveControls.hidden = !playing;
-    data('keyMove', 'pressed', playing && ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].some(key => input.has(key)));
-    data('keySneak', 'pressed', playing && input.has('c'));
-    data('keySprint', 'pressed', playing && input.has('shift'));
+    const movement = Player.moveVector();
+    data('keyMove', 'pressed', playing && !!(movement.x || movement.y));
+    data('keySneak', 'pressed', playing && GameInput.held('c'));
+    data('keySprint', 'pressed', playing && GameInput.held('shift'));
     data('keyHide', 'pressed', playing && (input.has('e') || chicken.hidden));
     if (previous) {
       if (game.rescuedCount > previous.friends) pulse('rescuedCount');

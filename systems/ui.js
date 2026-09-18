@@ -27,8 +27,9 @@ const GameUI = (() => {
   function resumeGame() {
     if (![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt].every(art => art.ready)) return;
     if (!state || !state.hasSave) return;
+    if (state.needsRecovery) GameManager.recover(state);
     state.phase = state.resumePhase || "playing";
-    input.clear();
+    GameInput.clear();
     AudioSystem.sync(state);
     AudioSystem.unlock();
     update(state);
@@ -40,6 +41,7 @@ const GameUI = (() => {
     initialized = true;
     AudioControls.initialize();
     InterfaceMotion.initialize();
+    GameInput.initialize();
     const ids = ["gameCanvas", "menuScreen", "menuTitle", "menuDescription", "menuSaveText", "endScreen", "endTitle", "endMessage", "endSummary", "endEmblem", "endEyebrow", "startBtn", "continueBtn", "pauseBtn", "replayBtn", "menuBtn", "hiddenText", "contextHint", "wolfLevelText", "wolfStateText", "saveText", "staminaMeter", "staminaText", "chicksCount", "chickCounter", "farmHud", "wardrobeNote", "wolfMultiplier", "skinUnlockText", ...SkinSystem.catalog.map(s => `skin-${s.id}`)];
     for (const id of ids) elements[id] = document.getElementById(id);
     elements.gameShell = document.getElementById("gameShell");
@@ -50,7 +52,10 @@ const GameUI = (() => {
       update(state); await loading; update(state);
     });
     elements.startBtn.addEventListener("click", newGame);
-    elements.replayBtn.addEventListener("click", newGame);
+    elements.replayBtn.addEventListener("click", () => {
+      if (state.phase === 'lose') { GameManager.recover(state); AudioSystem.sync(state); AudioSystem.unlock(); update(state); focusCanvas(); }
+      else newGame();
+    });
     elements.continueBtn.addEventListener("click", resumeGame);
     elements.pauseBtn.addEventListener("click", () => {
       if (state.phase === "menu") resumeGame();
@@ -108,7 +113,7 @@ const GameUI = (() => {
     if (!initialized) initialize();
     if (game.phase !== "menu") game.resumePhase = game.phase;
     game.phase = "menu";
-    input.clear();
+    GameInput.clear();
     AudioSystem.sync(game);
     GameManager.save(game);
     update(game);
@@ -136,6 +141,7 @@ const GameUI = (() => {
     const secretKnown = RescueSystem.knowsSecret(game);
     const secret = RescueSystem.secretHint(game);
     const callableChick = RescueSystem.callTarget(game);
+    const interact = GameInput.label('interact'), hideKey = GameInput.label('hide'), exitKey = GameInput.label('exit');
     elements.chickCounter.hidden = false;
     elements.farmHud.dataset.secretKnown = 'true';
     put("chicksCount", game.rescuedChicks);
@@ -155,21 +161,21 @@ const GameUI = (() => {
     elements.menuSkinSelect.value = chicken.skin;
     const availableSkins = SkinSystem.catalog.filter(s => s.id !== "classic" && SkinSystem.unlocked(s.id)).length;
     put("skinUnlockText", `${availableSkins} / ${SkinSystem.catalog.length - 1} aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
-    put("wardrobeNote", "6 pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o piado, chegue perto e aperte E uma vez para chamar. São bônus opcionais: procure antes de salvar o último amigo e ganhe novas aparências.");
+    put("wardrobeNote", `6 pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o piado, chegue perto e aperte ${interact} uma vez para chamar. São bônus opcionais: procure antes de salvar o último amigo e ganhe novas aparências.`);
     put("hiddenText", exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
     const hint = !playing ? (game.phase === "menu" ? "A turma espera por você." : "Todo mundo junto. Até o lobo perdeu a coragem!") :
-      exposed ? "Ele viu você! Saia com E e procure outro esconderijo." :
-      callableChick ? "Piu-piu! Aperte E uma vez para chamar o pintinho ao ninho." :
+      exposed ? `Ele viu você! Saia com ${exitKey} e procure outro esconderijo.` :
+      callableChick ? `Piu-piu! Aperte ${interact} uma vez para chamar o pintinho ao ninho.` :
       wolf.mode === "frightened" ? "Thor espantou o lobo! Aproveite para seguir seu caminho." :
-      hidden ? "Quietinha… deixe o lobo passar. E ou movimento para sair." :
+      hidden ? `Quietinha… deixe o lobo passar. ${exitKey} ou movimento para sair.` :
       wolf.mode === "chase" ? "Corra e saia da vista do lobo antes de se esconder!" :
       wolf.mode === "alert" ? "Ele percebeu alguma coisa. Saia da vista!" :
-      secret ? "Siga o piado! Chegue perto até aparecer E para chamar o pintinho." :
-      candidate ? "E para se esconder. Espere o lobo olhar para outro lado." :
-      chicken.exhausted ? "Sem fôlego? Solte Shift e respire um pouquinho." :
+      secret ? `Siga o piado! Chegue perto até aparecer ${interact} para chamar o pintinho.` :
+      candidate ? `${hideKey} para se esconder. Espere o lobo olhar para outro lado.` :
+      chicken.exhausted ? "Sem fôlego? Pare de correr e respire um pouquinho." :
       sprinting ? "Pé leve! A correria espanta os bichos e chama o lobo." :
-      "Segure C para chegar de mansinho e encoste nos amigos para salvá-los.";
+      `Para chegar de mansinho, ${GameInput.label('sneak')}. Encoste nos amigos para salvá-los.`;
     put("contextHint",hint);
     elements.staminaMeter.value = chicken.stamina;
     elements.staminaMeter.parentElement.dataset.tired = String(chicken.exhausted);
@@ -189,16 +195,17 @@ const GameUI = (() => {
     elements.pauseBtn.disabled = menu || ended;
 
     if (menu) {
-      const canContinue = !!game.hasSave && ["playing", "win_cutscene", "won"].includes(game.resumePhase);
+      const canContinue = !!game.hasSave && (game.needsRecovery || ["playing", "win_cutscene", "won"].includes(game.resumePhase));
       elements.continueBtn.hidden = !canContinue;
       elements.startBtn.classList.toggle("button-secondary", canContinue);
       put("startBtn", canContinue ? "Começar nova fazenda" : "Entrar na fazenda");
-      put("continueBtn", game.resumePhase === "won" ? "Voltar à comemoração" : "Continuar resgate");
+      put("continueBtn", game.needsRecovery ? 'Retomar do poleiro' : game.resumePhase === "won" ? "Voltar à comemoração" : "Continuar resgate");
       put("menuTitle", canContinue ? "De volta ao sítio" : "Bora abrir a porteira?");
       put("menuDescription", canContinue ? `${game.rescuedCount}/10 amigos a salvo${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos no ninho` : ""}. ${game.rescuedCount === 10 ? "A turma toda merece comemorar!" : "Seu resgate espera por você."}` : "O lobo está de ronda! Leve os dez amigos ao poleiro e siga os piados pelo caminho.");
     }
     if (ended) {
       const won = game.phase === "won";
+      put('replayBtn', won ? 'Jogar novamente' : 'Retomar do poleiro');
       put("endEmblem", won ? "🐔 ♥" : "🐔");
       put("endEyebrow", won ? "FIM ♥" : "Ainda há uma nova chance");
       put("endTitle", won ? "Você conseguiu!" : "Vamos tentar de novo?");
@@ -208,6 +215,7 @@ const GameUI = (() => {
     InterfaceMotion.update(game);
     GameplayHud.update(game);
     LakeChallenge.updateUI(game);
+    GameInput.update(game);
     if (lastPhase !== game.phase) {
       if (menu) (elements.continueBtn.hidden ? elements.startBtn : elements.continueBtn).focus({ preventScroll: true });
       else if (ended) elements.replayBtn.focus({ preventScroll: true });

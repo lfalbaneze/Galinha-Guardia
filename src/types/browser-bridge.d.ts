@@ -6,6 +6,12 @@ declare const STRUCTURES: Farm.Structures;
 declare let OBSTACLES: Farm.Obstacle[];
 declare const DIFFICULTIES: Record<Farm.Difficulty, Farm.DifficultySettings>;
 declare const input: Set<string>;
+declare const GameInput: {
+  clear(): void;
+  held(key: string): boolean;
+  vector(keyboard: Farm.Point): Farm.Point;
+  label(action: 'interact' | 'sneak' | 'run' | 'hide' | 'exit' | 'lake'): string;
+};
 declare const canvas: HTMLCanvasElement;
 declare const ctx: CanvasRenderingContext2D;
 declare let camera: Farm.Camera;

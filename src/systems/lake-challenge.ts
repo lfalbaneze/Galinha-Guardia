@@ -39,8 +39,8 @@ const LakeChallenge = (() => {
     const goose = game.entities.goose!;
     goose.mode = 'return'; goose.grace = 1.5;
     goose.cooldown = 1; goose.chargeHit = false; goose.timer = .8;
-    input.clear();
-    setStatus('PANTO, o dono do lago! Provoque 3 investidas e desvie. O lobo espera fora. F para sair.');
+    if (typeof GameInput !== 'undefined') GameInput.clear(); else input.clear();
+    setStatus('PANTO, o dono do lago! Provoque 3 investidas e desvie. O lobo espera fora. Use Sair do desafio para parar.');
     GameManager.save(game); updateUI(game);
     return true;
   }
@@ -150,7 +150,8 @@ const LakeChallenge = (() => {
       'Desafio opcional: provoque três investidas e desvie. Ganhe um atalho e a aparência de ganso.';
     button.hidden = !!completed;
     (button as HTMLButtonElement).disabled = !active && !available(game);
-    button.textContent = active ? 'Sair do desafio · F' : 'Desafiar PANTO · F';
+    const key = typeof GameInput === 'undefined' ? 'F' : GameInput.label('lake');
+    button.textContent = `${active ? 'Sair do desafio' : 'Desafiar PANTO'}${key ? ` · ${key}` : ''}`;
   }
   return { initialize, available, start, cancel, update, recordMiss, blocksWolf, snapshot, restore, pondObstacles, bridge, drawGround, updateUI, radius: ARENA };
 })();

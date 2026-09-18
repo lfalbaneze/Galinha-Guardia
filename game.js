@@ -361,7 +361,7 @@ function resetGame(seed, worldVersion = 5) {
   scoreCountEl.textContent = "0";
   areaTextEl.textContent = "Poleiro";
   setStatus(`A porteira abriu! Junte os dez amigos e fique de olho nos piados pelo caminho.`);
-  input.clear();
+  GameInput.clear();
   GameManager.save(state);
   GameUI.update(state);
 }
@@ -727,6 +727,7 @@ function tick(timestamp) {
   const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
   lastTime = timestamp;
 
+  GameInput.poll(state, dt);
   updateGame(dt);
   if (state.phase !== "menu") renderGame();
   InterfaceMotion.frame(state, dt);
@@ -742,6 +743,7 @@ window.addEventListener("keydown", (event) => {
     return;
   }
   if (state.phase !== "playing") return;
+  if (GameInput.keyboard(event)) return;
   if (state.entities.chicken.hidden && event.repeat && ["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) return;
   if (key === "f" && !event.repeat) {
     if (state.lake?.active) LakeChallenge.cancel(state); else LakeChallenge.start(state);
@@ -753,13 +755,13 @@ window.addEventListener("keydown", (event) => {
 });
 window.addEventListener("keyup", event => input.delete(event.key.toLowerCase()));
 window.addEventListener("blur", () => {
-  input.clear();
+  GameInput.clear();
   AudioSystem.pause();
   if (state && ["playing", "win_cutscene"].includes(state.phase)) GameUI.showMenu(state);
 });
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
-    input.clear();
+    GameInput.clear();
     AudioSystem.pause();
     if (state && ["playing", "win_cutscene"].includes(state.phase)) GameUI.showMenu(state);
   }

@@ -101,13 +101,17 @@ test('a catch penalizes once and invulnerability prevents a second hit', () => {
   assert.equal(e.Player.checkCatch(e.state), false); assert.equal(e.state.lives, 2);
 });
 
-test('the final lost life clears the saved adventure', () => {
+test('the final lost life saves progress with a pending return to the refuge', () => {
   const e = createFarm(), { chicken, wolf } = e.state.entities;
   e.GameManager.save(e.state); e.state.lives = 1;
   wolf.x = chicken.x; wolf.y = chicken.y;
   e.Player.checkCatch(e.state);
   assert.equal(e.state.phase, 'lose'); assert.equal(e.state.score, 0);
-  assert.equal(e.storage.has(saveKey), false);
+  const saved=e.GameManager.read();
+  assert.equal(saved.needsRecovery,true);
+  assert.equal(saved.phase,'playing');
+  assert.equal(saved.lives,3);
+  assert.equal(saved.score,e.state.score);
 });
 
 test('walls still block vision and hiding removes the visual target', () => {

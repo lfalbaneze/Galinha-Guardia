@@ -45,6 +45,12 @@ Depois, abra **http://127.0.0.1:8765**.
 
 Encoste nos amigos para resgatá-los. Eles vão para o refúgio e ficam a salvo pelo restante da aventura. Encontrar os dez conclui a missão, mesmo sem todos os pintinhos.
 
+Na aba **Controles**, é possível trocar C e Shift por comandos de ligar/desligar, sem precisar manter a tecla pressionada. As preferências ficam salvas neste navegador.
+
+**Celular e tablet:** os botões de toque aparecem automaticamente em dispositivos com toque e também podem ser ativados na aba Controles. Use as setas para caminhar; Mansinho e Correr funcionam com um toque. O botão de interação muda entre Chamar, Esconder e Sair. Em telas horizontais baixas, os comandos ficam ao lado do mapa.
+
+**Controle com mapeamento padrão do navegador:** analógico esquerdo ou direcional move; A interage; B liga/desliga mansinho; RT corre; X entra/sai do desafio de PANTO; Menu pausa. Nos menus, direcional navega, A confirma, B volta e esquerda/direita ajustam opções e volume. O analógico tem zona morta e velocidade proporcional. Ao desconectar o controle, a partida pausa; depois de retomar, solte os comandos antes de mover novamente.
+
 **Cuidado com os esconderijos:** se o lobo vir você entrar, ele pode ir até lá. Saia, despiste-o e procure outra cobertura sem ser vista. A corrida tem fôlego limitado; caminhar recupera a reserva, e se esconder recupera mais rápido.
 
 ## PANTO, o dono do lago
@@ -77,7 +83,7 @@ As novas fazendas reservam terrenos completos para cada atividade. A **horta** t
 
 Os acessos às construções e aos portões se ligam à estrada. A vegetação fica fora dos caminhos e das fachadas; flores aparecem em pequenos grupos junto aos plantios, e taboas acompanham a margem do lago. O curral tem um abrigo aberto de madeira, o pomar mistura macieiras e pereiras, e um salgueiro marca a margem quando há espaço seguro. Objetos redundantes que não cabem com folga são retirados. A [folha de arte complementar e seu prompt](assets/farm/HABITAT-ART-NOTES.md) estão documentados no projeto.
 
-As cercas do curral bloqueiam a passagem, e os portões permitem atravessá-lo e chegar aos animais. Feno e moitas continuam servindo de esconderijo, inclusive para os pintinhos. **Partidas salvas mantêm seu terreno original**; use **Começar nova fazenda** para jogar com a nova organização. A raposa visível também funciona nas partidas antigas.
+As cercas do curral bloqueiam a passagem, e os portões permitem atravessá-lo e chegar aos animais. Feno e moitas continuam servindo de esconderijo, inclusive para os pintinhos. **Fazendas antigas são atualizadas para a organização atual**, preservando resgates, pontos e desbloqueios. A atualização coloca a galinha em um início seguro e os amigos restantes em locais acessíveis.
 
 ## Pintinhos e aparências
 
@@ -101,11 +107,15 @@ O jogo tem músicas para a fazenda e para as aparências, gravações dos animai
 
 O salvamento automático permite continuar a mesma fazenda, com os resgates, a pontuação e a dificuldade escolhida. **Reiniciar** ou **Gerar nova fazenda** substitui a aventura atual, mas mantém as aparências desbloqueadas.
 
+Quando acabam os corações, **Retomar do poleiro** recupera vida e fôlego na mesma fazenda. Amigos, pintinhos, descobertas e o desafio concluído continuam guardados; a penalidade de pontos da captura permanece. A galinha recebe proteção breve e o lobo volta à ronda longe do início. Fechar a página na tela de derrota também preserva essa retomada.
+
 O progresso pertence ao navegador e ao endereço usado para jogar. Abrir por `file://` e acessar pelo servidor local não compartilha o mesmo salvamento. Se o armazenamento estiver bloqueado, o jogo avisa que o progresso vale apenas para a sessão.
 
 ## Interface da partida
 
 A HUD reúne corações de vida, resgates, pintinhos, pontos e o alerta do lobo em painéis compactos. A localização fica no topo; fôlego e dicas continuam próximos ao mapa. Som, aparências e dificuldade estão nas abas do menu de pausa. As animações respeitam a preferência por movimento reduzido.
+
+A ajuda abre em uma janela com rolagem própria, sem aumentar o cenário do menu. As dicas da partida acompanham o dispositivo usado. As escolhas de controles, alternativas a segurar teclas e preservação de progresso foram orientadas por práticas descritas no [suporte de Untitled Goose Game](https://untitled.goose.game/support/) e nas [Game Accessibility Guidelines](https://gameaccessibilityguidelines.com/full-list/).
 
 ## Desenvolvimento
 

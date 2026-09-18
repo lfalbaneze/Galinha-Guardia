@@ -108,6 +108,7 @@ declare namespace Farm {
   interface SecretNotice extends TimedNotice { bonus?: boolean; x?: number; y?: number; targetX?: number; targetY?: number; }
   interface RescueNotice extends TimedNotice { name: string; count: number; total: number; chick: boolean; }
   interface GameState {
+    needsRecovery?: boolean;
     phase: Phase; resumePhase?: Phase; difficultyKey: Difficulty; settings: DifficultySettings;
     entities: { chicken: Chicken; wolf: Wolf; animals: Animal[]; chicks: Animal[]; goose?: Goose; foxes?: Fox[]; owls?: Owl[]; thor?: Thor | null; };
     thorVisit?: { nextIn: number; visits: number };
@@ -157,6 +158,7 @@ declare namespace Farm {
     'patrolScanHeading' | 'searchApproached' | 'searchIndex' | 'scanTime' | 'exposedCover' |
     'seenVelocity' | 'investigateReturnMode' | 'fearTime' | 'fearFrom'>>;
   interface SaveData {
+    needsRecovery?: boolean;
     version: 1 | 2 | 3 | 4; worldSeed: number; worldVersion?: number; difficulty: Difficulty; phase: Phase;
     rescuedIds: string[]; rescuedChickIds: string[]; lives: number; score: number;
     winBonusApplied?: boolean; elapsed?: number;
