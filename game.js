@@ -335,7 +335,7 @@ function createState() {
   };
 }
 
-function resetGame(seed, worldVersion = 4) {
+function resetGame(seed, worldVersion = 5) {
   AudioSystem.reset();
   let chosenSeed = Number.isInteger(seed) ? seed >>> 0 : Math.floor(Math.random() * 4294967296) >>> 0;
   if (!Number.isInteger(seed) && chosenSeed === state?.worldSeed) chosenSeed = (chosenSeed + 0x9e3779b9) >>> 0;
@@ -772,7 +772,7 @@ buildObstacles();
 GameUI.initialize();
 const savedGame = GameManager.read();
 if (savedGame) difficultySelect.value = savedGame.difficulty;
-resetGame(savedGame?.worldSeed, savedGame ? savedGame.worldVersion : 4);
+resetGame(savedGame?.worldSeed);
 if (savedGame) {
   GameManager.restore(state, savedGame);
   MapManager.initialize(state);

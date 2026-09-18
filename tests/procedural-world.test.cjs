@@ -47,7 +47,7 @@ test('new farms vary district geometry and connected road networks beyond fixed 
   }
   const graphs = new Set();
   for (const world of worlds) {
-    assert.equal(world.version, 4);
+    assert.equal(world.version, 5);
     graphs.add(world.connections.map(edge => [...edge].sort().join('-')).sort().join(','));
     const reached = new Set(['poleiro']);
     for (let pass = 0; pass < 5; pass++) for (const [a, b] of world.connections) {
@@ -155,7 +155,7 @@ test('30 seeds keep legal separated districts, useful structures, and a clear re
     assert.equal(world.animalSpawns.length, 10);
     assert.equal(world.chickSpawns.length, 6);
     assert.equal(new Set(world.chickSpawns.map(c => c.areaId)).size, 5);
-    assert.ok(world.structures.coops.length === 2, `seed ${seed}: coops`);
+    assert.ok(world.structures.coops.length === 1, `seed ${seed}: coops`);
     assert.ok(world.structures.silos.length >= 1, `seed ${seed}: silos`);
     assert.ok(world.structures.hayBales.length >= 1, `seed ${seed}: hay`);
     assert.ok(world.decorations.filter(d => d.type === 'crop').length >= 20, `seed ${seed}: crops`);

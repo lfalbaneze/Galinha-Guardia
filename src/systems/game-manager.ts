@@ -92,7 +92,7 @@ const GameManager = (() => {
       if (data.version >= 2 && (!Number.isInteger(data.worldSeed) || data.worldSeed < 0 || data.worldSeed > 4294967295)) return null;
       if (data.version === 1) data.worldSeed = 20260915;
       if (data.worldVersion === undefined) data.worldVersion = 1;
-      if (![1, 2, 3, 4].includes(data.worldVersion)) return null;
+      if (![1, 2, 3, 4, 5].includes(data.worldVersion)) return null;
       if (!Array.isArray(data.rescuedIds) || !Array.isArray(data.animals)) return null;
       if (!Number.isInteger(data.lives) || data.lives < 1 || data.lives > MAX_LIVES) return null;
       if (!Number.isFinite(data.score) || data.score < 0) return null;
@@ -118,12 +118,20 @@ const GameManager = (() => {
         data.chicks = [];
         data.phase = "playing";
       }
+      if(data.worldVersion<5) {
+        // Keep the last old-map adventure recoverable before the one-time upgrade.
+        try { if(!localStorage.getItem('galinha-guardia-save-before-map-5'))
+          localStorage.setItem('galinha-guardia-save-before-map-5',JSON.stringify(data)); } catch (_) { /* Saving may be unavailable. */ }
+      }
       return data;
     } catch (_) { return null; }
   }
   function restore(game: Farm.GameState, data: Farm.SaveData): void {
     const seed = data.worldSeed ?? 20260915;
-    const worldVersion = data.worldVersion ?? 1;
+    const previousVersion = data.worldVersion ?? 1;
+    const migrating = previousVersion<5;
+    const newGeography = previousVersion<4 || data.version===1;
+    const worldVersion = 5;
     if (game.worldSeed !== seed || game.worldVersion !== worldVersion) {
       MapManager.generate(seed, worldVersion); buildObstacles(); game.worldSeed = seed;
       game.worldVersion = worldVersion;
@@ -155,7 +163,8 @@ const GameManager = (() => {
       animal.speechTime = 0;
     };
     const chicken = game.entities.chicken;
-    Object.assign(chicken, { x: data.chicken.x, y: data.chicken.y, invulnerable: 2,
+    const playerPosition=newGeography?WORLD.layout.start:data.chicken;
+    Object.assign(chicken, { x: playerPosition.x, y: playerPosition.y, invulnerable: 2,
       stamina: bounded(data.chicken.stamina, 0, 1, 1),
       staminaDelay: bounded(data.chicken.staminaDelay, 0, 0.65), exhausted: data.chicken.exhausted === true,
       direction: ["up", "down", "left", "right"].includes(data.chicken.direction!) ? data.chicken.direction! : "down",
@@ -191,11 +200,17 @@ const GameManager = (() => {
     for (const [index, animal] of game.entities.animals.entries()) {
       animal.rescued = game.rescuedIds.has(animal.id);
       // Older saves used a different geography: keep their progress and give friends legal new homes.
-      const saved = animal.rescued ? RescueSystem.safePosition(index) : data.version === 1 ? WORLD.layout.animalSpawns[index]
+      const saved = animal.rescued ? RescueSystem.safePosition(index) : newGeography ? WORLD.layout.animalSpawns[index]
         : data.animals.find(a => a.id === animal.id)!;
       animal.x = saved.x; animal.y = saved.y;
       animal.targetX = saved.x; animal.targetY = saved.y;
       restoreFriend(animal, saved);
+      if(newGeography&&!animal.rescued){
+        const old=data.animals.find(a=>a.id===animal.id);
+        animal.discovered=old?.discovered===true;
+        animal.lastSeen=animal.discovered?{x:animal.x,y:animal.y}:null;
+        animal.homeX=animal.x;animal.homeY=animal.y;
+      }
       resolveEnvironment(animal);
       FarmRefuge.ensureClear(animal);
     }
@@ -205,30 +220,36 @@ const GameManager = (() => {
       const home = bonusHomes[index];
       const saved: Farm.FriendSnapshot = data.chicks?.find(c => c.id === chick.id) || home;
       // Already revealed chicks stay where the player left them; unopened bonuses use real cover.
-      const coverId = !saved.discovered || saved.coverId === home.coverId ? home.coverId : null;
+      const coverId = newGeography || !saved.discovered || saved.coverId === home.coverId ? home.coverId : null;
       const point = chick.rescued ? RescueSystem.chickPosition(index) : coverId ? home : saved;
       Object.assign(chick, { x: point.x, y: point.y, targetX: point.x, targetY: point.y, moving: false });
       Object.assign(chick, { coverId, homeX: home.x, homeY: home.y, areaId: home.areaId });
       restoreFriend(chick, saved);
+      if(newGeography)chick.lastSeen=chick.discovered?{x:chick.x,y:chick.y}:null;
       resolveEnvironment(chick);
       FarmRefuge.ensureClear(chick);
     }
     resolveEnvironment(game.entities.chicken);
     FarmRefuge.ensureClear(game.entities.chicken);
-    HidingSpots.restore(game, data.chicken);
+    HidingSpots.restore(game, newGeography?{...playerPosition,hidden:false}:data.chicken);
+    if(newGeography){
+      Object.assign(wolf,WORLD.layout.wolfStart||{x:WORLD.width-120,y:WORLD.height-120});
+      WolfAI.initialize(game);wolf.huntUnlockTimer=5;wolf.pauseTimer=0;
+    }
     resolveEnvironment(wolf);
     FarmRefuge.ensureClear(wolf);
-    WolfAI.restoreCoverMemory(game, data.wolf.exposedCover);
+    WolfAI.restoreCoverMemory(game, newGeography?null:data.wolf.exposedCover);
     GooseSystem.restore(game, data.goose);
     FoxSystem.restore(game, data.foxes);
     OwlSystem.restore(game, data.owls);
     ThorSystem.restore(game, data.thor);
-    if(data.wolf.mode==='frightened' && Number.isFinite(data.wolf.fearTime) && data.wolf.fearTime!>0 &&
+    if(!newGeography && data.wolf.mode==='frightened' && Number.isFinite(data.wolf.fearTime) && data.wolf.fearTime!>0 &&
       WildlifeRules.validPoint(data.wolf.fearFrom))WolfAI.frighten(game,data.wolf.fearFrom,bounded(data.wolf.fearTime,0,6));
     game.winBonusApplied = data.winBonusApplied === true;
     if (game.rescuedCount === WORLD.targetRescues) GameManager.win(game);
     refreshHud();
     MapManager.initialize(game);
+    if(migrating)save(game);
   }
   function clear(): void {
     try { localStorage.removeItem(SAVE_KEY); } catch (_) { storageAvailable = false; }

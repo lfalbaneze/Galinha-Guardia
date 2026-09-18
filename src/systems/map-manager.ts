@@ -1,6 +1,6 @@
 /* The original farm is a seamless world. Regions change without recreating entities. */
 const MapManager = {
-  generate(seed: number, version = 4): Farm.Layout {
+  generate(seed: number, version = 5): Farm.Layout {
     const layout = WorldGenerator.generate(seed, version);
     WORLD.layout = layout; WORLD.areas = layout.areas; WORLD.paths = layout.paths;
     Object.assign(STRUCTURES, {stables:[],troughs:[],paddockFences:[]}, layout.structures);

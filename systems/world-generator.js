@@ -34,7 +34,8 @@ const WorldGenerator = (() => {
       a.y < b.y + b.h + gap && a.y + a.h > b.y - gap;
   }
 
-  function generate(value, version = 4, layoutAttempt = 0, onPacked = null) {
+  function generate(value, version = 5, layoutAttempt = 0, onPacked = null) {
+    if(version>=5)return curate(generate(value,4,layoutAttempt));
     if(version>=4) {
       let packedAttempt=layoutAttempt;
       const composed=compose(generate(value,3,layoutAttempt,attempt=>{packedAttempt=attempt;}));
@@ -608,6 +609,52 @@ const WorldGenerator = (() => {
       if(!within(rect)||tracks.some(p=>overlaps(rect,p,8))||plots.some(p=>overlaps(rect,p,8))||!pointFree({x,y},10))continue;
       layout.decorations.push({type:g.kind,x,y,variant:Math.floor(random()*3),size:6,groupId:g.id});
     }
+    return layout;
+  }
+  // Version 5 removes duplicate set dressing from the playable map itself,
+  // including its collisions and approach paths, rather than hiding sprites.
+  function curate(layout) {
+    layout.version=5;
+    const s=layout.structures;
+    // The refuge already has the chick nursery. Only the cornfield needs a coop.
+    const coop=s.coops.find(p=>p.areaId==='granja');
+    const removedCoops=s.coops.filter(p=>p!==coop);
+    const removedCoopIds=s.coops.flatMap((p,i)=>p===coop?[]:[`coop-${i}`]);
+    s.coops=coop?[coop]:[];
+    const stable=s.stables[0];
+    const hay=s.hayBales.filter(p=>p.areaId==='estabulo').sort((a,b)=>
+      Math.hypot(a.x-stable.x,a.y-stable.y)-Math.hypot(b.x-stable.x,b.y-stable.y))[0];
+    s.hayBales=hay?[hay]:[];
+    layout.lanes=layout.lanes.filter(p=>!removedCoopIds.includes(p.entranceId));
+    layout.entrances=layout.entrances.filter(p=>!removedCoopIds.includes(p.id));
+    // Keep the surviving approach ID aligned with the sole coop.
+    for(const p of layout.lanes)if(p.entranceId?.startsWith('coop-'))p.entranceId='coop-0';
+    for(const p of layout.entrances)if(p.id.startsWith('coop-'))p.id='coop-0';
+    layout.clearings=layout.clearings.filter(p=>!removedCoops.some(b=>
+      p.x===b.x+b.w/2-26&&p.y===b.y+b.h-8&&p.w===52&&p.h===56));
+    // Keep shelter for every friend, but thin redundant shrubs in each cluster.
+    const retained=[], pending=[...layout.vegetation];
+    while(pending.length) {
+      const plant=pending.shift();
+      const nearby=retained.filter(p=>p.areaId===plant.areaId&&p.type===plant.type&&
+        Math.hypot(p.x-plant.x,p.y-plant.y)<230);
+      const needed=layout.animalSpawns.some(a=>
+        Math.hypot(a.x-plant.x-plant.w/2,a.y-plant.y-plant.h+15)<=180&&
+        ![...retained,...pending]
+          .some(p=>Math.hypot(a.x-p.x-p.w/2,a.y-p.y-p.h+15)<=180));
+      if(plant.type==='bush'&&nearby.length&&!needed&&retained.length+pending.length>=12)continue;
+      if(plant.type==='bush') {
+        // Flowering shrubs belong to the garden; the farm entrance uses low foliage.
+        const index=retained.filter(p=>p.areaId===plant.areaId&&p.type==='bush').length;
+        const flowering=plant.areaId==='horta'&&index===0;
+        plant.art=flowering||index%2?'bush':'bramble';
+        plant.material=flowering?0:1+index%2;
+      }
+      retained.push(plant);
+    }
+    layout.vegetation=retained;
+    const groupIds=new Set(retained.map(p=>p.id));
+    layout.decorations=layout.decorations.filter(d=>d.plotId||d.groupId==='lake'||groupIds.has(d.groupId));
     return layout;
   }
   return { generate, normalizeSeed };

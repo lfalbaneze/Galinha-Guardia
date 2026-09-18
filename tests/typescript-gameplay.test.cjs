@@ -27,7 +27,7 @@ function createFarm() {
     rescued: false, discovered: false, lost: false, lastSeen: null, fatigue: 0, restTime: 0,
     fleeTime: 0, fleeFrom: null, fleeHeading: null, stuckTime: 0, wanderTime: 1, targetX: point.x, targetY: point.y,
     speechTime: 0, temper: 'idle' });
-  const state = { phase: 'playing', difficultyKey: 'normal', settings, worldSeed: 17, worldVersion: 2,
+  const state = { phase: 'playing', difficultyKey: 'normal', settings, worldSeed: 17, worldVersion: 5,
     rescuedIds: new Set(), rescuedChickIds: new Set(), rescuedCount: 0, rescuedChicks: 0, wolfLevel: 0,
     lives: 3, score: 0, elapsed: 0, winBonusApplied: false, animalSpeechCooldown: 0, secretSoundCooldown: 0,
     entities: {

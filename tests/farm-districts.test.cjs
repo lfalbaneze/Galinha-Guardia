@@ -23,7 +23,7 @@ test('100 new farms have complete useful districts, unbroken beds and clear crop
           return rows.length>=3&&rows.every(r=>r.length>=6&&r.every((x,i)=>!i||x-r[i-1]===32))&&
             rows.every(r=>JSON.stringify(r)===JSON.stringify(rows[0]));
         }),
-        coops:STRUCTURES.coops.length===2&&STRUCTURES.coops.every(p=>['poleiro','granja'].includes(p.areaId)),
+        coops:STRUCTURES.coops.length===1&&STRUCTURES.coops.every(p=>p.areaId==='granja'),
         animals:state.entities.animals.filter(a=>a.areaId==='estabulo').map(a=>a.species).sort().join(','),
         fox:state.entities.foxes.length>=1,
         accents:layout.decorations.every(d=>d.plotId||d.groupId),
@@ -38,7 +38,7 @@ test('100 new farms have complete useful districts, unbroken beds and clear crop
         signs:props.filter(p=>p.type==='sign').length
       };
     })()`);
-    assert.equal(result.version,4);
+    assert.equal(result.version,5);
     for(const key of ['corn','garden','yard','roads','scenery','rows','coops','fox','accents','access','clearLanes','fronts','livestock'])
       assert.equal(result[key],true,`${seed}: ${key}`);
     assert.equal(result.animals,'cow,goat',`${seed}: livestock`);
@@ -68,12 +68,13 @@ test('waiting and warning foxes participate in the actual render before the dash
   }
 });
 
-test('loading a historical farm removes new yard collisions without discarding its save', () => {
+test('loading a historical farm upgrades the scenery while retaining progress', () => {
   const game=createGame(() => .5);
   assert.ok(game.run("OBSTACLES.some(o=>o.type==='paddock-fence')"));
-  game.run('resetGame(814237,2);GameManager.save(state)');
+  game.run('resetGame(814237,2);GameManager.rescue(state,state.entities.animals[2]);GameManager.save(state)');
   const loaded=createGame(() => .5,{storage:new Map(game.storage),fullStartup:true});
-  assert.equal(loaded.run('state.worldVersion'),2);
-  assert.equal(loaded.run("OBSTACLES.some(o=>['paddock-fence','stable'].includes(o.type))||STRUCTURES.troughs.length>0"),false);
-  assert.equal(loaded.run('JSON.stringify(WORLD.layout)'),game.run('JSON.stringify(WORLD.layout)'));
+  assert.equal(loaded.run('state.worldVersion'),5);
+  assert.equal(loaded.run('STRUCTURES.coops.length'),1);
+  assert.equal(loaded.run('state.rescuedIds.has("animal_2")'),true);
+  assert.ok(loaded.storage.has('galinha-guardia-save-before-map-5'));
 });

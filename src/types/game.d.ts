@@ -17,6 +17,7 @@ declare namespace Farm {
   interface Layout {
     seed: number;
     start: Point;
+    wolfStart?: Point;
     areas: Area[];
     paths: Rect[];
     lanes?: Rect[];

@@ -9,12 +9,12 @@ test('new farm never repeats the current seed even when the random source repeat
     run('resetGame();');
     const next = run('JSON.stringify(WORLD.layout)');
     assert.notEqual(next, previous);
-    assert.equal(run('state.worldVersion'), 4);
+    assert.equal(run('state.worldVersion'), 5);
     previous = next;
   }
 });
 
-test('existing saves without a generation version reopen the original farm and keep discoveries', () => {
+test('existing saves without a generation version receive the clean farm and keep discoveries', () => {
   const first = createGame(() => .5);
   first.run(`resetGame(814237, 1); state.entities.chicks[2].discovered=true;
     GameManager.rescue(state,state.entities.animals[3]); GameManager.save(state);`);
@@ -22,16 +22,16 @@ test('existing saves without a generation version reopen the original farm and k
   delete saved.worldVersion;
   first.storage.set('galinha-guardia-save-v1', JSON.stringify(saved));
   const loaded = createGame(() => .5, { storage: new Map(first.storage), fullStartup: true });
-  assert.equal(loaded.run('state.worldVersion'), 1);
-  assert.equal(loaded.run('JSON.stringify(WORLD.layout)'), first.run('JSON.stringify(WORLD.layout)'));
+  assert.equal(loaded.run('state.worldVersion'), 5);
+  assert.notEqual(loaded.run('JSON.stringify(WORLD.layout)'), first.run('JSON.stringify(WORLD.layout)'));
   assert.equal(loaded.run('state.rescuedIds.has("animal_3")'), true);
   assert.equal(loaded.run('state.entities.chicks[2].discovered'), true);
   loaded.run('GameManager.save(state);');
-  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 1);
+  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 5);
   loaded.run('resetGame(814237); GameManager.save(state);');
-  assert.equal(loaded.run('state.worldVersion'), 4);
+  assert.equal(loaded.run('state.worldVersion'), 5);
   assert.notEqual(loaded.run('JSON.stringify(WORLD.layout)'), first.run('JSON.stringify(WORLD.layout)'));
-  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 4);
+  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 5);
 });
 
 test('a fresh farm changes its geography, while reload restores the exact saved layout', () => {
