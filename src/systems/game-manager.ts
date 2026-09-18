@@ -130,7 +130,7 @@ const GameManager = (() => {
     const seed = data.worldSeed ?? 20260915;
     const previousVersion = data.worldVersion ?? 1;
     const migrating = previousVersion<5;
-    const newGeography = previousVersion<4 || data.version===1;
+    const newGeography = migrating || data.version===1;
     const worldVersion = 5;
     if (game.worldSeed !== seed || game.worldVersion !== worldVersion) {
       MapManager.generate(seed, worldVersion); buildObstacles(); game.worldSeed = seed;

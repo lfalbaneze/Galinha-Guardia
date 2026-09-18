@@ -35,12 +35,22 @@ const WorldGenerator = (() => {
   }
 
   function generate(value, version = 5, layoutAttempt = 0, onPacked = null) {
-    if(version>=5)return curate(generate(value,4,layoutAttempt));
+    if(version>=5) {
+      let packedAttempt=layoutAttempt;
+      const source=generate(value,4,layoutAttempt,attempt=>{packedAttempt=attempt;});
+      // A crowded old layout can have hay only beside the nursery. Choose a
+      // complete working yard instead of keeping that stray prop as a fallback.
+      if(!source.structures.hayBales.some(p=>p.areaId==='estabulo')) {
+        if(packedAttempt<128)return generate(value,5,packedAttempt+1);
+        throw new Error('Unable to compose a complete livestock yard');
+      }
+      return curate(source);
+    }
     if(version>=4) {
       let packedAttempt=layoutAttempt;
       const composed=compose(generate(value,3,layoutAttempt,attempt=>{packedAttempt=attempt;}));
-      if(composed)return composed;
-      if(packedAttempt<128)return generate(value,4,packedAttempt+1);
+      if(composed){if(onPacked)onPacked(packedAttempt);return composed;}
+      if(packedAttempt<128)return generate(value,4,packedAttempt+1,onPacked);
       throw new Error('Unable to compose accessible farm habitats');
     }
     version = version === 1 ? 1 : version === 2 ? 2 : 3;

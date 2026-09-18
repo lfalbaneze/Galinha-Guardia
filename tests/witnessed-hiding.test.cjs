@@ -11,6 +11,8 @@ function coverScenario({ real = false, type = 'bush' } = {}) {
   const game = createGame(() => 0.5);
   game.run(`
     const chicken = state.entities.chicken, wolf = state.entities.wolf;
+    ${real && type==='hay' ? `for(const chick of state.entities.chicks.filter(c=>c.coverId?.startsWith('hay-')))
+      GameManager.rescue(state,Object.assign(chick,{discovered:true}));` : ''}
     ${real ? '' : 'OBSTACLES = [];'}
     const isFree = entity => {
       const h = getHitbox(entity);
@@ -21,7 +23,7 @@ function coverScenario({ real = false, type = 'bush' } = {}) {
     let cover = null;
     // Test the hiding action; occupied cover now advertises a chick call on the first E.
     for (const spot of HidingSpots.getSpots().filter(s => s.type === '${type}' &&
-      !state.entities.chicks.some(chick => chick.coverId === s.id))) {
+      !state.entities.chicks.some(chick => !chick.rescued && chick.coverId === s.id))) {
       const points = spot.bale ? [
         { x: spot.bale.x - 23, y: spot.bale.y + spot.bale.h / 2, dx: -140, dy: 0 },
         { x: spot.bale.x + spot.bale.w + 23, y: spot.bale.y + spot.bale.h / 2, dx: 140, dy: 0 },

@@ -24,6 +24,7 @@ test('100 new farms have complete useful districts, unbroken beds and clear crop
             rows.every(r=>JSON.stringify(r)===JSON.stringify(rows[0]));
         }),
         coops:STRUCTURES.coops.length===1&&STRUCTURES.coops.every(p=>p.areaId==='granja'),
+        hay:STRUCTURES.hayBales.length===1&&STRUCTURES.hayBales[0].areaId==='estabulo',
         animals:state.entities.animals.filter(a=>a.areaId==='estabulo').map(a=>a.species).sort().join(','),
         fox:state.entities.foxes.length>=1,
         accents:layout.decorations.every(d=>d.plotId||d.groupId),
@@ -39,7 +40,7 @@ test('100 new farms have complete useful districts, unbroken beds and clear crop
       };
     })()`);
     assert.equal(result.version,5);
-    for(const key of ['corn','garden','yard','roads','scenery','rows','coops','fox','accents','access','clearLanes','fronts','livestock'])
+    for(const key of ['corn','garden','yard','roads','scenery','rows','coops','hay','fox','accents','access','clearLanes','fronts','livestock'])
       assert.equal(result[key],true,`${seed}: ${key}`);
     assert.equal(result.animals,'cow,goat',`${seed}: livestock`);
     assert.equal(result.signs,4,`${seed}: signs`);
