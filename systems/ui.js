@@ -80,6 +80,8 @@ const GameUI = (() => {
 
     // Keep keyboard focus in the active dialog without touching gameplay keys.
     document.addEventListener("keydown", event => {
+      // Native modal help owns focus while open, including its scrollable content.
+      if (document.getElementById('howToPlayDialog')?.open) return;
       if (event.key !== "Tab") return;
       const overlay = !elements.menuScreen.hidden ? elements.menuScreen : !elements.endScreen.hidden ? elements.endScreen : null;
       if (!overlay) return;

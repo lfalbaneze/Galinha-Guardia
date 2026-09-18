@@ -73,7 +73,7 @@ const InterfaceMotion = (() => {
     initialized = true;
     MenuScene.initialize();
     for (const id of ['scoreCount', 'rescuedCount', 'chicksCount', 'livesCount', 'chickCounter', 'hiddenText',
-      'contextHint', 'areaText', 'gameStage', 'menuCard', 'endScreen', 'menuPortrait', 'portraitTurn', 'portraitWalk',
+      'contextHint', 'areaText', 'gameStage', 'menuCard', 'endScreen', 'menuPortrait', 'portraitTurn', 'portraitWalk', 'howToPlayBtn', 'howToPlayDialog',
       'missionText', 'missionProgress', 'threatIndicator', 'threatText', 'threatProgress', 'regionNotice', 'regionNoticeName',
       'liveControls', 'keyMove', 'keySneak', 'keySprint', 'keyHide', 'difficultySelect', 'difficultyPreview',
       ...difficultyModes.flatMap(mode => [`difficulty-${mode}`, `difficultyArt-${mode}`]), ...tabs.flatMap(t => [`tab-${t}`, `panel-${t}`])])
@@ -102,6 +102,9 @@ const InterfaceMotion = (() => {
         event.preventDefault(); chooseDifficulty(difficultyModes[next], true);
       });
     }
+    el.howToPlayBtn.addEventListener('click', () => {
+      if (currentGame?.phase === 'menu' && !el.howToPlayDialog.open) el.howToPlayDialog.showModal();
+    });
     el.difficultySelect.addEventListener('change', difficulty);
     el.portraitTurn.addEventListener('click', () => { direction = (direction + 1) % 4; previewSignature = ''; });
     el.portraitWalk.addEventListener('click', () => {
@@ -129,6 +132,7 @@ const InterfaceMotion = (() => {
     initialize();
     const newGame = currentGame !== game;
     currentGame = game;
+    if (game.phase !== 'menu' && el.howToPlayDialog.open) el.howToPlayDialog.close();
     const chicken = game.entities.chicken, wolf = game.entities.wolf;
     const known = RescueSystem.knowsSecret(game), playing = game.phase === 'playing';
     const target = Math.max(0, Math.floor(game.score));
