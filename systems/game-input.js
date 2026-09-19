@@ -2,10 +2,20 @@
 const GameInput = (() => {
   const KEY='galinha-controls-v1',heldTouch=new Map(),padHeld=new Set(),latched={c:false,shift:false};
   const inputSource=document.currentScript?.src;
+  const coarsePointer=window.matchMedia?.('(any-pointer: coarse)');
+  let touchSeen=false;
+  const touchAvailable=()=>touchSeen||Boolean(coarsePointer?.matches)||(typeof navigator!=='undefined'&&navigator.maxTouchPoints>0);
   const el={};let ready=false,device='keyboard',padVector={x:0,y:0},previous=new Set(),padIndex=null,neutral=false,menuDelay=0,lastPhase='';
   let stick=null,stickKnob=null,stickPointer=null,touchVector={x:0,y:0};
-  let preferences={toggleSneak:false,toggleSprint:false,touch:window.matchMedia('(any-pointer: coarse)').matches||(typeof navigator!=='undefined'&&navigator.maxTouchPoints>0),joystick:true};
-  try { const saved=JSON.parse(localStorage.getItem(KEY)||'null');for(const key of Object.keys(preferences))if(typeof saved?.[key]==='boolean')preferences[key]=saved[key]; } catch {}
+  let preferences={toggleSneak:false,toggleSprint:false,touch:false,touchMode:'auto',joystick:true};
+  try {
+    const saved=JSON.parse(localStorage.getItem(KEY)||'null');
+    for(const key of ['toggleSneak','toggleSprint','joystick'])if(typeof saved?.[key]==='boolean')preferences[key]=saved[key];
+    // Old versions saved the detected boolean as though it were a manual choice.
+    // Only the new explicit mode overrides detection; legacy saves return to Auto.
+    if(['auto','on','off'].includes(saved?.touchMode))preferences.touchMode=saved.touchMode;
+  } catch {}
+  preferences.touch=preferences.touchMode==='on'||(preferences.touchMode==='auto'&&touchAvailable());
   if(preferences.touch)device='touch';
   function resetStick() {
     const pointer=stickPointer;stickPointer=null;touchVector={x:0,y:0};
@@ -43,6 +53,11 @@ const GameInput = (() => {
     GameUI.update(state);
   }
   function savePreferences() { try{localStorage.setItem(KEY,JSON.stringify(preferences));}catch{} }
+  function refreshTouch() {
+    const enabled=preferences.touchMode==='on'||(preferences.touchMode==='auto'&&touchAvailable());
+    if(enabled!==preferences.touch){preferences.touch=enabled;device=enabled?'touch':'keyboard';clear();}
+    GameUI.update(state);
+  }
   function moveStick(event) {
     if(event.pointerId!==stickPointer)return;
     if(state.phase!=='playing'||ThorSystem.active(state)){resetStick();return;}
@@ -55,12 +70,84 @@ const GameInput = (() => {
     touchVector=length?{x:x/length*strength,y:y/length*strength}:{x:0,y:0};
     stickKnob.style.transform=`translate(${length?x/length*distance:0}px, ${length?y/length*distance:0}px)`;
   }
+  function initializeDisplay(shell,settings) {
+    const fullscreen=document.createElement('button');fullscreen.type='button';fullscreen.id='mobileFullscreen';fullscreen.className='button-secondary';
+    const status=document.createElement('p');status.id='mobileDisplayStatus';status.className='mobile-display-note';status.setAttribute('role','status');
+    const hint=document.createElement('p');hint.className='mobile-rotate-hint';hint.textContent='Para ver mais da fazenda, experimente jogar com o celular deitado.';
+    settings.append(fullscreen,status,hint);
+    const playActions=shell.querySelector?.('.play-actions');
+    const playFullscreen=document.createElement('button');playFullscreen.id='playFullscreen';playFullscreen.type='button';playFullscreen.className='button-secondary mobile-fullscreen';playFullscreen.textContent='⛶';
+    playActions?.prepend(playFullscreen);
+    const buttons=[fullscreen,playFullscreen];
+    const nativeElement=()=>document.fullscreenElement||document.webkitFullscreenElement;
+    const canFullscreen=()=>Boolean((shell.requestFullscreen&&document.fullscreenEnabled!==false)||(shell.webkitRequestFullscreen&&document.webkitFullscreenEnabled!==false));
+    let expanded=false,busy=false,scrollPosition=null;
+    function syncButtons() {
+      const active=nativeElement()===shell;
+      const label=active?'Sair da tela cheia':expanded?'Sair do modo expandido':canFullscreen()?'Tela cheia':'Expandir jogo';
+      fullscreen.textContent=label;
+      for(const button of buttons){button.setAttribute('aria-label',label);button.setAttribute('aria-pressed',String(active||expanded));button.title=label;button.disabled=busy;}
+    }
+    function setExpanded(value) {
+      if(value&&!expanded)scrollPosition={x:window.scrollX||0,y:window.scrollY||0};
+      expanded=value;shell.dataset.expanded=String(value);
+      if(document.documentElement)document.documentElement.dataset.gameExpanded=String(value);
+      if(!value&&scrollPosition){window.scrollTo?.(scrollPosition.x,scrollPosition.y);scrollPosition=null;}
+    }
+    function measure() {
+      // CSS pixels, not hardware pixels: multiplying by DPR changes the camera's
+      // world units and can make the chicken tiny on high-density phone screens.
+      const view=window.visualViewport;
+      const useVisual=view&&Math.abs(view.scale-1)<.01;
+      const width=useVisual?view.width:window.innerWidth;
+      const height=useVisual?view.height:window.innerHeight;
+      if(width>0)shell.style.setProperty('--mobile-width',`${Math.round(width)}px`);
+      if(height>0)shell.style.setProperty('--mobile-height',`${Math.round(height)}px`);
+      shell.dataset.orientation=width>height?'landscape':'portrait';
+      // fitGameViewport already fits canvas/camera to the stage on the next frame.
+    }
+    function resize() {
+      clear();measure();
+      // Fullscreen/rotation can update layout one frame after their event.
+      window.requestAnimationFrame?.(measure);
+    }
+    async function toggleFullscreen() {
+      if(busy)return;
+      busy=true;syncButtons();clear();status.textContent='';
+      try {
+        if(nativeElement()===shell){
+          const exit=document.exitFullscreen||document.webkitExitFullscreen;
+          if(exit)await exit.call(document);
+        }else if(expanded){setExpanded(false);}
+        else {
+          try {
+            if(!canFullscreen())throw new Error('Fullscreen unavailable');
+            const request=shell.requestFullscreen||shell.webkitRequestFullscreen;
+            await request.call(shell,{navigationUI:'hide'});
+          }catch{
+            setExpanded(true);
+            status.textContent='Modo expandido: o jogo ocupa a área disponível. Este navegador ou a página que incorpora o jogo não liberou a tela cheia.';
+          }
+        }
+      }catch{status.textContent='Não foi possível sair da tela cheia. Use o comando de voltar do navegador.';}
+      finally{busy=false;syncButtons();resize();}
+    }
+    for(const button of buttons)button.addEventListener('click',toggleFullscreen);
+    for(const type of ['fullscreenchange','webkitfullscreenchange'])document.addEventListener(type,()=>{
+      if(nativeElement()===shell){setExpanded(false);status.textContent='';}
+      syncButtons();resize();
+    });
+    window.addEventListener('keydown',event=>{if(event.key==='Escape'&&expanded){setExpanded(false);syncButtons();resize();}});
+    resize();syncButtons();
+    window.addEventListener('resize',resize);window.addEventListener('orientationchange',resize);
+    window.visualViewport?.addEventListener('resize',resize);
+  }
   function initializeMobile() {
     // The headless gameplay harness has no DOM construction; retain its D-pad fallback.
     if(!document.createElement||!el.touchControls.querySelector)return;
     const shell=document.getElementById('gameShell');
     const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';
-    stylesheet.href=new URL('mobile-controls.css?v=touch-1',inputSource||new URL('systems/game-input.js',document.baseURI)).href;
+    stylesheet.href=new URL('mobile-controls.css?v=touch-2',inputSource||new URL('systems/game-input.js',document.baseURI)).href;
     document.head.appendChild(stylesheet);
     const viewport=document.querySelector('meta[name="viewport"]');
     if(viewport&&!/viewport-fit\s*=/.test(viewport.content))viewport.content+=', viewport-fit=cover';
@@ -84,29 +171,26 @@ const GameInput = (() => {
     stick.addEventListener('lostpointercapture',release);
     el.touchControls.addEventListener('contextmenu',event=>event.preventDefault());
     const settings=document.getElementById('panel-controls');
+    const autoLabel=document.createElement('label');el.controlTouchAuto=document.createElement('input');
+    el.controlTouchAuto.id='controlTouchAuto';el.controlTouchAuto.type='checkbox';el.controlTouchAuto.checked=preferences.touchMode==='auto';
+    autoLabel.append(el.controlTouchAuto,document.createTextNode(' Detectar controles de toque automaticamente'));settings.appendChild(autoLabel);
+    el.controlTouchAuto.addEventListener('change',()=>{
+      preferences.touchMode=el.controlTouchAuto.checked?'auto':preferences.touch?'on':'off';
+      refreshTouch();savePreferences();
+    });
     const label=document.createElement('label'),choice=document.createElement('input');
     choice.id='controlTouchStick';choice.type='checkbox';choice.checked=preferences.joystick;
     label.append(choice,document.createTextNode(' Usar analógico virtual (desmarque para usar setas)'));settings.appendChild(label);
     choice.addEventListener('change',()=>{preferences.joystick=choice.checked;savePreferences();clear();GameUI.update(state);});
-    if(document.fullscreenEnabled&&shell.requestFullscreen){
-      const fullscreen=document.createElement('button');fullscreen.type='button';fullscreen.id='mobileFullscreen';fullscreen.className='button-secondary';fullscreen.textContent='Tela cheia';
-      settings.appendChild(fullscreen);
-      fullscreen.addEventListener('click',async()=>{
-        try{if(document.fullscreenElement)await document.exitFullscreen();else await shell.requestFullscreen();}
-        catch{fullscreen.textContent='Tela cheia indisponível neste navegador';}
-      });
-      document.addEventListener('fullscreenchange',()=>{clear();fullscreen.textContent=document.fullscreenElement?'Sair da tela cheia':'Tela cheia';});
-    }
+    initializeDisplay(shell,settings);
     for(const paragraph of document.querySelectorAll('#howToPlayDialog .howto-body p'))
-      if(paragraph.textContent.startsWith('No celular:'))paragraph.textContent='No celular: arraste o analógico à esquerda e use os botões à direita. Mansinho e Correr ligam e desligam com um toque. Você pode trocar o analógico por setas na aba Controles e jogar em pé ou deitado.';
-    const resize=()=>{
-      clear();
-      const view=window.visualViewport;
-      const height=view&&view.scale===1?view.height:window.innerHeight;
-      if(height>0)shell.style.setProperty('--mobile-height',`${Math.round(height)}px`);
-    };
-    resize();window.addEventListener('resize',resize);window.addEventListener('orientationchange',resize);
-    window.visualViewport?.addEventListener('resize',resize);
+      if(paragraph.textContent.startsWith('No celular:'))paragraph.textContent='No celular: os controles de toque aparecem automaticamente. Arraste o analógico à esquerda e use os botões à direita. Mansinho e Correr ligam e desligam com um toque. A tela se ajusta ao girar o aparelho; use ⛶ para tela cheia ou modo expandido. Na aba Controles você pode escolher setas ou desligar a detecção automática.';
+    // A real touch also detects devices whose browser reports incomplete capabilities.
+    window.addEventListener('pointerdown',event=>{
+      if(event.pointerType==='touch'&&!touchSeen){touchSeen=true;refreshTouch();}
+    },{capture:true,passive:true});
+    if(coarsePointer?.addEventListener)coarsePointer.addEventListener('change',refreshTouch);
+    else coarsePointer?.addListener?.(refreshTouch);
     window.addEventListener('blur',clear);window.addEventListener('pagehide',clear);
     document.addEventListener('visibilitychange',()=>{if(document.hidden)clear();});
   }
@@ -115,9 +199,9 @@ const GameInput = (() => {
     for(const id of ['touchControls','touchRun','touchSneak','touchInteract','controlToggleSneak','controlToggleSprint','controlTouch','controlDevice'])el[id]=document.getElementById(id);
     for(const [id,key]of [['controlToggleSneak','toggleSneak'],['controlToggleSprint','toggleSprint'],['controlTouch','touch']]){
       el[id].checked=preferences[key];el[id].addEventListener('change',()=>{
-        preferences[key]=el[id].checked;savePreferences();
-        if(key==='touch')device=preferences.touch?'touch':'keyboard';
-        clear();GameUI.update(state);
+        preferences[key]=el[id].checked;
+        if(key==='touch'){preferences.touchMode=preferences.touch?'on':'off';device=preferences.touch?'touch':'keyboard';}
+        savePreferences();clear();GameUI.update(state);
       });
     }
     for(const [id,key]of [['touchUp','w'],['touchDown','s'],['touchLeft','a'],['touchRight','d']]){
@@ -143,7 +227,9 @@ const GameInput = (() => {
   }
   function update(game) {
     initialize();const playing=game.phase==='playing'&&!ThorSystem.active(game);
-    document.getElementById('gameShell').dataset.touch=String(preferences.touch);
+    const shell=document.getElementById('gameShell');shell.dataset.touch=String(preferences.touch);shell.dataset.mobile=String(touchAvailable());
+    el.controlTouch.checked=preferences.touch;
+    if(el.controlTouchAuto)el.controlTouchAuto.checked=preferences.touchMode==='auto';
     el.touchControls.hidden=!playing||!preferences.touch;
     document.getElementById('liveControls').hidden=!playing||preferences.touch;
     if(stick){stick.hidden=!preferences.joystick;el.touchDpad.hidden=preferences.joystick;if(!playing||!preferences.touch)resetStick();}
