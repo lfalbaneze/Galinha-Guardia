@@ -56,6 +56,7 @@ const GameUI = (() => {
     GameInput.initialize();
     const ids = ["rescueGoal", "gameCanvas", "menuScreen", "menuTitle", "menuDescription", "menuSaveText", "endScreen", "endTitle", "endMessage", "endSummary", "endEmblem", "endEyebrow", "startBtn", "continueBtn", "pauseBtn", "replayBtn", "menuBtn", "hiddenText", "contextHint", "wolfLevelText", "wolfStateText", "saveText", "staminaMeter", "staminaText", "chicksCount", "chickCounter", "farmHud", "wardrobeNote", "wolfMultiplier", "skinUnlockText", ...SkinSystem.catalog.map(s => `skin-${s.id}`)];
     for (const id of ids) elements[id] = document.getElementById(id);
+    for (const id of ['runTimer','timeRemaining','timeReward','endTimeBonus','pantoRescue']) elements[id] = document.getElementById(id);
     for (const id of ['menuPowerName','menuPowerDescription','skinPowerText','skinPowerBadge']) elements[id] = document.getElementById(id);
     elements.gameShell = document.getElementById("gameShell");
     for(const id of ['expeditionBar','gameFeedback','gameStatus'])elements[id]=document.getElementById(id);
@@ -182,6 +183,7 @@ const GameUI = (() => {
     elements.farmHud.dataset.secretKnown = 'true';
     put("chicksCount", game.rescuedChicks);
     put("rescueGoal", `/ ${WORLD.targetRescues}`);
+    elements.pantoRescue.hidden = !game.entities.goose?.rescued;
     put("wolfMultiplier", `Cerco ${WolfAI.getConfig(game).pressure.toFixed(2).replace(".", ",")}×`);
     for (const skin of SkinSystem.catalog) {
       const button = elements[`skin-${skin.id}`], available = SkinSystem.unlocked(skin.id);
@@ -235,7 +237,7 @@ const GameUI = (() => {
       wolf.mode === "chase" ? "Corra e saia da vista do lobo antes de se esconder!" :
       wolf.mode === "alert" ? "Ele percebeu alguma coisa. Saia da vista!" :
       secret ? `Siga o piado! Chegue perto até aparecer ${interact} para chamar o pintinho.` :
-      HidingSpots.occupied(game,HidingSpots.candidate(chicken)) ? 'Moita do Lorenzo: já tem dono! Procure outro esconderijo.' :
+      HidingSpots.occupied(game,HidingSpots.candidate(chicken)) ? `${FoxSystem.denLabel(HidingSpots.occupant(game,HidingSpots.candidate(chicken)))}: já tem dono! Procure outro esconderijo.` :
       candidate ? `${hideKey} para se esconder. Espere o lobo olhar para outro lado.` :
       chicken.exhausted ? "O tanque de có-có secou. Pare de correr e respire um pouquinho." :
       EnvironmentSystem.hint(game) || (
@@ -257,6 +259,14 @@ const GameUI = (() => {
     put("menuSaveText", saved ? "Seu progresso é salvo automaticamente neste navegador." : "Este navegador não permitiu salvar. Seu progresso continua ao trocar de área nesta partida.");
 
     const menu = game.phase === "menu";
+    const timed = game.timeRemaining !== null;
+    const seconds = GameManager.remainingSeconds(game);
+    elements.runTimer.hidden = !timed;
+    elements.runTimer.dataset.urgent = String(timed && seconds <= 15);
+    put('timeRemaining', `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`);
+    elements.timeReward.hidden = !timed || !(game.timeRewardNotice?.time > 0);
+    put('timeReward', game.timeRewardNotice?.time > 0 ? `+${game.timeRewardNotice.seconds}s` : '');
+    elements.runTimer.title = `Pintinho: +${game.settings.chickTime || 0}s. Amigo: +${game.settings.friendTime || 0}s. Na vitória: cada segundo inteiro restante vale ${(game.settings.timeScore || 0).toLocaleString('pt-BR')} pontos.`;
     elements.gameShell.dataset.phase = game.phase;
     const ended = game.phase === "won" || game.phase === "lose";
     elements.menuScreen.hidden = !menu;
@@ -271,16 +281,19 @@ const GameUI = (() => {
       put("startBtn", canContinue ? "Começar nova fazenda" : "Entrar na fazenda");
       put("continueBtn", lost ? 'Tentar novamente' : game.resumePhase === "won" ? "Voltar à comemoração" : "Continuar resgate");
       put("menuTitle", lost ? "Bora tentar de novo?" : canContinue ? "A aventura continua!" : "Bora se divertir!");
-      put("menuDescription", lost ? 'As três vidas acabaram. Tente a Fazenda do tio Clau de novo, com resgates, pintinhos e pontos zerados.' : canContinue ? `${game.rescuedCount}/${WORLD.targetRescues} amigos a salvo${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos no ninho` : ""}. ${game.rescuedCount === WORLD.targetRescues ? "Festa na Fazenda do tio Clau! O lobo ficou sem convite." : "A turma do tio Clau conta com você. O lobo que lute!"}` : "Na Fazenda do tio Clau, até o almoço sai correndo! Resgate os 12 amigos e siga os piados.");
+      put("menuDescription", lost ? `${game.defeatReason === 'timeout' ? 'O tempo acabou.' : 'As três vidas acabaram.'} Tente a Fazenda do tio Clau de novo, com resgates, pintinhos, pontos e tempo reiniciados.` : canContinue ? `${game.rescuedCount}/${WORLD.targetRescues} amigos a salvo${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos no ninho` : ""}. ${game.rescuedCount === WORLD.targetRescues ? "Festa na Fazenda do tio Clau! O lobo ficou sem convite." : "A turma do tio Clau conta com você. O lobo que lute!"}` : "Na Fazenda do tio Clau, até o almoço sai correndo! Resgate os 12 amigos e siga os piados.");
     }
     if (ended) {
       const won = game.phase === "won";
+      const timeout = game.defeatReason === 'timeout';
       put('replayBtn', won ? 'Jogar novamente' : 'Tentar novamente');
       put("endEmblem", won ? "🐔 ♥" : "🐔");
       put("endEyebrow", won ? "FIM ♥" : "FIM DE JOGO");
-      put("endTitle", won ? "Turma completa. Lobo de barriga vazia." : "O lobo ganhou essa rodada.");
-      put("endMessage", won ? "Todo mundo a salvo! A vaca voltou a mastigar, o gato diz que planejou tudo e o lobo foi reclamar com a mãe." : "As três vidas acabaram. Tentar novamente reinicia a mesma fazenda: resgates, pintinhos, pontos e desafios voltam ao começo.");
-      put("endSummary", `${game.rescuedCount}/${WORLD.targetRescues} amigos${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos` : ""} · ${Math.max(0, Math.floor(game.score))} pontos · ${Math.max(0, game.lives)} vidas`);
+      put("endTitle", won ? "Turma completa. Lobo de barriga vazia." : timeout ? "O tempo acabou!" : "O lobo ganhou essa rodada.");
+      put("endMessage", won ? "Todo mundo a salvo! A vaca voltou a mastigar, o gato diz que planejou tudo e o lobo foi reclamar com a mãe." : `${timeout ? 'O relógio zerou antes do último resgate.' : 'As três vidas acabaram.'} Tentar novamente reinicia a mesma fazenda: resgates, pintinhos, pontos e desafios voltam ao começo.${timed ? ' O cronômetro volta ao tempo completo.' : ''}`);
+      elements.endTimeBonus.hidden = !won || !game.timeBonus;
+      put('endTimeBonus', game.timeBonus ? `Bônus de tempo: ${game.timeBonus / game.settings.timeScore}s × ${game.settings.timeScore.toLocaleString('pt-BR')} = +${game.timeBonus.toLocaleString('pt-BR')} pontos` : '');
+      put("endSummary", `${game.rescuedCount}/${WORLD.targetRescues} amigos${game.entities.goose?.rescued ? ' · Panto resgatado' : ''}${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos` : ""} · ${Math.max(0, Math.floor(game.score))} pontos · ${Math.max(0, game.lives)} vidas`);
     }
     InterfaceMotion.update(game);
     GameplayHud.update(game);

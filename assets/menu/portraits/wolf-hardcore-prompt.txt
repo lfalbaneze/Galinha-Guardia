@@ -1,0 +1,2 @@
+Ferramenta: image_gen integrada. Referência: wolf-expressivo.png.
+Ícone exclusivo para o botão Hardcore: preservar o lobo cinza-escuro, focinho creme, olhos âmbar e estilo pixel art do jogo. Cabeça mais larga, sobrancelhas baixas, olhar agressivo, focinho enrugado e presas superiores e inferiores à mostra. Retrato em três quartos, cabeça e pescoço curto, silhueta legível em 64 px, orelhas inteiras no enquadramento. Fundo transparente com alfa, sem texto, moldura, acessórios ou sangue.

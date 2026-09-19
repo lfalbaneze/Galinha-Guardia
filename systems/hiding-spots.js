@@ -18,7 +18,10 @@ const HidingSpots = (() => {
             spots.find(s => contains(s, chicken)) || null;
     }
     function occupied(game, spot) {
-        return !!spot && (game.entities.foxes || []).some(fox => fox.bushId === spot.id);
+        return !!occupant(game, spot);
+    }
+    function occupant(game, spot) {
+        return spot ? (game.entities.foxes || []).find(fox => fox.bushId === spot.id) || null : null;
     }
     function hasBonusClue(chicken, chick) {
         const spot = spots.find(s => s.id === chick.coverId);
@@ -202,7 +205,7 @@ const HidingSpots = (() => {
             p.y = worldY(spot.bale.y + 19);
         }
         if (blocked) {
-            pill(p.x, p.y - 73, 190, 'Moita do Lorenzo · ocupada', true);
+            pill(p.x, p.y - 73, 190, `${FoxSystem.denLabel(occupant(game, spot))} · ocupada`, true);
         }
         else if (bonus) {
             const key = control('interact');
@@ -220,6 +223,6 @@ const HidingSpots = (() => {
             pill(p.x, p.y - 73, 180, 'Procure uma moita ou feno');
         }
     }
-    return { initialize, candidate, occupied, hasBonusClue, bonusInReach, bonusHomes, toggle, update, restore, drawForeground, drawIndicators,
+    return { initialize, contains, candidate, occupied, occupant, hasBonusClue, bonusInReach, bonusHomes, toggle, update, restore, drawForeground, drawIndicators,
         getSpots: () => spots, obstacles: () => spots.filter(s => s.blockingRect).map(s => s.blockingRect) };
 })();

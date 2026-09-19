@@ -1,7 +1,7 @@
 /** Shared contracts for the gameplay systems. Coordinates are world pixels; timers are seconds. */
 declare namespace Farm {
   type Direction = 'up' | 'down' | 'left' | 'right';
-  type Difficulty = 'easy' | 'normal' | 'hard';
+  type Difficulty = 'easy' | 'normal' | 'hard' | 'hardcore';
   type Phase = 'menu' | 'playing' | 'win_cutscene' | 'won' | 'lose';
   type WolfMode = 'patrol' | 'alert' | 'investigate' | 'chase' | 'search' | 'inspect' | 'frightened';
   type Species = 'sheep' | 'pig' | 'goat' | 'cow' | 'duck' | 'rabbit' | 'dog' | 'cat' | 'donkey' | 'lamb' | 'chick' | 'horse' | 'turkey';
@@ -88,10 +88,14 @@ declare namespace Farm {
     temper: 'secret' | 'tired' | 'fleeing' | 'calm' | 'idle' | 'safe';
   }
   interface Fox extends Entity {
-    type: 'fox'; mode: 'hidden' | 'warning' | 'dash' | 'rest' | 'return' | 'flee';
+    name: 'Lorenzo' | 'Amanda';
+    speech: string; speechTime: number; speechCooldown: number;
+    speechCounts: Partial<Record<'idle'|'warning'|'miss'|'hit'|'move'|'scared',number>>;
+    type: 'fox'; mode: 'hidden' | 'warning' | 'dash' | 'rest' | 'return' | 'flee' | 'relocate';
     home: Point; anchor: Point; target: Point; bushId: string | null;
     timer: number; cooldown: number; grace: number; notice: number; attempts: number; hit: boolean; route: Point[];
     scaredTime?: number;
+    relocateIn: number;
   }
   interface Owl extends Entity {
     type: 'owl'; mode: 'watch' | 'alert' | 'cooldown';
@@ -100,7 +104,7 @@ declare namespace Farm {
     target: Point | null;
   }
 
-  interface FoxSnapshot extends Point { id: string; cooldown: number; }
+  interface FoxSnapshot extends Point { id: string; cooldown: number; bushId?: string | null; relocateIn?: number; }
   interface OwlSnapshot { id: string; cooldown: number; }
   interface Thor extends Entity {
     type: 'thor'; mode: 'enter' | 'greet' | 'leave'; timer: number;
@@ -113,6 +117,7 @@ declare namespace Farm {
   }
   interface ThorRescue { time: number; before: number; healed: boolean; }
   interface DifficultySettings {
+    timeLimit?: number; timeScore?: number; friendTime?: number; chickTime?: number;
     chickenSpeed: number; wolfMaxSpeed: number; wolfSprintCap?: number;
     label: string; wolfAccel: number; wolfPauseAfterCatch: number;
     huntDelay: number; spawnPlan: string[]; minSpawnWolfDistance: number;
@@ -139,6 +144,8 @@ declare namespace Farm {
     rescuedIds: Set<string>; rescuedChickIds: Set<string>;
     rescuedCount: number; rescuedChicks: number; wolfLevel: number;
     lives: number; score: number; elapsed: number; winBonusApplied: boolean;
+    timeRemaining: number | null; timeBonus: number; defeatReason?: 'caught' | 'timeout';
+    timeRewardNotice?: TimedNotice & { seconds: number };
     currentMap: string; visitedMaps: Set<string>; mapTransition: TimedNotice & { name: string; };
     animalSpeechCooldown: number; secretSoundCooldown: number;
     rescueNotice?: RescueNotice | null; secretNotice?: SecretNotice | null; skinNotice?: TimedNotice | null;
@@ -185,6 +192,8 @@ declare namespace Farm {
     version: 1 | 2 | 3 | 4; worldSeed: number; worldVersion?: number; difficulty: Difficulty; phase: Phase;
     rescuedIds: string[]; rescuedChickIds: string[]; lives: number; score: number;
     winBonusApplied?: boolean; elapsed?: number;
+    timeRemaining?: number | null; timeBonus?: number; defeatReason?: 'caught' | 'timeout';
+    timerMode?: 'arcade';
     chicken: ChickenSnapshot; wolf: WolfSnapshot; animals: AnimalSnapshot[]; chicks: AnimalSnapshot[];
     goose?: GooseSnapshot;
     foxes?: FoxSnapshot[]; owls?: OwlSnapshot[];

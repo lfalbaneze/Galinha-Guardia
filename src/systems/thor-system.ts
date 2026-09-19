@@ -1,10 +1,11 @@
-/* One automatic easy rescue; earned, player-triggered full heals on normal/hard. */
+/* One automatic easy rescue; paid full heals, with an increasing hardcore cost. */
 const ThorSystem = (() => {
   const HITBOX: Farm.Hitbox = {ox:0,oy:8,r:14};
   const point=WildlifeRules.point;
   type Bone=Farm.Point & {id:string};
-  const boneCache=new WeakMap<Farm.GameState,{layout:Farm.Layout;cycle:number;cost:number;spots:Bone[]}>();
-  const cost=(game:Farm.GameState):number=>game.difficultyKey==='easy'?0:game.difficultyKey==='normal'?2:3;
+  const boneCache=new WeakMap<Farm.GameState,{layout:Farm.Layout;cycle:number;cost:number;batch:number;spots:Bone[]}>();
+  const cost=(game:Farm.GameState):number=>game.difficultyKey==='easy'?0:game.difficultyKey==='normal'?2:
+    game.difficultyKey==='hard'?4:5+(game.thorVisit?.visits||0);
   const boneCount=(game:Farm.GameState):number=>game.thorVisit?.boneIds.length||0;
   const active=(game:Farm.GameState):boolean=>!!game.thorRescue;
   const available=(game:Farm.GameState):boolean=>game.phase==='playing'&&!active(game)&&
@@ -21,7 +22,10 @@ const ThorSystem = (() => {
   }
   function boneSpots(game:Farm.GameState):Bone[] {
     const layout=WORLD.layout,cycle=game.thorVisit?.cycle||0,cached=boneCache.get(game);
-    if(cached?.layout===layout&&cached.cycle===cycle&&cached.cost===cost(game))return cached.spots;
+    // Refill in batches so escalating costs cannot exhaust the map's safe pickup locations.
+    const batch=Math.floor(boneCount(game)/6),offset=batch*6,needed=Math.min(6,cost(game)-offset);
+    if(needed<=0)return [];
+    if(cached?.layout===layout&&cached.cycle===cycle&&cached.cost===cost(game)&&cached.batch===batch)return cached.spots;
     const player=game.entities.chicken,occupied=FarmArt.getProps(layout).map(FarmDetails.shape);
     const pond=layout.structures.pond,candidates:Farm.Point[]=[],seen=new Set<string>();
     for(const road of [...layout.paths,...layout.lanes||[]]) {
@@ -38,11 +42,11 @@ const ThorSystem = (() => {
       }
     }
     const hash=(p:Farm.Point):number=>{
-      let n=Math.imul((layout.seed^Math.imul(cycle+1,0x45d9f3b))>>>0,31)^Math.imul(p.x,73856093)^Math.imul(p.y,19349663);
+      let n=Math.imul((layout.seed^Math.imul(cycle+1,0x45d9f3b)^Math.imul(batch,0x27d4eb2d))>>>0,31)^Math.imul(p.x,73856093)^Math.imul(p.y,19349663);
       n=Math.imul(n^(n>>>16),0x45d9f3b);return ((n^(n>>>16))>>>0)/4294967296;
     };
     const spots:Bone[]=[],body={...layout.start,radius:player.radius,hitbox:player.hitbox};
-    for(let i=0;i<cost(game);i++) {
+    for(let i=0;i<needed;i++) {
       const score=(p:Farm.Point):number=>spots.length?Math.min(...spots.map(s=>distance(p,s)))+hash(p)*180:
         800-Math.abs(distance(p,layout.start)-650)+hash(p)*300;
       candidates.sort((a,b)=>score(b)-score(a));
@@ -52,9 +56,9 @@ const ThorSystem = (() => {
         return !!end&&distance(end,p)<4;
       });
       if(index<0)break;
-      spots.push({...candidates.splice(index,1)[0],id:`bone-${cycle}-${i}`});
+      spots.push({...candidates.splice(index,1)[0],id:`bone-${cycle}-${offset+i}`});
     }
-    boneCache.set(game,{layout,cycle,cost:cost(game),spots});return spots;
+    boneCache.set(game,{layout,cycle,cost:cost(game),batch,spots});return spots;
   }
   function bones(game:Farm.GameState):Bone[] {
     if(!cost(game))return [];
@@ -218,10 +222,16 @@ const ThorSystem = (() => {
     if(!saved || !Number.isFinite(saved.nextIn)||saved.nextIn<0||saved.nextIn>1000){initialize(game);return;}
     const visits=Number.isSafeInteger(saved.visits)?Math.max(0,saved.visits):0;
     const cycle=Number.isSafeInteger(saved.cycle)&&saved.cycle!>=0&&saved.cycle!<=100000?saved.cycle!:0;
-    const allowed=new Set([0,1,2].map(i=>`bone-${cycle}-${i}`));
-    const boneIds=[2,3].includes(saved.version||0)&&Array.isArray(saved.boneIds)?[...new Set(saved.boneIds.filter(id=>allowed.has(id)))].slice(0,cost(game)):[];
     const easyUsed=saved.version===3?saved.easyUsed===true:visits>0;
-    game.thorVisit={nextIn:Math.min(saved.nextIn,visits?85:1.6),visits,boneIds,cycle,easyUsed};
+    game.thorVisit={nextIn:Math.min(saved.nextIn,visits?85:1.6),visits,boneIds:[],cycle,easyUsed};
+    const required=cost(game),prefix=`bone-${cycle}-`;
+    const allowed=(id:unknown):id is string=>{
+      if(typeof id!=='string'||!id.startsWith(prefix))return false;
+      const index=Number(id.slice(prefix.length));
+      return Number.isSafeInteger(index)&&index>=0&&index<required&&id===`${prefix}${index}`;
+    };
+    if([2,3].includes(saved.version||0)&&Array.isArray(saved.boneIds))
+      game.thorVisit.boneIds=[...new Set(saved.boneIds.filter(allowed))].slice(0,required);
     const rescue=saved.rescue;
     if(saved.version===3&&rescue&&visits>0&&(cost(game)?cycle>0:easyUsed)&&
       Number.isFinite(rescue.time)&&rescue.time>=0&&rescue.time<=duration&&

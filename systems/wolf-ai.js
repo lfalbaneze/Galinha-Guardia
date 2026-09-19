@@ -93,7 +93,7 @@ const WolfAI = (() => {
             awarenessTime: Math.max(0.18, config.awarenessTime / chickMultiplier),
             searchDuration: Math.min(24, config.searchDuration * chickMultiplier),
             searchRadius: Math.min(310, config.searchRadius * (1 + rescuedChicks / 24)),
-            hideWitnessRange: difficulty === "easy" ? 180 : difficulty === "hard" ? 260 : 220,
+            hideWitnessRange: difficulty === "easy" ? 180 : ['hard', 'hardcore'].includes(difficulty) ? 260 : 220,
             hideMemoryDuration: 8 + rescuedFriends * .6,
             patrolSpeed: speed * (level === 3 ? 0.80 : 0.70), awarenessDecay: 0.9,
             contactRange: 28, soundInterval: 0.65, investigateDuration: 2.6 + level * 0.3 };
@@ -395,7 +395,7 @@ const WolfAI = (() => {
         if (!observed || !wolf.detected)
             return observed;
         const velocity = wolf.seenVelocity || { x: 0, y: 0 };
-        const lead = Math.min(game.difficultyKey === 'easy' ? .18 : game.difficultyKey === 'hard' ? .42 : .32, distance(wolf, observed) / Math.max(1, config.speed) * .3);
+        const lead = Math.min(game.difficultyKey === 'easy' ? .18 : ['hard', 'hardcore'].includes(game.difficultyKey) ? .42 : .32, distance(wolf, observed) / Math.max(1, config.speed) * .3);
         const proposed = { x: observed.x + velocity.x * lead, y: observed.y + velocity.y * lead };
         const nav = navigation(wolf), offset = wolf.hitbox || { ox: 0, oy: 0 };
         const from = { x: observed.x + offset.ox, y: observed.y + offset.oy };

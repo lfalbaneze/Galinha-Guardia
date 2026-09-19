@@ -4,11 +4,11 @@ const plain=value=>JSON.parse(JSON.stringify(value));
 function setup(difficulty='normal'){
   const h=createGame(()=>.5);h.run(`state.difficultyKey='${difficulty}';state.lives=3;var c=state.entities.chicken,cues=[];AudioSystem.play=name=>cues.push(name);ThorSystem.initialize(state);`);return h;
 }
-function collect(h,count=3){const bones=plain(h.run('ThorSystem.bones(state)')).slice(0,count);for(const b of bones)h.run(`c.x=${b.x};c.y=${b.y};ThorSystem.update(state,.05)`);return bones;}
+function collect(h,count=h.run('ThorSystem.cost(state)')){const bones=plain(h.run('ThorSystem.bones(state)')).slice(0,count);for(const b of bones)h.run(`c.x=${b.x};c.y=${b.y};ThorSystem.update(state,.05)`);return bones;}
 const step=(h,t)=>h.run(`for(let i=0;i<${Math.ceil(t/.05)};i++){const wasActive=ThorSystem.active(state);ThorSystem.update(state,.05);if(wasActive&&!ThorSystem.active(state))break;}`);
 
-test('normal costs two bones and hard costs three; neither summons automatically',()=>{
-  for(const [difficulty,cost] of [['normal',2],['hard',3]]){
+test('normal costs two bones, hard four and hardcore starts at five; none summon automatically',()=>{
+  for(const [difficulty,cost] of [['normal',2],['hard',4],['hardcore',5]]){
     const h=setup(difficulty);assert.equal(h.run('ThorSystem.cost(state)'),cost);
     collect(h,cost-1);h.run('state.lives=1;ThorSystem.update(state,.05)');
     assert.equal(h.run('ThorSystem.request(state)'),false);
@@ -26,11 +26,11 @@ test('normal costs two bones and hard costs three; neither summons automatically
 });
 
 test('paid help fills life from one or two hearts, but full health keeps the bones',()=>{
-  for(const difficulty of ['normal','hard'])for(const lives of [1,2,3]){
+  for(const difficulty of ['normal','hard','hardcore'])for(const lives of [1,2,3]){
     const h=setup(difficulty);collect(h);h.run(`state.lives=${lives}`);
     assert.equal(h.run('ThorSystem.request(state)'),lives<3);
     step(h,5.5);assert.equal(h.run('state.lives'),3);
-    assert.equal(h.run('ThorSystem.boneCount(state)'),lives===3?(difficulty==='normal'?2:3):0);
+    assert.equal(h.run('ThorSystem.boneCount(state)'),lives===3?h.run('ThorSystem.cost(state)'):0);
   }
 });
 
@@ -78,12 +78,41 @@ test('legacy and malformed records do not mint bones or free paid rescues',()=>{
 
 test('difficulty-specific bones stay deterministic, separated, dry and reachable across maps and cycles',()=>{
   const h=setup();
-  for(const difficulty of ['normal','hard'])for(const version of [1,7])for(const seed of [0,52,814237,4294967295])for(const cycle of [0,1]){
-    h.run(`resetGame(${seed},${version});state.difficultyKey='${difficulty}';state.thorVisit.cycle=${cycle};var before=JSON.stringify(WORLD.layout),bones=ThorSystem.bones(state),p=state.entities.chicken;`);
-    assert.equal(h.run('bones.length'),difficulty==='normal'?2:3);
+  for(const difficulty of ['normal','hard','hardcore'])for(const version of [1,7])for(const seed of [0,52,814237,4294967295])for(const cycle of [0,1]){
+    h.run(`resetGame(${seed},${version});state.difficultyKey='${difficulty}';state.thorVisit.cycle=${cycle};state.thorVisit.visits=${cycle};var before=JSON.stringify(WORLD.layout),bones=ThorSystem.bones(state),p=state.entities.chicken;`);
+    assert.equal(h.run('bones.length'),difficulty==='normal'?2:difficulty==='hard'?4:5+cycle);
     assert.equal(h.run("bones.every((b,i)=>WildlifeRules.clear(b,b,p.hitbox)&&EnvironmentSystem.surfaceAt(state,{x:b.x,y:b.y+14})!=='water'&&bones.every((q,j)=>i===j||distance(b,q)>=240)&&distance(WolfAI.findPath(p,b).at(-1),b)<4)"),true);
     assert.equal(h.run('JSON.stringify(WORLD.layout)===before'),true);
     h.run('var positions=JSON.stringify(bones);ThorSystem.restore(state,ThorSystem.snapshot(state))');
     assert.equal(h.run('JSON.stringify(ThorSystem.bones(state))===positions'),true);
   }
+});
+
+test('hardcore costs 5, 6, 7 bones, preserves every pickup and charge across reloads, and resets on retry',()=>{
+  const h=setup('hardcore');
+  for(const required of [5,6,7]){
+    assert.equal(h.run('ThorSystem.cost(state)'),required);
+    while(h.run('ThorSystem.boneCount(state)')<required){
+      const picked=collect(h);
+      assert.ok(picked.length,'more bones remain available, including a second batch');
+      const count=h.run('ThorSystem.boneCount(state)');
+      h.run('var saved=ThorSystem.snapshot(state);ThorSystem.initialize(state);ThorSystem.restore(state,saved);');
+      assert.equal(h.run('ThorSystem.cost(state)'),required);
+      assert.equal(h.run('ThorSystem.boneCount(state)'),count);
+    }
+    h.run('state.lives=1;');
+    assert.equal(h.run('ThorSystem.request(state)'),true);
+    assert.equal(h.run('ThorSystem.cost(state)'),required+1);
+    assert.equal(h.run('ThorSystem.request(state)'),false);
+    h.run('var saved=ThorSystem.snapshot(state);ThorSystem.initialize(state);ThorSystem.restore(state,saved);');
+    assert.equal(h.run('ThorSystem.cost(state)'),required+1);
+    assert.equal(h.run('ThorSystem.boneCount(state)'),0);
+    step(h,5.5);
+    assert.equal(h.run('state.lives'),3);
+    h.run('GameUI.update(state);');
+    assert.match(h.elements.get('thorSupply').textContent,new RegExp(`0/${required+1}`));
+  }
+  h.run('resetGame();state.difficultyKey="hardcore";');
+  assert.equal(h.run('ThorSystem.cost(state)'),5);
+  assert.equal(h.run('ThorSystem.boneCount(state)'),0);
 });

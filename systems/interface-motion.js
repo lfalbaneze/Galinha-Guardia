@@ -2,9 +2,9 @@
 const InterfaceMotion = (() => {
   const el = {}, animations = new Map();
   const tabs = ['adventure', 'outfit', 'audio', 'controls'];
-  const difficultyModes = ['easy', 'normal', 'hard'];
-  const difficultyNames = { easy: 'Dia tranquilo', normal: 'Penas em risco', hard: 'Lobo à solta' };
-  const difficultyLines = { easy: 'O lobo apertou a soneca. Aproveite o passeio.', normal: 'O lobo já amarrou o guardanapo. Capriche no resgate.', hard: 'Ele veio de tênis. Você veio com um plano, né?' };
+  const difficultyModes = ['easy', 'normal', 'hard', 'hardcore'];
+  const difficultyNames = { easy: 'Dia tranquilo', normal: 'Penas em risco', hard: 'Lobo à solta', hardcore: 'Contra o relógio' };
+  const difficultyLines = { easy: 'O lobo apertou a soneca. Explore sem limite de tempo.', normal: 'O lobo já amarrou o guardanapo. Resgate sem limite de tempo.', hard: 'Comece com 60s. Pintinho: +20s; amigo: +10s. Vitória: +1.000 pontos/s restante. Thor: 4 ossos. Raposas trocam de moita.', hardcore: 'Comece com 45s. Pintinho: +30s; amigo: +15s. Vitória: +10.000 pontos/s restante. Thor: 5 ossos, depois 6, 7… Raposas mudam de moita mais rápido.' };
   const directions = ['down', 'left', 'up', 'right'];
   const media = window.matchMedia('(prefers-reduced-motion: reduce)');
   let initialized = false, previous = null, currentGame = null, activeTab = 'adventure';
@@ -46,7 +46,7 @@ const InterfaceMotion = (() => {
       if (button.getAttribute('aria-checked') !== String(selected)) button.setAttribute('aria-checked', String(selected));
       button.tabIndex = selected ? 0 : -1;
     }
-    const savedMode = { easy: 'Fácil', normal: 'Médio', hard: 'Difícil' }[currentGame?.difficultyKey] || 'Médio';
+    const savedMode = { easy: 'Fácil', normal: 'Médio', hard: 'Difícil', hardcore: 'Hardcore' }[currentGame?.difficultyKey] || 'Médio';
     text('difficultyFlavor', difficultyLines[chosen] || difficultyLines.normal);
     text('difficultyPreview', `${difficultyNames[chosen] || difficultyNames.normal} escolhido.${currentGame?.hasSave ? ` Seu resgate salvo continua no ${savedMode}.` : ' Tudo pronto para abrir a porteira!'}`);
   }

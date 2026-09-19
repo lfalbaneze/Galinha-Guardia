@@ -43,6 +43,13 @@ body:has(.game-shell:not([data-phase="menu"])) { padding:0; overflow:hidden; bac
 .play-hud .run-value > b { color:#fff7db; font:800 23px/1 "Trebuchet MS",sans-serif; letter-spacing:-.04em; }
 .play-hud .run-value > span { color:#d2d7b6; font-size:12px; }
 .play-hud .run-detail,.play-hud .life-count,.play-hud .run-icon { display:none; }
+.play-hud .run-timer { display:flex; flex-wrap:wrap; gap:2px 4px; color:#f1da99; font-size:10px; font-variant-numeric:tabular-nums; }
+.play-hud .run-timer[hidden] { display:none; }
+.play-hud .run-timer[data-urgent="true"] { color:#ffb08e; }
+.play-hud .time-reward { color:#b9f4a7; font-weight:800; white-space:nowrap; }
+.play-hud .time-reward[hidden] { display:none; }
+.play-hud .rescue-extra { color:#a6e2a0; font-size:10px; white-space:nowrap; }
+.play-hud .rescue-extra[hidden] { display:none; }
 .play-hud .bonus-value { display:flex; align-items:center; gap:6px; }
 .play-hud canvas { border:0; border-radius:0; background:none; box-shadow:none; image-rendering:pixelated; }
 .play-hud .hud-chick { width:26px; height:26px; margin:-5px 0; }

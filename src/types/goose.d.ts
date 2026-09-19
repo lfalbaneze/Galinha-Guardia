@@ -2,6 +2,7 @@
 declare namespace Farm {
   type GooseMode = 'patrol' | 'approach' | 'circle' | 'notice' | 'reposition' | 'warning' | 'feint' | 'charge' | 'stunned' | 'recover' | 'return' | 'defeated';
   interface Goose extends Entity {
+    rescued?: boolean;
     type: 'goose'; mode: GooseMode; home: Point; anchor: Point; target: Point;
     timer: number; cooldown: number; grace: number; honkCooldown: number;
     patrolIndex: number; notice: number;

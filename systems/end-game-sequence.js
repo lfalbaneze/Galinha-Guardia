@@ -2,7 +2,8 @@
 const EndGameSequence = (() => {
   const center = { x: 450, y: 275 };
   const timing = Object.freeze({ circle: 3.7, rush: 6.2, cloud: 7, dizzy: 10.8, flee: 13.6, celebrate: 16, done: 19 });
-  const cast = game => [...game.entities.animals, ...(game.entities.chicks || []).filter(c => c.rescued)];
+  const adults = game => [...game.entities.animals, ...(game.entities.goose?.rescued ? [game.entities.goose] : [])];
+  const cast = game => [...adults(game), ...(game.entities.chicks || []).filter(c => c.rescued)];
   const reduced = () => typeof InterfaceMotion !== 'undefined' && InterfaceMotion.reduced;
   const ease = value => { const p = clamp(value, 0, 1); return p * p * (3 - 2 * p); };
   function start(game) {
@@ -39,8 +40,9 @@ const EndGameSequence = (() => {
   function openExitLane(game, dt) {
     // The grown-ups open a horseshoe below the wolf; chicks cheer above it.
     // This keeps the wolf's face and tear trail clear all the way to the right edge.
-    for (const [index, animal] of game.entities.animals.entries()) {
-      const angle = (32 + index * 176 / Math.max(1, game.entities.animals.length - 1)) * Math.PI / 180;
+    const friends=adults(game);
+    for (const [index, animal] of friends.entries()) {
+      const angle = (32 + index * 176 / Math.max(1, friends.length - 1)) * Math.PI / 180;
       move(animal, center.x + Math.cos(angle) * 240, center.y + Math.sin(angle) * 130, dt);
       animal.direction = "down";
     }
@@ -106,7 +108,7 @@ const EndGameSequence = (() => {
       // Tall livestock stand along the back arc; their bodies must not cover
       // the smaller friends once the shared world sprites grow to adult size.
       const largeAngles={horse:210,cow:270,donkey:330};
-      const small=game.entities.animals.filter(a=>largeAngles[a.species]===undefined);
+      const small=adults(game).filter(a=>largeAngles[a.species]===undefined);
       const chicks=(game.entities.chicks||[]).filter(a=>a.rescued);
       const chickAngles=[180,195,235,250,290,310];
       for (const a of cut.attackers) {
@@ -120,7 +122,7 @@ const EndGameSequence = (() => {
         chicken.direction = "down";
         for (const animal of cast(game)) { animal.direction = "down"; animal.moving = false; }
         cut.done = true; game.phase = "won";
-        setStatus(`FIM ♥ ${game.entities.animals.length} amigos a salvo${game.rescuedChicks ? ` e ${game.rescuedChicks} pintinhos de bônus` : ''}!`, "win");
+        setStatus(`FIM ♥ ${adults(game).length} amigos a salvo${game.rescuedChicks ? ` e ${game.rescuedChicks} pintinhos de bônus` : ''}!`, "win");
         GameManager.save(game);
       }
     }
@@ -279,7 +281,9 @@ const EndGameSequence = (() => {
       anim: motion * 16, moving: true, shadow: false, rotation: reduced() ? -.2 : elapsed * 7, squash: 1 - hop * .12 });
     const grownups = game.cutscene.attackers.filter(a => a.ref.type !== 'chick');
     const hero = grownups[Math.floor(elapsed * 1.6) % Math.max(1, grownups.length)]?.ref;
-    if (hero) CharacterArt.draw(ctx, hero.species, -119, -40 - hop * 30, { direction: 'right', mood: 'angry',
+    if (hero?.type === 'goose') GooseArt.draw(ctx, {...hero,x:-119,y:-40-hop*30,direction:'right',anim:motion*14,moving:true},
+      {x:0,y:0,shakeX:0,shakeY:0});
+    else if (hero) CharacterArt.draw(ctx, hero.species, -119, -40 - hop * 30, { direction: 'right', mood: 'angry',
       anim: motion * 14, moving: true, scale: 1.1, shadow: false, rotation: reduced() ? 0 : .3 - hop * .7 });
     ctx.save();
     if (!reduced()) ctx.scale(1 + Math.sin(elapsed * 25) * .045, 1 - Math.sin(elapsed * 25) * .065);
@@ -368,11 +372,11 @@ const EndGameSequence = (() => {
     const titles = { arrival: 'TODO MUNDO EM CASA.', message: 'FALTA ACERTAR UMA COISINHA…',
       circle: 'MEXEU COM UM…', rush: '…MEXEU COM O POLEIRO!', cloud: 'O ALMOÇO REVIDOU!',
       dizzy: 'CADÊ A POSE DE LOBO MAU?', flee: 'CORRE QUE A MÃE TÁ CHAMANDO!', celebrate: 'A FAZENDA É NOSSA!' };
-    const subtitles = { arrival: `${game.rescuedCount} amigos salvos. Ninguém virou almoço.`,
+    const subtitles = { arrival: `${adults(game).length} amigos salvos. Ninguém virou almoço.`,
       message: '“Quem autorizou meu almoço a fazer reunião?”', circle: 'A turma tem uma resposta pro lobo.',
       rush: '“Pera! Um de cada veeeez!”', cloud: 'Penas pra um lado. Valentia pro outro.',
       dizzy: 'O valentão agora só conta estrelinhas.', flee: 'Foi buscar um colo. E um lencinho.',
-      celebrate: `${game.rescuedCount} amigos + ${game.rescuedChicks} pintinhos. Uma família inteira a salvo. ♥` };
+      celebrate: `${adults(game).length} amigos + ${game.rescuedChicks} pintinhos. Uma família inteira a salvo. ♥` };
     ctx.save(); ctx.textAlign = 'center'; ctx.lineJoin = 'round';
     const topShade = ctx.createLinearGradient(0, 0, 0, portrait ? 220 : 100);
     topShade.addColorStop(0, 'rgba(25,49,33,.7)'); topShade.addColorStop(1, 'rgba(25,49,33,0)');

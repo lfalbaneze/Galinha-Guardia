@@ -156,7 +156,7 @@ const RescueSystem = {
             return;
         const dx = animal.x - threat.x, dy = animal.y - threat.y;
         const angle = Math.atan2(dy || .001, dx || .001);
-        const speed = game.entities.chicken.speed * (game.difficultyKey === "easy" ? .97 : game.difficultyKey === "hard" ? 1.15 : 1.08) * RescueSystem.personality(animal).pace;
+        const speed = game.entities.chicken.speed * (game.difficultyKey === "easy" ? .97 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 1.15 : 1.08) * RescueSystem.personality(animal).pace;
         const neighbours = RescueSystem.all(game).filter(a => a !== animal && !a.rescued && !RescueSystem.isSecret(a) && distance(a, animal) < 140);
         let best = null, score = -Infinity;
         // Look ahead around fences and tree trunks, then take a collision-safe small step.
@@ -281,7 +281,7 @@ const RescueSystem = {
                     animal.fatigue = (animal.fatigue || 0) + dt;
                     if (dt > 0)
                         RescueSystem.talk(game, animal);
-                    const endurance = (game.difficultyKey === "easy" ? 2.8 : game.difficultyKey === "hard" ? 6 : 4.4) * RescueSystem.personality(animal).endurance;
+                    const endurance = (game.difficultyKey === "easy" ? 2.8 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 6 : 4.4) * RescueSystem.personality(animal).endurance;
                     if (animal.fatigue >= endurance) {
                         animal.restTime = 3.1;
                         animal.fatigue = 0;

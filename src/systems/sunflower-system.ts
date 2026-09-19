@@ -102,7 +102,7 @@ const SunflowerSystem = (() => {
       if(chicken.invulnerable<=0&&DetectionSystem.canSee(wolf,chicken,{...config,range:235,fov:Math.PI*1.2})){
         const dx=chicken.x-wolf.x,dy=chicken.y-wolf.y,length=Math.hypot(dx,dy)||1;
         a.origin={x:wolf.x,y:wolf.y};a.target={x:wolf.x+dx/length*Math.min(255,length+42),y:wolf.y+dy/length*Math.min(255,length+42)};
-        a.mode='warning';a.timer=game.difficultyKey==='easy'?1.4:game.difficultyKey==='hard'?.95:1.15;
+        a.mode='warning';a.timer=game.difficultyKey==='easy'?1.4:['hard', 'hardcore'].includes(game.difficultyKey)?.95:1.15;
         wolf.lastKnown={x:chicken.x,y:chicken.y};wolf.heading=Math.atan2(dy,dx);Player.face(wolf,dx,dy);
         AudioSystem.play('fox-rustle',{volume:.6});
         if(WildlifeRules.onScreen(wolf,90))setStatus('Tem focinho nos girassóis! Saia para o lado da faixa antes do bote!');

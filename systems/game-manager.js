@@ -10,6 +10,10 @@ const GameManager = (() => {
         game.rescuedChicks = 0;
         game.wolfLevel = 0;
         game.elapsed = 0;
+        game.timeRemaining = game.settings.timeLimit ?? null;
+        game.timeBonus = 0;
+        game.timeRewardNotice = undefined;
+        game.defeatReason = undefined;
         game.entities.chicken.invulnerable = 0;
         game.entities.chicken.hidden = false;
         game.entities.chicken.hideBlend = 0;
@@ -31,7 +35,7 @@ const GameManager = (() => {
             return false;
         const chick = animal.type === "chick";
         const ids = chick ? game.rescuedChickIds : game.rescuedIds;
-        if (game.phase !== "playing" || ids.has(animal.id) || (chick && !animal.discovered))
+        if (game.phase !== "playing" || game.timeRemaining === 0 || ids.has(animal.id) || (chick && !animal.discovered))
             return false;
         ids.add(animal.id);
         animal.rescued = true;
@@ -41,14 +45,28 @@ const GameManager = (() => {
         game.rescuedChicks = game.rescuedChickIds.size;
         game.wolfLevel = level(game.rescuedCount);
         game.score += SCORE_PER_RESCUE;
+        rewardRescueTime(game, chick);
         SkinSystem.record(game);
         return true;
+    }
+    function rewardRescueTime(game, chick = false) {
+        if (game.phase !== 'playing' || game.timeRemaining === null || game.timeRemaining <= 0)
+            return 0;
+        const seconds = (chick ? game.settings.chickTime : game.settings.friendTime) || 0;
+        if (seconds > 0) {
+            game.timeRemaining += seconds;
+            game.timeRewardNotice = { time: 2.5, seconds };
+        }
+        return seconds;
     }
     function win(game) {
         if (game.phase !== "playing" || game.rescuedIds.size !== WORLD.targetRescues)
             return false;
+        if (game.timeRemaining === 0 && !game.winBonusApplied)
+            return false;
         if (!game.winBonusApplied) {
-            game.score += game.lives * SCORE_BONUS_PER_LIFE;
+            game.timeBonus = remainingSeconds(game) * (game.settings.timeScore || 0);
+            game.score += game.lives * SCORE_BONUS_PER_LIFE + game.timeBonus;
             game.winBonusApplied = true;
         }
         startWinCutscene();
@@ -68,6 +86,7 @@ const GameManager = (() => {
             version: 4, worldSeed: game.worldSeed, worldVersion: game.worldVersion, difficulty: game.difficultyKey, phase,
             rescuedIds: [...game.rescuedIds], lives: game.lives, score: game.score, winBonusApplied: game.winBonusApplied,
             rescuedChickIds: [...game.rescuedChickIds],
+            timerMode: 'arcade', timeRemaining: game.timeRemaining, timeBonus: game.timeBonus, defeatReason: game.defeatReason,
             elapsed: game.elapsed, chicken: { ...point(chicken), hidden: chicken.hidden,
                 hidingSpotId: chicken.hidingSpotId || null, direction: chicken.direction,
                 stamina: chicken.stamina, staminaDelay: chicken.staminaDelay, exhausted: chicken.exhausted },
@@ -119,8 +138,9 @@ const GameManager = (() => {
                 data.lives = 0;
             }
             delete data.needsRecovery;
+            const timedOut = data.defeatReason === 'timeout' && !!DIFFICULTIES[data.difficulty].timeLimit && data.timeRemaining === 0;
             if (!Number.isInteger(data.lives) || data.lives < 0 || data.lives > MAX_LIVES ||
-                (data.phase === 'lose' ? data.lives !== 0 : data.lives === 0))
+                (data.phase === 'lose' ? !timedOut && data.lives !== 0 : data.lives === 0))
                 return null;
             if (!Number.isFinite(data.score) || data.score < 0)
                 return null;
@@ -170,6 +190,9 @@ const GameManager = (() => {
         }
     }
     function restore(game, data) {
+        game.difficultyKey = data.difficulty;
+        game.settings = DIFFICULTIES[data.difficulty];
+        game.entities.chicken.speed = game.settings.chickenSpeed;
         const seed = data.worldSeed ?? 20260915;
         const previousVersion = data.worldVersion ?? 1;
         const migrating = previousVersion < 7;
@@ -198,6 +221,18 @@ const GameManager = (() => {
         game.score = data.score;
         game.elapsed = Number.isFinite(data.elapsed) ? Math.max(0, data.elapsed) : 0;
         const bounded = (value, min, max, fallback = min) => Number.isFinite(value) ? clamp(value, min, max) : fallback;
+        // Earned time can exceed the starting clock. Loading never awards rescues again.
+        const allowance = (game.settings.timeLimit || 0) +
+            (game.rescuedCount + Number(!!game.lake?.gooseRescued)) * (game.settings.friendTime || 0) +
+            game.rescuedChicks * (game.settings.chickTime || 0);
+        const finished = ['won', 'win_cutscene', 'lose'].includes(data.phase);
+        // Ongoing fixed-timer saves switch once to a fresh arcade clock; past results stay intact.
+        const savedTime = data.timerMode === 'arcade' || finished ? data.timeRemaining : undefined;
+        // Finished runs may still show the old ten-minute clock after repeated migrations.
+        game.timeRemaining = game.settings.timeLimit ? bounded(savedTime, 0, finished ? Math.max(600, allowance) : allowance, game.settings.timeLimit) : null;
+        game.timeBonus = bounded(data.timeBonus, 0, Number.MAX_SAFE_INTEGER);
+        game.timeRewardNotice = undefined;
+        game.defeatReason = data.defeatReason === 'timeout' && game.timeRemaining === 0 ? 'timeout' : undefined;
         const restoreFriend = (animal, saved) => {
             animal.sharedAlarm = true;
             animal.discovered = animal.rescued || saved.discovered === true;
@@ -294,6 +329,8 @@ const GameManager = (() => {
         }
         resolveEnvironment(game.entities.chicken);
         FarmRefuge.ensureClear(game.entities.chicken);
+        GooseSystem.restore(game, data.goose);
+        FoxSystem.restore(game, data.foxes);
         HidingSpots.restore(game, newGeography ? { ...playerPosition, hidden: false } : data.chicken);
         if (newGeography) {
             Object.assign(wolf, WORLD.layout.wolfStart || { x: WORLD.width - 120, y: WORLD.height - 120 });
@@ -304,8 +341,6 @@ const GameManager = (() => {
         resolveEnvironment(wolf);
         FarmRefuge.ensureClear(wolf);
         WolfAI.restoreCoverMemory(game, newGeography ? null : data.wolf.exposedCover);
-        GooseSystem.restore(game, data.goose);
-        FoxSystem.restore(game, data.foxes);
         HidingSpots.update(game);
         OwlSystem.restore(game, data.owls);
         ThorSystem.restore(game, data.thor);
@@ -322,7 +357,7 @@ const GameManager = (() => {
             GameManager.win(game);
         refreshHud();
         MapManager.initialize(game);
-        if (migrating)
+        if (migrating || data.timerMode !== 'arcade')
             save(game);
     }
     function clear() {
@@ -336,13 +371,27 @@ const GameManager = (() => {
     function update(game, dt) {
         if (game.phase !== "playing" || !Number.isFinite(dt) || dt < 0)
             return;
-        game.elapsed += dt;
+        if (game.timeRewardNotice)
+            game.timeRewardNotice.time = Math.max(0, game.timeRewardNotice.time - dt);
+        game.elapsed += game.timeRemaining === null ? dt : Math.min(dt, game.timeRemaining);
+        if (game.timeRemaining !== null) {
+            game.timeRemaining = Math.max(0, game.timeRemaining - dt);
+            if (game.timeRemaining <= 1e-8) {
+                game.timeRemaining = 0;
+                finishLose('O tempo acabou! Tente novamente e resgate os amigos antes do relógio zerar.', 'timeout');
+                save(game);
+                return;
+            }
+        }
         saveTimer += dt;
         if (saveTimer >= 2) {
             saveTimer = 0;
             save(game);
         }
     }
-    return { initialize, level, rescue, win, save, read, restore, clear, update,
+    function remainingSeconds(game) {
+        return game.timeRemaining === null ? 0 : Math.max(0, Math.floor(game.timeRemaining + 1e-8));
+    }
+    return { initialize, level, rescue, rewardRescueTime, win, save, read, restore, clear, update, remainingSeconds,
         get storageAvailable() { return storageAvailable; } };
 })();

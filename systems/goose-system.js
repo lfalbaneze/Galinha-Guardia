@@ -7,7 +7,7 @@ const GooseSystem = (() => {
     const point = (p) => ({ x: p.x, y: p.y });
     const center = (p) => ({ x: p.x, y: p.y + OFFSET_Y });
     function getConfig(game) {
-        const easy = game.difficultyKey === 'easy', hard = game.difficultyKey === 'hard';
+        const easy = game.difficultyKey === 'easy', hard = ['hard', 'hardcore'].includes(game.difficultyKey);
         const pressure = Math.min(2, game.lake?.active ? game.lake.misses : 0);
         return { territory: game.lake?.active ? LakeChallenge.radius : TERRITORY, alertRange: easy ? 135 : hard ? 190 : 165,
             warning: (easy ? 1.35 : hard ? .9 : 1.1) - pressure * .05,
@@ -44,12 +44,12 @@ const GooseSystem = (() => {
             clearLeg(p, p, 38)) || null;
     }
     function initialize(game) {
-        const home = chooseHome();
+        const home = chooseHome() || (game.lake?.gooseRescued ? FarmRefuge.gooseHome() : null);
         if (!home) {
             delete game.entities.goose;
             return;
         }
-        game.entities.goose = { id: 'pond-goose', type: 'goose', ...home,
+        game.entities.goose = { id: 'pond-goose', type: 'goose', ...home, rescued: !!game.lake?.gooseRescued,
             radius: 25, hitbox: { ox: 0, oy: OFFSET_Y, r: RADIUS },
             vx: 0, vy: 0, facing: 1, direction: 'down', moving: false, anim: 0,
             areaId: getAreaAt(home.x, home.y).id, state: 'idle', mode: game.lake?.completed ? 'defeated' : 'patrol',
@@ -57,6 +57,25 @@ const GooseSystem = (() => {
             cooldown: 0, grace: 2, honkCooldown: 0, patrolIndex: 0, notice: 0,
             chargeHit: false, chargeCounted: false, attempts: 0, noticedPoint: null, stuck: 0,
             lastObserved: null, observedVelocity: { x: 0, y: 0 }, observationAge: 99, dodgeSide: 0, earlyDodge: false, tactic: 'direct' };
+        if (game.entities.goose.rescued)
+            settle(game.entities.goose);
+    }
+    function settle(goose) {
+        Object.assign(goose, FarmRefuge.gooseHome(), { mode: 'defeated', moving: false, vx: 0, vy: 0, direction: 'down', state: 'idle',
+            chargeHit: false, chargeCounted: false, comboRemaining: 0, comboFollowup: false, returnPath: [] });
+        goose.areaId = getAreaAt(goose.x, goose.y).id;
+    }
+    function rescue(game) {
+        const goose = game.entities.goose;
+        if (game.phase !== 'playing' || game.timeRemaining === 0 || !goose || !game.lake?.completed || game.lake.misses !== 3 || game.lake.gooseRescued)
+            return false;
+        game.lake.gooseRescued = true;
+        goose.rescued = true;
+        game.score += SCORE_PER_RESCUE;
+        GameManager.rewardRescueTime(game);
+        settle(goose);
+        refreshHud();
+        return true;
     }
     function visible(game, goose) {
         const chicken = game.entities.chicken;
@@ -260,6 +279,12 @@ const GooseSystem = (() => {
         if (game.phase !== 'playing' || !goose || !Number.isFinite(dt) || dt <= 0)
             return;
         dt = Math.min(dt, .1);
+        if (goose.rescued) {
+            settle(goose);
+            goose.anim += dt * 2;
+            goose.direction = ['down', 'right', 'down', 'left'][Math.floor(goose.anim / 12) % 4];
+            return;
+        }
         const config = getConfig(game), before = point(goose);
         const chicken = game.entities.chicken;
         goose.observationAge = (goose.observationAge ?? 99) + dt;
@@ -459,7 +484,7 @@ const GooseSystem = (() => {
     function restore(game, saved) {
         initialize(game);
         const goose = game.entities.goose;
-        if (!goose || !isPoint(saved))
+        if (!goose || goose.rescued || !isPoint(saved))
             return;
         const record = saved;
         const anchor = isPoint(record.anchor) ? record.anchor : goose.home;
@@ -536,18 +561,19 @@ const GooseSystem = (() => {
         const p = worldToScreen(goose);
         if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height)
             return;
-        const speaking = ['approach', 'circle', 'notice', 'warning', 'feint', 'charge', 'stunned', 'defeated'].includes(goose.mode) || goose.notice > 0;
+        const speaking = !goose.rescued && (['approach', 'circle', 'notice', 'warning', 'feint', 'charge', 'stunned', 'defeated'].includes(goose.mode) || goose.notice > 0);
         ctx.save();
         ctx.font = 'bold 11px Trebuchet MS, sans-serif';
         ctx.textAlign = 'center';
         if (!speaking) {
             const x = clamp(p.x, 35, canvas.width - 35), y = Math.max(24, p.y - 69);
+            const label = goose.rescued ? 'PANTO · A salvo' : 'PANTO';
             ctx.strokeStyle = '#243c2ddd';
             ctx.lineWidth = 3;
             ctx.lineJoin = 'round';
-            ctx.strokeText('PANTO', x, y);
+            ctx.strokeText(label, x, y);
             ctx.fillStyle = '#fff0bd';
-            ctx.fillText('PANTO', x, y);
+            ctx.fillText(label, x, y);
         }
         else {
             const line = goose.mode === 'approach' ? 'Lago tem dono!' : goose.mode === 'circle' ? 'Licença… ou não.' :
@@ -571,5 +597,5 @@ const GooseSystem = (() => {
         }
         ctx.restore();
     }
-    return { initialize, update, getConfig, snapshot, restore, visible, drawTerritory, drawIndicator };
+    return { initialize, update, getConfig, snapshot, restore, visible, drawTerritory, drawIndicator, rescue };
 })();

@@ -8,8 +8,8 @@
   <meta name="description" content="Penas pro Ar! A diversão te espera na Fazenda do tio Clau. Abra a porteira, resgate os 12 amigos e despiste um lobo sem modos." />
   <title>Penas pro Ar! — Luis Albaneze</title>
   <link rel="stylesheet" href="./style.css?v=ganso-40" />
-  <link rel="stylesheet" href="./gameplay.css?v=localizacao-69" />
-  <link rel="stylesheet" href="./menu.css?v=menu-68" />
+  <link rel="stylesheet" href="./gameplay.css?v=arcade-74" />
+  <link rel="stylesheet" href="./menu.css?v=hardcore-icon-71" />
 </head>
 <body>
   <main id="gameShell" class="game-shell" data-phase="menu">
@@ -34,6 +34,7 @@
       <div class="run-card rescue-counter">
         <div class="run-card-heading"><strong class="run-label">Amigos a salvo</strong><svg class="run-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 11 9-8 9 8M5 10v11h14V10M9 21v-8h6v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
         <span class="run-value"><b id="rescuedCount">0</b><span id="rescueGoal">/ 12</span></span>
+        <span id="pantoRescue" class="rescue-extra" hidden>+ Panto salvo</span>
         <progress id="missionProgress" max="12" value="0" aria-label="Amigos resgatados">0 de 12</progress>
         <span id="missionText" class="sr-only">Encontre os 12 amigos</span>
       </div>
@@ -45,6 +46,7 @@
       <div class="run-card score-card">
         <div class="run-card-heading"><strong class="run-label">Pontos</strong><svg class="run-icon star-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3 6 7 1-5 5 1 8-6-4-6 4 1-8-5-5 7-1z" fill="currentColor"/></svg></div>
         <span class="run-value"><b id="scoreCount">0</b></span>
+        <span id="runTimer" class="run-timer" hidden>Tempo <b id="timeRemaining" role="timer" aria-label="Tempo restante">1:00</b><span id="timeReward" class="time-reward" role="status" hidden></span></span>
         <span class="run-detail">Sua aventura</span>
       </div>
       <div id="threatIndicator" class="run-card wolf-counter threat-indicator" data-level="calm">
@@ -115,7 +117,12 @@
               </button>
               <button id="difficulty-hard" type="button" role="radio" aria-checked="false" tabindex="-1">
                 <img id="difficultyArt-hard" class="difficulty-art" src="./assets/menu/portraits/wolf-expressivo.png" width="64" height="64" alt="" />
-                <span class="difficulty-copy"><span class="difficulty-name">Lobo à solta <small>Difícil</small></span><span class="difficulty-detail">Lobo de tênis novo. Capriche no sumiço.</span></span>
+                <span class="difficulty-copy"><span class="difficulty-name">Lobo à solta <small>Difícil</small></span><span class="difficulty-detail">60s iniciais · +20s por pintinho · +10s por amigo · 1.000 pontos/s na vitória.</span></span>
+                <span class="difficulty-check" aria-hidden="true">✓</span>
+              </button>
+              <button id="difficulty-hardcore" type="button" role="radio" aria-checked="false" tabindex="-1">
+                <img id="difficultyArt-hardcore" class="difficulty-art" src="./assets/menu/portraits/wolf-hardcore.png" width="64" height="64" alt="" />
+                <span class="difficulty-copy"><span class="difficulty-name">Contra o relógio <small>Hardcore</small></span><span class="difficulty-detail">45s iniciais · +30s por pintinho · +15s por amigo · 10.000 pontos/s na vitória.</span></span>
                 <span class="difficulty-check" aria-hidden="true">✓</span>
               </button>
             </div>
@@ -180,6 +187,7 @@
           <h2 id="endTitle">Doze amigos. Zero almoço pro lobo.</h2>
           <p id="endMessage">Todo mundo a salvo! O gato diz que planejou tudo.</p>
           <p id="endSummary" class="end-summary"></p>
+          <p id="endTimeBonus" class="end-summary" hidden></p>
           <div class="overlay-actions">
             <button id="replayBtn" type="button">Jogar novamente</button>
             <button id="menuBtn" class="button-secondary" type="button">Voltar ao menu</button>
@@ -263,7 +271,7 @@
         <h2 id="controlsTitle">Os macetes da roça</h2>
         <p id="controlsText"><kbd>WASD</kbd> / <kbd>setas</kbd> mover · <kbd>C</kbd> de mansinho · <kbd>Shift</kbd> correr · <kbd>E</kbd> chamar pintinho / esconder / sair · <kbd>Esc</kbd> / <kbd>P</kbd> pausar.</p>
         <p>Resgate os 12 amigos para completar a missão. Segure <kbd>C</kbd> e chegue de mansinho: os amigos se acalmam e vêm até você. A coruja também demora mais para perceber passos leves. Cada amigo salvo deixa o lobo mais atento. Use árvores e feno para escapar. Ouviu um piado? Chegue perto e aperte <kbd>E</kbd> uma vez para chamar o pintinho ao ninho.</p>
-        <p>No <strong>fácil</strong>, Thor vem automaticamente quando resta <strong>1 coração</strong> e dá mais um: <strong>uma única vez por tentativa</strong>. No <strong>médio</strong>, junte <strong>2 ossos</strong>; no <strong>difícil</strong>, <strong>3 ossos</strong>. Encoste nos ossinhos para pegar. Se faltar vida, aperte <strong>T</strong>, <strong>Y no controle</strong> ou toque em <strong>Chamar Thor</strong>: ele usa os ossos e recupera todos os corações. A partida para durante a chegada heroica. Depois, o lobo foge e novos ossos aparecem. Saia da água ou do desafio de PANTO para chamar.</p>
+        <p>No <strong>fácil</strong>, Thor vem automaticamente quando resta <strong>1 coração</strong> e dá mais um: <strong>uma única vez por tentativa</strong>. No <strong>médio</strong>, junte <strong>2 ossos</strong>; no <strong>difícil</strong>, <strong>4 ossos</strong>. No <strong>Hardcore</strong>, a primeira chamada custa <strong>5 ossos</strong>, a segunda <strong>6</strong>, a terceira <strong>7</strong> e assim por diante. Encoste nos ossinhos para pegar. Se faltar vida, aperte <strong>T</strong>, <strong>Y no controle</strong> ou toque em <strong>Chamar Thor</strong>: ele usa os ossos e recupera todos os corações. A partida para durante a chegada heroica. Depois, o lobo foge e novos ossos aparecem. Saia da água ou do desafio de PANTO para chamar.</p>
         <p>Cavalos, pônei, perus e outros moradores passeiam pela fazenda. Eles observam você e se assustam com a corrida. Os amigos que precisam de resgate têm um coração sobre a cabeça.</p>
       </div>
       <div class="game-settings">
@@ -273,6 +281,7 @@
             <option value="easy">Dia tranquilo · Fácil</option>
             <option value="normal" selected>Penas em risco · Médio</option>
             <option value="hard">Lobo à solta · Difícil</option>
+            <option value="hardcore">Contra o relógio · Hardcore</option>
           </select>
         </label>
         <button id="restartBtn" class="button-secondary" type="button">Reiniciar</button>
@@ -300,8 +309,9 @@
       <p><strong>Com controle:</strong> analógico ou direcional move, A interage, B liga/desliga mansinho, RT corre e Menu pausa. Nos menus, navegue com o direcional, confirme com A e volte com B.</p>
       <p>Prefere não segurar C ou Shift? Mude isso na aba <strong>Controles</strong>.</p>
       <p><strong>Ouviu piu-piu?</strong> Chegue perto e aperte <kbd>E</kbd> uma vez. Há 6 pintinhos escondidos.</p>
-      <p><strong>PANTO guarda o lago.</strong> Perto dele, use <kbd>F</kbd>, X no controle ou toque em <strong>Desafiar PANTO</strong>. Desvie da sequência e, quando ele ficar tonto, chegue perto e interaja para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Vencer abre a ponte e libera a aparência de ganso.</p>
-      <p><strong>Lorenzo, a raposa.</strong> A investida dele tira um coração: espere o aviso e desvie para o lado. A moita do Lorenzo não serve de esconderijo. Se o lobo o vir depois do bote, espanta Lorenzo — e ainda se acha o dono da fazenda.</p>
+      <p><strong>Resgate para ganhar tempo!</strong> No Difícil, comece com <strong>60 segundos</strong>: cada pintinho soma <strong>20s</strong> e cada amigo soma <strong>10s</strong>. No Hardcore, comece com <strong>45 segundos</strong>: pintinhos dão <strong>30s</strong> e amigos dão <strong>15s</strong>. Panto também dá tempo ao ser resgatado. Na vitória, cada segundo inteiro restante vale <strong>1.000 pontos no Difícil</strong> ou <strong>10.000 no Hardcore</strong>. Se o relógio zerar, a tentativa acaba. Fácil e Médio continuam sem relógio.</p>
+      <p><strong>PANTO guarda o lago.</strong> Perto dele, use <kbd>F</kbd>, X no controle ou toque em <strong>Desafiar PANTO</strong>. Desvie da sequência e, quando ele ficar tonto, chegue perto e interaja para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Vencer resgata Panto como amigo extra, dá +100 pontos, abre a ponte e libera a aparência de ganso. Ele vai para o poleiro e participa da comemoração final.</p>
+      <p><strong>Lorenzo e Amanda, as raposas.</strong> Amanda usa um lacinho rosa, e os dois soltam piadinhas entre os botes. Cada investida tira um coração: espere o aviso e desvie para o lado. As moitas deles não servem de esconderijo. Se o lobo os vir depois do bote, espanta os dois — e ainda se acha o dono da fazenda.</p>
       <p><strong>Girassol não tem focinho.</strong> O lobo pode se esconder no campo de girassóis. Se as flores sacudirem e aparecer uma faixa, desvie para o lado: o bote segue a direção anunciada. Depois do salto ele precisa se recuperar. Thor também pode estragar a emboscada!</p>
       <p><strong>O chão também dá pistas.</strong> Água rasa e barro deixam o passo mais lento. A água interrompe as pegadas da corrida, mas os respingos podem chamar o lobo. Atravesse o milho e as moitas de mansinho para fazer menos barulho.</p>
       <p><strong>Banho de lagoa!</strong> Entre na água funda para usar a boia automaticamente. Pato e ganso nadam sem boia e mais rápido. Use o movimento normal para nadar e volte à margem para sair; o comando de correr acelera as remadas. O desafio do PANTO acontece em terra: entrar para nadar encerra a tentativa.</p>
@@ -315,34 +325,34 @@
   <script src="./systems/sunlight.js?v=luz-67"></script>
   <script src="./systems/sprite-style.js?v=sol-64"></script>
   <script src="./systems/farm-sprites.js?v=sol-64"></script>
-  <script src="./systems/farm-refuge.js?v=sol-64"></script>
+  <script src="./systems/farm-refuge.js?v=panto-resgate-72"></script>
   <script src="./systems/farm-terrain.js?v=campo-limpo-48"></script>
   <script src="./systems/farm-details.js?v=sol-64"></script>
   <script src="./systems/farm-art.js?v=feno-65"></script>
   <script src="./systems/farm-scenery.js?v=horta-limpa-66"></script>
-  <script src="./systems/sunflower-system.js?v=sol-64"></script>
+  <script src="./systems/sunflower-system.js?v=dificuldades-70"></script>
   <script src="./systems/sprite-data.js?v=arte-coesa-57"></script>
   <script src="./systems/character-art.js?v=sol-64"></script>
   <script src="./systems/audio-system.js?v=stella-55"></script>
   <script src="./systems/audio-controls.js?v=panto-17"></script>
   <script src="./systems/skin-system.js?v=turma-37"></script>
   <script src="./systems/game-input.js?v=thor-43"></script>
-  <script src="./systems/game-manager.js?v=raposa-31"></script>
-  <script src="./systems/rescue-system.js?v=poderes-35"></script>
+  <script src="./systems/game-manager.js?v=arcade-74"></script>
+  <script src="./systems/rescue-system.js?v=dificuldades-70"></script>
   <script src="./systems/detection-system.js?v=poderes-35"></script>
-  <script src="./systems/hiding-spots.js?v=feno-65"></script>
-  <script src="./systems/wolf-ai.js?v=lobo-skins-69"></script>
+  <script src="./systems/hiding-spots.js?v=raposas-73"></script>
+  <script src="./systems/wolf-ai.js?v=dificuldades-70"></script>
   <script src="./systems/wolf-dialogue.js?v=lobo-skins-69"></script>
-  <script src="./systems/lake-challenge.js?v=ponte-horizontal-53"></script>
-  <script src="./systems/goose-system.js?v=panto-44"></script>
+  <script src="./systems/lake-challenge.js?v=panto-resgate-72"></script>
+  <script src="./systems/goose-system.js?v=arcade-74"></script>
   <script src="./systems/goose-art.js?v=sol-64"></script>
   <script src="./systems/wildlife-rules.js?v=panto-17"></script>
   <script src="./systems/wildlife-art.js?v=sol-64"></script>
-  <script src="./systems/fox-system.js?v=lorenzo-45"></script>
-  <script src="./systems/fox-art.js?v=panto-17"></script>
-  <script src="./systems/owl-system.js?v=panto-17"></script>
+  <script src="./systems/fox-system.js?v=raposas-73"></script>
+  <script src="./systems/fox-art.js?v=raposas-73"></script>
+  <script src="./systems/owl-system.js?v=dificuldades-70"></script>
   <script src="./systems/owl-art.js?v=sol-64"></script>
-  <script src="./systems/thor-system.js?v=thor-43"></script>
+  <script src="./systems/thor-system.js?v=arcade-74"></script>
   <script src="./systems/thor-art.js?v=thor-43"></script>
   <script src="./systems/thor-cinematic.js?v=thor-43"></script>
   <script src="./systems/scarecrow-art.js?v=sol-64"></script>
@@ -352,10 +362,10 @@
   <script src="./systems/environment-system.js?v=horta-viva-61"></script>
   <script src="./systems/player.js?v=thor-43"></script>
   <script src="./systems/menu-scene.js?v=restaurado-50"></script>
-  <script src="./systems/interface-motion.js?v=abertura-36"></script>
+  <script src="./systems/interface-motion.js?v=arcade-74"></script>
   <script src="./systems/gameplay-hud.js?v=panto-17"></script>
-  <script src="./systems/ui.js?v=final-limpo-58"></script>
-  <script src="./systems/end-game-sequence.js?v=final-limpo-58"></script>
-  <script src="./game.js?v=localizacao-69"></script>
+  <script src="./systems/ui.js?v=arcade-74"></script>
+  <script src="./systems/end-game-sequence.js?v=panto-resgate-72"></script>
+  <script src="./game.js?v=arcade-74"></script>
 </body>
 </html>

@@ -40,11 +40,29 @@ const DIFFICULTIES = {
   },
   hard: {
     label: "Difícil",
+    timeLimit: 60,
+    friendTime: 10,
+    chickTime: 20,
+    timeScore: 1000,
     chickenSpeed: 276,
     wolfMaxSpeed: 240,
     wolfAccel: 420,
     wolfPauseAfterCatch: 0.35,
     huntDelay: 2.4,
+    spawnPlan: ["granja", "granja", "estabulo", "estabulo", "horta", "horta", "quintal", "quintal", "poleiro", "granja"],
+    minSpawnWolfDistance: 220,
+  },
+  hardcore: {
+    label: "Hardcore",
+    timeLimit: 45,
+    friendTime: 15,
+    chickTime: 30,
+    timeScore: 10000,
+    chickenSpeed: 276,
+    wolfMaxSpeed: 260,
+    wolfAccel: 460,
+    wolfPauseAfterCatch: 0.3,
+    huntDelay: 2,
     spawnPlan: ["granja", "granja", "estabulo", "estabulo", "horta", "horta", "quintal", "quintal", "poleiro", "granja"],
     minSpawnWolfDistance: 220,
   },
@@ -389,8 +407,9 @@ function refreshHud() {
   scoreCountEl.textContent = String(Math.max(0, Math.floor(state.score)));
 }
 
-function finishLose(reason) {
+function finishLose(reason, cause = 'caught') {
   state.phase = "lose";
+  state.defeatReason = cause;
   state.gameEndReason = reason;
   setStatus(reason, "lose");
 }
@@ -476,6 +495,10 @@ function updateGame(dt) {
     if (rescuing || ThorSystem.active(state)) {
       AudioSystem.update(state, dt); GameUI.update(state); return;
     }
+    GameManager.update(state, dt);
+    if (state.phase !== 'playing') {
+      AudioSystem.update(state, dt); GameUI.update(state); return;
+    }
     updateChicken(dt);
     LakeChallenge.update(state, dt);
     if (!state.lake?.active) updateAnimals(dt);
@@ -487,7 +510,6 @@ function updateGame(dt) {
       updateWolf(dt);
       Player.checkCatch(state);
       MapManager.update(state, dt);
-      if (state.phase === "playing") GameManager.update(state, dt);
     }
   } else if (state.phase === "win_cutscene") {
     updateCutscene(dt);
@@ -701,7 +723,7 @@ function drawMiniMap() {
     ctx.fillStyle='#ef8262';ctx.beginPath();ctx.arc(x+state.entities.wolf.x*sx,y+state.entities.wolf.y*sy,3,0,Math.PI*2);ctx.fill();
   }
   if (state.entities.goose && GooseSystem.visible(state, state.entities.goose)) {
-    ctx.fillStyle='#f3c45e'; const g=state.entities.goose;
+    const g=state.entities.goose; ctx.fillStyle=g.rescued?'#a6e2a0':'#f3c45e';
     ctx.fillRect(x+g.x*sx-2,y+g.y*sy-2,4,4);
   }
   for (const fox of state.entities.foxes || []) if (FoxSystem.visible(state,fox)) {
@@ -760,7 +782,7 @@ function renderGame() {
   }
   const layers = [...RescueSystem.all(state).filter(a => !ending || a.rescued), state.entities.chicken, state.entities.wolf]
     .map(entity => ({ depth: entity.y + 12, entity }));
-  if (!ending && state.entities.goose) layers.push({ depth: state.entities.goose.y + 12, entity: state.entities.goose });
+  if (state.entities.goose && (!ending || state.entities.goose.rescued)) layers.push({ depth: state.entities.goose.y + 12, entity: state.entities.goose });
   if (!ending) for (const fox of state.entities.foxes || [])
     layers.push({ depth: fox.y + 12, entity: fox });
   if (!ending) for (const owl of state.entities.owls || []) layers.push({depth: owl.perch.y + .1, entity: owl});

@@ -24,7 +24,7 @@ const OwlSystem = (() => {
       return {id:`owl-${tree.id}`,type:'owl',...ground,radius:10,hitbox:{ox:0,oy:0,r:6},vx:0,vy:0,
         facing:Math.cos(heading)<0?-1:1,direction:direction(heading),moving:false,anim:0,
         areaId:getAreaAt(ground.x,ground.y).id,state:'idle',mode:'watch',perch:point(ground),treeId:tree.id,
-        heading,range:250,fov:Math.PI*.65,alertTime:game.difficultyKey==='easy'?1.7:game.difficultyKey==='hard'?1.15:1.4,
+        heading,range:250,fov:Math.PI*.65,alertTime:game.difficultyKey==='easy'?1.7:['hard', 'hardcore'].includes(game.difficultyKey)?1.15:1.4,
         alertProgress:0,cooldown:0,grace:2,target:null};
     });
   }

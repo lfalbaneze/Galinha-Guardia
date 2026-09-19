@@ -1,12 +1,12 @@
 "use strict";
-/* An optional, self-contained encounter. No friend or chick is locked behind it. */
+/* An optional encounter: winning also rescues Panto as a bonus friend. */
 const LakeChallenge = (() => {
     const ARENA = 310;
     const COUNTER_RANGE = 82;
     const rounds = ['Bote direto', 'Bote duplo', 'Blefe e arrancada'];
     const copy = (p) => ({ x: p.x, y: p.y });
     function initialize(game) {
-        game.lake = { version: 1, active: false, completed: false, misses: 0, attempts: 0, notice: 0 };
+        game.lake = { version: 1, active: false, completed: false, gooseRescued: false, misses: 0, attempts: 0, notice: 0 };
     }
     function available(game) {
         const goose = game.entities.goose, chicken = game.entities.chicken;
@@ -125,7 +125,7 @@ const LakeChallenge = (() => {
             return false;
         }
         goose.chargeCounted = true;
-        lake.counterDuration = game.difficultyKey === 'easy' ? 3.6 : game.difficultyKey === 'hard' ? 2.5 : 3;
+        lake.counterDuration = game.difficultyKey === 'easy' ? 3.6 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 2.5 : 3;
         lake.counterWindow = lake.counterDuration;
         lake.notice = lake.counterDuration;
         lake.feedback = 'dodge';
@@ -167,8 +167,9 @@ const LakeChallenge = (() => {
             SkinSystem.unlockLake(game);
             buildObstacles(game);
             releaseWolf(game);
+            GooseSystem.rescue(game);
             AudioSystem.play('panto-victory', { volume: .85 });
-            setStatus('PANTO aprovou sua passagem. Reclamando, mas aprovou! Atalho do lago aberto e aparência de ganso no baú.', 'win');
+            setStatus('PANTO resgatado! +100 pontos e mais um amigo no poleiro. Atalho do lago aberto e aparência de ganso no baú.', 'win');
         }
         else {
             goose.mode = 'recover';
@@ -211,7 +212,7 @@ const LakeChallenge = (() => {
     }
     function blocksWolf(game) { return game.lake?.active === true; }
     function snapshot(game) {
-        return game.lake ? { version: 1, completed: game.lake.completed, misses: game.lake.misses, active: game.lake.active } : undefined;
+        return game.lake ? { version: 1, completed: game.lake.completed, misses: game.lake.misses, active: game.lake.active, gooseRescued: !!game.lake.gooseRescued } : undefined;
     }
     function restore(game, saved) {
         initialize(game);
@@ -221,6 +222,8 @@ const LakeChallenge = (() => {
                 game.lake.completed = true;
                 game.lake.misses = 3;
                 SkinSystem.unlockLake(game, false);
+                // Completed legacy challenges also bring Panto home, without changing their saved score.
+                game.lake.gooseRescued = true;
             }
             else
                 game.lake.interrupted = record.version === 1 && record.active === true;
@@ -371,8 +374,8 @@ const LakeChallenge = (() => {
             if (value.textContent !== count)
                 value.textContent = count;
             value.setAttribute('aria-label', `${game.lake?.misses || 0} de 3 carimbos`);
-            hudTitle.textContent = completed ? 'DESAFIO CONCLUÍDO!' : failed ? 'TENTATIVA ENCERRADA' : 'CARIMBOS DO PANTO';
-            hudCue.textContent = completed ? 'Fiscal driblado! Ponte liberada.' : failed ? 'Três bicadas. Tente o desafio novamente.' : cue;
+            hudTitle.textContent = completed ? 'PANTO RESGATADO!' : failed ? 'TENTATIVA ENCERRADA' : 'CARIMBOS DO PANTO';
+            hudCue.textContent = completed ? '+100 pontos! Panto está a salvo no poleiro.' : failed ? 'Três bicadas. Tente o desafio novamente.' : cue;
             const round = document.getElementById('lakeRound'), chances = document.getElementById('lakeChances');
             if (round)
                 round.textContent = completed ? 'Passagem aprovada' : failed ? 'PANTO reteve seu crachá' : `${Math.min(3, (lake?.misses || 0) + 1)} · ${rounds[Math.min(2, lake?.misses || 0)]}`;
@@ -393,9 +396,9 @@ const LakeChallenge = (() => {
             }
         }
         title.textContent = completed ? 'PANTO liberou a ponte' : 'PANTO · O fiscal do lago';
-        text.textContent = completed ? 'Atalho aberto. Aparência de ganso disponível no baú.' : active ?
+        text.textContent = completed ? 'Atalho aberto. Panto resgatado e aparência de ganso disponível no baú.' : active ?
             `${game.lake.misses}/3 carimbos · ${cue} O lobo espera fora.` :
-            `Desvie, aproxime-se de PANTO tonto e use ${action} para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Ganhe a ponte e a aparência de ganso.`;
+            `Desvie, aproxime-se de PANTO tonto e use ${action} para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Resgate Panto, ganhe +100 pontos, a ponte e a aparência de ganso.`;
         button.hidden = !!completed;
         button.disabled = !active && !available(game);
         const key = typeof GameInput === 'undefined' ? 'F' : GameInput.label('lake');

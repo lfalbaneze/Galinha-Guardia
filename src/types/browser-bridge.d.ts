@@ -37,7 +37,7 @@ declare function refreshHud(): void;
 declare function setStatus(message: string, kind?: string): void;
 declare function spawnBurst(x: number, y: number, color: string, count: number): void;
 declare function startWinCutscene(): void;
-declare function finishLose(message: string): void;
+declare function finishLose(message: string, cause?: 'caught' | 'timeout'): void;
 declare const WorldGenerator: { generate(seed: number, version?: number): Farm.Layout; };
 declare const GameUI: { update(game: Farm.GameState): void; };
 declare const WolfDialogue: { witnessLine(game: Farm.GameState): string; };
@@ -53,6 +53,7 @@ declare const AudioSystem: {
   playPlayerHurt(game: Farm.GameState): boolean;
 };
 declare const FarmRefuge: {
+  gooseHome(): Farm.Point;
   home(index: number, chick?: boolean): Farm.Point;
   ensureClear(entity: Farm.Body): void;
   drawGround(context: CanvasRenderingContext2D, camera: Farm.Camera): void;

@@ -68,7 +68,9 @@ test('three counters after distinct rounds win, while the third-round feint give
   assert.equal(h.run('state.lake.completed'),true);assert.equal(h.run('state.lake.active'),false);
   assert.equal(h.run('state.lake.misses'),3);assert.equal(h.run('g.mode'),'defeated');
   assert.equal(h.run('SkinSystem.unlocked("goose")'),true);
-  assert.equal(h.run('state.lives'),3);assert.equal(h.run('state.score'),0);
+  assert.equal(h.run('state.lives'),3);assert.equal(h.run('state.score'),100);
+  assert.equal(h.run('g.rescued'),true);
+  assert.equal(h.run('state.rescuedCount'),0,'Panto is an extra rescue, outside the twelve mandatory friends');
 });
 
 test('the idle goose notices before warning, and never follows hidden coordinates',()=>{

@@ -59,10 +59,11 @@ body:has(.game-shell[data-phase="menu"]) { padding: 0; background: #15372e; }
 .farm-menu .difficulty-heading { margin: 0 0 12px; }
 .farm-menu .difficulty-heading h3 { margin: 0; color: #e3ecd8; font: 600 12px/1.3 "Segoe UI", sans-serif; }
 .farm-menu .difficulty-heading > span { color: #93ae9d; font-size: 9px; letter-spacing: .09em; }
-.farm-menu .difficulty-picks { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+.farm-menu .difficulty-picks { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; }
 .farm-menu .difficulty-picks button { position: relative; display: flex; flex-direction: column; gap: 5px; min-height: 116px; padding: 11px 4px 12px; border: 1px solid var(--menu-line); border-radius: 12px; background: #cde1be08; color: #d5e1cb; box-shadow: none; text-align: center; }
 .farm-menu .difficulty-picks button:hover { background: #e4eac711; border-color: #ddce855e; box-shadow: none; }
 .farm-menu .difficulty-art { width: 42px; height: 42px; filter: none; }
+.farm-menu #difficultyArt-hardcore { width: 64px; height: 64px; margin: -6px 0 -4px; }
 .farm-menu .difficulty-name { display: flex; flex-direction: column-reverse; align-items: center; gap: 5px; font-size: 10px; font-weight: 500; line-height: 1.25; }
 .farm-menu .difficulty-picks button small { display: block; color: #e4ebd8; font-size: 12px; font-weight: 700; }
 .farm-menu .difficulty-detail { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }

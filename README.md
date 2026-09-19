@@ -21,7 +21,7 @@ Pelo caminho, piados revelam **seis pintinhos escondidos**. Encontrá-los é opc
 - **Resgates que dão trabalho.** Os bichos também se assustam e fogem da galinha. Chegue de mansinho ou aproveite quando eles pararem para descansar.
 - **Espantalho de folga.** Três corvos descansam no chapéu e nos braços perto do milharal. Aproximar a galinha espanta o bando; correr assusta de mais longe. Eles voltam após sete segundos de sossego e podem ser espantados novamente.
 - **Segredos e aparências.** Procure os pintinhos para liberar Zeca, o pato; Pipoca, o coelho; Stella, a gata; e Paçoca, o caramelo, cada um com seu tema musical. O desafio do lago libera também Gumercindo, o ganso cinzento. Todos têm sprites próprios e acessórios da roça.
-- **Três dificuldades.** Escolha entre Dia tranquilo, Penas em risco e Lobo à solta. O progresso e as preferências ficam salvos no navegador quando o armazenamento local está disponível.
+- **Quatro dificuldades.** Escolha entre Dia tranquilo, Penas em risco, Lobo à solta e Hardcore. Fácil e Médio não têm limite de tempo. Difícil começa com 60 segundos e Hardcore com 45; resgates acrescentam tempo ao relógio. O progresso e as preferências ficam salvos no navegador quando o armazenamento local está disponível.
 
 ## Como jogar
 
@@ -78,7 +78,9 @@ Desvie da sequência inteira para deixar PANTO tonto. O som curto, o anel verde 
 
 O contador **0/3 → 3/3** mostra os carimbos; o painel também mostra a rodada e as chances restantes. **Três bicadas encerram a tentativa**, zerando os carimbos daquele desafio. As bicadas não apagam resgates, vidas ou pontos da fazenda. Durante a tentativa, o lobo espera fora da área. **F novamente** ou sair do círculo também interrompe a tentativa. Pausar congela inclusive a abertura para o carimbo; recarregar a página exige iniciar o desafio de novo com segurança.
 
-Ao pegar os três carimbos, a vinheta de vitória toca, PANTO para de atacar, a **ponte sobre o lago abre um atalho real** e a **aparência de ganso** fica disponível no baú. O tablado termina nas margens, com apoios de pedra, corrimãos e ligações aos caminhos próximos. A ponte permanece aberta nessa fazenda; a aparência continua desbloqueada nas próximas aventuras. Vitórias salvas antes desta revisão continuam válidas. Nenhum dos 12 amigos ou seis pintinhos exige vencer esse desafio.
+Ao pegar os três carimbos, a vinheta de vitória toca e **PANTO é resgatado como amigo extra**, rendendo **+100 pontos uma única vez**. Ele vai para seu lugar no poleiro, deixa de atacar e participa da comemoração final. O HUD e o resultado mostram o resgate separado dos 12 amigos obrigatórios. Vença o desafio antes de salvar o último amigo para levar Panto à festa.
+
+A **ponte sobre o lago abre um atalho real** e a **aparência de ganso** fica disponível no baú. O tablado termina nas margens, com apoios de pedra, corrimãos e ligações aos caminhos próximos. A ponte e o resgate de Panto permanecem salvos nessa fazenda; a aparência continua desbloqueada nas próximas aventuras. Desafios vencidos em salvamentos antigos também colocam Panto no poleiro, preservando a pontuação original. Reiniciar a tentativa exige vencer o desafio de novo. Nenhum dos 12 amigos ou seis pintinhos exige vencer esse desafio.
 
 ## Campo de girassóis
 
@@ -88,11 +90,15 @@ Durante a ronda, o lobo pode caminhar até o campo, esconder-se e esperar. Seu c
 
 Thor interrompe a emboscada. Pausar congela o ataque; carregar uma partida interrompida devolve o lobo à rotina com um intervalo seguro antes de outra tentativa. O desafio do Panto suspende essa mecânica.
 
-## Lorenzo, a raposa, e a coruja
+## Lorenzo, Amanda e a coruja
 
-As duas usam as folhas de sprites fornecidas pelo usuário, com 12 poses e quatro direções. As imagens originais são preservadas; recortes individuais evitam cortar orelhas, caudas e patas. Consulte as [notas da arte](assets/sprites/USER-WILDLIFE-NOTES.md).
+No **Difícil e Hardcore**, as raposas caminham entre arbustos livres, respeitando as colisões, sem ocupar moitas com pintinhos ou a moita da personagem escondida. No Difícil, esperam cerca de 10 segundos entre mudanças; no Hardcore, cerca de 6 segundos e caminham mais rápido. A moita de destino fica reservada enquanto a raposa se desloca. O bote continua tendo aviso e direção fixa. Fácil e Médio mantêm as tocas fixas.
 
-Nas moitas junto aos caminhos, **Lorenzo, a raposa, fica visível na borda da vegetação**, mesmo enquanto espera, com uma identificação discreta sobre o personagem. Antes do bote, ele faz as folhas farfalharem, e uma faixa mostra a direção e a largura da investida. Desvie para o lado: Lorenzo não corrige a direção no meio do ataque. Uma investida que acerta **tira um coração**, empurra a personagem e dá 1,2 segundo de proteção contra outro acerto. A última vida encerra a tentativa. Pontos e resgates não sofrem desconto pelo acerto.
+Raposas e corujas usam as folhas de sprites fornecidas pelo usuário, com 12 poses e quatro direções. As imagens originais são preservadas; recortes individuais evitam cortar orelhas, caudas e patas. Amanda usa um lacinho rosa que acompanha todas as poses. Consulte as [notas da arte](assets/sprites/USER-WILDLIFE-NOTES.md).
+
+Nas moitas junto aos caminhos, **Lorenzo e Amanda ficam visíveis na borda da vegetação**, mesmo enquanto esperam, com o nome sobre cada personagem. Cada raposa mantém sua identidade ao trocar de moita e carregar a partida. Antes do bote, as folhas farfalham, e uma faixa mostra a direção e a largura da investida. Desvie para o lado: as raposas não corrigem a direção no meio do ataque. Uma investida que acerta **tira um coração**, empurra a personagem e dá 1,2 segundo de proteção contra outro acerto. A última vida encerra a tentativa. Pontos e resgates não sofrem desconto pelo acerto.
+
+Os dois têm falas próprias enquanto esperam, preparam o bote, acertam ou erram, mudam de moita e levam bronca do lobo. Lorenzo disfarça com “Era teste de suspensão”; Amanda responde com “Errei? Foi coreografia!”. As falas alternam, aparecem em balões por três segundos e ficam pausadas junto com o jogo.
 
 A moita que abriga uma raposa fica marcada como **ocupada** e não pode ser usada como esconderijo, mesmo durante a saída dela. Depois do bote, a raposa descansa e retorna à toca. Se o lobo a vir exposta nesse intervalo, respeitando sua visão e os obstáculos, ele dispara **“Quem manda nesta fazenda sou eu!”**. A raposa corre para longe dele, volta à moita e demora mais para atacar outra vez. O lobo mantém a perseguição que já estiver fazendo; assustado pelo Thor, ele não banca o valentão.
 
@@ -108,9 +114,10 @@ Os encontros aproveitam árvores e moitas existentes, longe do início, dos pint
 
 - **Fácil:** quando resta **1 coração**, ele vem automaticamente e dá **+1 coração**, uma única vez por tentativa.
 - **Médio:** reúna **2 ossos** e chame Thor para recuperar os **3 corações**.
-- **Difícil:** reúna **3 ossos** e chame Thor para recuperar os **3 corações**.
+- **Difícil:** reúna **4 ossos** e chame Thor para recuperar os **3 corações**.
+- **Hardcore:** a primeira chamada custa **5 ossos**; cada chamada aumenta o próximo custo em **1** (6, 7, 8…). A cura recupera os **3 corações**. Salvar e continuar preserva o custo; uma nova tentativa volta a 5.
 
-Os ossos ficam nos caminhos, aparecem no minimapa e são recolhidos ao encostar. Quando houver ossos suficientes e faltar vida, use **T**, **Y no controle** ou o botão **Chamar Thor**. A vida cheia preserva os ossos. A chamada reserva os ossos uma vez; outro conjunto fica disponível para uma futura ajuda. No Médio e Difícil, saia da água ou termine o desafio de PANTO para chamar. No Fácil, a ajuda automática também funciona no lago.
+Os ossos ficam nos caminhos, aparecem no minimapa e são recolhidos ao encostar. Quando houver ossos suficientes e faltar vida, use **T**, **Y no controle** ou o botão **Chamar Thor**. A vida cheia preserva os ossos. A chamada reserva os ossos uma vez; outro conjunto fica disponível para uma futura ajuda. Custos acima de seis são abastecidos em grupos de até seis ossos, que reaparecem quando o grupo é recolhido. No Médio, Difícil e Hardcore, saia da água ou termine o desafio de PANTO para chamar. No Fácil, a ajuda automática também funciona no lago.
 
 A ajuda abre uma cena de **5,4 segundos**: Thor sai da casinha, corre até a personagem e entrega os corações. O jogo e o relógio ficam congelados; ao voltar, Thor está por perto e o lobo foge por sete segundos. É possível pausar ou pular a cena, recebendo a mesma ajuda. O fim da cena devolve o foco ao jogo e limpa os comandos segurados. A preferência por movimento reduzido desativa a corrida e os pulos da apresentação.
 
@@ -167,6 +174,19 @@ Zeca usa chapéu de palha e lenço cor de telha; Pipoca tem lenço verde e uma o
 Erina, Midori e Alzira mantêm os atributos básicos. Só o poder equipado vale, e a troca preserva o fôlego atual, as vidas e as colisões. Os desbloqueios permanecem entre aventuras, e aparências ganhas em saves anteriores já recebem seus poderes. Para conquistar todos na mesma partida, encontre os pintinhos **antes de resgatar o último amigo**.
 
 ## Som e progresso
+
+O relógio arcade recompensa cada resgate uma única vez:
+
+| Dificuldade | Tempo inicial | Por pintinho | Por amigo (incluindo Panto) |
+| --- | --- | --- | --- |
+| Difícil | 60s | +20s | +10s |
+| Hardcore | 45s | +30s | +15s |
+
+O tempo ganho se soma ao restante, podendo ultrapassar o tempo inicial. O acréscimo aparece ao lado do cronômetro. Fácil e Médio continuam sem limite de tempo.
+
+No **Difícil**, cada segundo inteiro que sobra ao salvar o último dos 12 amigos soma **1.000 pontos**. No **Hardcore**, soma **10.000 pontos**. Assim, 30 segundos rendem +30.000 ou +300.000 pontos, além dos pontos de resgate e das vidas restantes. A tela de vitória mostra a conta, aplicada uma única vez. Frações de segundo não pontuam.
+
+O cronômetro aparece junto dos pontos e destaca os últimos 15 segundos. Pausar no menu ou assistir à ajuda do Thor congela o tempo; o desafio do lago faz parte do tempo da partida. Ao zerar, a tentativa termina mesmo com vidas restantes. Tentar novamente repõe os 60s ou 45s iniciais. Continuar um salvamento mantém o tempo ganho e as tocas das raposas. Partidas antigas ainda em andamento recebem o novo tempo inicial uma única vez, sem repetir recompensas de resgates já feitos; vitórias antigas conservam seus pontos e derrotas continuam encerradas.
 
 O jogo tem músicas para a fazenda e para as aparências, gravações dos animais e efeitos para os resgates, esconderijos e a cena final. Música e efeitos têm controles de volume separados; também é possível desligar todo o som.
 

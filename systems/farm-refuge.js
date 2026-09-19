@@ -17,6 +17,7 @@ const FarmRefuge = (() => {
     const points = chick ? nests : homes, p = points[index % points.length];
     return { x:p[0], y:p[1] };
   }
+  function gooseHome() { return { x: 190, y: 327 }; }
   function obstacles() {
     return [
       ...rails.map(p => ({ x:p.x-4,y:p.y-3,w:p.w+8,h:p.h+6,type:'refuge-fence',opaque:false })),
@@ -98,5 +99,5 @@ const FarmRefuge = (() => {
     }
     c.restore();
   }
-  return { bounds,nursery,home,obstacles,props,drawProp,drawGround,ensureClear };
+  return { bounds,nursery,home,gooseHome,obstacles,props,drawProp,drawGround,ensureClear };
 })();

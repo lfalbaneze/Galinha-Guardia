@@ -93,6 +93,7 @@ with sync_playwright() as p:
  result['checks'].append('Three rounds, keyboard dodges and close E counters, pause/resume, no injected stamps')
  assert page.evaluate('state.lake.completed && !state.lake.active && SkinSystem.unlocked("goose")')
  assert page.evaluate('state.lives===3 && state.rescuedCount===0')
+ assert page.evaluate('state.entities.goose.rescued && state.lake.gooseRescued && state.score===100')
  page.evaluate('renderGame();GameUI.update(state);GameManager.save(state)')
  page.screenshot(path=str(OUT/'browser-lake-victory.png'))
  # Bridge collision uses real generated obstacles and the ordinary Player.move function.
@@ -106,6 +107,7 @@ with sync_playwright() as p:
  page.reload(wait_until='networkidle');page.wait_for_function('CharacterArt.ready && GooseArt.ready')
  assert page.evaluate('state.lake.completed && SkinSystem.unlocked("goose") && state.entities.chicken.skin==="goose"')
  page.locator('#continueBtn').click();assert page.evaluate('state.entities.goose.mode==="defeated"')
+ assert page.evaluate('state.entities.goose.rescued && distance(state.entities.goose,FarmRefuge.gooseHome())<1')
  result['checks'].append('Victory, open bridge and equipped cosmetic persisted after reload')
  page.evaluate("""()=>{resetGame(814237);state.phase='playing';const sign=FarmArt.getProps(WORLD.layout).find(p=>p.id==='sign-quintal');
    camera.x=clamp(sign.x-450,0,WORLD.width-900);camera.y=clamp(sign.y-260,0,WORLD.height-520);renderGame();GameUI.update(state);}""")
