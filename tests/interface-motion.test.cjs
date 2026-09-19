@@ -109,6 +109,33 @@ test('HUD and region transitions run once per event and stay still across unchan
   assert.equal(elements.get('regionNotice').hidden, true);
 });
 
+test('the location label stays stable between region changes, including while its pulse plays', () => {
+  const { run, elements, animations } = createGame(() => .5, { recordAnimations: true });
+  const label = elements.get('areaText');
+  let text = label.textContent, writes = 0;
+  Object.defineProperty(label, 'textContent', {
+    get: () => text,
+    set: value => { text = value; writes += 1; },
+  });
+  run('GameUI.update(state); for(let i=0;i<120;i++)MapManager.update(state,1/60);');
+  assert.ok(text.length > 0);
+  assert.equal(writes, 0, 'unchanged frames must preserve the existing text node');
+
+  run(`const nextRegion=WORLD.areas.find(area=>area.id!==state.currentMap);
+    Object.assign(state.entities.chicken,{x:nextRegion.x+nextRegion.w/2,y:nextRegion.y+nextRegion.h/2});
+    MapManager.update(state,1/60);GameUI.update(state);`);
+  assert.equal(text, run('nextRegion.name'));
+  assert.equal(writes, 1, 'crossing a region boundary updates the label once');
+  assert.equal(animations.filter(animation => animation.id === 'areaText').length, 1);
+  run('for(let i=0;i<120;i++){MapManager.update(state,1/60);GameUI.update(state);}');
+  assert.equal(writes, 1, 'the region pulse must not recreate its text');
+
+  run('GameUI.showMenu(state);');
+  assert.equal(writes, 1);
+  run('resetGame();');
+  assert.equal(text, run('MapManager.getRegion(state.entities.chicken.x,state.entities.chicken.y).name'));
+});
+
 test('outfit preview animates the equipped sprite and supports rotation without advancing the game', () => {
   const { run, events } = createGame(() => .5);
   run(`GameUI.showMenu(state); const original=JSON.stringify(state);const poses=[];

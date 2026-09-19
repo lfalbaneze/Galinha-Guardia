@@ -371,7 +371,6 @@ function resetGame(seed, worldVersion = 7) {
   rescuedCountEl.textContent = "0";
   livesCountEl.textContent = String(MAX_LIVES);
   scoreCountEl.textContent = "0";
-  areaTextEl.textContent = "Poleiro";
   setStatus(`A porteira abriu e o juízo saiu! Junte os ${WORLD.targetRescues} amigos no poleiro e siga os piados pelo caminho.`);
   GameInput.clear();
   GameManager.save(state);

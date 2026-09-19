@@ -27,7 +27,7 @@ body:has(.game-shell:not([data-phase="menu"])) { padding:0; overflow:hidden; bac
 .play-region { position:absolute; left:0; top:calc(100% + 13px); gap:7px; padding:8px 12px; border-radius:10px; background:#254231ce; box-shadow:0 2px 6px #1d392222; color:#fff3ce; }
 .play-region svg { width:16px; height:18px; color:#ebce7e; }
 .play-region small { display:none; }
-.play-region b { font-size:12px; font-weight:600; }
+.play-region b { display:inline-block; color:#fff3ce; font-size:12px; font-weight:600; transform-origin:left center; }
 .game-heading .play-pause.button-secondary { display:flex; align-items:center; gap:7px; min-height:44px; padding:10px 11px; border:1px solid #c4c59b66; border-radius:12px; background:#fcf1bf13; box-shadow:none; color:#fff5d8; font-size:12px; }
 .game-heading .play-pause:hover { background:#fcf1bf2b; }
 .play-pause svg { width:12px; height:12px; fill:currentColor; }

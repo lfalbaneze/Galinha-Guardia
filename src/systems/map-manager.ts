@@ -31,7 +31,8 @@ const MapManager = {
       game.mapTransition = { time: 2.5, name: region.name };
       GameManager.save(game);
     }
-    areaTextEl.textContent = region.name;
+    // Preserve the text node while the region is unchanged, including during HUD animations.
+    if (areaTextEl.textContent !== region.name) areaTextEl.textContent = region.name;
   },
   draw(game: Farm.GameState): void {
     FarmRefuge.drawGround(ctx,camera);
