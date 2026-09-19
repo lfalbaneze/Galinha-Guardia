@@ -48,19 +48,22 @@ function createFarm() {
     circleVsCircle: (a, b) => { a = hitbox(a); b = hitbox(b); return Math.hypot(a.x-b.x,a.y-b.y) <= a.r+b.r; },
     resolveEnvironment: e => { e.x = clamp(e.x, e.radius, world.width-e.radius); e.y = clamp(e.y, e.radius, world.height-e.radius); },
     getAreaAt: (x, y) => areas.find(a => x >= a.x && x <= a.x+a.w && y >= a.y && y <= a.y+a.h) || areas[0],
-    GameUI: { update() {} }, SkinSystem: { initialize() {}, record() {} },
-    AudioSystem: { play() {}, playAnimal() {} },
+    GameUI: { update() {} }, SkinSystem: { initialize() {}, record() {}, power: () =>
+      ({landSpeed:1,swimSpeed:1,sneakSpeed:.4,noiseScale:1,sprintDuration:1,friendSpecies:null}) },
+    AudioSystem: { play() {}, playAnimal() {}, playPlayerHurt() { return false; } },
     FarmRefuge: { home: (index, chick) => ({ x: 100 + index * 25, y: chick ? 180 : 140 }), ensureClear() {}, drawGround() {} },
-    FarmArt: { drawCoverForeground() {} }, InterfaceMotion: { reduced: true },
+    FarmArt: { drawCoverForeground() {}, getProps() { return []; } }, FarmDetails: {shape:p=>p}, InterfaceMotion: { reduced: true },
+    CharacterArt: { appearances: {classic:{name:'Carijó',species:'chicken'}} },
     WorldGenerator: { generate: () => layout }, areaTextEl: { textContent: '' },
     setStatus() {}, spawnBurst() {}, refreshHud() {}, buildObstacles() {},
     startWinCutscene: () => { state.phase = 'win_cutscene'; }, finishLose: () => { state.phase = 'lose'; },
     localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value), removeItem: key => storage.delete(key) },
   });
   const sourceDirectory = process.env.GAMEPLAY_SOURCE_DIRECTORY || path.join(__dirname, '..', 'systems');
-  for (const file of ['game-manager', 'rescue-system', 'detection-system', 'hiding-spots', 'wolf-ai', 'map-manager', 'player', 'lake-challenge', 'goose-system', 'wildlife-rules', 'fox-system', 'owl-system', 'thor-system']) {
+  for (const file of ['game-manager', 'rescue-system', 'detection-system', 'hiding-spots', 'wolf-ai', 'map-manager', 'player', 'lake-challenge', 'goose-system', 'wildlife-rules', 'fox-system', 'owl-system', 'thor-system', 'scarecrow-system', 'swimming-system', 'environment-system', 'sunflower-system']) {
     vm.runInContext(fs.readFileSync(path.join(sourceDirectory, `${file}.js`), 'utf8'), context, { filename: `${file}.js` });
   }
+  vm.runInContext(fs.readFileSync(path.join(__dirname,'../systems/wolf-dialogue.js'),'utf8'),context);
   const api = vm.runInContext('({ GameManager, RescueSystem, DetectionSystem, HidingSpots, WolfAI, MapManager, Player, FoxSystem, OwlSystem })', context);
   api.GameManager.initialize(state); api.WolfAI.initialize(state); api.HidingSpots.initialize(); api.MapManager.initialize(state);
   return { ...api, state, input, storage, context, world };
@@ -101,16 +104,16 @@ test('a catch penalizes once and invulnerability prevents a second hit', () => {
   assert.equal(e.Player.checkCatch(e.state), false); assert.equal(e.state.lives, 2);
 });
 
-test('the final lost life saves progress with a pending return to the refuge', () => {
+test('the final lost life saves a defeat with zero lives instead of a healed adventure', () => {
   const e = createFarm(), { chicken, wolf } = e.state.entities;
   e.GameManager.save(e.state); e.state.lives = 1;
   wolf.x = chicken.x; wolf.y = chicken.y;
   e.Player.checkCatch(e.state);
   assert.equal(e.state.phase, 'lose'); assert.equal(e.state.score, 0);
   const saved=e.GameManager.read();
-  assert.equal(saved.needsRecovery,true);
-  assert.equal(saved.phase,'playing');
-  assert.equal(saved.lives,3);
+  assert.equal(saved.needsRecovery,undefined);
+  assert.equal(saved.phase,'lose');
+  assert.equal(saved.lives,0);
   assert.equal(saved.score,e.state.score);
 });
 

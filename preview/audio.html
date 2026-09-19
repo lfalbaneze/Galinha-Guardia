@@ -30,7 +30,7 @@
   </div>
   <section class="listen-card"><h2>Ouça a confusão completa</h2><p>Uma prévia de 19 segundos com a música, as pancadas cômicas, o choramingo e a fuga do lobo.</p><audio controls preload="none" src="finale-audio.wav"></audio></section>
   <h2 id="resgates">Vozes dos animais</h2>
-  <p>Gravações de animais, ouvidas na exploração e nos resgates. <a href="../assets/audio/CREDITS.html">Autores e licenças</a>.</p>
+  <p>Vozes ouvidas na exploração e nos resgates. <a href="../assets/audio/revisao.html">Comparar antes e depois</a> · <a href="../assets/audio/CREDITS.html">Autores e licenças</a>.</p>
   <div id="animals" class="listen-grid"></div>
   <h2>Efeitos da aventura</h2>
   <div id="effects" class="listen-grid"></div>
@@ -38,13 +38,14 @@
 </main>
 <script>
   const animals = [['animal-cow','Vaquinha · Muuu!'],['animal-dog','Cachorrinho · Au-au!'],['animal-cat','Gatinho · Miau!'],['animal-duck','Pato · Quá-quá!'],['animal-pig','Porquinho · Oinc!'],['animal-sheep','Ovelha · Bééé!'],['animal-goat','Cabra · Mééé!'],['animal-lamb','Cordeirinho · Béé!'],['animal-donkey','Burrinho · Ióó!'],['animal-rabbit','Coelho · Mastigando'],['chick','Pintinho · Piu-piu!']];
-  const effects = [['pop','POF!'],['boing','Mola de desenho animado'],['bonk','Pancadinha cômica'],['squeak','Guincho de susto'],['dizzy','Vendo estrelinhas'],['sob','Choramingo do lobo'],['runaway','Fuga atrapalhada'],['rescue','Resgate musical'],['victory','Família reunida']];
+  animals.push(['animal-horse','Cavalo · Iiiirrr!'],['animal-turkey','Peru · Gluglu!'],['animal-chicken','Galinha · Có-có!'],['goose-honk','Panto · Fiscal do lago']);
+  const effects = [['pop','POF!'],['boing','Mola de desenho animado'],['bonk','Pancadinha cômica'],['squeak','Guincho de susto'],['dizzy','Vendo estrelinhas'],['sob','Choramingo do lobo'],['runaway','Fuga atrapalhada'],['rescue','Resgate musical'],['victory','Família reunida'],['panto-dodge','Esquivou do Panto!'],['panto-victory','Panto aprovou a passagem']];
   function addPlayers(id, sounds) {
     for (const [file, title] of sounds) {
       const card = document.createElement('section'); card.className = 'listen-card';
       const heading = document.createElement('h2'); heading.textContent = title;
       const player = document.createElement('audio'); player.controls = true; player.preload = 'none';
-      player.src = '../assets/audio/' + (id === 'animals' ? 'voices/v2/' : '') + file + '.wav'; player.setAttribute('aria-label', title);
+      player.src = '../assets/audio/' + (id === 'animals' ? 'voices/v3/' : '') + file + '.wav'; player.setAttribute('aria-label', title);
       card.append(heading, player); document.getElementById(id).append(card);
     }
   }

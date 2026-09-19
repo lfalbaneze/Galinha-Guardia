@@ -47,7 +47,7 @@ test('new farms vary district geometry and connected road networks beyond fixed 
   }
   const graphs = new Set();
   for (const world of worlds) {
-    assert.equal(world.version, 5);
+    assert.equal(world.version, 7);
     graphs.add(world.connections.map(edge => [...edge].sort().join('-')).sort().join(','));
     const reached = new Set(['poleiro']);
     for (let pass = 0; pass < 5; pass++) for (const [a, b] of world.connections) {
@@ -152,7 +152,7 @@ test('30 seeds keep legal separated districts, useful structures, and a clear re
     const refuge = { x: 100, y: 340, w: 290, h: 120 };
     assert.deepEqual(world.start, { x: 380, y: 390 });
     assert.deepEqual(world.areas.map(a => a.id), ['poleiro', 'granja', 'estabulo', 'horta', 'quintal']);
-    assert.equal(world.animalSpawns.length, 10);
+    assert.equal(world.animalSpawns.length, 12);
     assert.equal(world.chickSpawns.length, 6);
     assert.equal(new Set(world.chickSpawns.map(c => c.areaId)).size, 5);
     assert.ok(world.structures.coops.length === 1, `seed ${seed}: coops`);
@@ -161,7 +161,7 @@ test('30 seeds keep legal separated districts, useful structures, and a clear re
     assert.ok(world.decorations.filter(d => d.type === 'crop').length >= 20, `seed ${seed}: crops`);
     for (const [i, area] of world.areas.entries()) {
       assert.ok(area.x >= 0 && area.y >= 0 && area.x + area.w <= world.width && area.y + area.h <= world.height);
-      assert.equal(world.animalSpawns.filter(a => a.areaId === area.id).length, 2);
+      assert.equal(world.animalSpawns.filter(a => a.areaId === area.id).length, ['estabulo','granja'].includes(area.id) ? 3 : 2);
       if(area.id==='quintal') assert.ok(world.vegetation.filter(v => v.areaId === area.id && v.type === 'tree').length>=2, `seed ${seed}: orchard trees`);
       assert.equal(world.areas.slice(i + 1).some(a => intersects(a, area)), false);
     }
@@ -174,7 +174,7 @@ test('30 seeds keep legal separated districts, useful structures, and a clear re
   }
 });
 
-test('30 seeded worlds connect the refuge, ten friends, six chicks, all regions, and all cover', () => {
+test('30 seeded worlds connect the refuge, twelve friends, six chicks, all regions, and all cover', () => {
   for (let seed = 0; seed < 30; seed++) {
     const world = generate(seed);
     const solids = getSolids(world);

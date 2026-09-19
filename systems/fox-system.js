@@ -24,7 +24,7 @@ const FoxSystem = (() => {
         game.entities.foxes = chosen.map(({ spot, home }, i) => ({ id: `fox-${spot.id}`, type: 'fox', ...home,
             radius: 23, hitbox: { ...HITBOX }, vx: 0, vy: 0, facing: 1, direction: 'right', moving: false, anim: 0,
             areaId: getAreaAt(home.x, home.y).id, state: 'idle', mode: 'hidden', home: point(home), anchor: point(home),
-            target: point(home), bushId: spot.id, timer: 0, cooldown: 1 + i * .5, grace: 2, notice: 0, attempts: 0, hit: false, route: [] }));
+            target: point(home), bushId: spot.id, timer: 0, cooldown: 1 + i * .5, grace: 2, notice: 0, attempts: 0, hit: false, route: [], scaredTime: 0 }));
     }
     function visible(game, fox) {
         return distance(game.entities.chicken, fox) < 400 && WildlifeRules.onScreen(fox, 80) &&
@@ -65,10 +65,52 @@ const FoxSystem = (() => {
         c.invulnerable = 1.2;
         fox.hit = true;
         rest(fox, getConfig(game));
-        AudioSystem.play('bonk', { volume: .35 });
+        game.lives = Math.max(0, game.lives - 1);
+        AudioSystem.playPlayerHurt(game);
         spawnBurst(c.x, c.y, '#dfac75', 8);
-        setStatus('Por pouco! A raposa empurra, mas precisa descansar depois do bote.');
+        if (game.lives === 0)
+            finishLose('Lorenzo levou essa! Tentar novamente começa do zero. Na próxima, desvie para o lado da investida.');
+        else
+            setStatus(`Lorenzo cobrou um coração! Restam ${game.lives}. Desvie para o lado e aproveite a pausa dele.`);
+        refreshHud();
         GameManager.save(game);
+        return true;
+    }
+    function fleePoint(fox, wolf) {
+        const away = Math.atan2(fox.y - wolf.y, fox.x - wolf.x), gap = distance(fox, wolf);
+        let best = point(fox), bestGap = gap;
+        for (const length of [120, 80, 40])
+            for (const offset of [0, .45, -.45, .9, -.9, 1.35, -1.35, Math.PI]) {
+                const p = { x: fox.x + Math.cos(away + offset) * length, y: fox.y + Math.sin(away + offset) * length };
+                const nextGap = distance(p, wolf);
+                if (nextGap > bestGap && distance(p, fox.home) <= LEASH && WildlifeRules.clear(fox, p, fox.hitbox)) {
+                    best = p;
+                    bestGap = nextGap;
+                }
+            }
+        return best;
+    }
+    function scareFromWolf(game, fox) {
+        const wolf = game.entities.wolf;
+        if (!['rest', 'return'].includes(fox.mode) || (fox.scaredTime || 0) > 0 || fox.grace > 0 ||
+            wolf.mode === 'frightened' || SunflowerSystem.concealed(game) || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 || (wolf.foxScoldCooldown || 0) > 0)
+            return false;
+        const config = WolfAI.getConfig(game);
+        if (!DetectionSystem.canSee(wolf, fox, { ...config, range: Math.min(280, config.range) }))
+            return false;
+        fox.target = fleePoint(fox, wolf);
+        fox.mode = 'flee';
+        fox.timer = 1.6;
+        fox.scaredTime = 6;
+        fox.cooldown = Math.max(8, fox.cooldown);
+        fox.route = [];
+        fox.hit = true;
+        wolf.foxScoldCooldown = 5;
+        wolf.speech = 'Quem manda nesta fazenda sou eu!';
+        wolf.speechTime = 3.2;
+        wolf.speechCooldown = 5;
+        wolf.speechPriority = 3.2;
+        wolf.speechMode = wolf.mode;
         return true;
     }
     function update(game, dt) {
@@ -76,11 +118,15 @@ const FoxSystem = (() => {
             return;
         dt = Math.min(dt, .1);
         const config = getConfig(game);
+        const wolf = game.entities.wolf;
+        wolf.foxScoldCooldown = Math.max(0, (wolf.foxScoldCooldown || 0) - dt);
         for (const fox of game.entities.foxes || []) {
             const before = point(fox);
             fox.cooldown = Math.max(0, fox.cooldown - dt);
             fox.grace = Math.max(0, fox.grace - dt);
             fox.timer = Math.max(0, fox.timer - dt);
+            fox.scaredTime = Math.max(0, (fox.scaredTime || 0) - dt);
+            scareFromWolf(game, fox);
             if (fox.mode === 'hidden') {
                 if (fox.cooldown <= 0 && fox.grace <= 0 && visible(game, fox) && WildlifeRules.observe(game, getHitbox(fox), 135)) {
                     const chicken = game.entities.chicken;
@@ -99,7 +145,7 @@ const FoxSystem = (() => {
                     fox.hit = false;
                     Player.face(fox, target.x - fox.x, target.y - fox.y);
                     AudioSystem.play('fox-rustle', { volume: .36 });
-                    setStatus('Olhos no mato! Saia da direção marcada antes do bote.');
+                    setStatus('Essa moita tem rabo! Saia para o lado da faixa marcada antes do bote do Lorenzo.');
                 }
             }
             else if (fox.mode === 'warning') {
@@ -126,6 +172,14 @@ const FoxSystem = (() => {
                     fox.route = [];
                 }
             }
+            else if (fox.mode === 'flee') {
+                const moved = WildlifeRules.move(fox, fox.target, config.speed * dt);
+                if (moved !== 'moving' || fox.timer <= 0) {
+                    fox.mode = 'return';
+                    fox.route = [];
+                    fox.timer = 0;
+                }
+            }
             else {
                 let target = fox.home;
                 if (!WildlifeRules.clear(fox, target, fox.hitbox)) {
@@ -137,7 +191,7 @@ const FoxSystem = (() => {
                         continue;
                     target = fox.route[0];
                 }
-                const moved = WildlifeRules.move(fox, target, 100 * dt);
+                const moved = WildlifeRules.move(fox, target, ((fox.scaredTime || 0) > 0 ? config.speed : 100) * dt);
                 if (moved === 'blocked') {
                     fox.route = [];
                     fox.timer = 1;
@@ -156,15 +210,30 @@ const FoxSystem = (() => {
             fox.vy = (fox.y - before.y) / dt;
             fox.moving = distance(before, fox) > .01;
             fox.state = fox.moving ? 'walk' : 'idle';
-            fox.anim += dt * (fox.mode === 'dash' ? 12 : fox.moving ? 7 : 2);
+            fox.anim += dt * (fox.mode === 'dash' || fox.mode === 'flee' ? 12 : fox.moving ? 7 : 2);
             fox.areaId = getAreaAt(fox.x, fox.y).id;
+            if (game.phase !== 'playing')
+                break;
         }
     }
     function drawWarnings(game) {
         if (game.phase !== 'playing' || game.lake?.active)
             return;
         for (const fox of game.entities.foxes || []) {
-            if (fox.mode === 'rest' && visible(game, fox)) {
+            if (visible(game, fox) && fox.mode !== 'rest' && !(fox.scaredTime || 0)) {
+                const x = clamp(worldX(fox.x), 32, canvas.width - 32), y = Math.max(20, worldY(fox.y) - 62);
+                ctx.save();
+                ctx.font = 'bold 11px Trebuchet MS, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.strokeStyle = '#243c2ddd';
+                ctx.lineWidth = 3;
+                ctx.lineJoin = 'round';
+                ctx.strokeText('Lorenzo', x, y);
+                ctx.fillStyle = '#fff0bd';
+                ctx.fillText('Lorenzo', x, y);
+                ctx.restore();
+            }
+            if ((fox.mode === 'rest' || (fox.scaredTime || 0) > 0) && visible(game, fox)) {
                 const x = worldX(fox.x), y = worldY(fox.y) - 59;
                 ctx.save();
                 ctx.fillStyle = '#324634ed';
@@ -174,7 +243,7 @@ const FoxSystem = (() => {
                 ctx.fillStyle = '#fff1be';
                 ctx.font = 'bold 12px Trebuchet MS, sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText('Pode passar', x, y + 15);
+                ctx.fillText((fox.scaredTime || 0) > 0 ? 'Já tô indo!' : 'Pausa no bote', x, y + 15);
                 ctx.restore();
             }
             if (fox.mode !== 'warning' || !visible(game, fox))
@@ -225,7 +294,7 @@ const FoxSystem = (() => {
             fox.mode = distance(fox, fox.home) > 1 ? 'rest' : 'hidden';
             fox.timer = 1.1;
             const cooldown = s.cooldown;
-            fox.cooldown = typeof cooldown === 'number' && Number.isFinite(cooldown) ? clamp(cooldown, 1, 5) : 2;
+            fox.cooldown = typeof cooldown === 'number' && Number.isFinite(cooldown) ? clamp(cooldown, 1, 8) : 2;
             fox.grace = 2;
         }
     }

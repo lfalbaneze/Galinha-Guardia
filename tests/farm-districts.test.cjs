@@ -36,13 +36,21 @@ test('100 new farms have complete useful districts, unbroken beds and clear crop
         livestock:layout.animalSpawns.filter(a=>a.areaId==='estabulo').every(a=>{
           const yard=plots.find(p=>p.kind==='pasture');return a.x>yard.x&&a.x<yard.x+yard.w&&a.y>yard.y&&a.y<yard.y+yard.h;
         }),
-        signs:props.filter(p=>p.type==='sign').length
+        signs:props.filter(p=>p.type==='sign').length,
+        labels:props.filter(p=>p.type==='sign').every(sign=>{
+          const target=sign.areaId==='quintal' ? props.filter(p=>p.type==='tree'&&p.areaId==='quintal'&&(!p.art||p.art==='tree')).map(FarmDetails.shape) :
+            plots.filter(p=>p.areaId===sign.areaId&&p.kind===({granja:'corn',estabulo:'pasture',horta:'garden'}[sign.areaId]));
+          const gap=box=>Math.hypot(Math.max(box.x-sign.x-sign.w,sign.x-box.x-box.w,0),
+            Math.max(box.y-sign.y-sign.h,sign.y-box.y-box.h,0));
+          return target.some(p=>gap(p)<=112)&&
+            [...layout.paths,...layout.lanes,...layout.clearings].every(p=>!overlap(sign,p,12));
+        })
       };
     })()`);
-    assert.equal(result.version,5);
-    for(const key of ['corn','garden','yard','roads','scenery','rows','coops','hay','fox','accents','access','clearLanes','fronts','livestock'])
+    assert.equal(result.version,7);
+    for(const key of ['corn','garden','yard','roads','scenery','rows','coops','hay','fox','accents','access','clearLanes','fronts','livestock','labels'])
       assert.equal(result[key],true,`${seed}: ${key}`);
-    assert.equal(result.animals,'cow,goat',`${seed}: livestock`);
+    assert.equal(result.animals,'cow,goat,horse',`${seed}: livestock`);
     assert.equal(result.signs,4,`${seed}: signs`);
   }
 });
@@ -74,8 +82,8 @@ test('loading a historical farm upgrades the scenery while retaining progress', 
   assert.ok(game.run("OBSTACLES.some(o=>o.type==='paddock-fence')"));
   game.run('resetGame(814237,2);GameManager.rescue(state,state.entities.animals[2]);GameManager.save(state)');
   const loaded=createGame(() => .5,{storage:new Map(game.storage),fullStartup:true});
-  assert.equal(loaded.run('state.worldVersion'),5);
+  assert.equal(loaded.run('state.worldVersion'),7);
   assert.equal(loaded.run('STRUCTURES.coops.length'),1);
   assert.equal(loaded.run('state.rescuedIds.has("animal_2")'),true);
-  assert.ok(loaded.storage.has('galinha-guardia-save-before-map-5'));
+  assert.ok(loaded.storage.has('galinha-guardia-save-before-map-7'));
 });

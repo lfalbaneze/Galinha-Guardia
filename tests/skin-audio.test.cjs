@@ -47,6 +47,59 @@ function advanceFinale(h, time) {
     updateGame(Math.min(.05, ${time} - state.cutscene.time));`);
 }
 
+function prepareHit(h, attacker) {
+  h.run(`OBSTACLES=[];state.lives=3;state.lake.active=false;
+    Object.assign(state.entities.chicken,{x:1000,y:800,hidden:false,invulnerable:0});
+    Object.assign(state.entities.wolf,{x:1000,y:800,mode:'chase',huntUnlockTimer:0,pauseTimer:0});
+    Object.assign(state.entities.goose,{x:1000,y:800,home:{x:1000,y:800},anchor:{x:990,y:800},target:{x:1100,y:800},
+      mode:'charge',timer:1,grace:0,chargeHit:false,honkCooldown:10});
+    Object.assign(state.entities.foxes[0],{x:1000,y:800,home:{x:1000,y:800},anchor:{x:990,y:800},target:{x:1100,y:800},
+      mode:'dash',timer:1,grace:0,hit:false});`);
+  return attacker === 'wolf' ? 'Player.checkCatch(state)' : attacker === 'goose' ? 'GooseSystem.update(state,.01)' : 'FoxSystem.update(state,.01)';
+}
+
+test('wolf, goose and fox hits use the equipped animal voice once, including after a skin switch', () => {
+  const h = harness(unlockedStorage()); start(h);
+  h.run('SkinSystem.unlockLake(state,false);GameUI.update(state);');
+  const expected = [
+    ['classic', /^animal-chicken(?:-2)?\.wav$/], ['silkie', /^animal-chicken(?:-2)?\.wav$/],
+    ['blue', /^animal-chicken(?:-2)?\.wav$/], ['punk', /^animal-duck\.wav$/],
+    ['astronaut', /^squeak\.wav$/], ['robocop', /^animal-cat\.wav$/],
+    ['priest', /^animal-dog\.wav$/], ['goose', /^goose-honk(?:-2)?\.wav$/],
+  ];
+  for (const attacker of ['wolf','goose','fox']) for (const [skin, clip] of expected) {
+    equip(h, skin);
+    const action = prepareHit(h, attacker), before = h.plays.length;
+    h.run(`${action};${action};`);
+    const calls = h.plays.slice(before).filter(play => !play.loop);
+    assert.equal(calls.length, 1, `${attacker}/${skin}: one reaction per hit`);
+    assert.match(calls[0].src.split('/').pop(), clip, `${attacker}/${skin}`);
+    assert.equal(h.run('state.lives'), attacker === 'goose' ? 3 : 2);
+  }
+});
+
+test('damage uses a reloaded appearance, yields to mute and pause, and clears ambient chatter', () => {
+  const h = harness(unlockedStorage('robocop'), true); start(h);
+  h.run(`AudioSystem.playAnimal('cow',{ambient:true});AudioSystem.playAnimal('pig',{ambient:true});`);
+  const action = prepareHit(h, 'wolf');
+  h.run(action);
+  assert.match(h.plays.at(-1).src, /animal-cat\.wav$/);
+  assert.ok(h.players.filter(p => !p.loop && !p.paused).every(p => /animal-cat\.wav$/.test(p.src)));
+  for (const condition of ['mute','zero','pause','hidden']) {
+    prepareHit(h, 'wolf');
+    h.run('AudioSystem.setEffectsVolume(.55);');
+    if (condition === 'mute') h.run('AudioSystem.toggleMute();');
+    if (condition === 'zero') h.run('AudioSystem.setEffectsVolume(0);');
+    if (condition === 'pause') h.events.elements.pauseBtn.click();
+    if (condition === 'hidden') { h.run('document.hidden=true;'); h.events.document.visibilitychange(); }
+    const before = h.plays.length;
+    h.run(action);
+    assert.equal(h.plays.length, before, condition);
+    if (condition === 'mute') h.run('AudioSystem.toggleMute();');
+    if (condition === 'pause') h.events.elements.continueBtn.click();
+  }
+});
+
 test('old audio preferences gain skin themes without losing their settings or autoplaying', () => {
   const oldSettings = { track: 'whistle', musicVolume: .17, effectsVolume: .38, muted: false };
   const h = harness(unlockedStorage('astronaut', oldSettings), true);

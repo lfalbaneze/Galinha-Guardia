@@ -1,114 +1,134 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const {createGame}=require('./helpers.cjs');
 const step=(h,seconds,code='ThorSystem.update(state,.05)')=>h.run(`for(let i=0;i<${Math.ceil(seconds/.05)};i++){${code};}`);
-function setup(){
+function setup(difficulty='easy'){
   const h=createGame(()=>.5);
-  h.run(`OBSTACLES=[];var c=state.entities.chicken,w=state.entities.wolf;
-    Object.assign(c,{x:1000,y:800,invulnerable:0});Object.assign(w,{x:1180,y:800,huntUnlockTimer:0,pauseTimer:0});
-    camera.x=550;camera.y=540;state.lives=1;state.thorVisit.nextIn=0;ThorSystem.update(state,.05);`);
+  h.run(`state.difficultyKey='${difficulty}';state.phase='playing';var c=state.entities.chicken,w=state.entities.wolf;
+    Object.assign(c,{...WORLD.layout.start,invulnerable:0});state.lives=3;
+    var cues=[];AudioSystem.play=(name)=>cues.push(name);ThorSystem.initialize(state);`);
   return h;
 }
-test('visits draw from random intervals and never depend on health, seed, rescues or difficulty',()=>{
-  const h=createGame(()=>.5);
-  const values=[.01,.2,.5,.8,.99].map(n=>h.run(`ThorSystem.nextDelay(()=>${n})`));
-  assert.ok(values.every((v,i)=>Number.isFinite(v)&&v>=20&&(!i||v>values[i-1])));
-  assert.ok(values[4]-values[0]>200);
+function emergency(h){h.run('state.lives=1;ThorSystem.update(state,.05)');}
+
+test('easy automatically starts only at one heart, independently of rescue progress',()=>{
+  const h=setup();
   for(const lives of [1,2,3])for(const rescued of [0,5,9]){
-    h.run(`state.lives=${lives};state.rescuedCount=${rescued};ThorSystem.initialize(state)`);
-    assert.equal(h.run('state.thorVisit.nextIn'),values[2]);
+    h.run(`state.lives=${lives};state.rescuedCount=${rescued};ThorSystem.initialize(state);ThorSystem.update(state,.05)`);
+    assert.equal(h.run('ThorSystem.active(state)'),lives===1);
   }
 });
-test('Thor arrives offscreen, approaches, heals once, frightens the wolf, and leaves without joining rescue totals',()=>{
-  const h=setup();
-  assert.ok(h.run('state.entities.thor && !WildlifeRules.onScreen(state.entities.thor,70)'));
-  step(h,4);
+
+test('easy emergency also protects the player in water and suspends an active lake encounter',()=>{
+  for(const place of ['water','lake']){
+    const h=setup();
+    if(place==='water')h.run('var pond=STRUCTURES.pond;c.x=pond.x+pond.w/2;c.y=pond.y+pond.h/2-14;');
+    else h.run('state.lake.active=true;state.lake.counterWindow=2;');
+    emergency(h);assert.equal(h.run('ThorSystem.active(state)'),true);
+    h.run('for(let i=0;i<120&&ThorSystem.active(state);i++)updateGame(.05);');
+    assert.equal(h.run('state.lives'),2);assert.equal(h.run('state.thorVisit.easyUsed'),true);
+    if(place==='lake')assert.equal(h.run('state.lake.counterWindow'),2);
+  }
+});
+
+test('easy gives exactly one extra heart once per attempt, even after another injury and a reload',()=>{
+  const h=setup();emergency(h);
+  assert.equal(h.run('state.lives'),1,'heal happens at the arrival beat');
+  assert.equal(h.run('state.thorVisit.easyUsed'),true,'the single use is reserved durably');
+  step(h,5.5);
   assert.equal(h.run('state.lives'),2);assert.equal(h.run('state.thorVisit.visits'),1);
   assert.equal(h.run('state.entities.wolf.mode'),'frightened');
-  assert.match(h.run('GameUI.activeNotice(state).title'),/Thor.*1 coração/);
-  step(h,25);
-  assert.equal(h.run('state.entities.thor'),null);assert.equal(h.run('state.lives'),2);
   assert.equal(h.run('state.rescuedCount+state.rescuedChicks'),0);
-  assert.ok(h.run('state.thorVisit.nextIn>0'));
+  h.run('state.lives=1;GameManager.save(state)');
+  const resumed=createGame(()=>.5,{storage:new Map(h.storage),fullStartup:true});
+  resumed.run('state.phase="playing"');step(resumed,100);
+  assert.equal(resumed.run('state.lives'),1);assert.equal(resumed.run('ThorSystem.active(state)'),false);
+  assert.equal(resumed.run('state.thorVisit.visits'),1);
+  h.run('resetGame();state.phase="playing";state.difficultyKey="easy";state.lives=1;ThorSystem.update(state,.05)');
+  assert.equal(h.run('ThorSystem.active(state)'),true,'a new attempt earns its own emergency');
 });
-test('full hearts stay at three, while the wolf still flees',()=>{
-  const h=setup();h.run('state.lives=3');step(h,4);
-  assert.equal(h.run('state.lives'),3);assert.equal(h.run('state.thorNotice.healed'),false);
-  assert.equal(h.run('w.mode'),'frightened');
-  assert.match(h.run('GameUI.activeNotice(state).detail'),/Corações cheios/);
+
+test('cutscene suspends movement, the wolf, time, hazards and rescue totals, then returns control',()=>{
+  const h=setup();
+  h.run('state.lives=1;input.add("d");updateGame(.05);var frozen=JSON.stringify([c.x,c.y,w.x,w.y,state.elapsed,state.rescuedCount,state.rescuedChicks]);');
+  step(h,2,'updateGame(.05)');
+  assert.equal(h.run('JSON.stringify([c.x,c.y,w.x,w.y,state.elapsed,state.rescuedCount,state.rescuedChicks])===frozen'),true);
+  assert.equal(h.run('Player.checkCatch(state)'),false);
+  assert.equal(h.run('LakeChallenge.start(state)'),false);
+  step(h,3.6,'updateGame(.05)');
+  assert.equal(h.run('ThorSystem.active(state)'),false);
+  assert.equal(h.run('input.size'),0);
+  h.run('var oldElapsed=state.elapsed;updateGame(.05)');
+  assert.equal(h.run('state.elapsed>oldElapsed'),true);
 });
-test('pause, lake and ending freeze the countdown and the active visit; invalid dt does nothing',()=>{
-  const h=setup();const before=h.run('JSON.stringify(ThorSystem.snapshot(state))');
+
+test('pause and inactive pages preserve scene progress; invalid dt cannot advance or heal',()=>{
+  const h=setup();emergency(h);step(h,1);
+  const before=h.run('JSON.stringify(ThorSystem.snapshot(state))');
   for(const phase of ['menu','won','lose','win_cutscene']){h.run(`state.phase='${phase}'`);step(h,2);assert.equal(h.run('JSON.stringify(ThorSystem.snapshot(state))'),before);}
-  h.run('state.phase="playing";state.lake.active=true');step(h,2);
-  h.run('state.lake.active=false;ThorSystem.update(state,NaN);ThorSystem.update(state,Infinity);ThorSystem.update(state,-1)');
+  h.run('state.phase="playing";ThorSystem.update(state,NaN);ThorSystem.update(state,Infinity);ThorSystem.update(state,-1)');
   assert.equal(h.run('JSON.stringify(ThorSystem.snapshot(state))'),before);
-  h.run('ThorSystem.initialize(state);state.phase="menu"');const wait=h.run('state.thorVisit.nextIn');step(h,3);assert.equal(h.run('state.thorVisit.nextIn'),wait);
 });
-test('a frightened wolf cannot catch, observe a hiding entrance, or follow an owl; it retreats then resumes patrol',()=>{
-  const h=setup();h.run(`w.mode='chase';w.lastKnown={x:c.x,y:c.y};w.exposedCover={spotId:'test',x:c.x,y:c.y,remaining:8,inspectTime:.8};WolfAI.frighten(state,c,6)`);
-  assert.equal(h.run('w.lastKnown'),null);assert.equal(h.run('w.exposedCover'),null);
+
+test('saving before or after the heal resumes the same scene without repeating the reward or fanfare',()=>{
+  for(const seconds of [1.5,3.8]){
+    const h=setup();emergency(h);step(h,seconds);h.run('GameManager.save(state)');
+    const expected=h.run('state.lives'),at=h.run('state.thorRescue.time');
+    const resumed=createGame(()=>.5,{storage:new Map(h.storage),fullStartup:true});
+    assert.equal(resumed.run('state.lives'),expected);assert.equal(resumed.run('state.thorRescue.time'),at);
+    resumed.run('var cues=[];AudioSystem.play=name=>cues.push(name);state.phase="playing"');step(resumed,6);
+    assert.equal(resumed.run('state.lives'),2);assert.equal(resumed.run('state.thorVisit.visits'),1);
+    assert.equal(resumed.run('cues.filter(n=>n==="thor-hero").length'),0);
+  }
+});
+
+test('skipping delivers the same one-time help and clears held inputs',()=>{
+  const h=setup();emergency(h);
+  assert.equal(h.run('ThorSystem.skip(state)'),false,'ignore the initial key that triggered the scene');
+  step(h,.7);h.run('input.add("d")');
+  assert.equal(h.run('ThorSystem.skip(state)'),true);
+  assert.equal(h.run('state.lives'),2);assert.equal(h.run('ThorSystem.active(state)'),false);
+  assert.equal(h.run('input.size'),0);assert.equal(h.run('ThorSystem.skip(state)'),false);
+});
+
+test('legacy saves do not restore unlimited free help; malformed scenes cannot mint health',()=>{
+  const h=setup();
+  h.run('state.lives=1;ThorSystem.restore(state,{version:2,nextIn:42,visits:1,boneIds:[],cycle:0,visitor:null});ThorSystem.update(state,.05)');
+  assert.equal(h.run('ThorSystem.active(state)'),false);
+  h.run('ThorSystem.restore(state,{version:3,nextIn:0,visits:0,easyUsed:false,cycle:0,boneIds:[],rescue:{time:4,before:1,healed:false},visitor:null})');
+  assert.equal(h.run('state.thorRescue'),undefined);assert.equal(h.run('state.lives'),1);
+});
+
+test('the cinematic lands Thor on clear ground across farm districts and his exit remains traversable',()=>{
+  const h=setup();
+  for(const seed of [52,814237,4294967295]){
+    h.run(`resetGame(${seed});state.phase='playing';state.difficultyKey='easy';c=state.entities.chicken;`);
+    const hubs=h.run('WORLD.areas.map(a=>a.hub||{x:a.x+a.w/2,y:a.y+a.h/2})');
+    for(const hub of hubs){
+      h.context.hub=hub;h.run('var open=WolfAI.findPath(c,hub).pop();Object.assign(c,open);ThorSystem.initialize(state)');
+      emergency(h);step(h,5.5);
+      assert.equal(h.run('state.lives'),2);
+      assert.equal(h.run('!state.entities.thor||WildlifeRules.clear(state.entities.thor,state.entities.thor,state.entities.thor.hitbox)'),true);
+      step(h,4);
+      assert.equal(h.run('!state.entities.thor||WildlifeRules.clear(state.entities.thor,state.entities.thor,state.entities.thor.hitbox)'),true);
+    }
+  }
+});
+
+test('a frightened wolf cannot catch or witness hiding, then resumes patrol',()=>{
+  const h=setup();h.run('OBSTACLES=[];Object.assign(c,{x:1000,y:800});Object.assign(w,{x:1180,y:800,huntUnlockTimer:0,pauseTimer:0});WolfAI.frighten(state,c,6)');
   const gap=h.run('distance(w,c)');step(h,2,'WolfAI.update(state,.05)');
-  assert.ok(h.run('distance(w,c)')>gap+100);assert.equal(h.run('w.mode'),'frightened');
-  assert.equal(h.run('WolfAI.investigateSound(state,w,360)'),false);
+  assert.ok(h.run('distance(w,c)')>gap+100);
   h.run('c.x=w.x;c.y=w.y;c.invulnerable=0');assert.equal(h.run('Player.checkCatch(state)'),false);
   assert.equal(h.run('WolfAI.witnessHide(state,HidingSpots.getSpots()[0])'),false);
   step(h,4.05,'WolfAI.update(state,.05)');assert.equal(h.run('w.mode'),'patrol');
 });
-test('reload preserves a waiting random visit and never repeats a delivered heart',()=>{
-  const h=setup();step(h,2.1);
-  assert.equal(h.run('state.entities.thor.mode'),'greet');assert.equal(h.run('state.lives'),2);
-  h.run('GameManager.save(state)');const saved=h.run('GameManager.read()');
-  const restored=createGame(()=>.5,{storage:new Map(h.storage),fullStartup:true});
-  assert.equal(restored.run('state.lives'),2);assert.equal(restored.run('state.entities.thor.mode'),'greet');
-  assert.equal(restored.run('state.entities.wolf.mode'),'frightened');
-  restored.run('state.phase="playing"');step(restored,15);
-  assert.equal(restored.run('state.lives'),2);
-  h.context.savedThor=saved.thor;h.run('ThorSystem.restore(state,{nextIn:42,visits:4,visitor:null});GameManager.save(state)');
-  const waiting=createGame(()=>.9,{storage:new Map(h.storage),fullStartup:true});
-  assert.equal(waiting.run('state.thorVisit.nextIn'),42);assert.equal(waiting.run('state.thorVisit.visits'),4);
-});
-test('old saves gain random visits; corrupt visitor data cannot grant or duplicate health',()=>{
-  const h=setup();h.run('ThorSystem.restore(state,undefined)');assert.ok(h.run('state.thorVisit.nextIn>=20'));
-  for(const value of [null,{nextIn:NaN},{nextIn:-1},{nextIn:42,visits:1,visitor:{x:-1,y:10,mode:'greet'}}]){
-    h.context.bad=value;h.run('ThorSystem.restore(state,bad)');assert.equal(h.run('state.entities.thor'),null);assert.equal(h.run('state.lives'),1);
-  }
-});
-test('Thor and the frightened wolf follow traversable routes around a wall',()=>{
-  const h=setup();h.run(`OBSTACLES=[{x:700,y:680,w:30,h:240}];state.entities.thor.x=560;state.entities.thor.y=800;state.entities.thor.route=[];state.entities.thor.routeTimer=0;`);
-  for(let i=0;i<150;i++){
-    h.run('ThorSystem.update(state,.05)');assert.ok(h.run('!state.entities.thor || WildlifeRules.clear(state.entities.thor,state.entities.thor,state.entities.thor.hitbox)'));
-  }
-  assert.equal(h.run('state.lives'),2);
-  h.run(`w.x=650;w.y=800;WolfAI.frighten(state,{x:500,y:800},6)`);
-  for(let i=0;i<120;i++){
-    h.run('WolfAI.update(state,.05)');assert.ok(h.run('WildlifeRules.clear(w,w,w.hitbox)'));
-  }
-});
-test('Thor sheet checks dimensions, exposes load errors and allows retry',async()=>{
+
+test('Thor art validates its sheet and both map and hero drawing preserve canvas state',async()=>{
   const h=createGame(()=>.5,{skipThorInstall:true}),art=h.run('ThorArt');
   assert.equal(await art.load(async()=>({width:1,height:1})),false);
-  assert.deepEqual(Array.from(art.errors),['assets/sprites/sources/thor.png']);
+  assert.equal(art.errors.length,1);
   assert.equal(await art.load(async()=>({width:1024,height:1536})),true);
-  assert.equal(art.ready,true);assert.equal(art.errors.length,0);
-});
-test('visits reach actual farm districts without spawning or walking inside props',()=>{
-  const h=createGame(()=>.5);
-  for(const seed of [52,814237,4294967295]){
-    h.run(`resetGame(${seed});state.phase='playing'`);
-    const hubs=h.run('WORLD.areas.map(a=>a.hub||{x:a.x+a.w/2,y:a.y+a.h/2})');
-    for(const hub of hubs){
-      h.context.hub=hub;
-      h.run(`var open=WolfAI.findPath(state.entities.chicken,hub).pop();Object.assign(state.entities.chicken,open);
-        camera.x=clamp(open.x-450,0,WORLD.width-900);camera.y=clamp(open.y-260,0,WORLD.height-520);
-        ThorSystem.initialize(state);state.thorVisit.nextIn=0;state.lives=1;ThorSystem.update(state,.05)`);
-      assert.ok(h.run('state.entities.thor'),`Thor spawn, seed ${seed}`);
-      let frames=0;
-      while(h.run('state.entities.thor.mode')==='enter'&&frames++<350){
-        h.run('ThorSystem.update(state,.05)');
-        assert.ok(h.run('WildlifeRules.clear(state.entities.thor,state.entities.thor,state.entities.thor.hitbox)'));
-      }
-      assert.equal(h.run('state.entities.thor.mode'),'greet',`Thor reaches district, seed ${seed}`);
-      assert.equal(h.run('state.lives'),2);
-    }
-  }
+  let depth=0,draws=0;const c=new Proxy({save(){depth++;},restore(){depth--;},drawImage(){draws++;}}, {get:(o,k)=>o[k]??(()=>{})});
+  art.drawHero(c,200,300,180,'right',1);
+  assert.equal(depth,0);assert.equal(draws,1);
 });

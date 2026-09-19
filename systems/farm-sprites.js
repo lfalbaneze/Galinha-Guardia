@@ -9,6 +9,14 @@ const FarmSprites = (() => {
   let atlas = null, pending = null, nursery = null, nurseryPending = null;
   let habitats=null,habitatsPending=null;
   let props=null,propsPending=null;
+  let cohesive=null,cohesivePending=null;
+  // Measured alpha bounds: generated atlases need not land on exact grid cells.
+  const cohesiveFrames=Object.freeze({
+    tree:[27,53,270,300],bush:[322,161,297,186],pear:[651,43,265,309],willow:[956,63,280,284],
+    bramble:[23,482,275,154],shelter:[323,440,291,189],barn:[642,375,284,258],coop:[992,423,223,228],
+    silo:[96,648,131,295],hay:[345,735,249,201],trough:[635,819,297,112],fence:[962,797,265,131],
+    daisies:[45,1007,233,209],lavender:[366,1019,188,192],harvest:[629,1021,311,195],nursery:[952,1026,288,184]
+  });
   const propFrames=Object.freeze({barn:[0,0,512,512],coop:[512,0,512,512],silo:[1024,0,512,512],
     hay:[0,512,512,512],trough:[512,512,512,512],fence:[1024,512,512,512]});
   const frame=(name,source)=>source===props?propFrames[name]:frames[name];
@@ -24,6 +32,26 @@ const FarmSprites = (() => {
       image.onerror = () => { clearTimeout(timer); reject(Error('farm atlas')); };
       image.src = src;
     });
+  }
+  function loadCohesive(loader=browserImage,makeSurface=surface) {
+    if(cohesive)return Promise.resolve(true);
+    if(cohesivePending)return cohesivePending;
+    if(typeof FarmCohesiveData==='undefined')return Promise.resolve(false);
+    cohesivePending=Promise.resolve().then(async()=>{
+      try {
+        const source=await loader(FarmCohesiveData);
+        if(source.width!==1254||source.height!==1254)return false;
+        cohesive=source;makeVariantSurface=makeSurface;SpriteStyle.install(makeSurface);return true;
+      } catch{return false;}finally{cohesivePending=null;}
+    });return cohesivePending;
+  }
+  function drawCohesive(c,name,x,y,w,h,options={}) {
+    const rect=cohesiveFrames[name];if(!cohesive||!rect)return false;
+    // Fit, never stretch: round trees, tall silos and low troughs retain their silhouette.
+    const scale=name==='fence'?w/rect[2]:Math.min(w/rect[2],h/rect[3]);
+    const width=Math.max(1,Math.round(rect[2]*scale)),height=Math.max(1,Math.round(rect[3]*scale));
+    const tile=SpriteStyle.tile(cohesive,rect,width,height);if(!tile)return false;
+    paintGrounded(c,name,tile,x+(w-width)/2,y+h-height,width,height,options);return true;
   }
   function decode(image,makeSurface,closedFrames=[]) {
         const canvas = makeSurface(image.width, image.height);
@@ -138,6 +166,96 @@ const FarmSprites = (() => {
     c.putImageData(pixels,0,0); variants.set(key,tile); return tile;
   }
   const groundedTiles = new Map();
+  const contactTiles = new WeakMap();
+  function contactTile(name, source, width, height) {
+    const key=`${name}/${width}/${height}`,saved=contactTiles.get(source);
+    if(saved?.has(key))return saved.get(key);
+    let tile=source;
+    if(source.width!==width||source.height!==height) {
+      tile=makeVariantSurface(width,height);if(!tile)return null;
+      const c=tile.getContext('2d');c.imageSmoothingEnabled=false;c.drawImage(source,0,0,width,height);
+    }
+    const result={tile,bottom:height-1,shadow:null,foundation:null};
+    try {
+      const pixels=tile.getContext('2d').getImageData(0,0,width,height).data;
+      const edge=new Int32Array(width).fill(-1);let bottom=-1;
+      for(let x=0;x<width;x++)for(let y=height-1;y>=0;y--)if(pixels[(y*width+x)*4+3]>=112) {
+        edge[x]=y;bottom=Math.max(bottom,y);break;
+      }
+      if(bottom>=0) {
+        result.bottom=bottom;
+        const tree=['tree','pear','willow'].includes(name);
+        const floor=bottom-Math.max(3,Math.round(height*(tree?.12:.30)));
+        const feet=[];
+        // A raised water trough rests on two feet, not on the suspended bowl.
+        // Measure each end separately: the rear foot is higher in the older angled sprite.
+        const ends=name==='trough'?[[0,Math.ceil(width*.28)],[Math.floor(width*.7),width]]:
+          name==='coop'?[[.065,.11],[.14,.4],[.60,.75],[.79,.93]].map(([a,b])=>[Math.floor(a*width),Math.ceil(b*width)]):null;
+        const depths=ends?.map(([a,b])=>Math.max(...edge.slice(a,b)));
+        for(let x=0;x<width;x++) {
+          const y=edge[x];if(y<floor)continue;
+          if(ends&&!ends.some(([a,b],i)=>x>=a&&x<b&&y>=depths[i]-1))continue;
+          feet.push([x,y]);
+        }
+        const shadow=makeVariantSurface(width+2,height+3);
+        if(shadow) {
+          const c=shadow.getContext('2d');
+          // Two world pixels at the actual lower contour. No floating oval,
+          // transparent atlas padding or canopy width can move this contact patch.
+          c.fillStyle='#26332320';c.beginPath();
+          for(const [x,y] of feet)c.rect(x,y+1,3,3);
+          c.fill();c.fillStyle='#26332350';c.beginPath();
+          for(const [x,y] of feet)c.rect(x+1,y+1,1,2);
+          c.fill();result.shadow=shadow;
+        }
+        if(name==='coop'&&ends) {
+          const supports=ends.map(([a,b],i)=>{
+            const xs=[];for(let x=a;x<b;x++)if(edge[x]>=depths[i]-1)xs.push(x);
+            return {left:Math.min(...xs),right:Math.max(...xs),y:depths[i]};
+          });
+          const foundation=makeVariantSurface(width+16,height+10);
+          if(foundation&&supports.every(p=>Number.isFinite(p.left))) {
+            const c=foundation.getContext('2d'),[left,ramp,front,rear]=supports;
+            c.translate(8,0);
+            // A small bare-earth apron establishes the ground plane under the
+            // raised coop. It follows the feet in perspective, not the ramp's baseline.
+            c.beginPath();c.moveTo(left.left-4,left.y-5);c.lineTo(rear.right+4,rear.y-6);
+            c.lineTo(rear.right+6,rear.y+4);c.lineTo(front.right+5,front.y+5);
+            c.lineTo(ramp.right+4,ramp.y+3);c.lineTo(ramp.left-4,ramp.y+3);
+            c.lineTo(left.left-5,left.y+3);c.closePath();c.fillStyle='#ab925dcc';c.fill();
+            // Three little stone feet touch the wooden posts; the ramp rests on soil.
+            for(const support of [left,front,rear]) {
+              const l=support.left-1,r=support.right+1,y=support.y;
+              c.fillStyle='#3b3d2840';c.fillRect(l-1,y+3,r-l+3,1);
+              c.beginPath();c.moveTo(l,y);c.lineTo(r,y);c.lineTo(r+1,y+2);
+              c.lineTo(r,y+3);c.lineTo(l-1,y+3);c.lineTo(l-2,y+1);c.closePath();
+              c.fillStyle='#a7996e';c.fill();c.strokeStyle='#615339';c.lineWidth=1;c.stroke();
+              c.fillStyle='#c5b68a';c.fillRect(l,y,r-l,1);
+            }
+            c.fillStyle='#68533180';c.fillRect(ramp.left,ramp.y,ramp.right-ramp.left+1,2);
+            result.foundation=foundation;
+          }
+        }
+      }
+    } catch(error) {
+      // A blocked local pixel read must never prevent the sprite from drawing.
+      if(error.name!=='SecurityError')throw error;
+    }
+    const entries=saved||new Map();if(entries.size>=32)entries.delete(entries.keys().next().value);
+    entries.set(key,result);contactTiles.set(source,entries);return result;
+  }
+  function paintGrounded(c,name,tile,x,y,w,h,options) {
+    const width=Math.max(1,Math.round(w)),height=Math.max(1,Math.round(h));
+    const placed=contactTile(name,tile,width,height);if(!placed)return;
+    c.save();c.imageSmoothingEnabled=false;
+    // Align the last opaque pixel, not the transparent edge of the frame.
+    c.translate(Math.round(x),Math.round(y+h)-1-placed.bottom);
+    if(options.flip){c.translate(width,0);c.scale(-1,1);}
+    if(options.foundation&&placed.foundation)c.drawImage(placed.foundation,-8,0);
+    if(options.solar!==false&&typeof Sunlight!=='undefined')Sunlight.cast(c,placed.tile,0,0,width,height,placed.bottom+1);
+    if(options.shadow&&placed.shadow)c.drawImage(placed.shadow,-1,-1);
+    c.drawImage(placed.tile,0,0);c.restore();
+  }
   const pixelWidths = { barn:80, coop:56, silo:36, tree:60, bush:44, hay:32, fence:44, trough:32, nursery:112,
     shelter:78,willow:58,bramble:48,pear:42 };
   const propWidths={barn:104,coop:76,silo:52,hay:52,trough:64,fence:68};
@@ -197,10 +315,14 @@ const FarmSprites = (() => {
     out.putImageData(pixels,0,0);groundedTiles.set(key,tile);return tile;
   }
   function draw(c, name, x, y, w, h, options = {}) {
+    if(drawCohesive(c,name,x,y,w,h,options))return true;
     const source=props&&propFrames[name]?props:habitatNames.has(name)?habitats:name==='nursery'?nursery:atlas;
     if (!source || !frames[name]) return false;
     c.save(); c.imageSmoothingEnabled=false;
     const grounded = options.grounded ? groundedTile(name,options.palette || 0,source) : null;
+    if(grounded) {
+      paintGrounded(c,name,grounded,x,y,w,h,options);c.restore();return true;
+    }
     const tinted = grounded || (options.palette > 0 && name !== 'nursery' ? variant(name,options.palette,source) : null);
     c.translate(Math.round(x),Math.round(y));
     if (options.flip) { c.translate(Math.round(w),0); c.scale(-1,1); }
@@ -208,6 +330,7 @@ const FarmSprites = (() => {
     else c.drawImage(source,...frame(name,source),0,0,Math.round(w),Math.round(h));
     c.restore(); return true;
   }
-  return { load, loadNursery, loadHabitats, loadProps, draw, frames, propFrames, surface,
-    get ready() { return !!atlas; },get habitatsReady(){return !!habitats;},get propsReady(){return !!props;} };
+  return { load, loadNursery, loadHabitats, loadProps, loadCohesive, draw, frames, propFrames, cohesiveFrames, surface,
+    get cohesiveReady(){return !!cohesive;},get ready() { return !!cohesive||!!atlas; },
+    get habitatsReady(){return !!cohesive||!!habitats;},get propsReady(){return !!cohesive||!!props;} };
 })();

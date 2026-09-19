@@ -233,15 +233,15 @@ test('the finale includes only earned bonus chicks and persists partial completi
     }
     h.run('for(const friend of state.entities.animals)GameManager.rescue(state,friend);GameManager.win(state);');
     assert.equal(h.run('state.phase'), 'win_cutscene');
-    assert.equal(h.run('state.cutscene.attackers.length'), 10 + count);
-    assert.equal(h.run('state.score'), 1750 + count * 100);
+    assert.equal(h.run('state.cutscene.attackers.length'), 12 + count);
+    assert.equal(h.run('state.score'), 1950 + count * 100);
     h.run(`var shown=[];var savedDraw=drawAnimal;drawAnimal=a=>shown.push(a.id);renderGame();drawAnimal=savedDraw;`);
-    assert.equal(h.run('shown.length'), 10 + count);
+    assert.equal(h.run('shown.length'), 12 + count);
     h.run('state.cutscene.time=19;updateGame(.05);');
     assert.equal(h.run('GameManager.read().phase'), 'won');
     const reload = createGame(() => .5, { storage: new Map(h.storage), fullStartup: true });
-    assert.equal(reload.run('state.score'), 1750 + count * 100);
+    assert.equal(reload.run('state.score'), 1950 + count * 100);
     assert.equal(reload.run('state.rescuedChicks'), count);
-    assert.equal(reload.run('state.cutscene.attackers.length'), 10 + count);
+    assert.equal(reload.run('state.cutscene.attackers.length'), 12 + count);
   }
 });

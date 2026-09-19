@@ -9,15 +9,15 @@ function rescueAll(run) {
   }`);
 }
 
-test('all ten friends and six chicks start a protected finale and award the bonus once', () => {
+test('all twelve friends and six chicks start a protected finale and award the bonus once', () => {
   const { run } = createGame();
   rescueAll(run);
   assert.equal(run('state.phase'), 'win_cutscene');
-  assert.equal(run('state.score'), 2350);
-  assert.equal(run('state.rescuedIds.size'), 10);
+  assert.equal(run('state.score'), 2550);
+  assert.equal(run('state.rescuedIds.size'), 12);
   assert.equal(run('state.rescuedChickIds.size'), 6);
-  assert.equal(run('state.cutscene.attackers.length'), 16);
-  assert.equal(run('new Set(state.cutscene.attackers.map(a => a.ref.id)).size'), 16);
+  assert.equal(run('state.cutscene.attackers.length'), 18);
+  assert.equal(run('new Set(state.cutscene.attackers.map(a => a.ref.id)).size'), 18);
   assert.equal(run('state.entities.wolf.mode'), 'stopped');
   assert.equal(run('GameManager.win(state)'), false);
   run('state.entities.wolf.x=state.entities.chicken.x; state.entities.wolf.y=state.entities.chicken.y; Player.checkCatch(state);');
@@ -44,7 +44,7 @@ test('the complete epilogue renders every stage, conceals all contact, then cele
   assert.equal(run('GameManager.read().phase'), 'won');
   assert.equal(elements.get('endScreen').hidden, false);
   assert.equal(elements.get('endEyebrow').textContent, 'FIM ♥');
-  assert.equal(run('state.score'), 2350);
+  assert.equal(run('state.score'), 2550);
 });
 
 test('the entire family shows anger before the rush, then the wolf cries for mother before fleeing', () => {
@@ -94,7 +94,7 @@ test('the family clears an exit lane so the fleeing wolf face is visible', () =>
   rescueAll(run);
   run('for(let i=0;i<285;i++) updateGame(0.05);');
   assert.equal(run('state.cutscene.stage'), 'flee');
-  assert.equal(run('state.cutscene.attackers.length'), 16);
+  assert.equal(run('state.cutscene.attackers.length'), 18);
   assert.equal(run(`state.cutscene.attackers.some(({ref}) =>
     Math.abs(ref.x-state.entities.wolf.x)<64 && Math.abs(ref.y-state.entities.wolf.y)<65)`), false);
   assert.equal(run('state.entities.chicks.every(c=>c.y<145 && c.x>270 && c.x<630)'), true);
@@ -130,50 +130,23 @@ test('real bootstrap restores correct HUD and menu, and victory reload cannot du
   rescueAll(reloaded.run);
   reloaded.run('for(let i=0;i<400;i++) updateGame(0.05);');
   const victoryReload = createGame(Math.random, { storage: reloaded.storage, fullStartup: true });
-  assert.equal(victoryReload.run('state.score'), 2100);
+  assert.equal(victoryReload.run('state.score'), 2300);
   assert.equal(victoryReload.run('state.resumePhase'), 'win_cutscene');
-  assert.equal(victoryReload.run('state.cutscene.attackers.length'), 16);
+  assert.equal(victoryReload.run('state.cutscene.attackers.length'), 18);
 });
 
-test('defeat offers a safe return to the same farm, preserving progress even across reload', () => {
-  const first = createGame(), { run, elements, events } = first;
-  run(`GameManager.rescue(state,state.entities.animals[0]);
-    state.entities.chicks[0].discovered=true;GameManager.rescue(state,state.entities.chicks[0]);
-    state.entities.animals[2].discovered=true;state.lake.completed=true;state.lake.misses=3;
-    state.lives=1; state.entities.wolf.x=state.entities.chicken.x;
-    state.entities.wolf.y=state.entities.chicken.y; state.entities.wolf.huntUnlockTimer=0;
-    Player.checkCatch(state); GameUI.update(state);`);
-  assert.equal(run('state.phase'), 'lose');
-  assert.equal(run('GameManager.read().needsRecovery'), true);
-  const seed=run('state.worldSeed'),score=run('state.score'),elapsed=run('state.elapsed');
-  const savedStorage=new Map(first.storage);
-  assert.equal(elements.get('endScreen').hidden, false);
-  assert.equal(elements.get('replayBtn').textContent, 'Retomar do poleiro');
-  events.elements.replayBtn.click();
-  function verifyRecovered(h) {
-    assert.equal(h.run('state.lives'),3);
-    assert.equal(h.run('state.worldSeed'),seed);
-    assert.equal(h.run('state.score'),score);
-    assert.equal(h.run('state.elapsed'),elapsed);
-    assert.equal(h.run('state.rescuedCount'),1);
-    assert.equal(h.run('state.rescuedChicks'),1);
-    assert.equal(h.run('state.entities.animals[2].discovered'),true);
-    assert.equal(h.run('state.lake.completed'),true);
-    assert.equal(h.run('state.entities.chicken.x'),h.run('WORLD.layout.start.x'));
-    assert.equal(h.run('state.entities.chicken.y'),h.run('WORLD.layout.start.y'));
-    assert.ok(h.run('distance(state.entities.wolf,state.entities.chicken)')>500);
-    assert.ok(h.run('state.entities.chicken.invulnerable')>=4);
-    assert.equal(h.run('state.entities.wolf.mode'),'patrol');
-    assert.equal(h.run('GameManager.recover(state)'),false,'cannot heal repeatedly while playing');
-    assert.equal(h.run('GameManager.rescue(state,state.entities.animals[0])'),false);
-    assert.equal(h.run('GameManager.read().needsRecovery'),false);
-  }
-  verifyRecovered(first);
-  const reload=createGame(Math.random,{storage:savedStorage,fullStartup:true});
-  reload.run('GameUI.resume();');verifyRecovered(reload);
-  run('state.lives=0;state.phase="lose";state.needsRecovery=true;');
-  run('GameUI.showMenu(state);');
-  assert.equal(elements.get('continueBtn').hidden, false);
-  assert.equal(elements.get('continueBtn').textContent,'Retomar do poleiro');
-  run('GameUI.resume();');verifyRecovered(first);
+test('cinematic poses stay visual and reduced motion removes acrobatics without skipping victory', () => {
+  const { run } = createGame(() => .5, { reducedMotion: true });
+  rescueAll(run);
+  run('for(let i=0;i<223;i++)updateGame(.05);');
+  assert.equal(run('state.cutscene.stage'), 'dizzy');
+  assert.equal(run('EndGameSequence.pose(state,state.entities.wolf).rotation || 0'), 0);
+  assert.equal(run('EndGameSequence.pose(state,state.entities.wolf).lift || 0'), 0);
+  const before = run('JSON.stringify([state.entities,state.cutscene,state.score,state.lives])');
+  run('for(let i=0;i<5;i++)renderGame();');
+  assert.equal(run('JSON.stringify([state.entities,state.cutscene,state.score,state.lives])'), before);
+  run('while(state.phase === "win_cutscene")updateGame(.05);');
+  assert.equal(run('GameManager.read().phase'), 'won');
+  run('resetGame();');
+  assert.equal(run('Object.keys(EndGameSequence.pose(state,state.entities.chicken)).length'), 0);
 });

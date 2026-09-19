@@ -53,7 +53,7 @@ const DIFFICULTIES = {
 const WORLD = {
   width: 2800,
   height: 1800,
-  targetRescues: 10,
+  targetRescues: 12,
   targetChicks: 6,
   safeZone: { x: 210, y: 188, r: 130 },
   areas: [
@@ -166,6 +166,7 @@ function buildObstacles(game = state) {
   list.push({ x: STRUCTURES.barn.x, y: STRUCTURES.barn.y, w: STRUCTURES.barn.w, h: STRUCTURES.barn.h, type: "barn" });
 
   list.push(...FarmRefuge.obstacles());
+  list.push(...ScarecrowSystem.obstacles(WORLD.layout));
   OBSTACLES = list;
 }
 
@@ -252,6 +253,8 @@ function clampToWorld(entity) {
 function resolveEnvironment(entity) {
   clampToWorld(entity);
   for (const obstacle of OBSTACLES) {
+    // The player floats or swims; the pond remains a real obstacle for land animals.
+    if (obstacle.type === 'pond' && entity.type === 'chicken') continue;
     if (obstacle.blocking !== false) resolveCircleVsRect(entity, obstacle);
   }
   clampToWorld(entity);
@@ -260,7 +263,7 @@ function resolveEnvironment(entity) {
 function spawnAnimals(settings, wolfStart) {
   return WORLD.layout.animalSpawns.map((point, i) => {
     const animal = makeEntity(`animal_${i}`, "animal", point.x, point.y, 22);
-    const species = WORLD.layout.version >= 3 ? ['sheep','pig','duck','lamb','cow','goat','rabbit','cat','donkey','dog'] : SPECIES;
+    const species = WORLD.layout.version >= 3 ? ['sheep','pig','duck','lamb','cow','goat','rabbit','cat','donkey','dog','horse','turkey'] : SPECIES;
     Object.assign(animal, { species: species[i], rescued: false, lost: false,
       targetX: point.x, targetY: point.y, homeX: point.x, homeY: point.y,
       hitbox: { ox: 0, oy: 6, r: 13 } });
@@ -335,16 +338,25 @@ function createState() {
   };
 }
 
-function resetGame(seed, worldVersion = 5) {
+function resetGame(seed, worldVersion = 7) {
   AudioSystem.reset();
   let chosenSeed = Number.isInteger(seed) ? seed >>> 0 : Math.floor(Math.random() * 4294967296) >>> 0;
   if (!Number.isInteger(seed) && chosenSeed === state?.worldSeed) chosenSeed = (chosenSeed + 0x9e3779b9) >>> 0;
-  MapManager.generate(chosenSeed, worldVersion);
+  for (let attempt = 0; ; attempt++) {
+    try { MapManager.generate(chosenSeed, worldVersion); break; }
+    catch (error) {
+      // A random new farm may exhaust the packer's search. Try another seed;
+      // explicit seeds and saved farms must always reproduce their own layout.
+      if (Number.isInteger(seed) || attempt >= 3 || !/^Unable to (reserve|compose)/.test(error.message)) throw error;
+      chosenSeed = attempt === 2 ? 52 : (chosenSeed + 0x9e3779b9) >>> 0;
+    }
+  }
   buildObstacles(null);
   state = createState();
   GameManager.initialize(state);
   WolfAI.initialize(state);
   MapManager.initialize(state);
+  EnvironmentSystem.initialize(state);
   state.hasSave = true;
   camera = {
     x: 0,
@@ -360,7 +372,7 @@ function resetGame(seed, worldVersion = 5) {
   livesCountEl.textContent = String(MAX_LIVES);
   scoreCountEl.textContent = "0";
   areaTextEl.textContent = "Poleiro";
-  setStatus(`A porteira abriu! Junte os dez amigos e fique de olho nos piados pelo caminho.`);
+  setStatus(`A porteira abriu e o juízo saiu! Junte os ${WORLD.targetRescues} amigos no poleiro e siga os piados pelo caminho.`);
   GameInput.clear();
   GameManager.save(state);
   GameUI.update(state);
@@ -396,7 +408,7 @@ function updateCamera(dt) {
   camera.y = lerp(camera.y, targetY, clamp(dt * 6, 0, 1));
 
   camera.x = clamp(camera.x, 0, WORLD.width - camera.w);
-  camera.y = clamp(camera.y, 0, WORLD.height - camera.h);
+  camera.y = clamp(camera.y, -viewportInsets.top, WORLD.height - camera.h + viewportInsets.bottom);
 
   if (camera.shake > 0) {
     camera.shake -= dt;
@@ -460,6 +472,11 @@ function updateGame(dt) {
 
   if (state.phase === "menu") return;
   if (state.phase === "playing") {
+    const rescuing = ThorSystem.active(state);
+    ThorSystem.update(state, dt);
+    if (rescuing || ThorSystem.active(state)) {
+      AudioSystem.update(state, dt); GameUI.update(state); return;
+    }
     updateChicken(dt);
     LakeChallenge.update(state, dt);
     if (!state.lake?.active) updateAnimals(dt);
@@ -467,7 +484,7 @@ function updateGame(dt) {
       GooseSystem.update(state, dt);
       FoxSystem.update(state, dt);
       OwlSystem.update(state, dt);
-      ThorSystem.update(state, dt);
+      ScarecrowSystem.update(state, dt);
       updateWolf(dt);
       Player.checkCatch(state);
       MapManager.update(state, dt);
@@ -484,21 +501,39 @@ function updateGame(dt) {
 }
 
 function drawWorld() {
-  FarmArt.drawGround(ctx, WORLD.layout, camera);
+  FarmArt.drawGround(ctx, WORLD.layout, camera, state);
+  SwimmingSystem.drawWater(state);
   MapManager.draw(state);
+  WolfAI.drawTracks(state);
+  EnvironmentSystem.drawGround(state);
+  ThorSystem.drawBones(state);
+  ScarecrowSystem.drawShadows(state);
 }
 
 function drawChicken(entity) {
+  if (SwimmingSystem.draw(state)) return;
+  const blend=entity.hideBlend || 0,cover=HidingSpots.candidate(entity);
+  const inHay=blend>0.02 && cover?.type==='hay' && cover.bale;
   const p = worldToScreen(entity);
-  if (entity.skin && entity.skin !== 'classic' && !entity.hidden && state.phase === 'playing') {
+  if(inHay) {
+    const shape=FarmDetails.shape({...cover.bale,type:'hay'});
+    const frame=CharacterArt.frameFor('chicken',{skin:entity.skin||'classic',direction:'down'});
+    const height=frame?((frame.frame.bottom??frame.pose.bottom)-(frame.frame.top??frame.pose.top))*frame.scale:54;
+    // Only the drawing moves into cover; collision, saves and wolf memory keep
+    // the actual entry point, so leaving never teleports through a solid bale.
+    const amount=InterfaceMotion.reduced?1:blend;
+    p.x=lerp(p.x,worldX(shape.x+shape.w/2),amount);
+    p.y=lerp(p.y,worldY(shape.y+height-32),amount);
+  }
+  if (entity.skin && entity.skin !== 'classic' && !entity.hidden && blend<0.02 && state.phase === 'playing') {
     // A player marker keeps animal appearances distinct from the friends being rescued.
     ctx.save(); ctx.strokeStyle = '#fff0a1'; ctx.lineWidth = 3;
     ctx.beginPath(); ctx.ellipse(p.x, p.y+14, 29, 9, 0, 0, Math.PI*2); ctx.stroke(); ctx.restore();
   }
-  CharacterArt.draw(ctx, "chicken", p.x, p.y + (entity.hideBlend || 0) * 4, {
+  CharacterArt.draw(ctx, "chicken", p.x, p.y + (inHay?0:blend*4), {
     facing: entity.facing, direction: entity.hidden ? "down" : entity.direction, anim: entity.anim, moving: entity.moving,
-    hidden: entity.hidden, hideBlend: entity.hideBlend, sprinting: entity.sprinting,
-    mood: entity.mood || "normal", skin: entity.skin || "classic" });
+    hidden: entity.hidden, hideBlend: inHay?0:blend, shadow:!inHay, sprinting: entity.sprinting,
+    mood: entity.mood || "normal", skin: entity.skin || "classic", ...EndGameSequence.pose(state, entity) });
 }
 
 function drawWolf(entity) {
@@ -509,7 +544,7 @@ function drawWolf(entity) {
   CharacterArt.draw(ctx, "wolf", p.x, p.y, { facing: entity.facing, direction, anim: entity.anim,
     moving: Math.hypot(entity.vx, entity.vy) > 10 || state.cutscene.stage === "flee",
     mood: EndGameSequence.active(state) ? entity.mood || "normal" : ["chase", "inspect"].includes(entity.mode) ? "furious" : entity.mode === "alert" ? "alert" :
-      entity.mode === "investigate" ? "sniff" : entity.mode === "search" ? "search" : "normal" });
+      entity.mode === "investigate" ? "sniff" : entity.mode === "search" ? "search" : "normal", ...EndGameSequence.pose(state, entity) });
 }
 
 function drawAnimalCharacter(species, x, y, facing, anim) {
@@ -522,7 +557,8 @@ function drawAnimal(entity) {
   CharacterArt.draw(ctx, entity.species, p.x, p.y, { facing: entity.facing, direction: entity.direction,
     anim: entity.anim, moving: entity.moving, sprinting: entity.temper === "fleeing",
     lookBack: entity.temper === "fleeing", mood: entity.mood || "normal",
-    scale: entity.type === 'chick' && entity.rescued && !EndGameSequence.active(state) ? .72 : 1 });
+    scale: entity.type === 'chick' && entity.rescued && !EndGameSequence.active(state) ? .72 : 1,
+    ...EndGameSequence.pose(state, entity) });
   if (!entity.rescued && !entity.speechTime && !EndGameSequence.active(state) && RescueSystem.visible(state, entity)) {
     ctx.save(); ctx.translate(p.x, p.y - CharacterArt.markerOffset(entity.species));
     ctx.fillStyle = entity.type === "chick" ? "#ffb963" : entity.temper === 'calm' ? '#c9f0be' : "#fff1a0"; ctx.strokeStyle = "#a38c51"; ctx.lineWidth = 1;
@@ -534,7 +570,7 @@ function drawAnimal(entity) {
       ctx.save();ctx.font='bold 12px Trebuchet MS, sans-serif';ctx.textAlign='center';
       const y=p.y-CharacterArt.markerOffset(entity.species)-24;
       ctx.fillStyle='#254c3eed';ctx.beginPath();ctx.roundRect(p.x-47,y,94,22,5);ctx.fill();
-      ctx.fillStyle='#fff1bd';ctx.fillText('Eu vou com você',p.x,y+15,86);ctx.restore();
+      ctx.fillStyle='#fff1bd';ctx.fillText('Tá, você guia!',p.x,y+15,86);ctx.restore();
     }
   }
 }
@@ -619,20 +655,26 @@ function drawDebugHitboxes() {
 }
 
 function drawMiniMap() {
-  const w=146,h=88,x=canvas.width-w-15,y=34;
+  const compact=canvas.width<600,w=compact?86:104,h=compact?53:64,x=canvas.width-w-15,y=compact?202:126;
   ctx.save();
-  ctx.fillStyle='#293c28';ctx.beginPath();ctx.roundRect(x-5,y-23,w+10,h+43,5);ctx.fill();
-  ctx.strokeStyle='#b19b61';ctx.lineWidth=1;ctx.stroke();
-  ctx.font='bold 11px Trebuchet MS, sans-serif';ctx.textAlign='left';ctx.fillStyle='#f5e1ae';
-  ctx.fillText('Mapa do sítio',x+3,y-8);
-  ctx.fillStyle='#758b4e';ctx.fillRect(x,y,w,h);
-  const textured=FarmTerrain.drawMap(ctx,WORLD.layout,x,y,w,h);
+  const playerX=state.entities.chicken.x-camera.x,playerY=state.entities.chicken.y-camera.y;
+  if(playerX+32>x-7&&playerX-32<x+w+7&&playerY+14>y-6&&playerY-58<y+h+6)ctx.globalAlpha=.2;
+  ctx.fillStyle='#203e31dd';ctx.beginPath();ctx.roundRect(x-6,y-6,w+12,h+12,7);ctx.fill();
+  ctx.strokeStyle='#d9c59899';ctx.lineWidth=1;ctx.stroke();
+  ctx.fillStyle='#718957';ctx.fillRect(x,y,w,h);
   const sx=w/WORLD.width,sy=h/WORLD.height;
+  for(const stop of WORLD.layout.habitats||[]) {
+    ctx.fillStyle=stop.kind==='water'?'#81b5ad':stop.kind==='mud'?'#a28a5c':'#b0ba73';
+    ctx.beginPath();ctx.ellipse(x+stop.x*sx,y+stop.y*sy,5.5,3.2,0,0,Math.PI*2);ctx.fill();
+  }
+  const sunflower=SunflowerSystem.plot();
+  if(sunflower){ctx.fillStyle='#e2bb42';ctx.fillRect(x+sunflower.x*sx,y+sunflower.y*sy,sunflower.w*sx,sunflower.h*sy);}
   for(const plot of WORLD.layout.plots||[]) {
     ctx.fillStyle=plot.kind==='corn'?'#b9ae4b':plot.kind==='garden'?'#8b623d':'#a7a273';
     ctx.fillRect(x+plot.x*sx,y+plot.y*sy,plot.w*sx,plot.h*sy);
   }
-  if(!textured){ctx.fillStyle='#c6a06c';for(const path of WORLD.paths)ctx.fillRect(x+path.x*sx,y+path.y*sy,path.w*sx,path.h*sy);}
+  ctx.fillStyle='#c4ac7b';
+  for(const path of [...WORLD.paths,...WORLD.layout.lanes||[]])ctx.fillRect(x+path.x*sx,y+path.y*sy,path.w*sx,path.h*sy);
   if(state.lake?.completed) {
     const bridge=LakeChallenge.bridge();ctx.fillStyle='#e0bc72';
     ctx.fillRect(x+bridge.x*sx,y+bridge.y*sy,Math.max(3,bridge.w*sx),bridge.h*sy);
@@ -641,7 +683,8 @@ function drawMiniMap() {
   for(const prop of [STRUCTURES.barn,...STRUCTURES.coops,...STRUCTURES.silos,...(STRUCTURES.stables||[])])
     ctx.fillRect(x+prop.x*sx,y+prop.y*sy,Math.max(3,prop.w*sx),Math.max(3,prop.h*sy));
   ctx.strokeStyle='#eee9c278';ctx.lineWidth=1;
-  ctx.strokeRect(x+camera.x*sx,y+camera.y*sy,canvas.width*sx,canvas.height*sy);
+  const viewX=Math.max(0,camera.x),viewY=Math.max(0,camera.y);
+  ctx.strokeRect(x+viewX*sx,y+viewY*sy,(Math.min(WORLD.width,camera.x+canvas.width)-viewX)*sx,(Math.min(WORLD.height,camera.y+canvas.height)-viewY)*sy);
   for(const animal of state.entities.animals) {
     if(animal.rescued||!animal.discovered||!animal.lastSeen)continue;
     ctx.fillStyle=RescueSystem.visible(state,animal)?'#ffdf88':'#b0aa7a';
@@ -654,7 +697,7 @@ function drawMiniMap() {
   }
   ctx.fillStyle='#fffce7';ctx.strokeStyle='#293c28';ctx.lineWidth=1.5;
   ctx.beginPath();ctx.arc(x+state.entities.chicken.x*sx,y+state.entities.chicken.y*sy,3.3,0,Math.PI*2);ctx.fill();ctx.stroke();
-  if(!state.cutscene.done&&distance(state.entities.chicken,state.entities.wolf)<450&&
+  if(!state.cutscene.done&&!SunflowerSystem.concealed(state)&&distance(state.entities.chicken,state.entities.wolf)<450&&
     DetectionSystem.hasLineOfSight(getHitbox(state.entities.chicken),getHitbox(state.entities.wolf))){
     ctx.fillStyle='#ef8262';ctx.beginPath();ctx.arc(x+state.entities.wolf.x*sx,y+state.entities.wolf.y*sy,3,0,Math.PI*2);ctx.fill();
   }
@@ -668,7 +711,16 @@ function drawMiniMap() {
   for (const owl of state.entities.owls || []) if (OwlSystem.visible(state,owl)) {
     ctx.fillStyle=owl.mode==='alert'?'#f6da6e':'#c8c2ae';ctx.fillRect(x+owl.perch.x*sx-1.5,y+owl.perch.y*sy-1.5,3,3);
   }
-  ctx.fillStyle='#cbd0b0';ctx.font='10px Trebuchet MS, sans-serif';ctx.fillText('Você · amigos avistados',x+3,y+h+13);
+  for(const bone of ThorSystem.bones(state)) {
+    const bx=x+bone.x*sx,by=y+bone.y*sy;
+    ctx.fillStyle='#574c34';ctx.fillRect(bx-4,by-2,8,4);
+    ctx.fillStyle='#fff1c7';ctx.fillRect(bx-3,by-1,6,2);ctx.fillRect(bx-3,by-2,2,4);ctx.fillRect(bx+1,by-2,2,4);
+  }
+  if(state.entities.thor&&!state.lake?.active){
+    const dog=state.entities.thor,dx=x+dog.x*sx,dy=y+dog.y*sy;
+    ctx.fillStyle='#ffdb85';ctx.beginPath();ctx.ellipse(dx,dy+1,3,2.5,0,0,Math.PI*2);ctx.fill();
+    for(const [ox,oy]of [[-3,-3],[0,-4],[3,-3]]){ctx.beginPath();ctx.arc(dx+ox,dy+oy,1.2,0,Math.PI*2);ctx.fill();}
+  }
   ctx.restore();
 }
 
@@ -676,9 +728,33 @@ function drawOverlay() {
   // Context, danger and arrival messages live in the HUD; keep the playfield clear.
 }
 
-function renderGame() {
+// Match the field to the available screen without stretching sprites or changing world units.
+const viewportInsets = { top: 0, bottom: 0 };
+function fitGameViewport() {
+  const stage = document.getElementById('gameStage');
+  if (state.phase === 'menu' || !stage?.clientWidth || !stage.clientHeight) return;
+  const zoom = Math.max(1, Math.min(1.65, stage.clientWidth / 900));
   const ending = EndGameSequence.active(state);
-  if (ending) EndGameSequence.drawBackdrop(state);
+  const portraitEnding = ending && stage.clientHeight > stage.clientWidth * 1.15;
+  const width = ending ? (portraitEnding ? 600 : 900) : Math.round(stage.clientWidth / zoom);
+  const height = ending ? (portraitEnding ? Math.min(1100, Math.round(600 * stage.clientHeight / stage.clientWidth)) : 520) : Math.round(stage.clientHeight / zoom);
+  const touch=document.getElementById('gameShell').dataset.touch==='true';
+  const top=ending?0:(stage.clientWidth<620?150:stage.clientHeight<560?85:120)/zoom+32;
+  const bottom=ending?0:(touch?145:60)/zoom;
+  if (canvas.width === width && canvas.height === height && viewportInsets.top===top && viewportInsets.bottom===bottom) return;
+  viewportInsets.top=top;viewportInsets.bottom=bottom;
+  canvas.width = width; canvas.height = height;
+  camera.w = width; camera.h = height;
+  updateCamera(1);
+}
+
+function renderGame() {
+  fitGameViewport();
+  Sunlight.end();
+  if (ThorSystem.active(state)) { ThorCinematic.draw(ctx,state); return; }
+  const ending = EndGameSequence.active(state);
+  Sunlight.begin(state.elapsed||0,!ending,InterfaceMotion.reduced);
+  if (ending) { ctx.save(); EndGameSequence.frame(state); EndGameSequence.drawBackdrop(state); }
   else { drawWorld(); LakeChallenge.drawGround(state); OwlSystem.drawGround(state); GooseSystem.drawTerritory(state); }
   if (!ending) for (const chick of state.entities.chicks) {
     if (RescueSystem.isSecret(chick) && !chick.coverId) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
@@ -691,36 +767,46 @@ function renderGame() {
   if (!ending) for (const owl of state.entities.owls || []) layers.push({depth: owl.perch.y + .1, entity: owl});
   if (!ending && !state.lake?.active && state.entities.thor) layers.push({depth:state.entities.thor.y+12,entity:state.entities.thor});
   if (!ending) for (const prop of FarmArt.getProps(WORLD.layout)) layers.push({ depth: prop.depth, prop });
+  if (!ending) for (const prop of FarmArt.getCrops(WORLD.layout)) layers.push({ depth: prop.depth, prop });
+  if (!ending && state.scarecrow) layers.push({depth:state.scarecrow.y+5,scarecrow:true});
   layers.sort((a, b) => a.depth - b.depth);
   for (const layer of layers) {
-    if (layer.prop) { FarmArt.drawProp(ctx, layer.prop, camera); continue; }
+    if (layer.scarecrow) { ScarecrowSystem.drawPost(state); continue; }
+    if (layer.prop) { FarmArt.drawProp(ctx, layer.prop, camera, state); continue; }
     const entity = layer.entity;
     if (ending && state.cutscene.cloud && entity.type !== "chicken") continue;
     if (entity.type === "wolf") {
+      if(!ending&&SunflowerSystem.concealed(state))continue;
       if (!(ending && state.cutscene.stage === "celebrate")) drawWolf(entity);
     } else if (entity.type === "chicken") {
-      if (!ending && entity.hidden) continue;
+      if (!ending && (entity.hidden || (entity.hideBlend || 0)>0.02)) continue;
       ctx.save();
       if (entity.invulnerable > 0 && !entity.hidden) ctx.globalAlpha = 0.6 + Math.sin(entity.invulnerable * 25) * 0.25;
       drawChicken(entity); ctx.restore();
+      if(!ending)EnvironmentSystem.drawFeet(state);
     } else if (entity.type === 'goose') GooseArt.draw(ctx, entity, camera);
     else if (entity.type === 'fox') FoxArt.draw(ctx, entity, camera);
     else if (entity.type === 'owl') OwlSystem.drawEntity(entity);
     else if (entity.type === 'thor') ThorArt.draw(ctx,entity,camera);
     else drawAnimal(entity);
   }
-  if (ending) EndGameSequence.draw(state);
+  if (ending) { EndGameSequence.draw(state); ctx.restore(); EndGameSequence.drawCaption(state); }
   else {
+    ScarecrowSystem.drawFlying(state);
     FoxSystem.drawWarnings(state);
+    SunflowerSystem.drawWarning(state);
     OwlSystem.drawIndicators(state);
     // Keep a peeking silhouette legible above the prop, then cover its lower body.
-    if (state.entities.chicken.hidden) drawChicken(state.entities.chicken);
+    if (state.entities.chicken.hidden || (state.entities.chicken.hideBlend || 0)>0.02) drawChicken(state.entities.chicken);
     HidingSpots.drawForeground(state);
+    EnvironmentSystem.drawAir(state);
+    FarmScenery.drawAir(ctx,WORLD.layout,camera,state.elapsed,InterfaceMotion.reduced);
     drawEffects(); drawDebugHitboxes(); drawMiniMap(); drawOverlay();
     GooseSystem.drawIndicator(state);
     HidingSpots.drawIndicators(state);
     GameUI.render(state);
   }
+  Sunlight.end();
 }
 
 function tick(timestamp) {
@@ -743,13 +829,18 @@ window.addEventListener("keydown", (event) => {
     return;
   }
   if (state.phase !== "playing") return;
+  if (ThorSystem.active(state)) {
+    if ([' ', 'enter'].includes(key) && !event.repeat) { ThorSystem.skip(state); GameUI.update(state); }
+    return;
+  }
+  if (key === 't' && !event.repeat) { ThorSystem.request(state); GameUI.update(state); return; }
   if (GameInput.keyboard(event)) return;
   if (state.entities.chicken.hidden && event.repeat && ["w", "a", "s", "d", "arrowup", "arrowdown", "arrowleft", "arrowright"].includes(key)) return;
   if (key === "f" && !event.repeat) {
     if (state.lake?.active) LakeChallenge.cancel(state); else LakeChallenge.start(state);
     return;
   }
-  if (key === "e" && !event.repeat && !RescueSystem.callChick(state)) HidingSpots.toggle(state);
+  if (key === "e" && !event.repeat && !LakeChallenge.interact(state) && !RescueSystem.callChick(state)) HidingSpots.toggle(state);
   if (key === "h" && !event.repeat) state.debugHitboxes = !state.debugHitboxes;
   input.add(key);
 });
@@ -786,17 +877,20 @@ resetGame(savedGame?.worldSeed);
 if (savedGame) {
   GameManager.restore(state, savedGame);
   MapManager.initialize(state);
-  setStatus("Bem-vinda de volta! Seus amigos continuam a salvo.");
+  setStatus(state.phase === 'lose' ? 'A última tentativa terminou. Tente novamente do zero.' :
+    "Voltou! O lobo não largou do osso, mas seus amigos continuam a salvo.");
 }
 state.hasSave = Boolean(savedGame);
 GameUI.showMenu(state);
 GameUI.update(state);
-Promise.all([CharacterArt.load(), GooseArt.load(), FoxArt.load(), OwlArt.load(), ThorArt.load()]).then(() => GameUI.update(state));
+Promise.all([CharacterArt.load(), GooseArt.load(), FoxArt.load(), OwlArt.load(), ThorArt.load(), ScarecrowArt.load()]).then(() => GameUI.update(state));
 GameUI.update(state);
-FarmSprites.load();
-FarmSprites.loadNursery();
-FarmSprites.loadHabitats();
-FarmSprites.loadProps();
+FarmSprites.loadCohesive().then(ready=>{
+  if(ready)return;
+  FarmSprites.load();FarmSprites.loadNursery();FarmSprites.loadHabitats();FarmSprites.loadProps();
+});
+FarmScenery.load();
+ThorCinematic.load();
 requestAnimationFrame((t) => {
   lastTime = t;
   tick(t);

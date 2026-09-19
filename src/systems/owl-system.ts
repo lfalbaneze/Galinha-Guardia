@@ -58,7 +58,7 @@ const OwlSystem = (() => {
         if(owl.alertProgress>=1){
           const heard=WolfAI.investigateSound(game,point(owl.perch),360,point(owl.target),obstacles(owl));
           AudioSystem.play('owl-hoot',{volume:.45});
-          setStatus(heard?'O lobo ouviu a coruja! Saia desse caminho e procure cobertura.':'A coruja deu alarme. Saia do campo de visão para despistá-la.');
+          setStatus(heard?'A coruja espalhou a fofoca e o lobo ouviu! Saia desse caminho e procure cobertura.':'A coruja abriu o bico! Saia do campo de visão dela para cortar a fofoca.');
           owl.mode='cooldown';owl.cooldown=5.5;owl.alertProgress=0;owl.target=null;
           GameManager.save(game);
         }

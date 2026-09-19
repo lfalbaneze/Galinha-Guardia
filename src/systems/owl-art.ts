@@ -13,7 +13,7 @@ const OwlArt = (() => {
   }
   function draw(c:CanvasRenderingContext2D,owl:Farm.Owl,view:Farm.Camera):boolean {
     const x=Math.round(owl.perch.x-view.x+(view.shakeX||0)),feet=Math.round(owl.perch.y-view.y+(view.shakeY||0))-42;
-    const frame=frameFor(owl);return sheet.drawFrame(c,x,feet,frame.row,frame.column,.15);
+    const frame=frameFor(owl);return sheet.drawFrame(c,x,feet,frame.row,frame.column,.15,42);
   }
   return {draw,frameFor,frames,load:sheet.load,install:sheet.install,get ready(){return sheet.ready;},get loading(){return sheet.loading;},get errors(){return sheet.errors;}};
 })();

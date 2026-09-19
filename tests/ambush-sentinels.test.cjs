@@ -49,10 +49,10 @@ test('hiding or breaking line of sight cancels an unfinished warning without ret
   step(h,'FoxSystem',1.2);assert.equal(h.run('f.mode'),'hidden');assert.equal(h.run('f.attempts'),0);
  }
 });
-test('fox bump preserves lives, points and stamina and grants protection against the wolf',()=>{
+test('fox dash takes one heart, preserves points and stamina and grants protection against the wolf',()=>{
  const h=setup();h.run('state.score=400;c.stamina=.6');warning(h);step(h,'FoxSystem',1.6);
  assert.equal(h.run('f.mode'),'rest');assert.equal(h.run('c.invulnerable'),1.2);
- assert.equal(h.run('state.lives'),3);assert.equal(h.run('state.score'),400);assert.equal(h.run('c.stamina'),.6);
+ assert.equal(h.run('state.lives'),2);assert.equal(h.run('state.score'),400);assert.equal(h.run('c.stamina'),.6);
  h.run('w.x=c.x;w.y=c.y');assert.equal(h.run('Player.checkCatch(state)'),false);
 });
 test('a fox dash stops at a thin wall and cannot contact the chicken across it',()=>{
@@ -125,9 +125,9 @@ test('missing and malformed wildlife records do not discard an old valid adventu
   h.context.bad=value;h.run('saved.foxes=bad;saved.owls=bad;GameManager.restore(state,saved)');assert.equal(h.run('state.rescuedCount'),1);assert.ok(h.run('state.entities.foxes.length>0'));
  }
 });
-test('wildlife cannot be rescued or accidentally increment the ten-friend objective',()=>{
+test('wildlife cannot be rescued or accidentally increment the twelve-friend objective',()=>{
  const h=setup();assert.equal(h.run('GameManager.rescue(state,f)'),false);assert.equal(h.run('GameManager.rescue(state,o)'),false);
- assert.equal(h.run('state.entities.animals.length'),10);assert.equal(h.run('state.entities.chicks.length'),6);
+ assert.equal(h.run('state.entities.animals.length'),12);assert.equal(h.run('state.entities.chicks.length'),6);
 });
 test('hidden and distant enemies do not leak their positions onto the minimap',()=>{
  const h=setup();h.run('camera.x=0;camera.y=0');assert.equal(h.run('FoxSystem.visible(state,f)'),false);assert.equal(h.run('OwlSystem.visible(state,o)'),false);

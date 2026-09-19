@@ -10,9 +10,10 @@ ctx.fillStyle = '#eee7d6'; ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.fillStyle = '#655143'; ctx.font = 'bold 42px sans-serif'; ctx.fillText('Amigos do campo', 52, 62);
 ctx.font = '23px sans-serif'; ctx.fillText('Quatro direções · volumes suaves · passos alternados · animações de corrida e esconderijo', 54, 105);
 const names = ['Galinha', 'Lobo', 'Ovelha', 'Porco', 'Cabra', 'Vaca', 'Pato', 'Coelho', 'Cão', 'Gato', 'Burro', 'Cordeiro'];
+const roster=['chicken','wolf','sheep','pig','goat','cow','duck','rabbit','dog','cat','donkey','lamb'];
 const directions = ['down', 'right', 'up', 'left'], labels = ['Frente', 'Direita', 'Costas', 'Esquerda'];
 ctx.textAlign = 'center';
-art.species.slice(0, 12).forEach((species, i) => {
+roster.forEach((species, i) => {
   const x = 35 + (i % 4) * 595, y = 140 + Math.floor(i / 4) * 408;
   ctx.fillStyle = '#faf5e8'; ctx.beginPath(); ctx.roundRect(x, y, 560, 385, 22); ctx.fill();
   ctx.fillStyle = '#655143'; ctx.font = 'bold 25px sans-serif'; ctx.fillText(names[i], x + 280, y + 38);
@@ -37,15 +38,15 @@ poses.forEach(([label, species, options], i) => {
   art.draw(ctx, species, x, 1574, { scale: 2.5, ...options });
   ctx.fillStyle = '#655143'; ctx.font = '23px sans-serif'; ctx.fillText(label, x, 1647);
 });
-ctx.fillStyle = '#8d7b64'; ctx.font = '20px sans-serif'; ctx.fillText('Desenhos vetoriais originais · mesma âncora de colisão em todas as poses', 1200, 1721);
+ctx.fillStyle = '#8d7b64'; ctx.font = '20px sans-serif'; ctx.fillText('Sprites PNG · base alinhada entre os passos · mesma âncora de colisão', 1200, 1721);
 const target = path.join(root, 'preview'); mkdirSync(target, { recursive: true });
 writeFileSync(path.join(target, 'characters.png'), canvas.toBuffer('image/png'));
 
-const wardrobe = createCanvas(1800, 1640), wc = wardrobe.getContext('2d');
-wc.fillStyle='#eee7d6';wc.fillRect(0,0,1800,1640);wc.fillStyle='#655143';wc.font='bold 38px sans-serif';wc.fillText('O baú dos bichos',45,60);
+const skins=Object.entries(art.appearances).map(([id,appearance])=>[id,appearance.name]);
+const wardrobe = createCanvas(1800, 210+skins.length*277), wc = wardrobe.getContext('2d');
+wc.fillStyle='#eee7d6';wc.fillRect(0,0,wardrobe.width,wardrobe.height);wc.fillStyle='#655143';wc.font='bold 38px sans-serif';wc.fillText('O baú dos bichos',45,60);
 wc.font='22px sans-serif';wc.fillText('Personagens completos nas quatro direções, durante a corrida e no esconderijo',45,102);
 wc.textAlign='center';wc.font='19px sans-serif';['Frente','Direita','Costas','Esquerda','Escondida','Escala do jogo'].forEach((label,j)=>wc.fillText(label,330+j*260,141));
-const skins=[['classic','Galinha'],['punk','Pato'],['astronaut','Coelho'],['robocop','Gato'],['priest','Cachorro']];
 skins.forEach(([skin,label],i)=>{
   const y=307+i*277;
   wc.fillStyle='#faf5e8';wc.beginPath();wc.roundRect(30,y-149,1740,249,20);wc.fill();
@@ -71,7 +72,7 @@ directions.forEach((direction,j)=>{
   ec.fillStyle='#655143';ec.font='20px sans-serif';ec.textAlign='center';ec.fillText(labels[j],225+j*450,705);
 });
 caption('A TURMA TODA FICA BRAVA',790);
-art.species.slice(0,12).forEach((species,i)=>{
+roster.forEach((species,i)=>{
   const x=150+(i%6)*300,y=946+Math.floor(i/6)*203;
   art.draw(ec,species,x,y,{direction:i%2?'right':'down',mood:'angry',scale:2,anim:1.3});
   ec.fillStyle='#655143';ec.font='20px sans-serif';ec.textAlign='center';ec.fillText(names[i],x,y+58);

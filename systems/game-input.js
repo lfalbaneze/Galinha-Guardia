@@ -25,7 +25,9 @@ const GameInput = (() => {
   function action(name) {
     if(name==='pause'){if(state.phase==='menu')GameUI.resume();else if(state.phase==='playing')GameUI.showMenu(state);return;}
     if(state.phase!=='playing')return;
-    if(name==='interact'){if(!RescueSystem.callChick(state))HidingSpots.toggle(state);}
+    if(ThorSystem.active(state)){if(name==='thor')ThorSystem.skip(state);return;}
+    if(name==='thor'){ThorSystem.request(state);GameUI.update(state);return;}
+    if(name==='interact'){if(!LakeChallenge.interact(state)&&!RescueSystem.callChick(state))HidingSpots.toggle(state);}
     else if(name==='lake'){if(state.lake?.active)LakeChallenge.cancel(state);else LakeChallenge.start(state);}
     else if(name==='sneak')toggle('c');
     else if(name==='run')toggle('shift');
@@ -44,7 +46,7 @@ const GameInput = (() => {
     for(const [id,key]of [['touchUp','w'],['touchDown','s'],['touchLeft','a'],['touchRight','d']]){
       const button=document.getElementById(id);
       button.addEventListener('pointerdown',event=>{
-        if(state.phase!=='playing'||(event.button!==undefined&&event.button!==0))return;
+        if(state.phase!=='playing'||ThorSystem.active(state)||(event.button!==undefined&&event.button!==0))return;
         event.preventDefault();device='touch';button.setPointerCapture?.(event.pointerId);heldTouch.set(event.pointerId,key);
       });
       for(const type of ['pointerup','pointercancel','lostpointercapture'])button.addEventListener(type,event=>heldTouch.delete(event.pointerId));
@@ -53,21 +55,22 @@ const GameInput = (() => {
       document.getElementById(id).addEventListener('click',()=>{device='touch';action(name);if(state.phase==='playing')document.getElementById('gameCanvas').focus({preventScroll:true});});
   }
   function update(game) {
-    initialize();const playing=game.phase==='playing';
+    initialize();const playing=game.phase==='playing'&&!ThorSystem.active(game);
     document.getElementById('gameShell').dataset.touch=String(preferences.touch);
     el.touchControls.hidden=!playing||!preferences.touch;
     document.getElementById('liveControls').hidden=!playing||preferences.touch;
     el.touchRun.setAttribute('aria-pressed',String(held('shift')));el.touchSneak.setAttribute('aria-pressed',String(held('c')));
     const callable=playing&&RescueSystem.callTarget(game),hidden=game.entities.chicken.hidden;
-    el.touchInteract.textContent=callable?'Chamar':hidden?'Sair':'Esconder';
-    el.touchInteract.disabled=!playing||(!callable&&!hidden&&!HidingSpots.candidate(game.entities.chicken));
+    el.touchInteract.textContent=game.lake?.active?'Carimbar':callable?'Chamar':hidden?'Sair':'Esconder';
+    el.touchInteract.disabled=!playing||(game.lake?.active?!LakeChallenge.canCounter(game):(!callable&&!hidden&&!HidingSpots.candidate(game.entities.chicken)));
     el.controlDevice.textContent=device==='gamepad'?'Controle conectado · A confirma, B volta, direcional navega.':device==='touch'?'Toque nas setas para andar. Mansinho e Correr ligam e desligam com um toque.':'Teclado · WASD ou setas para mover; E para interagir.';
     const labels=device==='gamepad'?['Analógico / ✚','B','RT','A']:device==='touch'?['✚','Mansinho','Correr',el.touchInteract.textContent]:['WASD / setas','C','Shift','E'];
     ['keyMove','keySneak','keySprint','keyHide'].forEach((id,i)=>{const item=document.getElementById(id);if(item.textContent!==labels[i])item.textContent=labels[i];});
   }
   function label(action) {
+    if(action==='interact'&&device==='touch'&&state.lake?.active)return 'Carimbar';
     return ({keyboard:{interact:'E',hide:'E',exit:'E',lake:'F',sneak:preferences.toggleSneak?'aperte C':'segure C',run:'Shift'},
-      gamepad:{interact:'A',hide:'A',exit:'A',lake:'X',sneak:'aperte B',run:'RT'},touch:{interact:'Chamar',hide:'Esconder',exit:'Sair',lake:'',sneak:'toque em Mansinho',run:'Correr'}})[device][action];
+      gamepad:{interact:'A',hide:'A',exit:'A',lake:'X',sneak:'aperte B',run:'RT',thor:'Y'},touch:{interact:'Chamar',hide:'Esconder',exit:'Sair',lake:'',sneak:'toque em Mansinho',run:'Correr',thor:'Chamar Thor'}})[device][action] || (action==='thor'?'T':'');
   }
   function navigate(game,buttons,pressed,dt) {
     const help=document.getElementById('howToPlayDialog');
@@ -107,7 +110,7 @@ const GameInput = (() => {
     if(game.phase==='playing'){
       for(const [n,key]of [[12,'w'],[13,'s'],[14,'a'],[15,'d'],[7,'shift']])if(buttons.has(n))padHeld.add(key);
       if(pressed(7))latched.c=false;
-      if(pressed(9))action('pause');else if(pressed(0))action('interact');else if(pressed(1))action('sneak');else if(pressed(2))action('lake');
+      if(pressed(9))action('pause');else if(pressed(3))action('thor');else if(pressed(0))action('interact');else if(pressed(1))action('sneak');else if(pressed(2))action('lake');
     }else if(['menu','won','lose'].includes(game.phase))navigate(game,buttons,pressed,dt);
     previous=buttons;
   }

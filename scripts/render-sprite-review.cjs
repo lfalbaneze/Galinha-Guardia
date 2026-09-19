@@ -11,11 +11,11 @@ for(const [file,family] of [['arial.ttf','Arial'],['arialbd.ttf','Arial']]) {
 }
 const load=file=>vm.runInNewContext(fs.readFileSync(file,'utf8')+'\nCharacterArt;');
 const art=await require('./sprite-loader.cjs').loadArt();
-const names=['Galinha','Lobo','Ovelha','Porco','Cabra','Vaca','Pato','Coelho','Cão','Gato','Burro','Cordeiro','Pintinho'];
+const names={chicken:'Carijó','hen-silkie':'Sedosa japonesa','hen-blue':'Galinha azul',wolf:'Lobo',goose:'Ganso',sheep:'Ovelha',pig:'Porco',goat:'Cabra',cow:'Vaca',duck:'Pato',rabbit:'Coelho',dog:'Cão',cat:'Gato',donkey:'Burro',lamb:'Cordeiro',chick:'Pintinho',horse:'Cavalo',turkey:'Peru'};
 const poses=[['Frente',{direction:'down'}],['Direita',{direction:'right'}],['Costas',{direction:'up'}],['Esquerda',{direction:'left'}],['Fugindo',{direction:'up',lookBack:true,moving:true,sprinting:true,anim:1.2}],['Brabo',{direction:'right',mood:'angry'}],['Chorando',{direction:'right',mood:'crying',anim:1.5}]];
 const output=path.join(root,'preview');fs.mkdirSync(output,{recursive:true});
-const canvas=createCanvas(1080,1370),c=canvas.getContext('2d');
-c.fillStyle='#f7efdc';c.fillRect(0,0,1080,1370);
+const canvas=createCanvas(1080,130+art.species.length*90),c=canvas.getContext('2d');
+c.fillStyle='#f7efdc';c.fillRect(0,0,canvas.width,canvas.height);
 c.fillStyle='#513e35';c.font='bold 28px Arial';c.fillText('A turma da fazenda',25,40);
 c.font='15px Arial';c.fillText('Mesmos desenhos usados no jogo · direção, fuga e expressões',25,67);
 c.textAlign='center';c.font='bold 13px Arial';
@@ -23,7 +23,7 @@ poses.forEach(([label],i)=>c.fillText(label,196+i*133,98));
 art.species.forEach((species,i)=>{
   const y=172+i*90;
   c.fillStyle=i%2?'#88ac57':'#94b562';c.fillRect(12,y-61,1056,87);
-  c.fillStyle='#304329';c.textAlign='left';c.font='bold 14px Arial';c.fillText(names[i],26,y-16);
+  c.fillStyle='#304329';c.textAlign='left';c.font='bold 14px Arial';c.fillText(names[species]||species,26,y-16);
   poses.forEach(([,pose],j)=>art.draw(c,species,196+j*133,y,{scale:1.15,...pose}));
 });
 fs.writeFileSync(path.join(output,'sprite-turnarounds.png'),canvas.toBuffer('image/png'));

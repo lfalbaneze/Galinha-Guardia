@@ -22,6 +22,7 @@ const GameManager = (() => {
         FoxSystem.initialize(game);
         OwlSystem.initialize(game);
         ThorSystem.initialize(game);
+        ScarecrowSystem.initialize(game);
         saveTimer = 0;
     }
     function level(count) { return count >= 9 ? 3 : count >= 6 ? 2 : count >= 3 ? 1 : 0; }
@@ -58,16 +59,14 @@ const GameManager = (() => {
         const phase = game.phase === "menu" ? game.resumePhase : game.phase;
         if (!phase)
             return;
-        const recovering = phase === 'lose' || game.needsRecovery === true;
         const point = (e) => ({ x: e.x, y: e.y });
         const friend = (a) => ({ id: a.id, ...point(a), discovered: !!a.discovered, coverId: a.coverId || null, lastSeen: a.lastSeen || null,
             fatigue: a.fatigue || 0, restTime: a.restTime || 0, fleeTime: a.fleeTime || 0,
             fleeFrom: a.fleeFrom || null, fleeHeading: a.fleeHeading ?? null });
         const wolf = game.entities.wolf, chicken = game.entities.chicken;
         const data = {
-            version: 4, worldSeed: game.worldSeed, worldVersion: game.worldVersion, difficulty: game.difficultyKey, phase: recovering ? 'playing' : phase,
-            needsRecovery: recovering,
-            rescuedIds: [...game.rescuedIds], lives: recovering ? MAX_LIVES : game.lives, score: game.score, winBonusApplied: game.winBonusApplied,
+            version: 4, worldSeed: game.worldSeed, worldVersion: game.worldVersion, difficulty: game.difficultyKey, phase,
+            rescuedIds: [...game.rescuedIds], lives: game.lives, score: game.score, winBonusApplied: game.winBonusApplied,
             rescuedChickIds: [...game.rescuedChickIds],
             elapsed: game.elapsed, chicken: { ...point(chicken), hidden: chicken.hidden,
                 hidingSpotId: chicken.hidingSpotId || null, direction: chicken.direction,
@@ -108,27 +107,36 @@ const GameManager = (() => {
                 data.worldSeed = 20260915;
             if (data.worldVersion === undefined)
                 data.worldVersion = 1;
-            if (![1, 2, 3, 4, 5].includes(data.worldVersion))
+            if (![1, 2, 3, 4, 5, 6, 7].includes(data.worldVersion))
                 return null;
+            const expectedFriends = data.worldVersion >= 7 ? 12 : 10;
             if (!Array.isArray(data.rescuedIds) || !Array.isArray(data.animals))
                 return null;
-            if (!Number.isInteger(data.lives) || data.lives < 1 || data.lives > MAX_LIVES)
+            // Older builds stored a defeat as a healed, resumable adventure.
+            // Keep its result, but require a fresh attempt under the current rules.
+            if (data.needsRecovery === true) {
+                data.phase = 'lose';
+                data.lives = 0;
+            }
+            delete data.needsRecovery;
+            if (!Number.isInteger(data.lives) || data.lives < 0 || data.lives > MAX_LIVES ||
+                (data.phase === 'lose' ? data.lives !== 0 : data.lives === 0))
                 return null;
             if (!Number.isFinite(data.score) || data.score < 0)
                 return null;
-            if (!["playing", "win_cutscene", "won"].includes(data.phase))
+            if (!["playing", "lose", "win_cutscene", "won"].includes(data.phase))
                 return null;
             const validPoint = (p) => p && Number.isFinite(p.x) && Number.isFinite(p.y) &&
                 p.x >= 0 && p.x <= WORLD.width && p.y >= 0 && p.y <= WORLD.height;
             if (!validPoint(data.chicken) || !validPoint(data.wolf))
                 return null;
-            const ids = new Set(Array.from({ length: WORLD.targetRescues }, (_, i) => `animal_${i}`));
+            const ids = new Set(Array.from({ length: expectedFriends }, (_, i) => `animal_${i}`));
             if (data.rescuedIds.some(id => !ids.has(id)) || new Set(data.rescuedIds).size !== data.rescuedIds.length)
                 return null;
-            if (data.animals.length !== WORLD.targetRescues || new Set(data.animals.map(a => a.id)).size !== WORLD.targetRescues ||
+            if (data.animals.length !== expectedFriends || new Set(data.animals.map(a => a.id)).size !== expectedFriends ||
                 data.animals.some(a => !ids.has(a.id) || !validPoint(a)))
                 return null;
-            if (data.phase !== "playing" && data.rescuedIds.length !== WORLD.targetRescues)
+            if (["win_cutscene", "won"].includes(data.phase) && data.rescuedIds.length !== expectedFriends)
                 return null;
             if (data.version >= 3) {
                 const chickIds = new Set(Array.from({ length: WORLD.targetChicks }, (_, i) => `chick_${i}`));
@@ -137,20 +145,21 @@ const GameManager = (() => {
                     data.chicks.length !== WORLD.targetChicks || new Set(data.chicks.map(c => c.id)).size !== WORLD.targetChicks ||
                     data.chicks.some(c => !chickIds.has(c.id) || !validPoint(c)))
                     return null;
-                if (data.version === 3 && data.phase !== "playing" && data.rescuedChickIds.length !== WORLD.targetChicks)
+                if (data.version === 3 && ["win_cutscene", "won"].includes(data.phase) && data.rescuedChickIds.length !== WORLD.targetChicks)
                     return null;
             }
             else {
                 // Old adventures retain their score; their optional bonuses start undiscovered.
                 data.rescuedChickIds = [];
                 data.chicks = [];
-                data.phase = "playing";
+                if (data.phase !== 'lose')
+                    data.phase = "playing";
             }
-            if (data.worldVersion < 5) {
+            if (data.worldVersion < 7) {
                 // Keep the last old-map adventure recoverable before the one-time upgrade.
                 try {
-                    if (!localStorage.getItem('galinha-guardia-save-before-map-5'))
-                        localStorage.setItem('galinha-guardia-save-before-map-5', JSON.stringify(data));
+                    if (!localStorage.getItem('galinha-guardia-save-before-map-7'))
+                        localStorage.setItem('galinha-guardia-save-before-map-7', JSON.stringify(data));
                 }
                 catch (_) { /* Saving may be unavailable. */ }
             }
@@ -163,17 +172,23 @@ const GameManager = (() => {
     function restore(game, data) {
         const seed = data.worldSeed ?? 20260915;
         const previousVersion = data.worldVersion ?? 1;
-        const migrating = previousVersion < 5;
-        const newGeography = migrating || data.version === 1;
-        const worldVersion = 5;
+        const migrating = previousVersion < 7;
+        const newGeography = previousVersion < 5 || data.version === 1;
+        const worldVersion = 7;
         if (game.worldSeed !== seed || game.worldVersion !== worldVersion) {
             MapManager.generate(seed, worldVersion);
             buildObstacles();
             game.worldSeed = seed;
             game.worldVersion = worldVersion;
         }
+        if (game.entities.animals.length !== WORLD.layout.animalSpawns.length)
+            game.entities.animals = spawnAnimals(game.settings, game.entities.wolf);
         LakeChallenge.restore(game, data.lake);
         game.rescuedIds = new Set(data.rescuedIds);
+        // A finished adventure stays finished; an ongoing one gets two new friends to find.
+        if (migrating && data.rescuedIds.length === 10)
+            for (const animal of game.entities.animals)
+                game.rescuedIds.add(animal.id);
         game.rescuedCount = game.rescuedIds.size;
         game.rescuedChickIds = new Set(data.rescuedChickIds || []);
         game.rescuedChicks = game.rescuedChickIds.size;
@@ -184,6 +199,7 @@ const GameManager = (() => {
         game.elapsed = Number.isFinite(data.elapsed) ? Math.max(0, data.elapsed) : 0;
         const bounded = (value, min, max, fallback = min) => Number.isFinite(value) ? clamp(value, min, max) : fallback;
         const restoreFriend = (animal, saved) => {
+            animal.sharedAlarm = true;
             animal.discovered = animal.rescued || saved.discovered === true;
             animal.lastSeen = animal.discovered && Number.isFinite(saved.lastSeen?.x) && Number.isFinite(saved.lastSeen?.y)
                 ? { x: bounded(saved.lastSeen.x, 0, WORLD.width), y: bounded(saved.lastSeen.y, 0, WORLD.height) } : null;
@@ -207,6 +223,7 @@ const GameManager = (() => {
             direction: ["up", "down", "left", "right"].includes(data.chicken.direction) ? data.chicken.direction : "down",
             vx: 0, vy: 0, moving: false, sprinting: false, state: "idle" });
         const wolf = game.entities.wolf;
+        WolfAI.clearTracks(game);
         wolf.x = data.wolf.x;
         wolf.y = data.wolf.y;
         wolf.mode = ["patrol", "alert", "investigate", "chase", "search", "inspect"].includes(data.wolf.mode) ? data.wolf.mode : "patrol";
@@ -241,11 +258,13 @@ const GameManager = (() => {
             animal.rescued = game.rescuedIds.has(animal.id);
             // Older saves used a different geography: keep their progress and give friends legal new homes.
             const saved = animal.rescued ? RescueSystem.safePosition(index) : newGeography ? WORLD.layout.animalSpawns[index]
-                : data.animals.find(a => a.id === animal.id);
+                : data.animals.find(a => a.id === animal.id) || WORLD.layout.animalSpawns[index];
             animal.x = saved.x;
             animal.y = saved.y;
             animal.targetX = saved.x;
             animal.targetY = saved.y;
+            animal.homeX = WORLD.layout.animalSpawns[index].x;
+            animal.homeY = WORLD.layout.animalSpawns[index].y;
             restoreFriend(animal, saved);
             if (newGeography && !animal.rescued) {
                 const old = data.animals.find(a => a.id === animal.id);
@@ -287,55 +306,24 @@ const GameManager = (() => {
         WolfAI.restoreCoverMemory(game, newGeography ? null : data.wolf.exposedCover);
         GooseSystem.restore(game, data.goose);
         FoxSystem.restore(game, data.foxes);
+        HidingSpots.update(game);
         OwlSystem.restore(game, data.owls);
         ThorSystem.restore(game, data.thor);
+        ScarecrowSystem.initialize(game);
         if (!newGeography && data.wolf.mode === 'frightened' && Number.isFinite(data.wolf.fearTime) && data.wolf.fearTime > 0 &&
             WildlifeRules.validPoint(data.wolf.fearFrom))
             WolfAI.frighten(game, data.wolf.fearFrom, bounded(data.wolf.fearTime, 0, 6));
         game.winBonusApplied = data.winBonusApplied === true;
-        game.needsRecovery = data.needsRecovery === true;
-        if (game.needsRecovery)
-            recover(game);
+        if (data.phase === 'lose') {
+            game.phase = 'lose';
+            game.resumePhase = 'lose';
+        }
         if (game.rescuedCount === WORLD.targetRescues)
             GameManager.win(game);
         refreshHud();
         MapManager.initialize(game);
         if (migrating)
             save(game);
-    }
-    function recover(game) {
-        if (!game.needsRecovery && game.phase !== 'lose' && game.resumePhase !== 'lose')
-            return false;
-        game.phase = 'playing';
-        game.resumePhase = 'playing';
-        game.needsRecovery = false;
-        game.lives = MAX_LIVES;
-        Object.assign(game.entities.chicken, WORLD.layout.start, { hidden: false, hidingSpotId: null, hideBlend: 0,
-            vx: 0, vy: 0, moving: false, sprinting: false, sneaking: false, invulnerable: 4,
-            stamina: 1, staminaDelay: 0, exhausted: false, direction: 'down', state: 'idle' });
-        Object.assign(game.entities.wolf, WORLD.layout.wolfStart, { vx: 0, vy: 0, moving: false,
-            huntUnlockTimer: 5, pauseTimer: 0, speechTime: 0 });
-        WolfAI.initialize(game);
-        resolveEnvironment(game.entities.chicken);
-        resolveEnvironment(game.entities.wolf);
-        if (typeof camera !== 'undefined')
-            Object.assign(camera, {
-                x: clamp(game.entities.chicken.x - canvas.width / 2, 0, WORLD.width - canvas.width),
-                y: clamp(game.entities.chicken.y - canvas.height / 2, 0, WORLD.height - canvas.height),
-                shake: 0, shakeX: 0, shakeY: 0,
-            });
-        GooseSystem.initialize(game);
-        FoxSystem.initialize(game);
-        OwlSystem.initialize(game);
-        if (typeof GameInput !== 'undefined')
-            GameInput.clear();
-        else
-            input.clear();
-        MapManager.initialize(game);
-        setStatus('De volta ao poleiro! Seus amigos e pintinhos continuam a salvo.');
-        save(game);
-        refreshHud();
-        return true;
     }
     function clear() {
         try {
@@ -355,6 +343,6 @@ const GameManager = (() => {
             save(game);
         }
     }
-    return { initialize, level, rescue, win, save, read, restore, recover, clear, update,
+    return { initialize, level, rescue, win, save, read, restore, clear, update,
         get storageAvailable() { return storageAvailable; } };
 })();

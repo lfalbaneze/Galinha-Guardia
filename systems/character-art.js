@@ -1,13 +1,15 @@
-/* Licensed pixel sprites shared by the game, wardrobe and finale. */
+/* Pixel sprites shared by the game, wardrobe and finale. Sources: assets/sprites/CREDITS.html. */
 const CharacterArt = (() => {
   // Stable IDs preserve previously earned unlocks; each appearance is a complete sprite.
   const appearances = Object.freeze({
-    classic: Object.freeze({ name: 'Galinha', species: 'chicken' }),
-    punk: Object.freeze({ name: 'Pato', species: 'duck' }),
-    astronaut: Object.freeze({ name: 'Coelho', species: 'rabbit' }),
-    robocop: Object.freeze({ name: 'Gato', species: 'cat' }),
-    priest: Object.freeze({ name: 'Cachorro', species: 'dog' }),
-    goose: Object.freeze({ name: 'Ganso do lago', species: 'goose' })
+    classic: Object.freeze({ name: 'Erina', species: 'chicken' }),
+    silkie: Object.freeze({ name: 'Midori', species: 'hen-silkie' }),
+    blue: Object.freeze({ name: 'Alzira', species: 'hen-blue' }),
+    punk: Object.freeze({ name: 'Zeca', species: 'duck', sprite: 'skin-zeca', description: 'Zeca, o pato de chapéu de palha.' }),
+    astronaut: Object.freeze({ name: 'Pipoca', species: 'rabbit', sprite: 'skin-pipoca', description: 'Pipoca, o coelho de lenço verde e orelha dobrada.' }),
+    robocop: Object.freeze({ name: 'Stella', species: 'cat', sprite: 'skin-amora', description: 'Stella, a gata de laço lilás e patinhas de meia.' }),
+    priest: Object.freeze({ name: 'Paçoca', species: 'dog', sprite: 'skin-pacoca', description: 'Paçoca, o vira-lata caramelo de lenço vermelho.' }),
+    goose: Object.freeze({ name: 'Gumercindo', species: 'goose', sprite: 'skin-gumercindo', description: 'Gumercindo, o ganso cinzento de lenço xadrez.' })
   });
   const species = Object.freeze(Object.keys(SpriteData));
   const sources = Object.freeze([...new Set(species.flatMap(s => Object.values(SpriteData[s].poses)
@@ -40,7 +42,8 @@ const CharacterArt = (() => {
   }
   function frameFor(name, options = {}) {
     const appearance = name === 'chicken' ? appearances[options.skin] || appearances.classic : null;
-    const spriteName = appearance?.species || name;
+    // Identity controls voices and swimming; the playable art has its own sheet.
+    const spriteName = appearance?.sprite || appearance?.species || name;
     const definition = SpriteData[spriteName];
     if (!definition) return null;
     const requested = options.direction || (options.facing < 0 ? 'left' : 'right');
@@ -48,7 +51,7 @@ const CharacterArt = (() => {
     const pose = definition.poses[direction];
     // The simulation clock already advances faster during movement and sprinting.
     const index = options.moving ? Math.floor(Math.abs(options.anim || 0)) % pose.frames.length : 0;
-    const size = appearance && spriteName !== 'chicken' ? Math.min(1.25,
+    const size = appearance && spriteName !== 'chicken' ? Math.min(1,
       64 / Math.max(...Object.values(definition.poses).map(p => p.width * definition.scale)),
       58 / Math.max(...Object.values(definition.poses).map(p => (p.bottom - p.top) * definition.scale))) : 1;
     return { definition, pose, frame: pose.frames[index], index, direction, spriteName, scale: definition.scale * size };
@@ -89,15 +92,31 @@ const CharacterArt = (() => {
     c.save(); c.translate(Math.round(x), Math.round(y)); c.scale(options.scale || 1, options.scale || 1);
     c.imageSmoothingEnabled = false;
     const lift = Math.max(0, Math.min(64, options.lift || 0));
-    c.fillStyle = 'rgba(45,49,25,.23)'; c.beginPath();
-    c.ellipse(0, 14, Math.min(28, pose.width * scale * .4) * (1 - lift * .004), 4, 0, 0, Math.PI * 2); c.fill();
+    const width=Math.round(frame.w*scale),height=Math.round(frame.h*scale);
+    const tile=typeof SpriteStyle==='undefined'?null:SpriteStyle.tile(image,[frame.x,frame.y,frame.w,frame.h],width,height);
+    const left=Math.round(-(frame.cx ?? pose.cx)*scale),top=14-Math.round((frame.bottom ?? pose.bottom)*scale);
+    if(options.shadow!==false&&typeof Sunlight!=='undefined') {
+      c.save();if(pose.flip)c.scale(-1,1);
+      Sunlight.cast(c,tile||image,left,top-lift,width,height,14,tile?undefined:[frame.x,frame.y,frame.w,frame.h]);c.restore();
+    }
+    if (options.shadow !== false) {
+      c.fillStyle = 'rgba(45,49,25,.23)'; c.beginPath();
+      const span=pose.width*scale;
+      c.ellipse(0, 14, Math.min(42, span * .4) * (1 - lift * .004), Math.max(3,Math.min(6,span*.065)), 0, 0, Math.PI * 2); c.fill();
+    }
     if (lift) c.translate(0, -lift);
+    c.save();
+    // Menu tricks rotate the animal around its body, leaving its shadow grounded.
+    if (options.rotation || options.squash) {
+      const pivot = 14 - (frame.h * scale) * .48;
+      const squash = Math.max(.75, Math.min(1.25, options.squash || 1));
+      c.translate(0, pivot); c.rotate(options.rotation || 0); c.scale(1 / squash, squash); c.translate(0, -pivot);
+    }
     if (name === 'chicken' && blend) { c.translate(0, 14); c.scale(1, 1 - blend * .23); c.translate(0, -14); }
     c.save(); if (pose.flip) c.scale(-1, 1);
-    c.translate(-(frame.cx ?? pose.cx) * scale, 14 - (frame.bottom ?? pose.bottom) * scale); c.scale(scale, scale);
-    if (name === 'chick') c.filter = 'sepia(1) saturate(4) brightness(.92)';
-    c.drawImage(image, frame.x, frame.y, frame.w, frame.h, 0, 0, frame.w, frame.h);
-    c.restore(); expression(c, spriteName, direction, pose, scale, options); c.restore();
+    if(tile)c.drawImage(tile,left,top);
+    else c.drawImage(image,frame.x,frame.y,frame.w,frame.h,left,top,width,height);
+    c.restore(); expression(c, spriteName, direction, pose, scale, options); c.restore(); c.restore();
     return true;
   }
   function markerOffset(name) {

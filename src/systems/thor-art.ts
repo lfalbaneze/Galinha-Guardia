@@ -26,6 +26,10 @@ const ThorArt = (() => {
     c.fillText('Thor',x,y-58);
     c.restore();return true;
   }
-  return {draw,frameFor,frames,load:sheet.load,install:sheet.install,
+  function drawHero(c:CanvasRenderingContext2D,x:number,feet:number,height:number,direction:Farm.Direction,anim:number):boolean {
+    const row=rows[direction],column=InterfaceMotion.reduced?0:[0,1,0,2][Math.floor(Math.abs(anim))%4];
+    return sheet.drawFrame(c,x,feet,row,column,height/frames[row*3+column].h);
+  }
+  return {draw,drawHero,frameFor,frames,load:sheet.load,install:sheet.install,
     get ready(){return sheet.ready;},get loading(){return sheet.loading;},get errors(){return sheet.errors;}};
 })();

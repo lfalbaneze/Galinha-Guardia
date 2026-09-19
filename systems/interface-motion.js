@@ -3,14 +3,14 @@ const InterfaceMotion = (() => {
   const el = {}, animations = new Map();
   const tabs = ['adventure', 'outfit', 'audio', 'controls'];
   const difficultyModes = ['easy', 'normal', 'hard'];
-  const difficultyNames = { easy: 'Dia tranquilo', normal: 'Fuzuê no sítio', hard: 'Lobo à solta' };
+  const difficultyNames = { easy: 'Dia tranquilo', normal: 'Penas em risco', hard: 'Lobo à solta' };
+  const difficultyLines = { easy: 'O lobo apertou a soneca. Aproveite o passeio.', normal: 'O lobo já amarrou o guardanapo. Capriche no resgate.', hard: 'Ele veio de tênis. Você veio com um plano, né?' };
   const directions = ['down', 'left', 'up', 'right'];
   const media = window.matchMedia('(prefers-reduced-motion: reduce)');
   let initialized = false, previous = null, currentGame = null, activeTab = 'adventure';
   let score = 0, scoreFrom = 0, scoreTarget = 0, scoreTime = 1;
   let previewTime = 0, previewFrame = 0, direction = 0, walking = true;
   let previewSignature = '', reduced = media.matches;
-  let difficultyArtReady = false;
   const text = (id, value) => { if (el[id].textContent !== String(value)) el[id].textContent = String(value); };
   const data = (id, key, value) => { if (el[id].dataset[key] !== String(value)) el[id].dataset[key] = String(value); };
 
@@ -29,6 +29,7 @@ const InterfaceMotion = (() => {
     if (!tabs.includes(name)) return;
     const changed = activeTab !== name;
     activeTab = name;
+    if (changed && name === 'outfit') previewSignature = '';
     for (const tab of tabs) {
       const selected = tab === name;
       el[`tab-${tab}`].setAttribute('aria-selected', String(selected));
@@ -46,20 +47,8 @@ const InterfaceMotion = (() => {
       button.tabIndex = selected ? 0 : -1;
     }
     const savedMode = { easy: 'Fácil', normal: 'Médio', hard: 'Difícil' }[currentGame?.difficultyKey] || 'Médio';
+    text('difficultyFlavor', difficultyLines[chosen] || difficultyLines.normal);
     text('difficultyPreview', `${difficultyNames[chosen] || difficultyNames.normal} escolhido.${currentGame?.hasSave ? ` Seu resgate salvo continua no ${savedMode}.` : ' Tudo pronto para abrir a porteira!'}`);
-    if (!difficultyArtReady && CharacterArt.ready) {
-      for (const [index, mode] of difficultyModes.entries()) {
-        const c = el[`difficultyArt-${mode}`].getContext('2d');
-        if (!c) continue;
-        const name = ['chick', 'chicken', 'wolf'][index], direction = mode === 'hard' ? 'right' : 'down';
-        const frame = CharacterArt.frameFor(name, { direction });
-        if (!frame) continue;
-        const scale = Math.min(50 / (frame.pose.width * frame.scale), 44 / ((frame.pose.bottom - frame.pose.top) * frame.scale));
-        c.clearRect(0, 0, 64, 64);
-        CharacterArt.draw(c, name, 32, 53 - 14 * scale, { direction, moving: false, scale });
-      }
-      difficultyArtReady = true;
-    }
   }
   function chooseDifficulty(mode, focus = false) {
     const changed = el.difficultySelect.value !== mode;
@@ -75,7 +64,7 @@ const InterfaceMotion = (() => {
     for (const id of ['scoreCount', 'rescuedCount', 'chicksCount', 'livesCount', 'chickCounter', 'hiddenText',
       'contextHint', 'areaText', 'gameStage', 'menuCard', 'endScreen', 'menuPortrait', 'portraitTurn', 'portraitWalk', 'howToPlayBtn', 'howToPlayDialog',
       'missionText', 'missionProgress', 'threatIndicator', 'threatText', 'threatProgress', 'regionNotice', 'regionNoticeName',
-      'liveControls', 'keyMove', 'keySneak', 'keySprint', 'keyHide', 'difficultySelect', 'difficultyPreview',
+      'liveControls', 'keyMove', 'keySneak', 'keySprint', 'keyHide', 'difficultySelect', 'difficultyPreview', 'difficultyFlavor',
       ...difficultyModes.flatMap(mode => [`difficulty-${mode}`, `difficultyArt-${mode}`]), ...tabs.flatMap(t => [`tab-${t}`, `panel-${t}`])])
       el[id] = document.getElementById(id);
     for (const [index, tab] of tabs.entries()) {
@@ -145,9 +134,11 @@ const InterfaceMotion = (() => {
     if (reduced || game.phase !== 'playing') { score = scoreTarget; scoreTime = 1; }
     text('scoreCount', Math.round(score));
     el.scoreCount.setAttribute('aria-label', `${target} pontos`);
+    el.missionProgress.max = WORLD.targetRescues;
     el.missionProgress.value = game.rescuedCount;
-    text('missionText', game.rescuedCount < 10 ? `${10 - game.rescuedCount} ${game.rescuedCount === 9 ? 'amigo esperando' : 'amigos esperando'} por você` :
-      known ? `Missão cumprida · ${game.rescuedChicks} pintinhos de bônus` : 'Missão cumprida · os dez amigos estão a salvo!');
+    const remaining = WORLD.targetRescues - game.rescuedCount;
+    text('missionText', remaining > 0 ? `${remaining} ${remaining === 1 ? 'amigo esperando' : 'amigos esperando'} por você` :
+      known ? `Missão cumprida · ${game.rescuedChicks} pintinhos de bônus` : 'Missão cumprida · todos os amigos estão a salvo!');
     const exposed = WolfAI.isExposed(game);
     let level = 'calm', label = 'O lobo está de ronda', amount = .06;
     if (['chase', 'inspect'].includes(wolf.mode) || exposed) { level = 'danger'; label = exposed ? 'Ele viu você! Saia daí!' : 'O lobo vem vindo!'; amount = 1; }
@@ -157,11 +148,14 @@ const InterfaceMotion = (() => {
     if (wolf.mode === 'frightened') { level = 'safe'; label = 'Thor espantou o lobo!'; amount = 0; }
     if (game.lake?.active) { level = 'safe'; label = 'O lobo espera fora do lago'; amount = 0; }
     if (!playing) { level = 'calm'; label = game.phase === 'menu' ? 'A fazenda está em pausa' : 'Fim da aventura'; amount = 0; }
+    if(SunflowerSystem.mode(game)==='hidden'){level='search';label='O lobo saiu de vista';amount=.25;}
+    if(SunflowerSystem.mode(game)==='warning'){level='danger';label='Bote nos girassóis!';amount=1;}
     data('gameStage', 'threat', level); data('threatIndicator', 'level', level);
     text('threatText', label); el.threatProgress.value = Math.round(amount * 100) / 100;
     el.threatProgress.setAttribute('aria-valuetext', label);
     const transition = game.mapTransition;
     el.regionNotice.hidden = !playing || !transition || transition.time <= 0 ||
+      !!game.lake?.active || !!(game.lake?.completed && game.lake.notice>0) ||
       !!game.rescueNotice?.time || !!game.secretNotice?.time || !!game.skinNotice?.time || !!game.thorNotice?.time;
     if (!el.regionNotice.hidden) {
       text('regionNoticeName', transition.name);
@@ -208,7 +202,7 @@ const InterfaceMotion = (() => {
       score = scoreFrom + (scoreTarget - scoreFrom) * (1 - Math.pow(1 - scoreTime, 3));
       text('scoreCount', Math.round(score));
     }
-    if (game.phase !== 'menu' || !CharacterArt.ready) return;
+    if (game.phase !== 'menu' || activeTab !== 'outfit' || !CharacterArt.ready) return;
     previewTime += reduced || !walking ? 0 : dt;
     previewFrame += dt;
     const signature = `${game.entities.chicken.skin}:${direction}:${walking}:${reduced}`;
@@ -216,9 +210,9 @@ const InterfaceMotion = (() => {
     previewFrame = 0; previewSignature = signature;
     const c = el.menuPortrait.getContext('2d');
     if (!c) return;
-    c.clearRect(0, 0, 160, 100);
-    CharacterArt.draw(c, 'chicken', 80, 74, { direction: directions[direction], moving: walking && !reduced,
-      anim: previewTime * 4, scale: 1.12, skin: game.entities.chicken.skin });
+    c.clearRect(0, 0, 320, 180);
+    CharacterArt.draw(c, 'chicken', 160, 136, { direction: directions[direction], moving: walking && !reduced,
+      anim: previewTime * 4, scale: 2, skin: game.entities.chicken.skin });
   }
   return { initialize, update, frame, get reduced() { return reduced; } };
 })();

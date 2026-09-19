@@ -13,6 +13,7 @@ function menu(options) {
     const snapshot=JSON.stringify(state);`);
   game.elements.get('menuScene').getBoundingClientRect = () => ({ left: 0, top: 0, width: 1360, height: 730 });
   game.elements.get('menuCard').getBoundingClientRect = () => ({ left: 940, top: 50, width: 390, height: 620 });
+  game.elements.get('menuScreen').getBoundingClientRect = () => ({ left: 0, top: 0, width: 1360, height: 730 });
   return game;
 }
 
@@ -111,18 +112,22 @@ function audibleMenu(options = {}) {
   return { ...h, players, plays };
 }
 
-test('the button jumps one animal, plays its recording and anchors a temporary caption to it', () => {
+test('the button starts a somersault, a joke and a reply, with grounded shadows and no save changes', () => {
   const h = audibleMenu();
   assert.equal(h.plays.length, 0, 'no menu autoplay');
   h.events.elements.menuScatter.click();
-  assert.match(h.plays[0].src, /voices\/v2\/animal-chicken\.wav$/);
+  assert.match(h.plays[0].src, /voices\/v4\/animal-chicken\.wav$/);
   assert.equal(h.plays[0].loop, false);
   assert.equal(h.elements.get('menuBanter').hidden, false);
-  assert.match(h.elements.get('menuBanter').textContent, /Galinha/);
-  h.run('for(let i=0;i<6;i++)InterfaceMotion.frame(state,.05);');
+  assert.match(h.elements.get('menuBanter').textContent, /Erina/);
+  h.run('for(let i=0;i<16;i++)InterfaceMotion.frame(state,.05);');
   assert.ok(h.run('Math.max(...hops)') > 30, 'visible jump, with shadow still on the route');
   assert.ok(Number.parseFloat(h.elements.get('menuBanter').style.left) > 350);
-  h.run('for(let i=0;i<40;i++)InterfaceMotion.frame(state,.05);hops.length=0;InterfaceMotion.frame(state,.05);');
+  h.run('for(let i=0;i<48;i++)InterfaceMotion.frame(state,.05);');
+  assert.match(h.elements.get('menuBanter').textContent, /Dez na coragem. Dois no pouso!/);
+  assert.doesNotMatch(h.elements.get('menuBanter').textContent, /^Erina/);
+  assert.equal(h.plays.length, 1, 'one explicit animal call, no automatic audio chatter');
+  h.run('for(let i=0;i<68;i++)InterfaceMotion.frame(state,.05);hops.length=0;InterfaceMotion.frame(state,.05);');
   assert.equal(h.run('hops.length'), 0, 'lands and resumes normal walking');
   assert.equal(h.elements.get('menuBanter').hidden, true);
   assert.equal(h.run('JSON.stringify(state)===snapshot'), true);
@@ -135,7 +140,7 @@ test('menu reactions follow the equipped appearance and rapid clicks reuse one a
   const h = audibleMenu(); h.run('state.entities.chicken.skin="robocop";InterfaceMotion.frame(state,.05);');
   h.events.elements.menuScatter.click();
   assert.match(h.plays.at(-1).src, /animal-cat\.wav$/);
-  assert.match(h.elements.get('menuBanter').textContent, /Gatinho/);
+  assert.match(h.elements.get('menuBanter').textContent, /Stella · Miau!/);
   for (let i = 0; i < 18; i++) h.events.elements.menuScatter.click();
   assert.equal(h.players.length, 1);
   assert.ok(h.plays.every(play => !play.loop));
@@ -143,12 +148,36 @@ test('menu reactions follow the equipped appearance and rapid clicks reuse one a
   assert.equal(h.players[0].paused, true, 'menu voice stops when gameplay resumes');
 });
 
+test('every playable appearance introduces itself by name and uses its animal call in the menu', () => {
+  const appearances = [
+    ['classic','Erina','Có-có-có!','animal-chicken'],
+    ['silkie','Midori','Có-có-có!','animal-chicken'],
+    ['blue','Alzira','Có-có-có!','animal-chicken'],
+    ['punk','Zeca','Quá-quá!','animal-duck'],
+    ['astronaut','Pipoca','Croc-croc!','animal-rabbit'],
+    ['robocop','Stella','Miau!','animal-cat'],
+    ['priest','Paçoca','Au-au!','animal-dog'],
+    ['goose','Gumercindo','Honk-honk!','goose-honk'],
+  ];
+  for (const [skin,name,call,audio] of appearances) {
+    const h = audibleMenu();
+    h.run(`state.entities.chicken.skin='${skin}';InterfaceMotion.frame(state,.05);`);
+    h.events.elements.menuScatter.click();
+    const [introduction,joke] = h.elements.get('menuBanter').textContent.split('\n');
+    assert.equal(introduction, `${name} · ${call}`, skin);
+    assert.ok(joke.length > 10, `${skin} has a proper joke`);
+    assert.equal(h.plays.length, 1, `${skin} plays its voice`);
+    assert.ok(h.plays[0].src.endsWith(`/${audio}.wav`), skin);
+    assert.equal(h.run('state.phase'), 'menu');
+  }
+});
+
 test('muting keeps the jump, reduced motion keeps the call, and hidden menus ignore clicks', () => {
   const muted = audibleMenu(); muted.run('AudioSystem.toggleMute();'); muted.events.elements.menuScatter.click();
-  muted.run('InterfaceMotion.frame(state,.1);');
+  muted.run('for(let i=0;i<4;i++)InterfaceMotion.frame(state,.1);');
   assert.equal(muted.plays.length, 0); assert.ok(muted.run('hops.length') > 0);
   const reduced = audibleMenu({ reducedMotion: true }); reduced.events.elements.menuScatter.click();
-  reduced.run('for(let i=0;i<40;i++)InterfaceMotion.frame(state,.05);');
+  reduced.run('for(let i=0;i<132;i++)InterfaceMotion.frame(state,.05);');
   assert.equal(reduced.plays.length, 1); assert.equal(reduced.run('hops.length'), 0);
   assert.equal(reduced.elements.get('menuBanter').hidden, true);
   const hidden = audibleMenu(); hidden.events.elements.menuScatter.click();
@@ -184,4 +213,78 @@ test('resizing redraws a static farm at the new resolution and hidden pages do n
   context.document.hidden = false;
   run('InterfaceMotion.frame(state,.05);');
   assert.equal(run('sceneDraws.length'), 18);
+});
+
+test('ambient duets start on their own, remain silent and leave the saved farm untouched', () => {
+  const h = audibleMenu(), saved = [...h.storage];
+  h.run('for(let i=0;i<120;i++)InterfaceMotion.frame(state,.05);');
+  assert.equal(h.elements.get('menuBanter').hidden, false);
+  assert.equal(h.elements.get('menuBanter').getAttribute('aria-live'), 'off');
+  const first = h.elements.get('menuBanter').textContent;
+  h.run('for(let i=0;i<62;i++)InterfaceMotion.frame(state,.05);');
+  assert.notEqual(h.elements.get('menuBanter').textContent, first, 'another animal answers');
+  assert.equal(h.plays.length, 0);
+  assert.equal(h.run('JSON.stringify(state)===snapshot'), true);
+  assert.deepEqual([...h.storage], saved);
+  h.elements.get('howToPlayDialog').open = true;
+  h.run('InterfaceMotion.frame(state,.05);const beforeHelp=sceneDraws.length;for(let i=0;i<180;i++)InterfaceMotion.frame(state,.05);');
+  assert.equal(h.elements.get('menuBanter').hidden, true);
+  assert.equal(h.run('sceneDraws.length===beforeHelp'), true);
+});
+
+test('tricks alternate, rotate through a full somersault and stop completely in reduced motion', () => {
+  const h = audibleMenu();
+  h.run('const rotations=[];sceneContext.rotate=angle=>rotations.push(angle);');
+  h.events.elements.menuScatter.click();
+  h.run('for(let i=0;i<32;i++)InterfaceMotion.frame(state,.05);');
+  assert.ok(h.run('Math.max(...rotations.map(Math.abs))') > Math.PI*1.8);
+  const kinds = [h.elements.get('menuBanter').dataset.trick];
+  for(let i=0;i<3;i++){h.events.elements.menuScatter.click();kinds.push(h.elements.get('menuBanter').dataset.trick);}
+  assert.deepEqual(kinds,['tumble','dance','jump','spin']);
+  h.events.media.change({matches:true});
+  h.run('InterfaceMotion.frame(state,.05);rotations.length=0;');
+  h.events.elements.menuScatter.click();
+  h.run('for(let i=0;i<800;i++)InterfaceMotion.frame(state,.05);');
+  assert.equal(h.run('rotations.length'),0);
+  assert.equal(h.elements.get('menuBanter').hidden,true,'no ambient show in reduced motion');
+});
+
+test('tapping an animal starts its joke, while drags and menu controls do not', () => {
+  const h = audibleMenu();
+  h.run(`let origin=null; const hitTargets=[];
+    sceneContext.translate=(x,y)=>{if(x>100&&y>100)origin={x,y};};
+    sceneContext.drawImage=image=>hitTargets.push({...origin,src:image.src});
+    InterfaceMotion.frame(state,.05);`);
+  const p = h.run('hitTargets.find(p=>p.src.includes("cute-hen-v2"))');
+  const event = {clientX:p.x,clientY:p.y,pointerType:'touch'};
+  h.events.elements.menuScreen.pointerdown(event);
+  h.events.elements.menuScreen.pointerup(event);
+  assert.match(h.elements.get('menuBanter').textContent,/^Erina/);
+  assert.equal(h.plays.length,1);
+  h.events.elements.menuScreen.pointerdown(event);
+  h.events.elements.menuScreen.pointerup({...event,clientX:p.x+30});
+  assert.equal(h.plays.length,1,'scroll gesture does not replay the call');
+  const control = {...event,target:{closest:()=>true}};
+  h.events.elements.menuScreen.pointerdown(control);
+  h.events.elements.menuScreen.pointerup(control);
+  assert.equal(h.plays.length,1,'controls do not trigger a background animal');
+});
+
+test('the visible part of a dog at the viewport edge still responds with its bark', () => {
+  const h=audibleMenu();
+  h.context.window.innerHeight=680;h.context.window.innerWidth=1360;
+  h.run(`let dogOrigin=null;const dogTargets=[];
+    sceneContext.translate=(x,y)=>{if(x>100&&y>100)dogOrigin={x,y};};
+    sceneContext.drawImage=image=>{if(image.src.includes('cute-dog-v2'))dogTargets.push({...dogOrigin});};
+    InterfaceMotion.frame(state,.05);`);
+  const dog=h.run('dogTargets.at(-1)');
+  assert.ok(dog.y>680,'the feet are cropped by the viewport');
+  const event={clientX:dog.x,clientY:Math.min(676,dog.y-18),pointerType:'mouse',button:0};
+  h.events.elements.menuScreen.pointerdown(event);h.events.elements.menuScreen.pointerup(event);
+  assert.match(h.plays.at(-1)?.src||'',/animal-dog\.wav$/);
+  assert.equal(h.elements.get('menuBanter').dataset.speaker,'dog');
+  h.run('InterfaceMotion.frame(state,.05)');
+  assert.equal(h.elements.get('menuBanter').hidden,false,'a clipped foot must not immediately cancel the response');
+  assert.ok(Number.parseFloat(h.elements.get('menuBanter').style.top)<=670);
+  assert.equal(h.run('JSON.stringify(state)===snapshot'),true);
 });

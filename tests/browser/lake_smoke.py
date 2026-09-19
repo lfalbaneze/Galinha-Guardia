@@ -58,38 +58,45 @@ with sync_playwright() as p:
   value=page.evaluate("""condition=>{for(let i=0;i<600;i++){if(eval(condition))return true;updateGame(.05);}return {mode:state.entities.goose.mode,misses:state.lake.misses,c:state.entities.chicken,g:state.entities.goose}}""",condition)
   assert value is True, value
  for turn in range(3):
-  if turn:
-   until("state.entities.goose.mode==='patrol'")
-   page.evaluate('setupGooseApproach()')
-  until("state.entities.goose.mode==='warning'")
-  page.evaluate('renderGame()')
-  if turn==0:page.screenshot(path=str(OUT/'browser-goose-warning.png'))
-  # Move perpendicular to the marked line through the actual player/physics update.
-  key=page.evaluate("""()=>{
-    const g=state.entities.goose,c=state.entities.chicken;
-    const dx=c.x-g.x,dy=c.y-g.y;
-    const opts=Math.abs(dx)>Math.abs(dy)?[['s',0,75],['w',0,-75]]:[['d',75,0],['a',-75,0]];
-    for(const [key,x,y] of opts) {
-      const probe={...c};Player.move(probe,x,y);
-      if(distance(probe,{x:c.x+x,y:c.y+y})<.01&&distance(probe,g)<GooseSystem.getConfig(state).alertRange) return key;
-    }
-    throw Error('No dodge lane');
+  # Each round may contain two committed dashes. No reward until the close interaction.
+  for leg in range(8):
+   until("state.entities.goose.mode==='warning'")
+   page.evaluate('renderGame()')
+   if turn==0:page.screenshot(path=str(OUT/'browser-goose-warning.png'))
+   key=page.evaluate("""()=>{
+     const g=state.entities.goose,c=state.entities.chicken,dx=g.target.x-g.x,dy=g.target.y-g.y;
+     const opts=Math.abs(dx)>Math.abs(dy)?[['s',0,85],['w',0,-85]]:[['d',85,0],['a',-85,0]];
+     for(const [key,x,y] of opts){const probe={...c};Player.move(probe,x,y);
+       if(distance(probe,{x:c.x+x,y:c.y+y})<.01&&distance(probe,g.home)<295)return key;}
+     throw Error('No dodge lane');
+   }""")
+   page.keyboard.down(key);page.evaluate('for(let i=0;i<6;i++)updateGame(.05)');page.keyboard.up(key)
+   until("state.entities.goose.mode!=='warning'")
+   until("state.entities.goose.mode==='warning'||state.lake.counterWindow>0")
+   if page.evaluate('state.lake.counterWindow>0'):break
+  assert page.evaluate('state.lake.misses')==turn
+  reached=page.evaluate("""()=>{
+    const c=state.entities.chicken,g=state.entities.goose;
+    for(let i=0;i<100&&state.lake.counterWindow>0;i++){
+      if(LakeChallenge.canCounter(state))return true;
+      const route=WildlifeRules.clear(c,g,c.hitbox)?[g]:WolfAI.findPath(c,g);
+      const p=route.find(p=>distance(c,p)>6)||g,len=distance(c,p),step=Math.min(len,c.speed*.05);
+      if(len>.01)Player.move(c,(p.x-c.x)/len*step,(p.y-c.y)/len*step);updateGame(.05);
+    }return false;
   }""")
-  page.keyboard.down(key)
-  page.evaluate('for(let i=0;i<5;i++)updateGame(.05)')
-  page.keyboard.up(key)
-  until("state.entities.goose.mode==='stunned'||state.entities.goose.mode==='defeated'")
+  assert reached
+  page.keyboard.press('e')
   assert page.evaluate('state.lake.misses')==turn+1
   if turn==0:
    page.locator('#pauseBtn').click();assert page.evaluate("state.phase==='menu'")
    page.locator('#continueBtn').click();assert page.evaluate('state.lake.active && state.lake.misses===1')
- result['checks'].append('Three actual charges dodged with keyboard movement, pause/resume, no counter injection')
+ result['checks'].append('Three rounds, keyboard dodges and close E counters, pause/resume, no injected stamps')
  assert page.evaluate('state.lake.completed && !state.lake.active && SkinSystem.unlocked("goose")')
  assert page.evaluate('state.lives===3 && state.rescuedCount===0')
  page.evaluate('renderGame();GameUI.update(state);GameManager.save(state)')
  page.screenshot(path=str(OUT/'browser-lake-victory.png'))
  # Bridge collision uses real generated obstacles and the ordinary Player.move function.
- crossed=page.evaluate("""()=>{const b=LakeChallenge.bridge(),c=state.entities.chicken;c.x=b.x+b.w/2;c.y=b.y;Player.move(c,0,b.h);return Math.abs(c.y-b.y-b.h)<.01;}""")
+ crossed=page.evaluate("""()=>{const b=LakeChallenge.bridge(),c=state.entities.chicken;c.x=b.x;c.y=b.y+b.h/2-14;Player.move(c,b.w,0);return Math.abs(c.x-b.x-b.w)<.01;}""")
  assert crossed;result['checks'].append('Unlocked bridge can actually be crossed')
  page.locator('#pauseBtn').click();page.locator('#tab-outfit').click()
  page.locator('#menuSkinSelect').select_option('goose');page.locator('#continueBtn').click()

@@ -52,7 +52,8 @@ const DetectionSystem = (() => {
             return null;
         const distance = Math.hypot(chicken.x - wolf.x, chicken.y - wolf.y);
         // Sight progression never expands hearing into a farm-wide player tracker.
-        const soundRadius = Number.isFinite(config.noiseRange) ? Math.max(0, Math.min(180, config.noiseRange)) : defaults.noiseRange;
+        const soundRadius = (Number.isFinite(config.noiseRange) ? Math.max(0, Math.min(180, config.noiseRange)) : defaults.noiseRange) *
+            SkinSystem.power(chicken).noiseScale;
         if (distance > soundRadius)
             return null;
         const walls = OBSTACLES.filter(rect => rect.type !== "pond" && rect.opaque !== false &&

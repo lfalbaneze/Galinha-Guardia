@@ -8,12 +8,18 @@ const AudioSystem = (() => {
   ]);
   const TRACK_TITLES = new Map([
     ["forest", "Floresta encantada"], ["whistle", "Assobio da galinha"],
-    ["skin-punk", "Pato · Passos no Terreiro"], ["skin-astronaut", "Coelho · Pulos ao Luar"],
-    ["skin-robocop", "Gato · Passo Furtivo"], ["skin-priest", "Cachorro · Companheiro da Roça"],
+    ["skin-punk", "Zeca · Passos na Fazenda"], ["skin-astronaut", "Pipoca · Pulos ao Luar"],
+    ["skin-robocop", "Stella · Passo Furtivo"], ["skin-priest", "Paçoca · Companheiro da Roça"],
   ]);
-  const ANIMAL_SPECIES = new Set(["sheep", "pig", "goat", "cow", "duck", "rabbit", "dog", "cat", "donkey", "lamb", "chicken"]);
-  const EFFECTS = new Set(["boing", "pop", "bonk", "squeak", "dizzy", "sob", "runaway", "rescue", "chick", "victory", "goose-honk", "owl-hoot", "fox-rustle",
-    ...Array.from(ANIMAL_SPECIES, species => `animal-${species}`)]);
+  const ANIMAL_SPECIES = new Set(["sheep", "pig", "goat", "cow", "duck", "rabbit", "dog", "cat", "donkey", "lamb", "chicken", "horse", "turkey", "goose"]);
+  const voiceSpecies = species => ['hen-silkie', 'hen-blue'].includes(species) ? 'chicken' : species;
+  const animalName = species => {
+    species = voiceSpecies(species);
+    return species === 'chick' ? 'chick' : species === 'goose' ? 'goose-honk' :
+      ANIMAL_SPECIES.has(species) ? `animal-${species}` : 'rescue';
+  };
+  const EFFECTS = new Set(["boing", "pop", "bonk", "squeak", "dizzy", "sob", "runaway", "rescue", "chick", "victory", "goose-honk", "panto-dodge", "panto-victory", "owl-hoot", "fox-rustle",
+    "step-water", "step-mud", "step-leaves", "thor-hero", ...Array.from(ANIMAL_SPECIES, animalName)]);
   const defaults = { musicVolume: 0.25, effectsVolume: 0.55, track: "forest", muted: false, skinThemes: true };
   const settings = { ...defaults };
   const status = { unlocked: false, unsupported: typeof Audio !== "function", blocked: false };
@@ -35,10 +41,13 @@ const AudioSystem = (() => {
   let menuVoice = null;
   let scene = null, lastTime = -1, cloudBucket = -1, sobBucket = -1;
   const oneShots = new Set();
-  const isAnimal = name => name === 'chick' || name.startsWith('animal-');
+  const isAnimal = name => name === 'chick' || name === 'goose-honk' || name.startsWith('animal-');
+  const VARIANTS = new Set(['animal-pig', 'animal-chicken', 'goose-honk']);
+  const takes = new Map();
+  const variantFor = name => VARIANTS.has(name) ? (takes.get(name) || 0) % 2 + 1 : 1;
   // A versioned directory also replaces clips cached by an older copy of the game.
-  const path = name => `./assets/audio/${isAnimal(name) ? 'voices/v2/' : ''}${name}.wav`;
-  let flock = null, farmTime = 0, nextCall = 1.8, playerCall = 16;
+  const path = (name, variant = 1) => `./assets/audio/${isAnimal(name) || ['owl-hoot','sob'].includes(name) ? 'voices/v4/' : ''}${name}${variant > 1 ? `-${variant}` : ''}.wav`;
+  let flock = null, farmTime = 0, nextCall = 1.8, playerCall = 24;
   const heard = new Map();
   const hidden = () => typeof document !== "undefined" && document.hidden === true;
   function persist() {
@@ -47,10 +56,10 @@ const AudioSystem = (() => {
   function rewind(audio) {
     try { audio.currentTime = 0; } catch (_) { /* Metadata may not be available yet. */ }
   }
-  function makeAudio(name) {
+  function makeAudio(name, variant = 1) {
     if (status.unsupported) return null;
     try {
-      const audio = new Audio(path(name));
+      const audio = new Audio(path(name, variant));
       audio.preload = "auto";
       return audio;
     } catch (_) { status.unsupported = true; return null; }
@@ -75,7 +84,8 @@ const AudioSystem = (() => {
   }
   function volumes() {
     const animalSpeaking = voices.some(voice => voice.active && isAnimal(voice.name));
-    if (music) music.volume = settings.muted ? 0 : settings.musicVolume * duck * (animalSpeaking ? .24 : 1);
+    const celebrating = voices.some(voice => voice.active && ['panto-victory','thor-hero'].includes(voice.name));
+    if (music) music.volume = settings.muted ? 0 : settings.musicVolume * duck * (celebrating ? .18 : animalSpeaking ? .24 : 1);
     for (const voice of voices) if (voice.active) voice.audio.volume = settings.muted ? 0 : settings.effectsVolume * voice.gain;
     if (menuVoice?.active) menuVoice.audio.volume = settings.muted ? 0 : settings.effectsVolume * menuVoice.gain;
   }
@@ -127,16 +137,36 @@ const AudioSystem = (() => {
       settings.muted || settings.effectsVolume <= 0 || hidden()) return false;
     const gain = unit(options.volume, 1);
     if (!gain) return false;
+    // Footsteps never steal a voice from a rescue, animal call or challenge cue.
+    const contact = name.startsWith('step-');
+    if (contact && (voices.filter(v => v.active && v.name.startsWith('step-')).length >= 2 ||
+      voices.some(v => v.active && ['panto-dodge','panto-victory','thor-hero','victory','rescue'].includes(v.name)) ||
+      voices.filter(v => v.active).length >= 6)) return false;
+    // Hits and challenge feedback take precedence over incidental farm chatter.
+    if ((options.playerHurt || ['goose-honk', 'panto-dodge', 'panto-victory','thor-hero'].includes(name)) && !options.ambient) {
+      for (const item of voices) if (item.active && item.ambient) release(item);
+    }
+    if (isAnimal(name)) {
+      const speaking = voices.filter(item => item.active && isAnimal(item.name));
+      if (speaking.length >= 2) {
+        const oldest = speaking.filter(item => item.ambient).sort((a, b) => a.order - b.order)[0] ||
+          speaking.sort((a, b) => a.order - b.order)[0];
+        release(oldest);
+      }
+    }
+    const variant = variantFor(name), clip = path(name, variant);
     let voice = voices.find(item => !item.active);
     if (!voice && voices.length < 6) {
-      const audio = makeAudio(name);
+      const audio = makeAudio(name, variant);
       if (!audio) return false;
-      voice = { audio, name, active: false, token: 0, gain: 1, order: 0 };
+      voice = { audio, name, clip, active: false, token: 0, gain: 1, order: 0, ambient: false };
       voices.push(voice);
     }
-    if (!voice) voice = voices.reduce((oldest, item) => item.order < oldest.order ? item : oldest);
+    if (!voice) voice = voices.filter(item=>item.name!=='thor-hero').reduce((oldest,item)=>!oldest||item.order<oldest.order?item:oldest,null)||voices[0];
     release(voice);
-    if (voice.name !== name) { voice.audio.src = path(name); voice.name = name; }
+    if (voice.clip !== clip) { voice.audio.src = clip; voice.clip = clip; }
+    voice.name = name;
+    voice.ambient = options.ambient === true;
     voice.gain = gain;
     voice.order = ++serial;
     voice.active = true;
@@ -152,11 +182,22 @@ const AudioSystem = (() => {
       release(voice);
       if (!error || error.name !== "AbortError") status.blocked = true;
     }, () => { if (!active || !voice.active || settings.muted || hidden()) voice.audio.pause(); });
+    if (VARIANTS.has(name)) takes.set(name, (takes.get(name) || 0) + 1);
     return true;
   }
   function playAnimal(species, options = {}) {
-    const played = play(species === "chick" ? "chick" : ANIMAL_SPECIES.has(species) ? `animal-${species}` : "rescue", options);
-    if (played) nextCall = Math.max(nextCall, farmTime + 3.2);
+    const played = play(animalName(species), options);
+    if (played) nextCall = Math.max(nextCall, farmTime + 4.8);
+    return played;
+  }
+  function playPlayerHurt(game) {
+    if (game?.phase !== 'playing') return false;
+    const appearance = typeof CharacterArt !== 'undefined' && CharacterArt.appearances[game.entities?.chicken?.skin];
+    const species = voiceSpecies(appearance?.species || 'chicken');
+    // The rabbit's ordinary recording is chewing: use a short comic squeal for a hit.
+    const name = species === 'rabbit' ? 'squeak' : animalName(ANIMAL_SPECIES.has(species) ? species : 'chicken');
+    const played = play(name, { volume: species === 'rabbit' ? .65 : .9, playerHurt: true });
+    if (played) nextCall = Math.max(nextCall, farmTime + 4.8);
     return played;
   }
   // Only the menu's explicit click uses this voice. Gameplay and music stay paused.
@@ -166,14 +207,14 @@ const AudioSystem = (() => {
     sync(game);
     unlock();
     stopMenuAnimal();
-    const name = `animal-${species}`;
+    const name = animalName(species), variant = variantFor(name);
     if (!menuVoice) {
-      const audio = makeAudio(name);
+      const audio = makeAudio(name, variant);
       if (!audio) return false;
       menuVoice = { audio, active: false, token: 0, gain: .9 };
     }
     const voice = menuVoice, audio = voice.audio;
-    audio.src = path(name); audio.loop = false; audio.playbackRate = 1;
+    audio.src = path(name, variant); audio.loop = false; audio.playbackRate = 1;
     audio.volume = settings.effectsVolume * voice.gain;
     voice.active = true;
     const token = ++voice.token;
@@ -186,30 +227,34 @@ const AudioSystem = (() => {
     }, () => {
       if (!voice.active || currentGame?.phase !== 'menu' || settings.muted || hidden()) audio.pause();
     });
+    if (VARIANTS.has(name)) takes.set(name, (takes.get(name) || 0) + 1);
     return true;
   }
   function farmVoices(game, dt) {
     const animals = game.entities?.animals, chicken = game.entities?.chicken;
     if (!animals || !chicken) return;
     if (flock !== animals) {
-      flock = animals; heard.clear(); farmTime = 0; nextCall = 1.8; playerCall = 16;
+      flock = animals; heard.clear(); farmTime = 0; nextCall = 1.8; playerCall = 24;
     }
     // Simulation time only: no timers survive pause, tab hiding or a new adventure.
     farmTime += Math.min(dt, .25);
     if (farmTime < nextCall || !status.unlocked || settings.muted || settings.effectsVolume <= 0) return;
+    if (game.lake?.active || voices.some(voice => voice.active &&
+      (isAnimal(voice.name) || voice.name === 'panto-dodge' || voice.name === 'panto-victory' || voice.name==='thor-hero'))) return;
     const nearby = animals.map((animal, index) => ({ animal, index,
-      distance: Math.hypot(animal.x - chicken.x, animal.y - chicken.y), last: heard.get(animal) ?? -30
-    })).filter(item => item.distance < 310 && farmTime - item.last > (item.animal.rescued ? 22 : 11 + item.index * .7) &&
+      distance: Math.hypot(animal.x - chicken.x, animal.y - chicken.y), last: heard.get(animal) ?? -60
+    })).filter(item => item.distance < (item.animal.species === 'rabbit' ? 90 : 310) &&
+      farmTime - item.last > (item.animal.rescued ? 35 : 18 + item.index * .7) &&
       (typeof DetectionSystem === 'undefined' || DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(item.animal))))
       .sort((a, b) => a.last - b.last || a.distance - b.distance);
     const candidate = nearby[0];
     if (candidate) {
       const { animal, distance } = candidate;
-      const gain = (.28 + .55 * (1 - distance / 310)) * (animal.species === 'rabbit' ? .65 : 1);
-      if (playAnimal(animal.species, { volume: gain })) heard.set(animal, farmTime);
+      const gain = (.16 + .34 * (1 - distance / 310)) * (animal.species === 'rabbit' ? .65 : 1);
+      if (playAnimal(animal.species, { volume: gain, ambient: true })) heard.set(animal, farmTime);
     } else if (farmTime >= playerCall && !chicken.hidden && !chicken.sneaking) {
       const appearance = typeof CharacterArt !== 'undefined' && CharacterArt.appearances[chicken.skin];
-      if (playAnimal(appearance?.species || 'chicken', { volume: .38 })) playerCall = farmTime + 22;
+      if (playAnimal(appearance?.species || 'chicken', { volume: .3, ambient: true })) playerCall = farmTime + 32;
     }
     // Secret chicks keep their existing local hiding-place hint; never announce them globally.
   }
@@ -289,7 +334,7 @@ const AudioSystem = (() => {
     if (music) rewind(music);
     stopEffects(); stopMenuAnimal(); clearScene();
     currentGame = null; currentPhase = null; active = false; duck = 1;
-    flock = null; heard.clear(); farmTime = 0; nextCall = 1.8; playerCall = 16;
+    flock = null; heard.clear(); takes.clear(); farmTime = 0; nextCall = 1.8; playerCall = 24;
     volumes();
   }
   function pause() {
@@ -327,7 +372,7 @@ const AudioSystem = (() => {
   if (typeof document !== "undefined" && document.addEventListener) {
     document.addEventListener("visibilitychange", () => { if (currentGame) sync(currentGame); });
   }
-  return { unlock, update, sync, reset, pause, play, playAnimal, playMenuAnimal, stopMenuAnimal, setMusicVolume, setEffectsVolume, setTrack, setSkinThemes, toggleMute,
+  return { unlock, update, sync, reset, pause, play, playAnimal, playPlayerHurt, playMenuAnimal, stopMenuAnimal, setMusicVolume, setEffectsVolume, setTrack, setSkinThemes, toggleMute,
     get settings() { return Object.freeze({ ...settings }); },
     get status() { return Object.freeze({ ...status, track: selectedTrack(), trackTitle: TRACK_TITLES.get(selectedTrack()),
       skinTheme: !!skinTheme(), music: status.unsupported ? "unsupported" :

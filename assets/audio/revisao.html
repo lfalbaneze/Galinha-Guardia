@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Antes e depois · Vozes da fazenda</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#f3efdc;color:#254a3b;font:16px/1.6 system-ui,sans-serif}
+  main{max-width:900px;margin:auto;padding:32px 20px}h1{font:700 36px Georgia,serif;margin:12px 0}a{color:#286444}
+  section{margin:18px 0;padding:20px;border:1px solid #c5d1ad;border-radius:14px;background:#fffdf2}
+  h2{margin:0;font-size:21px}p{margin:6px 0 16px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  label{display:block;font-size:14px;font-weight:650}audio{display:block;width:100%;height:38px;margin:7px 0}
+  .new{color:#25653f}.old{color:#766552}small{display:block;font-weight:400}
+  @media(max-width:580px){.pair{grid-template-columns:1fr}h1{font-size:29px}}
+</style>
+<main>
+  <a href="../../index.html">← Voltar à fazenda</a>
+  <h1>Cada bicho com sua voz</h1>
+  <p>Compare as chamadas. Só um som toca por vez; os controles começam no mesmo volume de 55%. No jogo, as chamadas espontâneas são mais baixas e espaçadas.</p>
+  <div id="clips"></div>
+  <p><a href="CREDITS.html">Autores, fontes e licenças</a></p>
+</main>
+<script>
+  const clips = [
+    ['horse','Cavalo','Agora relincha: antes tocava apenas o efeito de resgate.'],
+    ['turkey','Peru','Agora tem seu próprio gluglu.'],
+    ['goose','Panto','Dois grasnados de uma gravação de gansos, alternados durante o jogo.',2],
+    ['cow','Vaca','Novo mugido e volume ajustado.'],
+    ['sheep','Ovelha','Novo balido, mais curto.'],
+    ['duck','Pato','Um quá curto com um toque de desenho animado.'],
+    ['dog','Cachorro / Thor','Um latido por chamada; removida a cópia repetida.'],
+    ['pig','Porco','Duas chamadas distintas, sem duplicar o mesmo oinc.',2],
+    ['lamb','Cordeirinho','Um balido curto, sem a repetição colada no arquivo.'],
+    ['chicken','Galinha','Dois cacarejos distintos, com chamadas menos frequentes.',2],
+    ['donkey','Burro','Zurro recortado e volume ajustado.'],
+    ['goat','Cabra','Balido com volume e bordas suavizados.'],
+    ['cat','Gato','Miado com volume ajustado.'],
+    ['rabbit','Coelho','Mastigação discreta: na exploração, só se ouve bem de perto.'],
+    ['chick','Pintinhos','Pios com volume ajustado; a pista dos esconderijos foi preservada.'],
+  ];
+  const filename = id => id==='goose'?'goose-honk':id==='chick'?'chick':'animal-'+id;
+  function player(labelText, src, css) {
+    const label=document.createElement('label');label.className=css;label.textContent=labelText;
+    const audio=document.createElement('audio');audio.controls=true;audio.preload='none';audio.volume=.55;audio.src=src;
+    audio.setAttribute('aria-label',labelText);
+    audio.addEventListener('play',()=>document.querySelectorAll('audio').forEach(other=>{if(other!==audio)other.pause();}));
+    label.append(audio);return label;
+  }
+  for(const [id,name,note,count=1] of clips){
+    const section=document.createElement('section'),title=document.createElement('h2'),description=document.createElement('p');
+    title.textContent=name;description.textContent='Voz mais delicada, timbre levemente mais agudo e picos suavizados. '+(id==='rabbit'?'O coelho continua com uma mastigação discreta.':'');section.append(title,description);
+    const pair=document.createElement('div');pair.className='pair';
+    const before='voices/v3/'+filename(id)+'.wav';
+    pair.append(player(name+' · Antes',before,'old'));
+    const after=document.createElement('div');after.append(player(name+' · Agora','voices/v4/'+filename(id)+'.wav','new'));
+    if(count===2)after.append(player(name+' · Segunda chamada','voices/v4/'+filename(id)+'-2.wav','new'));
+    pair.append(after);section.append(pair);document.getElementById('clips').append(section);
+  }
+</script>
+</html>

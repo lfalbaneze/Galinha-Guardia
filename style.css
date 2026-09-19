@@ -111,7 +111,7 @@ input[type="range"]:focus-visible, input[type="checkbox"]:focus-visible, summary
 .wardrobe h2 { margin: 0; font-size: .88rem; color: #536445; }
 .wardrobe-heading p, .wardrobe-note { margin: 0; color: #786f59; font-size: .7rem; }
 .wardrobe-note { margin-top: 9px; line-height: 1.5; }
-.skin-options { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+.skin-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
 .skin-options button { color: #526046; background: #fffbed; border: 1px solid #d6d4bd; padding: 10px 7px; font-size: .75rem; }
 .skin-options button[data-active="true"] { color: #fffbe4; background: #426547; border-color: #426547; }
 .skin-options button:disabled { opacity: .62; }
@@ -146,7 +146,7 @@ select { border: 1px solid #bdcbb2; border-radius: 7px; padding: 8px; font-size:
 }
 @media (prefers-reduced-motion: reduce) { button { transition: none; } }
 
-/* Sítio do Fuzuê: painted timber, butter-yellow lettering and a farm notebook. */
+/* Painted timber, butter-yellow lettering and a farm notebook. */
 :root {
   --bg-1: #426440; --bg-2: #203e30; --panel: #f8ebc9;
   --text: #3d3325; --muted: #736148; --accent: #a3422c; --line: #d5b983;
@@ -220,11 +220,14 @@ canvas { border: 5px solid #805939; border-radius: 4px; box-shadow: 0 0 0 1px #4
 .skin-options button[data-active="true"] { background: #3d6548; color: #fff1be; border-color: #284533; box-shadow: 0 3px #284533; }
 .skin-options button::before { content: ""; display: block; height: 76px; margin-bottom: 4px; background: var(--outfit) center / 90px no-repeat; }
 .skin-options button:disabled::before { filter: saturate(.3); opacity: .7; }
-#skin-classic { --outfit: url('./assets/wardrobe/classic.png?v=animals3'); }
-#skin-punk { --outfit: url('./assets/wardrobe/punk.png?v=animals3'); }
-#skin-astronaut { --outfit: url('./assets/wardrobe/astronaut.png?v=animals3'); }
-#skin-robocop { --outfit: url('./assets/wardrobe/robocop.png?v=animals3'); }
-#skin-priest { --outfit: url('./assets/wardrobe/priest.png?v=animals3'); }
+#skin-classic { --outfit: url('./assets/wardrobe/classic.png?v=galinhas22'); }
+#skin-silkie { --outfit: url('./assets/wardrobe/silkie.png?v=galinhas22'); }
+#skin-blue { --outfit: url('./assets/wardrobe/blue.png?v=galinhas22'); }
+#skin-goose { --outfit: url('./assets/wardrobe/goose.png?v=ganso40'); }
+#skin-punk { --outfit: url('./assets/wardrobe/punk.png?v=turma37'); }
+#skin-astronaut { --outfit: url('./assets/wardrobe/astronaut.png?v=turma37'); }
+#skin-robocop { --outfit: url('./assets/wardrobe/robocop.png?v=turma37'); }
+#skin-priest { --outfit: url('./assets/wardrobe/priest.png?v=turma37'); }
 .audio-panel { border-radius: 3px; background: #f2e4bd; border: 1px solid #ccb07b; padding: 15px; }
 .audio-controls label, .audio-controls button, .audio-controls select, .skin-music-toggle { font-size: .875rem; color: #5f543b; }
 .audio-controls output { color: #6b6745; }
@@ -297,7 +300,9 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 .live-controls span { display: flex; align-items: center; gap: 6px; }
 .live-controls kbd { display: inline-block; min-width: 27px; padding: 3px 7px; text-align: center; transition: transform .1s, background-color .1s, color .1s; }
 .live-controls kbd[data-pressed="true"] { transform: translateY(2px); background: #466b45; color: #fff2cb; border-color: #2c4934; }
-.menu-portrait { float: right; width: 96px; height: 60px; margin: -8px -5px 0 8px; border: 0; border-radius: 0; background: transparent; box-shadow: none; image-rendering: pixelated; }
+.menu-mascot { float: right; width: 86px; height: 96px; margin: -10px -5px 4px 12px; object-fit: contain; image-rendering: auto; filter: drop-shadow(0 3px 0 #926d3730); }
+.outfit-preview { margin: 10px 0; border: 1px solid #d6c39a; border-radius: 10px; background: radial-gradient(ellipse at center, #fffdf3, #e9dfbc); }
+.menu-portrait { display: block; width: min(320px, 100%); height: auto; margin: auto; border: 0; border-radius: 0; background: transparent; box-shadow: none; image-rendering: pixelated; }
 #menuCard { width: min(620px, 100%); }
 #menuCard > .eyebrow { text-align: left; font-size: .75rem; padding-top: 3px; }
 #menuCard h2 { text-align: left; font-size: clamp(1.4rem, 2.5vw, 1.9rem); }
@@ -318,15 +323,13 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 .difficulty-heading h3 { margin: 0; font-size: .9375rem; color: #62472d; }
 .difficulty-heading > span { color: #79603e; font-size: .6875rem; text-transform: uppercase; letter-spacing: .06em; }
 .difficulty-picks { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
-.difficulty-picks button { display: grid; grid-template-columns: 48px minmax(0, 1fr) 20px; align-items: center; gap: 9px; min-height: 74px; padding: 9px; text-align: left; border: 1px solid #c5ad7f; border-left-width: 4px; border-radius: 7px; background: #fff8e5; color: #503f2a; box-shadow: 0 2px 0 #bea27455; font-size: .875rem; transition: border-color .18s, background-color .18s, box-shadow .18s; }
+.difficulty-picks button { display: grid; grid-template-columns: 64px minmax(0, 1fr) 20px; align-items: center; gap: 10px; min-height: 88px; padding: 9px; text-align: left; border: 1px solid #c5ad7f; border-left-width: 4px; border-radius: 7px; background: #fff8e5; color: #503f2a; box-shadow: 0 2px 0 #bea27455; font-size: .875rem; transition: border-color .18s, background-color .18s, box-shadow .18s; }
 .difficulty-picks button:hover { border-color: #80945a; background: #f1efd7; box-shadow: 0 3px 0 #80945a33; }
 .difficulty-copy { min-width: 0; }
 .difficulty-name { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 7px; line-height: 1.25; }
 .difficulty-picks button small { display: inline; margin: 0; font-size: .6875rem; font-weight: 400; color: #796344; }
 .difficulty-detail { display: block; margin-top: 5px; font-size: .75rem; line-height: 1.4; font-weight: 400; color: #715f46; }
-.difficulty-art { display: block; width: 48px; height: 48px; border: 0; border-radius: 50%; box-shadow: none; background: #e9e8bc; image-rendering: pixelated; }
-#difficulty-normal .difficulty-art { background: #dce7c5; }
-#difficulty-hard .difficulty-art { background: #ead9c0; }
+.difficulty-art { display: block; width: 64px; height: 64px; object-fit: contain; border: 0; border-radius: 0; box-shadow: none; background: transparent; image-rendering: auto; filter: drop-shadow(0 2px 0 #79603e24); }
 .difficulty-check { width: 20px; height: 20px; display: grid; place-items: center; border: 1px solid #c8b28a; border-radius: 50%; color: transparent; background: #fffaf0; font-size: .75rem; }
 .difficulty-picks button[aria-checked="true"] { color: #fff7dd; background: #365e42; border-color: #294b35; border-left-color: #dbb65d; box-shadow: 0 3px 0 #23422d; }
 .difficulty-picks button[aria-checked="true"] small { color: #f4d88f; }
@@ -370,6 +373,10 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
 #panel-outfit .menu-skin { margin-top: 12px; }
 .portrait-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 16px; }
 .menu-panel-note { font-size: .875rem; line-height: 1.5; color: #715b3b; margin: 14px 0 0; }
+.skin-power-card { margin-top: 12px; padding: 12px 14px; border: 1px solid #b9bb88; border-left: 4px solid #658747; border-radius: 8px; background: #e9edcf; color: #344d35; }
+.skin-power-card strong { display: block; margin-top: 3px; font-size: 1rem; }
+.skin-power-label { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+.skin-power-card p { margin: 5px 0 0; font-size: .875rem; line-height: 1.5; }
 #menuCard .overlay-actions { margin: 15px 0 10px; }
 .overlay-actions button { transition: background-color .15s, transform .15s, box-shadow .15s; }
 .overlay-actions button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px #74301f; }
@@ -395,147 +402,5 @@ kbd { border-color: #bda06b; background: #fff9e6; color: #664b2b; }
   .overlay-actions button:hover:not(:disabled) { transform: none; }
 }
 
-/* A full farm title scene, with gameplay chrome restored when the gate opens. */
-.game-shell[data-phase="menu"] {
-  width: min(1440px, 100%); padding: 0; overflow: hidden;
-  border: 4px solid #493c26; border-radius: 12px;
-  background: #7b9346; box-shadow: 0 7px 0 #243c2d, 0 22px 60px #132b2970;
-}
-.game-shell[data-phase="menu"] > :not(.stage),
-.game-shell[data-phase="menu"] #gameCanvas { display: none; }
-#menuScreen.farm-menu {
-  position: relative; inset: auto; margin: 0; padding: 46px 42px 44px;
-  display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 38px;
-  align-items: center; min-height: max(730px, calc(100svh - 58px));
-  overflow: hidden; background: #8d9d47; backdrop-filter: none; isolation: isolate;
-}
-.menu-world {
-  position: absolute; inset: 0; z-index: -3; pointer-events: none;
-  transform: scale(1.025); transform-origin: center; will-change: transform;
-}
-.menu-backdrop {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-  object-position: 42% center; z-index: 0; image-rendering: pixelated;
-}
-.farm-menu::before {
-  content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none;
-  background: linear-gradient(0deg, #233d32b8, transparent 24%), linear-gradient(90deg, #f9e7a52b, transparent 60%);
-}
-.menu-title-scene { align-self: start; padding: 0 0 0 8px; position: relative; z-index: 1; pointer-events: none; }
-.farm-kicker, .farm-tagline {
-  width: fit-content; max-width: 100%; padding: 8px 12px;
-  color: #402d1d; background: #fff1cc; border: 1px solid #b68b4a; border-radius: 3px;
-  line-height: 1.5; text-shadow: none; box-shadow: 0 2px 0 #65432c;
-}
-.farm-kicker { margin: 0 0 21px; font-size: .8125rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
-.farm-title {
-  margin: 0; width: fit-content; color: #fff3c2;
-  font: 900 clamp(80px, 8.6vw, 126px)/.85 "Arial Black", Impact, sans-serif;
-  letter-spacing: -.055em; transform: rotate(-4deg); transform-origin: left center;
-  -webkit-text-stroke: 2px #683b25; paint-order: stroke fill;
-  text-shadow: 2px 3px 0 #683b25, 4px 6px 0 #683b25, 6px 9px 0 #b56832, 8px 13px 0 #573c2933;
-}
-.farm-title span { display: block; }
-.farm-title span + span { color: #ffd65c; margin-left: 23px; margin-top: 5px; }
-.farm-subtitle {
-  display: inline-block; margin: 22px 0 0; padding: 9px 15px;
-  background: #9d3b28; border: 2px solid #f5d78d; color: #fff0bc;
-  box-shadow: 0 3px 0 #633826; font-size: .88rem; font-weight: 800;
-  letter-spacing: .035em; transform: rotate(-2deg);
-}
-.farm-tagline { margin: 13px 0 0; font-size: 1rem; font-weight: 700; }
-#menuScene.menu-scene {
-  position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%;
-  border: 0; border-radius: 0; box-shadow: none; background: transparent;
-  image-rendering: pixelated; pointer-events: none;
-}
-.menu-mischief { position: absolute; z-index: 1; left: 49px; bottom: 29px; max-width: calc(100% - 485px); }
-#menuScatter { background: #fff0ba; color: #544123; border: 2px solid #5e512f; box-shadow: 0 3px 0 #4b4427; padding: 9px 15px; font-size: .85rem; }
-#menuScatter:hover { background: #ffe18c; transform: rotate(-2deg); }
-#menuScatter span { margin-left: 13px; }
-#menuBanter {
-  position: absolute; z-index: 2; margin: 0; padding: 7px 11px;
-  max-width: min(220px, calc(100% - 12px)); transform: translate(-50%, -100%);
-  color: #402d1d; background: #fff1cc; border: 2px solid #785331; border-radius: 8px;
-  font-size: .875rem; font-weight: 700; line-height: 1.4; text-align: center;
-  box-shadow: 0 3px 0 #493c2640; pointer-events: none;
-}
-.farm-menu #menuCard {
-  position: relative; grid-column: 2; width: 100%; margin: 0;
-  padding: 26px 24px 21px; text-align: left; border: 5px solid #785331; border-radius: 7px;
-  background: #fff1cc; box-shadow: 0 7px 0 #4b3626, 0 15px 28px #293b3659, inset 0 0 0 2px #d0a365;
-}
-.farm-menu #menuCard > .eyebrow { font-size: .75rem; letter-spacing: .07em; margin: 1px 0 8px; }
-.farm-menu #menuCard h2 { font: 900 1.7rem/1.12 "Trebuchet MS", sans-serif; color: #6f4026; margin: 0 0 13px; }
-.farm-menu #menuDescription { font-size: 1rem; line-height: 1.5; color: #705334; }
-.farm-menu .menu-portrait { width: 96px; height: 60px; margin: -7px -12px 0 0; }
-.farm-menu #menuCard .overlay-actions { display: grid; gap: 10px; margin: 15px 0 20px; }
-.farm-menu #menuCard .overlay-actions:has(> #continueBtn[hidden]) { display: none; }
-.farm-menu #menuCard .new-adventure-action { margin: 16px 0 8px; }
-.farm-menu .overlay-actions button { width: 100%; min-height: 52px; border: 2px solid #70301f; font-size: 1.08rem; background: #ad432a; color: #fff3c8; box-shadow: 0 4px 0 #70301f; text-align: left; }
-.farm-menu .overlay-actions button::after { content: "→"; float: right; margin-left: 8px; }
-.farm-menu .overlay-actions button:hover:not(:disabled) { background: #913722; box-shadow: 0 6px 0 #70301f; }
-.farm-menu .overlay-actions .button-secondary { min-height: 40px; font-size: .86rem; background: #eedcaf; color: #654b2b; border-color: #b49157; box-shadow: 0 3px #b49157; }
-.farm-menu .overlay-actions .button-secondary:hover:not(:disabled) { background: #e5c88a; box-shadow: 0 5px #b49157; }
-.farm-menu .overlay-actions button:disabled { opacity: .55; }
-.farm-menu .menu-tabs { margin-top: 0; }
-.farm-menu .menu-tabs button { padding: 9px 6px; font-size: .875rem; }
-.farm-menu .menu-panel { min-height: 350px; }
-.farm-menu .difficulty-picks { gap: 8px; }
-.farm-menu .difficulty-preview { font-size: .75rem; min-height: 3em; }
-.farm-menu #panel-adventure .menu-tips { display: grid; grid-template-columns: 1fr; gap: 3px; padding-top: 10px; }
-.farm-menu #panel-adventure .menu-tips p { font-size: .875rem; margin: 1px 0; }
-.farm-menu .menu-skin { justify-content: flex-start; font-size: .875rem; }
-.farm-menu .menu-skin select { width: 100%; }
-.farm-menu .portrait-controls { gap: 8px; margin-top: 12px; justify-content: flex-start; }
-.farm-menu .portrait-controls button { font-size: .875rem; padding: 8px; }
-.farm-menu .menu-panel-note { font-size: .875rem; }
-.farm-menu .audio-controls label, .farm-menu .audio-controls select, .farm-menu .skin-music-toggle { font-size: .875rem; }
-.farm-menu #menuSaveText { padding-top: 13px; border-top: 1px dashed #c8a36a; font-size: .75rem !important; line-height: 1.45; margin: 12px 0 8px; }
-.menu-credits { font-size: .75rem; color: #765535; text-underline-offset: 3px; }
-.farm-menu :is(button, a, select, input, summary):focus-visible { outline: 3px solid #173e62; outline-offset: 4px; }
-@media (min-width: 980px) and (max-width: 1140px) {
-  #menuScreen.farm-menu { grid-template-columns: minmax(0, 1fr) 355px; gap: 20px; padding: 34px 27px; }
-  .farm-title { font-size: 83px; }
-  .farm-kicker { font-size: .75rem; letter-spacing: .07em; }
-  .farm-subtitle { font-size: .76rem; padding: 8px 10px; }
-  .farm-tagline { font-size: .9375rem; }
-  .menu-mischief { left: 32px; max-width: calc(100% - 412px); }
-  .farm-menu #menuCard { padding: 23px 18px 18px; }
-}
-@media (max-width: 979px) {
-  body:has(.game-shell[data-phase="menu"]) { padding: 10px; }
-  #menuScreen.farm-menu { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 28px 20px 26px; min-height: 0; }
-  .menu-world { height: 540px; bottom: auto; }
-  .farm-menu::before { background: linear-gradient(0deg, #455b32 0%, #455b32 43%, transparent 63%); }
-  .menu-title-scene { padding: 0; min-height: 524px; width: min(490px, 100%); margin: 0 auto; }
-  .farm-kicker { margin-bottom: 16px; font-size: .75rem; letter-spacing: .06em; }
-  .farm-title { font-size: clamp(66px, 11vw, 98px); }
-  .farm-subtitle { margin-top: 18px; font-size: .75rem; }
-  .farm-tagline { font-size: .9375rem; }
-  .menu-mischief { top: 480px; bottom: auto; left: 50%; transform: translateX(-50%); width: min(490px, calc(100% - 40px)); max-width: none; }
-  #menuScatter { font-size: .75rem; padding: 7px 12px; min-height: 36px; }
-  #menuBanter { font-size: .8125rem; padding: 5px 8px; }
-  .farm-menu #menuCard { grid-column: 1; max-width: 490px; margin: 0 auto; }
-  .farm-menu .menu-panel { min-height: 0; }
-}
-@media (min-width: 810px) and (max-width: 979px) {
-  .menu-title-scene { min-height: 574px; }
-  .menu-mischief { top: 530px; }
-}
-@media (max-width: 390px) {
-  #menuScreen.farm-menu { padding-left: 12px; padding-right: 12px; }
-  .farm-title { font-size: 66px; }
-  .farm-kicker { font-size: .75rem; letter-spacing: .01em; }
-  .farm-subtitle { padding: 8px; font-size: .75rem; }
-  .farm-menu #menuCard { padding: 22px 16px 18px; }
-  .farm-menu #menuCard h2 { font-size: 1.5rem; }
-  .farm-menu .menu-portrait { width: 80px; height: 50px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .menu-world { will-change: auto; }
-  #menuScatter:hover { transform: none; }
-  .difficulty-picks button { transition: none; }
-}
-
+/* The title-screen composition lives in menu.css. */
 .game-author { margin: 10px 0 3px; text-align: center; font: 12px/1.4 "Trebuchet MS", sans-serif; color: #4e583c; }

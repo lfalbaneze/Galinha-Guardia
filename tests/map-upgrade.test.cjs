@@ -1,6 +1,6 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const {createGame}=require('./helpers.cjs');
-const SAVE='galinha-guardia-save-v1',BACKUP='galinha-guardia-save-before-map-5';
+const SAVE='galinha-guardia-save-v1',BACKUP='galinha-guardia-save-before-map-7';
 test('Continuar upgrades every old map without losing the screenshot progress, health or bonus unlocks',()=>{
   for(const version of [1,2,3,4]){
     const old=createGame(()=>.5);
@@ -11,10 +11,14 @@ test('Continuar upgrades every old map without losing the screenshot progress, h
       state.lake.completed=true;state.lake.misses=3;state.thorVisit.nextIn=47;GameManager.save(state);`);
     const legacy=JSON.parse(old.storage.get(SAVE));
     const h=createGame(()=>.5,{fullStartup:true,storage:new Map(old.storage)});
-    assert.equal(h.run('state.worldVersion'),5);
+    assert.equal(h.run('state.worldVersion'),7);
     for(const [key,value] of [['rescuedCount',2],['rescuedChicks',2],['lives',2],['score',400],['elapsed',137]])
       assert.equal(h.run(`state.${key}`),value,`v${version}: ${key}`);
-    assert.equal(h.run('state.lake.completed'),true);assert.equal(h.run('state.thorVisit.nextIn'),47);
+    assert.equal(h.run('state.lake.completed'),true);
+    // The first emergency visit now uses the short arrival delay, without granting bones or health.
+    assert.equal(h.run('state.thorVisit.nextIn'),1.6);
+    assert.equal(h.run('ThorSystem.boneCount(state)'),0);
+    assert.equal(h.run('state.entities.thor'),null);
     assert.equal(h.run('state.entities.chicks[3].discovered'),true);
     assert.equal(h.run('STRUCTURES.coops.length'),1);
     assert.ok(h.run(`!STRUCTURES.coops.some(p=>p.areaId==='poleiro') && STRUCTURES.hayBales.length===1 &&
@@ -22,7 +26,7 @@ test('Continuar upgrades every old map without losing the screenshot progress, h
     assert.ok(h.run(`state.entities.animals.every(a=>WildlifeRules.clear(a,a,a.hitbox)) &&
       state.entities.chicks.every(a=>WildlifeRules.clear(a,a,a.hitbox))`));
     assert.deepEqual(JSON.parse(h.storage.get(BACKUP)).rescuedIds,legacy.rescuedIds);
-    assert.equal(JSON.parse(h.storage.get(SAVE)).worldVersion,5);
+    assert.equal(JSON.parse(h.storage.get(SAVE)).worldVersion,7);
     const clean=h.run('JSON.stringify(WORLD.layout)'),backup=h.storage.get(BACKUP);
     const again=createGame(()=>.5,{fullStartup:true,storage:new Map(h.storage)});
     assert.equal(again.run('JSON.stringify(WORLD.layout)'),clean);

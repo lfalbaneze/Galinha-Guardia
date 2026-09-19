@@ -1,13 +1,14 @@
 const RescueSystem = {
   names: { sheep: "Ovelha", pig: "Porquinho", goat: "Cabra", cow: "Vaquinha", duck: "Pato",
-    rabbit: "Coelho", dog: "Cachorrinho", cat: "Gatinho", donkey: "Burrinho", lamb: "Cordeirinho", chick: "Pintinho" },
+    rabbit: "Coelho", dog: "Cachorrinho", cat: "Gatinho", donkey: "Burrinho", lamb: "Cordeirinho", chick: "Pintinho", horse: "Cavalo", turkey: "Peru" },
   personalities: {
     sheep: { pace: 1, nerve: 1, endurance: 1 }, pig: { pace: .9, nerve: .88, endurance: .9 },
     goat: { pace: 1.04, nerve: 1.05, endurance: 1.1 }, cow: { pace: .86, nerve: .85, endurance: 1.18 },
     duck: { pace: .96, nerve: 1.04, endurance: .9 }, rabbit: { pace: 1.08, nerve: 1.12, endurance: .76 },
     dog: { pace: 1.02, nerve: .9, endurance: 1.1 }, cat: { pace: 1.06, nerve: 1.08, endurance: .84 },
     donkey: { pace: .9, nerve: .82, endurance: 1.18 }, lamb: { pace: .96, nerve: 1.08, endurance: .82 },
-    chick: { pace: 1.02, nerve: 1.05, endurance: .8 }
+    chick: { pace: 1.02, nerve: 1.05, endurance: .8 },
+    horse: { pace: 1.1, nerve: .95, endurance: 1.15 }, turkey: { pace: .93, nerve: 1.12, endurance: .82 }
   },
   personality(animal: Farm.Animal): Farm.Personality { return RescueSystem.personalities[animal.species] || RescueSystem.personalities.sheep; },
   all(game: Farm.GameState): Farm.Animal[] { return [...game.entities.animals, ...(game.entities.chicks || [])]; },
@@ -55,22 +56,47 @@ const RescueSystem = {
     const safe = RescueSystem.chickPosition(game.entities.chicks.indexOf(chick));
     Object.assign(chick, { x: safe.x, y: safe.y, targetX: safe.x, targetY: safe.y,
       moving: false, direction: 'down', temper: 'safe', speechTime: 0 });
-    setStatus(`Piu-piu! ${game.rescuedChicks} de 6 pintinhos no ninho. +100 pontos!`, 'win');
+    setStatus(`Piu! Fim da expedição de dois passos. ${game.rescuedChicks} de 6 pintinhos no ninho. +100 pontos!`, 'win');
     GameManager.save(game); GameUI.update(game);
     return true;
   },
   taunts: {
-    sheep: ["Só mais um bocadinho de capim!", "Mééé… eu já vou!"],
-    pig: ["Mas a lama tá tão boa!", "Lobo? Aqui? Duvido!"],
-    goat: ["Aposto que não me pega!", "Nem terminei meu lanche!"],
-    cow: ["Muuu! Pra que essa pressa?", "Falta só mais uma mastigada…"],
-    duck: ["Quá! Hoje eu tô ligeiro!", "Eu sei cuidar das minhas penas!"],
-    rabbit: ["Um pulinho e você me perdeu!", "Por aqui! Quer dizer… por ali!"],
-    dog: ["Au! Eu tava só farejando!", "Eu conheço um atalho!"],
-    cat: ["Eu estava quase dormindo.", "Tá, mas eu vou no meu tempo."],
-    donkey: ["Daqui eu não… opa!", "Essa história tá mal contada!"],
-    lamb: ["Mééé! Cadê todo mundo?", "Espera, minhas pernas são curtas!"],
-    chick: ["Piu! Me espera!", "Eu tava bem escondidinho!", "Piu-piu! Achei você!"]
+    horse: ["Quatro patas e nenhum GPS!", "Minha crina não tem freio!", "Era passeio. Virou campeonato!"],
+    turkey: ["Glu-glu! Isso é um protesto!", "Não corro. Desfilo com urgência!", "Essas penas não são aerodinâmicas!"],
+    sheep: ["Calma, engasguei com o capim!", "Essa lã não é roupa de corrida!", "Só mais uma moita. A última!", "Mééé… amarrotei meu penteado!"],
+    pig: ["Saí do banho de lama AGORA!", "Sem correr! Acabei de almoçar!", "Esse barro é de estimação!", "Meu spa não aceita pressa!"],
+    goat: ["Eu ia comer essa placa!", "A cerca começou a discussão!", "Se tem portão, cadê a graça?", "Só uma mordidinha no chapéu!"],
+    cow: ["Muuu… tô na segunda mastigada.", "Meu leite vai virar manteiga!", "Calma! São QUATRO patas!", "Correr? Com esse tanto de capim?"],
+    duck: ["Quá! Esse chão não nada!", "Correr com nadadeira é fácil?", "Eu devia ter vindo de lago.", "Não encosta no meu topete!"],
+    rabbit: ["Era um pulo. Viraram doze!", "Orelhas, parem de balançar!", "Volto já. Ou já voltei?", "Cadê o freio dessa pata?!"],
+    dog: ["Só vou cheirar mais esse poste!", "Atalho! Ih… era o mesmo poste.", "Você viu meu graveto?", "Eu latia, mas tava mastigando."],
+    cat: ["Eu fugi porque EU quis.", "Me salve, mas sem amassar.", "Isso conta como meu passeio.", "Acordei pra isso, sério?"],
+    donkey: ["Eu avisei. Não sei o quê, mas…", "Esse atalho tá muito comprido.", "Eu só corro sob protesto!", "Minha teimosia ficou pra trás!"],
+    lamb: ["Minha lã ainda é tamanho P!", "Perninha, faz hora extra!", "Esse capim era maior que eu!", "Cadê o adulto dessa fazenda?!"],
+    chick: ["Piu! Me perdi em três passos!", "Essa folha parecia uma árvore!", "Eu tava contando formiga!", "Piu! Minha aventura cansou."]
+  },
+  tiredLines: {
+    horse:"Estacionei. Cadê o capim?", turkey:"Glu… acabou meu discurso.",
+    sheep:"Ufa. A lã pesa, sabia?", pig:"Pausa pra virar presunto? NÃO!",
+    goat:"Tá. Você venceu no cansaço.", cow:"Chega. O leite já chacoalhou.",
+    duck:"Quá… minhas nadadeiras…", rabbit:"Acabou a mola da patinha.",
+    dog:"Língua pra fora. Ideias também.", cat:"Cansei de fingir que fujo.",
+    donkey:"Vou, mas vou reclamando.", lamb:"Pode me levar no bolso?", chick:"Piu… cadê meu colinho?"
+  },
+  alarmLines: {
+    horse:"Lobo! Hoje eu sou puro cavalo-vapor!", turkey:"Lobo! Cancela a ceia!",
+    sheep:"Lobo! Minha lã não é guardanapo!", pig:"Lobo! O buffet tá FECHADO!",
+    goat:"Lobo! Come a placa, ué!", cow:"Lobo! Muuu-da de cardápio!",
+    duck:"Lobo! Hoje o pato não paga!", rabbit:"Lobo! Orelhas, modo foguete!",
+    dog:"Lobo! Thor, atende esse au!", cat:"Lobo! Cadê meus seguranças?",
+    donkey:"Lobo! Retiro meu protesto!", lamb:"Lobo! Sou só uma amostrinha!", chick:"Lobo! Sou pequeno até pro susto!"
+  },
+  thanks: {
+    horse:"Tem vaga pra quatro patas?", turkey:"Glu-glu! Eu exijo um poleiro VIP!",
+    sheep:"Salvou até meu penteado!", pig:"Aqui aceita lama no tapete?", goat:"Essa cerca é comestível?",
+    cow:"Agora posso mastigar em paz.", duck:"Quá! Cheguei sem virar almoço.", rabbit:"Parei. Minhas orelhas, não.",
+    dog:"Trouxe um graveto pra você!", cat:"Eu tinha tudo sob controle.", donkey:"Eu sabia que era por aqui.",
+    lamb:"Tem capim picadinho?", chick:"Piu! Guarda um cantinho pra mim."
   },
   visible(game: Farm.GameState, animal: Farm.Animal): boolean {
     return !RescueSystem.isSecret(animal) && distance(game.entities.chicken, animal) < 300 &&
@@ -84,8 +110,8 @@ const RescueSystem = {
   talk(game: Farm.GameState, animal: Farm.Animal, tired = false): void {
     if (game.animalSpeechCooldown > 0 || animal.speechTime > 0) return;
     const lines = RescueSystem.taunts[animal.species] || RescueSystem.taunts.chick;
-    animal.speech = tired ? "Ufa… tá bom, eu vou!" : animal.fleeFrom?.kind === 'wolf' ?
-      "É o lobo! Bora pro poleiro!" : lines[Math.floor(Math.random() * lines.length)];
+    animal.speech = tired ? RescueSystem.tiredLines[animal.species] : animal.fleeFrom?.kind === 'wolf' ?
+      RescueSystem.alarmLines[animal.species] : lines[Math.floor(Math.random() * lines.length)];
     animal.speechTime = 2.4;
     game.animalSpeechCooldown = 2.8;
     if (!tired && RescueSystem.visible(game, animal) && !circleVsCircle(game.entities.chicken, animal))
@@ -98,12 +124,18 @@ const RescueSystem = {
     const toward = (chicken.x - animal.x) * facing[0] + (chicken.y - animal.y) * facing[1];
     const alertRange = chicken.sneaking ? 22 : (chicken.sprinting ? 240 : toward > 0 ? 170 : 105) * profile.nerve;
     const threats: Farm.ObservedThreat[] = [];
-    if (!chicken.hidden && !chicken.sneaking && visible && distance(chicken, animal) < alertRange)
+    if (SkinSystem.power(chicken).friendSpecies !== animal.species && !chicken.hidden && !chicken.sneaking && visible && distance(chicken, animal) < alertRange)
       threats.push({ x: chicken.x, y: chicken.y, kind: 'player', urgency: 1 - distance(chicken, animal) / alertRange });
     const wolfRange = 190 * profile.nerve;
-    if (wolf.mode !== 'frightened' && wolf.huntUnlockTimer <= 0 && wolf.pauseTimer <= 0 && distance(wolf, animal) < wolfRange &&
+    if (!SunflowerSystem.concealed(game) && wolf.mode !== 'frightened' && wolf.huntUnlockTimer <= 0 && wolf.pauseTimer <= 0 && distance(wolf, animal) < wolfRange &&
       DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(wolf)))
       threats.push({ x: wolf.x, y: wolf.y, kind: 'wolf', urgency: 1.15 - distance(wolf, animal) / wolfRange });
+    if(threats.length)animal.sharedAlarm=false;
+    if(!threats.length&&wolf.mode!=='frightened'&&wolf.huntUnlockTimer<=0&&wolf.pauseTimer<=0) {
+      const neighbour=game.entities.animals.find(a=>a!==animal&&!a.rescued&&!a.sharedAlarm&&a.fleeFrom?.kind==='wolf'&&a.fleeTime>.5&&
+        distance(a,animal)<110&&DetectionSystem.hasLineOfSight(getHitbox(animal),getHitbox(a)));
+      if(neighbour?.fleeFrom){threats.push({...neighbour.fleeFrom,urgency:.35});animal.sharedAlarm=true;}
+    }
     return threats.sort((a,b) => b.urgency - a.urgency)[0] || null;
   },
   flee(game: Farm.GameState, animal: Farm.Animal, home: Farm.Point, area: Farm.Area, dt: number): void {
@@ -126,8 +158,14 @@ const RescueSystem = {
       const heading = Math.atan2(probe.y - animal.y, probe.x - animal.x);
       const continuity = Number.isFinite(animal.fleeHeading) ? Math.cos(heading - animal.fleeHeading!) * 18 : 0;
       const crowd = neighbours.reduce((sum,a) => sum + Math.max(0, 56 - distance(a, probe)), 0);
+      const shelter=threat.kind==='wolf'&&!DetectionSystem.hasLineOfSight(threat,getHitbox(probe))?32:0;
+      const herd=['sheep','lamb','cow','donkey'].includes(animal.species)?neighbours.reduce((best,a)=>
+        Math.max(best,distance(a,threat)>distance(animal,threat)?Math.max(0,18-Math.abs(distance(a,probe)-75)*.15):0),0):0;
+      // Nimble animals jink; herd animals seek a safe neighbour; all still use
+      // the same finite stamina and contact window for a fair rescue.
+      const jink=['rabbit','cat'].includes(animal.species)?Math.cos(heading-angle-Math.sin(animal.fatigue*5)*.65)*12:0;
       const value = distance(probe, threat) + travel * .8 + continuity - crowd * 1.4 -
-        Math.max(0, distance(probe, home) - 230) * 1.4 - Math.abs(turn) * 8;
+        Math.max(0, distance(probe, home) - 230) * 1.4 - Math.abs(turn) * 8+shelter+herd+jink;
       if (value > score) { score = value; best = { x: (probe.x-animal.x)/travel, y: (probe.y-animal.y)/travel, heading }; }
     }
     const before = { x: animal.x, y: animal.y };
@@ -182,7 +220,8 @@ const RescueSystem = {
         const visible = RescueSystem.visible(game, animal);
         if (visible) { animal.discovered = true; animal.lastSeen = { x: animal.x, y: animal.y }; }
         const threat = RescueSystem.observeThreat(game, animal, visible);
-        const calm = !chick && !threat && visible && !chicken.hidden && chicken.sneaking && distance(chicken, animal) <= 140;
+        const friendly = SkinSystem.power(chicken).friendSpecies === animal.species;
+        const calm = !chick && !threat && visible && !chicken.hidden && (chicken.sneaking || friendly) && distance(chicken, animal) <= 140;
         const wolf = game.entities.wolf;
         const relieved = animal.fleeFrom?.kind === 'wolf' && wolf.mode === 'frightened' && distance(animal, wolf) < 190 &&
           DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(wolf));
@@ -235,7 +274,7 @@ const RescueSystem = {
           AudioSystem.playAnimal(animal.species);
           const count = chick ? game.rescuedChicks : game.rescuedCount;
           const total = chick ? WORLD.targetChicks : WORLD.targetRescues;
-          setStatus(`${RescueSystem.names[animal.species]} chegou ao poleiro! ${count} de ${total} ${chick ? "pintinhos" : "amigos"} a salvo.`, "win");
+          setStatus(`${RescueSystem.names[animal.species]}: “${RescueSystem.thanks[animal.species]}” ${count} de ${total} ${chick ? "pintinhos" : "amigos"} a salvo.`, "win");
           game.rescueNotice = { name: RescueSystem.names[animal.species], count, total, chick, time: 2.6 };
           const safe = safePosition(index);
           animal.x = safe.x; animal.y = safe.y;

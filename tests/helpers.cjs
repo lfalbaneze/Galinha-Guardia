@@ -2,7 +2,8 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
-function createGame(random = Math.random, options = {}) {
+// Layout variation is covered with explicit seeds; behavior fixtures use a repeatable farm.
+function createGame(random = () => .5, options = {}) {
   const elements = new Map();
   const drawing = options.drawingContext || new Proxy({ canvas: { width: 900, height: 520 } }, { get: (o, k) => o[k] ?? (() => ({ addColorStop() {} })), set: (o,k,v) => (o[k]=v,true) });
   const menuDrawing = options.menuDrawingContext || new Proxy({}, { get: (o, k) => o[k] ?? (() => {}), set: (o,k,v) => (o[k]=v,true) });
@@ -45,6 +46,8 @@ function createGame(random = Math.random, options = {}) {
       vm.runInContext('OwlArt.install(() => ({}));', context);
     if (match[1] === 'systems/thor-art.js' && !options.drawingContext && !options.skipThorInstall)
       vm.runInContext('ThorArt.install(() => ({}));', context);
+    if (match[1] === 'systems/scarecrow-art.js' && !options.drawingContext && !options.skipScarecrowInstall)
+      vm.runInContext('ScarecrowArt.install(() => ({}));', context);
     if (match[1] === 'systems/character-art.js' && !options.drawingContext)
       vm.runInContext('CharacterArt.install(() => ({}));', context);
   }

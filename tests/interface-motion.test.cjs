@@ -113,8 +113,10 @@ test('outfit preview animates the equipped sprite and supports rotation without 
   const { run, events } = createGame(() => .5);
   run(`GameUI.showMenu(state); const original=JSON.stringify(state);const poses=[];
     const portraitContext=document.getElementById('menuPortrait').getContext('2d');
-    portraitContext.drawImage=(...args)=>poses.push(args);
-    InterfaceMotion.frame(state,.1);`);
+    portraitContext.drawImage=(...args)=>poses.push(args); InterfaceMotion.frame(state,.1);`);
+  assert.equal(run('poses.length'), 0, 'hidden outfit preview does not draw over the menu illustration');
+  events.elements['tab-outfit'].click();
+  run('InterfaceMotion.frame(state,.1);');
   assert.equal(run('poses.length'), 1);
   assert.equal(run('JSON.stringify(state)===original'), true);
   const front = run('poses[0][2]');
@@ -124,6 +126,12 @@ test('outfit preview animates the equipped sprite and supports rotation without 
   events.elements.portraitWalk.click();
   run('InterfaceMotion.frame(state,.1);const stopped=poses.length;for(let i=0;i<60;i++)InterfaceMotion.frame(state,.02);');
   assert.equal(run('poses.length===stopped'), true);
+  events.elements['tab-adventure'].click();
+  run('InterfaceMotion.frame(state,.1);');
+  assert.equal(run('poses.length===stopped'), true);
+  events.elements['tab-outfit'].click();
+  run('InterfaceMotion.frame(state,.1);');
+  assert.equal(run('poses.length'), run('stopped+1'), 'returning to a still preview redraws it');
 });
 
 test('reduced motion removes tweens and stops the preview, including changes during a session', () => {
@@ -136,8 +144,9 @@ test('reduced motion removes tweens and stops the preview, including changes dur
   const count = animations.length;
   run(`GameManager.rescue(state,state.entities.animals[1]);GameUI.update(state);
     GameUI.showMenu(state);const draws=[];
-    document.getElementById('menuPortrait').getContext('2d').drawImage=(...args)=>draws.push(args);
-    for(let i=0;i<60;i++)InterfaceMotion.frame(state,.02);`);
+    document.getElementById('menuPortrait').getContext('2d').drawImage=(...args)=>draws.push(args);`);
+  events.elements['tab-outfit'].click();
+  run('for(let i=0;i<60;i++)InterfaceMotion.frame(state,.02);');
   assert.equal(animations.length, count);
   assert.equal(elements.get('scoreCount').textContent, '200');
   assert.equal(run('draws.length'), 1);

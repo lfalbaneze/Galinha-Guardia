@@ -20,10 +20,23 @@ function until(h, condition, limit = 600) {
 }
 function dodge(h) {
   h.run('c.x=g.home.x+100;c.y=g.home.y;c.hidden=false;c.invulnerable=0');
-  until(h, "g.mode==='warning'");
-  h.run('c.x=g.x;c.y=g.y+100');
-  until(h, "g.mode==='charge'");
-  until(h, "g.mode==='stunned'||g.mode==='defeated'");
+  h.run(`var previousMode='';
+    for(let i=0;i<900;i++){
+      if(g.mode==='warning'&&previousMode!=='warning'){
+        const dx=g.target.x-g.x,dy=g.target.y-g.y,len=Math.hypot(dx,dy)||1;
+        const p=[1,-1].map(side=>({x:g.x-dy/len*100*side,y:g.y+dx/len*100*side}))
+          .find(p=>distance(p,g.home)<LakeChallenge.radius&&WildlifeRules.clear(p,p,c.hitbox));
+        if(!p)throw Error('No clear sidestep');Object.assign(c,p);
+      }
+      previousMode=g.mode;GooseSystem.update(state,.05);LakeChallenge.update(state,.05);
+      if(g.mode==='stunned'&&(!state.lake.active||state.lake.counterWindow>0))break;
+    }`);
+  assert.equal(h.run('g.mode'),'stunned');
+  if(h.run('state.lake.active')){
+    const before=h.run('state.lake.misses');
+    h.run('c.x=g.x;c.y=g.y;LakeChallenge.interact(state)');
+    assert.equal(h.run('state.lake.misses'),before+1);
+  }
 }
 function complete(h) {
   assert.equal(h.run('LakeChallenge.start(state)'), true);
@@ -37,7 +50,7 @@ test('the lake is opt-in, cannot start from afar or a menu, and never locks mand
   for (const code of ["state.phase='menu'", "state.phase='playing';c.x=20", "c.x=1110;c.hidden=true"]) {
     h.run(code); assert.equal(h.run('LakeChallenge.start(state)'),false);
   }
-  assert.equal(h.run('state.entities.animals.length'),10);assert.equal(h.run('state.entities.chicks.length'),6);
+  assert.equal(h.run('state.entities.animals.length'),12);assert.equal(h.run('state.entities.chicks.length'),6);
 });
 
 test('walls block opting into an unseen goose encounter',()=>{
@@ -45,7 +58,7 @@ test('walls block opting into an unseen goose encounter',()=>{
   assert.equal(h.run('LakeChallenge.start(state)'),false);
 });
 
-test('three genuine dodges win, while the third warning-cycle feint does not count',()=>{
+test('three counters after distinct rounds win, while the third-round feint gives no opening',()=>{
   const h=setup();assert.equal(h.run('LakeChallenge.start(state)'),true);
   dodge(h);assert.equal(h.run('state.lake.misses'),1);
   dodge(h);assert.equal(h.run('state.lake.misses'),2);
@@ -175,27 +188,32 @@ test('rescuing every friend and chick does not grant the challenge-exclusive goo
   h.run('GameManager.win(state)');assert.equal(h.run('state.phase'),'win_cutscene');
 });
 
-test('the earned skin uses goose frames but never changes speed, hitbox or rescue counters',()=>{
+test('the earned skin uses Gumercindo frames but never changes speed, hitbox or rescue counters',()=>{
   const h=setup();h.run('var hb=JSON.stringify(c.hitbox),speed=c.speed;SkinSystem.unlockLake(state);SkinSystem.equip(state,"goose");GameUI.update(state)');
-  assert.equal(h.run('CharacterArt.frameFor("chicken",{skin:c.skin}).spriteName'),'goose');
+  assert.equal(h.run('CharacterArt.frameFor("chicken",{skin:c.skin}).spriteName'),'skin-gumercindo');
+  assert.equal(h.run('CharacterArt.appearances.goose.species'),'goose');
   assert.equal(h.run('JSON.stringify(c.hitbox)===hb'),true);assert.equal(h.run('c.speed===speed'),true);assert.equal(h.run('state.rescuedCount'),0);
-  assert.match(h.elements.get('skin-goose').textContent,/usando/);assert.equal(h.elements.get('menu-skin-goose').disabled,false);
+  assert.match(h.elements.get('skin-goose').textContent,/Gumercindo.*usando/);assert.equal(h.elements.get('menu-skin-goose').disabled,false);
 });
 
-test('opening the real bridge changes collisions and allows walking across all tested farm layouts',()=>{
+test('the closed lake allows swimming while the earned bridge gives a dry crossing in all tested farm layouts',()=>{
   const h=createGame(()=>.5);
   for(const version of [1,2]) for(let seed=0;seed<100;seed++){
     h.run(`resetGame(${seed},${version});var b=LakeChallenge.bridge();var c=state.entities.chicken;
-      Object.assign(c,{x:b.x+b.w/2,y:b.y});Player.move(c,0,b.h);`);
-    assert.ok(h.run('c.y < b.y+b.h-40'),`closed ${seed}/${version}`);
-    h.run(`state.lake.completed=true;state.lake.misses=3;buildObstacles(state);c.x=b.x+b.w/2;c.y=b.y;Player.move(c,0,b.h);`);
-    assert.ok(h.run('Math.abs(c.y-b.y-b.h)<.01'),`open ${seed}/${version}`);
+      Object.assign(c,{x:b.x+b.w/2,y:b.y+b.h/2-14});`);
+    assert.equal(h.run('SwimmingSystem.profile(state).swimming'),true,`swimming ${seed}/${version}`);
+    h.run('c.x=b.x;Player.move(c,b.w,0)');
+    assert.ok(h.run('Math.abs(c.x-b.x-b.w)<.01'),`swim across ${seed}/${version}`);
+    h.run(`state.lake.completed=true;state.lake.misses=3;buildObstacles(state);c.x=b.x;Player.move(c,b.w,0);`);
+    assert.ok(h.run('Math.abs(c.x-b.x-b.w)<.01'),`open ${seed}/${version}`);
+    h.run('c.x=b.x+b.w/2');
+    assert.equal(h.run('SwimmingSystem.profile(state).swimming'),false,`dry ${seed}/${version}`);
   }
 });
 
 test('the wolf navigation cache sees the new crossing instead of reusing the old pond detour',()=>{
-  const h=createGame(()=>.5);h.run(`var b=LakeChallenge.bridge();var w=state.entities.wolf;w.x=b.x+b.w/2;w.y=b.y;
-    var end={x:w.x,y:b.y+b.h};var closed=WolfAI.findPath(w,end);
+  const h=createGame(()=>.5);h.run(`var b=LakeChallenge.bridge();var w=state.entities.wolf;w.x=b.x-30;w.y=b.y+b.h/2;
+    var end={x:b.x+b.w+30,y:w.y};var closed=WolfAI.findPath(w,end);
     state.lake.completed=true;state.lake.misses=3;buildObstacles(state);var open=WolfAI.findPath(w,end);`);
   assert.ok(h.run('closed.length')>1);assert.equal(h.run('open.length'),1);
 });

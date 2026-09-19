@@ -30,7 +30,7 @@ const Player = {
     update(game, dt) {
         if (game.phase !== "playing" || !Number.isFinite(dt) || dt < 0)
             return;
-        const chicken = game.entities.chicken, move = Player.moveVector();
+        const chicken = game.entities.chicken, move = Player.moveVector(), power = SkinSystem.power(chicken);
         const moving = move.x !== 0 || move.y !== 0;
         if (moving) {
             chicken.hidden = false;
@@ -41,8 +41,11 @@ const Player = {
             chicken.exhausted = false;
         chicken.sneaking = (typeof GameInput === 'undefined' ? input.has('c') : GameInput.held('c')) && !chicken.hidden;
         const wantsSprint = moving && shift && !chicken.sneaking && !chicken.exhausted && chicken.stamina > 0;
-        const sprintPart = wantsSprint && dt > 0 ? Math.min(1, chicken.stamina * Player.sprintSeconds / dt) : 0;
-        const speed = chicken.speed * (chicken.sneaking ? .4 : 1 + (Player.sprintMultiplier - 1) * sprintPart);
+        const sprintSeconds = Player.sprintSeconds * power.sprintDuration;
+        const sprintPart = wantsSprint && dt > 0 ? Math.min(1, chicken.stamina * sprintSeconds / dt) : 0;
+        const landSpeed = SwimmingSystem.profile(game).depth > 0 ? 1 : power.landSpeed;
+        const speed = chicken.speed * landSpeed * EnvironmentSystem.movementScale(game) *
+            (chicken.sneaking ? power.sneakSpeed : 1 + (Player.sprintMultiplier - 1) * sprintPart);
         const oldX = chicken.x, oldY = chicken.y;
         Player.move(chicken, move.x * speed * dt, move.y * speed * dt);
         const traveled = Math.hypot(chicken.x - oldX, chicken.y - oldY);
@@ -51,7 +54,7 @@ const Player = {
         chicken.vx = dt > 0 ? (chicken.x - oldX) / dt : 0;
         chicken.vy = dt > 0 ? (chicken.y - oldY) / dt : 0;
         if (chicken.sprinting) {
-            chicken.stamina = Math.max(0, chicken.stamina - dt / Player.sprintSeconds);
+            chicken.stamina = Math.max(0, chicken.stamina - dt / sprintSeconds);
             chicken.staminaDelay = 0.65;
             if (chicken.stamina < 0.0001) {
                 chicken.stamina = 0;
@@ -69,10 +72,11 @@ const Player = {
         if (moving)
             Player.face(chicken, move.x, move.y);
         HidingSpots.update(game, dt);
+        EnvironmentSystem.update(game, dt, { x: oldX, y: oldY });
     },
     checkCatch(game) {
         const chicken = game.entities.chicken, wolf = game.entities.wolf;
-        if (game.lake?.active || game.phase !== "playing" || (chicken.hidden && !WolfAI.canCatchHidden(game)) || chicken.invulnerable > 0 ||
+        if (game.lake?.active || ThorSystem.active(game) || game.phase !== "playing" || !SunflowerSystem.canCatch(game) || (chicken.hidden && !WolfAI.canCatchHidden(game)) || chicken.invulnerable > 0 ||
             wolf.mode === 'frightened' || wolf.pauseTimer > 0 || wolf.huntUnlockTimer > 0 || !circleVsCircle(chicken, wolf) ||
             !DetectionSystem.hasLineOfSight(getHitbox(wolf), getHitbox(chicken)))
             return false;
@@ -84,7 +88,7 @@ const Player = {
         if (wolf.mode === "inspect")
             wolf.mode = "chase";
         game.lives -= 1;
-        AudioSystem.play("squeak");
+        AudioSystem.playPlayerHurt(game);
         game.score = Math.max(0, game.score - SCORE_PENALTY_LOSS);
         chicken.invulnerable = 3;
         wolf.pauseTimer = 1.5;
@@ -92,11 +96,10 @@ const Player = {
         Player.move(chicken, (len > 0 ? dx / len : 1) * 65, (len > 0 ? dy / len : 0) * 65);
         spawnBurst(chicken.x, chicken.y, "#ffdfaa", 18);
         setStatus(caughtInCover ? `Ele viu seu esconderijo! Restam ${game.lives} vidas. Fuja e quebre a visão antes de se esconder.` :
-            `Por uma pena! Restam ${game.lives} vidas. Quebre a visão do lobo e procure cobertura.`);
+            `Esse lobo não sabe brincar! Restam ${game.lives} vidas. Saia da vista dele e procure cobertura.`);
         refreshHud();
         if (game.lives <= 0) {
-            game.needsRecovery = true;
-            finishLose('Descanse no poleiro e tente de novo. Todos os resgates desta aventura estão guardados.');
+            finishLose('O lobo levou essa. Tentar novamente começa do zero: resgates, pintinhos e pontos desta tentativa são zerados.');
             GameManager.save(game);
         }
         else

@@ -44,6 +44,55 @@ function audioHarness(options = {}) {
 }
 const microtasks = async () => { await Promise.resolve(); await Promise.resolve(); };
 
+test('Thor fanfare ducks the music, clears ambient chatter and survives incidental effects until it ends',()=>{
+  const h=audioHarness();assert.equal(h.audio.play('thor-hero'),false);h.start();
+  h.audio.play('animal-cow',{ambient:true});const cow=h.instances.find(a=>a.src.includes('animal-cow'));
+  assert.equal(h.audio.play('thor-hero',{volume:.85}),true);assert.ok(cow.pauseCount>0);
+  assert.ok(h.instances.every(a=>!a.src.includes('animal-cow')||a.paused),'ambient voice is stopped even when its player is reused');
+  const hero=h.instances.find(a=>a.src.includes('thor-hero')),music=h.instances.find(a=>a.loop);
+  assert.ok(Math.abs(music.volume-.25*.18)<.0001);assert.equal(h.audio.play('step-water'),false);
+  for(let i=0;i<8;i++)h.audio.play('pop');assert.equal(hero.paused,false,'incidental voices cannot evict the fanfare');
+  hero.end();assert.equal(music.volume,.25);
+  h.audio.toggleMute();assert.equal(h.audio.play('thor-hero'),false);h.audio.toggleMute();
+  h.audio.play('thor-hero');h.game.phase='menu';h.audio.sync(h.game);assert.ok(h.instances.every(a=>a.paused));
+  const count=h.effects().filter(n=>n==='thor-hero').length;h.game.phase='playing';h.audio.sync(h.game);
+  assert.equal(h.effects().filter(n=>n==='thor-hero').length,count,'resume never repeats the one-shot');
+});
+
+test('the original hero fanfare has a short musical duration, audible signal and safe PCM headroom',()=>{
+  const wav=fs.readFileSync(path.join(__dirname,'../assets/audio/thor-hero.wav'));
+  assert.equal(wav.toString('ascii',0,4),'RIFF');assert.equal(wav.readUInt32LE(24),22050);
+  const count=(wav.length-44)/2;assert.ok(count/22050>=5.3&&count/22050<=5.5);
+  let peak=0,sum=0;for(let i=44;i<wav.length;i+=2){const v=wav.readInt16LE(i);peak=Math.max(peak,Math.abs(v));sum+=v*v;}
+  assert.ok(peak>12000&&peak<28000);assert.ok(Math.sqrt(sum/count)>1500);
+  assert.equal(wav.readInt16LE(44),0);assert.equal(wav.readInt16LE(wav.length-2),0);
+});
+
+test('surface Foley stays below two voices and yields to gameplay cues, mute and pause',()=>{
+  const h=audioHarness();h.start();
+  assert.equal(h.audio.play('step-water',{volume:.2}),true);
+  assert.equal(h.audio.play('step-leaves',{volume:.3}),true);
+  assert.equal(h.audio.play('step-mud'),false);
+  for(const voice of h.instances.filter(v=>!v.loop))voice.end();
+  h.audio.play('panto-victory');
+  assert.equal(h.audio.play('step-water'),false);
+  for(const voice of h.instances.filter(v=>!v.loop))voice.end();
+  h.audio.toggleMute();assert.equal(h.audio.play('step-water'),false);
+  h.audio.toggleMute();h.audio.pause();assert.equal(h.audio.play('step-leaves'),false);
+});
+
+test('contact Foley files are short, non-silent PCM clips without clipping or abrupt edges',()=>{
+  for(const kind of ['water','mud','leaves']) {
+    const wav=fs.readFileSync(path.join(__dirname,`../assets/audio/step-${kind}.wav`));
+    assert.equal(wav.toString('ascii',0,4),'RIFF');assert.equal(wav.readUInt32LE(24),22050);
+    const count=(wav.length-44)/2;assert.ok(count/22050<.4);
+    let peak=0,square=0;
+    for(let i=44;i<wav.length;i+=2){const value=wav.readInt16LE(i);peak=Math.max(peak,Math.abs(value));square+=value**2;}
+    assert.ok(peak>800&&peak<28000);assert.ok(Math.sqrt(square/count)>70);
+    assert.ok(Math.abs(wav.readInt16LE(44))<20&&Math.abs(wav.readInt16LE(wav.length-2))<20);
+  }
+});
+
 test('menu calls require a menu gesture path and respect volume, mute, pause and late play completion', async () => {
   const h = audioHarness({ deferred: true });
   assert.equal(h.audio.playMenuAnimal(h.game, 'duck'), false, 'cannot inject menu sounds into gameplay');
@@ -79,7 +128,7 @@ test('nearby animals call without rescue, with distance falloff and no secret di
   assert.deepEqual(near.effects(), ['animal-cow']);
   assert.ok(near.plays.at(-1).volume > far.plays.at(-1).volume);
   assert.deepEqual(outside.effects(), []); assert.deepEqual(blocked.effects(), []);
-  assert.match(near.plays.at(-1).src, /audio\/voices\/v2\/animal-cow\.wav$/);
+  assert.match(near.plays.at(-1).src, /audio\/voices\/v4\/animal-cow\.wav$/);
 });
 
 test('farm calls are spaced, rotate among nearby animals, and stop while paused or muted', () => {
@@ -87,7 +136,7 @@ test('farm calls are spaced, rotate among nearby animals, and stop while paused 
   step(2); assert.deepEqual(h.effects(), ['animal-cow']);
   step(2); assert.equal(h.effects().length, 1);
   h.game.phase = 'menu'; step(20); assert.equal(h.effects().length, 1);
-  h.game.phase = 'playing'; step(1.3); assert.deepEqual(h.effects(), ['animal-cow', 'animal-duck']);
+  h.game.phase = 'playing'; step(3); assert.deepEqual(h.effects(), ['animal-cow', 'animal-duck']);
   h.audio.toggleMute(); step(20); assert.equal(h.effects().length, 2);
   h.audio.toggleMute(); step(.05); assert.equal(h.effects().at(-1), 'animal-cat');
   const before = h.effects().length;
@@ -98,18 +147,84 @@ test('animal recordings are real local PCM assets and new adventures do not repl
   const h = audioHarness(), step = farm(h);
   step(2); h.audio.reset(); h.game.entities.animals = [{ species: 'cat', x: 40, y: 0 }]; h.start(); step(.1);
   assert.deepEqual(h.effects(), ['animal-cow']);
-  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '../assets/audio/voices/v2/manifest.json')));
+  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '../assets/audio/voices/v4/manifest.json')));
   for (const item of manifest.recordings) {
     h.audio.playAnimal(item.species);
     const file = path.resolve(__dirname, '..', h.plays.at(-1).src);
     const wav = fs.readFileSync(file);
     assert.equal(wav.toString('ascii', 0, 4), 'RIFF');
     assert.equal(wav.readUInt16LE(20), 1); assert.equal(wav.readUInt16LE(22), 1);
-    assert.equal(wav.readUInt32LE(24), 22050); assert.ok(item.seconds > .3 && item.seconds < 3.3);
-    assert.ok(item.peak < .9 && item.rms > .01);
+    assert.equal(wav.readUInt32LE(24), 22050); assert.ok(item.seconds > .2 && item.seconds < 3.4);
+    assert.ok(item.peak <= .68 && item.rms > .01);
+    assert.equal(path.basename(file), item.file, 'the species and take select the credited file');
+    assert.equal(item.repeats, 1, 'do not paste duplicate calls into a clip');
+    assert.ok(item.sourcePage.startsWith('https://') && item.author && item.license);
+    let peak = 0;
+    for (let offset = 44; offset < wav.length; offset += 2) peak = Math.max(peak, Math.abs(wav.readInt16LE(offset)) / 32768);
+    assert.ok(peak <= .681, 'actual samples leave ample headroom');
     assert.equal(require('node:crypto').createHash('sha256').update(wav).digest('hex'), item.sha256);
   }
-  assert.equal(manifest.recordings.length, 12);
+  assert.equal(manifest.recordings.length, 18);
+  assert.equal(new Set(manifest.recordings.map(item => item.species)).size, 15);
+  assert.equal(new Set(manifest.recordings.map(item => item.sha256)).size, 18, 'every take is distinct');
+});
+
+test('ambient calls wait for the previous voice, and rabbits are only audible very nearby', () => {
+  const h = audioHarness(), step = farm(h, ['cow', 'duck'].map((species, i) => ({species, x: 30 + i * 10, y: 0})));
+  step(12); assert.deepEqual(h.effects(), ['animal-cow'], 'an unfinished voice cannot pile up ambient calls');
+  h.instances[1].end(); step(.1);
+  assert.deepEqual(h.effects(), ['animal-cow', 'animal-duck']);
+  const near = audioHarness(), far = audioHarness();
+  farm(near, [{species: 'rabbit', x: 40, y: 0}])(2);
+  farm(far, [{species: 'rabbit', x: 120, y: 0}])(2);
+  assert.deepEqual(near.effects(), ['animal-rabbit']); assert.deepEqual(far.effects(), []);
+  assert.ok(near.plays.at(-1).volume < .18);
+});
+
+test('Panto cues interrupt ambient chatter and the challenge and jingle exclude new ambient calls', () => {
+  const h = audioHarness(), step = farm(h);
+  step(2); const cow = h.instances[1]; assert.equal(cow.paused, false);
+  h.audio.play('panto-dodge');
+  assert.equal(h.instances.filter(a => !a.loop && !a.paused).length, 1);
+  assert.match(h.plays.at(-1).src, /panto-dodge\.wav$/);
+  cow.end(); h.game.lake = {active: true}; step(10);
+  assert.deepEqual(h.effects(), ['animal-cow', 'panto-dodge']);
+  assert.equal(h.audio.play('goose-honk'), true);
+  h.game.lake.active = false; h.audio.play('panto-victory');
+  for (const a of h.instances.filter(a => /goose-honk/.test(a.src))) a.end();
+  step(40);
+  assert.deepEqual(h.effects(), ['animal-cow', 'panto-dodge', 'goose-honk', 'panto-victory']);
+  assert.equal(h.instances[0].volume, .25 * .18);
+  for (const a of h.instances.filter(a => /panto-victory/.test(a.src))) a.end();
+  step(.1); assert.equal(h.effects().at(-1), 'animal-cow');
+});
+
+test('rescue calls remain immediate while at most two animal voices can play together', () => {
+  const h = audioHarness(), step = farm(h); step(2);
+  h.audio.play('panto-victory');
+  for (const species of ['horse','turkey','cat','dog']) assert.equal(h.audio.playAnimal(species), true);
+  const active = h.instances.filter(a => !a.loop && !a.paused);
+  assert.equal(active.filter(a => /voices\/v4\//.test(a.src)).length, 2);
+  assert.equal(active.filter(a => /panto-victory\.wav$/.test(a.src)).length, 1, 'voice cap must not steal the jingle');
+  assert.deepEqual(h.effects().slice(-4), ['animal-horse','animal-turkey','animal-cat','animal-dog']);
+});
+
+test('distinct takes alternate at natural speed, silent calls do not advance them, and reset starts fresh', () => {
+  const h = audioHarness(); h.start();
+  for (const species of ['pig','chicken','goose']) {
+    const file = species === 'goose' ? 'goose-honk' : 'animal-' + species;
+    h.audio.toggleMute(); assert.equal(h.audio.playAnimal(species), false); h.audio.toggleMute();
+    for (const suffix of ['', '-2', '']) {
+      assert.equal(h.audio.playAnimal(species, {rate: 1.4}), true);
+      assert.equal(path.basename(h.plays.at(-1).src), file + suffix + '.wav');
+      assert.equal(h.plays.at(-1).audio.playbackRate, 1);
+    }
+  }
+  h.audio.reset(); h.start(); h.audio.playAnimal('pig');
+  assert.equal(h.effects().at(-1), 'animal-pig');
+  h.game.phase = 'menu'; h.audio.sync(h.game);
+  assert.equal(h.audio.playMenuAnimal(h.game, 'goose'), true);
+  assert.equal(h.effects().at(-1), 'goose-honk');
 });
 
 test('audio is lazy and never queues effects or autoplay before a gesture', () => {
@@ -147,13 +262,13 @@ test('animal calls respect audio lock, mute, pause and effect volume, with safe 
   assert.deepEqual(h.effects(), ['animal-cow', 'rescue']);
 });
 
-test('animal calls keep their natural pitch and lower music only until the final call ends', () => {
+test('animal calls keep their prepared pitch and lower music only until the final call ends', () => {
   const h=audioHarness();h.start();
   const music=h.instances[0];
   h.audio.playAnimal('chicken',{rate:1.4});
   const hen=h.instances[1];
   assert.equal(hen.playbackRate,1);
-  assert.match(hen.src,/voices\/v2\/animal-chicken\.wav$/);
+  assert.match(hen.src,/voices\/v4\/animal-chicken\.wav$/);
   assert.equal(music.volume,.25*.24);
   h.audio.playAnimal('chick');
   const chick=h.instances[2];

@@ -2,7 +2,7 @@
   "name": "galinha-guardia",
   "private": true,
   "version": "1.1.0",
-  "description": "Penas pro Ar! Confusão no Sítio do Fuzuê — aventura em TypeScript e Canvas 2D.",
+  "description": "Penas pro Ar! Uma aventura na fazenda em TypeScript e Canvas 2D.",
   "scripts": {
     "compile": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.tests.json",

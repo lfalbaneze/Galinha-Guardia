@@ -4,7 +4,7 @@ declare namespace Farm {
   type Difficulty = 'easy' | 'normal' | 'hard';
   type Phase = 'menu' | 'playing' | 'win_cutscene' | 'won' | 'lose';
   type WolfMode = 'patrol' | 'alert' | 'investigate' | 'chase' | 'search' | 'inspect' | 'frightened';
-  type Species = 'sheep' | 'pig' | 'goat' | 'cow' | 'duck' | 'rabbit' | 'dog' | 'cat' | 'donkey' | 'lamb' | 'chick';
+  type Species = 'sheep' | 'pig' | 'goat' | 'cow' | 'duck' | 'rabbit' | 'dog' | 'cat' | 'donkey' | 'lamb' | 'chick' | 'horse' | 'turkey';
   interface Point { x: number; y: number; }
   interface Rect extends Point { w: number; h: number; }
   interface Hitbox { ox: number; oy: number; r: number; }
@@ -15,6 +15,8 @@ declare namespace Farm {
   interface Cover extends Rect { id: string; type: string; bale?: Rect; blockingRect?: Obstacle; art?: string; material?: number; }
   interface Structures { coops: Rect[]; silos: Rect[]; hayBales: Rect[]; pond: Rect; barn: Rect; stables?: Rect[]; troughs?: Rect[]; paddockFences?: Rect[]; }
   interface Layout {
+    decorations?: (Point & {type:string;variant?:number;scale?:number})[];
+    habitats?: (Point & {id:string;kind:'meadow'|'flowers'|'mud'|'water';r:number;water?:Point})[];
     seed: number;
     start: Point;
     wolfStart?: Point;
@@ -22,6 +24,7 @@ declare namespace Farm {
     paths: Rect[];
     lanes?: Rect[];
     clearings?: Rect[];
+    plots?: (Rect & {kind:string;areaId:string})[];
     entrances?: (Point & {id: string})[];
     structures: Structures;
     animalSpawns: Spawn[];
@@ -42,11 +45,16 @@ declare namespace Farm {
     moving: boolean; anim: number; areaId: string; state: string;
   }
   interface Chicken extends Entity {
-    type: 'chicken'; speed: number;
+    type: 'chicken'; speed: number; skin?: string;
     hidden: boolean; hidingSpotId: string | null; hidingCandidate?: string | null;
     hideBlend: number; hideHintTimer?: number;
     stamina: number; staminaDelay: number; exhausted: boolean;
     sneaking: boolean; sprinting: boolean; invulnerable: number;
+  }
+  interface SkinPower {
+    name: string; description: string; badge: string;
+    landSpeed: number; swimSpeed: number; sneakSpeed: number; noiseScale: number;
+    sprintDuration: number; friendSpecies: Species | null;
   }
   interface CoverMemory extends Point { spotId: string; remaining: number; inspectTime: number; }
   interface Wolf extends Entity {
@@ -62,6 +70,7 @@ declare namespace Farm {
     investigateReturnMode: 'patrol' | 'search';
     fearTime?: number; fearFrom?: Point | null; escapeTarget?: Point | null;
     speech?: string; speechTime?: number; speechCooldown?: number; speechMode?: WolfMode;
+    speechPriority?: number; foxScoldCooldown?: number; speechSkin?: string;
   }
   interface Threat extends Point { kind: 'player' | 'wolf'; }
   interface ObservedThreat extends Threat { urgency: number; }
@@ -72,15 +81,17 @@ declare namespace Farm {
     coverId?: string | null; lastSeen: Point | null;
     fatigue: number; restTime: number; fleeTime: number;
     fleeFrom: Threat | null; fleeHeading: number | null;
+    sharedAlarm?: boolean;
     stuckTime: number; wanderTime: number;
     targetX: number; targetY: number; homeX?: number; homeY?: number;
     speech?: string; speechTime: number;
     temper: 'secret' | 'tired' | 'fleeing' | 'calm' | 'idle' | 'safe';
   }
   interface Fox extends Entity {
-    type: 'fox'; mode: 'hidden' | 'warning' | 'dash' | 'rest' | 'return';
+    type: 'fox'; mode: 'hidden' | 'warning' | 'dash' | 'rest' | 'return' | 'flee';
     home: Point; anchor: Point; target: Point; bushId: string | null;
     timer: number; cooldown: number; grace: number; notice: number; attempts: number; hit: boolean; route: Point[];
+    scaredTime?: number;
   }
   interface Owl extends Entity {
     type: 'owl'; mode: 'watch' | 'alert' | 'cooldown';
@@ -96,9 +107,11 @@ declare namespace Farm {
     exit: Point; route: Point[]; routeTimer: number; age: number;
   }
   interface ThorSnapshot {
+    version?: 2 | 3; boneIds?: string[]; cycle?: number; easyUsed?: boolean; rescue?: ThorRescue;
     nextIn: number; visits: number;
     visitor: (Point & { mode: Thor['mode']; timer: number; exit: Point; age: number; direction: Direction }) | null;
   }
+  interface ThorRescue { time: number; before: number; healed: boolean; }
   interface DifficultySettings {
     chickenSpeed: number; wolfMaxSpeed: number; wolfSprintCap?: number;
     label: string; wolfAccel: number; wolfPauseAfterCatch: number;
@@ -107,12 +120,21 @@ declare namespace Farm {
   interface TimedNotice { time: number; }
   interface SecretNotice extends TimedNotice { bonus?: boolean; x?: number; y?: number; targetX?: number; targetY?: number; }
   interface RescueNotice extends TimedNotice { name: string; count: number; total: number; chick: boolean; }
+  interface Crow extends Point {
+    z:number; from:Point & {z:number}; target:Point & {z:number};
+    delay:number; duration:number; progress:number; flying:boolean; left:boolean; opacity:number; startOpacity:number;
+  }
+  interface Scarecrow extends Point {
+    mode:'perched'|'fleeing'|'away'|'returning'; clock:number; quiet:number; flights:number; birds:Crow[];
+  }
   interface GameState {
-    needsRecovery?: boolean;
+    scarecrow?: Scarecrow;
     phase: Phase; resumePhase?: Phase; difficultyKey: Difficulty; settings: DifficultySettings;
     entities: { chicken: Chicken; wolf: Wolf; animals: Animal[]; chicks: Animal[]; goose?: Goose; foxes?: Fox[]; owls?: Owl[]; thor?: Thor | null; };
-    thorVisit?: { nextIn: number; visits: number };
-    thorNotice?: TimedNotice & { healed: boolean };
+    thorVisit?: { nextIn: number; visits: number; boneIds: string[]; cycle: number; easyUsed: boolean };
+    thorRescue?: ThorRescue;
+    thorBoneNotice?: TimedNotice & { count: number };
+    thorNotice?: TimedNotice & { healed: boolean; arriving?: boolean; amount?: number };
     worldSeed: number; worldVersion: number;
     rescuedIds: Set<string>; rescuedChickIds: Set<string>;
     rescuedCount: number; rescuedChicks: number; wolfLevel: number;
@@ -158,6 +180,7 @@ declare namespace Farm {
     'patrolScanHeading' | 'searchApproached' | 'searchIndex' | 'scanTime' | 'exposedCover' |
     'seenVelocity' | 'investigateReturnMode' | 'fearTime' | 'fearFrom'>>;
   interface SaveData {
+    /** Legacy defeat marker, read only to migrate older saves to a loss. */
     needsRecovery?: boolean;
     version: 1 | 2 | 3 | 4; worldSeed: number; worldVersion?: number; difficulty: Difficulty; phase: Phase;
     rescuedIds: string[]; rescuedChickIds: string[]; lives: number; score: number;

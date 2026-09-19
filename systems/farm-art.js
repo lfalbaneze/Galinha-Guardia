@@ -37,8 +37,104 @@ const FarmArt = (() => {
     }
     c.closePath(); c.fillStyle = color; c.fill();
   }
+  function gardenPlant(c,d) {
+    const type=(d.variant||0)%4,n=hash(d.x,d.y);
+    if(typeof Sunlight!=='undefined')Sunlight.native(c,`crop/${type}/${!!d.sprout}/${Math.round(n*10)}`,
+      {x:d.x-17,y:d.y-35,w:34,h:39},d.y+2,out=>gardenPlant(out,d));
+    c.save();c.translate(Math.round(d.x),Math.round(d.y));
+    // Broad shapes, warm outlines and a few highlights match the animal sprites.
+    // Growth varies without shifting roots or changing the saved planting grid.
+    const growth=.86+n*.14;c.scale(n>.5?-growth:growth,growth);
+    c.lineJoin='round';c.lineCap='round';
+    const oval=(x,y,rx,ry,color,outline=true)=>{
+      c.beginPath();c.ellipse(x,y,rx,ry,0,0,TAU);c.fillStyle=color;c.fill();
+      if(outline){c.strokeStyle='#382919';c.lineWidth=1.8;c.stroke();}
+    };
+    const stroke=(pts,color,width=1.5)=>line(c,pts,color,width);
+    const leaf=(x,y,dx,dy,color)=>{
+      c.beginPath();c.moveTo(x,y);c.quadraticCurveTo(x+dx-dy*.38,y+dy+dx*.38,x+dx,y+dy);
+      c.quadraticCurveTo(x+dx+dy*.38,y+dy-dx*.38,x,y);
+      c.fillStyle=color;c.fill();c.strokeStyle='#382919';c.lineWidth=1.6;c.stroke();
+      stroke([[x,y],[x+dx*.65,y+dy*.65]],'#a8c459',1);
+    };
+    if(d.sprout) {
+      stroke([[-4,1],[4,1]],'#49332155',2);stroke([[0,0],[0,-9]],'#426529',2);
+      leaf(0,-5,-8,-7,'#7fa638');leaf(0,-7,8,-6,'#adc650');c.restore();return;
+    }
+    if(type===0) {
+      stroke([[-8,2],[8,2]],'#49332155',2);
+      oval(-7,-4,6,5,'#588430');oval(7,-4,6,5,'#6d9834');oval(0,-8,9,8,'#94b742');
+      leaf(-4,-3,-7,-7,'#8eaf41');leaf(4,-3,7,-7,'#a3bd46');
+      oval(0,-8,5.5,5,'#b9cf63');
+      stroke([[-3,-11],[1,-12],[3,-9],[0,-7],[-2,-8]],'#78963b',1.5);
+      stroke([[-5,-12],[-2,-14],[2,-13]],'#e0e8a0',1.5);
+    } else if(type===1) {
+      stroke([[-7,2],[7,2]],'#49332155',2);
+      for(const [x,y] of [[-5,-1],[5,0]]) {
+        oval(x,y-2,4,4,'#ed9636');oval(x-1,y-3,1.4,2,'#ffd479',false);
+        stroke([[x,y-5],[x+1,y-20]],'#382919',3);
+        for(const [dx,dy,color]of [[-8,-12,'#70a137'],[7,-17,'#86b33c'],[-4,-23,'#a4c64d']])leaf(x,y-5,dx,dy,color);
+      }
+    } else if(type===2) {
+      stroke([[-9,2],[9,2]],'#49332155',2);
+      leaf(-2,-11,-12,-6,'#78a038');
+      oval(0,-8,12,10,'#e28b30');oval(-6,-8,4,8,'#f4a539',false);oval(0,-8,4.5,9,'#ffbe4d',false);
+      for(const side of [-1,1]) {
+        c.beginPath();c.moveTo(side*3,-16);c.quadraticCurveTo(side*7,-7,side*3,0);
+        c.strokeStyle='#ac5727';c.lineWidth=1.4;c.stroke();
+      }
+      stroke([[0,-17],[1,-22],[4,-23]],'#382919',4);stroke([[0,-18],[1,-21],[3,-22]],'#78943b',2);
+      stroke([[-7,-12],[-5,-14],[-3,-14]],'#ffe19a',2);
+    } else {
+      stroke([[-4,2],[5,2]],'#49332155',2);
+      stroke([[3,0],[3,-31]],'#382919',4);stroke([[3,-1],[3,-30]],'#b28348',2);
+      stroke([[0,0],[-1,-25]],'#42632c',3);
+      for(const [x,y,dx,dy]of [[-1,-8,-10,-7],[-1,-16,10,-7],[-1,-22,-8,-6]])leaf(x,y,dx,dy,'#79a139');
+      for(const [x,y]of [[-6,-10],[6,-15],[-2,-23]]) {
+        oval(x,y,4.5,4.5,'#ec5633');oval(x-1.3,y-1.4,1.2,1.3,'#ffd28b',false);
+        stroke([[x-3,y-4],[x,y-3],[x+2,y-5]],'#52752b',1.6);
+      }
+    }
+    c.restore();
+  }
+  function gardenBed(c,plot) {
+    const {x,y,w,h}=plot;
+    // Soil mounds separated by open walking strips, instead of a giant tan board.
+    c.save();c.lineJoin='round';
+    c.fillStyle='#75874a';c.fillRect(x+3,y+3,w-6,h-6);
+    for(let row=0,yy=y+24;yy<=y+h-16;yy+=40,row++) {
+      const top=yy-16,left=x+6,width=w-12;
+      c.fillStyle='#33432630';c.fillRect(left+3,yy+12,width-6,2);
+      c.beginPath();c.roundRect(left,top,width,29,6);c.fillStyle='#9b6f42';c.fill();
+      c.strokeStyle='#513920';c.lineWidth=2;c.stroke();
+      c.beginPath();c.roundRect(left+3,top+3,width-6,22,4);c.fillStyle='#ab8150';c.fill();
+      c.fillStyle='#bf975f';c.fillRect(left+7,top+3,width-14,2);
+      for(let xx=left+11;xx<left+width-8;xx+=18) {
+        const n=hash(xx,yy);c.fillStyle=n>.5?'#89613c':'#c39a62';
+        c.fillRect(xx,yy+6+Math.floor(n*3),3,1);
+      }
+      // A few short end boards hold the earth; no repeated fence around every row.
+      for(const xx of [left,left+width-4]) {
+        c.fillStyle='#513920';c.fillRect(xx,top+3,4,24);
+        c.fillStyle='#c19350';c.fillRect(xx+1,top+4,2,20);
+        c.fillStyle='#ead095';c.fillRect(xx+1,top+4,2,2);
+      }
+    }
+    c.restore();
+  }
+  const cropCache=new WeakMap();
+  function getCrops(layout) {
+    if(cropCache.has(layout))return cropCache.get(layout);
+    const plots=new Map((layout.plots||[]).filter(p=>p.kind==='garden').map(p=>[p.id,p]));
+    const crops=(layout.decorations||[]).filter(d=>d.type==='crop').map(d=>{
+      const p=plots.get(d.plotId),row=p?Math.round((d.y-p.y-24)/40):d.variant||0;
+      return {...d,variant:(row+(p?Math.floor(hash(p.x,p.y)*4):0))%4,
+        sprout:hash(d.x+17,d.y)<.12,depth:d.y+2};
+    });cropCache.set(layout,crops);return crops;
+  }
   function decoration(c, d) {
     const x = d.x, y = d.y, n = hash(x, y), s = d.scale || .8 + n * .5;
+    if(d.type==='crop'){gardenPlant(c,d);return;}
     if(d.type==='reeds') {
       for(let i=-1;i<=1;i++) {
         const height=16+Math.floor(hash(x+i,y)*12);
@@ -55,18 +151,6 @@ const FarmArt = (() => {
         const color=tall?'#f2c84b':['#f1e6b0','#e5acc1','#bcb3d6','#eace64'][Math.floor(n*4)];
         for(const [dx,dy] of [[-r,0],[r,0],[0,-r],[0,r]])px(dx-r,top+dy-r,r*2,r*2,color);
         px(-r/2,top-r/2,r+1,r+1,tall?'#795631':'#d79e45');return;
-      }
-      if(d.type==='crop') {
-        px(-9,0,18,4,'#765635');
-        if(d.variant===2) {
-          px(-7,-9,14,10,'#b95f29');px(-5,-12,10,16,'#d88730');
-          px(-2,-12,4,16,'#eaa042');px(0,-16,3,5,'#48652f');
-          px(-5,-9,2,10,'#f0ae50');return;
-        }
-        if(d.variant===1){px(-3,-2,6,6,'#cc7933');px(0,1,2,3,'#eca74a');}
-        for(const [dx,dy,color] of [[-8,-5,'#426f33'],[2,-8,'#56863b'],[-4,-11,'#739c48'],[-2,-7,'#89ac58']])
-          {px(dx,dy,7,6,color);px(dx+2,dy-2,4,2,color);}
-        return;
       }
       if(d.type==='wheat') {
         for(const k of [-1,0,1]) {
@@ -93,20 +177,6 @@ const FarmArt = (() => {
       ellipse(c, x + 2, y - h, (tall ? 3.5 : 1.8) * s, (tall ? 3.5 : 1.8) * s, tall ? "#82653c" : "#c19446");
     } else if (d.type === "clover") {
       for (const [dx, dy] of [[-3, 0], [3, 0], [0, -4]]) ellipse(c, x + dx * s, y + dy * s, 3.5 * s, 2.5 * s, "#76a853");
-    } else if (d.type === "crop") {
-      ellipse(c, x, y + 2, 10 * s, 4 * s, "#98764e");
-      if (d.variant === 2) {
-        for (const dx of [-4, 0, 4]) ellipse(c,x+dx*s,y-3*s,5*s,7*s,dx===0?"#ec9b39":"#c66b2e",true);
-        line(c,[[x,y-10*s],[x+2,y-14*s]],"#487542",3);
-        return;
-      }
-      if (d.variant === 1) {
-        ellipse(c,x,y,4*s,4*s,"#e99737",true);
-        for(const dx of [-7,0,7]) line(c,[[x,y-2],[x+dx*s,y-(15-Math.abs(dx))*s]],"#4b813b",3);
-        return;
-      }
-      for (const [dx, dy] of [[-5, -2], [5, -2], [0, -6]]) ellipse(c, x + dx * s, y + dy * s, 5.5 * s, 4 * s, dy < -3 ? "#8aaf55" : "#5f8c46");
-      line(c, [[x, y], [x, y - 7 * s]], "#b4cc72", 1.5);
     } else if (d.type === "wheat") {
       for (let k = -1; k <= 1; k++) {
         const top = y - (15 + hash(x, k) * 8) * s, xx = x + k * 4 * s;
@@ -125,8 +195,9 @@ const FarmArt = (() => {
     const x = p.x + p.w / 2, y = p.y + p.h / 2;
     patch(c, x, y + 7, p.w * .55, p.h * .57, 51, "#78945b");
     patch(c, x, y + 3, p.w * .53, p.h * .54, 51, "#d5c797");
-    patch(c, x, y, p.w / 2, p.h / 2, 51, "#68aca8");
-    patch(c, x - 8, y - 6, p.w * .42, p.h * .36, 51, "#83bfba");
+    patch(c, x, y, p.w / 2, p.h / 2, 51, "#82c2b5");
+    patch(c, x - 2, y, p.w * .42, p.h * .40, 51, "#56aaa8");
+    patch(c, x + 4, y + 3, p.w * .32, p.h * .29, 51, "#429599");
     for (let i = 0; i < 7; i++) {
       const xx = x + (hash(i, p.x) - .5) * p.w * 1.2, yy = y + (hash(i, p.y) - .5) * p.h * .95;
       line(c, [[xx - 7, yy], [xx + 11 + i * 2, yy]], "#c9e5ca80", 2);
@@ -140,7 +211,7 @@ const FarmArt = (() => {
       line(c, [[xx - 4, yy - 9], [xx, yy], [xx + 5, yy - 15]], "#62834e", 2);
     }
   }
-  function drawGround(c, layout, camera) {
+  function drawGround(c, layout, camera, game) {
     c.fillStyle = "#83a952"; c.fillRect(0, 0, c.canvas.width, c.canvas.height);
     const textured = FarmTerrain.draw(c,layout,camera);
     world(c, camera);
@@ -180,25 +251,57 @@ const FarmArt = (() => {
     }
     if(!textured)for(const p of [...layout.lanes||[],...layout.clearings||[]])if(visible(c,p,camera))
       rounded(c,p.x,p.y,p.w,p.h,Math.min(p.w,p.h)/2,'#bd975f');
+    // Walkable grazing, dust baths and shallow drinking pools give the outlying
+    // meadows a purpose. Jagged pixel edges match the ground tiles.
+    for(const h of layout.habitats||[]) {
+      if(!visible(c,{x:h.x-155,y:h.y-90,w:310,h:180},camera))continue;
+      const water=h.kind==='water',mud=h.kind==='mud';
+      for(let dy=-64;dy<=64;dy+=4)for(let dx=-108;dx<=108;dx+=4) {
+        const n=hash(h.x+dx,h.y+dy),edge=(dx/108)**2+(dy/64)**2;
+        if(edge>1+n*.16)continue;
+        const base=water?[112,162,152]:mud?[142,122,86]:[130,154,85];
+        const shade=Math.round((n-.5)*5),alpha=water?.92:Math.min(.8,Math.max(.08,(1.12-edge)*2.5));
+        c.fillStyle=`rgba(${base[0]+shade},${base[1]+shade},${base[2]+shade},${alpha})`;
+        c.fillRect(h.x+dx,h.y+dy,4,4);
+      }
+      if(water)for(let i=0;i<7;i++) {
+        const x=h.x-70+hash(i,h.x)*140,y=h.y-30+hash(i,h.y)*60;
+        c.fillStyle='#cae0c7';c.fillRect(Math.round(x),Math.round(y),8+i%3*4,2);
+      }
+      else if(!mud)for(let i=0;i<10;i++) {
+        const x=Math.round(h.x-88+hash(i,h.x)*176),y=Math.round(h.y-42+hash(i,h.y)*84);
+        c.fillStyle='#6f8749';c.fillRect(x,y,2,5);c.fillRect(x-3,y-2,2,4);
+        c.fillStyle='#a5b574';c.fillRect(x+2,y-3,2,5);
+      }
+      if(!water&&h.water) {
+        const x=h.water.x,y=h.water.y;
+        for(let dy=-12;dy<=12;dy+=3)for(let dx=-23;dx<=23;dx+=3) {
+          const edge=(dx/23)**2+(dy/12)**2;
+          if(edge>1)continue;
+          c.fillStyle=edge>.68?'#aba178':hash(x+dx,y+dy)>.5?'#88aaa0':'#6d9589';
+          c.fillRect(x+dx,y+dy,3,3);
+        }
+        c.fillStyle='#bdd3b7';c.fillRect(x-8,y-3,12,2);c.fillRect(x+4,y+4,7,2);
+      }
+    }
     const structures = layout.structures || {};
+    SunflowerSystem.drawGround(c,layout);
     if (structures.pond && visible(c, structures.pond, camera)) pond(c, structures.pond);
     for (const plot of layout.plots || []) {
       if (!visible(c,plot,camera)) continue;
+      if(plot.kind==='garden'){gardenBed(c,plot);continue;}
+      if(plot.kind==='corn'){FarmDetails.drawRows(c,plot);continue;}
       const {x,y,w,h}=plot, pasture=plot.kind==='pasture';
-      c.fillStyle=pasture?'#8a8b4a':'#735236'; c.fillRect(x,y,w,h);
-      c.fillStyle=pasture?'#9b9958':'#936b42'; c.fillRect(x+3,y+3,w-6,h-6);
+      c.fillStyle=pasture?'#879451':'#896b48'; c.fillRect(x,y,w,h);
+      c.fillStyle=pasture?'#909b5c':'#94744f'; c.fillRect(x+2,y+2,w-4,h-4);
       for(let yy=y+5;yy<y+h-4;yy+=4)for(let xx=x+5;xx<x+w-4;xx+=4) {
         const n=hash(xx,yy);
-        if(n<.26){c.fillStyle=pasture?'#838648':'#80603b';c.fillRect(xx,yy,3,2);}
-        else if(n>.87){c.fillStyle=pasture?'#b0a467':'#a47c4a';c.fillRect(xx,yy,2,2);}
+        if(n<.06){c.fillStyle=pasture?'#849154':'#8b6d4a';c.fillRect(xx,yy,3,2);}
+        else if(n>.97){c.fillStyle=pasture?'#a0aa70':'#a18058';c.fillRect(xx,yy,2,2);}
       }
       if(!pasture) for(let yy=y+24;yy<=y+h-16;yy+=40) {
-        c.fillStyle='#60482f';c.fillRect(x+10,yy+3,w-20,3);
-        c.fillStyle='#b18a54';c.fillRect(x+10,yy+6,w-20,2);
-      }
-      if(plot.kind==='garden') {
-        c.fillStyle='#c09b60';c.fillRect(x,y,w,3);c.fillRect(x,y,3,h);
-        c.fillStyle='#654d32';c.fillRect(x,y+h-3,w,3);c.fillRect(x+w-3,y,3,h);
+        c.fillStyle='#7c6141';c.fillRect(x+10,yy+3,w-20,2);
+        c.fillStyle='#a4865b';c.fillRect(x+10,yy+5,w-20,1);
       }
     }
     const beds = new Map();
@@ -220,14 +323,21 @@ const FarmArt = (() => {
       }
     }
     for (const d of layout.decorations || []) {
-      if (d.type === 'fence' || d.type === 'corn' || !visible(c,d,camera,35)) continue;
+      if (d.type === 'fence' || d.type === 'corn' || !FarmScenery.showDecoration(d,layout) || !visible(c,d,camera,35)) continue;
+      if(d.type==='crop')continue;
       // Wheat belongs to the field, not to the livestock yard.
       if (d.type === 'wheat' || d.type === 'sunflower') {
         const field=(layout.areas||[]).find(a=>a.id==='granja');
         if(!field||d.x<field.x||d.x>field.x+field.w||d.y<field.y||d.y>field.y+field.h)continue;
       }
+      c.save();
+      if(game) EnvironmentSystem.transform(c,d,game);
       decoration(c,d.plotId ? {...d,scale:1} : d);
+      c.restore();
     }
+    FarmScenery.draw(c,layout,camera);
+    // Standalone ground previews still include crops; live play sorts them with actors.
+    if(!game)for(const crop of getCrops(layout))if(visible(c,crop,camera,35))gardenPlant(c,crop);
     // Low split-rail boundary, leaving the meadow itself free of a square grid.
     for (let x = 35; x < layout.width - 25; x += 84) {
       for (const y of [28, layout.height - 23]) if (visible(c, { x, y, w: 84, h: 24 }, camera, 30)) fence(c, x, y, 84);
@@ -240,7 +350,7 @@ const FarmArt = (() => {
     c.restore();
   }
   function fence(c, x, y, w) {
-    if(FarmSprites.draw(c,'fence',x-4,y-36,w+8,43,{grounded:true}))return;
+    if(FarmSprites.draw(c,'fence',x-4,y-36,w+8,40,{grounded:true,shadow:true}))return;
     line(c, [[x, y - 14], [x + w, y - 14]], "#b59a6d", 6);
     line(c, [[x, y - 5], [x + w, y - 5]], "#ceb385", 5);
     rounded(c, x - 4, y - 24, 8, 27, 2, "#e4ca94", true);
@@ -261,41 +371,54 @@ const FarmArt = (() => {
       result.push({...d,w:28,h:1,depth:d.y+3,id:`corn-${d.x}-${d.y}`});
     // Old generators scatter short decorative rails around district rectangles.
     // They enclose nothing and have no collisions. Keep only the actual refuge and world boundary fences.
-    return FarmDetails.decorate(layout, result.concat(FarmRefuge.props()));
+    return FarmDetails.decorate(layout, result.concat(FarmRefuge.props(),SunflowerSystem.props(layout)));
   }
 
   function corn(c,p) {
-    const x=Math.round(p.x),y=Math.round(p.y),height=48+(p.variant===1?6:0);
-    const px=(dx,dy,w,h,color)=>{c.fillStyle=color;c.fillRect(x+dx,y+dy,w,h);};
-    px(-9,0,20,3,'#493d284d');px(-1,-height,3,height,'#657735');px(1,-height+6,2,height-6,'#9aab49');
-    for(const [level,side] of [[12,-1],[22,1],[31,-1],[39,1]]) {
-      for(let k=0;k<5;k++) {
-        const dx=side*k*3;
-        px(dx,-level-k*2,side===1?5:4,5,k<3?'#487032':'#749540');
-        px(dx,-level-k*2,3,2,'#96ae4d');
-      }
+    if(typeof Sunlight!=='undefined')Sunlight.native(c,`corn/${p.variant}/${Math.round(hash(p.x,p.y)*4)}`,
+      {x:p.x-18,y:p.y-68,w:36,h:72},p.y+2,out=>corn(out,p));
+    const height=48+(p.variant===1?6:0),bend=(hash(p.x,p.y)-.5)*4;
+    c.save();c.translate(Math.round(p.x),Math.round(p.y));c.lineJoin='round';c.lineCap='round';
+    c.fillStyle='#33442640';c.fillRect(-3,0,7,2);
+    line(c,[[0,0],[bend,-height]],'#382919',4);line(c,[[0,-1],[bend,-height]],'#8bb442',2);
+    for(const [level,side]of [[12,-1],[20,1],[31,-1],[39,1]]) {
+      const tip=side*(level<30?15:12),top=-level-11;
+      c.beginPath();c.moveTo(0,-level+5);c.quadraticCurveTo(tip*.4,top-4,tip,top);
+      c.quadraticCurveTo(tip*.8,-level,0,-level+5);c.fillStyle=side<0?'#72a136':'#93b940';c.fill();
+      c.strokeStyle='#382919';c.lineWidth=1.5;c.stroke();
+      line(c,[[0,-level+3],[tip*.72,top+2]],'#c0d56c',1);
     }
-    // Thick yellow ears and branching tassels distinguish corn from scattered wheat.
-    px(3,-27,7,14,'#b98b32');px(4,-29,5,15,'#e1b84f');px(5,-27,2,11,'#f0d27a');
-    px(2,-18,4,7,'#73943b');px(8,-25,3,10,'#5a8036');
-    for(const [dx,dy] of [[-5,-3],[-3,-7],[0,-10],[4,-6],[6,-2]])px(dx,-height+dy,2,7,'#d5bb67');
+    const side=p.variant===2?-1:1;
+    c.save();c.translate(side*5,-23);c.rotate(side*.25);
+    c.beginPath();c.ellipse(0,0,4.5,10,0,0,TAU);c.fillStyle='#f6bd44';c.fill();c.strokeStyle='#473019';c.lineWidth=1.7;c.stroke();
+    line(c,[[-1,-7],[-1,5]],'#ffe59a',2);
+    for(const y of [-5,-1,3])line(c,[[1,y],[3,y]],'#c88c2f',1);
+    c.beginPath();c.moveTo(-5,0);c.quadraticCurveTo(-6,8,0,12);c.quadraticCurveTo(6,8,5,0);
+    c.lineTo(0,7);c.closePath();c.fillStyle='#80a63a';c.fill();c.strokeStyle='#3b4724';c.stroke();c.restore();
+    for(const [dx,dy]of [[-6,-4],[0,-9],[6,-5]]) {
+      line(c,[[bend,-height+3],[bend+dx,-height+dy]],'#80632e',2.5);
+      line(c,[[bend+dx,-height+dy],[bend+dx,-height+dy-3]],'#ebcf75',2);
+    }
+    c.restore();
   }
 
   function paddockFence(c,p) {
     if(p.w>p.h) {
       const count=Math.ceil(p.w/70),span=p.w/count;
-      for(let i=0;i<count;i++) fence(c,p.x+i*span,p.y+4,span);
+      for(let i=0;i<count;i++) fence(c,p.x+i*span,p.y,span);
       return;
     }
     verticalFence(c,p.x+4,p.y,p.h);
   }
 
   function verticalFence(c,x,y,height) {
+    if(typeof Sunlight!=='undefined')Sunlight.rail(c,x,y+4,x,y+height+4,30,4);
     x=Math.round(x);y=Math.round(y);height=Math.ceil(height);
     c.fillStyle='#57482f';c.fillRect(x-3,y-23,7,height+3);
     c.fillStyle='#b58a4c';c.fillRect(x-2,y-22,3,height+2);
     c.fillStyle='#e0b263';c.fillRect(x-3,y-22,2,height+2);
     for(const base of [y,y+height]) {
+      c.fillStyle='#26332330';c.fillRect(x-6,base+3,12,2);
       c.fillStyle='#644526';c.fillRect(x-5,base-30,10,34);
       c.fillStyle='#ab773e';c.fillRect(x-3,base-28,6,30);
       c.fillStyle='#e0b264';c.fillRect(x-3,base-28,3,28);c.fillRect(x-4,base-29,8,3);
@@ -305,7 +428,7 @@ const FarmArt = (() => {
   function building(c, p, barn) {
     const {x,y,w,h} = p, roof = h * .36, wallY = y + h * .14, wallH = h * .86;
     const stable = p.areaId === "estabulo";
-    ellipse(c, x + w * .53, y + h + 5, w * .59, h * .12, "#526b452d");
+    c.fillStyle='#26332330';c.fillRect(x,y+h-1,w,3);
     rounded(c, x, wallY, w, wallH, 4, barn ? "#b54e38" : stable ? "#947049" : "#deb169", true);
     rounded(c, x + w * .80, wallY + 2, w * .18, wallH - 3, 2, barn ? "#a25143" : "#c19058");
     for (let xx = x + 14; xx < x + w - 5; xx += 18) line(c, [[xx,wallY+5],[xx,y+h-4]], barn ? "#995246" : "#bd8a53", 1.5);
@@ -346,7 +469,7 @@ const FarmArt = (() => {
   }
   function hay(c, p) {
     const {x,y,w,h} = p;
-    ellipse(c,x+w*.53,y+h+3,w*.53,h*.17,"#6d783632");
+    c.fillStyle='#26332330';c.fillRect(x+5,y+h-1,w-10,3);
     rounded(c,x,y,w,h,Math.min(13,h*.3),"#d5ab51",true);
     rounded(c,x+3,y+3,w-6,h*.42,Math.min(10,h*.2),"#efd27a");
     for(let i=0;i<15;i++) {
@@ -358,9 +481,9 @@ const FarmArt = (() => {
   }
   function vegetation(c, p) {
     const {x,y,w,h}=p, cx=x+w*.5;
-    ellipse(c,cx+4,y+h*.68,w*.52,h*.34,"#506f4232");
     if(p.type==="tree") {
       const trunk = p.blockingRect || {x:cx-9,y:y+4,w:18,h:22};
+      c.fillStyle='#26332330';c.fillRect(trunk.x-1,trunk.y+trunk.h-1,trunk.w+2,3);
       rounded(c,trunk.x,trunk.y-32,trunk.w,trunk.h+32,5,"#927047",true);
       line(c,[[cx,trunk.y+8],[cx+3,trunk.y-28]],"#b69760",3);
       line(c,[[cx,trunk.y-8],[cx-19,trunk.y-30]],"#927047",8);
@@ -383,14 +506,21 @@ const FarmArt = (() => {
       }
     }
   }
-  function drawProp(c,p,camera) {
+  function drawProp(c,p,camera,game) {
     if(!visible(c,p,camera,160)) return;
     world(c,camera);
-    if(p.type==='corn') {corn(c,p);c.restore();return;}
+    if(p.type==='crop') {
+      if(game)EnvironmentSystem.transform(c,p,game);
+      gardenPlant(c,p);c.restore();return;
+    }
+    if(p.type==='sunflower-bed'){c.restore();return;}
+    if(p.type==='sunflower'){SunflowerSystem.drawPlant(c,p,game);c.restore();return;}
+    if(p.type==='sunflower-sign'){FarmDetails.drawSign(c,p);c.restore();return;}
+    if(p.type==='corn') {if(game)EnvironmentSystem.transform(c,p,game);corn(c,p);c.restore();return;}
     if(p.type==='paddock-fence') {paddockFence(c,p);c.restore();return;}
     if(p.type==='stable'||p.type==='trough') {
-      const box=FarmDetails.shape(p);FarmDetails.drawFooting(c,p,box);
-      if(!FarmSprites.draw(c,p.type==='stable'?(FarmSprites.habitatsReady?'shelter':'barn'):'trough',box.x,box.y,box.w,box.h,{grounded:true,palette:0}))
+      const box=FarmDetails.shape(p);
+      if(!FarmSprites.draw(c,p.type==='stable'?(FarmSprites.habitatsReady?'shelter':'barn'):'trough',box.x,box.y,box.w,box.h,{grounded:true,shadow:true,palette:0}))
         rounded(c,p.x,p.y,p.w,p.h,2,'#97734b',true);
       c.restore();return;
     }
@@ -400,17 +530,19 @@ const FarmArt = (() => {
     if(FarmSprites.ready && ['barn','coop','hay','tree','bush','silo'].includes(p.type)) {
       const {x,y,w,h}=p;
       const shape = FarmDetails.shape(p);
-      FarmDetails.drawFooting(c,p,shape);
+      if(game) EnvironmentSystem.transform(c,p,game);
       FarmSprites.draw(c,FarmSprites.habitatsReady&&p.art?p.art:p.type,shape.x,shape.y,shape.w,shape.h,
-        {palette:p.art==='bush'?p.material||0:p.art?0:p.palette,grounded:true});
+        {palette:p.art==='bush'?(p.palette??(p.areaId==='poleiro'?0:2)):p.art?0:p.palette,
+          grounded:true,shadow:true,foundation:p.type==='coop'});
       c.restore();return;
     }
+    if(game) EnvironmentSystem.transform(c,p,game);
     if(p.type==="barn"||p.type==="coop") building(c,p,p.type==="barn");
     else if(p.type==="hay") hay(c,p);
     else if(p.type==="tree"||p.type==="bush") vegetation(c,p);
     else if(p.type==="silo") {
       const {x,y,w,h}=p;
-      ellipse(c,x+w*.55,y+h+4,w*.63,14,"#526b452d");
+      c.fillStyle='#26332330';c.fillRect(x+5,y+h-1,w-10,3);
       rounded(c,x,y+w*.12,w,h-w*.12,12,"#a7b9b5",true);
       rounded(c,x+w*.7,y+w*.18,w*.26,h-w*.22,9,"#829c9a");
       for(let yy=y+w*.4;yy<y+h-7;yy+=16) {
@@ -428,22 +560,23 @@ const FarmArt = (() => {
     }
     c.restore();
   }
-  function drawCoverForeground(c,spot,camera,opacity=1,player=null) {
-    world(c,camera); c.globalAlpha=opacity;
-    const x=player?.x ?? spot.x+spot.w/2, y=player?.y ?? spot.y+spot.h*.65;
-    if(FarmSprites.ready && spot.type==='hay') {
-      for(let i=0;i<25;i++) {
-        const xx=Math.round(x-28+i*2.3),height=19+Math.floor(hash(i,spot.x)*16);
-        c.fillStyle=['#b98935','#dcb252','#f0ce71'][i%3];
-        c.fillRect(xx,Math.round(y+14-height),3,height);
-        c.fillRect(xx-2,Math.round(y+9-height),3,7);
-      }
+  function drawCoverForeground(c,spot,camera,opacity=1,player=null,game) {
+    if(spot.type==='hay' && spot.bale) {
+      // Occlude with the very same bale, at its world position. Never grow a
+      // second patch of straw around the player's feet or cast a second shadow.
+      const bale={...spot.bale,type:'hay'},shape=FarmDetails.shape(bale);
+      world(c,camera);
+      if(game)EnvironmentSystem.transform(c,bale,game);
+      if(!FarmSprites.draw(c,'hay',shape.x,shape.y,shape.w,shape.h,{grounded:true,solar:false}))hay(c,bale);
       c.restore();return;
     }
+    world(c,camera); c.globalAlpha=opacity;
+    if(game)EnvironmentSystem.transform(c,spot,game);
+    const x=player?.x ?? spot.x+spot.w/2, y=player?.y ?? spot.y+spot.h*.65;
     if(FarmSprites.ready) {
       c.beginPath();c.rect(x-30,y-18,60,39);c.clip();
       FarmSprites.draw(c,FarmSprites.habitatsReady&&spot.art==='bramble'?'bramble':'bush',x-34,y-33,68,56,
-        {grounded:true,palette:spot.art==='bush'?spot.material||0:0});
+        {grounded:true,solar:false,palette:spot.art==='bramble'||spot.areaId==='poleiro'?0:2});
       c.restore();return;
     }
     if(spot.type==="hay") {
@@ -472,6 +605,6 @@ const FarmArt = (() => {
     }
     c.restore();
   }
-  return {drawGround,getProps,drawProp,drawCoverForeground,drawSecretCover};
+  return {drawGround,getProps,getCrops,drawProp,drawCoverForeground,drawSecretCover};
 })();
 if (typeof module !== "undefined" && module.exports) module.exports = FarmArt;

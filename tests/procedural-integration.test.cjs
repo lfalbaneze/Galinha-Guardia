@@ -9,7 +9,7 @@ test('new farm never repeats the current seed even when the random source repeat
     run('resetGame();');
     const next = run('JSON.stringify(WORLD.layout)');
     assert.notEqual(next, previous);
-    assert.equal(run('state.worldVersion'), 5);
+    assert.equal(run('state.worldVersion'), 7);
     previous = next;
   }
 });
@@ -22,16 +22,16 @@ test('existing saves without a generation version receive the clean farm and kee
   delete saved.worldVersion;
   first.storage.set('galinha-guardia-save-v1', JSON.stringify(saved));
   const loaded = createGame(() => .5, { storage: new Map(first.storage), fullStartup: true });
-  assert.equal(loaded.run('state.worldVersion'), 5);
+  assert.equal(loaded.run('state.worldVersion'), 7);
   assert.notEqual(loaded.run('JSON.stringify(WORLD.layout)'), first.run('JSON.stringify(WORLD.layout)'));
   assert.equal(loaded.run('state.rescuedIds.has("animal_3")'), true);
   assert.equal(loaded.run('state.entities.chicks[2].discovered'), true);
   loaded.run('GameManager.save(state);');
-  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 5);
+  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 7);
   loaded.run('resetGame(814237); GameManager.save(state);');
-  assert.equal(loaded.run('state.worldVersion'), 5);
+  assert.equal(loaded.run('state.worldVersion'), 7);
   assert.notEqual(loaded.run('JSON.stringify(WORLD.layout)'), first.run('JSON.stringify(WORLD.layout)'));
-  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 5);
+  assert.equal(JSON.parse(loaded.storage.get('galinha-guardia-save-v1')).worldVersion, 7);
 });
 
 test('a fresh farm changes its geography, while reload restores the exact saved layout', () => {

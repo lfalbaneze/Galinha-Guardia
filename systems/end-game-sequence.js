@@ -3,6 +3,8 @@ const EndGameSequence = (() => {
   const center = { x: 450, y: 275 };
   const timing = Object.freeze({ circle: 3.7, rush: 6.2, cloud: 7, dizzy: 10.8, flee: 13.6, celebrate: 16, done: 19 });
   const cast = game => [...game.entities.animals, ...(game.entities.chicks || []).filter(c => c.rescued)];
+  const reduced = () => typeof InterfaceMotion !== 'undefined' && InterfaceMotion.reduced;
+  const ease = value => { const p = clamp(value, 0, 1); return p * p * (3 - 2 * p); };
   function start(game) {
     game.phase = "win_cutscene";
     game.cutscene = { time: 0, done: false, stage: "arrival", cloud: false, impacts: [], attackers: [], speech: "" };
@@ -15,13 +17,16 @@ const EndGameSequence = (() => {
     game.entities.effects = [];
     const friends = cast(game);
     for (const [i, animal] of friends.entries()) {
-      animal.x = 75 + i * 750 / Math.max(1, friends.length - 1); animal.y = 440 + (i % 2) * 25;
+      const row = i < 12 ? 0 : 1, column = row ? i - 12 : i;
+      animal.x = row ? 285 + column * 66 : 90 + column * 65; animal.y = row ? 426 : 384 + (i % 2) * 26;
       animal.moving = false; animal.direction = "up"; animal.mood = "normal";
       game.cutscene.attackers.push({ ref: animal, angle: Math.PI * 2 * i / friends.length });
     }
     camera.x = 0; camera.y = 0; camera.shake = 0; camera.shakeX = 0; camera.shakeY = 0;
-    setStatus("Família reunida! Agora a turma tem uma conversa com o lobo…", "win");
+    setStatus("Família reunida! O lobo pediu almoço e ganhou uma reunião…", "win");
     refreshHud();
+    // Remove gameplay chrome in the same transition, before the first ending frame.
+    GameUI.update(game);GameUI.focusCanvas();
   }
   function move(entity, x, y, dt, speed = 4) {
     const dx = x - entity.x, dy = y - entity.y;
@@ -65,7 +70,8 @@ const EndGameSequence = (() => {
       cut.stage = "circle";
       for (const a of cut.attackers) {
         const angle = a.angle + (t - timing.circle) * 0.12;
-        move(a.ref, center.x + Math.cos(angle) * 230, center.y + Math.sin(angle) * 118, dt, 3.8);
+        const radius = a.ref.type === 'chick' ? 285 : 230;
+        move(a.ref, center.x + Math.cos(angle) * radius, center.y + Math.sin(angle) * 118, dt, 3.8);
         // A three-quarter turn keeps the angry eyebrows visible before the charge.
         a.ref.direction = a.ref.x < center.x ? "right" : "left";
       }
@@ -78,22 +84,36 @@ const EndGameSequence = (() => {
     } else if (t < timing.dizzy) {
       cut.stage = "cloud";
       for (const a of cut.attackers) move(a.ref, center.x + Math.cos(a.angle) * 20, center.y, dt, 7);
+      const finale = ease((t - timing.dizzy + .8) / .8);
+      move(chicken, 450, 455 - finale * 112, dt, 10);
+      chicken.direction = 'up';
     } else if (t < timing.flee) {
       cut.stage = "dizzy";
-      wolf.x = center.x + Math.sin(t * 22) * 2; wolf.y = center.y; wolf.direction = "down";
+      wolf.x = center.x + (reduced() ? 0 : Math.sin(t * 22) * 2); wolf.y = center.y; wolf.direction = "down";
+      move(chicken, 450, 440, dt, 5); chicken.direction = 'down';
       openExitLane(game, dt);
     } else if (t < timing.celebrate) {
       cut.stage = "flee";
       openExitLane(game, dt);
       const flight = t - timing.flee;
-      wolf.x = center.x + flight * 370; wolf.y = center.y + Math.sin(flight * 18) * 3 - flight * 27;
+      wolf.x = center.x + flight * 370; wolf.y = center.y + (reduced() ? 0 : Math.sin(flight * 18) * 3) - flight * 27;
       wolf.facing = 1; wolf.direction = "right"; wolf.moving = true;
       wolf.anim += dt * 16;
     } else {
       cut.stage = "celebrate";
       move(chicken, 450, 305, dt);
+      chicken.direction = 'down';
+      // Tall livestock stand along the back arc; their bodies must not cover
+      // the smaller friends once the shared world sprites grow to adult size.
+      const largeAngles={horse:210,cow:270,donkey:330};
+      const small=game.entities.animals.filter(a=>largeAngles[a.species]===undefined);
+      const chicks=(game.entities.chicks||[]).filter(a=>a.rescued);
+      const chickAngles=[180,195,235,250,290,310];
       for (const a of cut.attackers) {
-        move(a.ref, 450 + Math.cos(a.angle) * 235, 305 + Math.sin(a.angle) * 120, dt);
+        const degrees=a.ref.type==='chick'?chickAngles[chicks.indexOf(a.ref)]??180:
+          largeAngles[a.ref.species]??small.indexOf(a.ref)*160/Math.max(1,small.length-1);
+        const angle=degrees*Math.PI/180;
+        move(a.ref, 450 + Math.cos(angle) * 235, 305 + Math.sin(angle) * 120, dt);
         a.ref.direction = "down";
       }
       if (t >= timing.done) {
@@ -108,135 +128,269 @@ const EndGameSequence = (() => {
     chicken.mood = angry ? "angry" : "normal";
     for (const animal of cast(game)) animal.mood = angry ? "angry" : "normal";
     wolf.mood = ["dizzy", "flee", "celebrate"].includes(cut.stage) ? "crying" : "furious";
-    cut.speech = cut.stage === "dizzy" ? (t < timing.dizzy + 1.4 ? "BUÁÁÁ! Eu só estava brincando!" : "MAMÃÃÃE! Vem me buscar!") :
-      cut.stage === "flee" ? "MAMÃE! EU QUERO COLO!" : "";
+    cut.speech = cut.stage === "dizzy" ? (t < timing.dizzy + 1.4 ? "AI! AMASSARAM MEU JEITO DE MAU!" : "MAMÃÃÃE! O almoço me bateu!") :
+      cut.stage === "flee" ? "MAMÃE! TEM COLO PRA UM LOBO?!" : "";
   }
   function active(game) {
     return game.phase === "win_cutscene" || game.phase === "won" ||
       (game.phase === "menu" && ["win_cutscene", "won"].includes(game.resumePhase));
   }
-  function drawBackdrop(game) {
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, "#d8edc1"); gradient.addColorStop(1, "#a7cc83");
-    ctx.fillStyle = gradient; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#b9d397";
-    ctx.beginPath(); ctx.ellipse(450, 330, 340, 165, 0, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = "#efe4bc";
-    ctx.beginPath(); ctx.ellipse(450, 300, 262, 153, 0, 0, Math.PI * 2); ctx.fill();
-    ctx.strokeStyle = "#bd9368"; ctx.lineWidth = 9;
-    ctx.beginPath(); ctx.moveTo(30, 170); ctx.lineTo(180, 170); ctx.moveTo(720, 170); ctx.lineTo(870, 170); ctx.stroke();
-    for (let i = 0; i < 10; i++) {
-      ctx.fillStyle = "#dfbc8b";
-      ctx.fillRect(30 + i * 17, 138, 8, 65); ctx.fillRect(718 + i * 17, 138, 8, 65);
-    }
-    for (let i = 0; i < 28; i++) {
-      const x = 30 + (i * 137) % 840, y = 410 + i * 19 % 97;
-      ctx.fillStyle = i % 2 ? "#fff4c1" : "#e8b4bb";
-      ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
-    }
-    ctx.fillStyle = "#477246"; ctx.textAlign = "center"; ctx.font = "bold 16px sans-serif";
-    ctx.fillText("♥ REFÚGIO DA FAZENDA ♥", 450, 490);
+  // All presentation is sampled from the cutscene clock. Pausing freezes particles,
+  // camera, tumble and captions together, without timers or gameplay randomness.
+  function frame(game) {
+    const t = game.cutscene.time;
+    const close = ease((t - timing.circle) / 1.2) * (1 - ease((t - timing.flee) / .7));
+    const portrait = canvas.width < 700;
+    const zoom = (reduced() ? 1 : 1 + close * .09) * (portrait ? .84 : 1);
+    const beat = (t - timing.cloud) * 4;
+    const kick = game.cutscene.cloud && !reduced() ? Math.max(0, 1 - (beat % 1) * 5) : 0;
+    ctx.translate(canvas.width / 2 + Math.sin(beat * 7) * kick * 3, (portrait ? canvas.height * .51 : 275) + kick * 2);
+    ctx.scale(zoom, zoom); ctx.translate(-450, -275);
   }
-  function star(x, y, radius, color = "#ffd967") {
-    ctx.fillStyle = color; ctx.strokeStyle = "#c99b43"; ctx.lineWidth = 1.5;
-    ctx.beginPath();
+  function pose(game, entity) {
+    if (!active(game)) return {};
+    const { stage, time: t } = game.cutscene, wolf = entity.type === 'wolf';
+    const index = game.cutscene.attackers.findIndex(a => a.ref === entity);
+    const options = { scale: wolf ? 1.55 : entity.type === 'chick' ? 1.05 : 1.18 };
+    if (reduced()) return options;
+    if (stage === 'rush' && !wolf) {
+      const hop = Math.sin(clamp((t - timing.rush) / (timing.cloud - timing.rush), 0, 1) * Math.PI);
+      options.lift = hop * (18 + (index % 3) * 5);
+      options.rotation = (entity.x < center.x ? 1 : -1) * hop * .22;
+      options.squash = 1 + hop * .12;
+    } else if (stage === 'cloud' && entity.type === 'chicken') {
+      const leap = clamp((t - timing.dizzy + .8) / .8, 0, 1);
+      options.lift = Math.sin(leap * Math.PI) * 56;
+      options.rotation = -leap * Math.PI * 2;
+    } else if (stage === 'dizzy' && wolf) {
+      const land = clamp((t - timing.dizzy) / .65, 0, 1);
+      options.rotation = land < 1 ? (1 - land) * Math.PI * 2 : Math.sin(t * 5) * .13;
+      options.lift = Math.sin(land * Math.PI) * 44;
+      options.squash = land > .75 && land < 1 ? .82 : 1;
+    } else if (stage === 'flee' && wolf) {
+      options.rotation = .2; options.lift = Math.abs(Math.sin(t * 18)) * 9;
+      options.squash = 1 + Math.sin(t * 18) * .09;
+    } else if (stage === 'celebrate' && !wolf) {
+      const hop = Math.max(0, Math.sin((t - timing.celebrate) * 5 - index * .65));
+      options.lift = hop * (entity.type === 'chicken' ? 22 : 13);
+      options.rotation = Math.sin(t * 5 + index) * .08;
+      options.squash = 1 - (1 - hop) * .04;
+    } else if (stage === 'circle' && !wolf) {
+      options.rotation = Math.sin(t * 9 + index) * .055;
+    }
+    return options;
+  }
+  let ground = null;
+  function groundTexture() {
+    if (ground) return ground;
+    const surface = FarmSprites.surface(300, 400);
+    if (!surface) return null;
+    const c = surface.getContext('2d'), pixels = c.createImageData(300, 400);
+    for (let y = 0; y < 400; y++) for (let x = 0; x < 300; x++) {
+      const localY = y - 114;
+      const n = ((Math.imul(x + 7, 374761393) ^ Math.imul(y + 31, 668265263)) >>> 0) / 4294967295;
+      const edge = ((x - 150) / 108) ** 2 + ((localY - 96) / 53) ** 2;
+      const dirt = edge < 1 + Math.sin(localY * .39) * .045 + Math.sin(x * .26) * .028 || (localY > 83 && localY < 103 && x > 190);
+      const shade = Math.sin(x * .048 + y * .019) * 4 + (n < .055 ? -8 : n > .96 ? 6 : 0);
+      const rgb = dirt ? [194, 165, 113] : [103, 137, 77];
+      const i = (y * 300 + x) * 4;
+      pixels.data[i] = rgb[0] + shade; pixels.data[i + 1] = rgb[1] + shade;
+      pixels.data[i + 2] = rgb[2] + shade; pixels.data[i + 3] = 255;
+    }
+    c.putImageData(pixels, 0, 0); ground = surface; return surface;
+  }
+  function drawBackdrop() {
+    ctx.fillStyle = '#67894d'; ctx.fillRect(-1200, -1200, 3300, 3000);
+    const tile = groundTexture();
+    if (tile) { ctx.imageSmoothingEnabled = false; ctx.drawImage(tile, 0, -342, 900, 1200); }
+    else { ctx.fillStyle = '#c2a571'; ctx.beginPath(); ctx.ellipse(450, 288, 324, 159, 0, 0, Math.PI * 2); ctx.fill(); }
+    const prop = (name, x, y, w, h, flip = false) => FarmSprites.draw(ctx, name, x, y, w, h, { grounded: true, flip });
+    // The same timber, trees and pixel scale as the playable farm, with a clear arena.
+    prop('tree', -40, -54, 182, 190); prop('tree', 787, -42, 172, 182);
+    prop('barn', 100, 0, 163, 149); prop('coop', 682, 40, 127, 112);
+    prop('hay', 237, 112, 53, 38);
+    for (const x of [0, 73, 759, 832]) prop('fence', x, 158, 78, 50);
+    prop('bush', -24, 373, 116, 90); prop('bush', 820, 404, 104, 79);
+    if (canvas.width >= 700) {
+      const shade = ctx.createLinearGradient(0, 0, 0, 170);
+      shade.addColorStop(0, 'rgba(25,49,33,.65)'); shade.addColorStop(1, 'rgba(25,49,33,0)');
+      ctx.fillStyle = shade; ctx.fillRect(0, 0, 900, 170);
+    }
+    ctx.strokeStyle = '#7b6544'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(264, 64); ctx.quadraticCurveTo(456, 143, 683, 63); ctx.stroke();
+    for (let i = 0; i < 14; i++) {
+      const x = 279 + i * 29, p = (x - 264) / 419, y = 64 + 152 * p * (1 - p);
+      ctx.fillStyle = ['#e7c86f', '#ac6546', '#e7e0b6', '#578c83'][i % 4];
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + 17, y); ctx.lineTo(x + 9, y + 20); ctx.closePath(); ctx.fill();
+    }
+  }
+  function star(x, y, radius, color = '#ffda68') {
+    ctx.fillStyle = color; ctx.strokeStyle = '#a3743e'; ctx.lineWidth = 1.5; ctx.beginPath();
     for (let i = 0; i < 10; i++) {
-      const angle = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? radius * 0.45 : radius;
-      if (i === 0) ctx.moveTo(x + Math.cos(angle) * r, y + Math.sin(angle) * r);
+      const angle = -Math.PI / 2 + i * Math.PI / 5, r = i % 2 ? radius * .45 : radius;
+      if (!i) ctx.moveTo(x + Math.cos(angle) * r, y + Math.sin(angle) * r);
       else ctx.lineTo(x + Math.cos(angle) * r, y + Math.sin(angle) * r);
     }
     ctx.closePath(); ctx.fill(); ctx.stroke();
   }
-  function cloud(t) {
-    const pulse = Math.sin(t * 17) * 5;
-    const beat = Math.floor((t - timing.cloud) * 4);
-    ctx.save(); ctx.translate(center.x + Math.sin(t * 23) * 5, center.y + Math.cos(t * 19) * 3);
-    // Little dust rings and flying feathers sell the bustle without exposing a hit.
+  function puff(x, y, radius, opacity = 1) {
+    ctx.save(); ctx.globalAlpha *= opacity; ctx.fillStyle = '#eee0b9'; ctx.strokeStyle = '#b9a374'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.ellipse(x, y, radius, radius * .65, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke(); ctx.restore();
+  }
+  function feather(x, y, angle, gold) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(angle);
+    ctx.fillStyle = gold ? '#ffe497' : '#fff7dc'; ctx.strokeStyle = '#9a845c'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.ellipse(0, 0, 5, 14, -.2, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, 18); ctx.lineTo(0, -9); ctx.stroke(); ctx.restore();
+  }
+  function burst(x, y, word, age, big = false) {
+    const decay = clamp(age, 0, 1), size = big ? 1.2 : .83;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(big ? -.08 : .12);
+    const bounce = reduced() ? 1 : .85 + Math.sin(decay * Math.PI) * .22;
+    ctx.scale(size * bounce, size * bounce);
+    ctx.fillStyle = '#f5cb58'; ctx.strokeStyle = '#614735'; ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (let i = 0; i < 24; i++) {
+      const angle = i * Math.PI / 12, r = i % 2 ? 64 : 88 + (i % 3) * 7;
+      const x = Math.cos(angle) * r, y = Math.sin(angle) * r * .63;
+      if (!i) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = "900 38px 'Trebuchet MS', sans-serif";
+    ctx.strokeStyle = '#fff5cb'; ctx.lineWidth = 6; ctx.strokeText(word, 0, 3);
+    ctx.fillStyle = '#86402f'; ctx.fillText(word, 0, 3); ctx.restore();
+  }
+  function cloud(game) {
+    const elapsed = game.cutscene.time - timing.cloud, motion = reduced() ? 0 : elapsed;
+    // Four graphical accents per second, sharing the audio system's impact clock.
+    const beat = Math.floor(elapsed * 4 + 1e-7), progress = (elapsed * 4) % 1;
+    const big = elapsed > timing.dizzy - timing.cloud - .55;
+    const x = center.x + Math.sin(motion * 4.5) * 29, y = center.y + Math.cos(motion * 5) * 8;
+    ctx.save(); ctx.translate(x, y);
+    ctx.fillStyle = 'rgba(67,52,29,.22)'; ctx.beginPath(); ctx.ellipse(0, 85, 157, 27, 0, 0, Math.PI * 2); ctx.fill();
     for (let i = 0; i < 8; i++) {
-      const life = ((t * 1.9 + i / 8) % 1), angle = i * Math.PI / 4 + 0.2;
-      ctx.globalAlpha = (1 - life) * 0.6;
-      ctx.strokeStyle = "#e0d3ab"; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.arc(Math.cos(angle) * (130 + life * 62), Math.sin(angle) * (78 + life * 42), 5 + life * 13, 0, Math.PI * 2); ctx.stroke();
+      const life = (motion * .85 + i / 8) % 1, side = i % 2 ? -1 : 1;
+      puff(side * (111 + life * 85), 62 + life * 23, 12 + life * 18, (1 - life) * .55);
     }
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = "rgba(112, 107, 87, .15)";
-    ctx.beginPath(); ctx.ellipse(0, 75, 160, 33, 0, 0, Math.PI * 2); ctx.fill();
-    // Opaque core plus lobes keeps every character and all contact concealed.
-    ctx.fillStyle = "#fffdf1"; ctx.strokeStyle = "#b6b3a4"; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.ellipse(0, 0, 122 + pulse, 77, 0, 0, Math.PI * 2); ctx.fill();
-    for (let i = 0; i < 11; i++) {
-      const angle = i * Math.PI * 2 / 11;
-      const x = Math.cos(angle) * (97 + pulse), y = Math.sin(angle) * 59;
-      ctx.fillStyle = i % 3 ? "#fffdf1" : "#eeeade";
-      ctx.beginPath(); ctx.arc(x, y, 34 + Math.sin(t * 12 + i) * 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    // A wolf somersault and a different rescuer rise above the dust between beats.
+    // Their feet stay behind the opaque cloud; the joke is the flailing silhouettes.
+    const hop = reduced() ? .35 : Math.sin(((elapsed * 1.6) % 1) * Math.PI);
+    CharacterArt.draw(ctx, 'wolf', 23, -46 - hop * 55, { direction: 'down', mood: 'crying', scale: 1.38,
+      anim: motion * 16, moving: true, shadow: false, rotation: reduced() ? -.2 : elapsed * 7, squash: 1 - hop * .12 });
+    const grownups = game.cutscene.attackers.filter(a => a.ref.type !== 'chick');
+    const hero = grownups[Math.floor(elapsed * 1.6) % Math.max(1, grownups.length)]?.ref;
+    if (hero) CharacterArt.draw(ctx, hero.species, -119, -40 - hop * 30, { direction: 'right', mood: 'angry',
+      anim: motion * 14, moving: true, scale: 1.1, shadow: false, rotation: reduced() ? 0 : .3 - hop * .7 });
+    ctx.save();
+    if (!reduced()) ctx.scale(1 + Math.sin(elapsed * 25) * .045, 1 - Math.sin(elapsed * 25) * .065);
+    ctx.fillStyle = '#bdaa85'; ctx.strokeStyle = '#807255'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.ellipse(0, 15, 143, 78, 0, 0, Math.PI * 2); ctx.fill();
+    // Back-to-front shaded lobes, a cream core, and broken swirl lines give volume.
+    for (let i = 0; i < 13; i++) {
+      const a = i * Math.PI * 2 / 13, r = 31 + Math.sin(motion * 12 + i * 3) * 5;
+      ctx.fillStyle = Math.sin(a) > .4 ? '#d9c9a4' : '#fff3d5';
+      ctx.beginPath(); ctx.arc(Math.cos(a) * 112, 9 + Math.sin(a) * 61, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
     }
-    ctx.fillStyle = "#fffdf1"; ctx.beginPath(); ctx.ellipse(0, 0, 100, 65, 0, 0, Math.PI * 2); ctx.fill();
-    for (let i = 0; i < 8; i++) {
-      const angle = t * 1.1 + i * Math.PI / 4;
-      const x = Math.cos(angle) * (155 + Math.sin(t * 7 + i) * 10), y = Math.sin(angle) * 110;
-      if (i % 2) star(x, y, 11 + Math.sin(t * 10 + i) * 3);
-      else {
-        ctx.save(); ctx.translate(x, y); ctx.rotate(angle);
-        ctx.fillStyle = i === 2 ? "#ffe289" : "#fffaf0"; ctx.strokeStyle = "#bca780"; ctx.lineWidth = 1.3;
-        ctx.beginPath(); ctx.ellipse(0, 0, 6, 15, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(0, 15); ctx.lineTo(0, -8); ctx.stroke();
-        ctx.restore();
-      }
+    ctx.fillStyle = '#f7e9c9'; ctx.beginPath(); ctx.ellipse(0, 7, 111, 65, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#c7b68d'; ctx.lineWidth = 3;
+    for (let i = 0; i < 3; i++) {
+      ctx.beginPath(); ctx.ellipse(-58 + i * 53, 8 + (i % 2) * 22, 25, 15, motion * 3 + i, .2, 3.8); ctx.stroke();
     }
-    ctx.save(); ctx.rotate(Math.sin(t * 12) * 0.12);
-    ctx.textAlign = "center"; ctx.font = "900 36px 'Trebuchet MS', sans-serif";
-    ctx.strokeStyle = "#fff6c7"; ctx.lineWidth = 7;
-    const pop = ["POF!", "PAF!", "PUF!", "PLOC!"][beat % 4];
-    ctx.strokeText(pop, pulse, 12); ctx.fillStyle = ["#bf7450", "#a56755", "#ac7849", "#95704f"][beat % 4];
-    ctx.fillText(pop, pulse, 12); ctx.restore();
+    ctx.restore();
+    for (let i = 0; i < 7; i++) {
+      const a = i * Math.PI * 2 / 7 + motion * .9, r = 162 + Math.sin(motion * 7 + i) * 12;
+      const fx = Math.cos(a) * r, fy = Math.sin(a) * 109;
+      if (i % 3) feather(fx, fy, a + motion * 2, i === 2); else star(fx, fy, 10);
+    }
+    const side = beat % 2 ? 1 : -1;
+    burst(big ? 0 : side * 100, big ? -14 : -49, big ? 'POOOF!' : ['POF!', 'PAF!', 'PLOC!', 'PUM!'][beat % 4], progress, big);
     ctx.restore();
   }
   function speechBubble(game) {
-    const wolf = game.entities.wolf;
-    const fleeing = game.cutscene.stage === "flee";
-    const x = clamp(wolf.x, 210, 690), y = 161, width = 360, height = 49;
-    ctx.fillStyle = "rgba(83, 80, 75, .16)";
-    ctx.beginPath(); ctx.roundRect(x - width / 2 + 3, y + 3, width, height, 14); ctx.fill();
-    ctx.fillStyle = "#fffef4"; ctx.strokeStyle = "#8794a0"; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.roundRect(x - width / 2, y, width, height, 14); ctx.fill(); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(x - 11, y + height - 1); ctx.lineTo(x + 8, y + height + 14);
-    ctx.lineTo(x + 14, y + height - 1); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = "#526b89"; ctx.textAlign = "center"; ctx.font = `bold ${fleeing ? 23 : 20}px 'Trebuchet MS', sans-serif`;
-    ctx.fillText(game.cutscene.speech, x, y + 31);
+    const fleeing = game.cutscene.stage === 'flee';
+    // Short, two-line speech keeps the wolf's face and the exit lane visible.
+    const lines = fleeing ? ['MAMÃÃE!', 'O almoço me bateu!'] : game.cutscene.time < timing.dizzy + 1.4 ?
+      ['AI, MINHA POSE', 'DE LOBO MAU!'] : ['EU SÓ QUERIA', 'UM LANCHINHO…'];
+    const x = clamp(game.entities.wolf.x, 225, 715), y = fleeing ? 109 : 110, w = 238;
+    ctx.save(); ctx.fillStyle = '#fff8df'; ctx.strokeStyle = '#756448'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.roundRect(x - w / 2, y, w, 67, 17); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x - 12, y + 66); ctx.lineTo(x + 4, y + 80); ctx.lineTo(x + 15, y + 66); ctx.fill();
+    ctx.textAlign = 'center'; ctx.fillStyle = '#5b503d'; ctx.font = "900 20px 'Trebuchet MS', sans-serif";
+    lines.forEach((line, i) => ctx.fillText(line, x, y + 27 + i * 24, w - 22)); ctx.restore();
   }
   function draw(game) {
-    const cut = game.cutscene, t = cut.time;
-    const texts = {
-      arrival: ["A turma está a salvo!", game.rescuedChicks ? `Dez amigos, ${game.rescuedChicks} pintinhos e coragem de sobra.` : "Dez amigos e uma galinha cheia de coragem."],
-      message: ["O lobo ainda quer bancar o valentão…", "Lobo: “GRRR! Ainda não acabou! Voltem aqui!”"],
-      circle: ["Ninguém mexe com a nossa família!", "Lobo: “Esse olhar… Vocês estão MUITO bravos, né?”"],
-      rush: ["Agora é com a turma!", "Lobo: “Ei! Dezesseis contra um? MAM—”"],
-      cloud: ["Penas, patinhas e uma bela confusão!", ["Lobo: “AI! O meu orgulho!”", "Lobo: “Tá bom! Eu paro de perseguir galinhas!”", "Lobo: “Socorro! Cadê a minha mãe?!”"][Math.floor((t - timing.cloud) / 1.3) % 3]],
-      dizzy: ["Cadê aquele lobo tão bravo?", "Agora só quer um lencinho… e a mamãe."],
-      flee: ["Lá vai ele, chorando pela mamãe!", "Lobo: “BUÁÁÁ! Mãe, eles não querem brincar comigo!”"],
-      celebrate: [`Amizade: ${cut.attackers.length}. Lobo: zero!`, "Uma família inteira para comemorar com você. ♥"],
-    };
-    const [title, subtitle] = texts[cut.stage] || texts.celebrate;
-    ctx.fillStyle = "rgba(255, 251, 230, .96)"; ctx.fillRect(50, 22, 800, 83);
-    ctx.textAlign = "center"; ctx.fillStyle = "#365d3b"; ctx.font = "bold 27px sans-serif";
-    ctx.fillText(title, 450, 57); ctx.font = "17px sans-serif"; ctx.fillText(subtitle, 450, 86);
-    if (cut.cloud) cloud(t);
-    if (cut.stage === "circle" || cut.stage === "rush") {
-      ctx.fillStyle = "#fff9df"; ctx.beginPath(); ctx.ellipse(484, 221, 22, 18, 0, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = "#9b5750"; ctx.font = "bold 23px sans-serif"; ctx.fillText(cut.stage === "rush" ? "!!" : "?!", 484, 229);
+    const { stage, time: t } = game.cutscene, motion = reduced() ? 0 : t;
+    if (stage === 'rush') for (const { ref } of game.cutscene.attackers) {
+      puff(ref.x + (ref.x < center.x ? -25 : 25), ref.y + 13, 10, .45);
     }
-    if (cut.stage === "dizzy") {
-      for (let i = 0; i < 4; i++) star(center.x + Math.cos(t * 3 + i * Math.PI / 2) * 42,
-        center.y - 36 + Math.sin(t * 3 + i * Math.PI / 2) * 10, 8);
+    if (game.cutscene.cloud) cloud(game);
+    if (stage === 'circle' || stage === 'rush') {
+      ctx.save(); ctx.textAlign = 'center'; ctx.font = "900 32px 'Trebuchet MS', sans-serif";
+      ctx.strokeStyle = '#fff7d7'; ctx.lineWidth = 5; ctx.strokeText(stage === 'rush' ? '!!' : '?!', 482, 195);
+      ctx.fillStyle = '#974c35'; ctx.fillText(stage === 'rush' ? '!!' : '?!', 482, 195); ctx.restore();
     }
-    if (cut.speech) speechBubble(game);
-    if (cut.stage === "celebrate") {
-      for (let i = 0; i < 26; i++) {
-        const x = 100 + i * 131 % 720, y = 130 + ((t - timing.celebrate) * 65 + i * 23) % 330;
-        ctx.fillStyle = ["#d8889b", "#f9e193", "#78acb4", "#a6bb6d"][i % 4];
-        ctx.fillRect(x, y, 5, 9);
+    if (stage === 'dizzy') {
+      const dissipate = (t - timing.dizzy) / .8;
+      if (dissipate < 1) for (let i = 0; i < 7; i++) {
+        const angle = i * Math.PI * 2 / 7;
+        puff(center.x + Math.cos(angle) * (95 + dissipate * 90), center.y + Math.sin(angle) * 68,
+          29 + dissipate * 15, (1 - dissipate) * .8);
+      }
+      ctx.save(); ctx.strokeStyle = '#e4bd5799'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.ellipse(center.x, 205, 52, 12, -.15, 0, Math.PI * 2); ctx.stroke();
+      for (let i = 0; i < 5; i++) star(center.x + Math.cos(motion * 3 + i * Math.PI * 2 / 5) * 52,
+        205 + Math.sin(motion * 3 + i * Math.PI * 2 / 5) * 12, 8);
+      ctx.restore();
+    }
+    if (stage === 'flee') {
+      const wolf = game.entities.wolf;
+      for (let i = 0; i < 5; i++) {
+        const age = (motion * 2 + i / 5) % 1;
+        puff(wolf.x - 38 - age * 112, wolf.y + 19 + age * 8, 5 + age * 14, (1 - age) * .65);
+      }
+    }
+    if (game.cutscene.speech) speechBubble(game);
+    if (stage === 'celebrate') {
+      const age = t - timing.celebrate;
+      for (let i = 0; i < (reduced() ? 14 : 54); i++) {
+        const side = i % 2 ? -1 : 1, phase = ((reduced() ? 0 : age * .42) + i / (reduced() ? 14 : 54)) % 1;
+        const x = 450 + side * (110 + phase * 270) + Math.sin(i * 5) * 60;
+        const y = 96 + phase * 363;
+        ctx.save(); ctx.translate(x, y); ctx.rotate(reduced() ? i : t * 3 + i);
+        ctx.fillStyle = ['#f3d475', '#bd705b', '#75aaa0', '#fff0c7'][i % 4]; ctx.fillRect(-3, -5, 6, 10); ctx.restore();
       }
     }
   }
-  return { start, update, active, drawBackdrop, draw, timing };
+  function drawCaption(game) {
+    const { stage, time: t } = game.cutscene;
+    const portrait = canvas.width < 700, mid = canvas.width / 2;
+    const titleY = portrait ? 124 : 49, baseline = canvas.height - (portrait ? 76 : 22);
+    const titles = { arrival: 'TODO MUNDO EM CASA.', message: 'FALTA ACERTAR UMA COISINHA…',
+      circle: 'MEXEU COM UM…', rush: '…MEXEU COM O POLEIRO!', cloud: 'O ALMOÇO REVIDOU!',
+      dizzy: 'CADÊ A POSE DE LOBO MAU?', flee: 'CORRE QUE A MÃE TÁ CHAMANDO!', celebrate: 'A FAZENDA É NOSSA!' };
+    const subtitles = { arrival: `${game.rescuedCount} amigos salvos. Ninguém virou almoço.`,
+      message: '“Quem autorizou meu almoço a fazer reunião?”', circle: 'A turma tem uma resposta pro lobo.',
+      rush: '“Pera! Um de cada veeeez!”', cloud: 'Penas pra um lado. Valentia pro outro.',
+      dizzy: 'O valentão agora só conta estrelinhas.', flee: 'Foi buscar um colo. E um lencinho.',
+      celebrate: `${game.rescuedCount} amigos + ${game.rescuedChicks} pintinhos. Uma família inteira a salvo. ♥` };
+    ctx.save(); ctx.textAlign = 'center'; ctx.lineJoin = 'round';
+    const topShade = ctx.createLinearGradient(0, 0, 0, portrait ? 220 : 100);
+    topShade.addColorStop(0, 'rgba(25,49,33,.7)'); topShade.addColorStop(1, 'rgba(25,49,33,0)');
+    ctx.fillStyle = topShade; ctx.fillRect(0, 0, canvas.width, portrait ? 220 : 100);
+    ctx.font = `900 ${stage === 'celebrate' ? 37 : 29}px 'Trebuchet MS', sans-serif`;
+    ctx.strokeStyle = '#284634'; ctx.lineWidth = 7;
+    ctx.strokeText(titles[stage] || titles.celebrate, mid, titleY, canvas.width - 48);
+    ctx.fillStyle = '#fff0b9'; ctx.fillText(titles[stage] || titles.celebrate, mid, titleY, canvas.width - 48);
+    const gradient = ctx.createLinearGradient(0, canvas.height - 160, 0, canvas.height);
+    gradient.addColorStop(0, 'rgba(29,48,33,0)'); gradient.addColorStop(1, 'rgba(29,48,33,.92)');
+    ctx.fillStyle = gradient; ctx.fillRect(0, canvas.height - 160, canvas.width, 160);
+    ctx.font = `bold ${portrait ? 24 : 18}px 'Trebuchet MS', sans-serif`; ctx.fillStyle = '#fff4d2';
+    const subtitle = subtitles[stage] || subtitles.celebrate;
+    const lines = portrait ? subtitle.split(/(?<=\.) /) : [subtitle];
+    lines.forEach((line, i) => ctx.fillText(line, mid, baseline + i * 29, canvas.width - 46));
+    // Quiet progress marks communicate that this is a short scene, not another round.
+    for (let i = 0; i < 8; i++) { ctx.fillStyle = t >= i * timing.done / 8 ? '#ebcd7e' : '#d4d2a43d'; ctx.fillRect(mid - 30 + i * 8, canvas.height - 9, 5, 2); }
+    ctx.restore();
+  }
+  return { start, update, active, frame, pose, drawBackdrop, draw, drawCaption, timing };
 })();

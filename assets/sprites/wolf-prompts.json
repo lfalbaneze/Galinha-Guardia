@@ -1,0 +1,22 @@
+{
+  "tool": "image_gen.imagegen (built-in; no CLI)",
+  "generatedAt": "2026-09-18",
+  "assets": [
+    {
+      "file": "sources/wolf-expressivo.png",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "prompt": "Use case: stylized-concept. Asset type: production transparent PNG WOLF sprite sheet for the Brazilian top-down pixel-art farm adventure 'Penas pro Ar'. Create a redesigned memorable cartoon antagonist wolf with excellent readability at 85 screen pixels: compact athletic quadruped, large angular expressive head, pointed ears, long but not skinny muzzle, sly narrowed AMBER eyes under strong brows, charcoal-gray back and thick cheek ruff, slate-gray flank, pale warm-gray muzzle/chest/paw tips, long bushy dark tail, powerful paws. His expression is cunning, hungry and slightly comical, visibly a wild WOLF and threatening farm-game villain, not a puppy or pet dog. A restrained crooked snarl with two small ivory fangs, no huge tooth-filled mouth. All anatomy clear and consistent, four legs, visible ankle bends, defined shoulders and hips. He always stands and walks ON ALL FOUR PAWS, never sits, never upright. Art style: polished handcrafted 16-bit pixel art with strong clean charcoal outlines, large deliberate pixel clusters, 4-5 cohesive gray shade groups, subtle cool shadow and warm muzzle highlight, no realistic individual fur hairs, no blurry gradients, no photographic fur, no 3D glossy look. The artwork should match a charming pixel farm containing plump pixel hens, while remaining recognizably the predator. Make the head and silhouette readable against green grass. Sprite sheet EXACTLY 1536x1536 square, FOUR evenly spaced columns and FOUR evenly spaced rows, SIXTEEN isolated full-body sprites. Row1 SOUTH: wolf walks toward viewer, slightly elevated game camera sees head, back, four legs and tail. Row2 EAST: wolf faces exact right, slight elevated profile shows the back. Row3 NORTH: walks directly away, rear view, NO face or muzzle visible. Row4 WEST: exact left facing slightly elevated profile. In each row column1 is grounded alert idle with all four paws planted; column2 diagonal walking step A front-left/rear-right advanced; column3 passing pose with paws beneath body; column4 opposite diagonal step B front-right/rear-left advanced. Match body height, head size, perspective and torso proportions perfectly across a row. Only limbs and very subtle tail positions change. Side view is naturally wider than front/back, all wolves fit entirely inside their cell, around 270px wide by 260px tall in side view, around 170px wide by 285px tall in front/back, NOT stretched to fill square cells. The main torso does not jump up or down between frames. Maintain at least 44px completely transparent margins around every cell and each sheet edge. Entire tail, ears, all toes stay inside the cell. GENUINE TRANSPARENT ALPHA background. No painted backdrop, no gradient/checkerboard background, no ground shadow, no text, no labels, no grid lines, no scenery, no clothing or accessories, no extra animals."
+    },
+    {
+      "file": "../menu/portraits/wolf-expressivo.png",
+      "prompt": "Use case: style-transfer. Asset type: small transparent menu portrait for a pixel-art farm game. Image 1 is the EDIT TARGET, the older wolf menu portrait. Image 2 is the NEW CHARACTER REFERENCE, a 16-frame wolf sprite sheet. Redesign image 1 so it portrays exactly the wolf from image 2: charcoal/slate gray fur, warm pale-gray cheek and muzzle markings, amber eyes under cunning angled brows, sharp upright ears and thick angular cheek ruff. Preserve image 1's excellent readable three-quarter bust composition, expressive sly grin, entire ears inside the canvas and head-and-upper-chest framing. Replace the old brown painterly fur with the cleaner cohesive pixel-art forms and gray palette from image 2. He is sly and threatening in a funny farm-cartoon way, not a puppy. One head and chest portrait only, NOT a sprite sheet. Strong crisp pixel clusters, clean dark outlines, legible at 64x64, no noisy individual hairs, no soft blur, no glowing edges. Square image, comfortably frame both ears, muzzle and fur with 6 percent transparent breathing room around all edges. Actual transparent alpha background, no drop shadow or ground, no baked checkerboard, no scene, no lettering, no border.",
+      "references": [
+        "../menu/portraits/wolf.png",
+        "sources/wolf-expressivo.png"
+      ]
+    }
+  ]
+}

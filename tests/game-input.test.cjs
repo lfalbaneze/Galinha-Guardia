@@ -65,6 +65,28 @@ test('standard controller uses dead zone and normalized analog movement, edge-tr
   pad.connected=false;poll();assert.equal(run('state.phase'),'menu');assert.equal(run('Player.moveVector().x'),0);
 });
 
+test('Thor keyboard and controller shortcuts charge once, block actions during the scene and recover focus',()=>{
+  for(const device of ['keyboard','gamepad']){
+    const h=createGame(),{run,events,elements}=h;
+    run(`state.difficultyKey='normal';state.lives=2;ThorSystem.initialize(state);
+      for(const b of ThorSystem.bones(state)){Object.assign(state.entities.chicken,{x:b.x,y:b.y});ThorSystem.update(state,.05);}
+      Object.assign(state.entities.chicken,WORLD.layout.start);GameUI.update(state);`);
+    const pad=device==='gamepad'?padHarness(h):null;
+    if(pad){pad.press(3);pad.poll();}else {events.window.keydown(key('t'));events.window.keydown(key('t',true));}
+    assert.equal(run('ThorSystem.active(state)'),true);assert.equal(run('state.thorVisit.visits'),1);
+    assert.equal(run('ThorSystem.boneCount(state)'),0);
+    events.window.keydown(key('d'));events.window.keydown(key('e'));events.elements.touchRun.click();
+    assert.equal(run('input.size'),0);assert.equal(run("GameInput.held('shift')"),false);
+    run('for(let i=0;i<16;i++)updateGame(.05)');
+    if(pad){pad.release();pad.press(3);}else events.window.keydown(key(' '));
+    run('GameUI.update(state)');
+    assert.equal(run('ThorSystem.active(state)'),false);assert.equal(run('state.lives'),3);
+    assert.equal(h.context.document.activeElement,elements.get('gameCanvas'));
+    if(pad){pad.release();pad.pad.axes=[1,0];pad.poll();assert.equal(run('Player.moveVector().x'),1);}
+    else {events.window.keydown(key('d'));assert.equal(run('input.has("d")'),true);}
+  }
+});
+
 test('controller menu navigation, confirmation and help scrolling do not require a mouse',()=>{
   const h=createGame(),{run,context,elements}=h,{press,release}=padHarness(h);
   run('GameUI.showMenu(state);');release();

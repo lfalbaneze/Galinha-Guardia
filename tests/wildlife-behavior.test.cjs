@@ -18,30 +18,46 @@ function arena(){
   return h;
 }
 const step=(h,system,seconds)=>h.run(`for(let i=0;i<${Math.ceil(seconds/.05)};i++)${system}.update(state,.05);`);
+function claimOpening(h) {
+  assert.equal(h.run('g.mode'),'stunned');
+  assert.ok(h.run('state.lake.counterWindow>0'));
+  assert.equal(h.run('state.lake.misses'),0,'dodging opens a counter without granting a stamp');
+  h.run(`for(let i=0;i<60&&!LakeChallenge.canCounter(state);i++) {
+    const dx=g.x-c.x,dy=g.y-c.y,len=Math.hypot(dx,dy),travel=Math.min(len,c.speed*.05);
+    if(len>0)Player.move(c,dx/len*travel,dy/len*travel);
+    GooseSystem.update(state,.05);LakeChallenge.update(state,.05);
+  }`);
+  assert.equal(h.run('LakeChallenge.canCounter(state)'),true);
+  h.run('LakeChallenge.interact(state)');
+  assert.equal(h.run('state.lake.misses'),1);
+}
 
 test('a sideways dodge outside acquisition range still completes the promised goose charge',()=>{
   const h=arena();h.run('state.lake.active=true');step(h,'GooseSystem',.45);
   assert.equal(h.run('g.mode'),'warning');const aim=h.run('JSON.stringify(g.target)');
   h.run('c.x=1000;c.y=1000');step(h,'GooseSystem',1.15);
   assert.equal(h.run('g.mode'),'charge');assert.equal(h.run('JSON.stringify(g.target)'),aim);
-  step(h,'GooseSystem',.8);assert.equal(h.run('state.lake.misses'),1);assert.equal(h.run('c.invulnerable'),0);
+  step(h,'GooseSystem',.8);assert.equal(h.run('c.invulnerable'),0);
+  assert.equal(h.run('LakeChallenge.canCounter(state)'),false,'a distant dodge still needs an approach');
+  h.run('LakeChallenge.interact(state)');assert.equal(h.run('state.lake.misses'),0);
+  claimOpening(h);
 });
 
 test('the optional arena honours a committed dodge beyond the ordinary territorial ring',()=>{
   const h=arena();h.run('state.lake.active=true');step(h,'GooseSystem',.45);
   h.run('c.x=1000;c.y=1060');step(h,'GooseSystem',2);
-  assert.equal(h.run('state.lake.misses'),1);
   assert.ok(h.run('distance(g,g.home)<=GooseSystem.getConfig(state).territory'));
+  claimOpening(h);
 });
 
-test('a charge interrupted by an obstacle does not award a dodge for an unfinished attack',()=>{
+test('a moving charge stopped by an obstacle opens a counter without automatically awarding a stamp',()=>{
   const h=arena();h.run('state.lake.active=true');step(h,'GooseSystem',.45);
   h.run('c.x=1000;c.y=900');step(h,'GooseSystem',1.15);step(h,'GooseSystem',.2);
   assert.ok(h.run('distance(g,g.anchor)')>36);
   h.run('OBSTACLES=[{x:g.x+22,y:g.y-80,w:8,h:160}]');step(h,'GooseSystem',.7);
   assert.equal(h.run('state.lake.misses'),0);assert.equal(h.run('g.chargeHit'),false);
-  h.run('LakeChallenge.updateUI(state)');assert.match(h.elements.get('lakeHelp').textContent,/parou antes do fim/i);
-  assert.doesNotMatch(h.elements.get('lakeHelp').textContent,/boa esquiva/i);
+  h.run('LakeChallenge.updateUI(state)');assert.match(h.elements.get('lakeHelp').textContent,/carimbo/i);
+  claimOpening(h);
 });
 
 test('a cramped goose moves to a clear approach before giving a fresh full warning',()=>{
@@ -123,11 +139,15 @@ test('direct updates cannot move or rescue other animals during the lake challen
   assert.equal(h.run('JSON.stringify(state.entities.animals)'),h.run('before'));
 });
 
-test('the lake panel explains whether to approach, dodge or wait',()=>{
+test('the lake panel explains provoking, dodging, feints and the close counter',()=>{
   const h=arena();h.run('state.lake.active=true;LakeChallenge.updateUI(state)');
-  assert.match(h.elements.get('lakeHelp').textContent,/aproxime/i);
+  assert.match(h.elements.get('lakeHelp').textContent,/provoque o bote/i);
   h.run("g.mode='warning';LakeChallenge.updateUI(state)");assert.match(h.elements.get('lakeHelp').textContent,/saia da faixa/i);
   h.run("g.mode='feint';LakeChallenge.updateUI(state)");assert.match(h.elements.get('lakeHelp').textContent,/blefe/i);
+  h.run("g.mode='stunned';g.chargeCounted=true;state.lake.counterWindow=3;LakeChallenge.updateUI(state)");
+  assert.match(h.elements.get('lakeHelp').textContent,/chegue perto.*carimbo/i);
+  h.run('c.x=g.x+40;LakeChallenge.updateUI(state)');
+  assert.match(h.elements.get('lakeHelp').textContent,/E · Pegar carimbo/i);
 });
 
 test('the fox warning is a short reproducible PCM asset with fades and no clipping',()=>{

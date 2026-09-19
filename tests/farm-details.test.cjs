@@ -21,6 +21,22 @@ test('prop variants alternate deterministically without consuming randomness or 
  const first=h.run('JSON.stringify(a)');h.run('resetGame(state.worldSeed)');assert.equal(h.run('JSON.stringify(FarmArt.getProps(WORLD.layout))'),first);
 });
 
+test('the orchard label follows the apple trees when their location changes, ignoring the old area sign coordinate',()=>{
+ const details=createGame(()=>.5).run('FarmDetails');
+ const area={id:'quintal',x:100,y:100,w:1300,h:1000,sign:{x:150,y:1000}};
+ const base={seed:18,width:1800,height:1400,areas:[area],paths:[],animalSpawns:[],chickSpawns:[]};
+ for(const x of [350,1100]) {
+   const apple={id:'apple',type:'tree',art:'tree',areaId:'quintal',x,y:450,w:104,h:70,blockingRect:{x:x+42,y:454,w:20,h:18}};
+   // A pear tree near the obsolete sign position must not lure the apple-orchard label away.
+   const pear={...apple,id:'pear',art:'pear',x:150,y:950,blockingRect:{x:192,y:954,w:20,h:18}};
+   const props=details.decorate({...base},[apple,pear]), sign=props.find(p=>p.type==='sign');
+   assert.ok(sign);assert.equal(sign.landmarkId,'apple');
+   assert.ok(Math.abs(sign.x+sign.w/2-(x+52))<180,'label remains beside the moved apple tree');
+   assert.ok(Math.abs(sign.y+sign.h-472)<180,'label stays at the tree, not the district corner');
+   assert.equal(details.overlaps(sign,details.shape(apple),12),false,'lettering stays outside the canopy');
+ }
+});
+
 test('every building variation keeps its ground baseline at the original collision footprint',()=>{
  const h=createGame(()=>.5);assert.equal(h.run(`FarmArt.getProps(WORLD.layout).filter(p=>p.type==='coop').every(p=>{
    const box=FarmDetails.shape(p);return Math.abs(box.y+box.h-p.y-p.h)<.001;

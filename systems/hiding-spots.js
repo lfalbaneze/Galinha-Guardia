@@ -17,6 +17,9 @@ const HidingSpots = (() => {
         return spots.find(s => s.id === chicken.hidingSpotId && contains(s, chicken)) ||
             spots.find(s => contains(s, chicken)) || null;
     }
+    function occupied(game, spot) {
+        return !!spot && (game.entities.foxes || []).some(fox => fox.bushId === spot.id);
+    }
     function hasBonusClue(chicken, chick) {
         const spot = spots.find(s => s.id === chick.coverId);
         if (!spot || distance(chicken, chick) >= 280)
@@ -72,11 +75,16 @@ const HidingSpots = (() => {
     function toggle(game) {
         if (game.phase !== "playing")
             return;
+        if (SwimmingSystem.profile(game).swimming) {
+            setStatus('Boia não é moita! Volte à margem para procurar um esconderijo.');
+            return;
+        }
         const chicken = game.entities.chicken;
         if (chicken.hidden) {
+            EnvironmentSystem.disturbCover(game);
             chicken.hidden = false;
             chicken.hidingSpotId = null;
-            setStatus("De volta à lida. Olho no lobo!");
+            setStatus("Uma sacudida nas penas e bora. Olho no lobo!");
             GameUI.update(game);
             GameManager.save(game);
             return;
@@ -87,6 +95,13 @@ const HidingSpots = (() => {
             setStatus("Chegue perto de uma moita ou do feno até aparecer a opção de se esconder.");
             return;
         }
+        if (occupied(game, spot)) {
+            chicken.hideHintTimer = 2.5;
+            setStatus('Essa moita já tem dona — e ela morde! Procure outro esconderijo.');
+            GameUI.update(game);
+            return;
+        }
+        EnvironmentSystem.disturbCover(game);
         WolfAI.witnessHide(game, spot);
         chicken.hidden = true;
         chicken.hidingSpotId = spot.id;
@@ -102,14 +117,15 @@ const HidingSpots = (() => {
             GameInput.clear();
         else
             input.clear();
-        setStatus(WolfAI.isExposed(game) ? "O lobo viu você entrar! Saia daí e encontre outro abrigo." :
-            "Ufa, ele não viu! Espere a ronda passar.");
+        setStatus(WolfAI.isExposed(game) ? "O lobo viu esse bico entrar! Saia daí, despiste-o e procure outro abrigo." :
+            "Agora você é paisagismo. Bico fechado até a ronda passar!");
         spawnBurst(chicken.x, chicken.y, spot.type === "hay" ? "#ebc774" : "#94ba71", 9);
         GameUI.update(game);
         GameManager.save(game);
     }
     function update(game, dt = 0) {
-        const chicken = game.entities.chicken, spot = candidate(chicken);
+        const chicken = game.entities.chicken, nearby = SwimmingSystem.profile(game).swimming ? null : candidate(chicken);
+        const spot = occupied(game, nearby) ? null : nearby;
         chicken.hidingCandidate = spot ? spot.id : null;
         if (!spot || spot.id !== chicken.hidingSpotId) {
             chicken.hidden = false;
@@ -120,7 +136,7 @@ const HidingSpots = (() => {
     }
     function restore(game, saved) {
         const chicken = game.entities.chicken, spot = spots.find(s => s.id === saved.hidingSpotId);
-        chicken.hidden = saved.hidden === true && !!spot && contains(spot, chicken);
+        chicken.hidden = saved.hidden === true && !!spot && !occupied(game, spot) && contains(spot, chicken);
         chicken.hidingSpotId = chicken.hidden ? spot.id : null;
         chicken.hideBlend = chicken.hidden ? 1 : 0;
         update(game);
@@ -131,33 +147,36 @@ const HidingSpots = (() => {
             return;
         const spot = spots.find(s => s.id === chicken.hidingSpotId) || candidate(chicken);
         if (spot)
-            FarmArt.drawCoverForeground(ctx, spot, camera, Math.max(0.35, chicken.hideBlend || 0), chicken);
+            FarmArt.drawCoverForeground(ctx, spot, camera, Math.max(0.35, chicken.hideBlend || 0), chicken, game);
     }
     function pill(x, y, width, title, exposed = false) {
+        ctx.save();
+        ctx.font = 'bold 11px Trebuchet MS, sans-serif';
+        const measured = ctx.measureText(title).width;
+        if (Number.isFinite(measured))
+            width = Math.min(width, Math.ceil(measured) + 20);
         x = clamp(x, width / 2 + 12, canvas.width - width / 2 - 12);
         y = clamp(y, 66, canvas.height - 48);
         if (x + width / 2 > canvas.width - 174 && y < 144)
             y = 149;
-        ctx.save();
         ctx.translate(x, y);
         ctx.fillStyle = exposed ? '#8b392d' : 'rgba(39,58,35,.95)';
-        ctx.strokeStyle = exposed ? '#f6b08a' : '#c8d89a';
+        ctx.strokeStyle = exposed ? '#f6b08a' : '#c8d89a66';
         ctx.lineWidth = 1;
         ctx.beginPath();
-        ctx.roundRect(-width / 2, 0, width, 30, 5);
+        ctx.roundRect(-width / 2, 0, width, 24, 6);
         ctx.fill();
         ctx.stroke();
         ctx.fillStyle = '#fff4cf';
         ctx.textAlign = 'center';
-        ctx.font = 'bold 12px Trebuchet MS, sans-serif';
-        ctx.fillText(title, 0, 20, width - 16);
+        ctx.fillText(title, 0, 16, width - 16);
         ctx.restore();
     }
     function drawIndicators(game) {
         if (game.phase !== "playing")
             return;
-        const chicken = game.entities.chicken, p = worldToScreen(chicken), spot = candidate(chicken);
-        const exposed = WolfAI.isExposed(game);
+        const chicken = game.entities.chicken, p = worldToScreen(chicken), spot = SwimmingSystem.profile(game).swimming ? null : candidate(chicken);
+        const exposed = WolfAI.isExposed(game), blocked = occupied(game, spot);
         const hint = RescueSystem.secretHint(game);
         const bonus = RescueSystem.callTarget(game);
         const celebrating = game.secretNotice?.bonus && game.secretNotice.time > 0;
@@ -167,9 +186,9 @@ const HidingSpots = (() => {
             const bob = InterfaceMotion.reduced ? 0 : Math.sin((game.elapsed || 0) * 3) * 2;
             pill(worldX(cover ? cover.x + cover.w / 2 : hint.x), worldY(cover ? cover.y : hint.y) - 45 + bob, 112, 'Piu-piu…');
         }
-        if (spot) {
+        if (spot && !(spot.type === 'hay' && (chicken.hidden || (chicken.hideBlend || 0) > 0.02))) {
             ctx.save();
-            ctx.strokeStyle = exposed ? "#ff956c" : chicken.hidden ? "#e6f6be" : "#fff6bf";
+            ctx.strokeStyle = exposed || blocked ? "#ff956c" : chicken.hidden ? "#e6f6be" : "#fff6bf";
             ctx.lineWidth = 1.5;
             ctx.setLineDash(chicken.hidden ? [] : [3, 4]);
             ctx.beginPath();
@@ -177,21 +196,30 @@ const HidingSpots = (() => {
             ctx.stroke();
             ctx.restore();
         }
-        if (bonus) {
-            pill(p.x, p.y - 73, 180, `${control('interact')} · chamar pintinho`);
+        // Keep both the exit hint and a nearby chick's prompt above the actual bale.
+        if (chicken.hidden && spot?.type === 'hay' && spot.bale) {
+            p.x = worldX(spot.bale.x + spot.bale.w / 2);
+            p.y = worldY(spot.bale.y + 19);
+        }
+        if (blocked) {
+            pill(p.x, p.y - 73, 190, 'Moita do Lorenzo · ocupada', true);
+        }
+        else if (bonus) {
+            const key = control('interact');
+            pill(p.x, p.y - 73, 180, key === 'Chamar' ? 'Pintinho aqui' : `${key} · chamar pintinho`);
         }
         else if (chicken.hidden) {
             if (!celebrating || exposed)
-                pill(p.x, p.y - 73, 185, exposed ? "Ele viu você! Saia daí!" : `Escondida · ${control('exit')} para sair`, exposed);
+                pill(p.x, p.y - 73, 185, exposed ? "Ele viu você! Saia daí!" : control('exit') === 'Sair' ? 'Escondida · sair' : `Escondida · ${control('exit')} para sair`, exposed);
         }
         else if (spot) {
             if (!celebrating)
-                pill(p.x, p.y - 73, 155, `${control('hide')} · esconder`);
+                pill(p.x, p.y - 73, 155, control('hide') === 'Esconder' ? 'Esconderijo' : `${control('hide')} · esconder`);
         }
         else if (chicken.hideHintTimer > 0) {
             pill(p.x, p.y - 73, 180, 'Procure uma moita ou feno');
         }
     }
-    return { initialize, candidate, hasBonusClue, bonusInReach, bonusHomes, toggle, update, restore, drawForeground, drawIndicators,
+    return { initialize, candidate, occupied, hasBonusClue, bonusInReach, bonusHomes, toggle, update, restore, drawForeground, drawIndicators,
         getSpots: () => spots, obstacles: () => spots.filter(s => s.blockingRect).map(s => s.blockingRect) };
 })();

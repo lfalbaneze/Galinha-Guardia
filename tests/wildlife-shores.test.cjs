@@ -1,12 +1,13 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const {createGame}=require('./helpers.cjs');
-test('three dodges complete real shore encounters on three farms at every difficulty',()=>{
+const {playChallenge}=require('./panto-driver.cjs');
+test('three dodge-and-counter rounds complete real shore encounters on three farms at every difficulty',()=>{
 const h=createGame(()=>.5);
 for(const seed of [0,52,814237])for(const difficulty of ['easy','normal','hard']) {
   h.context.auditSeed=seed;h.context.auditDifficulty=difficulty;
-  const result=h.run(`(()=>{
-    difficultySelect.value=auditDifficulty;resetGame(auditSeed);state.phase='playing';
-    const g=state.entities.goose,c=state.entities.chicken;
+  const started=h.run(`difficultySelect.value=auditDifficulty;resetGame(auditSeed);state.phase='playing';
+    var g=state.entities.goose,c=state.entities.chicken;
+    (()=>{
     const free=(a,b)=>WildlifeRules.clear(a,b,c.hitbox);
     const candidates=[];
     for(let a=0;a<16;a++)for(const r of [90,110]) {
@@ -19,32 +20,16 @@ for(const seed of [0,52,814237])for(const difficulty of ['easy','normal','hard']
       return distance(q,g.home)<280&&free(p,q);
     }));
     if(!provoke)return {error:'no provoking point'};
-    Object.assign(c,provoke);if(!LakeChallenge.start(state))return {error:'start'};
-    let goal=provoke,route=[],dodging=false,hits=0,steps=0,previousHit=false;
-    for(;steps<2400&&!state.lake.completed;steps++) {
-      const dt=.05;
-      if(g.mode==='warning'&&!dodging) {
-        const dx=g.target.x-g.anchor.x,dy=g.target.y-g.anchor.y,len=Math.hypot(dx,dy)||1;
-        const escapes=[-1,1].flatMap(side=>[85,110].map(r=>({x:c.x-dy/len*r*side,y:c.y+dx/len*r*side})))
-          .filter(p=>distance(p,g.home)<290&&free(c,p));
-        if(!escapes.length)return {error:'no dodge point',misses:state.lake.misses,goose:{x:g.x,y:g.y},player:{x:c.x,y:c.y}};
-        goal=escapes[0];route=[goal];dodging=true;
-      }else if(!['warning','charge'].includes(g.mode)&&dodging) {dodging=false;goal=provoke;route=[];}
-      if(!dodging&&distance(c,goal)>3&&!route.length)route=WolfAI.findPath(c,goal);
-      if(route.length) {
-        const p=route[0],dx=p.x-c.x,dy=p.y-c.y,len=Math.hypot(dx,dy);
-        if(len<2)route.shift();else {const travel=Math.min(len,c.speed*dt);Player.move(c,dx/len*travel,dy/len*travel);}
-      }
-      c.invulnerable=Math.max(0,c.invulnerable-dt);
-      GooseSystem.update(state,dt);LakeChallenge.update(state,dt);
-      if(g.chargeHit&&!previousHit)hits++;previousHit=!!g.chargeHit;
-      if(!state.lake.active&&!state.lake.completed)return {error:'cancelled'};
-      if(!free(c,c)||!WildlifeRules.clear(g,g,g.hitbox))return {error:'collision'};
-    }
-    return {completed:state.lake.completed,misses:state.lake.misses,seconds:steps*.05,hits,mode:g.mode};
+    Object.assign(c,provoke);return LakeChallenge.start(state);
   })()`);
+  assert.equal(started,true,`start ${seed}/${difficulty}: ${JSON.stringify(started)}`);
+  playChallenge(h,800);
+  const result=h.run(`({completed:state.lake.completed,misses:state.lake.misses,
+    seconds:challengeFrames*.05,hits:state.lake.attempts,mode:g.mode,counters:counterPresses,clear:challengeClear})`);
   assert.equal(result.completed,true,JSON.stringify({seed,difficulty,...result}));
-  assert.equal(result.misses,3);assert.equal(result.hits,0);assert.ok(result.seconds<40);
+  assert.equal(result.misses,3);assert.equal(result.counters,3);assert.equal(result.hits,0);
+  assert.ok(result.seconds<40);assert.equal(result.clear,true,`collision ${seed}/${difficulty}`);
+  assert.equal(h.run('seenTactics.has("double") && seenTactics.has("rush")'),true);
   assert.equal(h.run('state.lives'),3);
 }
 

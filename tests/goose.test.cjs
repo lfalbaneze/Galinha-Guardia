@@ -11,7 +11,8 @@ function setup() {
       mode:'patrol',grace:0,cooldown:0,honkCooldown:0,timer:1});
     Object.assign(c,{x:1110,y:800,hidden:false,invulnerable:0});
     Object.assign(w,{x:2600,y:1650,huntUnlockTimer:0,pauseTimer:0});
-    var calls=[]; AudioSystem.play=(name,options)=>calls.push({name,options});`);
+    var calls=[]; AudioSystem.play=(name,options)=>calls.push({name,options});
+    AudioSystem.playPlayerHurt=()=>calls.push({name:'player-hurt'});`);
   return h;
 }
 const step = (h, seconds) => h.run(`for(let i=0;i<${Math.ceil(seconds/.05)};i++) GooseSystem.update(state,.05);`);
@@ -41,11 +42,30 @@ test('goose homes are deterministic and clear in 150 seeds and both world versio
 
 test('a goose is separate from ten friends and six optional chicks', () => {
   const h=setup();
-  assert.equal(h.run('state.entities.animals.length'),10);
+  assert.equal(h.run('state.entities.animals.length'),12);
   assert.equal(h.run('state.entities.chicks.length'),6);
   assert.equal(h.run('RescueSystem.all(state).includes(g)'),false);
   assert.equal(h.run('GameManager.rescue(state,g)'),false);
   assert.equal(h.run('state.rescuedCount'),0);
+});
+
+test('PANTO approaches a visible visitor at the edge before warning instead of standing still',()=>{
+  const h=setup();h.run('c.x=1200;GooseSystem.update(state,.05)');
+  assert.equal(h.run('g.mode'),'approach');
+  step(h,.7);assert.ok(h.run('g.x')>1000);
+  step(h,.55);assert.equal(h.run('g.mode'),'warning');
+  assert.equal(h.run('c.invulnerable'),0);
+});
+
+test('after the first attempt PANTO circles, then gives a complete fixed warning',()=>{
+  const h=setup();h.run('g.attempts=1;GooseSystem.update(state,.05)');step(h,.4);
+  assert.equal(h.run('g.mode'),'circle');
+  const before=h.run('g.y');step(h,.4);assert.notEqual(h.run('g.y'),before);
+  h.run("for(let i=0;i<30&&g.mode==='circle';i++)GooseSystem.update(state,.05)");
+  assert.equal(h.run('g.mode'),'warning');
+  assert.equal(h.run('g.timer'),h.run('GooseSystem.getConfig(state).warning'));
+  const target=h.run('JSON.stringify(g.target)');h.run('c.y+=80');step(h,.2);
+  assert.equal(h.run('JSON.stringify(g.target)'),target);
 });
 
 test('the warning gives time to dodge and does not hurt a touching player', () => {
@@ -67,7 +87,7 @@ test('contact gives a safe bump without changing lives, score or stamina',()=>{
   assert.equal(h.run('g.mode'),'recover');assert.equal(h.run('state.lives'),3);
   assert.equal(h.run('state.score'),500);assert.equal(h.run('c.stamina'),.6);
   assert.ok(h.run('c.x')>1110);assert.equal(h.run('c.invulnerable'),.9);
-  assert.ok(h.run('calls.some(c=>c.name==="bonk")'));
+  assert.equal(h.run('calls.filter(c=>c.name==="player-hurt").length'),1);
 });
 
 test('a goose bump cannot immediately become a wolf hit',()=>{
@@ -216,7 +236,7 @@ test('invalid environmental noise locations and phases are ignored',()=>{
   h.run("state.phase='menu'");assert.equal(h.run('WolfAI.investigateSound(state,g)'),false);
 });
 
-test('the goose honk is a reproducible local PCM effect, not an external recording',()=>{
+test('the previous synthesized goose honk remains reproducible for the before/after comparison',()=>{
   const file=path.join(__dirname,'../assets/audio/goose-honk.wav'),a=fs.readFileSync(file);
   assert.equal(a.toString('ascii',0,4),'RIFF');assert.equal(a.readUInt16LE(22),1);
   assert.equal(a.readUInt32LE(24),22050);assert.equal(a.readUInt16LE(34),16);
@@ -228,7 +248,7 @@ test('the goose honk is a reproducible local PCM effect, not an external recordi
 test('the goose sprite renders all directions and states from a decoded PNG',async()=>{
   const {createCanvas}=require('@napi-rs/canvas'),canvas=createCanvas(180,180);
   const h=setup();h.context.art=canvas.getContext('2d');
-  h.context.gooseImage=await require('@napi-rs/canvas').loadImage(path.join(__dirname,'../assets/sprites/sources/goose.png'));
+  h.context.gooseImage=await require('@napi-rs/canvas').loadImage(path.join(__dirname,'../assets/sprites/sources/panto-v2.png'));
   h.run('GooseArt.install(() => gooseImage);g.x=90;g.y=100');
   for(const mode of ['patrol','warning','charge','recover','return'])for(const dir of ['up','down','left','right']){
     h.run(`g.mode='${mode}';g.direction='${dir}';GooseArt.draw(art,g,{x:0,y:0,shakeX:0,shakeY:0})`);
@@ -247,7 +267,7 @@ test('honk playback respects the existing mute, effects volume and pause control
   const h=createGame(()=>.5,{Audio:MockAudio});
   h.run('AudioSystem.sync(state);AudioSystem.unlock();AudioSystem.setEffectsVolume(.4)');
   assert.equal(h.run("AudioSystem.play('goose-honk',{volume:.5})"),true);
-  assert.match(played.at(-1).src,/assets\/audio\/goose-honk\.wav$/);
+  assert.match(played.at(-1).src,/assets\/audio\/voices\/v4\/goose-honk\.wav$/);
   assert.equal(played.at(-1).volume,.2);
   h.run('AudioSystem.toggleMute()');assert.equal(h.run("AudioSystem.play('goose-honk')"),false);
   h.run('AudioSystem.toggleMute();AudioSystem.setEffectsVolume(0)');assert.equal(h.run("AudioSystem.play('goose-honk')"),false);

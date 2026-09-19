@@ -10,6 +10,63 @@ const WolfAI = (() => {
     // Thor and the wolf have different footprints. Keep both navigation graphs so
     // alternating their updates does not rebuild the whole farm graph each frame.
     const navigationCache = new Map();
+    const trails = new WeakMap();
+    function updateTracks(game, dt) {
+        let trail = trails.get(game);
+        if (!trail) {
+            trail = { prints: [], last: null, next: 0, read: -1 };
+            trails.set(game, trail);
+        }
+        for (const p of trail.prints)
+            p.age += dt;
+        trail.prints = trail.prints.filter(p => p.age < 8);
+        const c = game.entities.chicken;
+        if (c.hidden || !c.sprinting || c.sneaking || EnvironmentSystem.surfaceAt(game, { x: c.x, y: c.y + 14 }) === 'water') {
+            trail.last = null;
+            return;
+        }
+        if (!trail.last) {
+            trail.last = { x: c.x, y: c.y };
+            return;
+        }
+        const gap = distance(c, trail.last);
+        if (gap >= 24) {
+            // A teleport is not a continuous trail through the intervening walls.
+            if (gap < 100)
+                trail.prints.push({ x: c.x, y: c.y, age: 0, id: trail.next++, heading: Math.atan2(c.y - trail.last.y, c.x - trail.last.x) });
+            trail.last = { x: c.x, y: c.y };
+            trail.prints = trail.prints.slice(-48);
+        }
+    }
+    function sniffTrack(game) {
+        const wolf = game.entities.wolf, trail = trails.get(game);
+        if (!trail || wolf.hearingCooldown > 0 || wolf.huntUnlockTimer > 0 || !['patrol', 'search', 'investigate'].includes(wolf.mode) ||
+            (wolf.mode === 'search' && !wolf.searchApproached))
+            return false;
+        const print = trail.prints.filter(p => p.id > trail.read && distance(p, wolf) < 85 &&
+            DetectionSystem.hasLineOfSight(getHitbox(wolf), p)).sort((a, b) => b.id - a.id)[0];
+        if (!print)
+            return false;
+        trail.read = print.id;
+        return investigateSound(game, print, 85);
+    }
+    function drawTracks(game) {
+        for (const track of trails.get(game)?.prints || []) {
+            if (!WildlifeRules.onScreen(track, 15))
+                continue;
+            const p = worldToScreen(track);
+            ctx.save();
+            ctx.translate(p.x, p.y + 12);
+            ctx.rotate(track.heading);
+            ctx.globalAlpha = (1 - track.age / 8) * .35;
+            ctx.fillStyle = '#685235';
+            for (const side of [-1, 1]) {
+                ctx.fillRect(side * 4, side * 4, 5, 2);
+                ctx.fillRect(side * 4 + 3, side * 4 - 2, 2, 6);
+            }
+            ctx.restore();
+        }
+    }
     function getConfig(game) {
         const level = Number.isFinite(game.wolfLevel) ? clamp(Math.floor(game.wolfLevel), 0, 3) : 0;
         // Labels still have four tiers; the actual challenge advances at EVERY rescue.
@@ -42,6 +99,8 @@ const WolfAI = (() => {
             contactRange: 28, soundInterval: 0.65, investigateDuration: 2.6 + level * 0.3 };
     }
     function initialize(game) {
+        trails.delete(game);
+        SunflowerSystem.reset(game);
         Object.assign(game.entities.wolf, {
             mode: "patrol", heading: Math.PI, lastKnown: null, searchTime: 0,
             searchPoints: [], searchIndex: 0, searchOrigin: null, searchApproached: false, scanTime: 0,
@@ -52,6 +111,7 @@ const WolfAI = (() => {
             exposedCover: null, seenVelocity: { x: 0, y: 0 }, lastSight: null, sightAge: Infinity,
             investigateReturnMode: 'patrol',
             fearTime: 0, fearFrom: null, escapeTarget: null,
+            foxScoldCooldown: 0, speechPriority: 0,
         });
     }
     // Record the visible entrance once. Hidden movement never updates this observation.
@@ -63,6 +123,7 @@ const WolfAI = (() => {
             return false;
         wolf.exposedCover = { spotId: spot.id, x: chicken.x, y: chicken.y,
             remaining: config.hideMemoryDuration, inspectTime: 0.8 };
+        SunflowerSystem.cancel(game);
         wolf.lastKnown = { x: chicken.x, y: chicken.y };
         wolf.mode = "inspect";
         wolf.awareness = 1;
@@ -71,8 +132,9 @@ const WolfAI = (() => {
         wolf.routeTarget = null;
         wolf.routeTimer = 0;
         wolf.patrolPause = 0;
-        wolf.speech = "EU VI VOCÊ ENTRAR AÍ!";
+        wolf.speech = WolfDialogue.witnessLine(game);
         wolf.speechTime = 2.4;
+        wolf.speechSkin = chicken.skin || 'classic';
         wolf.speechCooldown = 4;
         wolf.speechMode = "inspect";
         return true;
@@ -247,6 +309,9 @@ const WolfAI = (() => {
         }
         if (config.level === 3)
             points.push({ x: WORLD.safeZone.x + WORLD.safeZone.r + 55, y: WORLD.safeZone.y + 70 });
+        // Outlying meadows are public landmarks too; the wolf no longer ignores the
+        // empty edges of the map. Keep a short circuit at the introductory level.
+        points.push(...(WORLD.layout.habitats || []).filter((_, i) => i % (config.level >= 2 ? 2 : 4) === 0).map(p => ({ x: p.x, y: p.y })));
         // Each farm has a stable patrol circuit, with order chosen from its public seed.
         // Neither player movement nor undiscovered animals affect this route.
         const seed = WORLD.layout?.seed || 0;
@@ -265,12 +330,17 @@ const WolfAI = (() => {
                 .sort((a, b) => distance(a, origin) - distance(b, origin));
             points.push(...spots.slice(0, 3));
         }
+        const nav = navigation(wolf);
         for (let i = 0; i < config.searchPoints; i += 1) {
             const velocity = wolf.seenVelocity || { x: 0, y: 0 };
             const heading = Math.hypot(velocity.x, velocity.y) > 20 ? Math.atan2(velocity.y, velocity.x) : wolf.heading;
-            const angle = heading + Math.PI * 2 * i / config.searchPoints;
+            // Check the remembered escape direction and its branches before doubling
+            // back. Every branch is an inference from the last sighting, never a peek.
+            const angle = heading + [0, -.65, .65, -1.5, 1.5, Math.PI][i % 6];
             const radius = config.searchRadius * (i % 2 ? 0.65 : 1);
-            points.push({ x: origin.x + Math.cos(angle) * radius, y: origin.y + Math.sin(angle) * radius });
+            const raw = { x: origin.x + Math.cos(angle) * radius, y: origin.y + Math.sin(angle) * radius };
+            const safe = openPoint({ x: raw.x + wolf.hitbox.ox, y: raw.y + wolf.hitbox.oy }, nav);
+            points.push({ x: safe.x - wolf.hitbox.ox, y: safe.y - wolf.hitbox.oy });
         }
         return points;
     }
@@ -431,6 +501,7 @@ const WolfAI = (() => {
     function frighten(game, source, seconds = 6) {
         if (game.phase !== 'playing' || game.lake?.active || !WildlifeRules.validPoint(source))
             return;
+        SunflowerSystem.cancel(game);
         const wolf = game.entities.wolf;
         resumePatrol(wolf);
         wolf.mode = 'frightened';
@@ -444,7 +515,7 @@ const WolfAI = (() => {
         wolf.heardPoint = null;
         wolf.lastSight = null;
         wolf.seenVelocity = { x: 0, y: 0 };
-        wolf.speech = 'Thor?! Tô saindo!';
+        wolf.speech = 'Thor?! Eu já tava indo!';
         wolf.speechTime = 3;
         wolf.speechCooldown = 6;
         wolf.speechMode = 'frightened';
@@ -480,6 +551,7 @@ const WolfAI = (() => {
         const config = getConfig(game);
         if (!wolf.mode)
             initialize(game);
+        updateTracks(game, dt);
         wolf.huntUnlockTimer = Math.max(0, (wolf.huntUnlockTimer || 0) - dt);
         wolf.pauseTimer = Math.max(0, (wolf.pauseTimer || 0) - dt);
         wolf.areaId = getAreaAt(wolf.x, wolf.y).id;
@@ -507,6 +579,10 @@ const WolfAI = (() => {
                 if (wolf.mode === "inspect")
                     beginSearch(wolf, config);
             }
+        }
+        if (SunflowerSystem.updateWolf(game, dt, config)) {
+            wolf.areaId = getAreaAt(wolf.x, wolf.y).id;
+            return;
         }
         if (wolf.pauseTimer > 0) {
             wolf.detected = false;
@@ -583,6 +659,8 @@ const WolfAI = (() => {
             wolf.mode = "investigate";
             wolf.routeTimer = 0;
         }
+        if (!perception.visible && !perception.heardPoint)
+            sniffTrack(game);
         let target;
         if (wolf.mode === "investigate") {
             wolf.investigateTime = Math.max(0, (wolf.investigateTime || 0) - dt);
@@ -692,5 +770,6 @@ const WolfAI = (() => {
         wolf.routeTimer = 0;
         return true;
     }
-    return { initialize, update, getConfig, findPath, patrolPoints, witnessHide, isExposed, canCatchHidden, restoreCoverMemory, investigateSound, frighten };
+    return { initialize, update, getConfig, findPath, patrolPoints, witnessHide, isExposed, canCatchHidden, restoreCoverMemory, investigateSound, frighten, drawTracks,
+        moveTo: moveToward, clearTracks: (game) => { trails.delete(game); SunflowerSystem.reset(game); } };
 })();

@@ -18,7 +18,7 @@ test('the defeated goose does not talk over the cosmetic unlock notice', () => {
     OBSTACLES=[];g.x=1000;g.y=800;g.mode='defeated';c.x=1030;c.y=800;
     camera.x=700;camera.y=600;state.skinNotice={time:3,text:'Ganso do lago'};
     GooseSystem.drawIndicator(state);`);
-  assert.equal(h.run("spoken.includes('Pode passar…')"), false);
+  assert.equal(h.run("spoken.includes('Tá. Mas sem farra!')"), false);
   h.run('state.skinNotice.time=0;GooseSystem.drawIndicator(state)');
-  assert.equal(h.run("spoken.includes('Pode passar…')"), true);
+  assert.equal(h.run("spoken.includes('Tá. Mas sem farra!')"), true);
 });

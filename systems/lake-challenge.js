@@ -2,6 +2,8 @@
 /* An optional, self-contained encounter. No friend or chick is locked behind it. */
 const LakeChallenge = (() => {
     const ARENA = 310;
+    const COUNTER_RANGE = 82;
+    const rounds = ['Bote direto', 'Bote duplo', 'Blefe e arrancada'];
     const copy = (p) => ({ x: p.x, y: p.y });
     function initialize(game) {
         game.lake = { version: 1, active: false, completed: false, misses: 0, attempts: 0, notice: 0 };
@@ -9,7 +11,7 @@ const LakeChallenge = (() => {
     function available(game) {
         const goose = game.entities.goose, chicken = game.entities.chicken;
         return game.phase === 'playing' && !!goose && !game.lake?.active && !game.lake?.completed &&
-            !chicken.hidden && distance(chicken, goose.home) < 255 &&
+            !chicken.hidden && !SwimmingSystem.profile(game).swimming && distance(chicken, goose.home) < 255 &&
             DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(goose));
     }
     function safeWolfPosition(game) {
@@ -31,14 +33,14 @@ const LakeChallenge = (() => {
         return candidates.filter(clear).sort((a, b) => distance(a, wolf) - distance(b, wolf))[0] || null;
     }
     function start(game) {
-        if (!available(game))
+        if (!available(game) || ThorSystem.active(game))
             return false;
         const resting = safeWolfPosition(game);
         if (!resting)
             return false;
         if (!game.lake)
             initialize(game);
-        Object.assign(game.lake, { active: true, completed: false, misses: 0, attempts: 0, notice: 4, interrupted: false });
+        Object.assign(game.lake, { active: true, completed: false, misses: 0, attempts: 0, counterWindow: 0, notice: 4, interrupted: false, feedback: undefined });
         const wolf = game.entities.wolf;
         // The encounter suspends the wolf outside the ring rather than granting permanent invulnerability.
         WolfAI.initialize(game);
@@ -47,16 +49,21 @@ const LakeChallenge = (() => {
         wolf.vx = 0;
         wolf.vy = 0;
         const goose = game.entities.goose;
-        goose.mode = 'return';
-        goose.grace = 1.5;
-        goose.cooldown = 1;
+        goose.mode = 'recover';
+        goose.grace = .8;
+        goose.cooldown = .8;
         goose.chargeHit = false;
-        goose.timer = .8;
+        goose.chargeCounted = false;
+        goose.timer = .6;
+        goose.comboRemaining = 0;
+        goose.comboFollowup = false;
+        goose.challengeFeinted = false;
+        goose.earlyDodge = false;
         if (typeof GameInput !== 'undefined')
             GameInput.clear();
         else
             input.clear();
-        setStatus('PANTO, o dono do lago! Provoque 3 investidas e desvie. O lobo espera fora. Use Sair do desafio para parar.');
+        setStatus('Três carimbos para passar: desvie da sequência, aproxime-se de PANTO tonto e interaja. Três bicadas encerram a tentativa!');
         GameManager.save(game);
         updateUI(game);
         return true;
@@ -71,6 +78,7 @@ const LakeChallenge = (() => {
         game.lake.active = false;
         game.lake.misses = 0;
         game.lake.notice = 0;
+        game.lake.counterWindow = 0;
         const goose = game.entities.goose;
         if (goose) {
             goose.mode = 'return';
@@ -78,7 +86,7 @@ const LakeChallenge = (() => {
             goose.grace = 2;
         }
         releaseWolf(game);
-        setStatus('Desafio interrompido. Volte ao lago quando quiser tentar de novo.');
+        setStatus('Desafio interrompido. PANTO vai treinar a cara de bravo. Volte ao lago para tentar de novo!');
         GameManager.save(game);
         updateUI(game);
         return true;
@@ -87,19 +95,66 @@ const LakeChallenge = (() => {
         if (game.phase !== 'playing' || !game.lake || !Number.isFinite(dt) || dt <= 0)
             return;
         game.lake.notice = Math.max(0, game.lake.notice - dt);
+        if (game.lake.active && SwimmingSystem.profile(game).swimming) {
+            cancel(game);
+            setStatus('Banho não vale carimbo! PANTO espera na margem para começar outra tentativa.');
+            return;
+        }
+        if (game.lake.active && (game.lake.counterWindow || 0) > 0) {
+            game.lake.counterWindow = Math.max(0, game.lake.counterWindow - dt);
+            if (game.lake.counterWindow === 0) {
+                game.lake.feedback = 'expired';
+                game.lake.notice = 2.5;
+                if (game.entities.goose)
+                    game.entities.goose.challengeFeinted = false;
+            }
+        }
         if (game.lake.active && (!game.entities.goose || distance(game.entities.chicken, game.entities.goose.home) > ARENA))
             cancel(game);
     }
     function recordMiss(game, goose) {
         const lake = game.lake;
         if (!lake?.active || lake.completed || goose.mode !== 'charge' || goose.chargeCounted || goose.chargeHit ||
-            distance(goose, goose.anchor) < 36 || game.entities.chicken.hidden ||
+            (goose.comboRemaining || 0) > 0 || goose.comboFollowup ||
+            game.entities.chicken.hidden || SwimmingSystem.profile(game).swimming ||
             distance(game.entities.chicken, goose.home) > ARENA)
             return false;
+        if (distance(goose, goose.anchor) < 36) {
+            lake.feedback = 'blocked';
+            lake.notice = 2;
+            return false;
+        }
         goose.chargeCounted = true;
+        lake.counterDuration = game.difficultyKey === 'easy' ? 3.6 : game.difficultyKey === 'hard' ? 2.5 : 3;
+        lake.counterWindow = lake.counterDuration;
+        lake.notice = lake.counterDuration;
+        lake.feedback = 'dodge';
+        AudioSystem.play('panto-dodge', { volume: .7 });
+        setStatus('PANTO ficou tonto! Chegue perto e interaja para pegar o carimbo antes que ele se recomponha.');
+        updateUI(game);
+        return true;
+    }
+    function canCounter(game) {
+        const goose = game.entities.goose, chicken = game.entities.chicken;
+        return game.phase === 'playing' && !!game.lake?.active && (game.lake.counterWindow || 0) > 0 &&
+            !!goose && goose.mode === 'stunned' && goose.chargeCounted === true && !chicken.hidden && !SwimmingSystem.profile(game).swimming &&
+            distance(chicken, goose.home) <= ARENA &&
+            distance(goose, chicken) <= COUNTER_RANGE && DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(goose));
+    }
+    function interact(game) {
+        if (game.phase !== 'playing' || !game.lake?.active)
+            return false;
+        // Own the interaction during an attempt: a missed counter must not hide the player.
+        if (!canCounter(game))
+            return true;
+        const lake = game.lake, goose = game.entities.goose;
+        lake.counterWindow = 0;
         lake.misses = Math.min(3, lake.misses + 1);
+        lake.feedback = 'counter';
         lake.notice = 2.5;
-        AudioSystem.play('bonk', { volume: .35 });
+        goose.challengeFeinted = false;
+        goose.comboRemaining = 0;
+        goose.comboFollowup = false;
         spawnBurst(goose.x, goose.y, '#f5df95', 12);
         if (lake.misses === 3) {
             lake.completed = true;
@@ -112,14 +167,47 @@ const LakeChallenge = (() => {
             SkinSystem.unlockLake(game);
             buildObstacles(game);
             releaseWolf(game);
-            AudioSystem.play('rescue', { volume: .5 });
-            setStatus('Você conquistou o respeito de PANTO! Atalho do lago aberto e aparência de ganso no baú.', 'win');
+            AudioSystem.play('panto-victory', { volume: .85 });
+            setStatus('PANTO aprovou sua passagem. Reclamando, mas aprovou! Atalho do lago aberto e aparência de ganso no baú.', 'win');
         }
-        else
-            setStatus(`Ele errou! ${lake.misses}/3 investidas desviadas. Espere o próximo aviso.`, 'win');
+        else {
+            goose.mode = 'recover';
+            goose.timer = .85;
+            goose.cooldown = 1.05;
+            AudioSystem.play('pop', { volume: .55 });
+            setStatus(`${lake.misses}/3 carimbos! Agora: ${rounds[lake.misses]}. PANTO trocou de estratégia.`, 'win');
+        }
         GameManager.save(game);
         updateUI(game);
         return true;
+    }
+    function recordHit(game) {
+        const lake = game.lake;
+        if (!lake?.active)
+            return;
+        lake.attempts += 1;
+        lake.counterWindow = 0;
+        lake.feedback = 'hit';
+        lake.notice = 2.5;
+        const goose = game.entities.goose;
+        goose.comboRemaining = 0;
+        goose.comboFollowup = false;
+        goose.challengeFeinted = false;
+        if (lake.attempts >= 3) {
+            lake.active = false;
+            lake.misses = 0;
+            lake.feedback = 'failed';
+            lake.notice = 6;
+            goose.mode = 'recover';
+            goose.timer = 1;
+            goose.grace = 2;
+            releaseWolf(game);
+            setStatus('Três bicadas: tentativa encerrada. PANTO reteve seu crachá. Volte e desafie de novo!');
+        }
+        else
+            setStatus(`Pegou! ${3 - lake.attempts} ${lake.attempts === 2 ? 'chance restante' : 'chances restantes'}. O carimbo desta rodada ainda está com PANTO.`);
+        GameManager.save(game);
+        updateUI(game);
     }
     function blocksWolf(game) { return game.lake?.active === true; }
     function snapshot(game) {
@@ -142,7 +230,8 @@ const LakeChallenge = (() => {
     }
     function bridge() {
         const p = STRUCTURES.pond;
-        return { x: Math.round(p.x + p.w / 2 - 36), y: p.y - 34, w: 72, h: p.h + 68 };
+        // Cross west/east; a north exit would end against the farm's boundary fence.
+        return { x: p.x - 4, y: Math.round(p.y + p.h / 2 - 38), w: p.w + 8, h: 76 };
     }
     function pondObstacles(game) {
         const p = STRUCTURES.pond;
@@ -150,7 +239,7 @@ const LakeChallenge = (() => {
         if (!game?.lake?.completed || game.worldSeed !== WORLD.layout?.seed)
             return [water];
         const b = bridge();
-        return [{ ...water, w: b.x - water.x }, { ...water, x: b.x + b.w, w: water.x + water.w - b.x - b.w }].filter(r => r.w > 0);
+        return [{ ...water, h: b.y - water.y }, { ...water, y: b.y + b.h, h: water.y + water.h - b.y - b.h }].filter(r => r.h > 0);
     }
     function drawGround(game) {
         if (game.phase !== 'playing' && game.phase !== 'menu')
@@ -159,43 +248,100 @@ const LakeChallenge = (() => {
         if (p.x < -b.w || p.x > canvas.width || p.y < -b.h || p.y > canvas.height)
             return;
         ctx.save();
+        ctx.translate(Math.round(p.x), Math.round(p.y));
         ctx.imageSmoothingEnabled = false;
-        if (open) {
-            ctx.fillStyle = '#254c3433';
-            ctx.fillRect(Math.round(p.x + 5), Math.round(p.y + 6), b.w, b.h);
+        const rect = (x, y, w, h, color) => { ctx.fillStyle = color; ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); };
+        // Short, worn landings join the deck to walkable grass on each bank.
+        // Keep the existing lake access and farm roads in their saved positions.
+        for (const end of [0, b.w]) {
+            ctx.fillStyle = '#bca06c55';
+            ctx.beginPath();
+            ctx.ellipse(end + (end ? 12 : -12), b.h / 2, 34, 25, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#c5a977';
+            ctx.beginPath();
+            ctx.ellipse(end + (end ? 10 : -10), b.h / 2, 25, 19, 0, 0, Math.PI * 2);
+            ctx.fill();
+            for (let i = 0; i < 18; i++)
+                rect(end + (end ? 1 : -1) * (8 + (i * 13) % 23), b.h / 2 - 12 + (i * 17) % 25, 2, 2, i % 3 ? '#dfbd7a55' : '#93784e55');
         }
-        const plank = (y) => {
-            ctx.fillStyle = '#573e29';
-            ctx.fillRect(p.x, y, b.w, 11);
-            ctx.fillStyle = (Math.round(y - p.y) / 12) % 2 ? '#ba9055' : '#c7a264';
-            ctx.fillRect(p.x + 2, y, b.w - 4, 8);
-            ctx.fillStyle = '#e2c18a';
-            ctx.fillRect(p.x + 2, y, b.w - 4, 1);
-            ctx.fillStyle = '#635437';
-            ctx.fillRect(p.x + 7, y + 4, 2, 2);
-            ctx.fillRect(p.x + b.w - 9, y + 4, 2, 2);
-        };
-        for (let y = 0; y < b.h; y += 12)
-            if (open || y < 30 || y > b.h - 36)
-                plank(Math.round(p.y + y));
-        if (open) {
-            ctx.fillStyle = '#765339';
-            ctx.fillRect(p.x + 1, p.y, 3, b.h);
-            ctx.fillRect(p.x + b.w - 4, p.y, 3, b.h);
-        }
-        else {
-            for (const y of [p.y + 22, p.y + b.h - 25]) {
-                ctx.fillStyle = '#695035';
-                ctx.fillRect(p.x - 2, y - 18, 6, 24);
-                ctx.fillRect(p.x + b.w - 4, y - 18, 6, 24);
-                ctx.strokeStyle = '#d3b077';
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.moveTo(p.x + 2, y - 12);
-                ctx.quadraticCurveTo(p.x + b.w / 2, y - 3, p.x + b.w - 2, y - 12);
-                ctx.stroke();
+        // Abutments meet the left and right banks without extending toward the fence.
+        for (const end of [0, b.w]) {
+            ctx.fillStyle = '#bca06c55';
+            ctx.beginPath();
+            ctx.ellipse(end, b.h / 2, 20, 47, 0, 0, Math.PI * 2);
+            ctx.fill();
+            for (let i = 0; i < 5; i++) {
+                const x = end - 5, y = -5 + i * 17;
+                rect(x + 3, y + 6, 12, 16, '#46514050');
+                rect(x, y, 11, 16, i % 2 ? '#a9a78a' : '#b9b499');
+                rect(x + 1, y, 9, 2, '#d0c8a8');
+                rect(x + 8, y + 3, 3, 12, '#7e806b');
             }
         }
+        if (open) {
+            rect(4, 10, b.w, b.h - 3, '#254f4235');
+            rect(0, 2, b.w, 7, '#62412a');
+            rect(0, b.h - 9, b.w, 7, '#62412a');
+        }
+        const count = Math.ceil(b.w / 14), step = b.w / count;
+        for (let i = 0; i < count; i++) {
+            if (!open && i > 1 && i < count - 2)
+                continue;
+            const x = i * step;
+            rect(x, 4, step + 1, b.h - 6, '#66442c');
+            rect(x, 4, step - 2, b.h - 10, ['#b4854b', '#b98b51', '#aa7943', '#c19256'][i % 4]);
+            rect(x + 1, 4, step - 4, 2, '#dbaf70');
+            rect(x + step - 4, 7, 1, b.h - 16, '#946135');
+            rect(x + 5, 16 + (i * 13) % 23, 1, 18 + (i % 3) * 5, '#86552e55');
+            rect(x + 4, 9, 2, 2, '#665844');
+            rect(x + 4, b.h - 12, 2, 2, '#665844');
+        }
+        // Upright posts keep the top-down perspective when the deck runs horizontally.
+        const postXs = open ? [3, b.w * .33, b.w * .67, b.w - 7] : [8, b.w - 14];
+        for (const y of [3, b.h - 4]) {
+            if (open)
+                for (let i = 1; i < postXs.length; i++) {
+                    const a = postXs[i - 1], z = postXs[i];
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#705638';
+                    ctx.beginPath();
+                    ctx.moveTo(a + 3, y - 14);
+                    ctx.quadraticCurveTo((a + z) / 2, y - 6, z + 3, y - 14);
+                    ctx.stroke();
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = '#d3b57b';
+                    ctx.stroke();
+                }
+            for (const x of postXs) {
+                rect(x + 4, y - 4, 11, 8, '#263e3530');
+                rect(x, y - 20, 7, 25, '#61432b');
+                rect(x + 1, y - 18, 4, 20, '#ae7c43');
+                rect(x + 1, y - 18, 1, 20, '#d0a260');
+                rect(x - 1, y - 23, 9, 5, '#795332');
+                rect(x, y - 23, 7, 2, '#d4ab6c');
+            }
+        }
+        if (!open)
+            for (const x of [11, b.w - 11]) {
+                ctx.strokeStyle = '#d8b77b';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(x, -11);
+                ctx.quadraticCurveTo(x + 5, b.h / 2 - 14, x, b.h - 18);
+                ctx.stroke();
+                const y = b.h / 2 - 18;
+                rect(x - 13, y, 26, 18, '#805532');
+                rect(x - 11, y + 2, 22, 14, '#bb8b4e');
+                ctx.strokeStyle = '#efd28e';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x - 4, y + 5);
+                ctx.lineTo(x + 4, y + 12);
+                ctx.moveTo(x + 4, y + 5);
+                ctx.lineTo(x - 4, y + 12);
+                ctx.stroke();
+            }
         ctx.restore();
     }
     function updateUI(game) {
@@ -203,23 +349,57 @@ const LakeChallenge = (() => {
         const title = document.getElementById('lakeTitle'), text = document.getElementById('lakeHelp');
         if (!panel || !button || !title || !text)
             return;
-        const goose = game.entities.goose, near = goose && distance(game.entities.chicken, goose.home) < 420;
-        panel.hidden = game.phase !== 'playing' || !near;
-        const completed = game.lake?.completed, active = game.lake?.active;
-        title.textContent = completed ? 'PANTO respeita você' : 'PANTO · O dono do lago';
-        const cue = goose?.mode === 'warning' || goose?.mode === 'charge' ? 'Saia da faixa marcada para desviar!' :
-            goose?.mode === 'feint' ? 'Foi um blefe. Aguarde a investida de verdade.' :
-                goose?.mode === 'stunned' ? (goose.chargeCounted ? 'Boa esquiva! Espere PANTO se recuperar.' :
-                    'Ele parou antes do fim. Espere o próximo aviso.') :
-                    ['return', 'recover', 'reposition'].includes(goose?.mode || '') ? 'Ele está se posicionando. Espere o próximo aviso.' :
-                        'Aproxime-se para provocar; depois saia da faixa marcada.';
+        const goose = game.entities.goose;
+        const completed = game.lake?.completed, active = game.lake?.active, lake = game.lake;
+        panel.hidden = game.phase !== 'playing' || !!completed || !(active || available(game));
+        const failed = lake?.feedback === 'failed' && lake.notice > 0;
+        const counter = (lake?.counterWindow || 0) > 0;
+        const action = typeof GameInput === 'undefined' ? 'E' : GameInput.label('interact');
+        const cue = counter ? (canCounter(game) ? `${action} · Pegar carimbo!` : 'PANTO tonto! Chegue perto para pegar o carimbo.') :
+            goose?.mode === 'feint' ? 'É blefe! Espere a faixa de verdade.' :
+                goose?.mode === 'warning' || goose?.mode === 'charge' ? (goose.tactic === 'double' ? ((goose.comboRemaining || 0) > 0 ? 'Bote duplo! Ainda vem outra faixa.' : 'Segundo bote! Desvie e pegue o carimbo.') : 'Saia da faixa marcada!') :
+                    lake?.feedback === 'expired' && lake.notice > 0 ? 'A abertura fechou. Desvie de outra sequência.' :
+                        lake?.feedback === 'hit' && lake.notice > 0 ? `Pegou! Restam ${3 - lake.attempts} chances.` :
+                            lake?.feedback === 'combo' && lake.notice > 0 ? 'Não pare! PANTO prepara o segundo bote.' : 'Provoque o bote. Depois pegue o carimbo com ' + action + '.';
+        const hud = document.getElementById('lakeCounter'), value = document.getElementById('lakeCounterValue');
+        const hudTitle = document.getElementById('lakeCounterTitle'), hudCue = document.getElementById('lakeCounterCue');
+        if (hud && value && hudTitle && hudCue) {
+            hud.hidden = game.phase !== 'playing' || !(active || failed || (completed && game.lake.notice > 0));
+            hud.dataset.completed = String(!!completed);
+            hud.dataset.feedback = (game.lake?.notice || 0) > 0 ? game.lake?.feedback || '' : '';
+            const count = `${game.lake?.misses || 0}/3`;
+            if (value.textContent !== count)
+                value.textContent = count;
+            value.setAttribute('aria-label', `${game.lake?.misses || 0} de 3 carimbos`);
+            hudTitle.textContent = completed ? 'DESAFIO CONCLUÍDO!' : failed ? 'TENTATIVA ENCERRADA' : 'CARIMBOS DO PANTO';
+            hudCue.textContent = completed ? 'Fiscal driblado! Ponte liberada.' : failed ? 'Três bicadas. Tente o desafio novamente.' : cue;
+            const round = document.getElementById('lakeRound'), chances = document.getElementById('lakeChances');
+            if (round)
+                round.textContent = completed ? 'Passagem aprovada' : failed ? 'PANTO reteve seu crachá' : `${Math.min(3, (lake?.misses || 0) + 1)} · ${rounds[Math.min(2, lake?.misses || 0)]}`;
+            if (chances)
+                chances.textContent = completed ? '✓' : `${Math.max(0, 3 - (lake?.attempts || 0))} chances`;
+            const timer = document.getElementById('lakeWindow');
+            if (timer) {
+                timer.hidden = !counter;
+                timer.max = 1;
+                timer.value = (lake?.counterWindow || 0) / (lake?.counterDuration || 3);
+            }
+            for (let i = 1; i <= 3; i++) {
+                const stamp = document.getElementById(`lakeStamp${i}`);
+                if (stamp) {
+                    stamp.dataset.earned = String(i <= (game.lake?.misses || 0));
+                    stamp.textContent = i <= (game.lake?.misses || 0) ? '✓' : ['BOTE', 'DUPLO', 'BLEFE'][i - 1];
+                }
+            }
+        }
+        title.textContent = completed ? 'PANTO liberou a ponte' : 'PANTO · O fiscal do lago';
         text.textContent = completed ? 'Atalho aberto. Aparência de ganso disponível no baú.' : active ?
-            `${game.lake.misses}/3 investidas desviadas · ${cue} O lobo espera fora.` :
-            'Desafio opcional: provoque três investidas e desvie. Ganhe um atalho e a aparência de ganso.';
+            `${game.lake.misses}/3 carimbos · ${cue} O lobo espera fora.` :
+            `Desvie, aproxime-se de PANTO tonto e use ${action} para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Ganhe a ponte e a aparência de ganso.`;
         button.hidden = !!completed;
         button.disabled = !active && !available(game);
         const key = typeof GameInput === 'undefined' ? 'F' : GameInput.label('lake');
-        button.textContent = `${active ? 'Sair do desafio' : 'Desafiar PANTO'}${key ? ` · ${key}` : ''}`;
+        button.textContent = `${active ? 'Sair' : 'Desafiar PANTO'}${key ? ` · ${key}` : ''}`;
     }
-    return { initialize, available, start, cancel, update, recordMiss, blocksWolf, snapshot, restore, pondObstacles, bridge, drawGround, updateUI, radius: ARENA };
+    return { initialize, available, start, cancel, update, recordMiss, recordHit, canCounter, interact, blocksWolf, snapshot, restore, pondObstacles, bridge, drawGround, updateUI, radius: ARENA };
 })();

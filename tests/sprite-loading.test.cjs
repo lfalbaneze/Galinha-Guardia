@@ -7,9 +7,9 @@ function renderer() {
     vm.runInContext(fs.readFileSync(path.join(root, 'systems', file), 'utf8'), context);
   return vm.runInContext('CharacterArt', context);
 }
-test('all 14 characters have four nonempty poses inside real PNG files', () => {
+test('all 23 characters and appearances have four nonempty poses inside real PNG files', () => {
   const art = renderer();
-  assert.equal(art.species.length, 14);
+  assert.equal(art.species.length, 23);
   for (const species of art.species) for (const direction of ['up', 'right', 'down', 'left']) {
     const { pose } = art.frameFor(species, { direction });
     assert.ok(pose.bottom > pose.top && pose.width > 0, `${species}/${direction}`);
@@ -28,12 +28,31 @@ test('idle stays still, walking advances, and source-specific direction orders a
     assert.equal(art.frameFor(species, { anim: 7 }).index, 0);
     assert.equal(art.frameFor(species, { anim: 1.2, moving: true }).index, 1);
   }
-  assert.equal(art.frameFor('cow', { direction: 'left' }).frame.y, 128);
-  assert.equal(art.frameFor('cow', { direction: 'right' }).frame.y, 384);
-  assert.equal(art.frameFor('chicken', { direction: 'right' }).frame.y, 32);
-  assert.equal(art.frameFor('chicken', { direction: 'left' }).frame.y, 96);
-  assert.equal(art.frameFor('duck', { direction: 'right' }).pose.flip, true);
+  for(const species of ['sheep','pig','goat','cow','duck','rabbit','dog','cat','donkey','lamb','chick','horse','turkey']) {
+    const poses=['down','right','up','left'].map(direction=>art.frameFor(species,{direction}));
+    assert.ok(poses.every(p=>p.frame.src.endsWith(`cute-${species}-v2.png`)));
+    assert.ok(poses.every((p,i)=>!i||p.frame.y>poses[i-1].frame.y));
+    assert.ok(poses.every(p=>p.frame.h*p.scale<=105&&p.frame.w*p.scale<=111));
+  }
+  for(const species of ['chicken','hen-silkie','hen-blue','skin-zeca','skin-pipoca','skin-amora','skin-pacoca','skin-gumercindo']) {
+    const poses=['down','right','up','left'].map(direction=>art.frameFor(species,{direction}));
+    assert.ok(poses.every((p,i)=>!i||p.frame.y>poses[i-1].frame.y));
+    assert.ok(poses.every(p=>p.frame.h*p.scale<=58&&p.frame.w*p.scale<=64));
+  }
+  assert.equal(art.frameFor('duck', { direction: 'right' }).pose.flip, false);
   assert.equal(art.frameFor('duck', { direction: 'left' }).pose.flip, false);
+});
+
+test('livestock stays larger than the hen in every direction and small pets stay smaller', () => {
+  const art=renderer();
+  const heights=species=>['up','right','down','left'].map(direction=>{
+    const p=art.frameFor(species,{direction});return p.frame.h*p.scale;
+  });
+  const hen=Math.max(...heights('chicken'));
+  for(const [species,ratio] of [['horse',1.6],['cow',1.35],['donkey',1.3]])
+    assert.ok(Math.min(...heights(species))>hen*ratio,`${species} keeps its larger silhouette when it turns`);
+  for(const species of ['cat','rabbit','duck'])assert.ok(Math.max(...heights(species))<hen*.8,species);
+  assert.ok(Math.max(...heights('chick'))<hen*.5);
 });
 test('image loading is shared, completes before ready, and successful loads are reused', async () => {
   const art = renderer(), callbacks = [];
@@ -66,6 +85,6 @@ test('each rendered character uses its image and preserves the caller canvas sta
     assert.equal(art.draw(c, species, 50, 60, { direction, moving: true, anim: 1.2 }), true);
     assert.equal(c.imageSmoothingEnabled, true); assert.equal(stack.length, 0);
   }
-  assert.equal(draws.length, 56); assert.ok(modes.every(value => value === false));
+  assert.equal(draws.length, art.species.length * 4); assert.ok(modes.every(value => value === false));
   assert.equal(renderer().draw(c, 'chicken', 0, 0), false, 'never draw an undecoded image');
 });

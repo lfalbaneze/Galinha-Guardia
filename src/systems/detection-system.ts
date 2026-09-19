@@ -28,7 +28,7 @@ const DetectionSystem = (() => {
       segmentIntersectsRect(from, to, rect));
   }
 
-  function canSee(wolf: Farm.Wolf, chicken: Farm.Chicken, options: Partial<Farm.DetectionConfig> = {}): boolean {
+  function canSee(wolf: Farm.Wolf, chicken: Farm.Point & {hidden?: boolean}, options: Partial<Farm.DetectionConfig> = {}): boolean {
     if (chicken.hidden) return false;
     const config = { ...defaults, ...options };
     const dx = chicken.x - wolf.x;
@@ -47,7 +47,8 @@ const DetectionSystem = (() => {
     if (chicken.hidden || !chicken.sprinting || Math.hypot(chicken.vx || 0, chicken.vy || 0) <= 10) return null;
     const distance = Math.hypot(chicken.x - wolf.x, chicken.y - wolf.y);
     // Sight progression never expands hearing into a farm-wide player tracker.
-    const soundRadius = Number.isFinite(config.noiseRange) ? Math.max(0, Math.min(180, config.noiseRange)) : defaults.noiseRange;
+    const soundRadius = (Number.isFinite(config.noiseRange) ? Math.max(0, Math.min(180, config.noiseRange)) : defaults.noiseRange) *
+      SkinSystem.power(chicken).noiseScale;
     if (distance > soundRadius) return null;
     const walls = OBSTACLES.filter(rect => rect.type !== "pond" && rect.opaque !== false &&
       segmentIntersectsRect(wolf, chicken, rect)).length;

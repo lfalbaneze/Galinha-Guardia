@@ -89,11 +89,11 @@ test('rescue and capture sounds fire on successful events without duplicating th
     Object.assign(state.entities.wolf,{x:state.entities.chicken.x,y:state.entities.chicken.y,huntUnlockTimer:0,pauseTimer:0});
     Player.checkCatch(state);Player.checkCatch(state);`);
   assert.equal(h.plays.filter(p => /chick\.wav$/.test(p.src)).length, 1);
-  assert.equal(h.plays.filter(p => /squeak\.wav$/.test(p.src)).length, 1);
+  assert.equal(h.plays.filter(p => /animal-chicken(?:-2)?\.wav$/.test(p.src)).length, 1);
   assert.equal(h.run('state.lives'), 2);
 });
 
-test('all ten friends and six chicks use their own rescue call once, including after reload', () => {
+test('all twelve friends and six chicks use their own rescue call once, including after reload', () => {
   const h = harness(); start(h);
   h.run(`for(const animal of [...state.entities.chicks, ...state.entities.animals]){
     animal.discovered=true;
@@ -101,13 +101,13 @@ test('all ten friends and six chicks use their own rescue call once, including a
     RescueSystem.update(state,0);RescueSystem.update(state,0);
   }`);
   const calls = h.plays.filter(p => !p.loop && p.volume > .1).map(p => p.src.split('/').pop());
-  const adultSpecies = ['sheep','pig','goat','cow','duck','rabbit','dog','cat','donkey','lamb'];
+  const adultSpecies = ['sheep','pig','goat','cow','duck','rabbit','dog','cat','donkey','lamb','horse','turkey'];
   for (const species of adultSpecies) {
     assert.equal(calls.filter(name => name === `animal-${species}.wav`).length, 1, species);
   }
   assert.equal(calls.filter(name => name === 'chick.wav').length, 6);
-  assert.equal(calls.length, 16);
-  assert.equal(h.run('state.score'), 2350);
+  assert.equal(calls.length, 18);
+  assert.equal(h.run('state.score'), 2550);
   const saved = harness(new Map(h.storage), true);
   saved.events.elements.continueBtn.click();
   saved.run('updateGame(.05);renderGame();');

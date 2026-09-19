@@ -34,7 +34,9 @@ const WorldGenerator = (() => {
       a.y < b.y + b.h + gap && a.y + a.h > b.y - gap;
   }
 
-  function generate(value, version = 5, layoutAttempt = 0, onPacked = null) {
+  function generate(value, version = 7, layoutAttempt = 0, onPacked = null) {
+    if(version>=7)return extendRescues(generate(value,6,layoutAttempt,onPacked));
+    if(version>=6)return inhabit(generate(value,5,layoutAttempt,onPacked));
     if(version>=5) {
       let packedAttempt=layoutAttempt;
       const source=generate(value,4,layoutAttempt,attempt=>{packedAttempt=attempt;});
@@ -665,6 +667,77 @@ const WorldGenerator = (() => {
     layout.vegetation=retained;
     const groupIds=new Set(retained.map(p=>p.id));
     layout.decorations=layout.decorations.filter(d=>d.plotId||d.groupId==='lake'||groupIds.has(d.groupId));
+    return layout;
+  }
+  // Fill the largest quiet gaps, including the outer edges. Each little pasture
+  // has open ground for a herd and planting at its edge, never across a road.
+  function inhabit(layout) {
+    layout.version=6;layout.habitats=[];
+    const s=layout.structures,random=randomSource(layout.seed^0x719ac31);
+    const tracks=[...layout.paths,...layout.lanes],plots=layout.plots||[];
+    const structures=[s.barn,s.pond,...s.coops,...s.silos,...s.stables,...s.hayBales,...s.troughs,...s.paddockFences];
+    const anchors=[layout.start,...layout.animalSpawns,...layout.chickSpawns];
+    const gap=(p,r)=>Math.hypot(p.x-Math.max(r.x,Math.min(p.x,r.x+r.w)),p.y-Math.max(r.y,Math.min(p.y,r.y+r.h)));
+    const canopy=p=>p.type==='tree'?{x:p.x-16,y:p.y-138,w:136,h:208}:p;
+    const candidates=[];
+    for(let y=180;y<layout.height-100;y+=180)for(let x=160;x<layout.width-90;x+=190) {
+      const p={x:x+Math.floor(random()*30),y:y+Math.floor(random()*30)};
+      if(structures.some(r=>gap(p,r)<145)||plots.some(r=>gap(p,r)<145)||tracks.some(r=>gap(p,r)<110)||
+        anchors.some(a=>Math.hypot(a.x-p.x,a.y-p.y)<145)||Math.hypot(p.x-220,p.y-360)<310)continue;
+      candidates.push(p);
+    }
+    const occupied=layout.vegetation.map(canopy);
+    for(let i=0;i<16&&candidates.length;i++) {
+      const score=p=>Math.min(...occupied.map(r=>gap(p,r)),...structures.map(r=>gap(p,r)),
+        ...layout.habitats.map(h=>Math.hypot(p.x-h.x,p.y-h.y)));
+      candidates.sort((a,b)=>score(b)-score(a));
+      const p=candidates.shift();
+      if(score(p)<190)break;
+      const kind=['meadow','flowers','mud','meadow','water'][i%5],id=`pasture-stop-${i}`;
+      layout.habitats.push({...p,id,kind,r:90,water:kind==='water'?{...p}:{x:p.x+63,y:p.y-35}});
+      // The footprints stay outside the patch itself, so every herd has room.
+      for(const [j,offset] of [[-125,60],[104,55]].entries()) {
+        const v={id:`${id}-plant-${j}`,type:j?'bush':'tree',x:p.x+offset[0]-52,y:p.y+offset[1]-36,
+          w:j?72:104,h:j?48:70,areaId:null,art:j?'bramble':i%3?'tree':'pear',material:1,variant:i%3};
+        const b=canopy(v);
+        if(b.x<48||b.y<50||b.x+b.w>layout.width-48||b.y+b.h>layout.height-48||
+          [...structures,...plots,...tracks,...occupied].some(r=>overlaps(b,r,30))||
+          anchors.some(a=>gap(a,b)<70)||layout.habitats.some(h=>gap(h,b)<55))continue;
+        if(!j)v.blockingRect={x:v.x+42,y:v.y+4,w:20,h:18,type:'tree'};
+        layout.vegetation.push(v);occupied.push(b);
+      }
+      for(let n=0;n<22;n++) {
+        const angle=random()*Math.PI*2,radius=45+random()*100;
+        const d={x:Math.round(p.x+Math.cos(angle)*radius),y:Math.round(p.y+Math.sin(angle)*radius*.65)};
+        if([...structures,...plots,...tracks].some(r=>gap(d,r)<20))continue;
+        layout.decorations.push({...d,type:kind==='flowers'&&n%3===0?'flower':'grass',variant:n%3,size:7,groupId:id});
+      }
+    }
+    return layout;
+  }
+  function extendRescues(layout) {
+    layout.version=7;
+    const s=layout.structures;
+    const solids=[s.barn,s.pond,...s.coops,...s.silos,...s.stables,...s.hayBales,...s.troughs,...s.paddockFences,
+      ...layout.vegetation.filter(v=>v.blockingRect).map(v=>v.blockingRect)];
+    const gap=(p,r)=>Math.hypot(p.x-Math.max(r.x,Math.min(p.x,r.x+r.w)),p.y-Math.max(r.y,Math.min(p.y,r.y+r.h)));
+    for(const areaId of ['estabulo','granja']) {
+      const area=layout.areas.find(a=>a.id===areaId);
+      const region=areaId==='estabulo'?layout.plots.find(p=>p.kind==='pasture'):area;
+      const center={x:region.x+region.w/2,y:region.y+region.h/2};
+      const candidates=[];
+      for(let y=region.y+32;y<region.y+region.h-32;y+=16)for(let x=region.x+32;x<region.x+region.w-32;x+=16) {
+        const p={x,y,areaId};
+        if(!layout.vegetation.some(v=>Math.hypot(x-v.x-v.w/2,y-v.y-v.h+15)<=180)||
+          solids.some(r=>gap(p,r)<30)||layout.plots.some(r=>r.kind!=='pasture'&&gap(p,r)<28)||
+          layout.animalSpawns.some(a=>Math.hypot(a.x-x,a.y-y)<48))continue;
+        candidates.push({point:p,spacing:Math.min(...layout.animalSpawns.map(a=>Math.hypot(a.x-x,a.y-y))),
+          centerDistance:Math.hypot(x-center.x,y-center.y)});
+      }
+      candidates.sort((a,b)=>b.spacing-a.spacing||a.centerDistance-b.centerDistance);
+      if(!candidates.length)throw new Error(`No clear rescue home in ${areaId}`);
+      layout.animalSpawns.push(candidates[0].point);
+    }
     return layout;
   }
   return { generate, normalizeSeed };

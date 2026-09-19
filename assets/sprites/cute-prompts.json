@@ -1,0 +1,12 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "date": "2026-09-18",
+  "sprites": [
+    {
+      "species": "dog",
+      "file": "sources/cute-dog-v2.png",
+      "reference": "sources/rescue-dog.png",
+      "prompt": "Use case: stylized-concept. Asset type: one production transparent PNG sprite sheet for a cozy top-down pixel-art farm game. Redesign the tricolor puppy shown in the reference into a more polished, extra-cute, readable SMALL GAME SPRITE. Reference image is a character identity reference, not a background to preserve. Keep warm caramel fur, chocolate floppy ears and eye patch, cream muzzle/chest/forehead stripe, teal collar with a tiny golden tag, curled tail. A round puppy face, large friendly shiny dark eyes, tiny pink tongue, short plump paws, compact plump body, soft happy expression. Improve the silhouette and reduce tiny fur noise; restrained 3-tone shading, crisp stepped pixel edges and a clean warm dark outline. Art should read at 48px tall; no realistic fur, no gradients, no glossy 3D, no vector look. Slight overhead 3/4 RPG camera. STRICT GRID: 1024x1536 portrait, EXACTLY 3 columns and 4 rows, 12 separate full-body poses of this same puppy. Row 1 FRONT/down; row 2 RIGHT profile; row 3 BACK/up; row 4 LEFT profile. Columns: neutral stand, first walk step, opposite walk step. Identical markings and body proportions throughout. Clearly different leg positions for walking. Each sprite occupies 65-72% cell width, 62-68% cell height, perfectly separated by generous EMPTY gutters, centered in its cell, feet level across each row. Natural four-legged anatomy. Every ear, tail and paw contained with ample padding. TRUE transparent alpha background everywhere around and between sprites, NO background colors, no shadows, no ground, no lettering, no grid. Output only the production sprite atlas."
+    }
+  ]
+}

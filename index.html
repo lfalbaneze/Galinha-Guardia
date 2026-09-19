@@ -5,17 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="author" content="Luis Albaneze" />
   <meta name="theme-color" content="#294b36" />
-  <meta name="description" content="Penas pro Ar! Dez bichos teimosos, um lobo sem modos e uma fazenda cheia de segredos. Abra a porteira do Sítio do Fuzuê." />
+  <meta name="description" content="Penas pro Ar! A diversão te espera na Fazenda do tio Clau. Abra a porteira, resgate os 12 amigos e despiste um lobo sem modos." />
   <title>Penas pro Ar! — Luis Albaneze</title>
-  <link rel="stylesheet" href="./style.css?v=modern-controls-1" />
-  <link rel="stylesheet" href="./gameplay.css?v=modern-controls-1" />
+  <link rel="stylesheet" href="./style.css?v=ganso-40" />
+  <link rel="stylesheet" href="./gameplay.css?v=resultado-legivel-59" />
+  <link rel="stylesheet" href="./menu.css?v=menu-68" />
 </head>
 <body>
   <main id="gameShell" class="game-shell" data-phase="menu">
+    <div id="expeditionBar" class="expedition-bar">
     <header class="game-heading play-header">
       <div class="play-brand">
         <canvas id="hudPortrait" class="hud-portrait" width="64" height="64" aria-hidden="true"></canvas>
-        <div><p class="eyebrow">Sítio do Fuzuê</p><h1>Penas pro Ar!</h1></div>
+        <div><p class="eyebrow">Fazenda do tio Clau</p><h1>Penas pro Ar!</h1></div>
       </div>
       <div class="play-actions">
         <span class="play-region"><svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M10 18s6-6.3 6-11A6 6 0 0 0 4 7c0 4.7 6 11 6 11Z" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="10" cy="7" r="2" fill="currentColor"/></svg><span><small>Você está em</small><b id="areaText">Poleiro</b></span></span>
@@ -31,9 +33,9 @@
       </div>
       <div class="run-card rescue-counter">
         <div class="run-card-heading"><strong class="run-label">Amigos a salvo</strong><svg class="run-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 11 9-8 9 8M5 10v11h14V10M9 21v-8h6v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div>
-        <span class="run-value"><b id="rescuedCount">0</b><span>/ 10</span></span>
-        <progress id="missionProgress" max="10" value="0" aria-label="Amigos resgatados">0 de 10</progress>
-        <span id="missionText" class="sr-only">Encontre os 10 amigos</span>
+        <span class="run-value"><b id="rescuedCount">0</b><span id="rescueGoal">/ 12</span></span>
+        <progress id="missionProgress" max="12" value="0" aria-label="Amigos resgatados">0 de 12</progress>
+        <span id="missionText" class="sr-only">Encontre os 12 amigos</span>
       </div>
       <div id="chickCounter" class="run-card chick-counter" title="Siga o piado. Chegue perto e aperte E uma vez para chamar o pintinho.">
         <strong class="run-label">Pintinhos</strong>
@@ -53,35 +55,44 @@
         <span id="wolfStateText" class="sr-only">patrulhando</span>
       </div>
     </section>
-
+    </div>
     <div id="gameStage" class="stage" data-threat="calm">
-      <canvas id="gameCanvas" width="900" height="520" tabindex="0" aria-label="Fazenda: resgate dez amigos, investigue os segredos e despiste o lobo." aria-describedby="controlsText"></canvas>
+      <canvas id="gameCanvas" width="900" height="520" tabindex="0" aria-label="Fazenda: resgate 12 amigos, investigue os segredos e despiste o lobo." aria-describedby="controlsText"></canvas>
       <div id="regionNotice" class="region-notice" aria-hidden="true" hidden><span>Você chegou!</span><strong id="regionNoticeName">Poleiro</strong></div>
+      <aside id="lakeCounter" class="lake-counter" aria-label="Progresso do desafio do Panto" hidden>
+        <div class="lake-counter-heading"><span id="lakeCounterTitle">CARIMBOS DO PANTO</span><strong id="lakeCounterValue" role="status" aria-live="polite" aria-atomic="true">0/3</strong></div>
+        <div class="lake-round"><strong id="lakeRound">1 · Bote direto</strong><span id="lakeChances">3 chances</span></div>
+        <div class="lake-stamps" aria-hidden="true"><span id="lakeStamp1">1</span><span id="lakeStamp2">2</span><span id="lakeStamp3">3</span></div>
+        <p id="lakeCounterCue">Desvie e pegue o carimbo com E.</p>
+        <progress id="lakeWindow" max="1" value="0" aria-label="Tempo para pegar o carimbo" hidden></progress>
+      </aside>
 
       <section id="menuScreen" class="game-overlay farm-menu" role="dialog" aria-modal="true" aria-labelledby="farmTitle" aria-describedby="menuDescription" hidden>
         <div id="menuWorld" class="menu-world">
           <img id="menuBackdrop" class="menu-backdrop" src="./assets/menu/farm-title.png" alt="" width="1536" height="1024" fetchpriority="high" />
           <canvas id="menuScene" class="menu-scene" width="700" height="240" aria-hidden="true"></canvas>
-          <p id="menuBanter" class="menu-reaction" role="status" hidden></p>
         </div>
+        <p id="menuBanter" class="menu-reaction" role="status" aria-live="off" aria-atomic="true" hidden></p>
         <div class="menu-title-scene">
-          <p class="farm-kicker">Uma aventura de arrepiar as penas</p>
-          <h2 id="farmTitle" class="farm-title"><span>Penas</span><span>pro Ar!</span></h2>
-          <p class="farm-subtitle">Confusão no Sítio do Fuzuê</p>
-          <p class="farm-tagline">Dez teimosos. Um lobo sem modos.</p>
+          <p class="farm-kicker"><span aria-hidden="true">✳</span> Fazenda do tio Clau</p>
+          <h2 id="farmTitle" class="farm-title"><span>Penas</span><span><small>pro</small> Ar!<svg class="title-feather" viewBox="0 0 54 90" aria-hidden="true" focusable="false"><path d="M12 68C-1 34 17 7 46 3c8 25-3 49-34 65Z" fill="currentColor"/><path d="m5 85 31-61M17 60l20-5M23 48l-5-17" fill="none" stroke="#183d35" stroke-width="3.5" stroke-linecap="round"/></svg></span></h2>
+          <p id="menuTagline" class="farm-tagline">Doze amigos soltos.<br>Um lobo achando que é buffet.</p>
+          <p id="menuSubtitle" class="farm-subtitle">Resgate a turma. Estrague o almoço dele.</p>
         </div>
-        <div class="menu-mischief">
-          <button id="menuScatter" type="button">Mexer com a turma <span aria-hidden="true">↗</span></button>
+        <div id="menuMischief" class="menu-mischief">
+          <button id="menuScatter" type="button" aria-describedby="menuPlayHint"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 3 2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6Zm10 12 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Brincar com a turma <span aria-hidden="true">↗</span></button>
+          <p id="menuPlayHint">Toque nos bichos: eles também aprontam.</p>
         </div>
         <div id="menuCard" class="overlay-card">
-          <canvas id="menuPortrait" class="menu-portrait" width="160" height="100" aria-hidden="true"></canvas>
-          <p class="eyebrow">O terreiro te espera</p>
-          <h2 id="menuTitle">Bora abrir a porteira?</h2>
-          <p id="menuDescription">Tem lobo rondando o sítio e a turma ainda está passeando. Traga os 10 amigos de volta ao poleiro!</p>
+          <img id="menuMascot" class="menu-mascot" src="./assets/menu/portraits/carijo.png?v=fofinhos-52" width="96" height="96" alt="" />
+          <p class="eyebrow">A diversão te espera</p>
+          <h2 id="menuTitle">Bora se divertir!</h2>
+          <p id="menuDescription">Na Fazenda do tio Clau, até o almoço sai correndo! Resgate os 12 amigos e siga os piados.</p>
           <p id="spriteStatus" role="status" hidden></p>
           <button id="retrySprites" type="button" hidden>Tentar carregar os bichos novamente</button>
           <div class="overlay-actions">
             <button id="continueBtn" type="button" hidden>Continuar resgate</button>
+            <button id="startBtn" type="button">Entrar na fazenda</button>
           </div>
           <div class="menu-tabs" role="tablist" aria-label="Preparar aventura">
             <button id="tab-adventure" type="button" role="tab" aria-selected="true" aria-controls="panel-adventure">Partida</button>
@@ -90,40 +101,48 @@
             <button id="tab-controls" type="button" role="tab" aria-selected="false" aria-controls="panel-controls" tabindex="-1">Controles</button>
           </div>
           <div id="panel-adventure" class="menu-panel" role="tabpanel" aria-labelledby="tab-adventure">
-            <div class="difficulty-heading"><h3 id="difficultyHeading">Qual é o ritmo?</h3><span>Nova fazenda</span></div>
+            <div class="difficulty-heading"><h3 id="difficultyHeading">Escolha a confusão</h3><span>Nova fazenda</span></div>
             <div class="difficulty-picks" role="radiogroup" aria-labelledby="difficultyHeading" aria-describedby="difficultyPreview">
               <button id="difficulty-easy" type="button" role="radio" aria-checked="false" tabindex="-1">
-                <canvas id="difficultyArt-easy" class="difficulty-art" width="64" height="64" aria-hidden="true"></canvas>
-                <span class="difficulty-copy"><span class="difficulty-name">Dia tranquilo <small>Fácil</small></span><span class="difficulty-detail">Lobo mais lento. Explore sem pressa.</span></span>
+                <img id="difficultyArt-easy" class="difficulty-art" src="./assets/menu/portraits/chick.png" width="64" height="64" alt="" />
+                <span class="difficulty-copy"><span class="difficulty-name">Dia tranquilo <small>Fácil</small></span><span class="difficulty-detail">Lobo com preguiça. Explore sem pressa.</span></span>
                 <span class="difficulty-check" aria-hidden="true">✓</span>
               </button>
               <button id="difficulty-normal" type="button" role="radio" aria-checked="true" tabindex="0">
-                <canvas id="difficultyArt-normal" class="difficulty-art" width="64" height="64" aria-hidden="true"></canvas>
-                <span class="difficulty-copy"><span class="difficulty-name">Fuzuê no sítio <small>Médio</small></span><span class="difficulty-detail">Resgate a turma e despiste o lobo.</span></span>
+                <img id="difficultyArt-normal" class="difficulty-art" src="./assets/menu/portraits/cute-carijo-face-v2.png" width="64" height="64" alt="" />
+                <span class="difficulty-copy"><span class="difficulty-name">Penas em risco <small>Médio</small></span><span class="difficulty-detail">Lobo de olho no almoço. Resgate a turma.</span></span>
                 <span class="difficulty-check" aria-hidden="true">✓</span>
               </button>
               <button id="difficulty-hard" type="button" role="radio" aria-checked="false" tabindex="-1">
-                <canvas id="difficultyArt-hard" class="difficulty-art" width="64" height="64" aria-hidden="true"></canvas>
-                <span class="difficulty-copy"><span class="difficulty-name">Lobo à solta <small>Difícil</small></span><span class="difficulty-detail">Lobo veloz. Cada esconderijo conta.</span></span>
+                <img id="difficultyArt-hard" class="difficulty-art" src="./assets/menu/portraits/wolf-expressivo.png" width="64" height="64" alt="" />
+                <span class="difficulty-copy"><span class="difficulty-name">Lobo à solta <small>Difícil</small></span><span class="difficulty-detail">Lobo de tênis novo. Capriche no sumiço.</span></span>
                 <span class="difficulty-check" aria-hidden="true">✓</span>
               </button>
             </div>
-            <p id="difficultyPreview" class="difficulty-preview" aria-live="polite">Fuzuê no sítio escolhido para a nova fazenda.</p>
+            <p id="difficultyFlavor" class="difficulty-flavor">O lobo já amarrou o guardanapo. Capriche no resgate.</p>
+            <p id="difficultyPreview" class="difficulty-preview" aria-live="polite">Penas em risco escolhido para a nova fazenda.</p>
           <button id="howToPlayBtn" class="menu-help-button" type="button" aria-haspopup="dialog" aria-controls="howToPlayDialog">Como jogar <span aria-hidden="true">?</span></button>
           </div>
           <div id="panel-outfit" class="menu-panel" role="tabpanel" aria-labelledby="tab-outfit" hidden>
           <label class="menu-skin" for="menuSkinSelect">Aparência da lida
             <select id="menuSkinSelect">
-              <option id="menu-skin-classic" value="classic">Galinha</option>
-              <option id="menu-skin-punk" value="punk" disabled>Pato · Segredo da fazenda</option>
-              <option id="menu-skin-astronaut" value="astronaut" disabled>Coelho · Segredo da fazenda</option>
-              <option id="menu-skin-robocop" value="robocop" disabled>Gato · Segredo da fazenda</option>
-              <option id="menu-skin-goose" value="goose" disabled>Ganso do lago · Vença o desafio</option>
-              <option id="menu-skin-priest" value="priest" disabled>Cachorro · Segredo da fazenda</option>
+              <option id="menu-skin-classic" value="classic">Erina</option>
+              <option id="menu-skin-silkie" value="silkie">Midori</option>
+              <option id="menu-skin-blue" value="blue">Alzira</option>
+              <option id="menu-skin-punk" value="punk" disabled>Zeca · Segredo da fazenda</option>
+              <option id="menu-skin-astronaut" value="astronaut" disabled>Pipoca · Segredo da fazenda</option>
+              <option id="menu-skin-robocop" value="robocop" disabled>Stella · Segredo da fazenda</option>
+              <option id="menu-skin-goose" value="goose" disabled>Gumercindo · Vença o desafio</option>
+              <option id="menu-skin-priest" value="priest" disabled>Paçoca · Segredo da fazenda</option>
             </select>
           </label>
+          <div class="outfit-preview"><canvas id="menuPortrait" class="menu-portrait" width="320" height="180" aria-label="Prévia da aparência equipada"></canvas></div>
           <div class="portrait-controls"><button id="portraitTurn" type="button" class="button-secondary">Girar personagem ↻</button><button id="portraitWalk" type="button" class="button-secondary" aria-pressed="true">Parar passinhos</button></div>
-          <p class="menu-panel-note">Escolha uma aparência do seu baú. O personagem acima mostra sua escolha em movimento.</p>
+          <div class="skin-power-card" aria-live="polite" aria-atomic="true">
+            <span class="skin-power-label">Poder da aparência</span>
+            <strong id="menuPowerName">Coragem de galinha</strong>
+            <p id="menuPowerDescription">Sem poder especial. O lobo que lute com a sua esperteza!</p>
+          </div>
           </div>
           <div id="panel-audio" class="menu-panel menu-audio" role="tabpanel" aria-labelledby="tab-audio" hidden>
             <div class="audio-controls audio-controls-menu">
@@ -140,7 +159,6 @@
             </div>
             <label class="skin-music-toggle" for="menuSkinMusic"><input id="menuSkinMusic" type="checkbox" checked /> Tema musical da skin</label>
             <p id="menuAudioStatus" class="audio-note">Clique em Mexer com a turma para ouvir os bichos.</p>
-            <p class="audio-note"><a href="./assets/audio/CREDITS.html?v=2" target="_blank" rel="noopener">Ouvir as vozes da fazenda ↗</a></p>
           </div>
           <div id="panel-controls" class="menu-panel control-settings" role="tabpanel" aria-labelledby="tab-controls" hidden>
             <label><input id="controlToggleSneak" type="checkbox" /> Andar de mansinho com um toque em C</label>
@@ -150,10 +168,8 @@
             <p><strong>Controle:</strong> analógico ou direcional para mover · A interage · B liga/desliga mansinho · RT corre · X desafia PANTO · Menu pausa.</p>
             <p id="controlDevice" role="status">Teclado · WASD ou setas para mover; E para interagir.</p>
           </div>
-          <div class="overlay-actions new-adventure-action"><button id="startBtn" type="button">Entrar na fazenda</button></div>
           <p id="menuSaveText" class="fine-print">Seu progresso é salvo automaticamente neste navegador.</p>
-          <p class="game-author">Feito por <strong>Luis Albaneze</strong></p>
-          <a class="menu-credits" href="./assets/sprites/CREDITS.html" target="_blank" rel="noopener">Créditos de arte e som ↗</a>
+          <div class="menu-footer"><p class="game-author">Feito por <strong>Luis Albaneze</strong></p></div>
         </div>
       </section>
 
@@ -161,8 +177,8 @@
         <div class="overlay-card end-card">
           <span id="endEmblem" class="menu-emblem" aria-hidden="true">♥</span>
           <p id="endEyebrow" class="eyebrow">Uma fazenda cheia de amigos</p>
-          <h2 id="endTitle">Você conseguiu!</h2>
-          <p id="endMessage">Todos os seus amigos estão seguros!</p>
+          <h2 id="endTitle">Doze amigos. Zero almoço pro lobo.</h2>
+          <p id="endMessage">Todo mundo a salvo! O gato diz que planejou tudo.</p>
           <p id="endSummary" class="end-summary"></p>
           <div class="overlay-actions">
             <button id="replayBtn" type="button">Jogar novamente</button>
@@ -173,8 +189,8 @@
     </div>
 
     <section id="lakePanel" class="lake-panel" aria-labelledby="lakeTitle" hidden>
-      <div><h2 id="lakeTitle">PANTO · O dono do lago</h2><p id="lakeHelp" role="status">Desafio opcional do lago.</p></div>
-      <button id="lakeChallengeBtn" type="button">Desafiar PANTO · F</button>
+      <div class="sr-only"><h2 id="lakeTitle">PANTO · O fiscal do lago</h2><p id="lakeHelp">Desafio opcional do lago.</p></div>
+      <button id="lakeChallengeBtn" type="button" aria-describedby="lakeHelp">Desafiar PANTO · F</button>
     </section>
     <section id="touchControls" class="touch-controls" aria-label="Controles de toque" hidden>
       <div class="touch-dpad" role="group" aria-label="Direção">
@@ -194,24 +210,34 @@
       <span><kbd id="keyMove">WASD / setas</kbd> mover</span><span><kbd id="keySneak">C</kbd> de mansinho</span><span><kbd id="keySprint">Shift</kbd> correr</span><span><kbd id="keyHide">E</kbd> chamar / esconder</span>
     </div>
 
-    <div class="game-feedback">
+    <div id="gameFeedback" class="game-feedback">
       <p id="hiddenText" class="stealth-badge">À vista</p>
       <label class="stamina-meter" for="staminaMeter"><span id="staminaText">Fôlego</span><progress id="staminaMeter" max="1" value="1">100%</progress></label>
+      <button id="thorSupply" class="thor-supply" type="button" disabled aria-live="polite">🦴 Thor · 0/2</button>
+      <p id="skinPowerBadge" class="skin-power-badge" role="status" hidden></p>
       <p id="contextHint">Segure C para chegar de mansinho. Se fugirem, espere cansar!</p>
       <p id="saveText" class="save-note" role="status">Salvamento automático</p>
     </div>
-    <p class="status-line" role="status"><span id="statusText">Cada resgate deixa o lobo mais perigoso. Explore os segredos da fazenda.</span></p>
+    <p id="gameStatus" class="status-line" role="status"><span id="statusText">Cada amigo salvo é um almoço a menos pro lobo. Ele não tá achando graça.</span></p>
 
+    <div id="thorSceneControls" class="thor-scene-controls" hidden>
+      <p id="thorSceneStatus" class="sr-only" role="status" aria-live="polite"></p>
+      <button id="thorScenePause" type="button">Pausar</button>
+      <button id="thorSceneSkip" type="button" aria-label="Pular a animação e receber a ajuda do Thor">Pular cena</button>
+    </div>
     <section class="wardrobe" aria-labelledby="wardrobeTitle">
       <div class="wardrobe-heading"><h2 id="wardrobeTitle">Baú dos bichos</h2><p id="skinUnlockText">Novas aparências se conquistam na lida.</p></div>
       <div class="skin-options" role="group" aria-label="Escolher aparência">
-        <button id="skin-classic" type="button" aria-pressed="true">Galinha</button>
-        <button id="skin-punk" type="button" aria-pressed="false" disabled>Pato · Segredo da fazenda</button>
-        <button id="skin-astronaut" type="button" aria-pressed="false" disabled>Coelho · Segredo da fazenda</button>
-        <button id="skin-robocop" type="button" aria-pressed="false" disabled>Gato · Segredo da fazenda</button>
-        <button id="skin-goose" type="button" aria-pressed="false" disabled>Ganso do lago · Vença o desafio</button>
-        <button id="skin-priest" type="button" aria-pressed="false" disabled>Cachorro · Segredo da fazenda</button>
+        <button id="skin-classic" type="button" aria-pressed="true">Erina</button>
+        <button id="skin-silkie" type="button" aria-pressed="false">Midori</button>
+        <button id="skin-blue" type="button" aria-pressed="false">Alzira</button>
+        <button id="skin-punk" type="button" aria-pressed="false" disabled>Zeca · Segredo da fazenda</button>
+        <button id="skin-astronaut" type="button" aria-pressed="false" disabled>Pipoca · Segredo da fazenda</button>
+        <button id="skin-robocop" type="button" aria-pressed="false" disabled>Stella · Segredo da fazenda</button>
+        <button id="skin-goose" type="button" aria-pressed="false" disabled>Gumercindo · Vença o desafio</button>
+        <button id="skin-priest" type="button" aria-pressed="false" disabled>Paçoca · Segredo da fazenda</button>
       </div>
+      <p id="skinPowerText" class="wardrobe-note" aria-live="polite">Coragem de galinha: sem poder especial.</p>
       <p id="wardrobeNote" class="wardrobe-note">Nem todo tesouro fica à vista. Explore os cantinhos da fazenda para descobrir como abrir o baú.</p>
     </section>
 
@@ -230,22 +256,22 @@
       </div>
       <label class="skin-music-toggle" for="skinMusic"><input id="skinMusic" type="checkbox" checked /> Tema musical da skin</label>
       <p id="audioStatus" class="audio-note">O som começa ao iniciar a aventura.</p>
-      <p class="audio-note"><a href="./assets/audio/CREDITS.html?v=2" target="_blank" rel="noopener">Ouvir cada bicho e ver os créditos ↗</a></p>
     </section>
 
     <section class="instructions" aria-labelledby="controlsTitle">
       <div>
         <h2 id="controlsTitle">Os macetes da roça</h2>
         <p id="controlsText"><kbd>WASD</kbd> / <kbd>setas</kbd> mover · <kbd>C</kbd> de mansinho · <kbd>Shift</kbd> correr · <kbd>E</kbd> chamar pintinho / esconder / sair · <kbd>Esc</kbd> / <kbd>P</kbd> pausar.</p>
-        <p>Resgate os dez amigos para completar a missão. Segure <kbd>C</kbd> e chegue de mansinho: os amigos se acalmam e vêm até você. A coruja também demora mais para perceber passos leves. Cada amigo salvo deixa o lobo mais atento. Use árvores e feno para escapar. Ouviu um piado? Chegue perto e aperte <kbd>E</kbd> uma vez para chamar o pintinho ao ninho.</p>
-        <p>Thor, o golden retriever, pode aparecer de surpresa: seu latido assusta o lobo e recupera um coração, até três.</p>
+        <p>Resgate os 12 amigos para completar a missão. Segure <kbd>C</kbd> e chegue de mansinho: os amigos se acalmam e vêm até você. A coruja também demora mais para perceber passos leves. Cada amigo salvo deixa o lobo mais atento. Use árvores e feno para escapar. Ouviu um piado? Chegue perto e aperte <kbd>E</kbd> uma vez para chamar o pintinho ao ninho.</p>
+        <p>No <strong>fácil</strong>, Thor vem automaticamente quando resta <strong>1 coração</strong> e dá mais um: <strong>uma única vez por tentativa</strong>. No <strong>médio</strong>, junte <strong>2 ossos</strong>; no <strong>difícil</strong>, <strong>3 ossos</strong>. Encoste nos ossinhos para pegar. Se faltar vida, aperte <strong>T</strong>, <strong>Y no controle</strong> ou toque em <strong>Chamar Thor</strong>: ele usa os ossos e recupera todos os corações. A partida para durante a chegada heroica. Depois, o lobo foge e novos ossos aparecem. Saia da água ou do desafio de PANTO para chamar.</p>
+        <p>Cavalos, pônei, perus e outros moradores passeiam pela fazenda. Eles observam você e se assustam com a corrida. Os amigos que precisam de resgate têm um coração sobre a cabeça.</p>
       </div>
       <div class="game-settings">
         <label class="difficulty-control" for="difficultySelect">
           <span>Dificuldade</span>
           <select id="difficultySelect">
             <option value="easy">Dia tranquilo · Fácil</option>
-            <option value="normal" selected>Fuzuê no sítio · Médio</option>
+            <option value="normal" selected>Penas em risco · Médio</option>
             <option value="hard">Lobo à solta · Difícil</option>
           </select>
         </label>
@@ -253,7 +279,7 @@
         <small>A dificuldade vale na próxima partida.</small>
       </div>
     </section>
-    <footer class="sprite-credits"><span>Feito por <strong>Luis Albaneze</strong></span> · <a href="./assets/sprites/CREDITS.html" target="_blank" rel="noopener">Créditos de arte e som</a></footer>
+    <footer class="sprite-credits"><span>Feito por <strong>Luis Albaneze</strong></span></footer>
   </main>
 
   <dialog id="howToPlayDialog" class="howto-dialog" aria-labelledby="howToPlayTitle">
@@ -262,7 +288,7 @@
       <form method="dialog"><button type="submit" class="howto-close" autofocus aria-label="Fechar ajuda">×</button></form>
     </header>
     <div class="howto-body" tabindex="0" role="region" aria-label="Controles e dicas">
-      <p>Leve os <strong>10 amigos</strong> ao poleiro e despiste o lobo.</p>
+      <p>Leve os <strong>12 amigos</strong> ao poleiro e despiste o lobo.</p>
       <dl class="howto-controls">
         <dt><kbd>WASD</kbd><span>ou setas</span></dt><dd>Caminhar.</dd>
         <dt><kbd>C</kbd></dt><dd>Chegar de mansinho. Os amigos se acalmam e vêm até você.</dd>
@@ -274,49 +300,62 @@
       <p><strong>Com controle:</strong> analógico ou direcional move, A interage, B liga/desliga mansinho, RT corre e Menu pausa. Nos menus, navegue com o direcional, confirme com A e volte com B.</p>
       <p>Prefere não segurar C ou Shift? Mude isso na aba <strong>Controles</strong>.</p>
       <p><strong>Ouviu piu-piu?</strong> Chegue perto e aperte <kbd>E</kbd> uma vez. Há 6 pintinhos escondidos.</p>
-      <p><strong>PANTO guarda o lago.</strong> Espere o aviso e saia da linha da investida. Ele empurra; seu grito pode atrair o lobo.</p>
-      <p><strong>Acabaram os corações?</strong> Retome do poleiro com a vida cheia. Seus resgates, descobertas e aparências continuam guardados.</p>
+      <p><strong>PANTO guarda o lago.</strong> Perto dele, use <kbd>F</kbd>, X no controle ou toque em <strong>Desafiar PANTO</strong>. Desvie da sequência e, quando ele ficar tonto, chegue perto e interaja para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Vencer abre a ponte e libera a aparência de ganso.</p>
+      <p><strong>Lorenzo, a raposa.</strong> A investida dele tira um coração: espere o aviso e desvie para o lado. A moita do Lorenzo não serve de esconderijo. Se o lobo o vir depois do bote, espanta Lorenzo — e ainda se acha o dono da fazenda.</p>
+      <p><strong>Girassol não tem focinho.</strong> O lobo pode se esconder no campo de girassóis. Se as flores sacudirem e aparecer uma faixa, desvie para o lado: o bote segue a direção anunciada. Depois do salto ele precisa se recuperar. Thor também pode estragar a emboscada!</p>
+      <p><strong>O chão também dá pistas.</strong> Água rasa e barro deixam o passo mais lento. A água interrompe as pegadas da corrida, mas os respingos podem chamar o lobo. Atravesse o milho e as moitas de mansinho para fazer menos barulho.</p>
+      <p><strong>Banho de lagoa!</strong> Entre na água funda para usar a boia automaticamente. Pato e ganso nadam sem boia e mais rápido. Use o movimento normal para nadar e volte à margem para sair; o comando de correr acelera as remadas. O desafio do PANTO acontece em terra: entrar para nadar encerra a tentativa.</p>
+      <p><strong>Acabaram os corações?</strong> Fim de jogo. <strong>Tentar novamente</strong> reinicia a mesma fazenda, com três vidas e resgates, pintinhos, pontos e desafios zerados.</p>
     </div>
     <form method="dialog" class="howto-footer"><button type="submit">Entendi</button></form>
   </dialog>
 
-  <script src="./systems/world-generator.js?v=map-cleanup-9"></script>
-  <script src="./assets/farm/atlas-data.js?v=farm-habitats-4"></script>
-  <script src="./systems/farm-sprites.js?v=farm-habitats-4"></script>
-  <script src="./systems/farm-refuge.js?v=farm-habitats-4"></script>
-  <script src="./systems/farm-terrain.js?v=farm-habitats-4"></script>
-  <script src="./systems/farm-details.js?v=farm-habitats-4"></script>
-  <script src="./systems/farm-art.js?v=farm-habitats-4"></script>
-  <script src="./systems/sprite-data.js?v=farm-habitats-4"></script>
-  <script src="./systems/character-art.js?v=farm-habitats-4"></script>
-  <script src="./systems/audio-system.js?v=wildlife-behavior-5"></script>
-  <script src="./systems/audio-controls.js?v=farm-habitats-4"></script>
-  <script src="./systems/skin-system.js?v=panto-art-7"></script>
-  <script src="./systems/game-input.js?v=modern-controls-1"></script>
-  <script src="./systems/game-manager.js?v=modern-controls-1"></script>
-  <script src="./systems/rescue-system.js?v=chick-call-6"></script>
-  <script src="./systems/detection-system.js?v=farm-habitats-4"></script>
-  <script src="./systems/hiding-spots.js?v=modern-controls-1"></script>
-  <script src="./systems/wolf-ai.js?v=thor-8"></script>
-  <script src="./systems/wolf-dialogue.js?v=farm-habitats-4"></script>
-  <script src="./systems/lake-challenge.js?v=modern-controls-1"></script>
-  <script src="./systems/goose-system.js?v=panto-art-7"></script>
-  <script src="./systems/goose-art.js?v=farm-habitats-4"></script>
-  <script src="./systems/wildlife-rules.js?v=farm-habitats-4"></script>
-  <script src="./systems/wildlife-art.js?v=panto-art-7"></script>
-  <script src="./systems/fox-system.js?v=wildlife-behavior-5"></script>
-  <script src="./systems/fox-art.js?v=panto-art-7"></script>
-  <script src="./systems/owl-system.js?v=wildlife-behavior-5"></script>
-  <script src="./systems/owl-art.js?v=panto-art-7"></script>
-  <script src="./systems/thor-system.js?v=thor-8"></script>
-  <script src="./systems/thor-art.js?v=thor-8"></script>
-  <script src="./systems/map-manager.js?v=map-cleanup-9"></script>
-  <script src="./systems/player.js?v=modern-controls-1"></script>
-  <script src="./systems/menu-scene.js?v=farm-habitats-4"></script>
-  <script src="./systems/interface-motion.js?v=modern-controls-1"></script>
-  <script src="./systems/gameplay-hud.js?v=farm-habitats-4"></script>
-  <script src="./systems/ui.js?v=modern-controls-1"></script>
-  <script src="./systems/end-game-sequence.js?v=farm-habitats-4"></script>
-  <script src="./game.js?v=modern-controls-1"></script>
+  <script src="./systems/world-generator.js?v=panto-17"></script>
+  <script src="./assets/farm/atlas-data.js?v=arte-coesa-57"></script>
+  <script src="./systems/sunlight.js?v=luz-67"></script>
+  <script src="./systems/sprite-style.js?v=sol-64"></script>
+  <script src="./systems/farm-sprites.js?v=sol-64"></script>
+  <script src="./systems/farm-refuge.js?v=sol-64"></script>
+  <script src="./systems/farm-terrain.js?v=campo-limpo-48"></script>
+  <script src="./systems/farm-details.js?v=sol-64"></script>
+  <script src="./systems/farm-art.js?v=feno-65"></script>
+  <script src="./systems/farm-scenery.js?v=horta-limpa-66"></script>
+  <script src="./systems/sunflower-system.js?v=sol-64"></script>
+  <script src="./systems/sprite-data.js?v=arte-coesa-57"></script>
+  <script src="./systems/character-art.js?v=sol-64"></script>
+  <script src="./systems/audio-system.js?v=stella-55"></script>
+  <script src="./systems/audio-controls.js?v=panto-17"></script>
+  <script src="./systems/skin-system.js?v=turma-37"></script>
+  <script src="./systems/game-input.js?v=thor-43"></script>
+  <script src="./systems/game-manager.js?v=raposa-31"></script>
+  <script src="./systems/rescue-system.js?v=poderes-35"></script>
+  <script src="./systems/detection-system.js?v=poderes-35"></script>
+  <script src="./systems/hiding-spots.js?v=feno-65"></script>
+  <script src="./systems/wolf-ai.js?v=lobo-skins-69"></script>
+  <script src="./systems/wolf-dialogue.js?v=lobo-skins-69"></script>
+  <script src="./systems/lake-challenge.js?v=ponte-horizontal-53"></script>
+  <script src="./systems/goose-system.js?v=panto-44"></script>
+  <script src="./systems/goose-art.js?v=sol-64"></script>
+  <script src="./systems/wildlife-rules.js?v=panto-17"></script>
+  <script src="./systems/wildlife-art.js?v=sol-64"></script>
+  <script src="./systems/fox-system.js?v=lorenzo-45"></script>
+  <script src="./systems/fox-art.js?v=panto-17"></script>
+  <script src="./systems/owl-system.js?v=panto-17"></script>
+  <script src="./systems/owl-art.js?v=sol-64"></script>
+  <script src="./systems/thor-system.js?v=thor-43"></script>
+  <script src="./systems/thor-art.js?v=thor-43"></script>
+  <script src="./systems/thor-cinematic.js?v=thor-43"></script>
+  <script src="./systems/scarecrow-art.js?v=sol-64"></script>
+  <script src="./systems/scarecrow-system.js?v=panto-17"></script>
+  <script src="./systems/map-manager.js?v=panto-17"></script>
+  <script src="./systems/swimming-system.js?v=boia-26"></script>
+  <script src="./systems/environment-system.js?v=horta-viva-61"></script>
+  <script src="./systems/player.js?v=thor-43"></script>
+  <script src="./systems/menu-scene.js?v=restaurado-50"></script>
+  <script src="./systems/interface-motion.js?v=abertura-36"></script>
+  <script src="./systems/gameplay-hud.js?v=panto-17"></script>
+  <script src="./systems/ui.js?v=final-limpo-58"></script>
+  <script src="./systems/end-game-sequence.js?v=final-limpo-58"></script>
+  <script src="./game.js?v=luz-67"></script>
 </body>
 </html>

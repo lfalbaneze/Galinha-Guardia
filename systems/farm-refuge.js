@@ -2,7 +2,9 @@
 const FarmRefuge = (() => {
   const bounds = Object.freeze({ x: 90, y: 174, w: 260, h: 308 });
   const nursery = Object.freeze({ x: 102, y: 156, w: 242, h: 114 });
-  const homes = [[143,326],[222,320],[298,330],[129,383],[194,376],[257,385],[320,376],[147,437],[226,439],[305,435]];
+  // Horse, cow and donkey stand in the back, where their taller silhouettes
+  // fit below the nursery. Small friends occupy the front without hiding them.
+  const homes = [[128,402],[196,402],[116,442],[162,442],[234,354],[264,402],[212,442],[260,442],[310,354],[312,442],[141,354],[326,402]];
   const nests = [[143,226],[166,228],[205,233],[228,235],[267,240],[290,242]];
   const rails = [
     ...[0,1,2].map(i => ({ x:90+i*86.67,y:174,w:86.67,h:0 })),
@@ -43,6 +45,7 @@ const FarmRefuge = (() => {
     }
   }
   function post(c,x,y) {
+    c.fillStyle='#26332330';c.fillRect(x-6,y+3,12,2);
     x=Math.round(x);y=Math.round(y);
     c.fillStyle='#644526';c.fillRect(x-5,y-30,10,34);
     c.fillStyle='#ab773e';c.fillRect(x-3,y-28,6,30);
@@ -51,8 +54,12 @@ const FarmRefuge = (() => {
   }
   function drawProp(c,p) {
     if(p.type==='nursery') {
-      if(!FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true})) FarmSprites.draw(c,'coop',p.x+65,p.y,105,p.h,{grounded:true});
+      if(!FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true,shadow:true})) FarmSprites.draw(c,'coop',p.x+65,p.y,105,p.h,{grounded:true,shadow:true});
     } else if(p.type==='nursery-lip') {
+      if(FarmSprites.cohesiveReady) {
+        c.save();c.beginPath();c.rect(p.x,p.y+p.h-7,p.w,7);c.clip();
+        FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true,solar:false});c.restore();return;
+      }
       // Only the low front boards cover the chicks' feet, never their faces.
       c.save();c.beginPath();
       for(const [i,point] of [[0,.65],[.32,.73],[.57,.79],[.84,.89],[1,.94]].entries()) {
@@ -60,16 +67,17 @@ const FarmRefuge = (() => {
         if(i)c.lineTo(x,y);else c.moveTo(x,y);
       }
       c.lineTo(p.x+p.w,p.y+p.h);c.lineTo(p.x,p.y+p.h);c.closePath();c.clip();
-      FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true});c.restore();
+      FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true,solar:false});c.restore();
     } else if(p.type==='refuge-trough') {
-      FarmSprites.draw(c,'trough',p.x,p.y,p.w,p.h,{grounded:true});
+      FarmSprites.draw(c,'trough',p.x,p.y,p.w,p.h,{grounded:true,shadow:true});
     } else if(p.type==='refuge-rail') {
       if(p.w) {
-        if(!FarmSprites.draw(c,'fence',p.x-4,p.y-35,p.w+8,39,{grounded:true})) {
+        if(!FarmSprites.draw(c,'fence',p.x-4,p.y-35,p.w+8,39,{grounded:true,shadow:true})) {
           c.fillStyle='#b68b4d';c.fillRect(p.x,p.y-23,p.w,5);c.fillRect(p.x,p.y-10,p.w,5);
           post(c,p.x,p.y);post(c,p.x+p.w,p.y);
         }
       } else {
+        if(typeof Sunlight!=='undefined')Sunlight.rail(c,p.x,p.y+4,p.x,p.y+p.h+4,30,4);
         c.fillStyle='#61492f';c.fillRect(p.x-3,p.y-22,6,p.h+16);
         c.fillStyle='#a77d41';c.fillRect(p.x-2,p.y-22,3,p.h+16);
         c.fillStyle='#d0a765';c.fillRect(p.x-3,p.y-22,2,p.h+16);

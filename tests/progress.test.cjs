@@ -2,13 +2,13 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createGame } = require('./helpers.cjs');
 
-test('ten unique, reachable friends are always spawned, including adversarial randomness', () => {
+test('twelve unique, reachable friends are always spawned, including adversarial randomness', () => {
   for (const random of [Math.random, () => 0, () => 0.5, () => 0.999]) {
     const { run } = createGame(random);
     for (const mode of ['easy', 'normal', 'hard']) {
       run(`difficultySelect.value = '${mode}'; resetGame(); state.phase = 'playing';`);
-      assert.equal(run('state.entities.animals.length'), 10);
-      assert.equal(run('new Set(state.entities.animals.map(a => a.id)).size'), 10);
+      assert.equal(run('state.entities.animals.length'), 12);
+      assert.equal(run('new Set(state.entities.animals.map(a => a.id)).size'), 12);
       assert.equal(run(`state.entities.animals.every(a => { const h = getHitbox(a); return OBSTACLES.every(r =>
         Math.hypot(h.x - clamp(h.x,r.x,r.x+r.w), h.y-clamp(h.y,r.y,r.y+r.h)) >= h.r - 0.01); })`), true,
         `overlapping spawn, seed ${run('state.worldSeed')}, difficulty ${mode}`);
@@ -55,7 +55,7 @@ test('corrupt or unavailable storage does not crash the session', () => {
   assert.equal(run('GameManager.read()'), null);
   run('localStorage.setItem = () => { throw new Error("disabled"); }; GameManager.save(state);');
   assert.equal(run('GameManager.storageAvailable'), false);
-  assert.equal(run('state.entities.animals.length'), 10);
+  assert.equal(run('state.entities.animals.length'), 12);
 });
 
 test('difficulty follows all four rescue thresholds', () => {

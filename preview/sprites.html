@@ -1,16 +1,16 @@
 <!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>A turma da fazenda · Sprites animados</title>
 <style>body{margin:0;background:#f5eedc;color:#493c2e;font:16px/1.6 system-ui}main{max-width:1080px;margin:auto;padding:25px}h1{font-family:Georgia,serif}a{color:#366445}.controls{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin:20px 0}select{font:inherit;padding:6px}canvas{display:block;width:100%;height:auto;border-radius:12px;background:#91af63}small{display:block;margin-top:15px}</style>
-<main><a href="../index.html">← Jogar</a><h1>A turma ganhou vida nova</h1><p>Sprites dos artistas, com caminhada e poses nas quatro direções.</p>
+<main><a href="../index.html">← Jogar</a><h1>A turma ganhou vida nova</h1><p>Novos amigos e pintinhos, com caminhada e poses nas quatro direções.</p>
 <div class="controls"><label>Direção <select id="direction"><option value="down">Frente</option><option value="right">Direita</option><option value="up">Costas</option><option value="left">Esquerda</option></select></label>
 <label>Aparência <select id="skin"><option value="classic">Galinha</option><option value="punk">Pato</option><option value="astronaut">Coelho</option><option value="robocop">Gato</option><option value="priest">Cachorro</option></select></label>
 <label><input id="moving" type="checkbox" checked> Caminhar</label><label><input id="running" type="checkbox"> Correr</label></div>
-<p id="status" role="status">Chamando a turma…</p><canvas id="cast" width="1080" height="600" aria-label="Treze personagens animados da fazenda"></canvas>
+<p id="status" role="status">Chamando a turma…</p><canvas id="cast" width="1080" height="600" aria-label="Quatorze personagens animados da fazenda"></canvas>
 <small><a href="../assets/sprites/CREDITS.html">Artistas, fontes e licenças</a> · Esta prévia não altera seu progresso.</small></main>
-<script src="../systems/sprite-data.js"></script><script src="../systems/character-art.js"></script>
+<script src="../systems/sprite-data.js?v=amigos13"></script><script src="../systems/character-art.js?v=amigos13"></script>
 <script>
 const canvas=document.getElementById('cast'),c=canvas.getContext('2d');
-const names=['Galinha','Lobo','Ovelha','Porco','Cabra','Vaca','Pato','Coelho','Cão','Gato','Burro','Cordeirinho','Pintinho'];
+const names=['Galinha','Lobo','Ganso','Ovelha','Porco','Cabra','Vaca','Pato','Coelho','Cão','Gato','Burro','Cordeirinho','Pintinho'];
 const direction=document.getElementById('direction'),skin=document.getElementById('skin'),moving=document.getElementById('moving'),running=document.getElementById('running');
 let last=0,anim=0;
 function draw(time){const dt=last?Math.min(.05,(time-last)/1000):0;last=time;if(moving.checked)anim+=dt*(running.checked?15:9);

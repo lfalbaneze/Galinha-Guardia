@@ -2,9 +2,10 @@
 const GameUI = (() => {
   const elements = {};
   const wolfLevels = ["Atento", "Farejador", "Feroz", "Implacável"];
-  const wolfModes = { frightened: "assustado pelo Thor", patrol: "patrulhando", alert: "desconfiado", investigate: "investigando ruído", search: "procurando", chase: "perseguindo", inspect: "viu o esconderijo!" };
+  const wolfModes = { frightened: "assustado pelo Thor", patrol: "patrulhando", alert: "desconfiado", investigate: "seguindo pistas", search: "procurando", chase: "perseguindo", inspect: "viu o esconderijo!" };
   let initialized = false;
   let lastPhase = null;
+  let lastThorScene = false;
 
   function put(id, value) {
     const element = elements[id];
@@ -16,7 +17,7 @@ const GameUI = (() => {
   }
 
   function newGame() {
-    if (![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt].every(art => art.ready)) return;
+    if (![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt, ScarecrowArt].every(art => art.ready)) return;
     resetGame();
     AudioSystem.sync(state);
     AudioSystem.unlock();
@@ -25,9 +26,9 @@ const GameUI = (() => {
   }
 
   function resumeGame() {
-    if (![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt].every(art => art.ready)) return;
+    if (![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt, ScarecrowArt].every(art => art.ready)) return;
     if (!state || !state.hasSave) return;
-    if (state.needsRecovery) GameManager.recover(state);
+    if (state.phase === 'lose' || state.resumePhase === 'lose' || state.lives <= 0) { retryGame(); return; }
     state.phase = state.resumePhase || "playing";
     GameInput.clear();
     AudioSystem.sync(state);
@@ -36,24 +37,38 @@ const GameUI = (() => {
     if (state.phase !== "won" && state.phase !== "lose") focusCanvas();
   }
 
+  function retryGame() {
+    if (![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt, ScarecrowArt].every(art => art.ready)) return;
+    const seed = state.worldSeed;
+    difficultySelect.value = state.difficultyKey;
+    resetGame(seed);
+    AudioSystem.sync(state);
+    AudioSystem.unlock();
+    update(state);
+    focusCanvas();
+  }
+
   function initialize() {
     if (initialized) return;
     initialized = true;
     AudioControls.initialize();
     InterfaceMotion.initialize();
     GameInput.initialize();
-    const ids = ["gameCanvas", "menuScreen", "menuTitle", "menuDescription", "menuSaveText", "endScreen", "endTitle", "endMessage", "endSummary", "endEmblem", "endEyebrow", "startBtn", "continueBtn", "pauseBtn", "replayBtn", "menuBtn", "hiddenText", "contextHint", "wolfLevelText", "wolfStateText", "saveText", "staminaMeter", "staminaText", "chicksCount", "chickCounter", "farmHud", "wardrobeNote", "wolfMultiplier", "skinUnlockText", ...SkinSystem.catalog.map(s => `skin-${s.id}`)];
+    const ids = ["rescueGoal", "gameCanvas", "menuScreen", "menuTitle", "menuDescription", "menuSaveText", "endScreen", "endTitle", "endMessage", "endSummary", "endEmblem", "endEyebrow", "startBtn", "continueBtn", "pauseBtn", "replayBtn", "menuBtn", "hiddenText", "contextHint", "wolfLevelText", "wolfStateText", "saveText", "staminaMeter", "staminaText", "chicksCount", "chickCounter", "farmHud", "wardrobeNote", "wolfMultiplier", "skinUnlockText", ...SkinSystem.catalog.map(s => `skin-${s.id}`)];
     for (const id of ids) elements[id] = document.getElementById(id);
+    for (const id of ['menuPowerName','menuPowerDescription','skinPowerText','skinPowerBadge']) elements[id] = document.getElementById(id);
     elements.gameShell = document.getElementById("gameShell");
+    for(const id of ['expeditionBar','gameFeedback','gameStatus'])elements[id]=document.getElementById(id);
     elements.menuSkinSelect = document.getElementById("menuSkinSelect");
+    elements.menuMascot = document.getElementById("menuMascot");
     for (const skin of SkinSystem.catalog) elements[`menu-skin-${skin.id}`] = document.getElementById(`menu-skin-${skin.id}`);
     document.getElementById('retrySprites').addEventListener('click', async () => {
-      const loading=Promise.all([CharacterArt.load(),GooseArt.load(),FoxArt.load(),OwlArt.load(),ThorArt.load()]);
+      const loading=Promise.all([CharacterArt.load(),GooseArt.load(),FoxArt.load(),OwlArt.load(),ThorArt.load(),ScarecrowArt.load()]);
       update(state); await loading; update(state);
     });
     elements.startBtn.addEventListener("click", newGame);
     elements.replayBtn.addEventListener("click", () => {
-      if (state.phase === 'lose') { GameManager.recover(state); AudioSystem.sync(state); AudioSystem.unlock(); update(state); focusCanvas(); }
+      if (state.phase === 'lose') retryGame();
       else newGame();
     });
     elements.continueBtn.addEventListener("click", resumeGame);
@@ -62,6 +77,9 @@ const GameUI = (() => {
       else showMenu(state);
     });
     elements.menuBtn.addEventListener("click", () => showMenu(state));
+    document.getElementById('thorSupply').addEventListener('click',()=>{ThorSystem.request(state);update(state);focusCanvas();});
+    document.getElementById('thorSceneSkip').addEventListener('click',()=>{ThorSystem.skip(state);update(state);focusCanvas();});
+    document.getElementById('thorScenePause').addEventListener('click',()=>showMenu(state));
     document.getElementById('lakeChallengeBtn').addEventListener('click', () => {
       if (state.lake?.active) LakeChallenge.cancel(state); else LakeChallenge.start(state);
       update(state); focusCanvas();
@@ -121,17 +139,35 @@ const GameUI = (() => {
 
   function update(game) {
     if (!initialized) initialize();
-    const spritesBlocked = ![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt].every(art => art.ready);
+    const ending=EndGameSequence.active(game);
+    elements.gameShell.dataset.ending=String(ending);
+    for(const id of ['expeditionBar','gameFeedback','gameStatus'])elements[id].hidden=ending;
+    const thorScene=game.phase==='playing'&&ThorSystem.active(game);
+    elements.gameShell.dataset.thorScene=String(thorScene);
+    document.getElementById('thorSceneControls').hidden=!thorScene;
+    document.getElementById('thorSceneSkip').disabled=!thorScene||(game.thorRescue?.time||0)<.6;
+    if(thorScene){const status=document.getElementById('thorSceneStatus'),line=ThorCinematic.text(game);if(status.textContent!==line)status.textContent=line;}
+    if(thorScene!==lastThorScene){
+      lastThorScene=thorScene;
+      if(game.phase==='playing')focusCanvas();
+    }
+    const spritesBlocked = ![CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt, ScarecrowArt].every(art => art.ready);
     for (const id of ['startBtn', 'continueBtn', 'replayBtn']) elements[id].disabled = spritesBlocked;
     document.getElementById('restartBtn').disabled = spritesBlocked;
     const spriteStatus = document.getElementById('spriteStatus');
     spriteStatus.hidden = !spritesBlocked;
-    document.getElementById('retrySprites').hidden = !spritesBlocked || [CharacterArt,GooseArt,FoxArt,OwlArt,ThorArt].some(a=>a.loading);
-    spriteStatus.textContent = [CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt].some(art => art.errors.length)
+    document.getElementById('retrySprites').hidden = !spritesBlocked || [CharacterArt,GooseArt,FoxArt,OwlArt,ThorArt,ScarecrowArt].some(a=>a.loading);
+    spriteStatus.textContent = [CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt, ScarecrowArt].some(art => art.errors.length)
       ? 'Alguns bichos não chegaram. Recarregue a página para tentar novamente.'
       : 'Chamando a turma da fazenda…';
     AudioControls.update(game);
     const chicken = game.entities.chicken;
+    const portraitSkin = CharacterArt.appearances[chicken.skin] ? chicken.skin : 'classic';
+    if (elements.menuMascot.dataset.skin !== portraitSkin) {
+      elements.menuMascot.src = `./assets/menu/portraits/${portraitSkin === 'classic' ? 'carijo' : portraitSkin}.png?v=fofinhos52`;
+      elements.menuMascot.alt = CharacterArt.appearances[portraitSkin].description || CharacterArt.appearances[portraitSkin].name;
+      elements.menuMascot.dataset.skin = portraitSkin;
+    }
     const wolf = game.entities.wolf;
     const hidden = !!chicken.hidden;
     const exposed = WolfAI.isExposed(game);
@@ -145,43 +181,76 @@ const GameUI = (() => {
     elements.chickCounter.hidden = false;
     elements.farmHud.dataset.secretKnown = 'true';
     put("chicksCount", game.rescuedChicks);
+    put("rescueGoal", `/ ${WORLD.targetRescues}`);
     put("wolfMultiplier", `Cerco ${WolfAI.getConfig(game).pressure.toFixed(2).replace(".", ",")}×`);
     for (const skin of SkinSystem.catalog) {
       const button = elements[`skin-${skin.id}`], available = SkinSystem.unlocked(skin.id);
+      const power = SkinSystem.power({skin:skin.id});
       const selected = chicken.skin === skin.id;
       button.disabled = !available;
       button.dataset.active = String(selected);
       button.setAttribute("aria-pressed", String(selected));
       const requirement = skin.requirement;
-      put(`skin-${skin.id}`, available ? `${skin.name}${selected ? " · usando" : ""}` : `${skin.name} · ${requirement}`);
+      button.title = `${skin.description ? skin.description + ' ' : ''}${power.description}`;
+      put(`skin-${skin.id}`, available ? `${skin.name}${power.badge ? ` · ${power.name}` : ''}${selected ? " · usando" : ""}` : `${skin.name} · ${requirement}`);
       const option = elements[`menu-skin-${skin.id}`];
       option.disabled = !available;
-      put(`menu-skin-${skin.id}`, available ? skin.name : `${skin.name} · ${requirement}`);
+      option.title = button.title;
+      put(`menu-skin-${skin.id}`, available ? `${skin.name}${power.badge ? ` · ${power.name}` : ''}` : `${skin.name} · ${requirement}`);
     }
     elements.menuSkinSelect.value = chicken.skin;
+    const power = SkinSystem.power(chicken);
+    put('menuPowerName',power.name);
+    put('menuPowerDescription',power.description);
+    put('skinPowerText',`${power.name}: ${power.description}`);
+    put('skinPowerBadge',power.badge);
+    elements.skinPowerBadge.hidden = !power.badge;
+    elements.skinPowerBadge.title = power.description;
     const availableSkins = SkinSystem.catalog.filter(s => s.id !== "classic" && SkinSystem.unlocked(s.id)).length;
     put("skinUnlockText", `${availableSkins} / ${SkinSystem.catalog.length - 1} aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
     put("wardrobeNote", `6 pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o piado, chegue perto e aperte ${interact} uma vez para chamar. São bônus opcionais: procure antes de salvar o último amigo e ganhe novas aparências.`);
-    put("hiddenText", exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
+    const swim = SwimmingSystem.profile(game);
+    const supply=document.getElementById('thorSupply'),bones=ThorSystem.boneCount(game),required=ThorSystem.cost(game),free=required===0;
+    if(supply) {
+      supply.hidden=!playing||thorScene;
+      const ready=ThorSystem.canCall(game),used=game.thorVisit?.easyUsed;
+      const key=GameInput.label('thor');
+      const label=free?(used?'🐾 Thor · ajuda usada':'🐾 Thor · 1 ajuda automática'):ready?`🐾 Chamar Thor${key==='Chamar Thor'?'':` · ${key}`}`:`🦴 Thor · ${bones}/${required}`;
+      if(supply.textContent!==label)supply.textContent=label;
+      supply.disabled=!ready;supply.dataset.ready=String(ready);
+      supply.title=free?(used?'A ajuda gratuita desta tentativa já foi usada.':'Uma vez nesta tentativa: com 1 coração, Thor dá mais 1 automaticamente.'):
+        `${bones}/${required} ossos. ${game.lives===MAX_LIVES?'Vida cheia. Guarde para quando precisar.':swim.swimming?'Saia da água para chamar.':game.lake?.active?'Termine o desafio do lago para chamar.':'Chame Thor para recuperar toda a vida.'}`;
+    }
+    put("hiddenText", swim.swimming ? (swim.native ? "Nadando" : "De boia") : exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
-    const hint = !playing ? (game.phase === "menu" ? "A turma espera por você." : "Todo mundo junto. Até o lobo perdeu a coragem!") :
+    const hint = !playing ? (game.phase === 'lose' || game.resumePhase === 'lose' ? 'Fim da tentativa. A próxima começa do zero.' : game.phase === "menu" ? "A porteira tá aberta. O juízo saiu por ela." : "Poleiro cheio. Lobo sem almoço. Belo dia!") :
+      game.lake?.active ? (LakeChallenge.canCounter(game) ? `${interact} para pegar o carimbo!` :
+        (game.lake.counterWindow||0)>0 ? 'PANTO ficou tonto! Chegue perto antes que a barra acabe.' : 'Desvie da sequência. Quando PANTO ficar tonto, chegue perto para pegar o carimbo.') :
+      swim.swimming ? SwimmingSystem.hint(game) :
       exposed ? `Ele viu você! Saia com ${exitKey} e procure outro esconderijo.` :
       callableChick ? `Piu-piu! Aperte ${interact} uma vez para chamar o pintinho ao ninho.` :
-      wolf.mode === "frightened" ? "Thor espantou o lobo! Aproveite para seguir seu caminho." :
-      hidden ? `Quietinha… deixe o lobo passar. ${exitKey} ou movimento para sair.` :
+      wolf.mode === "frightened" ? "Thor latiu e o valentão afinou! Aproveite para seguir seu caminho." :
+      hidden ? `Finja que é salada. Deixe o lobo passar; ${exitKey} ou movimento para sair.` :
+      SunflowerSystem.mode(game)==='warning' ? 'Bote nos girassóis! Saia para o lado da faixa marcada!' :
       wolf.mode === "chase" ? "Corra e saia da vista do lobo antes de se esconder!" :
       wolf.mode === "alert" ? "Ele percebeu alguma coisa. Saia da vista!" :
       secret ? `Siga o piado! Chegue perto até aparecer ${interact} para chamar o pintinho.` :
+      HidingSpots.occupied(game,HidingSpots.candidate(chicken)) ? 'Moita do Lorenzo: já tem dono! Procure outro esconderijo.' :
       candidate ? `${hideKey} para se esconder. Espere o lobo olhar para outro lado.` :
-      chicken.exhausted ? "Sem fôlego? Pare de correr e respire um pouquinho." :
-      sprinting ? "Pé leve! A correria espanta os bichos e chama o lobo." :
-      `Para chegar de mansinho, ${GameInput.label('sneak')}. Encoste nos amigos para salvá-los.`;
+      chicken.exhausted ? "O tanque de có-có secou. Pare de correr e respire um pouquinho." :
+      EnvironmentSystem.hint(game) || (
+      sprinting ? "Menos sapateado! Correr assusta o bando e deixa pegadas por alguns segundos." :
+      `Para chegar de mansinho, ${GameInput.label('sneak')}. Encoste nos amigos para salvá-los.`);
     put("contextHint",hint);
+    // Nearby actions already have one cue in the world. Keep the footer for unmet needs.
+    const worldCue = !swim.swimming && (exposed || callableChick || hidden || candidate || secret || HidingSpots.candidate(chicken));
+    elements.contextHint.dataset.important = String(!game.lake?.active && !worldCue && !!(swim.swimming || chicken.exhausted));
     elements.staminaMeter.value = chicken.stamina;
     elements.staminaMeter.parentElement.dataset.tired = String(chicken.exhausted);
+    elements.staminaMeter.parentElement.dataset.full = String(chicken.stamina >= .995 && !sprinting && !chicken.exhausted);
     put("staminaText", chicken.exhausted ? "Recuperando" : "Fôlego");
     put("wolfLevelText", wolfLevels[game.wolfLevel] || wolfLevels[0]);
-    put("wolfStateText", game.lake?.active ? "esperando fora do lago" : game.phase === "won" || game.phase === "win_cutscene" ? "surpreendido!" : wolfModes[wolf.mode] || "patrulhando");
+    put("wolfStateText", game.lake?.active ? "esperando fora do lago" : game.phase === "won" || game.phase === "win_cutscene" ? "surpreendido!" : SunflowerSystem.mode(game)==='warning' ? "preparando o bote" : SunflowerSystem.concealed(game) ? "à espreita" : wolfModes[wolf.mode] || "patrulhando");
     elements.wolfStateText.parentElement.dataset.mode = wolf.mode || "patrol";
     const saved = GameManager.storageAvailable;
     put("saveText", saved ? "Anotado na caderneta" : "Progresso mantido nesta partida");
@@ -195,22 +264,23 @@ const GameUI = (() => {
     elements.pauseBtn.disabled = menu || ended;
 
     if (menu) {
-      const canContinue = !!game.hasSave && (game.needsRecovery || ["playing", "win_cutscene", "won"].includes(game.resumePhase));
+      const lost = game.resumePhase === 'lose';
+      const canContinue = !!game.hasSave && ["playing", "lose", "win_cutscene", "won"].includes(game.resumePhase);
       elements.continueBtn.hidden = !canContinue;
       elements.startBtn.classList.toggle("button-secondary", canContinue);
       put("startBtn", canContinue ? "Começar nova fazenda" : "Entrar na fazenda");
-      put("continueBtn", game.needsRecovery ? 'Retomar do poleiro' : game.resumePhase === "won" ? "Voltar à comemoração" : "Continuar resgate");
-      put("menuTitle", canContinue ? "De volta ao sítio" : "Bora abrir a porteira?");
-      put("menuDescription", canContinue ? `${game.rescuedCount}/10 amigos a salvo${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos no ninho` : ""}. ${game.rescuedCount === 10 ? "A turma toda merece comemorar!" : "Seu resgate espera por você."}` : "O lobo está de ronda! Leve os dez amigos ao poleiro e siga os piados pelo caminho.");
+      put("continueBtn", lost ? 'Tentar novamente' : game.resumePhase === "won" ? "Voltar à comemoração" : "Continuar resgate");
+      put("menuTitle", lost ? "Bora tentar de novo?" : canContinue ? "A aventura continua!" : "Bora se divertir!");
+      put("menuDescription", lost ? 'As três vidas acabaram. Tente a Fazenda do tio Clau de novo, com resgates, pintinhos e pontos zerados.' : canContinue ? `${game.rescuedCount}/${WORLD.targetRescues} amigos a salvo${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos no ninho` : ""}. ${game.rescuedCount === WORLD.targetRescues ? "Festa na Fazenda do tio Clau! O lobo ficou sem convite." : "A turma do tio Clau conta com você. O lobo que lute!"}` : "Na Fazenda do tio Clau, até o almoço sai correndo! Resgate os 12 amigos e siga os piados.");
     }
     if (ended) {
       const won = game.phase === "won";
-      put('replayBtn', won ? 'Jogar novamente' : 'Retomar do poleiro');
+      put('replayBtn', won ? 'Jogar novamente' : 'Tentar novamente');
       put("endEmblem", won ? "🐔 ♥" : "🐔");
-      put("endEyebrow", won ? "FIM ♥" : "Ainda há uma nova chance");
-      put("endTitle", won ? "Você conseguiu!" : "Vamos tentar de novo?");
-      put("endMessage", won ? "Todos os seus amigos estão seguros! O lobo aprendeu: não se mexe com essa turma." : game.gameEndReason || "O lobo pegou você desta vez. Use os esconderijos para despistá-lo na próxima aventura.");
-      put("endSummary", `${game.rescuedCount}/10 amigos${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos` : ""} · ${Math.max(0, Math.floor(game.score))} pontos · ${Math.max(0, game.lives)} vidas`);
+      put("endEyebrow", won ? "FIM ♥" : "FIM DE JOGO");
+      put("endTitle", won ? "Turma completa. Lobo de barriga vazia." : "O lobo ganhou essa rodada.");
+      put("endMessage", won ? "Todo mundo a salvo! A vaca voltou a mastigar, o gato diz que planejou tudo e o lobo foi reclamar com a mãe." : "As três vidas acabaram. Tentar novamente reinicia a mesma fazenda: resgates, pintinhos, pontos e desafios voltam ao começo.");
+      put("endSummary", `${game.rescuedCount}/${WORLD.targetRescues} amigos${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos` : ""} · ${Math.max(0, Math.floor(game.score))} pontos · ${Math.max(0, game.lives)} vidas`);
     }
     InterfaceMotion.update(game);
     GameplayHud.update(game);
@@ -256,9 +326,9 @@ const GameUI = (() => {
       }
     }
     // Brief, local feedback ties each state to the character causing it.
-    if (wolf.mode !== "patrol" && w.x > 65 && w.x < canvas.width - 65 && w.y > 93 && w.y < canvas.height + 20) {
+    if (!SunflowerSystem.concealed(game) && wolf.mode !== "patrol" && w.x > 65 && w.x < canvas.width - 65 && w.y > 93 && w.y < canvas.height + 20) {
       const color = ["chase", "inspect"].includes(wolf.mode) ? "#f6b9a4" : wolf.mode === "alert" ? "#ffe398" : "#cce2e6";
-      const labels = { frightened: "THOR ME ASSUSTOU!", chase: "! PERSEGUINDO", alert: "? DESCONFIOU", investigate: "OUVIU ALGO", search: "PROCURANDO", inspect: "! TE VI ENTRAR" };
+      const labels = { frightened: "DEU MEDO DO THOR!", chase: "! PERSEGUINDO", alert: "? DESCONFIOU", investigate: "ACHOU UMA PISTA", search: "PROCURANDO", inspect: "! TE VI ENTRAR" };
       panel(w.x - 60, w.y - 94, 120, wolf.mode === "alert" ? 33 : 25, "rgba(42, 57, 46, .92)");
       ctx.fillStyle = color; ctx.textAlign = "center"; ctx.font = "bold 10px sans-serif";
       ctx.fillText(labels[wolf.mode] || "", w.x, w.y - 77);
@@ -266,12 +336,14 @@ const GameUI = (() => {
         ctx.fillStyle = "#627060"; ctx.fillRect(w.x - 43, w.y - 70, 86, 3);
         ctx.fillStyle = color; ctx.fillRect(w.x - 43, w.y - 70, 86 * clamp(wolf.awareness || 0, 0, 1), 3);
       }
-      if (wolf.speechTime > 0 && wolf.speech && w.y > 137) {
-        const sx = clamp(w.x, 116, canvas.width - 116);
-        panel(sx - 108, w.y - 134, 216, 29, "rgba(255, 246, 224, .98)");
-        ctx.fillStyle = ["chase", "inspect"].includes(wolf.mode) ? "#a63e31" : "#56533d";
-        ctx.font = "bold 12px sans-serif"; ctx.fillText(wolf.speech, sx, w.y - 115);
-      }
+    }
+    if (!SunflowerSystem.concealed(game) && wolf.speechTime > 0 && wolf.speech && w.x > 0 && w.x < canvas.width && w.y > 137 && w.y < canvas.height + 20) {
+      ctx.font = "bold 12px sans-serif";ctx.textAlign = "center";
+      const width=Math.min(280,Math.max(216,ctx.measureText(wolf.speech).width+24));
+      const sx = clamp(w.x, width/2+8, canvas.width-width/2-8);
+      panel(sx-width/2, w.y-134, width, 29, "rgba(255, 246, 224, .98)");
+      ctx.fillStyle = ["chase", "inspect"].includes(wolf.mode) ? "#a63e31" : "#56533d";
+      ctx.fillText(wolf.speech, sx, w.y-115, width-24);
     }
     if (chicken.stamina < 0.99 || chicken.sprinting) {
       const y = Math.min(canvas.height - 20, p.y + 30);
@@ -308,12 +380,16 @@ const GameUI = (() => {
   }
 
   function activeNotice(game) {
-    if(game.thorNotice?.time>0)return {time:game.thorNotice.time,title:game.thorNotice.healed?"Thor chegou! +1 coração":"Thor chegou!",
-      detail:game.thorNotice.healed?"O lobo levou um susto. Aproveite a ajuda!":"Corações cheios · o lobo levou um susto!"};
+    if(game.thorNotice?.time>0&&game.thorNotice.arriving)return {time:game.thorNotice.time,title:"O herói usa coleira!",
+      detail:"Thor a caminho! Segura esse último coração."};
+    if(game.thorNotice?.time>0)return {time:game.thorNotice.time,title:game.thorNotice.healed?(ThorSystem.cost(game)?"Thor chegou! Vida completa":"Thor chegou! +1 coração"):"Thor chegou!",
+      detail:game.thorNotice.healed?"Bom garoto! O lobo achou a saída rapidinho.":"Corações cheios · valentão sem coragem!"};
+    if(game.thorBoneNotice?.time>0)return {time:game.thorBoneNotice.time,title:`${game.thorBoneNotice.count}/${ThorSystem.cost(game)} ossos para o Thor`,
+      detail:game.thorBoneNotice.count>=ThorSystem.cost(game)?`Reforço preparado! ${GameInput.label('thor')} para chamar quando faltar vida.`:'Ossinho guardado. O golden tem bom gosto!'};
     if(game.skinNotice?.time>0)return {time:game.skinNotice.time,title:`Nova aparência: ${game.skinNotice.text}`,
-      detail:game.secretNotice?.time>0?'Pintinho salvo! Sua recompensa está no baú.':'Já está no baú. Experimente quando quiser!'};
+      detail:game.secretNotice?.time>0?'Pintinho salvo, figurino novo! Confira o baú.':'Roupa nova pra aprontar. Confira o baú!'};
     if(game.secretNotice?.time>0)return {time:game.secretNotice.time,
-      title:game.secretNotice.bonus?'Pintinho no ninho!':'Olha quem estava escondido!',
+      title:game.secretNotice.bonus?'Pintinho no ninho!':'Esse piado tem perninhas!',
       detail:game.secretNotice.bonus?`+100 pontos · ${game.rescuedChicks} de 6 pintinhos`:'Chegue perto para levar o pequeno ao poleiro.'};
     if(game.rescueNotice?.time>0)return {time:game.rescueNotice.time,title:`${game.rescueNotice.name} a salvo!`,
       detail:`+100 pontos · ${game.rescueNotice.count} de ${game.rescueNotice.total} no poleiro`};

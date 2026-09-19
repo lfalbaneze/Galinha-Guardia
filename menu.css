@@ -1,0 +1,155 @@
+/* Title screen: the farm is the stage; controls sit in one quiet, compact panel. */
+body:has(.game-shell[data-phase="menu"]) { padding: 0; background: #15372e; }
+.game-shell[data-phase="menu"] { width: 100%; padding: 0; border: 0; border-radius: 0; background: #15372e; box-shadow: none; overflow: hidden; }
+.game-shell[data-phase="menu"] > :not(.stage),
+.game-shell[data-phase="menu"] #gameCanvas { display: none; }
+#menuScreen.farm-menu {
+  --menu-cream: #fff9e8; --menu-muted: #c0cdc0; --menu-gold: #ffdb7a; --menu-line: #c6d5bc29;
+  position: relative; inset: auto; display: grid; grid-template-columns: minmax(0, 1fr) 388px;
+  align-items: center; gap: 48px; min-height: 100svh; padding: 64px clamp(32px, 5.6vw, 100px) 80px;
+  margin: 0; overflow: hidden; isolation: isolate; background: #15372e; color: var(--menu-cream);
+  backdrop-filter: none; border-radius: 0; font-family: "Segoe UI", "Trebuchet MS", sans-serif;
+}
+.menu-world { position: absolute; inset: 0; z-index: -3; pointer-events: none; transform: scale(1.025); transform-origin: center; will-change: transform; }
+.menu-backdrop { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 42% center; image-rendering: pixelated; }
+#menuScene.menu-scene { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 0; box-shadow: none; background: transparent; image-rendering: pixelated; pointer-events: none; }
+.menu-world::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(90deg, #102f2ac7 0%, #15372e4a 46%, #12332940 100%), linear-gradient(0deg, #0d302ce0 0%, transparent 38%, #102f2a26 100%);
+}
+.menu-title-scene { align-self: start; position: relative; z-index: 1; padding-top: clamp(0px, 4vh, 50px); pointer-events: none; }
+.farm-kicker { display: flex; align-items: center; gap: 11px; margin: 0 0 31px; padding: 0; border: 0; background: none; box-shadow: none; color: #fff5d4; font-size: 11px; font-weight: 700; letter-spacing: .19em; text-transform: uppercase; }
+.farm-kicker > span { color: var(--menu-gold); font-size: 26px; line-height: 1; }
+.farm-title { position: relative; width: fit-content; margin: 0; color: var(--menu-cream); font: 900 clamp(84px, 8.4vw, 144px)/.91 "Arial Black", "Segoe UI", sans-serif; letter-spacing: -.075em; transform: none; -webkit-text-stroke: 0; text-shadow: 0 3px 0 #13362d45; }
+.farm-title > span { position: relative; display: block; }
+.farm-title > span + span { margin: 0; color: var(--menu-gold); white-space: nowrap; }
+.farm-title small { display: inline-block; font: 800 .39em/1 "Segoe UI", sans-serif; letter-spacing: -.045em; vertical-align: baseline; margin-right: -.15em; }
+.title-feather { position: absolute; width: .38em; height: .64em; right: -.31em; top: -.58em; transform: rotate(17deg); color: var(--menu-cream); }
+.farm-tagline { width: auto; margin: 28px 0 0; padding: 0; background: none; border: 0; box-shadow: none; color: var(--menu-cream); font-size: clamp(18px, 1.6vw, 24px); font-weight: 600; letter-spacing: -.02em; line-height: 1.4; }
+.farm-subtitle { display: block; margin: 12px 0 0; padding: 0; background: none; border: 0; box-shadow: none; color: #dae6d2; font-size: 13px; font-weight: 400; letter-spacing: 0; transform: none; }
+.menu-mischief { position: absolute; z-index: 1; left: clamp(32px, 5.6vw, 100px); bottom: 32px; max-width: calc(100% - 510px); }
+#menuScatter { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; padding: 8px 0; background: transparent; color: #fff5d8; border: 0; border-radius: 0; box-shadow: none; font: 600 13px/1.4 "Segoe UI", sans-serif; }
+#menuScatter > svg { width: 19px; height: 19px; }
+#menuScatter > span { font-size: 19px; margin-left: 10px; transition: transform .2s; }
+#menuScatter:hover { color: var(--menu-gold); transform: none; }
+#menuScatter:hover > span { transform: translate(2px,-2px); }
+#menuPlayHint { margin: 0; color: #d3dec9; font: 11px/1.5 "Segoe UI", sans-serif; }
+#menuBanter { position: absolute; z-index: 2; width: 260px; max-width: calc(100% - 20px); margin: 0; padding: 10px 14px; transform: translate(-50%,-100%); border: 1px solid #eed89f; border-radius: 14px; background: #fff7df; color: #234b3d; font: 600 13px/1.45 "Segoe UI", sans-serif; white-space: pre-line; text-align: center; box-shadow: 0 5px 18px #102a2540; pointer-events: none; }
+#menuBanter::first-line { color: #98602d; font-weight: 800; font-size: 11px; }
+#menuBanter::after { content: ""; position: absolute; left: calc(50% - 5px); bottom: -6px; width: 10px; height: 10px; background: #fff7df; border-right: 1px solid #eed89f; border-bottom: 1px solid #eed89f; transform: rotate(45deg); }
+#menuBanter[data-placement="below"]::after { top: -6px; bottom: auto; transform: rotate(225deg); }
+.farm-menu #menuCard { position: relative; grid-column: 2; width: 100%; max-height: calc(100svh - 108px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #92a67d55 transparent; margin: 0; padding: 28px; border: 1px solid #d7e4ce30; border-radius: 24px; background: #143a30f2; color: var(--menu-cream); box-shadow: 0 20px 60px #0b292b38; backdrop-filter: blur(12px); text-align: left; }
+.farm-menu .menu-mascot { float: right; width: 60px; height: 66px; margin: -4px -3px 2px 10px; object-fit: contain; filter: drop-shadow(0 3px 3px #071c2655); }
+.farm-menu #menuCard > .eyebrow { margin: 1px 0 8px; padding: 0; color: var(--menu-gold); font-size: 10px; font-weight: 600; letter-spacing: .13em; }
+.farm-menu #menuCard h2 { margin: 0 0 12px; color: var(--menu-cream); font: 750 26px/1.16 "Segoe UI", sans-serif; letter-spacing: -.035em; }
+.farm-menu #menuDescription { margin: 0; color: var(--menu-muted); font-size: 13px; line-height: 1.55; }
+.farm-menu #menuCard .overlay-actions { display: grid; grid-template-columns: minmax(0,1fr); justify-content: stretch; margin: 20px 0 23px; gap: 8px; }
+.farm-menu .overlay-actions button { display: block; width: 100%; min-height: 52px; padding: 14px 18px; border: 1px solid transparent; border-radius: 12px; color: #233c2c; background: var(--menu-gold); box-shadow: none; text-align: left; font: 750 15px/1.4 "Segoe UI", sans-serif; transition: background .18s, transform .18s; }
+.farm-menu .overlay-actions button::after { content: "↗"; float: right; font-size: 19px; line-height: 1.1; }
+.farm-menu .overlay-actions button:hover:not(:disabled) { background: #ffe6a5; box-shadow: none; transform: translateY(-1px); }
+.farm-menu .overlay-actions .button-secondary { min-height: 42px; padding: 11px 14px; border-color: var(--menu-line); color: #e6edda; background: #f0f5df09; font-size: 12px; }
+.farm-menu .overlay-actions .button-secondary:hover:not(:disabled) { background: #eff4d51c; box-shadow: none; }
+.farm-menu button:disabled { opacity: .55; }
+.farm-menu .menu-tabs { gap: 3px; margin: 23px 0 0; padding: 0 0 7px; border: 0; border-bottom: 1px solid var(--menu-line); border-radius: 0; background: none; }
+.farm-menu .menu-tabs button { min-height: 39px; padding: 9px 5px; border: 0; border-radius: 8px; color: #b6c7b8; font: 600 12px/1.3 "Segoe UI", sans-serif; }
+.farm-menu .menu-tabs button:hover { background: #f0f5df0d; color: var(--menu-cream); }
+.farm-menu .menu-tabs button[aria-selected="true"] { color: var(--menu-cream); background: #d9e6c51c; box-shadow: none; }
+.farm-menu .menu-tabs button[aria-selected="true"]::after { display: none; }
+.farm-menu .menu-panel { min-height: 0; padding-top: 18px; }
+.farm-menu .difficulty-heading { margin: 0 0 12px; }
+.farm-menu .difficulty-heading h3 { margin: 0; color: #e3ecd8; font: 600 12px/1.3 "Segoe UI", sans-serif; }
+.farm-menu .difficulty-heading > span { color: #93ae9d; font-size: 9px; letter-spacing: .09em; }
+.farm-menu .difficulty-picks { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+.farm-menu .difficulty-picks button { position: relative; display: flex; flex-direction: column; gap: 5px; min-height: 116px; padding: 11px 4px 12px; border: 1px solid var(--menu-line); border-radius: 12px; background: #cde1be08; color: #d5e1cb; box-shadow: none; text-align: center; }
+.farm-menu .difficulty-picks button:hover { background: #e4eac711; border-color: #ddce855e; box-shadow: none; }
+.farm-menu .difficulty-art { width: 42px; height: 42px; filter: none; }
+.farm-menu .difficulty-name { display: flex; flex-direction: column-reverse; align-items: center; gap: 5px; font-size: 10px; font-weight: 500; line-height: 1.25; }
+.farm-menu .difficulty-picks button small { display: block; color: #e4ebd8; font-size: 12px; font-weight: 700; }
+.farm-menu .difficulty-detail { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.farm-menu .difficulty-check { position: absolute; top: 6px; right: 6px; width: 14px; height: 14px; border: 0; background: transparent; font-size: 10px; }
+.farm-menu .difficulty-picks button[aria-checked="true"] { border-color: #f3cf75; color: var(--menu-gold); background: #edc76413; box-shadow: inset 0 0 0 1px #f3cf7526; }
+.farm-menu .difficulty-picks button[aria-checked="true"] small { color: var(--menu-gold); }
+.farm-menu .difficulty-picks button[aria-checked="true"] .difficulty-check { background: var(--menu-gold); color: #284737; border-radius: 50%; }
+.farm-menu #difficultyFlavor { min-height: 36px; margin: 12px 0 4px; color: #e1e8d4; font-size: 12px; line-height: 1.5; }
+.farm-menu #difficultyPreview { min-height: 0; margin: 0; color: #93b19e; font-size: 10px; line-height: 1.5; }
+.farm-menu .menu-help-button { margin: 12px 0 0; padding: 11px 0 0; min-height: 38px; border: 0; background: none; color: #cfdbc6; font: 600 12px/1.4 "Segoe UI", sans-serif; }
+.farm-menu .menu-help-button:hover { color: var(--menu-gold); }
+.farm-menu .menu-help-button span { width: 18px; height: 18px; line-height: 16px; border-color: #adbea364; font-size: 11px; }
+.farm-menu .menu-skin { justify-content: flex-start; margin: 0; gap: 8px; color: #dce6d0; font-size: 12px; }
+.farm-menu .menu-skin select { width: 100%; }
+.farm-menu select { border: 1px solid #bacbb544; border-radius: 8px; background: #214638; color: var(--menu-cream); box-shadow: none; padding: 10px; font: 13px "Segoe UI", sans-serif; color-scheme: dark; }
+.farm-menu .outfit-preview { margin: 12px 0; border: 1px solid var(--menu-line); border-radius: 14px; background: radial-gradient(ellipse at 50% 75%, #62825a66, #b6c88a08 65%); }
+.farm-menu .menu-portrait { width: min(230px,100%); height: auto; margin: auto; }
+.farm-menu .portrait-controls { gap: 8px; margin-top: 10px; }
+.farm-menu .portrait-controls button, .farm-menu #menuAudioMute { min-height: 38px; padding: 9px; border: 1px solid var(--menu-line); border-radius: 8px; background: transparent; color: #dce6d0; box-shadow: none; font: 12px "Segoe UI", sans-serif; }
+.farm-menu .portrait-controls button:hover, .farm-menu #menuAudioMute:hover { background: #e4eac711; }
+.farm-menu .skin-power-card { padding: 12px; border: 1px solid #daca7840; border-radius: 10px; background: #ecdd7310; color: #e5eccc; }
+.farm-menu .skin-power-card strong { margin-top: 4px; font-size: 14px; color: var(--menu-gold); }
+.farm-menu .skin-power-label { color: #c4c8a1; font-size: 9px; letter-spacing: .08em; }
+.farm-menu .skin-power-card p { font-size: 12px; line-height: 1.5; }
+.farm-menu .menu-panel-note { font-size: 11px; line-height: 1.5; color: #a1b8a5; }
+.farm-menu .audio-controls { gap: 14px; }
+.farm-menu .audio-controls label, .farm-menu .skin-music-toggle { color: #d5e1cb; font-size: 12px; }
+.farm-menu .audio-controls select { font-size: 12px; }
+.farm-menu input { accent-color: var(--menu-gold); }
+.farm-menu .audio-note, .farm-menu .audio-note a { color: #b1c4ad; font-size: 11px; line-height: 1.5; }
+.farm-menu .control-settings { color: #bacbb8; }
+.farm-menu .control-settings label { font-size: 12px; }
+.farm-menu .control-settings p { font-size: 11px; }
+.farm-menu .control-settings #controlDevice { border-color: var(--menu-line); }
+.farm-menu #menuSaveText { padding: 0; border: 0; margin: 14px 0 0; color: #94b09b; font-size: 10px; line-height: 1.5; text-align: center; }
+.farm-menu .menu-footer { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 21px; padding-top: 13px; border-top: 1px solid var(--menu-line); }
+.farm-menu .game-author { margin: 0; color: #90ab97; text-align: left; font: 10px/1.5 "Segoe UI", sans-serif; }
+.farm-menu .game-author strong { color: #c6d3ba; font-weight: 500; }
+.farm-menu :is(button,a,select,input):focus-visible { outline: 2px solid #ffdf8b; outline-offset: 4px; }
+.farm-menu #spriteStatus { color: var(--menu-gold); font-size: 12px; }
+.farm-menu #menuCard:has(.menu-tabs button:not(#tab-adventure)[aria-selected="true"]) #menuDescription { display: none; }
+@media (min-width: 980px) and (max-height: 800px) {
+  #menuScreen.farm-menu { padding-top: 30px; padding-bottom: 60px; }
+  .farm-menu #menuCard { padding: 23px 26px; }
+  .menu-title-scene { padding-top: 15px; }
+  .farm-menu .menu-footer { margin-top: 16px; padding-top: 10px; }
+  .farm-menu .difficulty-picks button { min-height: 106px; padding-top: 9px; }
+  .farm-menu .difficulty-art { width: 36px; height: 36px; }
+}
+@media (min-width: 980px) and (max-width: 1140px) {
+  #menuScreen.farm-menu { grid-template-columns: minmax(0,1fr) 354px; gap: 30px; padding-left: 40px; padding-right: 40px; }
+  .farm-title { font-size: 86px; }
+  .farm-menu #menuCard { padding: 24px; }
+  .menu-mischief { left: 40px; }
+}
+@media (max-width: 979px) {
+  #menuScreen.farm-menu { grid-template-columns: minmax(0,1fr); gap: 0; padding: 32px 24px 28px; }
+  .menu-world { height: 780px; bottom: auto; }
+  .menu-world::after { background: linear-gradient(90deg, #12372b99, #12372b20), linear-gradient(0deg, #15372e 0%, #15372e50 20%, #15372e08 55%, #102f2a75 100%); }
+  .menu-title-scene { width: min(480px,100%); min-height: 670px; padding: 0; margin: 0 auto; }
+  .farm-title { font-size: clamp(86px,15vw,128px); }
+  .farm-kicker { margin-bottom: 24px; font-size: 10px; }
+  .farm-tagline { margin-top: 24px; font-size: 20px; }
+  .farm-subtitle { font-size: 12px; }
+  .menu-mischief { top: 420px; bottom: auto; left: 50%; transform: translateX(-50%); width: min(480px,calc(100% - 48px)); max-width: none; }
+  .farm-menu #menuCard { grid-column: 1; max-width: 480px; max-height: none; overflow-y: visible; margin: 0 auto; background: #153d31f7; box-shadow: 0 16px 38px #09281f30; }
+}
+@media (max-width: 480px) {
+  #menuScreen.farm-menu { padding: 25px 16px 20px; }
+  .menu-world { height: 680px; }
+  .menu-title-scene { min-height: 580px; padding: 0 8px; }
+  .farm-title { font-size: clamp(82px,21vw,99px); }
+  .farm-kicker { font-size: 9px; letter-spacing: .14em; margin-bottom: 24px; }
+  .farm-kicker > span { font-size: 23px; }
+  .farm-tagline { font-size: 19px; margin-top: 22px; }
+  .farm-subtitle { max-width: 280px; font-size: 11px; }
+  .menu-mischief { top: 333px; width: calc(100% - 48px); }
+  .farm-menu #menuCard { padding: 23px 20px; border-radius: 20px; }
+  .farm-menu #menuCard h2 { font-size: 25px; }
+  .farm-menu .difficulty-picks { gap: 7px; }
+  .farm-menu .difficulty-picks button { min-height: 108px; }
+  .farm-menu .difficulty-art { width: 38px; height: 38px; }
+  .farm-menu .difficulty-name { font-size: 9px; }
+  .farm-menu .menu-mascot { width: 52px; height: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-world { will-change: auto; }
+  .farm-menu button, #menuScatter > span { transition: none; }
+  .farm-menu .overlay-actions button:hover:not(:disabled), #menuScatter:hover > span { transform: none; }
+}
