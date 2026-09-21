@@ -464,6 +464,7 @@ function updateChicken(dt) {
 }
 
 function updateWolf(dt) {
+  if (LakeChallenge.guardWolf(state)) return;
   WolfAI.update(state, dt);
   WolfDialogue.update(state, dt);
 }
@@ -610,7 +611,7 @@ function drawAnimal(entity) {
     ctx.bezierCurveTo(7, -12, 15, -2, 0, 6); ctx.fill(); ctx.stroke(); ctx.restore();
     const closestCalm = state.entities.animals.filter(a=>!a.rescued&&a.temper==='calm')
       .sort((a,b)=>distance(a,state.entities.chicken)-distance(b,state.entities.chicken))[0];
-    if (entity.temper === 'calm' && entity === closestCalm) {
+    if (!state.entities.chicken.sneaking && entity.temper === 'calm' && entity === closestCalm) {
       ctx.save();ctx.font='bold 12px Trebuchet MS, sans-serif';ctx.textAlign='center';
       const y=p.y-CharacterArt.markerOffset(entity.species)-24;
       ctx.fillStyle='#254c3eed';ctx.beginPath();ctx.roundRect(p.x-47,y,94,22,5);ctx.fill();
@@ -726,7 +727,7 @@ function drawMiniMap() {
   }
   ctx.fillStyle='#995f3e';
   for(const prop of [STRUCTURES.barn,...STRUCTURES.coops,...STRUCTURES.silos,...(STRUCTURES.stables||[])])
-    ctx.fillRect(x+prop.x*sx,y+prop.y*sy,Math.max(3,prop.w*sx),Math.max(3,prop.h*sy));
+    ctx.fillRect(x+prop.x*sx,y+prop.y*sy,Math.max(3,prop.w*sx),prop.h*sy);
   ctx.strokeStyle='#eee9c278';ctx.lineWidth=1;
   const viewX=Math.max(0,camera.x),viewY=Math.max(0,camera.y);
   ctx.strokeRect(x+viewX*sx,y+viewY*sy,(Math.min(WORLD.width,camera.x+canvas.width)-viewX)*sx,(Math.min(WORLD.height,camera.y+canvas.height)-viewY)*sy);
@@ -811,6 +812,7 @@ function renderGame() {
   if (!ending) for (const chick of state.entities.chicks) {
     if (RescueSystem.isSecret(chick) && !chick.coverId) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
   }
+  if (!ending) Sunlight.beginLayer(ctx);
   const layers = [...RescueSystem.all(state).filter(a => !ending || a.rescued), state.entities.chicken, state.entities.wolf]
     .map(entity => ({ depth: entity.y + 12, entity }));
   if (state.entities.goose && (!ending || state.entities.goose.rescued)) layers.push({ depth: state.entities.goose.y + 12, entity: state.entities.goose });
@@ -823,9 +825,11 @@ function renderGame() {
   if (!ending && state.scarecrow) layers.push({depth:state.scarecrow.y+5,scarecrow:true});
   layers.sort((a, b) => a.depth - b.depth);
   for (const layer of layers) {
+    Sunlight.actor(null);
     if (layer.scarecrow) { ScarecrowSystem.drawPost(state); continue; }
     if (layer.prop) { FarmArt.drawProp(ctx, layer.prop, camera, state); continue; }
     const entity = layer.entity;
+    Sunlight.actor(entity.type);
     if (ending && state.cutscene.cloud && entity.type !== "chicken") continue;
     if (entity.type === "wolf") {
       if(!ending&&SunflowerSystem.concealed(state))continue;
@@ -842,6 +846,7 @@ function renderGame() {
     else if (entity.type === 'thor') ThorArt.draw(ctx,entity,camera);
     else drawAnimal(entity);
   }
+  Sunlight.actor(null);
   if (ending) { EndGameSequence.draw(state); ctx.restore(); EndGameSequence.drawCaption(state); }
   else {
     ScarecrowSystem.drawFlying(state);
@@ -849,7 +854,9 @@ function renderGame() {
     SunflowerSystem.drawWarning(state);
     OwlSystem.drawIndicators(state);
     // Keep a peeking silhouette legible above the prop, then cover its lower body.
-    if (state.entities.chicken.hidden || (state.entities.chicken.hideBlend || 0)>0.02) drawChicken(state.entities.chicken);
+    if (state.entities.chicken.hidden || (state.entities.chicken.hideBlend || 0)>0.02) {
+      Sunlight.actor('chicken'); drawChicken(state.entities.chicken); Sunlight.actor(null);
+    }
     HidingSpots.drawForeground(state);
     EnvironmentSystem.drawAir(state);
     FarmScenery.drawAir(ctx,WORLD.layout,camera,state.elapsed,InterfaceMotion.reduced);

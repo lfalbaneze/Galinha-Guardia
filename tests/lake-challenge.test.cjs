@@ -225,5 +225,7 @@ test('the challenge panel reports actual progress and never offers to fight a de
   assert.match(h.elements.get('lakeHelp').textContent,/0\/3/);assert.match(h.elements.get('lakeChallengeBtn').textContent,/Sair/);
   dodge(h);h.run('LakeChallenge.updateUI(state)');assert.match(h.elements.get('lakeHelp').textContent,/1\/3/);
   dodge(h);dodge(h);h.run('LakeChallenge.updateUI(state)');
-  assert.equal(h.elements.get('lakeChallengeBtn').hidden,true);assert.match(h.elements.get('lakeHelp').textContent,/Atalho aberto/);
+  assert.equal(h.elements.get('lakeChallengeBtn').hidden,true);
+  assert.match(h.elements.get('lakeHelp').textContent,/Atalho e refúgio abertos/);
+  assert.match(h.elements.get('lakeHelp').textContent,/lobo não captura dentro da área marcada/);
 });

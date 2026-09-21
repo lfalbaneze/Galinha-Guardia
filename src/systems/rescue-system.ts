@@ -75,6 +75,9 @@ const RescueSystem = {
     lamb: ["Minha lã ainda é tamanho P!", "Perninha, faz hora extra!", "Esse capim era maior que eu!", "Cadê o adulto dessa fazenda?!"],
     chick: ["Piu! Me perdi em três passos!", "Essa folha parecia uma árvore!", "Eu tava contando formiga!", "Piu! Minha aventura cansou."]
   },
+  // These lines only follow an actual sighting, never the player's use of C.
+  stealthLines: ['Eita! Quem tá aí?!', 'Ai! Que susto!', 'Eu te vi! Pernas, corram!', 'Você apareceu de fininho!'],
+  stealthTiredLine: 'Ufa… ainda tô tremendo do susto!',
   tiredLines: {
     horse:"Estacionei. Cadê o capim?", turkey:"Glu… acabou meu discurso.",
     sheep:"Ufa. A lã pesa, sabia?", pig:"Pausa pra virar presunto? NÃO!",
@@ -109,9 +112,13 @@ const RescueSystem = {
   },
   talk(game: Farm.GameState, animal: Farm.Animal, tired = false): void {
     if (game.animalSpeechCooldown > 0 || animal.speechTime > 0) return;
-    const lines = RescueSystem.taunts[animal.species] || RescueSystem.taunts.chick;
-    animal.speech = tired ? RescueSystem.tiredLines[animal.species] : animal.fleeFrom?.kind === 'wolf' ?
-      RescueSystem.alarmLines[animal.species] : lines[Math.floor(Math.random() * lines.length)];
+    const startled = game.entities.chicken.sneaking && animal.fleeFrom?.kind === 'player';
+    // A quiet, unnoticed player must not make an animal speak or offer to follow.
+    if (game.entities.chicken.sneaking && !startled && animal.fleeFrom?.kind !== 'wolf') return;
+    const lines = startled ? RescueSystem.stealthLines : RescueSystem.taunts[animal.species] || RescueSystem.taunts.chick;
+    animal.speech = animal.fleeFrom?.kind === 'wolf' ? RescueSystem.alarmLines[animal.species] :
+      tired ? (startled ? RescueSystem.stealthTiredLine : RescueSystem.tiredLines[animal.species]) :
+      lines[Math.floor(Math.random() * lines.length)];
     animal.speechTime = 2.4;
     game.animalSpeechCooldown = 2.8;
     if (!tired && RescueSystem.visible(game, animal) && !circleVsCircle(game.entities.chicken, animal))
@@ -122,10 +129,16 @@ const RescueSystem = {
     const profile = RescueSystem.personality(animal);
     const facing = { up: [0,-1], down: [0,1], left: [-1,0], right: [1,0] }[animal.direction] || [0,1];
     const toward = (chicken.x - animal.x) * facing[0] + (chicken.y - animal.y) * facing[1];
-    const alertRange = chicken.sneaking ? 22 : (chicken.sprinting ? 240 : toward > 0 ? 170 : 105) * profile.nerve;
+    const gap = distance(chicken, animal);
+    // Stealth reduces perception; it is neither invisibility nor a friendly call.
+    // Within a 100-degree viewing cone an animal can still spot the quiet player.
+    const inView = gap < .001 || toward / gap >= Math.cos(50 * Math.PI / 180);
+    const alertRange = (chicken.sneaking ? 90 : chicken.sprinting ? 240 : toward > 0 ? 170 : 105) * profile.nerve;
+    const friendly = !chicken.sneaking && SkinSystem.power(chicken).friendSpecies === animal.species;
     const threats: Farm.ObservedThreat[] = [];
-    if (SkinSystem.power(chicken).friendSpecies !== animal.species && !chicken.hidden && !chicken.sneaking && visible && distance(chicken, animal) < alertRange)
-      threats.push({ x: chicken.x, y: chicken.y, kind: 'player', urgency: 1 - distance(chicken, animal) / alertRange });
+    if (!friendly && !chicken.hidden && visible && gap < alertRange && (!chicken.sneaking || inView) &&
+      DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(chicken)))
+      threats.push({ x: chicken.x, y: chicken.y, kind: 'player', urgency: 1 - gap / alertRange });
     const wolfRange = 190 * profile.nerve;
     if (!SunflowerSystem.concealed(game) && wolf.mode !== 'frightened' && wolf.huntUnlockTimer <= 0 && wolf.pauseTimer <= 0 && distance(wolf, animal) < wolfRange &&
       DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(wolf)))
@@ -206,6 +219,9 @@ const RescueSystem = {
       const safePosition = chick ? RescueSystem.chickPosition : RescueSystem.safePosition;
       const oldX = animal.x, oldY = animal.y;
       animal.speechTime = Math.max(0, (animal.speechTime || 0) - dt);
+      if (chicken.sneaking && !animal.rescued && animal.fleeFrom?.kind !== 'wolf' && animal.speechTime > 0 &&
+        !RescueSystem.stealthLines.includes(animal.speech || '') && animal.speech !== RescueSystem.stealthTiredLine)
+        animal.speechTime = 0;
       animal.moving = false;
       if (RescueSystem.isSecret(animal)) {
         animal.speechTime = 0; animal.temper = "secret";
@@ -221,8 +237,8 @@ const RescueSystem = {
         const visible = RescueSystem.visible(game, animal);
         if (visible) { animal.discovered = true; animal.lastSeen = { x: animal.x, y: animal.y }; }
         const threat = RescueSystem.observeThreat(game, animal, visible);
-        const friendly = SkinSystem.power(chicken).friendSpecies === animal.species;
-        const calm = !chick && !threat && visible && !chicken.hidden && (chicken.sneaking || friendly) && distance(chicken, animal) <= 140;
+        const friendly = !chicken.sneaking && SkinSystem.power(chicken).friendSpecies === animal.species;
+        const calm = !chick && !threat && visible && !chicken.hidden && friendly && distance(chicken, animal) <= 140;
         const wolf = game.entities.wolf;
         const relieved = animal.fleeFrom?.kind === 'wolf' && wolf.mode === 'frightened' && distance(animal, wolf) < 190 &&
           DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(wolf));
@@ -247,7 +263,7 @@ const RescueSystem = {
             animal.speechTime = 0; if (dt > 0) RescueSystem.talk(game, animal, true);
           }
         } else if (calm) {
-          // A gentle approach invites a short, slow walk toward the chicken.
+          // Only a matching appearance invites this short approach, never stealth.
           // Use the same collision model, so a friend never walks through a fence.
           const dx = chicken.x - animal.x, dy = chicken.y - animal.y, gap = Math.hypot(dx, dy);
           const step = Math.min(gap, 44 * RescueSystem.personality(animal).pace * dt);
@@ -269,7 +285,7 @@ const RescueSystem = {
         resolveEnvironment(animal);
         animal.moving = dt > 0 && Math.hypot(animal.x - oldX, animal.y - oldY) > 0.02;
         if (animal.moving) Player.face(animal, animal.x - oldX, animal.y - oldY);
-        else if (!chicken.hidden && visible && distance(chicken, animal) < 150) Player.face(animal, chicken.x - animal.x, chicken.y - animal.y);
+        else if (!chicken.hidden && visible && (!chicken.sneaking || threat?.kind === 'player') && distance(chicken, animal) < 150) Player.face(animal, chicken.x - animal.x, chicken.y - animal.y);
         if (len > 5 && !animal.moving && dt > 0) {
           animal.targetX = animal.x; animal.targetY = animal.y;
         }

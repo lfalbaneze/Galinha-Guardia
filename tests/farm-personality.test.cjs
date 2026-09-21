@@ -39,13 +39,29 @@ test('contact counts before flee movement and cannot be stolen by the next frame
   assert.equal(run('state.score'),100);
 });
 
-test('C approaches quietly, disables sprinting and permits a real moving rescue', () => {
+test('C permits a rear approach and a moving rescue, without attraction or sprinting', () => {
   const {run}=arena();
-  run(`input.add('c');input.add('d');input.add('shift');
+  // The player approaches from behind; a frontal approach must now be noticed.
+  run(`friend.direction='right';friend.wanderTime=10;
+    input.add('c');input.add('shift');Player.update(state,1/60);RescueSystem.update(state,1/60);`);
+  assert.equal(run('friend.x'),500,'stealth does not pull the animal toward the player');
+  assert.equal(run('friend.direction'),'right','an unaware animal does not track the player');
+  assert.notEqual(run('friend.temper'),'calm');
+  run(`input.add('d');
     for(let i=0;i<60 && !friend.rescued;i++){Player.update(state,1/60);RescueSystem.update(state,1/60);}`);
   assert.equal(run('chicken.sprinting'),false);
   assert.equal(run('chicken.stamina'),1);
   assert.equal(run('friend.rescued'),true);
+});
+
+test('C does not make a frontal moving approach invisible to an animal', () => {
+  const {run}=arena();
+  run(`friend.wanderTime=10;input.add('c');input.add('d');
+    for(let i=0;i<20;i++){Player.update(state,1/60);RescueSystem.update(state,1/60);}`);
+  assert.equal(run('friend.rescued'),false);
+  assert.equal(run('friend.fleeFrom.kind'),'player');
+  assert.equal(run('friend.temper'),'fleeing');
+  assert.ok(run('friend.x>500'));
 });
 
 test('continuous pursuit exhausts friends and creates a capture window', () => {

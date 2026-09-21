@@ -1,13 +1,23 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const {createGame}=require('./helpers.cjs');
 
-test('menu dog keeps walking after many endpoint pauses',()=>{
+test('the dog and every selected menu animal keep walking after many endpoint pauses',()=>{
   const source=fs.readFileSync('systems/menu-scene.js','utf8').replace('return { initialize, frame };','return { initialize, frame, herd, walk };');
   const ctx=vm.createContext({Player:{directionFor:()=> 'right'},CharacterArt:createGame().run('CharacterArt')});
   vm.runInContext(source,ctx);
-  assert.ok(vm.runInContext(`const dog=MenuScene.herd.find(a=>a.species==='dog');
-    for(let i=0;i<1600;i++)MenuScene.walk(dog,.05);
-    const before=dog.travel;for(let i=0;i<400;i++)MenuScene.walk(dog,.05);dog.travel-before>100`,ctx));
+  // Guests are randomized. Keep the original dog regression explicit, without
+  // assuming that this particular page load happened to include a dog.
+  const results=vm.runInContext(`(() => {
+    const actors=[...MenuScene.herd,{...MenuScene.herd[5],species:'dog'}];
+    return actors.map(animal=>{
+      for(let i=0;i<1600;i++)MenuScene.walk(animal,.05);
+      const before=animal.travel;
+      for(let i=0;i<400;i++)MenuScene.walk(animal,.05);
+      return {species:animal.species,travel:animal.travel-before};
+    });
+  })()`,ctx);
+  assert.equal(results.length,7);
+  for(const result of results)assert.ok(result.travel>100,`${result.species} stopped after endpoint pauses`);
 });
 
 test('trees block movement but do not offer hiding, including old saves',()=>{

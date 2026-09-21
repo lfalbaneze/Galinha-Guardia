@@ -1,4 +1,4 @@
-// Review the new props and a real gentle rescue without a browser.
+// Review the new props and a real, unnoticed stealth approach without a browser.
 const fs=require('node:fs'),path=require('node:path');
 const {createCanvas}=require('@napi-rs/canvas');
 const {createGame}=require('../tests/helpers.cjs');
@@ -10,12 +10,14 @@ async function main(){
     var friend=state.entities.animals[0],chicken=state.entities.chicken;
     const positions=Array.from({length:24},(_,i)=>({x:friend.x+Math.cos(i*Math.PI/12)*95,y:friend.y+Math.sin(i*Math.PI/12)*95}));
     const place=positions.find(p=>WildlifeRules.clear(p,p,chicken.hitbox)&&WildlifeRules.clear(friend,p,friend.hitbox));
-    if(!place)throw Error('No clear calm approach');
+    if(!place)throw Error('No clear stealth approach');
     Object.assign(chicken,{...place,sneaking:true,hidden:false});state.entities.wolf.huntUnlockTimer=100;
+    Player.face(friend,friend.x-chicken.x,friend.y-chicken.y);
+    Object.assign(friend,{targetX:friend.x,targetY:friend.y,wanderTime:10,fleeFrom:null,fleeTime:0});
     RescueSystem.update(state,.05);
-    if(friend.temper!=='calm')throw Error('Friend did not calm down');
+    if(friend.temper==='calm'||friend.fleeFrom)throw Error('Unnoticed stealth must neither attract nor scare the friend');
     camera.x=clamp(friend.x-450,0,WORLD.width-900);camera.y=clamp(friend.y-260,0,WORLD.height-520);renderGame();`);
-  fs.writeFileSync(path.join(folder,'calm.png'),canvas.toBuffer('image/png'));
+  fs.writeFileSync(path.join(folder,'stealth.png'),canvas.toBuffer('image/png'));
   const board=createCanvas(900,520),c=board.getContext('2d'),art=h.run('FarmSprites');
   c.fillStyle='#344d3c';c.fillRect(0,0,900,520);
   ['barn','coop','silo','hay','trough','fence'].forEach((name,i)=>{

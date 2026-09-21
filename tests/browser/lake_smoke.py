@@ -3,6 +3,7 @@
 # Controlled starting positions keep encounters reproducible; counters are earned by actual dashes.
 from playwright.sync_api import sync_playwright
 from pathlib import Path
+from game_ui import READY, start_adventure, equip_from_pause
 import json
 import os
 ROOT=Path(__file__).resolve().parents[2]
@@ -14,9 +15,9 @@ with sync_playwright() as p:
  page.on('pageerror',lambda e:result['errors'].append(str(e)))
  page.on('response',lambda r:result['failed_requests'].append({'url':r.url,'status':r.status}) if r.status>=400 else None)
  page.goto('http://127.0.0.1:8765',wait_until='networkidle')
- page.wait_for_function('CharacterArt.ready && GooseArt.ready && FarmSprites.ready')
+ page.wait_for_function(READY,polling=50)
  assert page.locator('.game-author').inner_text()=='Feito por Luis Albaneze'
- page.locator('#startBtn').click();page.wait_for_timeout(300)
+ start_adventure(page);page.wait_for_timeout(300)
  assert page.evaluate("!FarmArt.getProps(WORLD.layout).some(p=>p.type==='fence')")
  assert page.evaluate("FarmArt.getProps(WORLD.layout).some(p=>p.type==='refuge-rail')")
  assert 'Feito por Luis Albaneze' in page.locator('footer.sprite-credits').inner_text()
@@ -24,15 +25,14 @@ with sync_playwright() as p:
  x=page.evaluate('state.entities.chicken.x')
  page.keyboard.down('d');page.wait_for_timeout(180);page.keyboard.up('d')
  assert page.evaluate('state.entities.chicken.x')!=x
- result['checks'].append('Real-time startup, PNG loading, keyboard movement')
+ result['checks'].append('Visible home/setup flow, real-time startup, PNG loading, keyboard movement')
  page.screenshot(path=str(OUT/'browser-farm.png'))
  page.close()
  page=browser.new_page(viewport={'width':1280,'height':1000})
  page.add_init_script('window.requestAnimationFrame=()=>0')
  page.on('pageerror',lambda e:result['errors'].append(str(e)))
  page.on('response',lambda r:result['failed_requests'].append({'url':r.url,'status':r.status}) if r.status>=400 else None)
- page.goto('http://127.0.0.1:8765',wait_until='networkidle');page.wait_for_function('CharacterArt.ready && GooseArt.ready && FarmSprites.ready')
- page.locator('#startBtn').click()
+ page.goto('http://127.0.0.1:8765',wait_until='networkidle');start_adventure(page)
  page.evaluate("""() => {
    resetGame(814237);state.phase='playing';
    window.setupGooseApproach=()=>{
@@ -99,12 +99,13 @@ with sync_playwright() as p:
  # Bridge collision uses real generated obstacles and the ordinary Player.move function.
  crossed=page.evaluate("""()=>{const b=LakeChallenge.bridge(),c=state.entities.chicken;c.x=b.x;c.y=b.y+b.h/2-14;Player.move(c,b.w,0);return Math.abs(c.x-b.x-b.w)<.01;}""")
  assert crossed;result['checks'].append('Unlocked bridge can actually be crossed')
- page.locator('#pauseBtn').click();page.locator('#tab-outfit').click()
- page.locator('#menuSkinSelect').select_option('goose');page.locator('#continueBtn').click()
+ assert page.evaluate('LakeChallenge.blocksWolf(state)'), 'The earned lagoon protects its bank after Panto goes home'
+ result['checks'].append('Completed lagoon refuge remains active at the bridge exit')
+ equip_from_pause(page,'goose')
  assert page.evaluate('state.entities.chicken.skin==="goose"')
  page.evaluate('GameUI.update(state);updateCamera(1);renderGame();GameManager.save(state)')
  page.screenshot(path=str(OUT/'browser-goose-skin.png'))
- page.reload(wait_until='networkidle');page.wait_for_function('CharacterArt.ready && GooseArt.ready')
+ page.reload(wait_until='networkidle');page.wait_for_function(READY,polling=50)
  assert page.evaluate('state.lake.completed && SkinSystem.unlocked("goose") && state.entities.chicken.skin==="goose"')
  page.locator('#continueBtn').click();assert page.evaluate('state.entities.goose.mode==="defeated"')
  assert page.evaluate('state.entities.goose.rescued && distance(state.entities.goose,FarmRefuge.gooseHome())<1')
@@ -119,8 +120,7 @@ with sync_playwright() as p:
  # The packaged game must not require HTTP or a transpiler to start.
  offline=browser.new_page(viewport={'width':1100,'height':850},reduced_motion='reduce')
  offline.on('pageerror',lambda e:result['errors'].append(str(e)))
- offline.goto((ROOT/'dist/index.html').as_uri(),wait_until='load');offline.wait_for_function('CharacterArt.ready && GooseArt.ready')
- offline.locator('#startBtn').click();offline.wait_for_timeout(200)
+ offline.goto((ROOT/'dist/index.html').as_uri(),wait_until='load');start_adventure(offline);offline.wait_for_timeout(200)
  assert offline.evaluate("state.phase==='playing'")
  result['checks'].append('Packaged file:// startup with reduced motion')
  browser.close()
