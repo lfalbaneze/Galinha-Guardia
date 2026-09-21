@@ -1,52 +1,58 @@
 const test = require('node:test'), assert = require('node:assert/strict');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
+const directions=['up','upright','right','downright','down','downleft','left','upleft'];
 function renderer() {
   const context = vm.createContext({ setTimeout, clearTimeout });
-  for (const file of ['sprite-data.js', 'character-art.js'])
+  for (const file of ['sprite-data.js', 'arcade-art-data.js', 'premium-art-data.js', 'pixel-art-data.js', 'pixellab-art-data.js', 'character-art.js'])
     vm.runInContext(fs.readFileSync(path.join(root, 'systems', file), 'utf8'), context);
   return vm.runInContext('CharacterArt', context);
 }
-test('all 23 characters and appearances have four nonempty poses inside real PNG files', () => {
-  const art = renderer();
-  assert.equal(art.species.length, 23);
-  for (const species of art.species) for (const direction of ['up', 'right', 'down', 'left']) {
-    const { pose } = art.frameFor(species, { direction });
-    assert.ok(pose.bottom > pose.top && pose.width > 0, `${species}/${direction}`);
-    for (const frame of pose.frames) {
-      const png = fs.readFileSync(path.join(root, frame.src));
-      assert.equal(png.toString('hex', 0, 8), '89504e470d0a1a0a');
-      assert.ok(frame.x >= 0 && frame.y >= 0);
-      assert.ok(frame.x + frame.w <= png.readUInt32BE(16));
-      assert.ok(frame.y + frame.h <= png.readUInt32BE(20));
+test('all 29 characters have eight complete directions from one coherent atlas each', () => {
+  const art=renderer();assert.equal(art.species.length,29);
+  for(const species of art.species){const sources=new Set(),rows=new Set();
+    for(const direction of directions){const {pose,frame,direction:resolved,definition}=art.frameFor(species,{direction,moving:true});
+      assert.equal(definition.edition,108);assert.equal(definition.provider,'pixellab');assert.equal(resolved,direction);assert.ok(pose.frames.length>=8);assert.equal(pose.flip,false);rows.add(frame.y);
+      for(const f of pose.frames){sources.add(f.src);const png=fs.readFileSync(path.join(root,f.src));
+        assert.equal(png.toString('ascii',1,4),'PNG');
+        assert.ok(f.x>=0&&f.y>=0&&f.w>0&&f.h>0,species+'/'+direction);
+      }
+    }
+    assert.equal(sources.size,1);assert.equal(rows.size,8);assert.match([...sources][0],/pixellab-108\/runtime\//);
+  }
+});
+test('idle is stable and every authored phase advances from traveled distance',()=>{
+  const art=renderer();for(const species of art.species)for(const direction of directions){
+    assert.equal(art.frameFor(species,{direction,anim:7}).index,0);
+    const count=art.frameFor(species,{direction,moving:true}).pose.frames.length;
+    for(let i=0;i<count;i++)assert.equal(art.frameFor(species,{direction,moving:true,anim:(i+.01)*4/count}).index,i);
+    assert.equal(art.frameFor(species,{direction,moving:true,anim:4}).index,0);
+  }
+});
+test('all runtime atlases have transparent gutters and distinct crisp pixel phases',async()=>{
+  const {createCanvas,loadImage}=require('@napi-rs/canvas'),art=renderer();let bytes=0;
+  for(const species of art.species){const {frame}=art.frameFor(species),file=path.join(root,frame.src),image=await loadImage(file);bytes+=fs.statSync(file).size;
+    const c=createCanvas(image.width,image.height).getContext('2d');c.drawImage(image,0,0);
+    const pixels=c.getImageData(0,0,image.width,image.height).data;
+    assert.ok(pixels.some((v,i)=>i%4===3&&v===0),species+' transparent background');
+    assert.ok(!pixels.some((v,i)=>i%4===3&&v>0&&v<255),species+' crisp pixel alpha');
+    const definition=art.frameFor(species).definition;
+    for(const [action,poses] of Object.entries(definition.actions))for(const [direction,pose] of Object.entries(poses)){const hashes=[];
+      for(const f of pose.frames){assert.ok(f.x>=0&&f.y>=0&&f.x+f.w<=image.width&&f.y+f.h<=image.height);
+        const data=c.getImageData(f.x,f.y,f.w,f.h).data;assert.ok(data.some((v,i)=>i%4===3&&v===255),species+'/'+direction);
+        for(let x=0;x<f.w;x++){assert.equal(data[x*4+3],0,species+' top gutter');assert.equal(data[((f.h-1)*f.w+x)*4+3],0,species+' bottom gutter');}
+        for(let y=0;y<f.h;y++){assert.equal(data[y*f.w*4+3],0,species+' left gutter');assert.equal(data[(y*f.w+f.w-1)*4+3],0,species+' right gutter');}
+        hashes.push(require('node:crypto').createHash('sha256').update(data).digest('hex'));
+      }
+      assert.ok(new Set(hashes).size>=Math.min(5,pose.frames.length),species+'/'+action+'/'+direction+' has distinct drawn phases');
     }
   }
+  assert.ok(bytes<16000000,'29 complete pixel atlases stay within 16 MB');
 });
-test('idle stays still, walking advances, and source-specific direction orders are respected', () => {
-  const art = renderer();
-  for (const species of art.species) {
-    assert.equal(art.frameFor(species, { anim: 7 }).index, 0);
-    assert.equal(art.frameFor(species, { anim: 1.2, moving: true }).index, 1);
-  }
-  for(const species of ['sheep','pig','goat','cow','duck','rabbit','dog','cat','donkey','lamb','chick','horse','turkey']) {
-    const poses=['down','right','up','left'].map(direction=>art.frameFor(species,{direction}));
-    assert.ok(poses.every(p=>p.frame.src.endsWith(`cute-${species}-v2.png`)));
-    assert.ok(poses.every((p,i)=>!i||p.frame.y>poses[i-1].frame.y));
-    assert.ok(poses.every(p=>p.frame.h*p.scale<=105&&p.frame.w*p.scale<=111));
-  }
-  for(const species of ['chicken','hen-silkie','hen-blue','skin-zeca','skin-pipoca','skin-amora','skin-pacoca','skin-gumercindo']) {
-    const poses=['down','right','up','left'].map(direction=>art.frameFor(species,{direction}));
-    assert.ok(poses.every((p,i)=>!i||p.frame.y>poses[i-1].frame.y));
-    assert.ok(poses.every(p=>p.frame.h*p.scale<=58&&p.frame.w*p.scale<=64));
-  }
-  assert.equal(art.frameFor('duck', { direction: 'right' }).pose.flip, false);
-  assert.equal(art.frameFor('duck', { direction: 'left' }).pose.flip, false);
-});
-
 test('livestock stays larger than the hen in every direction and small pets stay smaller', () => {
   const art=renderer();
   const heights=species=>['up','right','down','left'].map(direction=>{
-    const p=art.frameFor(species,{direction});return p.frame.h*p.scale;
+    const p=art.frameFor(species,{direction});return (p.pose.bottom-p.pose.top)*p.scale;
   });
   const hen=Math.max(...heights('chicken'));
   for(const [species,ratio] of [['horse',1.6],['cow',1.35],['donkey',1.3]])

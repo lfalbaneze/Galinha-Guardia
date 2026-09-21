@@ -46,19 +46,20 @@ function createFarm() {
     clamp, lerp: (a, b, t) => a + (b - a) * t, rand: (a, b) => (a + b) / 2,
     distance: (a, b) => Math.hypot(a.x - b.x, a.y - b.y), getHitbox: hitbox,
     circleVsCircle: (a, b) => { a = hitbox(a); b = hitbox(b); return Math.hypot(a.x-b.x,a.y-b.y) <= a.r+b.r; },
-    resolveEnvironment: e => { e.x = clamp(e.x, e.radius, world.width-e.radius); e.y = clamp(e.y, e.radius, world.height-e.radius); },
+    resolveEnvironment: e => { e.x = clamp(e.x, e.radius, world.width-e.radius); e.y = clamp(e.y, e.radius, world.height-e.radius); return true; },
     getAreaAt: (x, y) => areas.find(a => x >= a.x && x <= a.x+a.w && y >= a.y && y <= a.y+a.h) || areas[0],
     GameUI: { update() {} }, SkinSystem: { initialize() {}, record() {}, power: () =>
       ({landSpeed:1,swimSpeed:1,sneakSpeed:.4,noiseScale:1,sprintDuration:1,friendSpecies:null}) },
     AudioSystem: { play() {}, playAnimal() {}, playPlayerHurt() { return false; } },
     FarmRefuge: { home: (index, chick) => ({ x: 100 + index * 25, y: chick ? 180 : 140 }), ensureClear() {}, drawGround() {} },
     FarmArt: { drawCoverForeground() {}, getProps() { return []; } }, FarmDetails: {shape:p=>p}, InterfaceMotion: { reduced: true },
-    CharacterArt: { appearances: {classic:{name:'Carijó',species:'chicken'}} },
+
     WorldGenerator: { generate: () => layout }, areaTextEl: { textContent: '' },
     setStatus() {}, spawnBurst() {}, refreshHud() {}, buildObstacles() {},
     startWinCutscene: () => { state.phase = 'win_cutscene'; }, finishLose: () => { state.phase = 'lose'; },
     localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value), removeItem: key => storage.delete(key) },
   });
+  vm.runInContext('const SpriteData={};'+fs.readFileSync(path.join(__dirname,'../systems/character-art.js'),'utf8'),context);
   const sourceDirectory = process.env.GAMEPLAY_SOURCE_DIRECTORY || path.join(__dirname, '..', 'systems');
   for (const file of ['game-manager', 'rescue-system', 'detection-system', 'hiding-spots', 'wolf-ai', 'map-manager', 'player', 'lake-challenge', 'goose-system', 'wildlife-rules', 'fox-system', 'owl-system', 'thor-system', 'scarecrow-system', 'swimming-system', 'environment-system', 'sunflower-system']) {
     vm.runInContext(fs.readFileSync(path.join(sourceDirectory, `${file}.js`), 'utf8'), context, { filename: `${file}.js` });

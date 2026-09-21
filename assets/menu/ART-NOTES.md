@@ -1,4 +1,29 @@
-# Cenário da tela inicial
+# Ilustração da missão — PixelLab
+
+`rescue-ensemble-b0ff47268d75.png` é a ilustração original de 624 × 416 pixels criada pela API PixelLab Pro (`/generate-image-v2`, seed 520926) em 20/09/2026. O PNG recebido foi preservado integralmente, sem recortes ou retoques.
+
+O pedido foi substituir a imagem e a composição do painel “A turma conta com você”, não redistribuir sprites sobre a paisagem antiga. A cena nova reúne a galinha sobre um caixote, ovelha, porco, Paçoca, coelho, vaca, pato e dois pintinhos num pomar com portão de madeira. O grupo forma uma composição próxima e triangular, com expressões e poses voltadas para o centro. As referências foram as vistas PixelLab da galinha, Paçoca, ovelha e porco.
+
+O painel exibe a imagem completa na proporção original. A identificação da aparência equipada continua no retrato separado “na missão”. A ilustração do pomar é a cena de **Aventura**.
+
+## Uma cena por dificuldade
+
+As quatro dificuldades exibem ilustrações diferentes, selecionadas junto com o modo de jogo. Todas têm 624 × 416 pixels e o mesmo tratamento de pixel art. As imagens são carregadas antecipadamente; nenhuma geração ocorre durante a partida.
+
+- **Explorador:** manhã tranquila no campo, Erina e os pintinhos observando uma borboleta, Paçoca e a ovelha descansando.
+- **Aventura:** reunião da turma no pomar, com Erina sobre o caixote.
+- **Contra o tempo:** resgate em corrida numa composição diagonal, com uma ampulheta como símbolo de urgência.
+- **Última luz:** grupo protegido pela luz de uma lanterna ao anoitecer, com o lobo distante no pomar.
+
+As três cenas adicionais usam a ilustração do pomar no campo de referência de estilo e quatro vistas individuais dos animais como referências de identidade, sem reutilizar a composição. Originais produzidos pela API PixelLab Pro, preservados sem retoques. Prompts e seeds em [difficulty-prompts.json](difficulty-prompts.json), arquivos em [difficulty-art.json](difficulty-art.json); produção reproduzível por `scripts/generate-difficulty-art.cjs`, com registro de trabalhos para evitar reenvios pagos. As primeiras tentativas com a cena inteira como referência de personagem foram rejeitadas e não estão instaladas.
+
+Na revisão final de Contra o tempo (seed 620938), a referência de estilo foi a cena de Explorador, para afastar a composição do retrato estático no pomar.
+
+## Capa do jogo
+
+`cover-9dd81acab19e.png` é a capa de **Penas pro Ar!**, criada pela API PixelLab Pro em 20/09/2026, seed 620940, com 624 × 416 pixels. O original foi preservado integralmente, incluindo o título desenhado. Erina protege os pintinhos, com Paçoca, ovelha e porco em primeiro plano; o lobo aparece atrás da cerca. A capa abre o README e está disponível como PNG independente. Prompt e referências em [cover-prompt.json](cover-prompt.json).
+
+## Cenário da tela inicial
 
 O arquivo `farm-title.png` é o fundo da tela inicial de **Penas pro Ar!**.
 

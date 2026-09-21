@@ -73,7 +73,7 @@ test('skin collection and equipped outfit survive restarting, losing and reloadi
   assert.equal(reloaded.run('SkinSystem.unlocked("priest")'), false);
 });
 
-test('v4 saves restore chick identities, positions, difficulty and remaining bonuses', () => {
+test('v5 saves restore chick identities, positions, difficulty and remaining bonuses', () => {
   const first = createGame();
   rescueChicks(first.run, 2);
   first.run('GameManager.save(state);');
@@ -82,7 +82,7 @@ test('v4 saves restore chick identities, positions, difficulty and remaining bon
   assert.equal(reload.run('state.rescuedChickIds.size'), 2);
   assert.equal(reload.run('state.entities.chicks.filter(c=>!c.rescued).length'), 4);
   assert.equal(reload.run('WolfAI.getConfig(state).chickMultiplier'), 1 + 1 / 6);
-  assert.equal(reload.run('GameManager.read().version'), 4);
+  assert.equal(reload.run('GameManager.read().version'), 5);
   assert.equal(reload.elements.get('chicksCount').textContent, '2');
 });
 

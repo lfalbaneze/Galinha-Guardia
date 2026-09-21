@@ -80,9 +80,10 @@ test('six deterministic bonus homes occupy only a subset of usable cover across 
     signatures.add(JSON.stringify(homes));
     for (const [i, home] of homes.entries()) {
       enterBonus(h, i);
-      assert.equal(h.run('chicken.hidingSpotId'), home.coverId, `seed ${seed}, version ${version}`);
-      types.add(h.run('HidingSpots.candidate(chicken).type'));
-      assert.equal(h.run('chicken.hidden'), true);
+      const type=h.run('HidingSpots.getSpots().find(s=>s.id===chick.coverId).type');
+      assert.equal(h.run('chicken.hidingSpotId'), type==='tree'?null:home.coverId, `seed ${seed}, version ${version}`);
+      types.add(type);
+      assert.equal(h.run('chicken.hidden'), type!=='tree');
       assert.equal(h.run('RescueSystem.isSecret(chick)'), true);
       h.run(`var walker={...chicken,...WORLD.layout.start};var route=WolfAI.findPath(walker,chick);
         for(const point of route)Player.move(walker,point.x-walker.x,point.y-walker.y);`);

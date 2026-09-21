@@ -20,7 +20,7 @@ const SCORE_BONUS_PER_LIFE = 250;
 const DIFFICULTIES = {
   easy: {
     label: "Fácil",
-    chickenSpeed: 335,
+    chickenSpeed: 300,
     wolfMaxSpeed: 160,
     wolfAccel: 230,
     wolfPauseAfterCatch: 1.1,
@@ -43,8 +43,9 @@ const DIFFICULTIES = {
     timeLimit: 60,
     friendTime: 10,
     chickTime: 20,
-    timeScore: 1000,
-    chickenSpeed: 276,
+    timeScore: 2,
+    rescueScore: 150,
+    chickenSpeed: 300,
     wolfMaxSpeed: 240,
     wolfAccel: 420,
     wolfPauseAfterCatch: 0.35,
@@ -56,9 +57,13 @@ const DIFFICULTIES = {
     label: "Hardcore",
     timeLimit: 45,
     friendTime: 15,
-    chickTime: 30,
-    timeScore: 10000,
-    chickenSpeed: 276,
+    chickTime: 5,
+    chickCombo: true,
+    bonusChicks: 10,
+    friendTimeEvery: 2,
+    timeScore: 4,
+    rescueScore: 200,
+    chickenSpeed: 300,
     wolfMaxSpeed: 260,
     wolfAccel: 460,
     wolfPauseAfterCatch: 0.3,
@@ -165,7 +170,7 @@ function worldToScreen(entity) {
 
 function buildObstacles(game = state) {
   HidingSpots.initialize();
-  const list = [...HidingSpots.obstacles()];
+  const list = [...FarmArt.boundaryObstacles(WORLD),...HidingSpots.obstacles()];
 
   for (const coop of STRUCTURES.coops) {
     list.push({ x: coop.x, y: coop.y, w: coop.w, h: coop.h, type: "coop" });
@@ -185,6 +190,7 @@ function buildObstacles(game = state) {
 
   list.push(...FarmRefuge.obstacles());
   list.push(...ScarecrowSystem.obstacles(WORLD.layout));
+  list.push(...FarmArt.signObstacles(WORLD.layout));
   OBSTACLES = list;
 }
 
@@ -263,19 +269,29 @@ function resolveCircleVsRect(entity, rect) {
 
 function clampToWorld(entity) {
   const hb = getHitbox(entity);
-  hb.x = clamp(hb.x, hb.r, WORLD.width - hb.r);
-  hb.y = clamp(hb.y, hb.r, WORLD.height - hb.r);
+  const bounds = FarmArt.playableBounds(WORLD);
+  hb.x = clamp(hb.x, bounds.x + hb.r, bounds.x + bounds.w - hb.r);
+  hb.y = clamp(hb.y, bounds.y + hb.r, bounds.y + bounds.h - hb.r);
   setEntityPosFromHitbox(entity, hb.x, hb.y);
 }
 
 function resolveEnvironment(entity) {
   clampToWorld(entity);
-  for (const obstacle of OBSTACLES) {
-    // The player floats or swims; the pond remains a real obstacle for land animals.
-    if (obstacle.type === 'pond' && entity.type === 'chicken') continue;
-    if (obstacle.blocking !== false) resolveCircleVsRect(entity, obstacle);
+  // Resolving one wall can push a body into a touching wall already visited.
+  // Revisit contacts to settle fence corners and building seams in this step.
+  for (let pass=0;pass<8;pass++) {
+    let contact=false;
+    for (const obstacle of OBSTACLES) {
+      // The player floats or swims; the pond remains solid for land animals.
+      if (obstacle.type === 'pond' && entity.type === 'chicken') continue;
+      if (obstacle.blocking !== false) contact=resolveCircleVsRect(entity,obstacle)||contact;
+    }
+    clampToWorld(entity);
+    if(!contact)return true;
   }
-  clampToWorld(entity);
+  const hb=getHitbox(entity);
+  return OBSTACLES.every(r=>r.blocking===false||(r.type==='pond'&&entity.type==='chicken')||
+    Math.hypot(hb.x-clamp(hb.x,r.x,r.x+r.w),hb.y-clamp(hb.y,r.y,r.y+r.h))>=hb.r-.001);
 }
 
 function spawnAnimals(settings, wolfStart) {
@@ -294,6 +310,14 @@ function spawnAnimals(settings, wolfStart) {
       if (clear) Object.assign(animal,clear,{targetX:clear.x,targetY:clear.y,homeX:clear.x,homeY:clear.y});
     }
     return animal;
+  });
+}
+
+function spawnChicks(settings) {
+  return HidingSpots.bonusHomes(WORLD.layout, settings.bonusChicks || WORLD.targetChicks).map((point, i) => {
+    const chick = makeEntity(`chick_${i}`, "chick", point.x, point.y, 14);
+    return Object.assign(chick, { species: "chick", rescued: false, targetX: point.x, targetY: point.y,
+      homeX: point.x, homeY: point.y, areaId: point.areaId, coverId: point.coverId, hitbox: { ox: 0, oy: 5, r: 10 } });
   });
 }
 
@@ -332,11 +356,7 @@ function createState() {
       chicken,
       wolf,
       animals: spawnAnimals(settings, wolf),
-      chicks: HidingSpots.bonusHomes().map((point, i) => {
-        const chick = makeEntity(`chick_${i}`, "chick", point.x, point.y, 14);
-        return Object.assign(chick, { species: "chick", rescued: false, targetX: point.x, targetY: point.y,
-          homeX: point.x, homeY: point.y, coverId: point.coverId, hitbox: { ox: 0, oy: 5, r: 10 } });
-      }),
+      chicks: spawnChicks(settings),
       foxes: [],
       owls: [],
       effects: [],
@@ -528,7 +548,6 @@ function drawWorld() {
   WolfAI.drawTracks(state);
   EnvironmentSystem.drawGround(state);
   ThorSystem.drawBones(state);
-  ScarecrowSystem.drawShadows(state);
 }
 
 function drawChicken(entity) {
@@ -551,20 +570,24 @@ function drawChicken(entity) {
     ctx.save(); ctx.strokeStyle = '#fff0a1'; ctx.lineWidth = 3;
     ctx.beginPath(); ctx.ellipse(p.x, p.y+14, 29, 9, 0, 0, Math.PI*2); ctx.stroke(); ctx.restore();
   }
+  const mood = state.phase === 'lose' ? 'sad' : state.phase === 'won' ? 'happy' :
+    EndGameSequence.active(state) ? entity.mood || 'normal' :
+    entity.mood && entity.mood !== 'normal' ? entity.mood :
+    !entity.hidden && state.entities.wolf.mode === 'chase' ? 'scared' : 'normal';
   CharacterArt.draw(ctx, "chicken", p.x, p.y + (inHay?0:blend*4), {
-    facing: entity.facing, direction: entity.hidden ? "down" : entity.direction, anim: entity.anim, moving: entity.moving,
+    facing: entity.facing, direction: entity.hidden ? "down" : CharacterArt.heading(entity), anim: entity.anim, moving: entity.moving,
     hidden: entity.hidden, hideBlend: inHay?0:blend, shadow:!inHay, sprinting: entity.sprinting,
-    mood: entity.mood || "normal", skin: entity.skin || "classic", ...EndGameSequence.pose(state, entity) });
+    mood, skin: entity.skin || "classic", ...EndGameSequence.pose(state, entity) });
 }
 
 function drawWolf(entity) {
   const p = worldToScreen(entity);
   const heading = entity.heading || 0;
   const direction = EndGameSequence.active(state) ? entity.direction :
-    Math.abs(Math.cos(heading)) > Math.abs(Math.sin(heading)) ? (Math.cos(heading) < 0 ? "left" : "right") : (Math.sin(heading) < 0 ? "up" : "down");
+    CharacterArt.directionFor(CharacterArt.heading(entity),Math.cos(heading),Math.sin(heading));
   CharacterArt.draw(ctx, "wolf", p.x, p.y, { facing: entity.facing, direction, anim: entity.anim,
     moving: Math.hypot(entity.vx, entity.vy) > 10 || state.cutscene.stage === "flee",
-    mood: EndGameSequence.active(state) ? entity.mood || "normal" : ["chase", "inspect"].includes(entity.mode) ? "furious" : entity.mode === "alert" ? "alert" :
+    mood: EndGameSequence.active(state) ? entity.mood || "normal" : entity.mode === 'frightened' ? 'scared' : ["chase", "inspect"].includes(entity.mode) || (WolfAI.appetite(state).tier===2 && entity.mode!=='frightened') ? "furious" : entity.mode === "alert" ? "alert" :
       entity.mode === "investigate" ? "sniff" : entity.mode === "search" ? "search" : "normal", ...EndGameSequence.pose(state, entity) });
 }
 
@@ -575,9 +598,9 @@ function drawAnimalCharacter(species, x, y, facing, anim) {
 function drawAnimal(entity) {
   if (RescueSystem.isSecret(entity) && !EndGameSequence.active(state)) return;
   const p = worldToScreen(entity);
-  CharacterArt.draw(ctx, entity.species, p.x, p.y, { facing: entity.facing, direction: entity.direction,
+  CharacterArt.draw(ctx, entity.species, p.x, p.y, { facing: entity.facing, direction: CharacterArt.heading(entity),
     anim: entity.anim, moving: entity.moving, sprinting: entity.temper === "fleeing",
-    lookBack: entity.temper === "fleeing", mood: entity.mood || "normal",
+    lookBack: entity.temper === "fleeing", mood: entity.mood && entity.mood !== 'normal' ? entity.mood : entity.temper === 'fleeing' ? 'scared' : entity.rescued ? 'happy' : 'normal',
     scale: entity.type === 'chick' && entity.rescued && !EndGameSequence.active(state) ? .72 : 1,
     ...EndGameSequence.pose(state, entity) });
   if (!entity.rescued && !entity.speechTime && !EndGameSequence.active(state) && RescueSystem.visible(state, entity)) {
@@ -652,7 +675,7 @@ function drawDebugHitboxes() {
   drawEntity(state.entities.wolf, "#ff5959");
   for (const fox of state.entities.foxes || []) if (fox.mode !== 'hidden') drawEntity(fox, '#ffab66');
   for (const owl of state.entities.owls || []) {
-    const x = worldX(owl.perch.x), y = worldY(owl.perch.y);
+    const x = worldX(owl.x), y = worldY(owl.y);
     ctx.strokeStyle = owl.mode === 'alert' ? '#ffe780' : '#c7c2b1';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
@@ -676,12 +699,13 @@ function drawDebugHitboxes() {
 }
 
 function drawMiniMap() {
-  const compact=canvas.width<600,w=compact?86:104,h=compact?53:64,x=canvas.width-w-15,y=compact?202:126;
+  const compact=canvas.width<600,w=compact?86:104,h=compact?53:64,x=canvas.width-w-15;
+  const y=Math.max(compact?202:126,viewportInsets.hudBottom+12);
   ctx.save();
   const playerX=state.entities.chicken.x-camera.x,playerY=state.entities.chicken.y-camera.y;
   if(playerX+32>x-7&&playerX-32<x+w+7&&playerY+14>y-6&&playerY-58<y+h+6)ctx.globalAlpha=.2;
-  ctx.fillStyle='#203e31dd';ctx.beginPath();ctx.roundRect(x-6,y-6,w+12,h+12,7);ctx.fill();
-  ctx.strokeStyle='#d9c59899';ctx.lineWidth=1;ctx.stroke();
+  ctx.fillStyle='#183129ed';ctx.fillRect(x-6,y-6,w+12,h+12);
+  ctx.strokeStyle='#cfbd855c';ctx.lineWidth=1;ctx.strokeRect(x-6,y-6,w+12,h+12);
   ctx.fillStyle='#718957';ctx.fillRect(x,y,w,h);
   const sx=w/WORLD.width,sy=h/WORLD.height;
   for(const stop of WORLD.layout.habitats||[]) {
@@ -730,7 +754,7 @@ function drawMiniMap() {
     ctx.fillStyle='#ef8a52';ctx.fillRect(x+fox.x*sx-2,y+fox.y*sy-2,4,4);
   }
   for (const owl of state.entities.owls || []) if (OwlSystem.visible(state,owl)) {
-    ctx.fillStyle=owl.mode==='alert'?'#f6da6e':'#c8c2ae';ctx.fillRect(x+owl.perch.x*sx-1.5,y+owl.perch.y*sy-1.5,3,3);
+    ctx.fillStyle=owl.mode==='alert'?'#f6da6e':'#c8c2ae';ctx.fillRect(x+owl.x*sx-1.5,y+owl.y*sy-1.5,3,3);
   }
   for(const bone of ThorSystem.bones(state)) {
     const bx=x+bone.x*sx,by=y+bone.y*sy;
@@ -750,7 +774,7 @@ function drawOverlay() {
 }
 
 // Match the field to the available screen without stretching sprites or changing world units.
-const viewportInsets = { top: 0, bottom: 0 };
+const viewportInsets = { top: 0, bottom: 0, hudBottom: 0 };
 function fitGameViewport() {
   const stage = document.getElementById('gameStage');
   if (state.phase === 'menu' || !stage?.clientWidth || !stage.clientHeight) return;
@@ -760,7 +784,14 @@ function fitGameViewport() {
   const width = ending ? (portraitEnding ? 600 : 900) : Math.round(stage.clientWidth / zoom);
   const height = ending ? (portraitEnding ? Math.min(1100, Math.round(600 * stage.clientHeight / stage.clientWidth)) : 520) : Math.round(stage.clientHeight / zoom);
   const touch=document.getElementById('gameShell').dataset.touch==='true';
-  const top=ending?0:(stage.clientWidth<620?150:stage.clientHeight<560?85:120)/zoom+32;
+  // The arcade board grows when a combo appears. Keep the player and map below it.
+  const stageTop=stage.getBoundingClientRect().top;
+  const hudBottom=ending?0:Math.max(0,...['expeditionBar','chickCombo','threatIndicator'].map(id=>{
+    const element=document.getElementById(id);
+    return element&&!element.hidden?element.getBoundingClientRect().bottom-stageTop:0;
+  }));
+  viewportInsets.hudBottom=hudBottom/zoom;
+  const top=ending?0:Math.max((stage.clientWidth<620?150:stage.clientHeight<560?85:120)/zoom+32,(hudBottom+8)/zoom+58);
   const bottom=ending?0:(touch?145:60)/zoom;
   if (canvas.width === width && canvas.height === height && viewportInsets.top===top && viewportInsets.bottom===bottom) return;
   viewportInsets.top=top;viewportInsets.bottom=bottom;
@@ -785,7 +816,7 @@ function renderGame() {
   if (state.entities.goose && (!ending || state.entities.goose.rescued)) layers.push({ depth: state.entities.goose.y + 12, entity: state.entities.goose });
   if (!ending) for (const fox of state.entities.foxes || [])
     layers.push({ depth: fox.y + 12, entity: fox });
-  if (!ending) for (const owl of state.entities.owls || []) layers.push({depth: owl.perch.y + .1, entity: owl});
+  if (!ending) for (const owl of state.entities.owls || []) layers.push({depth: owl.mode === 'relocate' ? Infinity : owl.y + .1, entity: owl});
   if (!ending && !state.lake?.active && state.entities.thor) layers.push({depth:state.entities.thor.y+12,entity:state.entities.thor});
   if (!ending) for (const prop of FarmArt.getProps(WORLD.layout)) layers.push({ depth: prop.depth, prop });
   if (!ending) for (const prop of FarmArt.getCrops(WORLD.layout)) layers.push({ depth: prop.depth, prop });

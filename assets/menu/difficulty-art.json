@@ -1,0 +1,23 @@
+{
+  "provider": "PixelLab Pro",
+  "width": 624,
+  "height": 416,
+  "scenes": {
+    "normal": {
+      "title": "Aventura",
+      "source": "assets/menu/rescue-ensemble-b0ff47268d75.png"
+    },
+    "easy": {
+      "title": "Explorador",
+      "source": "assets/menu/difficulty-easy-6ea10849fc88.png"
+    },
+    "hard": {
+      "title": "Contra o tempo",
+      "source": "assets/menu/difficulty-hard-08c436954a69.png"
+    },
+    "hardcore": {
+      "title": "Última luz",
+      "source": "assets/menu/difficulty-hardcore-6dabe81e51bd.png"
+    }
+  }
+}

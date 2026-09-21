@@ -1,0 +1,9 @@
+{
+  "hen-silkie": {
+    "a9b6171dec07feec3b46d513c037313fb89efa557105f217972c47d670bb95b0": "Revised fluffy Silkie idle south-west: single black toe-tip pixel at (35,63); the complete three-toed foot and closed outline are visible at 6x. Preserve all pixels and add atlas gutter.",
+    "07c5f098b701744cbd9dc342de44b9644411db32e422e430c6f8bde395f2306d": "Revised fluffy Silkie idle south-east: single black toe-tip pixel at (26,63); complete closed toe contour checked at 6x. Preserve all pixels and add atlas gutter.",
+    "12f88b3eea26b89a971e035b46bd6f898d8c7c1d21b5b89d53c687f2249bb12c": "Idle south-west: one black toe-outline pixel at y=63. Complete toe and closed outline checked at 6x; add atlas gutter without cropping.",
+    "840b951289a99ccef9b6450ee999329f5ece5ba72095e48261af3cf734142621": "Idle east: one black toe-outline pixel at y=63. Complete toe and closed outline checked at 6x; add atlas gutter without cropping.",
+    "e034ef23f8e0a3c77d9bbc14eeaef8e179def14bdcfd89b23184ffe5f0c3457a": "Idle south-east: three dark pixels close the rounded crest tip at y=0. Complete contour checked at 6x; add atlas gutter without cropping."
+  }
+}

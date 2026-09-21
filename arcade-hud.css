@@ -1,0 +1,230 @@
+/* Farm arcade cabinet: timber surround, paper counters and a bright clock. */
+#expeditionBar {
+  top: max(14px,env(safe-area-inset-top,0px)); left: max(18px,env(safe-area-inset-left,0px)); right: max(18px,env(safe-area-inset-right,0px)); max-width: 1200px; min-height: 0;
+  grid-template-columns: 60px minmax(0,1fr) 48px; gap: 12px; padding: 8px 12px;
+  border: 8px solid transparent; border-image: var(--wood-frame); border-image-width: 8px;
+  background: repeating-linear-gradient(0deg,#8c542f 0 3px,#975e34 3px 23px,#87502d 23px 25px);
+  background-clip: padding-box; box-shadow: 0 4px #422b20,0 7px #1d30274d;
+  color: #ffe8b0; font-family: var(--pixel-font); pointer-events: none;
+}
+#expeditionBar .play-brand { position: relative; width: 60px; height: 64px; padding: 0; gap: 0; }
+#expeditionBar .play-brand > div { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+#expeditionBar .hud-portrait { width: 60px; height: 60px; border: 3px solid #603b26; background: #f5d999;
+  box-shadow: inset 3px 3px #fff0bd,inset -3px -3px #c29152; }
+.player-tag { position: absolute; bottom: -3px; right: -3px; padding: 0 4px; border: 2px solid #563321;
+  background: #739149; color: #fff5bf; font: 400 19px/1 var(--pixel-font); text-shadow: 1px 1px #46552e; }
+#expeditionBar .play-actions { grid-column: 3; justify-content: center; }
+#expeditionBar #pauseBtn { justify-content: center; width: 44px; height: 48px; min-height: 44px; padding: 8px;
+  border: 3px solid #5e3824; background: #edc178; color: #644125; border-radius: 0; pointer-events: auto;
+  box-shadow: inset 3px 3px #ffeab7,inset -3px -3px #bb8040,0 3px #503021; }
+#expeditionBar #pauseBtn > span { display: none; }
+#expeditionBar #pauseBtn svg { width: 16px; height: 20px; }
+#expeditionBar #pauseBtn:hover { background: #ffdf93; }
+#expeditionBar #pauseBtn:active { transform: translateY(2px); }
+#expeditionBar #farmHud {
+  position: static; grid-column: 2; grid-row: 1; padding: 0; border: 0; gap: 8px;
+  grid-template-columns: .95fr 1fr 1fr 1.1fr 1.55fr;
+}
+#expeditionBar #farmHud:has(#runTimer[hidden]) { grid-template-columns: .95fr 1fr 1fr 1.55fr; }
+#expeditionBar .run-card:not(.wolf-counter) {
+  min-height: 68px; gap: 3px; padding: 6px 9px; align-items: center; justify-content: center;
+  border: 2px solid #593722; border-radius: 0; background: #ffe0a1; color: #674126;
+  box-shadow: inset 2px 2px #fff2bf,inset -2px -2px #d0a465,0 2px #6c4027;
+}
+#expeditionBar .run-label { justify-content: center; color: #78512e; font: 400 17px/1 var(--pixel-font); letter-spacing: .5px; text-transform: uppercase; }
+#expeditionBar .run-card-heading { flex-direction: row-reverse; gap: 5px; }
+#expeditionBar .run-icon { display: block; width: 18px; height: 18px; }
+#expeditionBar .run-value { justify-content: center; align-items: baseline; gap: 4px; }
+#expeditionBar .run-value > b { font: 400 34px/.95 var(--pixel-font); letter-spacing: 0; color: #62401f; text-shadow: 1px 1px #fff0bd; }
+#expeditionBar .run-value > span { color: #94683d; font: 400 22px/1 var(--pixel-font); white-space: nowrap; }
+#expeditionBar .heart-row { gap: 5px; min-height: 28px; }
+#expeditionBar .life-heart { color: #d35e43; filter: drop-shadow(0 2px #884229); }
+#expeditionBar .life-heart svg { width: 27px; height: 25px; shape-rendering: crispEdges; }
+#expeditionBar .life-heart[data-full='false'] { color: #c7a674; filter: drop-shadow(0 2px #a98859); }
+#expeditionBar .lives-card[data-critical='true'] { background: #ffce9b; box-shadow: inset 0 0 0 2px #da7851,0 2px #6c4027; }
+#expeditionBar .lives-card[data-critical='true'] .life-heart[data-full='true'] { color: #bb402f; }
+#expeditionBar .hud-chick { width: 29px; height: 29px; margin: -4px 0; }
+#expeditionBar #missionProgress { display: block; position: static; width: 64px; height: 4px; opacity: 1; margin-top: 1px; }
+#expeditionBar progress { border-radius: 0; background: #c1a16b; }
+#expeditionBar progress::-webkit-progress-bar { background: #c1a16b; }
+#expeditionBar progress::-webkit-progress-value { background: #68813d; border-radius: 0; }
+#expeditionBar progress::-moz-progress-bar { background: #68813d; }
+#expeditionBar .rescue-extra { position: absolute; right: 2px; bottom: -9px; z-index: 1; padding: 1px 4px;
+  border: 1px solid #465c31; background: #637f3b; color: #fff1bc; font: 400 14px/1 var(--pixel-font); }
+#expeditionBar .run-card.score-card { background: #443529; border-color: #4a2d20;
+  box-shadow: inset 2px 2px #2e2a21,inset -2px -2px #ac7944,0 2px #6c4027; }
+#expeditionBar .score-card .run-label { color: #e6ba74; }
+#expeditionBar #scoreCount { color: #ffda73; font-size: 40px; text-shadow: 2px 2px #8d522e; letter-spacing: 1px; }
+#expeditionBar #runTimer { display: flex; flex-wrap: nowrap; position: relative; background: #557044; border-color: #3d4829;
+  box-shadow: inset 2px 2px #779456,inset -2px -2px #364e34,0 2px #5b3924; }
+#expeditionBar #runTimer[hidden] { display: none; }
+#expeditionBar #runTimer .run-label { color: #e1e7ae; }
+#expeditionBar #runTimer img { width: 16px; height: 16px; image-rendering: pixelated; }
+#expeditionBar #timeRemaining { color: #fff0ac; font: 400 44px/.9 var(--pixel-font); text-shadow: 2px 2px #334b31; font-variant-numeric: tabular-nums; white-space: nowrap; }
+#expeditionBar #runTimer[data-urgent='true'] { background: #98432e; border-color: #562c24; box-shadow: inset 2px 2px #c87649,inset -2px -2px #6e3429,0 2px #503122; }
+#expeditionBar #runTimer[data-urgent='true'] #timeRemaining { color: #fff3ce; text-shadow: 2px 2px #562c24; }
+#expeditionBar #runTimer[data-urgent='true'] .run-label::after { content: '!'; color: #fff4b8; }
+#expeditionBar .time-reward { position: absolute; right: -9px; top: -13px; z-index: 2; padding: 2px 6px;
+  border: 2px solid #496234; background: #e6efaa; color: #3e652f; box-shadow: 2px 2px #37452a;
+  font: 400 23px/1 var(--pixel-font); transform: rotate(5deg); animation: harvest-reward .25s ease-out; }
+#expeditionBar #chickCombo { position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%);
+  min-width: 240px; height: 30px; display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 10px; padding: 3px 10px;
+  border: 2px solid #684423; background: #efc86f; color: #5f3b25; box-shadow: inset 2px 2px #fff0a5,0 3px #493522;
+  font: 400 20px/1 var(--pixel-font); white-space: nowrap; }
+#expeditionBar #chickCombo[hidden] { display: none; }
+#expeditionBar #comboMultiplier { font: inherit; color: inherit; text-transform: uppercase; }
+#expeditionBar #comboTime { color: #83603a; }
+#expeditionBar #comboMeter { appearance: none; width: 76px; height: 10px; border: 1px solid #8a693a; border-radius: 0; background: #caa557; }
+#comboMeter::-webkit-meter-bar { height: 8px; border: 0; border-radius: 0; background: #caa557; }
+#comboMeter::-webkit-meter-optimum-value { background: repeating-linear-gradient(90deg,#5b7739 0 7px,#77934a 7px 9px); }
+#comboMeter::-moz-meter-bar { background: #5b7739; }
+#expeditionBar .play-region { top: calc(100% + 11px); left: 0; max-width: 245px; padding: 6px 10px; gap: 7px;
+  border: 2px solid #775033; background: #f1d297; box-shadow: inset 2px 2px #fff0b9,0 3px #493522; }
+#expeditionBar .play-region svg { display: block; width: 19px; height: 19px; color: #8a6133; }
+#expeditionBar .play-region b { font: 400 20px/1 var(--pixel-font); color: #684729; }
+#expeditionBar .wolf-counter { top: calc(100% + 11px); right: 0; width: 246px; min-height: 48px; padding: 5px 8px; gap: 2px 7px;
+  border: 2px solid #6b482c; background: #f1d297; box-shadow: inset 2px 2px #ffeab8,0 3px #493522; }
+#expeditionBar .wolf-counter .run-label { justify-content: flex-start; color: #88592f; font-size: 14px; letter-spacing: 0; }
+#expeditionBar .wolf-counter .threat-title { font: 400 18px/1 var(--pixel-font); color: #614426; }
+#expeditionBar .wolf-counter #wolfLevelText { color: inherit; }
+#expeditionBar .hud-wolf { width: 32px; height: 30px; }
+#expeditionBar #threatProgress { height: 3px; margin: 1px 0 0; }
+#expeditionBar .threat-indicator[data-level='danger'] { background: #9d4932; border-color: #603322; box-shadow: inset 2px 2px #cd7d50,0 3px #493522; }
+#expeditionBar .threat-indicator[data-level='danger'] :is(.run-label,.threat-title) { color: #fff0be; }
+#expeditionBar .threat-indicator[data-level='danger'] progress::-webkit-progress-value { background: #ffce76; }
+#expeditionBar .threat-indicator[data-level='suspect'] { background: #f5c47d; }
+#expeditionBar .threat-indicator[data-level='safe'] { background: #d7dda3; }
+/* Tool pouch, hints and touch controls belong to the same little cabinet. */
+#gameFeedback { gap: 7px; font-family: var(--pixel-font); }
+#gameFeedback :is(.stealth-badge,.stamina-meter,.thor-supply,.skin-power-badge), #gameFeedback #contextHint {
+  border: 2px solid #755033; border-radius: 0; background: #f9dda2; color: #624529;
+  box-shadow: inset 2px 2px #ffefbf,0 3px #423321; padding: 6px 9px; font: 400 19px/1.15 var(--pixel-font);
+}
+#gameFeedback #thorSupply { min-height: 44px; opacity: 1; background: #ebc582; color: #775432; }
+#gameFeedback #thorSupply[data-ready='true'] { background: #668643; color: #fff3bf; border-color: #3e542f; box-shadow: inset 2px 2px #8ea65b,0 3px #35472b; }
+#gameFeedback .stealth-badge[data-state='hidden'] { background: #d5dfa2; color: #4d6537; }
+#gameFeedback .stealth-badge[data-state='exposed'] { background: #a34831; color: #fff0be; }
+#gameFeedback .stamina-meter progress { appearance: none; width: 62px; height: 9px; border: 1px solid #a2854e; border-radius: 0; overflow: hidden; background: #ceac6b; }
+#gameFeedback .stamina-meter progress::-webkit-progress-bar { background: #ceac6b; }
+#gameFeedback .stamina-meter progress::-webkit-progress-value { background: repeating-linear-gradient(90deg,#64813d 0 7px,#8aa151 7px 9px); }
+#gameFeedback .stamina-meter progress::-moz-progress-bar { background: #64813d; }
+#gameFeedback #contextHint { max-width: 510px; padding: 9px 12px; }
+#liveControls { font: 400 17px/1.15 var(--pixel-font); color: #ffefbb; text-shadow: 1px 2px #344331; }
+#liveControls kbd { font: 400 16px/1 var(--pixel-font); border: 2px solid #765035; background: #f4d596; color: #684829; border-radius: 0; }
+#touchControls button { border: 3px solid #714a2d; border-radius: 0; background: #edd09a; color: #65462c;
+  box-shadow: inset 2px 2px #fff0c1,inset -2px -2px #bd945a,0 3px #433222; backdrop-filter: none; font-family: var(--pixel-font); }
+#touchControls .touch-dpad button { font-size: 28px; }
+#touchControls .touch-actions button { font: 400 19px/1 var(--pixel-font); }
+#touchControls #touchInteract { background: #edc064; border-color: #80532c; color: #624126; }
+#touchControls button[aria-pressed='true'], #touchControls button:active { background: #739349; color: #fff3c4; box-shadow: inset 2px 2px #4b6839,0 1px #433222; }
+#touchJoystick { border: 3px solid #80542f; background: #d6b57ebd;
+  box-shadow: inset 0 0 0 7px #f3d9a577,inset 0 0 0 10px #88653e66,0 3px #523d2ba8; }
+#touchJoystick .touch-joystick-guide { color: #76553788; font-family: var(--pixel-font); }
+#touchJoystick .touch-joystick-knob { border: 3px solid #ffe9ad; background: #b97a3f;
+  box-shadow: inset 3px 3px #dfaa61,inset -3px -3px #8e5c33,0 4px #674a32; }
+#touchJoystick[data-active='true'] { border-color: #4f6936; background: #95aa65c9; }
+#expeditionBar #playFullscreen { pointer-events: auto; width: 44px; height: 46px; padding: 0; border: 3px solid #654127;
+  border-radius: 0; background: #e7c98d; color: #654629; box-shadow: inset 2px 2px #fff0bc,inset -2px -2px #b68e53,0 3px #4b3425; }
+#expeditionBar #playFullscreen:active { transform: translateY(2px); }
+@media (min-width: 621px) {
+  .game-shell:is([data-touch='true'],[data-mobile='true'],[data-expanded='true'],:fullscreen,:-webkit-full-screen) #expeditionBar { grid-template-columns: minmax(0,1fr) 94px; }
+  .game-shell:is([data-touch='true'],[data-mobile='true'],[data-expanded='true'],:fullscreen,:-webkit-full-screen) #expeditionBar .play-brand { display: none; }
+  .game-shell:is([data-touch='true'],[data-mobile='true'],[data-expanded='true'],:fullscreen,:-webkit-full-screen) #expeditionBar #farmHud { grid-column: 1; }
+  .game-shell:is([data-touch='true'],[data-mobile='true'],[data-expanded='true'],:fullscreen,:-webkit-full-screen) #expeditionBar .play-actions { grid-column: 2; }
+}
+#regionNotice { border: 3px solid #876035; background: #ffe3a5; border-radius: 0; color: #795234; font: 400 18px/1.1 var(--pixel-font); }
+.game-shell:not([data-phase='menu']) #regionNotice { top: 160px; }
+.game-shell:not([data-phase='menu']) #regionNotice strong { color: #65432a; font-family: var(--pixel-font); }
+#lakeCounter { border: 5px solid transparent; border-image: var(--wood-frame); border-image-width: 5px; background: #ffe2a4; border-radius: 0; font-family: var(--pixel-font); }
+.game-shell:not([data-phase='menu']) #lakeCounter { top: 172px; }
+#lakeCounter .lake-counter-heading > span { font: 400 17px/1 var(--pixel-font); letter-spacing: 0; }
+#lakeCounter p, #lakeCounter .lake-round { font: 400 17px/1.1 var(--pixel-font); }
+#lakeCounter .lake-stamps span { border-radius: 0; }
+#lakePanel button { font: 400 21px/1 var(--pixel-font); border: 3px solid #765131; border-radius: 0; background: #f4d294; color: #64482b; box-shadow: inset 2px 2px #fff0bd,0 3px #473722; }
+@keyframes harvest-reward { from { transform: translateY(7px) rotate(0); } to { transform: translateY(0) rotate(5deg); } }
+@media (max-width: 1000px) {
+  #expeditionBar { top: max(10px,env(safe-area-inset-top,0px)); left: max(10px,env(safe-area-inset-left,0px)); right: max(10px,env(safe-area-inset-right,0px)); padding: 6px 8px; gap: 8px; grid-template-columns: 44px minmax(0,1fr) 44px; }
+  #expeditionBar .play-brand { width: 44px; height: 52px; }
+  #expeditionBar .hud-portrait { width: 44px; height: 48px; }
+  #expeditionBar #farmHud { gap: 6px; }
+  #expeditionBar .run-card:not(.wolf-counter) { padding: 5px; }
+  #expeditionBar #scoreCount { font-size: 34px; letter-spacing: 0; }
+  #expeditionBar .life-heart svg { width: 22px; height: 21px; }
+  #expeditionBar .heart-row { gap: 3px; }
+  #expeditionBar .run-label { font-size: 15px; }
+  #expeditionBar .run-icon { width: 15px; height: 15px; }
+  #expeditionBar .wolf-counter { width: 210px; }
+  #expeditionBar #chickCombo { min-width: 212px; gap: 6px; font-size: 18px; }
+}
+@media (max-width: 620px) {
+  #expeditionBar { top: max(8px,env(safe-area-inset-top,0px)); left: max(8px,env(safe-area-inset-left,0px)); right: max(8px,env(safe-area-inset-right,0px)); border-width: 6px; border-image-width: 6px;
+    grid-template-columns: 44px repeat(6,minmax(0,1fr)) 44px; gap: 6px; padding: 6px; }
+  #expeditionBar #farmHud, #expeditionBar .play-actions { display: contents; }
+  #expeditionBar .play-brand { grid-column: 1; grid-row: 1; width: 36px; height: 43px; }
+  #expeditionBar .hud-portrait { width: 36px; height: 40px; border-width: 2px; }
+  #expeditionBar .player-tag { font-size: 14px; right: -1px; }
+  #expeditionBar #pauseBtn { grid-column: 8; grid-row: 1; width: 44px; height: 46px; }
+  #expeditionBar #playFullscreen { grid-column: 1; grid-row: 1; width: 44px; min-width: 44px; height: 46px; }
+  #expeditionBar .run-card:not(.wolf-counter) { min-height: 49px; padding: 4px; gap: 2px; }
+  #expeditionBar .lives-card { grid-column: 2 / 5; grid-row: 1; }
+  #expeditionBar .score-card { grid-column: 5 / 8; grid-row: 1; }
+  #expeditionBar #runTimer { grid-column: 1 / 4; grid-row: 2; }
+  #expeditionBar .rescue-counter { grid-column: 4 / 6; grid-row: 2; }
+  #expeditionBar .chick-counter { grid-column: 6 / 9; grid-row: 2; }
+  #expeditionBar:has(#runTimer[hidden]) .rescue-counter { grid-column: 1 / 5; }
+  #expeditionBar:has(#runTimer[hidden]) .chick-counter { grid-column: 5 / 9; }
+  #expeditionBar .run-label { font-size: 14px; letter-spacing: 0; }
+  #expeditionBar .run-card-heading { gap: 3px; }
+  #expeditionBar .run-icon { width: 13px; height: 13px; }
+  #expeditionBar .rescue-counter .run-icon { display: none; }
+  #expeditionBar .run-value > b { font-size: 28px; }
+  #expeditionBar .run-value > span { font-size: 18px; }
+  #expeditionBar #scoreCount { font-size: 27px; }
+  #expeditionBar .score-card .run-label { font-size: 13px; }
+  #expeditionBar .heart-row { gap: 4px; min-height: 22px; }
+  #expeditionBar .life-heart svg { width: 21px; height: 19px; }
+  #expeditionBar #timeRemaining { font-size: 33px; }
+  #expeditionBar #runTimer .run-label { font-size: 12px; }
+  #expeditionBar #runTimer img { width: 12px; height: 12px; }
+  #expeditionBar .time-reward { font-size: 19px; right: -7px; top: -10px; padding: 1px 4px; }
+  #expeditionBar #missionProgress { width: 42px; height: 3px; }
+  #expeditionBar .hud-chick { width: 24px; height: 24px; }
+  #expeditionBar .rescue-extra { font-size: 12px; bottom: -8px; right: -3px; }
+  #expeditionBar #chickCombo { position: static; transform: none; grid-row: 3; grid-column: 1 / -1; min-width: 0;
+    height: 24px; padding: 1px 6px; margin-top: 2px; gap: 10px; font-size: 18px; box-shadow: inset 1px 1px #fff0a5; }
+  #expeditionBar #comboMeter { width: 88px; height: 8px; }
+  #expeditionBar .play-region { max-width: calc(100% - 192px); padding: 6px 7px; top: calc(100% + 9px); }
+  #expeditionBar .play-region svg { display: none; }
+  #expeditionBar .play-region b { font-size: 17px; }
+  #expeditionBar .wolf-counter { top: calc(100% + 9px); width: 184px; min-height: 44px; padding: 4px 6px; grid-template-columns: 27px minmax(0,1fr); gap: 1px 4px; }
+  #expeditionBar .hud-wolf { width: 27px; height: 27px; }
+  #expeditionBar .wolf-counter .run-label { font-size: 12px; }
+  #expeditionBar .wolf-counter .threat-title { font-size: 15px; }
+  #gameFeedback :is(.stealth-badge,.stamina-meter,.thor-supply), #gameFeedback #contextHint { font-size: 17px; padding: 5px 7px; }
+  #gameFeedback #contextHint { font-size: 18px; }
+  #touchControls .touch-actions button { font-size: 17px; }
+  .game-shell:not([data-phase='menu']) #regionNotice { top: 218px; font-size: 17px; max-width: 170px; }
+  .game-shell:not([data-phase='menu']) #lakeCounter { top: 218px; width: 180px; }
+}
+@media (orientation: landscape) and (max-height: 560px) and (min-width: 621px) {
+  #expeditionBar { top: max(6px,env(safe-area-inset-top,0px)); padding: 4px 6px; border-width: 5px; border-image-width: 5px; gap: 6px; }
+  #expeditionBar .run-card:not(.wolf-counter) { min-height: 48px; padding: 3px; gap: 1px; }
+  #expeditionBar .play-brand { height: 44px; }
+  #expeditionBar .hud-portrait { height: 42px; }
+  #expeditionBar .run-label { font-size: 13px; }
+  #expeditionBar .run-value > b { font-size: 27px; }
+  #expeditionBar #scoreCount { font-size: 30px; }
+  #expeditionBar #timeRemaining { font-size: 33px; }
+  #expeditionBar .heart-row { min-height: 23px; }
+  #expeditionBar .wolf-counter { min-height: 40px; }
+  #expeditionBar .play-region, #expeditionBar .wolf-counter, #expeditionBar #chickCombo { top: calc(100% + 7px); }
+  #expeditionBar .wolf-counter .run-label { display: none; }
+  #expeditionBar .wolf-counter .threat-title { align-self: center; }
+  #gameFeedback :is(.stealth-badge,.stamina-meter,.thor-supply) { font-size: 16px; padding: 4px 6px; }
+  #gameFeedback #contextHint { font-size: 16px; padding: 4px 6px; }
+  .game-shell:not([data-phase='menu']) #regionNotice { top: 116px; }
+  .game-shell:not([data-phase='menu']) #lakeCounter { top: 116px; width: 180px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #expeditionBar .time-reward { animation: none; }
+}

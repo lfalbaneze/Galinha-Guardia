@@ -172,7 +172,7 @@ const FarmDetails = (() => {
     for(const at of [x+7,x+w-8]) {
       c.fillStyle='#4c3828';c.fillRect(at,y+14,2,3);c.fillStyle='#f3d7a1';c.fillRect(at,y+14,1,1);
     }
-    c.font='bold 11px Trebuchet MS, sans-serif';c.textAlign='center';c.textBaseline='middle';
+    c.font='16px "Farm Pixel",monospace';c.textAlign='center';c.textBaseline='middle';
     c.fillStyle='#3d291a';c.fillText(p.name,x+w/2,y+16,w-23);
     c.restore();
   }

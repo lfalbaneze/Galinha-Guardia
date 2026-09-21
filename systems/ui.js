@@ -56,12 +56,12 @@ const GameUI = (() => {
     GameInput.initialize();
     const ids = ["rescueGoal", "gameCanvas", "menuScreen", "menuTitle", "menuDescription", "menuSaveText", "endScreen", "endTitle", "endMessage", "endSummary", "endEmblem", "endEyebrow", "startBtn", "continueBtn", "pauseBtn", "replayBtn", "menuBtn", "hiddenText", "contextHint", "wolfLevelText", "wolfStateText", "saveText", "staminaMeter", "staminaText", "chicksCount", "chickCounter", "farmHud", "wardrobeNote", "wolfMultiplier", "skinUnlockText", ...SkinSystem.catalog.map(s => `skin-${s.id}`)];
     for (const id of ids) elements[id] = document.getElementById(id);
-    for (const id of ['runTimer','timeRemaining','timeReward','endTimeBonus','pantoRescue']) elements[id] = document.getElementById(id);
+    for (const id of ['runTimer','timeRemaining','timeReward','endTimeBonus','pantoRescue','chicksTotal','chickCombo','comboMultiplier','comboTime','comboMeter','endPortrait','endFriends','endChicks','endPoints','endLives','endLifeHeart1','endLifeHeart2','endLifeHeart3','endPanto','endChickStat','endMode','endDuration','endRetryNote']) elements[id] = document.getElementById(id);
     for (const id of ['menuPowerName','menuPowerDescription','skinPowerText','skinPowerBadge']) elements[id] = document.getElementById(id);
     elements.gameShell = document.getElementById("gameShell");
     for(const id of ['expeditionBar','gameFeedback','gameStatus'])elements[id]=document.getElementById(id);
     elements.menuSkinSelect = document.getElementById("menuSkinSelect");
-    elements.menuMascot = document.getElementById("menuMascot");
+    elements.newAdventureBtn = document.getElementById('newAdventureBtn');
     for (const skin of SkinSystem.catalog) elements[`menu-skin-${skin.id}`] = document.getElementById(`menu-skin-${skin.id}`);
     document.getElementById('retrySprites').addEventListener('click', async () => {
       const loading=Promise.all([CharacterArt.load(),GooseArt.load(),FoxArt.load(),OwlArt.load(),ThorArt.load(),ScarecrowArt.load()]);
@@ -106,6 +106,7 @@ const GameUI = (() => {
     document.addEventListener("keydown", event => {
       // Native modal help owns focus while open, including its scrollable content.
       if (document.getElementById('howToPlayDialog')?.open) return;
+      if (event.key === 'Escape' && InterfaceMotion.backToMenu()) { event.preventDefault(); return; }
       if (event.key !== "Tab") return;
       const overlay = !elements.menuScreen.hidden ? elements.menuScreen : !elements.endScreen.hidden ? elements.endScreen : null;
       if (!overlay) return;
@@ -141,8 +142,9 @@ const GameUI = (() => {
   function update(game) {
     if (!initialized) initialize();
     const ending=EndGameSequence.active(game);
+    const ended = game.phase === "won" || game.phase === "lose";
     elements.gameShell.dataset.ending=String(ending);
-    for(const id of ['expeditionBar','gameFeedback','gameStatus'])elements[id].hidden=ending;
+    for(const id of ['expeditionBar','gameFeedback','gameStatus'])elements[id].hidden=ending||ended;
     const thorScene=game.phase==='playing'&&ThorSystem.active(game);
     elements.gameShell.dataset.thorScene=String(thorScene);
     document.getElementById('thorSceneControls').hidden=!thorScene;
@@ -163,12 +165,6 @@ const GameUI = (() => {
       : 'Chamando a turma da fazenda…';
     AudioControls.update(game);
     const chicken = game.entities.chicken;
-    const portraitSkin = CharacterArt.appearances[chicken.skin] ? chicken.skin : 'classic';
-    if (elements.menuMascot.dataset.skin !== portraitSkin) {
-      elements.menuMascot.src = `./assets/menu/portraits/${portraitSkin === 'classic' ? 'carijo' : portraitSkin}.png?v=fofinhos52`;
-      elements.menuMascot.alt = CharacterArt.appearances[portraitSkin].description || CharacterArt.appearances[portraitSkin].name;
-      elements.menuMascot.dataset.skin = portraitSkin;
-    }
     const wolf = game.entities.wolf;
     const hidden = !!chicken.hidden;
     const exposed = WolfAI.isExposed(game);
@@ -182,6 +178,12 @@ const GameUI = (() => {
     elements.chickCounter.hidden = false;
     elements.farmHud.dataset.secretKnown = 'true';
     put("chicksCount", game.rescuedChicks);
+    put('chicksTotal', `/ ${game.entities.chicks.length}`);
+    const combo = game.chickCombo;
+    elements.chickCombo.hidden = !game.settings.chickCombo || !(combo?.remaining > 0);
+    put('comboMultiplier', `Combo ×${GameManager.comboMultiplier(game)}`);
+    put('comboTime', `${Math.ceil(combo.remaining)}s`);
+    elements.comboMeter.value = combo.remaining;
     put("rescueGoal", `/ ${WORLD.targetRescues}`);
     elements.pantoRescue.hidden = !game.entities.goose?.rescued;
     put("wolfMultiplier", `Cerco ${WolfAI.getConfig(game).pressure.toFixed(2).replace(".", ",")}×`);
@@ -210,7 +212,7 @@ const GameUI = (() => {
     elements.skinPowerBadge.title = power.description;
     const availableSkins = SkinSystem.catalog.filter(s => s.id !== "classic" && SkinSystem.unlocked(s.id)).length;
     put("skinUnlockText", `${availableSkins} / ${SkinSystem.catalog.length - 1} aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
-    put("wardrobeNote", `6 pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o piado, chegue perto e aperte ${interact} uma vez para chamar. São bônus opcionais: procure antes de salvar o último amigo e ganhe novas aparências.`);
+    put("wardrobeNote", `${game.entities.chicks.length} pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o piado, chegue perto e aperte ${interact} uma vez para chamar. São bônus opcionais: procure antes de salvar o último amigo e ganhe novas aparências.`);
     const swim = SwimmingSystem.profile(game);
     const supply=document.getElementById('thorSupply'),bones=ThorSystem.boneCount(game),required=ThorSystem.cost(game),free=required===0;
     if(supply) {
@@ -266,9 +268,10 @@ const GameUI = (() => {
     put('timeRemaining', `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`);
     elements.timeReward.hidden = !timed || !(game.timeRewardNotice?.time > 0);
     put('timeReward', game.timeRewardNotice?.time > 0 ? `+${game.timeRewardNotice.seconds}s` : '');
-    elements.runTimer.title = `Pintinho: +${game.settings.chickTime || 0}s. Amigo: +${game.settings.friendTime || 0}s. Na vitória: cada segundo inteiro restante vale ${(game.settings.timeScore || 0).toLocaleString('pt-BR')} pontos.`;
+    elements.runTimer.title = game.settings.chickCombo ?
+      `Pintinho: +5s até +50s com combo. Cada 2 amigos: +15s. Bônus final: segundos × 1.500 × ${game.rescuedChicks} pintinhos.` :
+      `Pintinho: +${game.settings.chickTime || 0}s. Amigo: +${game.settings.friendTime || 0}s. Na vitória: cada segundo inteiro restante vale ${GameManager.timeScoreRate(game).toLocaleString('pt-BR')} pontos.`;
     elements.gameShell.dataset.phase = game.phase;
-    const ended = game.phase === "won" || game.phase === "lose";
     elements.menuScreen.hidden = !menu;
     elements.endScreen.hidden = !ended;
     elements.pauseBtn.disabled = menu || ended;
@@ -278,29 +281,59 @@ const GameUI = (() => {
       const canContinue = !!game.hasSave && ["playing", "lose", "win_cutscene", "won"].includes(game.resumePhase);
       elements.continueBtn.hidden = !canContinue;
       elements.startBtn.classList.toggle("button-secondary", canContinue);
-      put("startBtn", canContinue ? "Começar nova fazenda" : "Entrar na fazenda");
+      put("startBtn", "Começar aventura");
+      elements.newAdventureBtn.classList.toggle('menu-secondary', canContinue);
       put("continueBtn", lost ? 'Tentar novamente' : game.resumePhase === "won" ? "Voltar à comemoração" : "Continuar resgate");
-      put("menuTitle", lost ? "Bora tentar de novo?" : canContinue ? "A aventura continua!" : "Bora se divertir!");
-      put("menuDescription", lost ? `${game.defeatReason === 'timeout' ? 'O tempo acabou.' : 'As três vidas acabaram.'} Tente a Fazenda do tio Clau de novo, com resgates, pintinhos, pontos e tempo reiniciados.` : canContinue ? `${game.rescuedCount}/${WORLD.targetRescues} amigos a salvo${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos no ninho` : ""}. ${game.rescuedCount === WORLD.targetRescues ? "Festa na Fazenda do tio Clau! O lobo ficou sem convite." : "A turma do tio Clau conta com você. O lobo que lute!"}` : "Na Fazenda do tio Clau, até o almoço sai correndo! Resgate os 12 amigos e siga os piados.");
+      put("menuTitle", lost ? "Uma nova tentativa" : canContinue ? "A aventura continua" : "Penas pro Ar!");
+      const mode = { easy: 'Fácil', normal: 'Médio', hard: 'Difícil', hardcore: 'Hardcore' }[game.difficultyKey] || 'Médio';
+      put("menuDescription", lost ? 'A turma está esperando sua próxima tentativa.' : canContinue ? `${game.rescuedCount} de ${WORLD.targetRescues} amigos a salvo · ${mode}` : 'Resgate os amigos. Despiste o lobo.');
     }
     if (ended) {
       const won = game.phase === "won";
       const timeout = game.defeatReason === 'timeout';
-      put('replayBtn', won ? 'Jogar novamente' : 'Tentar novamente');
-      put("endEmblem", won ? "🐔 ♥" : "🐔");
-      put("endEyebrow", won ? "FIM ♥" : "FIM DE JOGO");
-      put("endTitle", won ? "Turma completa. Lobo de barriga vazia." : timeout ? "O tempo acabou!" : "O lobo ganhou essa rodada.");
-      put("endMessage", won ? "Todo mundo a salvo! A vaca voltou a mastigar, o gato diz que planejou tudo e o lobo foi reclamar com a mãe." : `${timeout ? 'O relógio zerou antes do último resgate.' : 'As três vidas acabaram.'} Tentar novamente reinicia a mesma fazenda: resgates, pintinhos, pontos e desafios voltam ao começo.${timed ? ' O cronômetro volta ao tempo completo.' : ''}`);
+      elements.endScreen.dataset.result = won ? 'won' : 'lose';
+      put('replayBtn', won ? 'Novo jogo' : 'Revanche');
+      put("endEmblem", won ? "★" : "!");
+      put("endEyebrow", won ? "MISSÃO CONCLUÍDA" : timeout ? "TEMPO ESGOTADO" : "SEM VIDAS");
+      put('endMode', game.settings.label);
+      const portrait = `${won}:${game.entities.chicken.skin}`;
+      if (elements.endPortrait.dataset.portrait !== portrait && CharacterArt.ready) {
+        MenuBriefing.portrait('endPortrait',won?'chicken':'wolf',108,{direction:'down',skin:game.entities.chicken.skin});
+        elements.endPortrait.dataset.portrait=portrait;
+      }
+      put('endFriends', `${game.rescuedCount}/${WORLD.targetRescues}`);
+      put('endChicks', `${game.rescuedChicks}/${game.entities.chicks.length}`);
+      elements.endChickStat.hidden = false;
+      const finalScore = Math.max(0, Math.floor(game.score)).toString().padStart(6, '0');
+      put('endPoints', finalScore);
+      elements.endPoints.style.setProperty?.('--score-digits', String(finalScore.length));
+      const lives = Math.max(0, Math.min(MAX_LIVES, Math.floor(game.lives)));
+      for (let i = 1; i <= MAX_LIVES; i++) elements[`endLifeHeart${i}`].dataset.full = String(i <= lives);
+      elements.endLives.title = `${lives} de ${MAX_LIVES} vidas restantes`;
+      elements.endPanto.hidden = !game.entities.goose?.rescued;
+      put("endTitle", won ? "RESGATE TOTAL!" : "GAME OVER");
+      put("endMessage", won ? "Turma salva. Lobo sem jantar." : timeout ? "O relógio zerou. A próxima é sua!" : "O lobo levou essa. Bora pra revanche?");
+      put('endRetryNote', `${won ? 'Nova' : 'Mesma'} fazenda. Placar zerado. Personagens mantidos.`);
+      const minutes = Math.floor(game.elapsed / 60), seconds = Math.floor(game.elapsed % 60).toString().padStart(2, '0');
+      put('endDuration', `${minutes}:${seconds}`);
+      const details = document.getElementById('endRunDetails');
+      if (details) {
+        const remaining = WORLD.targetRescues - game.rescuedCount;
+        details.textContent = won ? (game.rescuedChicks === game.entities.chicks.length && game.entities.goose?.rescued ? 'EXPLORAÇÃO 100% · Ninguém ficou para trás!' : game.lives === 3 ? 'VIDA CHEIA · Resgate de primeira!' : 'MISSÃO CUMPRIDA · A fazenda é sua!') : remaining > 0 ? `Falt${remaining === 1 ? 'ou' : 'aram'} ${remaining} ${remaining === 1 ? 'resgate' : 'resgates'}. Mais uma rodada?` : 'Mais uma rodada?';
+      }
       elements.endTimeBonus.hidden = !won || !game.timeBonus;
-      put('endTimeBonus', game.timeBonus ? `Bônus de tempo: ${game.timeBonus / game.settings.timeScore}s × ${game.settings.timeScore.toLocaleString('pt-BR')} = +${game.timeBonus.toLocaleString('pt-BR')} pontos` : '');
-      put("endSummary", `${game.rescuedCount}/${WORLD.targetRescues} amigos${game.entities.goose?.rescued ? ' · Panto resgatado' : ''}${secretKnown ? ` · ${game.rescuedChicks}/6 pintinhos` : ""} · ${Math.max(0, Math.floor(game.score))} pontos · ${Math.max(0, game.lives)} vidas`);
+      const rate = game.timeBonusRate || GameManager.timeScoreRate(game);
+      const formula = game.settings.timeScorePerChick && rate === GameManager.timeScoreRate(game) ?
+        `${game.settings.timeScorePerChick.toLocaleString('pt-BR')} × ${game.rescuedChicks} pintinhos` : rate.toLocaleString('pt-BR');
+      put('endTimeBonus', game.timeBonus ? `Bônus de tempo: ${game.timeBonus / rate}s × ${formula} = +${game.timeBonus.toLocaleString('pt-BR')} pontos` : '');
+      put("endSummary", `${game.settings.label} · ${game.rescuedCount}/${WORLD.targetRescues} amigos${game.entities.goose?.rescued ? ' · Panto resgatado' : ''} · ${game.rescuedChicks}/${game.entities.chicks.length} pintinhos · ${Math.max(0, Math.floor(game.score))} pontos · ${Math.max(0, game.lives)} vidas · ${minutes} minutos e ${seconds} segundos`);
     }
     InterfaceMotion.update(game);
     GameplayHud.update(game);
     LakeChallenge.updateUI(game);
     GameInput.update(game);
     if (lastPhase !== game.phase) {
-      if (menu) (elements.continueBtn.hidden ? elements.startBtn : elements.continueBtn).focus({ preventScroll: true });
+      if (menu) (elements.continueBtn.hidden ? elements.newAdventureBtn : elements.continueBtn).focus({ preventScroll: true });
       else if (ended) elements.replayBtn.focus({ preventScroll: true });
       else if (lastPhase === "menu" || lastPhase === "won" || lastPhase === "lose") focusCanvas();
       lastPhase = game.phase;
@@ -403,7 +436,7 @@ const GameUI = (() => {
       detail:game.secretNotice?.time>0?'Pintinho salvo, figurino novo! Confira o baú.':'Roupa nova pra aprontar. Confira o baú!'};
     if(game.secretNotice?.time>0)return {time:game.secretNotice.time,
       title:game.secretNotice.bonus?'Pintinho no ninho!':'Esse piado tem perninhas!',
-      detail:game.secretNotice.bonus?`+100 pontos · ${game.rescuedChicks} de 6 pintinhos`:'Chegue perto para levar o pequeno ao poleiro.'};
+      detail:game.secretNotice.bonus?`+100 pontos · ${game.rescuedChicks} de ${game.entities.chicks.length} pintinhos`:'Chegue perto para levar o pequeno ao poleiro.'};
     if(game.rescueNotice?.time>0)return {time:game.rescueNotice.time,title:`${game.rescueNotice.name} a salvo!`,
       detail:`+100 pontos · ${game.rescueNotice.count} de ${game.rescueNotice.total} no poleiro`};
     return null;

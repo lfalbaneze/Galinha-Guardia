@@ -1,0 +1,14 @@
+{
+  "id": "donkey",
+  "action": "walk-back",
+  "rows": 2,
+  "columns": 8,
+  "directions": [
+    "upleft",
+    "up"
+  ],
+  "targetAction": "walk",
+  "prompt": "Draw a NEW small supplemental animation sheet of this SAME gray donkey. Use reference ONLY for character design. Do NOT reproduce the reference layout.\nEXACTLY TWO ROWS by EIGHT COLUMNS (16 donkey sprites total), broad transparent gutters and true transparent background. Row1: donkey seen from BACK-LEFT 45degree view, nose mostly hidden, rump to bottom-right; EVERY frame precisely same angle. Row2: donkey seen from STRAIGHT BACK, symmetric two upright ears, central dark mane, centered tail over rump, FACE AND MUZZLE COMPLETELY HIDDEN in all eight frames.\nBoth rows show an eight-frame seamless walking cycle with four legs, alternating left/right hooves and stable body. Columns1 and5 opposite contacts,2and6down,3and7passing,4and8up. Draw legs changing, never the body angle. SAME tiny cute slate-gray donkey, cream hooves/muzzle, long ears charcoal forelock, short dark tuft tail. Lock palette and proportions. No text, no other directions, no face visible in back row. Keep all feet and ears inside generous transparent cell margins.",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-4f15d14e-c35a-46fb-bd91-c33143ffa784.png",
+  "tool": "built-in imagegen"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "crow",
+  "action": "fly1",
+  "targetAction": "walk",
+  "rows": 2,
+  "columns": 8,
+  "directions": [
+    "left",
+    "upleft"
+  ],
+  "prompt": "NEW supplemental sprite animation sheet for SAME cute charcoal CROW, blue-black wings, round gray beak and pearl eyes from reference. Reference is DESIGN ONLY, not layout.\nEXACTLY TWO ROWS × EIGHT COLUMNS,16 separate complete flying crows on true TRANSPARENT background with wide gutters. Row1: EXACT LEFT PROFILE, beak points LEFT throughout, ONLY ONE eye visible. Row2: BACK-LEFT45degrees, back prominent, beak hidden behind head on upper LEFT.\nHead and torso MUST hold the same exact angle throughout a row. Eight different consecutive wing phases: 1 fully UP,2 upperdiagonal,3 horizontal,4 lowerdiagonal,5 fully DOWN,6 bent recovery,7 horizontal rising,8 upperdiagonal rising. BOTH complete wings articulated, talons tucked, torso fixed at same center, consistentvolumeandpixelartpalette. Head NEVER TURNS and beak NEVER reverses direction across columns. Both wings fit middle65%ofcell, no cropping, no text, no ground or shadow.",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-b4aedcd8-ffd6-4f88-937f-80a0de35e1b0.png",
+  "tool": "built-in imagegen"
+}

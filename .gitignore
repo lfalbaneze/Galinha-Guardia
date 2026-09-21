@@ -2,4 +2,8 @@ node_modules/
 .cache/
 .openai/
 dist/
+dist.zip
 gcm-diagnose.log
+.env
+.env.*
+!.env.example

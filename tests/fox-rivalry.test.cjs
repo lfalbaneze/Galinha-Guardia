@@ -22,7 +22,7 @@ test('a lethal fox dash saves defeat once and retry starts the attempt over',()=
   assert.match(h.run('state.gameEndReason'),/Lorenzo/);
   assert.equal(h.run('GameManager.read().lives'),0);
   assert.equal(h.run('GameManager.read().phase'),'lose');
-  assert.equal(h.elements.get('replayBtn').textContent,'Tentar novamente');
+  assert.equal(h.elements.get('replayBtn').textContent,'Revanche');
   h.events.elements.replayBtn.click();
   assert.equal(h.run('state.phase'),'playing');assert.equal(h.run('state.lives'),3);
   assert.equal(h.run('state.rescuedCount'),0);assert.equal(h.run('state.score'),0);

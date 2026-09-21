@@ -5,7 +5,7 @@ const {createGame}=require('./helpers.cjs');
 
 test('the cohesive atlas loads once, keeps alpha and draws all sixteen complete silhouettes',async()=>{
   const game=createGame(()=>.5),art=game.run('FarmSprites');let loads=0;
-  const file=path.join(__dirname,'../assets/farm/farm-cohesive-v2.png'),original=fs.readFileSync(file);
+  const file=path.join(__dirname,'../assets/farm/farm-arcade-93.png'),original=fs.readFileSync(file);
   const loader=src=>{loads++;return loadImage(src);};
   assert.equal(await art.loadCohesive(loader,createCanvas),true);
   assert.equal(await art.loadCohesive(loader,createCanvas),true);assert.equal(loads,1);
@@ -50,6 +50,19 @@ test('small playable species retain their own scale instead of being enlarged to
   assert.ok(height('astronaut')<height('classic')*.9);
   assert.ok(height('punk')<height('classic')*.9);
   assert.ok(height('goose')>height('classic'));
+});
+
+test('enlarging a packed sprite preserves solid pixel clusters without invented blended colors',()=>{
+  const context=vm.createContext({});vm.runInContext(fs.readFileSync(path.join(__dirname,'../systems/sprite-style.js'),'utf8'),context);
+  const style=vm.runInContext('SpriteStyle',context);style.install(createCanvas);
+  const source=createCanvas(4,2),c=source.getContext('2d');c.fillStyle='#f80000';c.fillRect(0,0,1,1);c.fillStyle='#0000f8';c.fillRect(2,1,1,1);
+  const pixels=style.tile(source,[0,0,4,2],32,16).getContext('2d').getImageData(0,0,32,16).data;
+  let opaque=0;
+  for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]){
+    opaque++;assert.equal(pixels[i+3],255);
+    assert.ok((pixels[i]===248&&pixels[i+1]===0&&pixels[i+2]===0)||(pixels[i]===0&&pixels[i+1]===0&&pixels[i+2]===248),'no softened edge color');
+  }
+  assert.equal(opaque,128,'both 1px squares become exact 8×8 blocks');
 });
 
 test('browsers blocking local image pixel reads still get a cached drawable sprite',()=>{

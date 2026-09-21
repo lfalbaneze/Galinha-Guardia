@@ -248,8 +248,9 @@ test('the previous synthesized goose honk remains reproducible for the before/af
 test('the goose sprite renders all directions and states from a decoded PNG',async()=>{
   const {createCanvas}=require('@napi-rs/canvas'),canvas=createCanvas(180,180);
   const h=setup();h.context.art=canvas.getContext('2d');
-  h.context.gooseImage=await require('@napi-rs/canvas').loadImage(path.join(__dirname,'../assets/sprites/sources/panto-v2.png'));
-  h.run('GooseArt.install(() => gooseImage);g.x=90;g.y=100');
+  const images=new Map();for(const name of ['goose','goose-alert']){const src=h.run('PremiumWildlifeData')[name].src;images.set(src,await require('@napi-rs/canvas').loadImage(path.join(__dirname,'..',src)));}h.run('GooseArt').install(src=>images.get(src));
+  h.run('CharacterArt').install(src=>images.get(src));
+  h.run('g.x=90;g.y=100');
   for(const mode of ['patrol','warning','charge','recover','return'])for(const dir of ['up','down','left','right']){
     h.run(`g.mode='${mode}';g.direction='${dir}';GooseArt.draw(art,g,{x:0,y:0,shakeX:0,shakeY:0})`);
   }
@@ -267,7 +268,7 @@ test('honk playback respects the existing mute, effects volume and pause control
   const h=createGame(()=>.5,{Audio:MockAudio});
   h.run('AudioSystem.sync(state);AudioSystem.unlock();AudioSystem.setEffectsVolume(.4)');
   assert.equal(h.run("AudioSystem.play('goose-honk',{volume:.5})"),true);
-  assert.match(played.at(-1).src,/assets\/audio\/voices\/v4\/goose-honk\.wav$/);
+  assert.match(played.at(-1).src,/assets\/audio\/voices\/v5\/goose-honk\.wav$/);
   assert.equal(played.at(-1).volume,.2);
   h.run('AudioSystem.toggleMute()');assert.equal(h.run("AudioSystem.play('goose-honk')"),false);
   h.run('AudioSystem.toggleMute();AudioSystem.setEffectsVolume(0)');assert.equal(h.run("AudioSystem.play('goose-honk')"),false);

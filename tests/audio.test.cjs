@@ -43,6 +43,133 @@ function audioHarness(options = {}) {
   return { audio, game, instances, plays, pending, events, document, storage, effects, start, step };
 }
 const microtasks = async () => { await Promise.resolve(); await Promise.resolve(); };
+const mixFor=(h,seconds)=>{for(let i=0;i<seconds*20;i++)h.audio.update(h.game,.05);};
+
+test('the complete runtime sound catalog contains every take and only existing decodable files',()=>{
+  const h=audioHarness(),catalog=h.audio.catalog;
+  assert.equal(catalog.length,47);assert.ok(Object.isFrozen(catalog));
+  assert.equal(new Set(catalog.map(c=>c.src)).size,catalog.length);
+  for(const clip of catalog){
+    assert.ok(Object.isFrozen(clip));
+    const bytes=fs.readFileSync(path.resolve(__dirname,'..',clip.src));
+    assert.equal(bytes.toString('ascii',0,4),'RIFF',clip.src);
+    assert.ok(clip.trim>0&&clip.trim<=1);
+  }
+});
+
+test('incidental effects cannot steal any warning, rescue, hurt voice or fanfare when all slots are busy',()=>{
+  const h=audioHarness();h.start();
+  for(const cue of ['owl-siren','goose-honk','fox-rustle','rescue','panto-victory','victory'])assert.equal(h.audio.play(cue),true);
+  const protectedVoices=h.instances.filter(a=>!a.loop&&!a.paused),before=h.plays.length;
+  assert.equal(protectedVoices.length,6);
+  for(const cue of ['pop','boing','bonk','step-water'])assert.equal(h.audio.play(cue),false,cue);
+  assert.equal(h.audio.playAnimal('cow'),false,'a rescue does not cut off both wildlife warnings');
+  assert.equal(h.plays.length,before);assert.ok(protectedVoices.every(a=>!a.paused));
+  assert.equal(h.audio.play('animal-chicken',{playerHurt:true}),true,'damage can replace a lower-priority warning');
+  assert.ok(h.instances.filter(a=>['victory','panto-victory'].some(n=>a.src.endsWith('/'+n+'.wav'))).every(a=>!a.paused));
+});
+
+test('a missing music file stops retrying without disabling animal voices and other tracks',()=>{
+  const h=audioHarness();h.start();const music=h.instances[0];music.onerror();
+  assert.equal(h.audio.status.blocked,false);assert.equal(h.audio.status.failedClips.length,1);
+  const before=h.plays.length;mixFor(h,2);assert.equal(h.plays.length,before);
+  assert.equal(h.audio.playAnimal('cow'),true);assert.equal(h.audio.setTrack('whistle'),true);
+  assert.ok(h.plays.some(p=>p.loop&&p.src.endsWith('/whistle.wav')));
+});
+
+test('a rejected individual effect does not silence unrelated audio',async()=>{
+  const h=audioHarness();h.start();h.audio.playAnimal('cow');const voice=h.plays.at(-1).audio;
+  voice.end();voice.play=()=>Promise.reject(Object.assign(new Error('invalid clip'),{name:'NotSupportedError'}));
+  h.audio.playAnimal('duck');await microtasks();
+  assert.equal(h.audio.status.blocked,false);
+  assert.ok(h.audio.status.failedClips.some(p=>p.endsWith('animal-duck.wav')));
+  voice.play=()=>{voice.paused=false;return Promise.resolve()};
+  assert.equal(h.audio.playAnimal('cow'),true);assert.equal(h.audio.playAnimal('duck'),false);
+});
+
+test('incidental dialogue cannot interrupt rescues, wildlife warnings or a hurt reaction',()=>{
+  for(const cue of ['animal-cow','owl-hoot','fox-rustle','squeak','rescue','panto-victory','thor-hero']){
+    const h=audioHarness();h.start();h.audio.play(cue);
+    const voice=h.plays.at(-1).audio, before=h.plays.length;
+    assert.equal(h.audio.playAnimal('chicken',{volume:.55,ambient:true}),false,cue);
+    assert.equal(h.plays.length,before);assert.equal(voice.paused,false);
+    voice.end();
+    assert.equal(h.audio.playAnimal('chicken',{volume:.55,ambient:true}),true);
+    assert.match(h.plays.at(-1).src,/animal-chicken\.wav$/,'skipped chatter consumes no take');
+  }
+});
+
+test('legacy owl and wolf recordings retain voice limits, mute and reset',()=>{
+  const h=audioHarness();h.start();
+  for(const name of ['owl-hoot','sob']){
+    for(const suffix of ['', '-2', '']){
+      h.audio.toggleMute();assert.equal(h.audio.play(name),false);h.audio.toggleMute();
+      assert.equal(h.audio.play(name,{rate:1.4}),true);
+      assert.match(h.plays.at(-1).src,new RegExp('voices/'+(name==='owl-hoot'?'v6':'v5')+'/'+name+suffix+'\\.wav$'));
+      assert.equal(h.plays.at(-1).audio.playbackRate,1);
+    }
+  }
+  h.audio.playAnimal('cow');h.audio.playAnimal('duck');
+  assert.equal(h.instances.filter(a=>!a.loop&&!a.paused).length,2);
+  h.audio.reset();h.start();h.audio.play('owl-hoot');
+  assert.equal(h.effects().at(-1),'owl-hoot');
+});
+
+test('owl toy siren alternates local clips and respects mute, effects volume and pause',()=>{
+  const h=audioHarness();h.start();h.audio.setEffectsVolume(.4);
+  for(const suffix of ['','-2','']){
+    h.audio.toggleMute();assert.equal(h.audio.play('owl-siren'),false);h.audio.toggleMute();
+    assert.equal(h.audio.play('owl-siren',{volume:.72}),true);
+    assert.match(h.plays.at(-1).src,new RegExp('effects/v1/owl-siren'+suffix+'\\.wav$'));
+    assert.ok(Math.abs(h.plays.at(-1).volume-.4*.72)<1e-9);
+    assert.equal(h.audio.playAnimal('chicken',{ambient:true}),false);
+    h.plays.at(-1).audio.end();
+  }
+  h.audio.pause();assert.equal(h.audio.play('owl-siren'),false);
+});
+
+test('alternate hen appearances use the same natural voices in the menu without starting music',()=>{
+  const h=audioHarness();h.game.phase='menu';
+  for(const species of ['hen-silkie','hen-blue']){
+    assert.equal(h.audio.playMenuAnimal(h.game,species),true);
+    assert.match(h.plays.at(-1).src,/voices\/v5\/animal-chicken(?:-2)?\.wav$/);
+    assert.equal(h.plays.at(-1).audio.playbackRate,1);
+  }
+  assert.equal(h.instances.some(a=>a.loop),false);
+  h.document.hidden=true;h.events.visibilitychange();
+  assert.ok(h.instances.every(a=>a.paused));
+});
+
+test('incidental animal chatter leaves music steady and important cues fade without pumping',()=>{
+  const h=audioHarness();h.start();const music=h.instances[0];
+  h.audio.playAnimal('cow',{ambient:true});mixFor(h,2);
+  assert.equal(music.volume,.25);h.instances[1].end();mixFor(h,1);assert.equal(music.volume,.25);
+  h.audio.playAnimal('duck');let before=music.volume;
+  for(let i=0;i<30;i++){
+    h.audio.update(h.game,1/60);
+    assert.ok(music.volume<=before&&before-music.volume<.012,'bounded fade per frame');before=music.volume;
+  }
+  h.instances[1].end();const low=music.volume;
+  h.audio.update(h.game,1/60);assert.ok(music.volume>low&&music.volume-low<.003);
+  h.game.phase='menu';h.audio.pause();mixFor(h,1);assert.ok(h.instances.every(a=>a.paused));
+});
+
+test('Panto and Thor playback levels match ordinary effects instead of dwarfing them',()=>{
+  const h=audioHarness();h.start();const levels=[];
+  for(const name of ['rescue','panto-dodge','panto-victory','thor-hero','boing','bonk']){
+    h.audio.play(name);
+    const played=h.plays.at(-1),wav=fs.readFileSync(path.resolve(__dirname,'..',played.src));
+    const blocks=[],size=Math.floor(wav.readUInt32LE(24)/50);
+    for(let i=44;i<wav.length;i+=size*2){
+      let sum=0,n=0;for(let j=i;j<Math.min(i+size*2,wav.length);j+=2){sum+=(wav.readInt16LE(j)/32768)**2;n++;}
+      blocks.push(sum/n);
+    }
+    const active=blocks.filter(b=>b>Math.max(...blocks)*.01);
+    levels.push(Math.sqrt(active.reduce((a,b)=>a+b,0)/active.length)*played.volume);
+    for(const voice of h.instances.filter(a=>!a.loop))voice.end();
+  }
+  assert.ok(20*Math.log10(Math.max(...levels)/Math.min(...levels))<2,'within 2 dB of each other');
+});
 
 test('Thor fanfare ducks the music, clears ambient chatter and survives incidental effects until it ends',()=>{
   const h=audioHarness();assert.equal(h.audio.play('thor-hero'),false);h.start();
@@ -50,9 +177,10 @@ test('Thor fanfare ducks the music, clears ambient chatter and survives incident
   assert.equal(h.audio.play('thor-hero',{volume:.85}),true);assert.ok(cow.pauseCount>0);
   assert.ok(h.instances.every(a=>!a.src.includes('animal-cow')||a.paused),'ambient voice is stopped even when its player is reused');
   const hero=h.instances.find(a=>a.src.includes('thor-hero')),music=h.instances.find(a=>a.loop);
-  assert.ok(Math.abs(music.volume-.25*.18)<.0001);assert.equal(h.audio.play('step-water'),false);
+  assert.equal(music.volume,.25,'starting a cue never jumps the music volume');
+  mixFor(h,2);assert.ok(Math.abs(music.volume-.25*.55)<.0001);assert.equal(h.audio.play('step-water'),false);
   for(let i=0;i<8;i++)h.audio.play('pop');assert.equal(hero.paused,false,'incidental voices cannot evict the fanfare');
-  hero.end();assert.equal(music.volume,.25);
+  hero.end();assert.ok(music.volume<.25);mixFor(h,8);assert.equal(music.volume,.25);
   h.audio.toggleMute();assert.equal(h.audio.play('thor-hero'),false);h.audio.toggleMute();
   h.audio.play('thor-hero');h.game.phase='menu';h.audio.sync(h.game);assert.ok(h.instances.every(a=>a.paused));
   const count=h.effects().filter(n=>n==='thor-hero').length;h.game.phase='playing';h.audio.sync(h.game);
@@ -128,7 +256,7 @@ test('nearby animals call without rescue, with distance falloff and no secret di
   assert.deepEqual(near.effects(), ['animal-cow']);
   assert.ok(near.plays.at(-1).volume > far.plays.at(-1).volume);
   assert.deepEqual(outside.effects(), []); assert.deepEqual(blocked.effects(), []);
-  assert.match(near.plays.at(-1).src, /audio\/voices\/v4\/animal-cow\.wav$/);
+  assert.match(near.plays.at(-1).src, /audio\/voices\/v5\/animal-cow\.wav$/);
 });
 
 test('farm calls are spaced, rotate among nearby animals, and stop while paused or muted', () => {
@@ -147,8 +275,9 @@ test('animal recordings are real local PCM assets and new adventures do not repl
   const h = audioHarness(), step = farm(h);
   step(2); h.audio.reset(); h.game.entities.animals = [{ species: 'cat', x: 40, y: 0 }]; h.start(); step(.1);
   assert.deepEqual(h.effects(), ['animal-cow']);
-  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '../assets/audio/voices/v4/manifest.json')));
+  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '../assets/audio/voices/v5/manifest.json')));
   for (const item of manifest.recordings) {
+    for(const voice of h.instances.filter(a=>!a.loop))voice.end();
     h.audio.playAnimal(item.species);
     const file = path.resolve(__dirname, '..', h.plays.at(-1).src);
     const wav = fs.readFileSync(file);
@@ -164,9 +293,9 @@ test('animal recordings are real local PCM assets and new adventures do not repl
     assert.ok(peak <= .681, 'actual samples leave ample headroom');
     assert.equal(require('node:crypto').createHash('sha256').update(wav).digest('hex'), item.sha256);
   }
-  assert.equal(manifest.recordings.length, 18);
+  assert.equal(manifest.recordings.length, 20);
   assert.equal(new Set(manifest.recordings.map(item => item.species)).size, 15);
-  assert.equal(new Set(manifest.recordings.map(item => item.sha256)).size, 18, 'every take is distinct');
+  assert.equal(new Set(manifest.recordings.map(item => item.sha256)).size, 20, 'every take is distinct');
 });
 
 test('ambient calls wait for the previous voice, and rabbits are only audible very nearby', () => {
@@ -194,7 +323,7 @@ test('Panto cues interrupt ambient chatter and the challenge and jingle exclude 
   for (const a of h.instances.filter(a => /goose-honk/.test(a.src))) a.end();
   step(40);
   assert.deepEqual(h.effects(), ['animal-cow', 'panto-dodge', 'goose-honk', 'panto-victory']);
-  assert.equal(h.instances[0].volume, .25 * .18);
+  assert.equal(h.instances[0].volume, .25 * .55);
   for (const a of h.instances.filter(a => /panto-victory/.test(a.src))) a.end();
   step(.1); assert.equal(h.effects().at(-1), 'animal-cow');
 });
@@ -204,17 +333,17 @@ test('rescue calls remain immediate while at most two animal voices can play tog
   h.audio.play('panto-victory');
   for (const species of ['horse','turkey','cat','dog']) assert.equal(h.audio.playAnimal(species), true);
   const active = h.instances.filter(a => !a.loop && !a.paused);
-  assert.equal(active.filter(a => /voices\/v4\//.test(a.src)).length, 2);
+  assert.equal(active.filter(a => /voices\/v5\//.test(a.src)).length, 2);
   assert.equal(active.filter(a => /panto-victory\.wav$/.test(a.src)).length, 1, 'voice cap must not steal the jingle');
   assert.deepEqual(h.effects().slice(-4), ['animal-horse','animal-turkey','animal-cat','animal-dog']);
 });
 
 test('distinct takes alternate at natural speed, silent calls do not advance them, and reset starts fresh', () => {
   const h = audioHarness(); h.start();
-  for (const species of ['pig','chicken','goose']) {
-    const file = species === 'goose' ? 'goose-honk' : 'animal-' + species;
+  for (const [species,count] of [['pig',2],['chicken',3],['goose',2],['chick',2]]) {
+    const file = species === 'goose' ? 'goose-honk' : species==='chick'?'chick':'animal-' + species;
     h.audio.toggleMute(); assert.equal(h.audio.playAnimal(species), false); h.audio.toggleMute();
-    for (const suffix of ['', '-2', '']) {
+    for (const suffix of ['', ...Array.from({length:count-1},(_,i)=>'-'+(i+2)), '']) {
       assert.equal(h.audio.playAnimal(species, {rate: 1.4}), true);
       assert.equal(path.basename(h.plays.at(-1).src), file + suffix + '.wav');
       assert.equal(h.plays.at(-1).audio.playbackRate, 1);
@@ -262,21 +391,22 @@ test('animal calls respect audio lock, mute, pause and effect volume, with safe 
   assert.deepEqual(h.effects(), ['animal-cow', 'rescue']);
 });
 
-test('animal calls keep their prepared pitch and lower music only until the final call ends', () => {
+test('animal calls keep their pitch and music fades gently around important calls', () => {
   const h=audioHarness();h.start();
   const music=h.instances[0];
   h.audio.playAnimal('chicken',{rate:1.4});
   const hen=h.instances[1];
   assert.equal(hen.playbackRate,1);
-  assert.match(hen.src,/voices\/v4\/animal-chicken\.wav$/);
-  assert.equal(music.volume,.25*.24);
+  assert.match(hen.src,/voices\/v5\/animal-chicken\.wav$/);
+  assert.equal(music.volume,.25);
+  mixFor(h,2);assert.equal(music.volume,.25*.82);
   h.audio.playAnimal('chick');
   const chick=h.instances[2];
-  hen.end();assert.equal(music.volume,.25*.24);
-  chick.end();assert.equal(music.volume,.25);
-  h.audio.playAnimal('dog');h.instances[1].onerror();
+  hen.end();assert.equal(music.volume,.25*.82);
+  chick.end();assert.equal(music.volume,.25*.82);mixFor(h,8);assert.equal(music.volume,.25);
+  h.audio.playAnimal('dog');mixFor(h,1);h.instances[1].onerror();mixFor(h,8);
   assert.equal(music.volume,.25,'a failed recording must not leave the music lowered');
-  h.audio.playAnimal('goat');h.audio.setEffectsVolume(0);
+  h.audio.playAnimal('goat');mixFor(h,1);h.audio.setEffectsVolume(0);mixFor(h,8);
   assert.equal(music.volume,.25);
 });
 
@@ -301,7 +431,8 @@ test('music uses one looping element through track switches and clamps independe
 
 test('effect pool reuses ended voices and caps simultaneous playback at six', () => {
   const h = audioHarness(); h.start();
-  for (let i = 0; i < 15; i++) h.audio.play(i % 2 ? 'pop' : 'boing');
+  const cues=['pop','boing','bonk','dizzy','runaway','rescue'];
+  for (let i = 0; i < 15; i++) h.audio.play(cues[i%cues.length]);
   assert.equal(h.instances.length, 7);
   assert.equal(h.instances.filter(a => !a.loop && !a.paused).length, 6);
   for (const a of h.instances.filter(a => !a.loop)) a.end();
@@ -311,18 +442,39 @@ test('effect pool reuses ended voices and caps simultaneous playback at six', ()
   assert.equal(h.audio.play('missing'), false);
 });
 
+test('rapid duplicate effects never pile up into a sudden volume spike',()=>{
+  const h=audioHarness();h.start();
+  for(const cue of ['pop','panto-dodge','fox-rustle','victory']){
+    assert.equal(h.audio.play(cue),true);
+    const voice=h.plays.at(-1).audio,before=h.plays.length;
+    for(let i=0;i<12;i++)assert.equal(h.audio.play(cue),false);
+    assert.equal(h.plays.length,before);assert.equal(voice.paused,false);
+    voice.end();assert.equal(h.audio.play(cue),true);h.plays.at(-1).audio.end();
+  }
+});
+
+test('a new rabbit hit restarts its reaction once while keeping only one copy audible',()=>{
+  const h=audioHarness();h.start();
+  for(let i=0;i<3;i++){
+    assert.equal(h.audio.play('squeak',{playerHurt:true}),true);
+    assert.equal(h.instances.filter(a=>!a.loop&&!a.paused).length,1);
+    assert.equal(h.effects().length,i+1);
+  }
+});
+
 test('cutscene beats play once, duck music, and skipped frames never create a catchup burst', () => {
   const h = audioHarness(); h.start();
   h.step(7.02, 'cloud'); h.step(7.04, 'cloud');
   assert.deepEqual(h.effects(), ['pop']);
-  assert.equal(h.instances[0].volume, 0.25 * 0.25);
+  assert.ok(h.instances[0].volume<.25&&h.instances[0].volume>.25*.55);
   h.step(8.6, 'cloud');
   assert.deepEqual(h.effects(), ['pop', 'bonk']);
   h.step(10.8, 'dizzy'); h.step(10.82, 'dizzy'); h.step(11.9, 'dizzy');
   assert.deepEqual(h.effects(), ['pop', 'bonk', 'dizzy', 'sob']);
   h.step(13.6, 'flee'); h.step(13.7, 'flee'); h.step(16, 'celebrate'); h.step(17, 'celebrate');
-  assert.deepEqual(h.effects(), ['pop', 'bonk', 'dizzy', 'sob', 'runaway', 'sob', 'victory']);
-  assert.equal(h.instances[0].volume, 0.25);
+  assert.deepEqual(h.effects(), ['pop', 'bonk', 'dizzy', 'sob', 'runaway', 'sob-2', 'victory']);
+  for (const voice of h.instances.filter(a=>!a.loop)) voice.end();
+  mixFor(h,8);assert.equal(h.instances[0].volume, 0.25);
 });
 
 test('pause and resume neither replay stage sounds nor replay the previous cloud beat', () => {

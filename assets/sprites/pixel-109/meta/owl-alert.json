@@ -1,0 +1,14 @@
+{
+  "id": "owl",
+  "template": "mannequin",
+  "height": 46,
+  "description": "A plump tawny owl with a rounded heart-shaped cream facial disk, huge expressive amber eyes, small gold hooked beak, two short ear tufts, chocolate speckled wings, two small gold talon feet, little round tail. Comically nosy watchman.",
+  "gait": "owl",
+  "action": "alert",
+  "columns": 8,
+  "motion": "8 successive ACTING poses: column1 calm perched; 2 spots something eyes widen; 3 leans forward watching; 4 chest inflates breath in; 5 beak opens small; 6 big comic open beak and wings raised; 7 open beak wings wide, calling loudly; 8 open beak wings lowered halfway. All2feet planted. Facial expressions tell a funny toy-siren alarm. For BACK row keep face hidden, show wings/body acting.",
+  "rows": 8,
+  "prompt": "Create a NEW alert pixel-art animation sheet of EXACT SAME owl from reference. Reference is character identity only.\nSTRICT8ROWS×8COLUMNS grid,64 separate complete animals with broad transparent gutters, true transparent background, no scenery, branch, shadow, letters or symbols. Same body SIZE and palette across every cell. A plump tawny owl with a rounded heart-shaped cream facial disk, huge expressive amber eyes, small gold hooked beak, two short ear tufts, chocolate speckled wings, two small gold talon feet, little round tail. Comically nosy watchman.\nEach ROW is one FIXED angle: row1 FRONT/SOUTH; row2 FRONT-LEFT/SOUTHWEST; row3 LEFT PROFILE/WEST; row4 REAR-LEFT/NORTHWEST; row5 STRAIGHT BACK/NORTH; row6 REAR-RIGHT/NORTHEAST; row7 RIGHT PROFILE/EAST; row8 FRONT-RIGHT/SOUTHEAST. NEVER CHANGE FACING DIRECTION WITHIN A ROW! Row3 beak points LEFT in all8columns, row7 beak RIGHT in all8columns, row5 face INVISIBLE in all8columns. Slightly elevated orthographic camera locked.\nColumns animate ONLY this movement: 8 successive ACTING poses: column1 calm perched; 2 spots something eyes widen; 3 leans forward watching; 4 chest inflates breath in; 5 beak opens small; 6 big comic open beak and wings raised; 7 open beak wings wide, calling loudly; 8 open beak wings lowered halfway. All2feet planted. Facial expressions tell a funny toy-siren alarm. For BACK row keep face hidden, show wings/body acting. Entire wings must fit within middle70%ofeachcell. Do not crop wings. Crisp chunky pixel clusters and clean outlines at same detail level asreference.",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-94a03048-da45-49be-9651-5f2543d62bb5.png",
+  "tool": "built-in imagegen"
+}

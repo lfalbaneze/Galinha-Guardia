@@ -1,0 +1,13 @@
+{
+  "id": "rabbit",
+  "template": "cat",
+  "height": 38,
+  "description": "A round cinnamon rabbit, two very long upright ears with pink inner ears, cream belly, tiny triangle nose, chubby cheeks, small round white cotton tail. FOUR paws, oversized muscular hind feet and small forepaws. Curious lively face.",
+  "gait": "rabbit",
+  "prompt": "Create a professional cute PIXEL ART sprite atlas for this original farm character. Match the attached reference's cute proportions, chunky readable pixels, clean dark outlines and warm two-tone colors ONLY. Do not copy the dog anatomy. CHARACTER: A round cinnamon rabbit, two very long upright ears with pink inner ears, cream belly, tiny triangle nose, chubby cheeks, small round white cotton tail. FOUR paws, oversized muscular hind feet and small forepaws. Curious lively face.\nEXACTLY EIGHT ROWS by EIGHT COLUMNS, 64 whole characters, equal cells and broad transparent gutters. Every character fits in the middle 60% of its cell. True transparent background, no ground or shadows, no text. ALL ears, tails and feet fully inside their cell.\nEIGHT distinct viewing directions, one row each: 1 SOUTH/front; 2 SOUTHWEST/front-left diagonal with head toward BOTTOM-LEFT and rump TOP-RIGHT; 3 WEST/left profile; 4 NORTHWEST/rear-left diagonal with head toward TOP-LEFT and rump BOTTOM-RIGHT, one side flank visible (NOT straight back); 5 NORTH/straight back; 6 NORTHEAST/rear-right diagonal with head TOP-RIGHT and rump BOTTOM-LEFT, a visible side flank (NOT side profile); 7 EAST/right profile; 8 SOUTHEAST/front-right diagonal head BOTTOM-RIGHT and rump TOP-LEFT.\nFixed slightly elevated orthographic camera, same body size, palette, markings and limb count across all64. Every row is a seamless eight-phase cycle: CONTACT A, DOWN A, PASSING A, UP A, opposite CONTACT B, DOWN B, PASSING B, UP B. Columns 1 and 5 must exchange left/right leg positions. Supporting foot sweeps backward while the lifted foot bends and returns forward. Fixed torso center, grounded baseline, stable head. All physical limbs accounted for, no morphing, limping, dragging or sliding, no repeated endpoint.\nSPECIES ANIMATION: Rabbit BOUND, FOUR legs: front pair reach and land, powerful large back legs tuck then extend and push, ears remain the same. Cute but species-specific facial features: a cat has a short pink triangular nose and whiskers, a pig has a broad nostril disk, a cow has horns and split hooves. No puppy face on other species. No vector smoothing, gradients, plastic sheen, generic huge glossy eyes.",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-fad84b18-905c-42b1-a91b-4bacdaa564fc.png",
+  "action": "walk",
+  "rows": 8,
+  "columns": 8,
+  "tool": "built-in imagegen"
+}

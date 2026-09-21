@@ -1,0 +1,28 @@
+<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revisão PixelArt · Penas pro Ar!</title>
+<style>body{margin:24px;background:#19382e;color:#fff1cc;font:16px system-ui}main{max-width:1180px;margin:auto}p{line-height:1.5}label{display:inline-flex;gap:8px;align-items:center;margin:6px 12px 6px 0}button,select{font:inherit;background:#ffe1a0;color:#19382e;border:0;border-radius:6px;padding:8px}canvas{width:100%;image-rendering:pixelated;background:#c8dba3}output{display:block;margin:12px 0}a{color:#ffe1a0}</style>
+<main><h1>Personagens em movimento</h1><p>Oito vistas reais. Confira as patas, a identidade das orelhas e a passagem do último quadro para o primeiro.</p>
+<label>Personagem <select id="character"></select></label><label>Ação <select id="action"></select></label>
+<label>Velocidade <select id="speed"><option value="0.5">0,5×</option><option selected value="1">1×</option><option value="1.5">1,5×</option></select></label>
+<label>Tamanho <select id="scale"><option value="1">No jogo</option><option value="2" selected>2×</option><option value="3">3×</option></select></label>
+<button id="pause">Pausar</button> <button id="step">Próximo quadro</button><output id="status"></output>
+<canvas id="canvas" width="1180" height="940"></canvas><p><a id="atlas">Abrir atlas</a> · <a href="../../index.html">Abrir jogo</a></p></main>
+<script src="data.js"></script><script>
+const selector=document.getElementById('character'),action=document.getElementById('action'),canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');
+const dirs=['up','upright','right','downright','down','downleft','left','upleft'],labels=['Norte','Nordeste','Leste','Sudeste','Sul','Sudoeste','Oeste','Noroeste'];
+let current=null,image=null,phase=0,last=0,playing=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+Object.keys(PixelArtCandidates).forEach(id=>selector.add(new Option(id,id)));
+selector.onchange=()=>{current=PixelArtCandidates[selector.value];action.replaceChildren();Object.keys(current.definition.actions).forEach(id=>action.add(new Option(id,id)));action.value='walk';phase=0;image=null;const next=new Image();next.onload=()=>{image=next};next.onerror=()=>{document.getElementById('status').textContent='Falha ao carregar atlas'};next.src='../../'+current.definition.source;document.getElementById('atlas').href=next.src;};
+action.onchange=()=>phase=0;
+function toggle(){document.getElementById('pause').textContent=playing?'Pausar':'Animar';}toggle();
+document.getElementById('pause').onclick=()=>{playing=!playing;toggle()};
+document.getElementById('step').onclick=()=>{playing=false;const count=current.definition.actions[action.value].right.frames.length;phase=(Math.floor(phase*count)+1)/count;toggle()};
+function sprite(direction,x,y,cycle,multiplier){const d=current.definition,pose=d.actions[action.value][direction],f=pose.frames[Math.floor(cycle*pose.frames.length)%pose.frames.length],scale=d.scale*multiplier;ctx.drawImage(image,f.x,f.y,f.w,f.h,x-f.cx*scale,y-f.bottom*scale,f.w*scale,f.h*scale);}
+function render(t){const dt=last?Math.min(.05,(t-last)/1000):0;last=t;if(playing)phase+=dt*Number(document.getElementById('speed').value)*1.4;ctx.imageSmoothingEnabled=false;ctx.fillStyle='#c8dba3';ctx.fillRect(0,0,1180,940);
+if(current&&image){const scale=Number(document.getElementById('scale').value),count=current.definition.actions[action.value].right.frames.length;ctx.font='16px system-ui';ctx.textAlign='center';
+dirs.forEach((d,i)=>{const x=147+(i%4)*295,y=235+Math.floor(i/4)*270;ctx.fillStyle='#56744b';ctx.fillRect(x-110,y,220,1);sprite(d,x,y,phase,scale);ctx.fillStyle='#19382e';ctx.fillText(labels[i],x,y+28)});
+const shown=Math.min(16,count);for(let i=0;i<shown;i++){const x=74+(i%8)*147,y=675+Math.floor(i/8)*150;sprite('right',x,y,i/count,1);ctx.fillText(String(i+1),x,y+24)}
+document.getElementById('status').textContent=`Quadro ${Math.floor(phase*count)%count+1}/${count} · ${current.checks.frames} quadros · ${current.warnings.join(' ')}`;
+}requestAnimationFrame(render)}
+if(selector.options.length)selector.onchange();else document.getElementById('status').textContent='Ainda não há sprites gerados pela PixelArt.';requestAnimationFrame(render);
+</script></html>

@@ -1,5 +1,7 @@
 # As três galinhas
 
+Nota de atualização: este documento registra as primeiras artes do projeto. Os sprites ativos agora são os [atlas PixelLab](pixellab-108/README.md). A identidade da Midori permanece a de sedosa japonesa branca, com topete arredondado e patas plumadas.
+
 A carijó recebeu uma nova folha e um ícone de rosto, descritos em [CUTE-ART-NOTES.md](CUTE-ART-NOTES.md). A folha carijó abaixo fica no acervo; as folhas sedosa e azul continuam em uso.
 
 Artes criadas com a ferramenta integrada **image_gen.imagegen**, pela skill imagegen; não foi usado o modo CLI. Os prompts completos estão em [hen-prompts.json](hen-prompts.json).

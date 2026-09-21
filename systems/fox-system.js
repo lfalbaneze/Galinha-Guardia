@@ -36,7 +36,7 @@ const FoxSystem = (() => {
         const hard = game.difficultyKey === 'hard' || game.difficultyKey === 'hardcore';
         return { warning: game.difficultyKey === 'easy' ? 1.25 : hard ? .9 : 1.1,
             speed: game.settings.chickenSpeed * 1.15, rest: 1.05, cooldown: 3.2,
-            relocateEvery: game.difficultyKey === 'hardcore' ? 6 : hard ? 10 : 0,
+            relocateEvery: game.difficultyKey === 'hardcore' ? 6 : hard ? 10 : game.difficultyKey === 'easy' ? 18 : 14,
             travelSpeed: game.difficultyKey === 'hardcore' ? 165 : 140 };
     }
     function dens(game) {
@@ -75,12 +75,14 @@ const FoxSystem = (() => {
         const config = getConfig(game);
         if (!config.relocateEvery)
             return false;
-        fox.relocateIn = config.relocateEvery + WildlifeRules.rank(fox.id, fox.attempts) % 4;
+        // A blocked attempt is still due. Retry shortly after recovering at the old den.
+        fox.relocateIn = 1;
         const chicken = game.entities.chicken;
         const candidates = dens(game).filter(c => c.spot.id !== fox.bushId &&
             !(game.entities.foxes || []).some(f => f !== fox && f.bushId === c.spot.id) &&
+            // Passing near a bush does not occupy it; travel cannot deal contact damage.
             c.spot.id !== chicken.hidingSpotId && !HidingSpots.contains(c.spot, chicken) &&
-            distance(c.home, chicken) > 180 && distance(c.home, fox) > 100)
+            distance(c.home, fox) > 100)
             .sort((a, b) => distance(a.home, fox) - distance(b.home, fox));
         for (const { spot, home } of candidates) {
             const route = routeTo(fox, home);
@@ -91,6 +93,7 @@ const FoxSystem = (() => {
             fox.route = route;
             fox.mode = 'relocate';
             fox.timer = 0;
+            fox.relocateIn = config.relocateEvery + WildlifeRules.rank(fox.id, fox.attempts) % 4;
             fox.hit = false;
             say(fox, 'move');
             return true;
@@ -121,7 +124,18 @@ const FoxSystem = (() => {
         fox.vx = 0;
         fox.vy = 0;
         fox.moving = false;
+        // Keep the move due through the recovery, a wolf scare, and an autosave after a hit.
+        if (config.relocateEvery)
+            fox.relocateIn = 0;
         say(fox, fox.hit ? 'hit' : 'miss');
+    }
+    function returnToDen(game, fox) {
+        if (fox.relocateIn <= 0 && relocate(game, fox))
+            return;
+        // If no free den has a safe route, recover at the old one and retry later.
+        fox.mode = 'return';
+        fox.route = [];
+        fox.timer = 0;
     }
     function bump(game, fox) {
         const c = game.entities.chicken;
@@ -205,7 +219,8 @@ const FoxSystem = (() => {
             if (fox.mode === 'hidden') {
                 if (config.relocateEvery)
                     fox.relocateIn = Math.max(0, fox.relocateIn - dt);
-                if (fox.cooldown <= 0 && fox.grace <= 0 && visible(game, fox) && WildlifeRules.observe(game, getHitbox(fox), 135)) {
+                const relocated = config.relocateEvery && fox.relocateIn <= 0 && fox.grace <= 0 && relocate(game, fox);
+                if (!relocated && fox.cooldown <= 0 && fox.grace <= 0 && visible(game, fox) && WildlifeRules.observe(game, getHitbox(fox), 135)) {
                     const chicken = game.entities.chicken;
                     // Lead a visible runner a little, then commit to that one announced line.
                     const speed = Math.hypot(chicken.vx, chicken.vy), lead = chicken.sprinting ? Math.min(28, speed * .12) : 0;
@@ -224,9 +239,6 @@ const FoxSystem = (() => {
                     AudioSystem.play('fox-rustle', { volume: .36 });
                     say(fox, 'warning');
                     setStatus(`Essa moita tem rabo! ${fox.name} vai dar o bote. Saia para o lado da faixa marcada.`);
-                }
-                else if (config.relocateEvery && fox.relocateIn <= 0 && fox.grace <= 0) {
-                    relocate(game, fox);
                 }
             }
             else if (fox.mode === 'warning') {
@@ -248,18 +260,13 @@ const FoxSystem = (() => {
                 }
             }
             else if (fox.mode === 'rest') {
-                if (fox.timer <= 0) {
-                    fox.mode = 'return';
-                    fox.route = [];
-                }
+                if (fox.timer <= 0)
+                    returnToDen(game, fox);
             }
             else if (fox.mode === 'flee') {
                 const moved = WildlifeRules.move(fox, fox.target, config.speed * dt);
-                if (moved !== 'moving' || fox.timer <= 0) {
-                    fox.mode = 'return';
-                    fox.route = [];
-                    fox.timer = 0;
-                }
+                if (moved !== 'moving' || fox.timer <= 0)
+                    returnToDen(game, fox);
             }
             else {
                 let target = fox.home;
@@ -292,7 +299,7 @@ const FoxSystem = (() => {
             fox.vy = (fox.y - before.y) / dt;
             fox.moving = distance(before, fox) > .01;
             fox.state = fox.moving ? 'walk' : 'idle';
-            fox.anim += dt * (fox.mode === 'dash' || fox.mode === 'flee' ? 12 : fox.moving ? 7 : 2);
+            fox.anim = CharacterArt.advance(fox.anim, 'fox', distance(before, fox), { speed: distance(before, fox) / dt });
             fox.areaId = getAreaAt(fox.x, fox.y).id;
             if (fox.mode === 'hidden' && fox.grace <= 0 && fox.speechCooldown <= 0 && visible(game, fox) && distance(fox, game.entities.chicken) < 280)
                 say(fox, 'idle');

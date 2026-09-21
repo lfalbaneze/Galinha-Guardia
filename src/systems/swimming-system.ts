@@ -31,29 +31,16 @@ const SwimmingSystem = (() => {
     return swim.native ? `Pé de pato, licença vitalícia! ${run} para nadar mais rápido. Vá até a margem para sair.` :
       `Boia na cintura, dignidade na margem. ${run} para remar mais rápido. É só voltar à margem para sair!`;
   }
-  function ring(c: CanvasRenderingContext2D, rx: number, front: boolean): void {
-    // Two-pixel bands make the inflatable match the game's pixel sprites.
-    for(let y=-14;y<=14;y+=2)for(let x=-rx;x<=rx;x+=2) {
-      if(front&&y<0)continue;
-      const outer=(x/rx)**2+(y/14)**2,inner=(x/(rx-11))**2+(y/6)**2;
-      if(outer>1||inner<1)continue;
-      const rim=outer>.84||inner<1.45,stripe=(Math.abs(x)>rx*.69&&Math.abs(y)<8)||(Math.abs(x)<8&&Math.abs(y)>7);
-      c.fillStyle=rim?(stripe?'#d1b68e':'#983f2d'):
-        stripe?(y<0?'#fff4cf':'#edddaf'):(y<0?'#ffb354':y<6?'#ed7841':'#ce5831');
-      c.fillRect(x,y,2,2);
-    }
-    if(!front) {
-      c.fillStyle='#ffe8b2';c.fillRect(-rx+8,-8,8,2);c.fillRect(3,-10,8,2);
-    }
-  }
   function draw(game: Farm.GameState): boolean {
     const swim=profile(game),c=game.entities.chicken as Swimmer;
     if(swim.depth<=0||c.hidden)return false;
-    const p=worldToScreen(c),current=CharacterArt.frameFor('chicken',{direction:c.direction,skin:c.skin});
+    const p=worldToScreen(c),current=CharacterArt.frameFor('chicken',{direction:CharacterArt.heading(c),skin:c.skin});
     if(!current)return false;
     const reduced=InterfaceMotion.reduced,clock=game.elapsed||0,amount=swim.depth;
     const bob=reduced?0:Math.sin(clock*3.3)*1.3*amount;
-    const rx=Math.round(Math.max(swim.native?23:34,Math.min(swim.native?32:42,current.pose.width*current.scale*.62)));
+    const rx=Math.round(Math.max(swim.native?23:30,Math.min(swim.native?32:36,current.pose.width*current.scale*(swim.native?.62:.58))));
+    // Shorter animals keep their faces above the near rim in every direction.
+    const sink=swim.native?12:clamp((current.pose.bottom-current.pose.top)*current.scale*.35-7,4,14);
     const waterY=p.y+FEET-5*amount,ringY=waterY+bob;
     ctx.save();ctx.imageSmoothingEnabled=false;
     // The submerged silhouette has no land shadow; the waterline and wake give it weight.
@@ -75,12 +62,12 @@ const SwimmingSystem = (() => {
       ctx.fillRect(p.x-12,waterY+2+kick,5,3);ctx.fillRect(p.x+7,waterY+2-kick,5,3);
     }
     ctx.restore();
-    if(!swim.native){ctx.save();ctx.globalAlpha*=amount;ctx.translate(p.x,ringY);ring(ctx,rx,false);ctx.restore();}
+    if(!swim.native){ctx.save();ctx.globalAlpha*=amount;CharacterArt.drawFloat(ctx,p.x,ringY,rx*2,false);ctx.restore();}
     ctx.save();ctx.beginPath();ctx.rect(p.x-100,p.y-160,200,waterY+3-(p.y-160));ctx.clip();
-    CharacterArt.draw(ctx,'chicken',p.x,p.y+amount*(swim.native?12:8)+bob,
-      {skin:c.skin,direction:c.direction,moving:c.moving,anim:c.anim*.5,shadow:false});
+    CharacterArt.draw(ctx,'chicken',p.x,p.y+amount*sink+bob,
+      {skin:c.skin,direction:CharacterArt.heading(c),moving:c.moving,anim:c.anim*.5,shadow:false});
     ctx.restore();
-    if(!swim.native){ctx.save();ctx.globalAlpha*=amount;ctx.translate(p.x,ringY);ring(ctx,rx,true);ctx.restore();}
+    if(!swim.native){ctx.save();ctx.globalAlpha*=amount;CharacterArt.drawFloat(ctx,p.x,ringY,rx*2,true);ctx.restore();}
     else {
       ctx.globalAlpha*=amount;ctx.strokeStyle='#dcf4de';ctx.lineWidth=2;ctx.beginPath();
       ctx.ellipse(p.x,waterY+2,Math.min(23,rx-3),4,0,0,Math.PI);ctx.stroke();

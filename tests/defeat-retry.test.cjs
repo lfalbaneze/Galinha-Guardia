@@ -32,17 +32,20 @@ function freshAttempt(h){
   assert.equal(h.elements.get('rescuedCount').textContent,'0');
 }
 
-test('Tentar novamente resets the entire failed attempt on the same farm and difficulty',()=>{
+test('Revanche resets the entire failed attempt on the same farm and difficulty',()=>{
   const h=lose();
-  assert.equal(h.elements.get('replayBtn').textContent,'Tentar novamente');
-  assert.equal(h.elements.get('endEyebrow').textContent,'FIM DE JOGO');
-  assert.match(h.elements.get('endMessage').textContent,/resgates, pintinhos, pontos e desafios/);
+  assert.equal(h.elements.get('replayBtn').textContent,'Revanche');
+  assert.equal(h.elements.get('endTitle').textContent,'GAME OVER');
+  assert.equal(h.elements.get('endEyebrow').textContent,'SEM VIDAS');
+  assert.match(h.elements.get('endRetryNote').textContent,/Mesma fazenda.*Placar zerado.*Personagens mantidos/);
+  assert.equal(h.elements.get('expeditionBar').hidden,true);
+  assert.equal(h.elements.get('gameFeedback').hidden,true);
   assert.equal(h.run('GameManager.read().phase'),'lose');
   assert.equal(h.run('GameManager.read().lives'),0);
   h.events.elements.replayBtn.click();
   freshAttempt(h);
   assert.equal(h.run('GameManager.rescue(state,state.entities.animals[0])'),true);
-  assert.equal(h.run('state.score'),100,'friends must be earned again');
+  assert.equal(h.run('state.score'),150,'friends must be earned again at the hard-mode rate');
 });
 
 test('going to the menu after defeat cannot resume the lost rescues with replenished lives',()=>{

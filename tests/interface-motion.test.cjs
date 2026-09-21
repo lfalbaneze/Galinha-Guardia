@@ -53,7 +53,8 @@ test('difficulty choices support arrow keys, a single tab stop, and preserve the
   assert.equal(context.document.activeElement.id, 'difficulty-hard');
   assert.equal(elements.get('difficulty-hard').tabIndex, 0);
   assert.equal(elements.get('difficulty-normal').tabIndex, -1);
-  assert.match(elements.get('difficultyPreview').textContent, /Lobo à solta.*salvo continua no Médio/);
+  assert.match(elements.get('difficultySummary').textContent, /60s iniciais/);
+  assert.match(elements.get('difficultyPreview').textContent, /salvo continua no Médio/);
   events.elements.continueBtn.click();
   assert.equal(run('state.difficultyKey'), 'normal');
   assert.equal(run('JSON.stringify(state.settings)===savedSettings'), true);

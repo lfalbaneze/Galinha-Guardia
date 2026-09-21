@@ -68,7 +68,7 @@ const GooseSystem = (() => {
     const goose=game.entities.goose;
     if(game.phase!=='playing'||game.timeRemaining===0||!goose||!game.lake?.completed||game.lake.misses!==3||game.lake.gooseRescued)return false;
     game.lake.gooseRescued=true;goose.rescued=true;
-    game.score+=SCORE_PER_RESCUE;
+    game.score+=game.settings.rescueScore || SCORE_PER_RESCUE;
     GameManager.rewardRescueTime(game);
     settle(goose);
     refreshHud();
@@ -374,7 +374,7 @@ const GooseSystem = (() => {
     if(distance(before,goose)>.01)rememberReturn(goose,before);
     goose.vx = (goose.x - before.x) / dt; goose.vy = (goose.y - before.y) / dt;
     goose.moving = distance(before, goose) > .01; goose.state = goose.moving ? 'walk' : 'idle';
-    goose.anim += dt * (goose.mode === 'charge' ? 16 : goose.moving ? 7 : 2);
+    goose.anim = CharacterArt.advance(goose.anim,'goose',distance(before,goose),{speed:dt>0?distance(before,goose)/dt:0});
     goose.areaId = getAreaAt(goose.x, goose.y).id;
   }
 

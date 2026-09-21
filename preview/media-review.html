@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><base href="../"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revisão completa · Penas pro Ar!</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#162b24;color:#f1e5c5;font:15px/1.5 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:28px 20px}h1{font-size:30px;margin:8px 0}h2{font-size:21px;margin-top:36px}p{color:#b8c8af}a{color:#eed094}button,select{font:inherit;padding:10px 14px;border:1px solid #778461;border-radius:4px;background:#ead099;color:#20382c}button{cursor:pointer}.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}canvas{display:block;width:100%;height:auto;background:#829d60;image-rendering:pixelated;margin-top:18px;border:1px solid #748562}.sounds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.sound{padding:16px;background:#233a2f;border:1px solid #3b5441}.sound strong,.sound small{display:block}.sound small{color:#aebfa7;margin-bottom:12px}audio{width:100%;height:34px}.links{display:flex;gap:16px;flex-wrap:wrap}output{color:#eed094}@media(max-width:760px){.sounds{grid-template-columns:1fr}h1{font-size:25px}}
+</style></head><body><main>
+<a href="index.html">← Abrir o jogo</a><h1>Sprites e sons da fazenda</h1>
+<p>Arte carregada pelos mesmos renderizadores do jogo. Pause e avance os passos para conferir direções, patas, acessórios e poses.</p>
+<div class="controls"><label for="cast">Personagem</label><select id="cast"></select><button id="toggle">Pausar</button><button id="step">Avançar um quadro</button><output id="status">Carregando…</output></div>
+<canvas id="actors" width="1120" height="340" aria-label="Personagem nas quatro direções"></canvas>
+<div class="links"><a href="preview/media-review/cast-01.png">Todos os quadros: galinhas e Zeca</a><a href="preview/media-review/cast-02.png">Personagens desbloqueáveis</a><a href="preview/media-review/cast-03.png">Lobo, ganso, ovelha e porco</a><a href="preview/media-review/cast-04.png">Cabra, vaca, pato e coelho</a><a href="preview/media-review/cast-05.png">Cão, gato, burro e cordeiro</a><a href="preview/media-review/cast-06.png">Pintinho, cavalo e peru</a><a href="preview/media-review/specials.png">Personagens especiais</a></div>
+<h2>Objetos da fazenda</h2><p>As 16 silhuetas do cenário, sem deformar suas proporções.</p><canvas id="scenery" width="1120" height="520" aria-label="Árvores, construções, cercas e demais objetos"></canvas>
+<h2>Todos os sons em uso</h2><p>Vozes, efeitos e músicas, incluindo todas as variações. Apenas um áudio toca por vez. Os volumes usam os ajustes do jogo: efeitos a 55% e músicas a 25%.</p><button id="stopAudio">Parar som</button><div id="sounds" class="sounds"></div>
+<p><a href="assets/audio/CREDITS.html">Fontes e licenças dos sons</a> · <a href="assets/sprites/MEDIA-98-NOTES.md">Registro desta revisão</a></p>
+</main>
+<script src="systems/sprite-style.js"></script><script src="systems/sprite-data.js"></script><script src="systems/arcade-art-data.js?v=midia-98"></script><script src="systems/character-art.js"></script>
+<script>const InterfaceMotion={reduced:matchMedia('(prefers-reduced-motion: reduce)').matches};</script>
+<script src="systems/wildlife-art.js"></script><script src="systems/fox-art.js"></script><script src="systems/thor-art.js?v=midia-98"></script><script src="systems/goose-art.js"></script><script src="systems/owl-art.js"></script><script src="systems/scarecrow-art.js"></script>
+<script src="assets/farm/arcade-data.js"></script><script src="systems/farm-sprites.js"></script><script src="systems/audio-system.js?v=midia-98"></script>
+<script>
+const names={chicken:'Erina', 'hen-silkie':'Midori','hen-blue':'Alzira','skin-zeca':'Zeca','skin-pipoca':'Pipoca','skin-amora':'Stella','skin-pacoca':'Paçoca','skin-gumercindo':'Gumercindo',wolf:'Lobo',goose:'Ganso resgatado',sheep:'Ovelha',pig:'Porco',goat:'Cabra',cow:'Vaca',duck:'Pato',rabbit:'Coelho',dog:'Cachorro',cat:'Gato',donkey:'Burro',lamb:'Cordeiro',chick:'Pintinho',horse:'Cavalo',turkey:'Peru',fox:'Lorenzo',amanda:'Amanda',thor:'Thor',panto:'Panto',owl:'Coruja',crow:'Corvo',scarecrow:'Espantalho'};
+const directions=['down','right','up','left'],labels=['Frente','Direita','Costas','Esquerda'];
+const cast=document.getElementById('cast'),canvas=document.getElementById('actors'),ctx=canvas.getContext('2d');
+Object.entries(names).forEach(([id,name])=>cast.add(new Option(name,id)));
+let running=!InterfaceMotion.reduced,phase=0,last=0,ready=false;
+const toggle=document.getElementById('toggle'),status=document.getElementById('status');
+function label(){toggle.textContent=running?'Pausar':'Animar';toggle.setAttribute('aria-pressed',String(running))}label();
+toggle.onclick=()=>{running=!running;label()};document.getElementById('step').onclick=()=>{running=false;phase=(Math.floor(phase)+1)%4;label();render()};cast.onchange=()=>{phase=0;render()};
+function actor(c,name,direction,anim){
+ if(CharacterArt.species.includes(name))return CharacterArt.draw(c,name,0,-14,{direction,anim,moving:true,shadow:false});
+ if(name==='fox'||name==='amanda')return FoxArt.draw(c,{x:0,y:-14,direction,anim,moving:true,name:name==='amanda'?'Amanda':'Lorenzo'},{x:0,y:0});
+ if(name==='thor')return ThorArt.draw(c,{x:0,y:-14,direction,anim,moving:true,age:1,mode:'follow',timer:1},{x:0,y:0});
+ if(name==='panto')return GooseArt.draw(c,{x:0,y:-14,direction,anim,moving:true,mode:Math.floor(anim)%4>1?'warning':'patrol'},{x:0,y:0});
+ if(name==='owl')return OwlArt.draw(c,{perch:{x:0,y:42},direction,mode:['idle','cooldown','alert','idle'][Math.floor(anim)%4]},{x:0,y:0});
+ if(name==='crow')return ScarecrowArt.drawCrow(c,{x:0,y:0,z:0,opacity:1,left:direction==='left',flying:true},0,anim/12,{x:0,y:0});
+ if(name==='scarecrow')return ScarecrowArt.drawPost(c,{x:0,y:0},{x:0,y:0});
+}
+function render(){if(!ready)return;ctx.fillStyle='#829d60';ctx.fillRect(0,0,1120,340);ctx.imageSmoothingEnabled=false;
+ directions.forEach((direction,i)=>{const x=140+i*280;ctx.fillStyle='#243e30';ctx.textAlign='center';ctx.font='bold 17px system-ui';ctx.fillText(labels[i],x,28);ctx.fillRect(x-105,286,210,1);ctx.save();ctx.translate(x,284);ctx.scale(2,2);actor(ctx,cast.value,direction,phase);ctx.restore()});
+ status.textContent='Passo '+(Math.floor(phase)%4+1)+' · '+names[cast.value];
+}
+function frame(time){const dt=last?Math.min(.05,(time-last)/1000):0;last=time;if(running&&!document.hidden)phase=(phase+dt*7)%4;render();requestAnimationFrame(frame)}
+const sceneryNames={tree:'Macieira',bush:'Moita',pear:'Pereira',willow:'Salgueiro',bramble:'Amoreira',shelter:'Abrigo',barn:'Celeiro',coop:'Galinheiro',silo:'Silo',hay:'Feno',trough:'Bebedouro',fence:'Cerca',daisies:'Flores',lavender:'Lavanda',harvest:'Colheita',nursery:'Berçário'};
+function renderScenery(){const c=document.getElementById('scenery').getContext('2d');c.imageSmoothingEnabled=false;
+ Object.entries(FarmSprites.cohesiveFrames).forEach(([name,r],i)=>{const x=70+(i%8)*140,y=215+Math.floor(i/8)*245,s=Math.min(120/r[2],170/r[3]);FarmSprites.draw(c,name,x-r[2]*s/2,y-r[3]*s,r[2]*s,r[3]*s,{grounded:true});c.fillStyle='#243e30';c.textAlign='center';c.font='14px system-ui';c.fillText(sceneryNames[name],x,y+26)})}
+const cues={'forest':'Floresta encantada','whistle':'Assobio da galinha','skin-punk':'Zeca · tema','skin-astronaut':'Pipoca · tema','skin-robocop':'Stella · tema','skin-priest':'Paçoca · tema',boing:'Salto cômico',pop:'Coleta',bonk:'Pancada',squeak:'Coelho · dano',dizzy:'Tontura',sob:'Lobo · ganido',runaway:'Fuga',rescue:'Resgate',chick:'Pintinho','goose-honk':'Ganso','panto-dodge':'Panto · esquiva','panto-victory':'Panto · vitória','owl-hoot':'Coruja','fox-rustle':'Raposas · folhas','step-water':'Passos na água','step-mud':'Passos na lama','step-leaves':'Passos nas folhas','thor-hero':'Thor · chegada',victory:'Vitória'};
+function stopAudio(except){document.querySelectorAll('audio').forEach(a=>{if(a!==except){a.pause();a.currentTime=0}})}
+document.getElementById('stopAudio').onclick=()=>stopAudio();document.addEventListener('visibilitychange',()=>{if(document.hidden)stopAudio()});
+AudioSystem.catalog.forEach(clip=>{const card=document.createElement('section');card.className='sound';const title=document.createElement('strong'),note=document.createElement('small'),a=document.createElement('audio');
+ title.textContent=(cues[clip.name]||names[clip.name.replace('animal-','')]||clip.name)+(clip.variant>1?' · variação '+clip.variant:'');note.textContent={music:'Música',voice:'Voz',effect:'Efeito'}[clip.kind];a.controls=true;a.preload='none';a.src=clip.src;a.volume=(clip.kind==='music'?.25:.55)*clip.trim;a.setAttribute('aria-label',title.textContent);a.onplay=()=>stopAudio(a);card.append(title,note,a);document.getElementById('sounds').append(card)});
+Promise.all([CharacterArt.load(),FoxArt.load(),ThorArt.load(),GooseArt.load(),OwlArt.load(),ScarecrowArt.load(),FarmSprites.loadCohesive()]).then(result=>{
+ if(!result.every(Boolean))throw Error('Falha no carregamento da arte');ready=true;window.mediaReviewReady=true;renderScenery();requestAnimationFrame(frame)
+}).catch(error=>{status.textContent=error.message;window.mediaReviewError=error.message});
+</script></body></html>

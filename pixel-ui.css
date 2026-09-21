@@ -1,0 +1,99 @@
+/* Original farm-game interface: local pixel type, carved timber and warm paper. */
+@font-face {
+  font-family: 'Farm Pixel'; src: url('./assets/fonts/VT323-Regular.ttf') format('truetype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+:root {
+  --pixel-font: 'Farm Pixel', 'Courier New', monospace;
+  --wood-ink: #54351f; --wood-muted: #7b5433; --paper: #ffe6ae;
+  --wood-edge: #6a3b25; --wood-shadow: #422b20; --pixel-green: #48613a;
+  --wood-frame: url('./assets/ui/wood-frame.svg') 12 / 12px / 0 stretch;
+}
+/* Shared controls keep the same raised edges in every menu. */
+#endScreen :is(#replayBtn,#menuBtn), .howto-dialog button {
+  border: 3px solid var(--wood-edge); border-radius: 0; background: #ebbe77; color: var(--wood-ink);
+  box-shadow: inset 3px 3px #ffe5a6, inset -3px -3px #bf8143, 0 3px var(--wood-shadow);
+  font: 400 23px/1.05 var(--pixel-font); min-height: 44px; padding: 10px 14px;
+  text-shadow: 0 1px #fff0c1; transition: background-color .12s; -webkit-tap-highlight-color: transparent;
+}
+#endScreen :is(#replayBtn,#menuBtn):hover, .howto-dialog button:hover {
+  background: #fbd492; color: #563016; transform: none;
+  box-shadow: inset 3px 3px #fff1c4, inset -3px -3px #cf9953, 0 3px var(--wood-shadow);
+}
+#endScreen :is(#replayBtn,#menuBtn):active, .howto-dialog button:active {
+  transform: translateY(2px); box-shadow: inset 2px 2px #b57c43, inset -2px -2px #ffe3a1, 0 1px var(--wood-shadow);
+}
+#endScreen button:focus-visible, .howto-dialog :focus-visible {
+  outline: 3px solid #446a37; outline-offset: 3px;
+}
+#endScreen .end-card, .howto-dialog {
+  border: 12px solid transparent; border-image: var(--wood-frame); border-radius: 0;
+  background: var(--paper); color: var(--wood-ink); box-shadow: 0 6px 0 #412b22, 6px 9px 0 #132a2444;
+  backdrop-filter: none; font-family: var(--pixel-font); background-clip: padding-box;
+}
+/* Result board and help book. */
+#endScreen { padding: 28px 20px; background: #172a218c; backdrop-filter: none; border-radius: 0; }
+#endScreen .end-card { width: min(620px,100%); padding: 20px 26px 24px; position: relative; }
+#endScreen #endEmblem { display: none; }
+.end-portrait { width: 76px; height: 72px; object-fit: contain; image-rendering: pixelated; margin: -3px auto 5px; filter: drop-shadow(2px 3px #ba8a4955); }
+#endScreen #endEyebrow { display: flex; align-items: center; justify-content: center; gap: 12px; color: #786133;
+  font: 400 21px/1 var(--pixel-font); letter-spacing: 1px; margin: 7px 0 10px; }
+#endScreen #endEyebrow::before, #endScreen #endEyebrow::after { content: ''; width: 22px; height: 22px; background: url('./assets/ui/sprout.svg') center/contain no-repeat; image-rendering: pixelated; }
+#endScreen #endTitle { color: #674025; font: 400 clamp(32px,4vw,42px)/.96 var(--pixel-font); text-shadow: 1px 2px #fff3c7; margin: 9px 0 15px; }
+#endScreen #endMessage { color: #755135; font: 400 22px/1.2 var(--pixel-font); margin: 10px auto 20px; max-width: 480px; }
+#endScreen .end-stats { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; margin: 14px 0; }
+#endScreen .end-stats:has(> [hidden]) { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.end-stats > div { min-width: 0; padding: 10px 4px 8px; border: 2px solid #c79856; background: #f6d79b; box-shadow: inset 2px 2px #fff0bd,inset -2px -2px #e4b876; }
+.end-stats dt { color: #876034; font: 400 19px/1 var(--pixel-font); }
+.end-stats dd { margin: 6px 0 0; color: #62401e; font: 400 28px/1 var(--pixel-font); overflow-wrap: anywhere; }
+.end-stats #endPoints { font-size: 24px; }
+#endScreen #endPanto { color: #5e7038; font: 400 20px/1 var(--pixel-font); margin: 6px 0; }
+#endScreen #endTimeBonus { border: 2px solid #b2a362; border-radius: 0; background: #e8dfa3; color: #586037;
+  box-shadow: inset 2px 2px #f7efc2; padding: 12px; font: 400 22px/1.1 var(--pixel-font); margin: 13px 0 19px; }
+#endScreen .overlay-actions { gap: 12px; margin: 17px 0 0; }
+#endScreen .overlay-actions :is(#replayBtn,#menuBtn) { flex: 1; min-width: 170px; font-size: 24px; }
+#endScreen #menuBtn { background: #f5d99e; }
+.howto-dialog { width: min(620px,calc(100% - 32px)); padding: 0; }
+.howto-dialog::backdrop { background: #172a219e; }
+.howto-header { background: #f3d59a; border-bottom: 3px solid #c39555; }
+.howto-header h2 { color: #694225; font: 400 32px/1 var(--pixel-font); }
+.howto-header .howto-close { font: 400 28px/1 var(--pixel-font); }
+.howto-body { font: 400 22px/1.2 var(--pixel-font); color: #67472c; }
+.howto-body p { font: inherit; }
+.howto-controls { font-size: 22px; }
+.howto-footer { border-top: 2px solid #d0a46b; background: #f7dca5; }
+.howto-dialog kbd { border: 2px solid #ba8b4d; border-radius: 0; background: #fff0c4; color: #65432b; font-family: var(--pixel-font); }
+/* Small in-game labels use timber too, without changing the field's layout. */
+.expedition-bar { border: 8px solid transparent; border-image: var(--wood-frame); border-radius: 0;
+  background: #6a482fee; box-shadow: 0 3px #32291d66; backdrop-filter: none; }
+.play-brand .hud-portrait { border-radius: 0; box-shadow: inset 0 0 0 3px #bf9255; background: #efd9a0; }
+.play-header h1 { font: 400 26px/.95 var(--pixel-font); color: #ffe1a0; letter-spacing: 0; }
+.play-region, .play-hud .wolf-counter { border: 2px solid #885b32; border-radius: 0; background: #f7dc9f; color: #634624; box-shadow: 2px 3px #35281966; }
+.play-region b, .play-hud .threat-title, .play-hud .wolf-heading .run-label, .wolf-heading #wolfLevelText { color: #634624; }
+.play-region b { font: 400 21px/1 var(--pixel-font); }
+.play-hud .threat-title { font: 400 19px/1 var(--pixel-font); }
+.game-heading .play-pause.button-secondary { border: 2px solid #b88648; border-radius: 0; background: #ecc786; color: #5d4025; box-shadow: inset 2px 2px #ffe8b1,0 2px #392a1c; }
+.game-feedback :is(.stealth-badge,.stamina-meter,.thor-supply,.skin-power-badge), .game-feedback #contextHint,
+.thor-scene-controls button, .lake-counter, .region-notice, .live-controls kbd { border-radius: 0; backdrop-filter: none; }
+.game-feedback button.thor-supply, .thor-scene-controls button, .lake-panel button { border: 2px solid #a9753c; border-radius: 0; background: #f0d296; color: #603f24; font-family: var(--pixel-font); font-size: 20px; box-shadow: inset 2px 2px #ffecb8,0 2px #433122; }
+@media (max-width: 480px) {
+  #endScreen { padding: 16px 12px; }
+  #endScreen .end-card { padding: 16px 12px 18px; }
+  #endScreen #endTitle { font-size: 34px; }
+  #endScreen #endMessage { font-size: 21px; margin-bottom: 14px; }
+  .end-portrait { width: 62px; height: 58px; }
+  #endScreen .end-stats, #endScreen .end-stats:has(> [hidden]) { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #endScreen .overlay-actions :is(#replayBtn,#menuBtn) { min-width: 120px; padding: 10px 5px; font-size: 22px; }
+  #endScreen #endTimeBonus { font-size: 21px; }
+  .expedition-bar { border-width: 5px; border-image-width: 5px; }
+  .play-header h1 { font-size: 22px; }
+}
+@media (max-height: 600px) and (min-width: 600px) {
+  #endScreen .end-card { padding: 12px 20px 18px; }
+  .end-portrait { width: 48px; height: 44px; }
+  #endScreen #endTitle { font-size: 34px; }
+  #endScreen #endMessage { font-size: 20px; margin: 7px 0 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #endScreen button, .howto-dialog button { transition: none; }
+}

@@ -72,8 +72,9 @@ test('a returning fox stays blocked instead of teleporting through a wall',()=>{
  const h=setup();h.run("f.x=1120;f.mode='return';f.timer=0;OBSTACLES=[{x:1050,y:0,w:10,h:1800}]");
  step(h,'FoxSystem',3);assert.ok(h.run('f.x>=1075'));assert.equal(h.run('f.mode'),'return');
 });
-test('fox returns to its bush and waits before another attack',()=>{
- const h=setup();warning(h);h.run('c.x=1085;c.y=890');step(h,'FoxSystem',2);h.run('c.x=1500');step(h,'FoxSystem',4);
+test('fox settles into a den after an attack when the player is out of sight',()=>{
+ const h=setup();warning(h);h.run('c.x=1085;c.y=890');step(h,'FoxSystem',2);h.run('c.hidden=true');
+ h.run("for(let i=0;i<1200&&f.mode!=='hidden';i++)FoxSystem.update(state,.05)");
  assert.equal(h.run('f.mode'),'hidden');assert.ok(h.run('distance(f,f.home)<1'));
 });
 test('owl charges a visible alarm, then asks only a nearby wolf to investigate the observation',()=>{
@@ -133,45 +134,50 @@ test('hidden and distant enemies do not leak their positions onto the minimap',(
  const h=setup();h.run('camera.x=0;camera.y=0');assert.equal(h.run('FoxSystem.visible(state,f)'),false);assert.equal(h.run('OwlSystem.visible(state,o)'),false);
 });
 
-test('both sprite sheets contain twelve complete frames, distinct directions and transparent margins',async()=>{
- const {loadImage,createCanvas}=require('@napi-rs/canvas');
- const game=createGame(()=>.5);
- for(const [name,api] of [['fox','FoxArt'],['owl','OwlArt']]){
-  const image=await loadImage(path.join(__dirname,`../assets/sprites/sources/${name}-custom.png`));assert.equal(image.width,1086);assert.equal(image.height,1448);
-  const c=createCanvas(image.width,image.height),ctx=c.getContext('2d');ctx.drawImage(image,0,0);const signatures=[];
-  const frames=game.run(`${api}.frames`);assert.equal(frames.length,12);
-  for(const frame of frames){
-   assert.ok(frame.x>=0&&frame.y>=0&&frame.x+frame.w<=image.width&&frame.y+frame.h<=image.height);
-   const data=ctx.getImageData(frame.x,frame.y,frame.w,frame.h).data;let pixels=0;for(let i=3;i<data.length;i+=4)if(data[i]>100)pixels++;
-   assert.ok(pixels>10000&&pixels<frame.w*frame.h*.8);signatures.push(Buffer.from(data).toString('base64'));
-   for(let x=0;x<frame.w;x++)assert.ok(data[x*4+3]<100&&data[((frame.h-1)*frame.w+x)*4+3]<100,'feet and ears are not clipped');
-  }
-  assert.equal(new Set(signatures).size,12);
-  for(const [direction,row] of [['down',0],['left',1],['right',2],['up',3]])
-   assert.equal(game.run(`${api}.frameFor({direction:'${direction}',moving:false,mode:'watch'}).row`),row);
+test('wildlife atlases render eight headings with their complete installed cycles',()=>{
+ const h=createGame();
+ assert.equal(h.run('FoxArt.frames.length'),64);assert.equal(h.run('OwlArt.frames.length'),96);
+ for(const [direction,row] of [['down',0],['right',1],['up',2],['left',3],['downright',4],['upright',5],['downleft',6],['upleft',7]]){
+  assert.equal(h.run(`FoxArt.frameFor({direction:'${direction}',moving:false,anim:0}).row`),row);
+  assert.equal(h.run(`OwlArt.frameFor({direction:'${direction}',moving:false,mode:'watch',heading:NaN}).row`),row);
  }
+});
+
+test('owl visibly notices, calls immediately with wolf response, then settles during cooldown',()=>{
+ const h=setup();h.run('c.x=1320;c.y=620;w.x=1400;w.y=620;o.alertTime=.35');
+ step(h,'OwlSystem',.1);assert.equal(h.run('o.mode'),'alert');
+ assert.ok(h.run('OwlArt.frameFor(o).column>=1&&OwlArt.frameFor(o).column<=5'));
+ step(h,'OwlSystem',.25);assert.equal(h.run('w.mode'),'investigate');assert.equal(h.run('o.mode'),'cooldown');
+ assert.ok(h.run('o.callTime>=.67'));assert.equal(h.run('OwlArt.frameFor(o).column'),6);
+ step(h,'OwlSystem',.2);assert.equal(h.run('OwlArt.frameFor(o).column'),7);
+ step(h,'OwlSystem',.6);assert.equal(h.run('o.mode'),'relocate');assert.equal(h.run('o.callTime'),0);
+ assert.ok(h.run('o.cooldown>0'));assert.equal(h.run('o.target'),null);
 });
 test('PNG load requests are shared, invalid sheets fail, retries reuse success',async()=>{
  const {loadImage}=require('@napi-rs/canvas'),context=vm.createContext({console,setTimeout,clearTimeout});
- for(const f of ['wildlife-art','fox-art','owl-art'])vm.runInContext(fs.readFileSync(path.join(__dirname,`../systems/${f}.js`),'utf8'),context);
+ for(const f of ['sprite-data','arcade-art-data','premium-art-data','wildlife-art','fox-art','owl-art'])vm.runInContext(fs.readFileSync(path.join(__dirname,`../systems/${f}.js`),'utf8'),context);
  for(const name of ['FoxArt','OwlArt']){
   const api=vm.runInContext(name,context);let calls=0;
   const bad=()=>{calls++;return Promise.resolve({width:1,height:1});};const pending=api.load(bad);assert.equal(api.load(bad),pending);
-  assert.equal(await pending,false);assert.equal(calls,1);assert.equal(api.ready,false);assert.equal(api.errors.length,1);
+  const sources=2;
+  assert.equal(await pending,false);assert.equal(calls,sources);assert.equal(api.ready,false);assert.equal(api.errors.length,sources);
   assert.equal(await api.load(src=>loadImage(path.join(__dirname,'..',src))),true);assert.equal(api.errors.length,0);
-  await api.load(bad);assert.equal(calls,1);
+  await api.load(bad);assert.equal(calls,sources);
  }
 });
 test('renderers use decoded PNGs and restore the callers canvas state',async()=>{
  const {createCanvas,loadImage}=require('@napi-rs/canvas'),h=setup(),c=createCanvas(220,180),ctx=c.getContext('2d');
- h.context.art=ctx;h.context.foxImage=await loadImage(path.join(__dirname,'../assets/sprites/sources/fox-custom.png'));h.context.owlImage=await loadImage(path.join(__dirname,'../assets/sprites/sources/owl-custom.png'));
- h.run('FoxArt.install(()=>foxImage);OwlArt.install(()=>owlImage);f.x=60;f.y=120;f.mode="dash";o.perch={x:160,y:170}');
+ h.context.art=ctx;
+ const images=new Map();for(const name of ['fox','amanda','owl','owl-flight']){const source=h.run('PremiumWildlifeData')[name].src;images.set(source,await loadImage(path.join(__dirname,'..',source)));} h.run('FoxArt').install(src=>images.get(src));
+ h.run('OwlArt').install(src=>images.get(src));
+ h.run('CharacterArt').install(src=>images.get(src));
+ h.run('f.x=60;f.y=120;f.mode="dash";o.perch={x:160,y:170}');
  ctx.globalAlpha=.6;ctx.imageSmoothingEnabled=true;const before=ctx.getTransform();
  for(const direction of ['up','down','left','right'])h.run(`f.direction='${direction}';o.direction='${direction}';FoxArt.draw(art,f,{x:0,y:0,shakeX:0,shakeY:0});OwlArt.draw(art,o,{x:0,y:0,shakeX:0,shakeY:0})`);
  assert.equal(ctx.globalAlpha,.6);assert.equal(ctx.imageSmoothingEnabled,true);assert.deepEqual(ctx.getTransform(),before);
  assert.ok(ctx.getImageData(0,0,220,180).data.some((n,i)=>i%4===3&&n));
 });
 test('the owl hoot is a local valid PCM file with headroom',()=>{
- const b=fs.readFileSync(path.join(__dirname,'../assets/audio/owl-hoot.wav'));assert.equal(b.toString('ascii',0,4),'RIFF');assert.equal(b.readUInt32LE(24),22050);
+ const b=fs.readFileSync(path.join(__dirname,'../assets/audio/voices/v6/owl-hoot.wav'));assert.equal(b.toString('ascii',0,4),'RIFF');assert.equal(b.readUInt32LE(24),22050);
  let peak=0;for(let i=44;i<b.length;i+=2)peak=Math.max(peak,Math.abs(b.readInt16LE(i)));assert.ok(peak>1000&&peak<30000);
 });

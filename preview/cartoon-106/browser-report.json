@@ -1,0 +1,163 @@
+{
+  "characters": 29,
+  "checked": [
+    {
+      "name": "chicken",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "sheep",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "pig",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "cow",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "dog",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "cat",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "rabbit",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "duck",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "horse",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "donkey",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "goat",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "lamb",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "chick",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "turkey",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "wolf",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "hen-silkie",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "hen-blue",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "skin-zeca",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "skin-pipoca",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "skin-amora",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "skin-pacoca",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "skin-gumercindo",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "goose",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "fox",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "amanda",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "thor",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "owl",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "scarecrow",
+      "phases": 12,
+      "directions": 8
+    },
+    {
+      "name": "crow",
+      "phases": 12,
+      "directions": 8
+    }
+  ],
+  "audio": [
+    {
+      "file": "owl-siren.wav",
+      "duration": 0.72,
+      "playing": true
+    },
+    {
+      "file": "owl-siren-2.wav",
+      "duration": 0.72,
+      "playing": true
+    }
+  ],
+  "runtimeErrors": []
+}

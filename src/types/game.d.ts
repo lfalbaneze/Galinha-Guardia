@@ -1,6 +1,7 @@
 /** Shared contracts for the gameplay systems. Coordinates are world pixels; timers are seconds. */
 declare namespace Farm {
   type Direction = 'up' | 'down' | 'left' | 'right';
+  type ArtDirection = Direction | 'upright' | 'upleft' | 'downright' | 'downleft';
   type Difficulty = 'easy' | 'normal' | 'hard' | 'hardcore';
   type Phase = 'menu' | 'playing' | 'win_cutscene' | 'won' | 'lose';
   type WolfMode = 'patrol' | 'alert' | 'investigate' | 'chase' | 'search' | 'inspect' | 'frightened';
@@ -56,7 +57,7 @@ declare namespace Farm {
     landSpeed: number; swimSpeed: number; sneakSpeed: number; noiseScale: number;
     sprintDuration: number; friendSpecies: Species | null;
   }
-  interface CoverMemory extends Point { spotId: string; remaining: number; inspectTime: number; }
+  interface CoverMemory extends Point { spotId: string; remaining: number; inspectTime: number; revealIn?: number; }
   interface Wolf extends Entity {
     type: 'wolf'; accel: number; mode: WolfMode; heading: number;
     huntUnlockTimer: number; pauseTimer: number;
@@ -98,14 +99,17 @@ declare namespace Farm {
     relocateIn: number;
   }
   interface Owl extends Entity {
-    type: 'owl'; mode: 'watch' | 'alert' | 'cooldown';
+    type: 'owl'; mode: 'watch' | 'alert' | 'cooldown' | 'relocate';
     perch: Point; treeId: string; heading: number;
     range: number; fov: number; alertTime: number; alertProgress: number; cooldown: number; grace: number;
+    callTime?: number; callHeading?: number;
+    movePending?: boolean; relocateRetry?: number; relocations?: number; previousTreeId?: string;
+    flight?: { from: Point; to: Point; treeId: string; progress: number; duration: number } | null;
     target: Point | null;
   }
 
   interface FoxSnapshot extends Point { id: string; cooldown: number; bushId?: string | null; relocateIn?: number; }
-  interface OwlSnapshot { id: string; cooldown: number; }
+  interface OwlSnapshot { id: string; cooldown: number; treeId?: string; previousTreeId?: string; relocations?: number; movePending?: boolean; }
   interface Thor extends Entity {
     type: 'thor'; mode: 'enter' | 'greet' | 'leave'; timer: number;
     exit: Point; route: Point[]; routeTimer: number; age: number;
@@ -117,12 +121,14 @@ declare namespace Farm {
   }
   interface ThorRescue { time: number; before: number; healed: boolean; }
   interface DifficultySettings {
-    timeLimit?: number; timeScore?: number; friendTime?: number; chickTime?: number;
+    timeLimit?: number; timeScore?: number; friendTime?: number; chickTime?: number; rescueScore?: number;
+    bonusChicks?: number; chickCombo?: boolean; friendTimeEvery?: number; timeScorePerChick?: number;
     chickenSpeed: number; wolfMaxSpeed: number; wolfSprintCap?: number;
     label: string; wolfAccel: number; wolfPauseAfterCatch: number;
     huntDelay: number; spawnPlan: string[]; minSpawnWolfDistance: number;
   }
   interface TimedNotice { time: number; }
+  interface ChickCombo { count: number; remaining: number; }
   interface SecretNotice extends TimedNotice { bonus?: boolean; x?: number; y?: number; targetX?: number; targetY?: number; }
   interface RescueNotice extends TimedNotice { name: string; count: number; total: number; chick: boolean; }
   interface Crow extends Point {
@@ -142,10 +148,11 @@ declare namespace Farm {
     thorNotice?: TimedNotice & { healed: boolean; arriving?: boolean; amount?: number };
     worldSeed: number; worldVersion: number;
     rescuedIds: Set<string>; rescuedChickIds: Set<string>;
-    rescuedCount: number; rescuedChicks: number; wolfLevel: number;
+    rescuedCount: number; rescuedChicks: number; wolfLevel: number; wolfHunger: number;
     lives: number; score: number; elapsed: number; winBonusApplied: boolean;
     timeRemaining: number | null; timeBonus: number; defeatReason?: 'caught' | 'timeout';
     timeRewardNotice?: TimedNotice & { seconds: number };
+    chickCombo: ChickCombo; timeBonusRate: number; legacyTimer: boolean;
     currentMap: string; visitedMaps: Set<string>; mapTransition: TimedNotice & { name: string; };
     animalSpeechCooldown: number; secretSoundCooldown: number;
     rescueNotice?: RescueNotice | null; secretNotice?: SecretNotice | null; skinNotice?: TimedNotice | null;
@@ -161,6 +168,7 @@ declare namespace Farm {
     awarenessTime: number; searchDuration: number; searchRadius: number; searchPoints: number;
   }
   interface WolfConfig extends WolfTier, DetectionConfig {
+    hunger: number;
     level: number; rescuedFriends: number; rescuedChicks: number; chickMultiplier: number;
     nominalSpeed: number; sprintCap: number; speed: number; pressure: number;
     hideWitnessRange: number; hideMemoryDuration: number; patrolSpeed: number;
@@ -189,11 +197,12 @@ declare namespace Farm {
   interface SaveData {
     /** Legacy defeat marker, read only to migrate older saves to a loss. */
     needsRecovery?: boolean;
-    version: 1 | 2 | 3 | 4; worldSeed: number; worldVersion?: number; difficulty: Difficulty; phase: Phase;
+    version: 1 | 2 | 3 | 4 | 5; worldSeed: number; worldVersion?: number; difficulty: Difficulty; phase: Phase;
     rescuedIds: string[]; rescuedChickIds: string[]; lives: number; score: number;
-    winBonusApplied?: boolean; elapsed?: number;
+    winBonusApplied?: boolean; elapsed?: number; wolfHunger?: number;
     timeRemaining?: number | null; timeBonus?: number; defeatReason?: 'caught' | 'timeout';
     timerMode?: 'arcade';
+    chickCombo?: ChickCombo; timeBonusRate?: number; legacyTimer?: boolean;
     chicken: ChickenSnapshot; wolf: WolfSnapshot; animals: AnimalSnapshot[]; chicks: AnimalSnapshot[];
     goose?: GooseSnapshot;
     foxes?: FoxSnapshot[]; owls?: OwlSnapshot[];

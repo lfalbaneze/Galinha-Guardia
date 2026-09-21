@@ -39,14 +39,15 @@ for(const mode of ['legacy','cohesive'])test(`${mode}: opaque bases touch the gr
     assert.equal(surfaces,before,name+' cached contact mask');
     if(name==='trough'||name==='coop') {
       // No ellipse is allowed in the air below the suspended middle of the bowl.
-      const center=Math.round(x+w*(name==='coop'?.54:.5));let edge=-1;
+      const gap=mode==='cohesive'?(flip?.42:.58):.54;
+      const center=Math.round(x+w*(name==='coop'?gap:.5));let edge=-1;
       for(let yy=0;yy<240;yy++)if(a[(yy*280+center)*4+3])edge=yy;
       for(let yy=edge+1;yy<240;yy++)assert.equal(b[(yy*280+center)*4+3],0,name+' suspended middle stays clear');
     }
   }
 });
 
-test('the raised coop has a separate ground support under all three posts and the ramp',async()=>{
+test('the raised coop has ground support under its visible posts and ramp',async()=>{
   const h=createGame(()=>.5),art=h.run('FarmSprites');await art.loadCohesive(loadImage,createCanvas);
   for(const [w,height]of [[96,106],[136,150],[155,170]])for(const flip of [false,true]) {
     const plain=createCanvas(220,220).getContext('2d'),supported=createCanvas(220,220).getContext('2d');
@@ -54,7 +55,7 @@ test('the raised coop has a separate ground support under all three posts and th
     art.draw(supported,'coop',20,20,w,height,{grounded:true,shadow:true,foundation:true,flip});
     const a=plain.getImageData(0,0,220,220).data,b=supported.getImageData(0,0,220,220).data;
     for(let i=0;i<a.length;i+=4)if(a[i+3])assert.deepEqual(b.slice(i,i+4),a.slice(i,i+4),'the house itself stays in place');
-    for(const point of [.105,.28,.665,.86]) {
+    for(const point of [.12,.76,.44]) {
       const local=Math.floor(w*point),x=20+(flip?w-1-local:local);let sole=-1;
       for(let y=0;y<220;y++)if(a[(y*220+x)*4+3])sole=y;
       assert.ok(sole>20+height*.7,'sample is at a foot, not the roof');

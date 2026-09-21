@@ -56,7 +56,7 @@ const RescueSystem = {
     const safe = RescueSystem.chickPosition(game.entities.chicks.indexOf(chick));
     Object.assign(chick, { x: safe.x, y: safe.y, targetX: safe.x, targetY: safe.y,
       moving: false, direction: 'down', temper: 'safe', speechTime: 0 });
-    setStatus(`Piu! Fim da expedição de dois passos. ${game.rescuedChicks} de 6 pintinhos no ninho. +100 pontos!`, 'win');
+    setStatus(`Piu! Fim da expedição de dois passos. ${game.rescuedChicks} de ${game.entities.chicks.length} pintinhos no ninho. +100 pontos!`, 'win');
     GameManager.save(game); GameUI.update(game);
     return true;
   },
@@ -115,7 +115,7 @@ const RescueSystem = {
     animal.speechTime = 2.4;
     game.animalSpeechCooldown = 2.8;
     if (!tired && RescueSystem.visible(game, animal) && !circleVsCircle(game.entities.chicken, animal))
-      AudioSystem.playAnimal(animal.species, { volume: .8 });
+      AudioSystem.playAnimal(animal.species, { volume: .55, ambient: true });
   },
   observeThreat(game: Farm.GameState, animal: Farm.Animal, visible: boolean): Farm.ObservedThreat | null {
     const chicken = game.entities.chicken, wolf = game.entities.wolf;
@@ -214,7 +214,8 @@ const RescueSystem = {
       }
       if (!animal.rescued) {
         const touchedBeforeMove = RescueSystem.inRescueReach(chicken, animal);
-        const home = (chick ? WORLD.layout.chickSpawns : WORLD.layout.animalSpawns)[index];
+        const home = chick ? WORLD.layout.chickSpawns[index] ||
+          {x:animal.homeX ?? animal.x,y:animal.homeY ?? animal.y,areaId:animal.areaId} : WORLD.layout.animalSpawns[index];
         const area = WORLD.areas.find(a => a.id === home.areaId)!;
         animal.areaId = area.id;
         const visible = RescueSystem.visible(game, animal);
@@ -254,7 +255,10 @@ const RescueSystem = {
           animal.targetX = animal.x; animal.targetY = animal.y;
           animal.speechTime = 0;
         } else if (animal.restTime <= 0 && len > 5) {
-          const step = Math.min(len, (chick ? 27 : 35) * RescueSystem.personality(animal).pace * dt);
+          const cruise = (chick ? 27 : 35) * RescueSystem.personality(animal).pace;
+          const speed = Math.min(cruise, Math.hypot(animal.vx,animal.vy) + 90*dt,
+            Math.sqrt(2*90*Math.max(0,len-4)));
+          const step = Math.min(len, speed * dt);
           Player.move(animal, dx / len * step, dy / len * step);
         }
         if (!fleeing) animal.fatigue = Math.max(0, (animal.fatigue || 0) - dt * .25);
@@ -273,7 +277,7 @@ const RescueSystem = {
           spawnBurst(animal.x, animal.y, "#fff5a6", 22);
           AudioSystem.playAnimal(animal.species);
           const count = chick ? game.rescuedChicks : game.rescuedCount;
-          const total = chick ? WORLD.targetChicks : WORLD.targetRescues;
+          const total = chick ? game.entities.chicks.length : WORLD.targetRescues;
           setStatus(`${RescueSystem.names[animal.species]}: “${RescueSystem.thanks[animal.species]}” ${count} de ${total} ${chick ? "pintinhos" : "amigos"} a salvo.`, "win");
           game.rescueNotice = { name: RescueSystem.names[animal.species], count, total, chick, time: 2.6 };
           const safe = safePosition(index);
@@ -286,11 +290,13 @@ const RescueSystem = {
         }
       } else {
         const safe = safePosition(index);
-        animal.x = safe.x + Math.sin(animal.anim * 0.35 + index) * (chick ? 1 : 4);
-        animal.y = safe.y + Math.cos(animal.anim * 0.35 + index) * (chick ? .5 : 3);
+        animal.x = safe.x;
+        animal.y = safe.y;
         animal.direction = (['down','right','down','left'] as const)[Math.floor(animal.anim / 12 + index) % 4];
       }
-      animal.anim += dt * (animal.moving ? 7 : 2.2);
+      if (animal.moving) {const travel=Math.hypot(animal.x-oldX,animal.y-oldY);animal.anim=CharacterArt.advance(animal.anim,animal.species,travel,{speed:dt>0?travel/dt:0});}
+      animal.vx = animal.moving && dt > 0 ? (animal.x-oldX)/dt : 0;
+      animal.vy = animal.moving && dt > 0 ? (animal.y-oldY)/dt : 0;
     }
     GameManager.win(game);
   },

@@ -27,14 +27,15 @@ function readWav(src) {
     if (name === 'data') pcm = data.subarray(offset + 8, offset + 8 + length);
     offset += 8 + length + length % 2;
   }
-  if (!format || !pcm || format.readUInt16LE(0) !== 1 || format.readUInt16LE(2) !== 2 ||
-      format.readUInt32LE(4) !== RATE || format.readUInt16LE(14) !== 16 || pcm.length % 4) {
-    throw new Error(`Expected stereo ${RATE} Hz PCM16: ${src}`);
+  const channels=format?.readUInt16LE(2);
+  if (!format || !pcm || format.readUInt16LE(0) !== 1 || ![1,2].includes(channels) ||
+      format.readUInt32LE(4) !== RATE || format.readUInt16LE(14) !== 16 || pcm.length % (channels*2)) {
+    throw new Error(`Expected mono/stereo ${RATE} Hz PCM16: ${src}`);
   }
-  const length = pcm.length / 4, left = new Float64Array(length), right = new Float64Array(length);
+  const length = pcm.length / (channels*2), left = new Float64Array(length), right = new Float64Array(length);
   for (let i = 0; i < length; i++) {
-    left[i] = pcm.readInt16LE(i * 4) / 32768;
-    right[i] = pcm.readInt16LE(i * 4 + 2) / 32768;
+    left[i] = pcm.readInt16LE(i * channels*2) / 32768;
+    right[i] = pcm.readInt16LE(i * channels*2 + (channels===2?2:0)) / 32768;
   }
   const result = { left, right, length };
   cache.set(filename, result);

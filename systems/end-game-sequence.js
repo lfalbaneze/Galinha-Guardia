@@ -31,11 +31,13 @@ const EndGameSequence = (() => {
   }
   function move(entity, x, y, dt, speed = 4) {
     const dx = x - entity.x, dy = y - entity.y;
+    const before={x:entity.x,y:entity.y};
     entity.moving = Math.hypot(dx, dy) > 1;
     if (entity.moving) Player.face(entity, dx, dy);
     entity.x = lerp(entity.x, x, Math.min(1, dt * speed));
     entity.y = lerp(entity.y, y, Math.min(1, dt * speed));
-    entity.anim += dt * 7;
+    const travel=Math.hypot(entity.x-before.x,entity.y-before.y);
+    entity.anim=CharacterArt.advance(entity.anim,entity.species||(entity.skin?'chicken':entity.type),travel,{skin:entity.skin,speed:dt>0?travel/dt:0});
   }
   function openExitLane(game, dt) {
     // The grown-ups open a horseshoe below the wolf; chicks cheer above it.
@@ -60,8 +62,6 @@ const EndGameSequence = (() => {
     wolf.moving = false;
     for (const animal of cast(game)) animal.moving = false;
     cut.cloud = t >= timing.cloud && t < timing.dizzy;
-    chicken.anim += dt * 7;
-    wolf.anim += dt * 5;
     if (t < 1.3) {
       cut.stage = "arrival";
       move(chicken, 450, 455, dt);
@@ -100,7 +100,7 @@ const EndGameSequence = (() => {
       const flight = t - timing.flee;
       wolf.x = center.x + flight * 370; wolf.y = center.y + (reduced() ? 0 : Math.sin(flight * 18) * 3) - flight * 27;
       wolf.facing = 1; wolf.direction = "right"; wolf.moving = true;
-      wolf.anim += dt * 16;
+      wolf.anim=CharacterArt.advance(wolf.anim,'wolf',dt*Math.hypot(370,27),{speed:Math.hypot(370,27)});
     } else {
       cut.stage = "celebrate";
       move(chicken, 450, 305, dt);
@@ -139,15 +139,20 @@ const EndGameSequence = (() => {
   }
   // All presentation is sampled from the cutscene clock. Pausing freezes particles,
   // camera, tumble and captions together, without timers or gameplay randomness.
-  function frame(game) {
+  function view(game) {
     const t = game.cutscene.time;
     const close = ease((t - timing.circle) / 1.2) * (1 - ease((t - timing.flee) / .7));
     const portrait = canvas.width < 700;
     const zoom = (reduced() ? 1 : 1 + close * .09) * (portrait ? .84 : 1);
     const beat = (t - timing.cloud) * 4;
     const kick = game.cutscene.cloud && !reduced() ? Math.max(0, 1 - (beat % 1) * 5) : 0;
-    ctx.translate(canvas.width / 2 + Math.sin(beat * 7) * kick * 3, (portrait ? canvas.height * .51 : 275) + kick * 2);
-    ctx.scale(zoom, zoom); ctx.translate(-450, -275);
+    return { x:canvas.width / 2 + Math.sin(beat * 7) * kick * 3,
+      y:(portrait ? canvas.height * .51 : 275) + kick * 2, zoom };
+  }
+  function frame(game) {
+    const camera=view(game);
+    ctx.translate(camera.x,camera.y);
+    ctx.scale(camera.zoom,camera.zoom);ctx.translate(-450,-275);
   }
   function pose(game, entity) {
     if (!active(game)) return {};
@@ -311,12 +316,21 @@ const EndGameSequence = (() => {
     ctx.restore();
   }
   function speechBubble(game) {
+    if(!['dizzy','flee'].includes(game.cutscene.stage))return;
     const fleeing = game.cutscene.stage === 'flee';
     // Short, two-line speech keeps the wolf's face and the exit lane visible.
     const lines = fleeing ? ['MAMÃÃE!', 'O almoço me bateu!'] : game.cutscene.time < timing.dizzy + 1.4 ?
       ['AI, MINHA POSE', 'DE LOBO MAU!'] : ['EU SÓ QUERIA', 'UM LANCHINHO…'];
-    const x = clamp(game.entities.wolf.x, 225, 715), y = fleeing ? 109 : 110, w = 238;
-    ctx.save(); ctx.fillStyle = '#fff8df'; ctx.strokeStyle = '#756448'; ctx.lineWidth = 2.5;
+    const wolf=game.entities.wolf,camera=view(game);
+    const screenX=camera.x+(wolf.x-450)*camera.zoom;
+    const screenY=camera.y+(wolf.y-275)*camera.zoom;
+    // Speech belongs to its speaker, never to a clamped point at the screen edge.
+    // Use the same cinematic transform on desktop, portrait and reduced motion.
+    if(screenX<=0||screenX>=canvas.width||screenY<=0||screenY>=canvas.height)return;
+    const x=wolf.x,y=wolf.y-165,w=238;
+    ctx.save();
+    if(fleeing)ctx.globalAlpha*=clamp((canvas.width-screenX)/70,0,1);
+    ctx.fillStyle = '#fff8df'; ctx.strokeStyle = '#756448'; ctx.lineWidth = 2.5;
     ctx.beginPath(); ctx.roundRect(x - w / 2, y, w, 67, 17); ctx.fill(); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(x - 12, y + 66); ctx.lineTo(x + 4, y + 80); ctx.lineTo(x + 15, y + 66); ctx.fill();
     ctx.textAlign = 'center'; ctx.fillStyle = '#5b503d'; ctx.font = "900 20px 'Trebuchet MS', sans-serif";

@@ -43,7 +43,7 @@ test('the complete epilogue renders every stage, conceals all contact, then cele
   assert.equal(run('state.cutscene.done'), true);
   assert.equal(run('GameManager.read().phase'), 'won');
   assert.equal(elements.get('endScreen').hidden, false);
-  assert.equal(elements.get('endEyebrow').textContent, 'FIM ♥');
+  assert.equal(elements.get('endEyebrow').textContent, 'MISSÃO CONCLUÍDA');
   assert.equal(run('state.score'), 2550);
 });
 
@@ -149,4 +149,29 @@ test('cinematic poses stay visual and reduced motion removes acrobatics without 
   assert.equal(run('GameManager.read().phase'), 'won');
   run('resetGame();');
   assert.equal(run('Object.keys(EndGameSequence.pose(state,state.entities.chicken)).length'), 0);
+});
+
+test('the fleeing wolf speech follows him and leaves with him in desktop and portrait scenes',()=>{
+  for(const reducedMotion of [false,true])for(const [width,height]of [[900,520],[600,1100]]){
+    const {run}=createGame(()=>.5,{reducedMotion});
+    run(`for(const a of state.entities.animals)GameManager.rescue(state,a);GameManager.win(state);
+      canvas.width=${width};canvas.height=${height};var words=[];
+      ctx.fillText=(text,x,y)=>words.push({text,x,y});
+      state.cutscene.time=14.35;EndGameSequence.update(state,0);EndGameSequence.draw(state);`);
+    assert.equal(run('words.length'),2);
+    assert.equal(run('words[0].x'),run('state.entities.wolf.x'));
+    const before=run('words[0].x');
+    run('words=[];EndGameSequence.update(state,.05);EndGameSequence.draw(state)');
+    assert.equal(run('words.length'),2);
+    assert.ok(run('words[0].x')>before,'speech keeps moving, even past the old 715px clamp');
+    assert.equal(run('words[0].x'),run('state.entities.wolf.x'));
+    run('words=[];state.cutscene.time=15;EndGameSequence.update(state,0);EndGameSequence.draw(state)');
+    assert.equal(run('state.cutscene.stage'),'flee','wolf has left before the escape stage ends');
+    assert.equal(run('words.length'),0,'no orphaned speech while the wolf is offscreen');
+    run("GameUI.showMenu(state);updateGame(4);EndGameSequence.draw(state)");
+    assert.equal(run('state.cutscene.time'),15);
+    assert.equal(run('words.length'),0,'pause cannot bring the departed bubble back');
+    run('GameUI.resume();EndGameSequence.update(state,.05);EndGameSequence.draw(state)');
+    assert.equal(run('words.length'),0);
+  }
 });

@@ -117,7 +117,9 @@ const SunflowerSystem = (() => {
     if(a.mode==='dash'){
       const before={x:wolf.x,y:wolf.y};
       const result=Player.checkCatch(game)?'hit':WildlifeRules.move(wolf,a.target,game.settings.chickenSpeed*1.55*dt,()=>Player.checkCatch(game));
-      wolf.vx=(wolf.x-before.x)/dt;wolf.vy=(wolf.y-before.y)/dt;wolf.moving=distance(before,wolf)>.01;wolf.anim+=dt*14;
+      const traveled=distance(before,wolf);
+      wolf.vx=(wolf.x-before.x)/dt;wolf.vy=(wolf.y-before.y)/dt;wolf.moving=traveled>.01;
+      wolf.anim=CharacterArt.advance(wolf.anim,'wolf',traveled,{speed:traveled/dt});
       if(result!=='moving'||a.timer===0){a.mode='recover';a.timer=1.2;stop(wolf,0);}
       return true;
     }

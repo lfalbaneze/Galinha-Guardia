@@ -1,0 +1,8 @@
+{
+  "name": "goose-alert",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-8433d37f-dbb9-4eae-9ec9-4a9030438070.png",
+  "rows": 5,
+  "columns": 12,
+  "prompt": "Create a new ACTION animation sheet for the exact cartoon animal in the reference. Preserve its colors, rounded proportions and bold black outlines. ONE white GOOSE Panto, generous roundedorangebill, longsoft S-neck, broadorangewebbedfeet, comicovaleyeswithcheekybrows, roundedbeanbody. NOT WALKING. Twelve THREATposes feetplanted:1notices,2leansneck,3beginhonk,4wingshigh BEAKOPEN,5wingsexpand,6wingsout,7wingshalfdown,8wingsup,9honkagain,10wingshalfdown,11fold,12settle. Nochangebodyvolume. EXACTLY 5 rows and 12 columns, 60 distinct drawings. Row 1 profile right; row 2 down-right; row 3 facing viewer; row 4 up-right; row 5 back. Orthographic game camera. Keep the body volume consistent in all drawings. Wings and feet must be fully inside each cell: animal occupies at most 60% of cell width and 70% of cell height. Wide transparent empty gutters, no contact between neighbors. Transparent PNG, no scenery, no text.",
+  "tool": "built-in imagegen"
+}

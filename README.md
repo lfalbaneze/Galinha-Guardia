@@ -1,5 +1,7 @@
 # 🐔 Penas pro Ar!
 
+![Capa de Penas pro Ar!](assets/menu/cover-9dd81acab19e.png)
+
 ### Uma fazenda cheia de encrenca
 
 Feito por **Luis Albaneze**.
@@ -8,11 +10,17 @@ O lobo está à solta, os bichos se espalharam pela fazenda e sobrou para uma ga
 
 **Penas pro Ar!** é uma aventura 2D de exploração e furtividade na **Fazenda do tio Clau**, para jogar direto no navegador. Encontre os **12 amigos**, use o feno e a vegetação para se esconder e escolha a hora certa de correr. A cada resgate, o lobo fica mais atento — salvar a turma vai exigir mais do que sair correndo pela fazenda.
 
-Cada amigo tem seu próprio sprite e passos alternados. Os dez amigos originais e os pintinhos têm quatro direções; cavalo e peru usam poses laterais. Veja a [prévia da turma](preview/rescue-animals.png) e as [folhas e prompts de arte](assets/sprites/RESCUE-ART-NOTES.md).
+O elenco tem **29 personagens e aparências em pixel art produzidos pela PixelLab**, com oito direções próprias e ciclos de caminhada completos. As diagonais acompanham o movimento real e a passada acompanha a distância. A coruja dá uma sirene curta, chama o lobo, voa para outra árvore e volta a vigiar. Veja a [prévia animada](preview/pixellab/index.html) e os [personagens e animações instalados](assets/sprites/pixellab-108/README.md).
 
-A protagonista é **Erina**, a carijó, com duas opções também liberadas desde o começo: **Midori**, a sedosa japonesa de topete e patas plumadas, e **Alzira**, a galinha azul inspirada na mascote da Maggi. Escolha na aba **Bichos**; todas têm quatro direções e passos alternados, com as mesmas regras de movimento. Veja a [prévia das três](preview/chickens.png) e os [sprites e prompts](assets/sprites/HEN-ART-NOTES.md).
+Cada dificuldade tem uma [ilustração própria](preview/menu-difficulties.html): o campo tranquilo de Explorador, o encontro no pomar de Aventura, a corrida de Contra o tempo e a lanterna ao anoitecer de Última luz. A [capa do jogo](assets/menu/cover-9dd81acab19e.png) e essas cenas também foram criadas pela PixelLab. [Arquivos e prompts](assets/menu/ART-NOTES.md).
 
-Pelo caminho, piados revelam **seis pintinhos escondidos**. Encontrá-los é opcional, mas rende pontos e ajuda a desbloquear outros personagens. Quando os 12 amigos estão seguros, chega a vez de a turma acertar as contas com o lobo, numa confusão de desenho animado.
+A tela inicial sorteia cinco convidados, suas posições e orientações a cada carregamento, mantendo a aparência equipada como protagonista. O elenco permanece estável ao abrir e fechar os menus e não altera a partida salva.
+
+A edição 94 acrescenta **fome progressiva ao lobo**: tempo de caça e resgates o deixam mais rápido e persistente, com indicação de Faminto e Voraz. A corrida ainda abre distância e a cobertura quebra a perseguição. Vaca, cachorro, cabra e cavalo receberam flancos próprios e passadas revisadas. Veja a [prévia animada](preview/animal-walks.html) e a [proveniência dos sprites](assets/sprites/ARCADE-94-NOTES.md).
+
+A protagonista é **Erina**, a carijó, com duas opções também liberadas desde o começo: **Midori**, a sedosa japonesa de topete e patas plumadas, e **Alzira**, a galinha azul inspirada na mascote da Maggi. Escolha na aba **Bichos**; todas têm oito direções e passos alternados, com as mesmas regras de movimento. Veja a [prévia das três](preview/chickens.png) e os [sprites e prompts](assets/sprites/HEN-ART-NOTES.md).
+
+Pelo caminho, piados revelam **seis pintinhos escondidos, ou dez no Hardcore**. Encontrá-los é opcional, mas rende pontos e ajuda a desbloquear outros personagens. Quando os 12 amigos estão seguros, chega a vez de a turma acertar as contas com o lobo, numa confusão de desenho animado.
 
 ## Pela Fazenda do tio Clau
 
@@ -21,7 +29,7 @@ Pelo caminho, piados revelam **seis pintinhos escondidos**. Encontrá-los é opc
 - **Resgates que dão trabalho.** Os bichos também se assustam e fogem da galinha. Chegue de mansinho ou aproveite quando eles pararem para descansar.
 - **Espantalho de folga.** Três corvos descansam no chapéu e nos braços perto do milharal. Aproximar a galinha espanta o bando; correr assusta de mais longe. Eles voltam após sete segundos de sossego e podem ser espantados novamente.
 - **Segredos e aparências.** Procure os pintinhos para liberar Zeca, o pato; Pipoca, o coelho; Stella, a gata; e Paçoca, o caramelo, cada um com seu tema musical. O desafio do lago libera também Gumercindo, o ganso cinzento. Todos têm sprites próprios e acessórios da roça.
-- **Quatro dificuldades.** Escolha entre Dia tranquilo, Penas em risco, Lobo à solta e Hardcore. Fácil e Médio não têm limite de tempo. Difícil começa com 60 segundos e Hardcore com 45; resgates acrescentam tempo ao relógio. O progresso e as preferências ficam salvos no navegador quando o armazenamento local está disponível.
+- **Quatro dificuldades.** Explorador (Fácil) e Aventura (Médio) não têm limite de tempo. Contra o tempo (Difícil) começa com 60 segundos e Última luz (Hardcore) com 45; resgates acrescentam tempo ao relógio. O movimento básico é igual nos quatro modos. O progresso e as preferências ficam salvos no navegador quando o armazenamento local está disponível.
 
 ## Como jogar
 
@@ -56,7 +64,7 @@ Na aba **Controles**, é possível trocar C e Shift por comandos de ligar/deslig
 
 **Controle com mapeamento padrão do navegador:** analógico esquerdo ou direcional move; A interage; B liga/desliga mansinho; RT corre; X entra/sai do desafio de PANTO; Menu pausa. Nos menus, direcional navega, A confirma, B volta e esquerda/direita ajustam opções e volume. O analógico tem zona morta e velocidade proporcional. Ao desconectar o controle, a partida pausa; depois de retomar, solte os comandos antes de mover novamente.
 
-**Cuidado com os esconderijos:** se o lobo vir você entrar, ele pode ir até lá. Saia, despiste-o e procure outra cobertura sem ser vista. A corrida tem fôlego limitado; caminhar recupera a reserva, e se esconder recupera mais rápido.
+**Cuidado com os esconderijos:** se o lobo vir você entrar, ele vai até lá e o esconderijo será revelado em até **5 segundos**. A captura ainda exige contato físico, sem atravessar paredes. Entrar sem ser vista continua seguro. Saia, despiste-o e procure outra cobertura. A corrida tem fôlego limitado; caminhar recupera a reserva, e se esconder recupera mais rápido.
 
 ## PANTO, o dono do lago
 
@@ -78,9 +86,9 @@ Desvie da sequência inteira para deixar PANTO tonto. O som curto, o anel verde 
 
 O contador **0/3 → 3/3** mostra os carimbos; o painel também mostra a rodada e as chances restantes. **Três bicadas encerram a tentativa**, zerando os carimbos daquele desafio. As bicadas não apagam resgates, vidas ou pontos da fazenda. Durante a tentativa, o lobo espera fora da área. **F novamente** ou sair do círculo também interrompe a tentativa. Pausar congela inclusive a abertura para o carimbo; recarregar a página exige iniciar o desafio de novo com segurança.
 
-Ao pegar os três carimbos, a vinheta de vitória toca e **PANTO é resgatado como amigo extra**, rendendo **+100 pontos uma única vez**. Ele vai para seu lugar no poleiro, deixa de atacar e participa da comemoração final. O HUD e o resultado mostram o resgate separado dos 12 amigos obrigatórios. Vença o desafio antes de salvar o último amigo para levar Panto à festa.
+Ao pegar os três carimbos, a vinheta de vitória toca e **PANTO é resgatado como amigo extra**, rendendo a pontuação de um resgate uma única vez: **100 no Fácil/Médio, 150 no Difícil e 200 no Hardcore**. Ele vai para seu lugar no poleiro, deixa de atacar e participa da comemoração final. O HUD e o resultado mostram o resgate separado dos 12 amigos obrigatórios. Vença o desafio antes de salvar o último amigo para levar Panto à festa.
 
-A **ponte sobre o lago abre um atalho real** e a **aparência de ganso** fica disponível no baú. O tablado termina nas margens, com apoios de pedra, corrimãos e ligações aos caminhos próximos. A ponte e o resgate de Panto permanecem salvos nessa fazenda; a aparência continua desbloqueada nas próximas aventuras. Desafios vencidos em salvamentos antigos também colocam Panto no poleiro, preservando a pontuação original. Reiniciar a tentativa exige vencer o desafio de novo. Nenhum dos 12 amigos ou seis pintinhos exige vencer esse desafio.
+A **ponte sobre o lago abre um atalho real** e a **aparência de ganso** fica disponível no baú. O tablado termina nas margens, com apoios de pedra, corrimãos e ligações aos caminhos próximos. A ponte e o resgate de Panto permanecem salvos nessa fazenda; a aparência continua desbloqueada nas próximas aventuras. Desafios vencidos em salvamentos antigos também colocam Panto no poleiro, preservando a pontuação original. Reiniciar a tentativa exige vencer o desafio de novo. Nenhum dos 12 amigos ou pintinhos exige vencer esse desafio.
 
 ## Campo de girassóis
 
@@ -92,7 +100,7 @@ Thor interrompe a emboscada. Pausar congela o ataque; carregar uma partida inter
 
 ## Lorenzo, Amanda e a coruja
 
-No **Difícil e Hardcore**, as raposas caminham entre arbustos livres, respeitando as colisões, sem ocupar moitas com pintinhos ou a moita da personagem escondida. No Difícil, esperam cerca de 10 segundos entre mudanças; no Hardcore, cerca de 6 segundos e caminham mais rápido. A moita de destino fica reservada enquanto a raposa se desloca. O bote continua tendo aviso e direção fixa. Fácil e Médio mantêm as tocas fixas.
+No **Difícil e Hardcore**, as raposas procuram outro arbusto depois de cada bote, acertando ou errando, assim que termina a pausa de recuperação. Sem atacar, também trocam de moita após cerca de 10 segundos no Difícil ou 6 segundos no Hardcore, onde caminham mais rápido. Respeitam as colisões, sem ocupar moitas com pintinhos ou a moita da personagem escondida. A moita de destino fica reservada enquanto a raposa se desloca. Passar perto de uma moita livre não impede a mudança: o deslocamento não causa dano. Se não houver outro arbusto livre com caminho seguro, voltam ao atual e voltam a procurar após um segundo, sem reiniciar a espera completa da ronda. O bote continua tendo aviso e direção fixa. Fácil e Médio mantêm as tocas fixas.
 
 Raposas e corujas usam as folhas de sprites fornecidas pelo usuário, com 12 poses e quatro direções. As imagens originais são preservadas; recortes individuais evitam cortar orelhas, caudas e patas. Amanda usa um lacinho rosa que acompanha todas as poses. Consulte as [notas da arte](assets/sprites/USER-WILDLIFE-NOTES.md).
 
@@ -100,7 +108,7 @@ Nas moitas junto aos caminhos, **Lorenzo e Amanda ficam visíveis na borda da ve
 
 Os dois têm falas próprias enquanto esperam, preparam o bote, acertam ou erram, mudam de moita e levam bronca do lobo. Lorenzo disfarça com “Era teste de suspensão”; Amanda responde com “Errei? Foi coreografia!”. As falas alternam, aparecem em balões por três segundos e ficam pausadas junto com o jogo.
 
-A moita que abriga uma raposa fica marcada como **ocupada** e não pode ser usada como esconderijo, mesmo durante a saída dela. Depois do bote, a raposa descansa e retorna à toca. Se o lobo a vir exposta nesse intervalo, respeitando sua visão e os obstáculos, ele dispara **“Quem manda nesta fazenda sou eu!”**. A raposa corre para longe dele, volta à moita e demora mais para atacar outra vez. O lobo mantém a perseguição que já estiver fazendo; assustado pelo Thor, ele não banca o valentão.
+A moita que abriga uma raposa fica marcada como **ocupada** e não pode ser usada como esconderijo, mesmo durante o bote. Ao escolher outro arbusto, ela libera o anterior e reserva o destino. Depois do bote, a raposa descansa antes de procurar sua próxima toca. Se o lobo a vir exposta nesse intervalo, respeitando sua visão e os obstáculos, ele dispara **“Quem manda nesta fazenda sou eu!”**. A raposa corre para longe dele e demora mais para atacar outra vez; no Difícil e Hardcore, ainda procura outro arbusto depois de fugir. O lobo mantém a perseguição que já estiver fazendo; assustado pelo Thor, ele não banca o valentão.
 
 A **coruja** fica em uma árvore e observa um setor marcado no chão. O alerta só completa enquanto ela continua vendo a galinha. Saia do campo de visão ou entre em cobertura para interrompê-lo. Quando o alarme completa, um lobo próximo pode investigar o ponto observado — a coruja não acompanha a galinha escondida.
 
@@ -123,7 +131,7 @@ A ajuda abre uma cena de **5,4 segundos**: Thor sai da casinha, corre até a per
 
 Uma fanfarra original acompanha a cena, com um acorde na entrega dos corações, e reduz a música de fundo. Respeita silêncio, volume e pausa; continuar um save não repete a música nem a cura. Ossos, uso único no Fácil e progresso da cena são salvos juntos. Uma nova tentativa reinicia a ajuda gratuita e os ossos. A música pode ser regenerada com `node scripts/generate-thor-audio.cjs`. [Arte e prompt da casinha](assets/cinematics/ART-NOTES.md).
 
-A missão tem **um amigo de cada tipo**: ovelha, porquinho, pato, cordeirinho, vaca, cabra, coelho, gato, burrinho, cachorro, cavalo e peru. Cavalo e peru contam no objetivo, rendem 100 pontos e têm lugares próprios no refúgio. Todos os amigos são identificados por corações; a população de bichos decorativos foi removida.
+A missão tem **um amigo de cada tipo**: ovelha, porquinho, pato, cordeirinho, vaca, cabra, coelho, gato, burrinho, cachorro, cavalo e peru. Cavalo e peru contam no objetivo, rendem a mesma pontuação dos outros amigos e têm lugares próprios no refúgio. Todos os amigos são identificados por corações; a população de bichos decorativos foi removida.
 
 Os amigos procuram abrigo e companheiros seguros na fuga. O cavalo tem mais fôlego; o peru se assusta e cansa mais depressa. Uma aproximação de mansinho acalma os dois. Coelhos e gatos mudam de direção mais rápido. A vegetação, os pequenos pastos, as flores e as poças continuam preenchendo os espaços entre as áreas, preservando estradas e portões.
 
@@ -147,7 +155,7 @@ As cercas do curral bloqueiam a passagem, e os portões permitem atravessá-lo e
 
 ## Pintinhos e aparências
 
-Ao ouvir um piado, aproxime-se da moita, árvore ou feno indicado. Quando aparecer **E · chamar pintinho**, aperte **E uma vez**: o pequeno aparece, vem até a galinha e fica a salvo no ninho. Não é preciso entrar no esconderijo nem segurar uma tecla. Cada resgate rende 100 pontos, com confirmação imediata e salvamento automático.
+Ao ouvir um piado, aproxime-se da moita, árvore ou feno indicado. Quando aparecer **E · chamar pintinho**, aperte **E uma vez**: o pequeno aparece, vem até a galinha e fica a salvo no ninho. Não é preciso entrar no esconderijo nem segurar uma tecla. Cada resgate rende 100/150/200 pontos conforme a dificuldade, com confirmação imediata e salvamento automático.
 
 A chamada funciona pela borda do esconderijo e respeita cercas e construções. Se a galinha estiver num esconderijo que o lobo viu, **E continua sendo a saída**. Pintinhos já revelados em partidas antigas também atendem ao E quando estão próximos, sem exigir outra perseguição.
 
@@ -177,16 +185,20 @@ Erina, Midori e Alzira mantêm os atributos básicos. Só o poder equipado vale,
 
 O relógio arcade recompensa cada resgate uma única vez:
 
-| Dificuldade | Tempo inicial | Por pintinho | Por amigo (incluindo Panto) |
+| Dificuldade | Tempo inicial | Por pintinho | Amigos (incluindo Panto) |
 | --- | --- | --- | --- |
 | Difícil | 60s | +20s | +10s |
-| Hardcore | 45s | +30s | +15s |
+| Hardcore | 45s | +5s a +50s com combo | +15s a cada 2 amigos |
 
 O tempo ganho se soma ao restante, podendo ultrapassar o tempo inicial. O acréscimo aparece ao lado do cronômetro. Fácil e Médio continuam sem limite de tempo.
 
-No **Difícil**, cada segundo inteiro que sobra ao salvar o último dos 12 amigos soma **1.000 pontos**. No **Hardcore**, soma **10.000 pontos**. Assim, 30 segundos rendem +30.000 ou +300.000 pontos, além dos pontos de resgate e das vidas restantes. A tela de vitória mostra a conta, aplicada uma única vez. Frações de segundo não pontuam.
+O **Hardcore** tem dez pintinhos. O primeiro inicia uma janela de combo de **10 segundos** e dá **5s** ao relógio da partida. Cada pintinho seguinte dentro da janela dobra o multiplicador até **×10**: as recompensas são **5s, 10s, 20s, 40s, 50s**, mantendo 50s do quinto em diante. A segunda coleta acrescenta 3s à janela do combo; as seguintes acrescentam 4s, 5s, 6s e depois 7s, sempre limitando a janela a 10s restantes. Expirar zera a sequência; o próximo pintinho volta a dar 5s. O HUD mostra multiplicador, tempo e barra do combo. Amigos não interrompem nem estendem a janela. Salvar e continuar preserva ambos os relógios e o progresso do par de amigos.
+
+A pontuação valoriza resgates e exploração. Cada amigo, pintinho ou Panto conquistado vale **100 pontos no Fácil/Médio, 150 no Difícil e 200 no Hardcore**. Cada vida preservada vale **250 pontos na vitória**. No Difícil, cada segundo inteiro restante soma **2 pontos**; no Hardcore, **4 pontos**, sem multiplicar pelos pintinhos ou pelo combo. Trinta segundos rendem 60 ou 120 pontos extras. A tela de vitória mostra a conta, aplicada uma única vez. Frações de segundo não pontuam. Resultados antigos conservam os valores já registrados; resgates novos usam a regra revisada.
 
 O cronômetro aparece junto dos pontos e destaca os últimos 15 segundos. Pausar no menu ou assistir à ajuda do Thor congela o tempo; o desafio do lago faz parte do tempo da partida. Ao zerar, a tentativa termina mesmo com vidas restantes. Tentar novamente repõe os 60s ou 45s iniciais. Continuar um salvamento mantém o tempo ganho e as tocas das raposas. Partidas antigas ainda em andamento recebem o novo tempo inicial uma única vez, sem repetir recompensas de resgates já feitos; vitórias antigas conservam seus pontos e derrotas continuam encerradas.
+
+Saves da primeira versão arcade preservam o tempo que já tinham, mas passam a usar as novas recompensas. No Hardcore, os seis pintinhos originais mantêm seus esconderijos e os quatro novos começam escondidos. As aparências já conquistadas continuam disponíveis e seus requisitos não mudam.
 
 O jogo tem músicas para a fazenda e para as aparências, gravações dos animais e efeitos para os resgates, esconderijos e a cena final. Música e efeitos têm controles de volume separados; também é possível desligar todo o som.
 
@@ -202,7 +214,7 @@ A partida ocupa a janela inteira. Uma faixa compacta reúne personagem, coraçõ
 
 O terreno usa verdes próximos, pouca textura e sulcos suaves nos caminhos. Pequenos grupos de flores ficam junto ao galinheiro, pomar e pastos floridos. Há uma única bancada de colheita na horta, inclusive nas fazendas antigas com vários canteiros. A horta tem fileiras elevadas de madeira, terra e passagens entre elas: alfaces de folhas enroladas, cenouras semienterradas, abóboras arredondadas e tomates apoiados em estacas. As plantas são desenhadas em pixels pelo renderer e continuam reagindo ao contato. A decoração é determinística e calculada uma vez por fazenda, sem mover obstáculos, resgates ou esconderijos dos saves existentes. [Horta](preview/farm-garden-desktop.png) · [Arte e prompt dos pequenos enfeites](assets/farm/MEADOW-ART-NOTES.md).
 
-A abertura ocupa a janela com a fazenda ilustrada e os bichos passeando. O título tem uma pena desenhada em vetor, e o painel verde reúne os botões de jogar antes das configurações. A dificuldade usa três escolhas compactas; aparência, poder, som e controles ficam nas abas. No computador, o painel rola sem redimensionar a paisagem; no celular, a tela segue uma coluna sem rolagem horizontal. A composição está em `menu.css`. [Prévia da abertura](preview/menu-new-desktop.png).
+A abertura usa a paisagem da fazenda, título arcade e uma turma animada no pátio. A preparação tem um painel escuro com os personagens da partida e quatro desafios. A HUD usa pequenos grupos de informação nos cantos, com aviso do lobo apenas quando relevante. A orientação inicial some após o primeiro resgate, catorze segundos ou uma ameaça. O resultado mostra o placar arcade, a aparência equipada e os corações restantes. `expedition-ui.css`, `menu.css` e `results.css` concentram essa apresentação. [Regras e direção da edição](docs/game-direction.md).
 
 **Brincar com a turma:** clique no botão ou toque em um bicho no terreiro. Eles alternam cambalhotas, dancinhas, desafios de pulo e giros, com piadas próprias e respostas de um colega. A turma também faz pequenas apresentações espontâneas, sem iniciar áudio; um toque toca a voz do animal escolhido. As falas respeitam a aparência equipada. No celular, há espaço reservado para as brincadeiras, e os balões procuram um lugar livre do título e dos controles. Movimento reduzido mantém as frases acionadas pelo usuário, sem giros, saltos ou apresentações automáticas. Tudo para ao sair do menu ou abrir a ajuda, preservando a partida. [Cambalhota no computador](preview/menu-play-desktop-tumble.png) · [No celular](preview/menu-play-mobile-tumble.png).
 
@@ -268,7 +280,9 @@ npm run audio:preview
 
 A dependência `@napi-rs/canvas` é usada pelas ferramentas de renderização, não pelo jogo no navegador.
 
-As vozes atuais estão em `assets/audio/voices/v3/`, incluindo cavalo, peru e dois grasnados do Panto. Para refazer os arquivos: execute `python scripts/prepare-animal-audio.py` para obter as fontes anteriores e depois `python scripts/prepare-animal-audio-v3.py`. A preparação usa `numpy`, `soundfile` e `py7zr`; essas dependências não são necessárias para jogar. O manifesto registra os cortes, as licenças e os hashes de cada trecho, sem alterar a afinação ou duplicar chamadas.
+A integração de sprites fofinhos com a PixelLab está documentada em [docs/pixellab.md](docs/pixellab.md). Inclui geração em oito direções, retomada de trabalhos e revisão animada. A chave fica em `.env.local`; a geração é separada do build e os PNGs instalados funcionam offline.
+
+As vozes atuais estão em `assets/audio/voices/v5/`: 20 chamadas para 15 espécies, dois pios de coruja, duas reações caninas usadas para o lobo e os efeitos de raposa e de reação ao dano do coelho. As gravações mantêm a afinação natural, com limpeza e volume ajustados por espécie. Galinhas alternam três cacarejos; pintinhos, porcos e Panto alternam duas chamadas. Para reconstruir os 26 arquivos sem downloads, execute `python scripts/prepare-animal-audio-v5.py` a partir dos trechos originais incluídos em `assets/audio/voices/raw-v5/`. A preparação usa `numpy` e `soundfile`; essas dependências não são necessárias para jogar. Os manifestos registram autores, licenças, cortes, tratamento e hashes. Veja as [notas de produção](assets/audio/voices/v5/NOTES.md).
 
 A [comparação de sons](assets/audio/revisao.html) permite ouvir antes e depois. No jogo, as chamadas espontâneas têm menor volume, intervalo mínimo de 4,8 segundos e aguardam o fim das outras vozes. Os resgates continuam respondendo imediatamente; no máximo dois bichos falam juntos. O desafio do Panto tem prioridade sobre as chamadas de ambiente.
 

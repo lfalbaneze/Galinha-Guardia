@@ -19,7 +19,7 @@ const AudioSystem = (() => {
       ANIMAL_SPECIES.has(species) ? `animal-${species}` : 'rescue';
   };
   const EFFECTS = new Set(["boing", "pop", "bonk", "squeak", "dizzy", "sob", "runaway", "rescue", "chick", "victory", "goose-honk", "panto-dodge", "panto-victory", "owl-hoot", "fox-rustle",
-    "step-water", "step-mud", "step-leaves", "thor-hero", ...Array.from(ANIMAL_SPECIES, animalName)]);
+    "owl-siren", "step-water", "step-mud", "step-leaves", "thor-hero", ...Array.from(ANIMAL_SPECIES, animalName)]);
   const defaults = { musicVolume: 0.25, effectsVolume: 0.55, track: "forest", muted: false, skinThemes: true };
   const settings = { ...defaults };
   const status = { unlocked: false, unsupported: typeof Audio !== "function", blocked: false };
@@ -35,18 +35,35 @@ const AudioSystem = (() => {
     }
   } catch (_) { /* Private browsing and corrupt settings must not affect the game. */ }
 
-  let music = null, musicTrack = null, musicAttempted = false, musicToken = 0, duck = 1;
+  let music = null, musicTrack = null, musicAttempted = false, musicToken = 0, duck = 1, musicMix = 1;
+  // Trim the louder synthesized cues to the same range as the farm voices.
+  // Measured active RMS: Panto .228, Thor .194, ordinary cues about .07-.10.
+  const EFFECT_TRIM = {boing:.76,bonk:.78,'panto-dodge':.42,'panto-victory':.68,'thor-hero':.5};
   let currentGame = null, currentPhase = null, active = false, serial = 0;
   const voices = [];
+  const failedClips = new Set();
+  // A leaf step or pickup must never evict a warning, rescue or victory cue.
+  const priorityFor = (name, options = {}) => options.playerHurt ? 5 :
+    ['thor-hero','victory','panto-victory'].includes(name) ? 6 :
+    options.ambient || name.startsWith('step-') ? 0 :
+    ['goose-honk','owl-hoot','owl-siren','fox-rustle','panto-dodge'].includes(name) ? 4 :
+    isVoice(name) || name === 'rescue' ? 3 : 1;
   let menuVoice = null;
   let scene = null, lastTime = -1, cloudBucket = -1, sobBucket = -1;
   const oneShots = new Set();
   const isAnimal = name => name === 'chick' || name === 'goose-honk' || name.startsWith('animal-');
-  const VARIANTS = new Set(['animal-pig', 'animal-chicken', 'goose-honk']);
+  const isVoice = name => isAnimal(name) || name === 'owl-hoot' || name === 'owl-siren' || name === 'sob';
+  const blocksChatter = name => isVoice(name) || ['owl-siren','fox-rustle','squeak','rescue','victory','panto-dodge','panto-victory','thor-hero'].includes(name);
+  const VARIANTS = new Map([['animal-pig',2],['animal-chicken',3],['goose-honk',2],['chick',2],['owl-hoot',2],['owl-siren',2],['sob',2]]);
   const takes = new Map();
-  const variantFor = name => VARIANTS.has(name) ? (takes.get(name) || 0) % 2 + 1 : 1;
+  const variantFor = name => (takes.get(name) || 0) % (VARIANTS.get(name) || 1) + 1;
   // A versioned directory also replaces clips cached by an older copy of the game.
-  const path = (name, variant = 1) => `./assets/audio/${isAnimal(name) || ['owl-hoot','sob'].includes(name) ? 'voices/v4/' : ''}${name}${variant > 1 ? `-${variant}` : ''}.wav`;
+  const path = (name, variant = 1) => `./assets/audio/${name === 'owl-siren' ? 'effects/v1/' : name === 'owl-hoot' ? 'voices/v6/' : isVoice(name) || ['fox-rustle','squeak'].includes(name) ? 'voices/v5/' : ''}${name}${variant > 1 ? `-${variant}` : ''}.wav`;
+  // Shared with the complete media review: one list of the files actually played.
+  const catalog = Object.freeze([...TRACKS,...SKIN_TRACKS.values(),...EFFECTS].flatMap(name =>
+    Array.from({length:VARIANTS.get(name)||1},(_,i)=>Object.freeze({name,variant:i+1,src:path(name,i+1),
+      kind:TRACKS.has(name)||[...SKIN_TRACKS.values()].includes(name)?'music':isVoice(name)?'voice':'effect',
+      trim:EFFECT_TRIM[name]||1}))));
   let flock = null, farmTime = 0, nextCall = 1.8, playerCall = 24;
   const heard = new Map();
   const hidden = () => typeof document !== "undefined" && document.hidden === true;
@@ -83,11 +100,20 @@ const AudioSystem = (() => {
     if (menuVoice?.active) release(menuVoice);
   }
   function volumes() {
-    const animalSpeaking = voices.some(voice => voice.active && isAnimal(voice.name));
-    const celebrating = voices.some(voice => voice.active && ['panto-victory','thor-hero'].includes(voice.name));
-    if (music) music.volume = settings.muted ? 0 : settings.musicVolume * duck * (celebrating ? .18 : animalSpeaking ? .24 : 1);
+    if (music) music.volume = settings.muted ? 0 : settings.musicVolume * musicMix;
     for (const voice of voices) if (voice.active) voice.audio.volume = settings.muted ? 0 : settings.effectsVolume * voice.gain;
     if (menuVoice?.active) menuVoice.audio.volume = settings.muted ? 0 : settings.effectsVolume * menuVoice.gain;
+  }
+  function advanceMix(dt) {
+    const animalSpeaking = voices.some(v=>v.active&&!v.ambient&&isVoice(v.name));
+    const celebrating = voices.some(v=>v.active&&['panto-victory','thor-hero'].includes(v.name));
+    // Ambient chatter leaves music steady. Important cues get a gentle dip,
+    // never multiplied by another dip, then a slower return after they finish.
+    const target = Math.min(duck, celebrating ? .55 : animalSpeaking ? .82 : 1);
+    const seconds = target < musicMix ? .18 : .7;
+    musicMix += (target-musicMix)*(1-Math.exp(-Math.min(dt,.1)/seconds));
+    if(Math.abs(target-musicMix)<.0001)musicMix=target;
+    volumes();
   }
   function attempt(audio, failed, started = () => {}) {
     try {
@@ -95,6 +121,11 @@ const AudioSystem = (() => {
       // Some older browsers return undefined. Modern rejection is always handled here.
       if (result && typeof result.then === "function") result.then(started).catch(failed);
     } catch (error) { failed(error); }
+  }
+  function failedPlayback(error, clip) {
+    // Browser gesture policy is global. A missing/invalid file is local to a clip.
+    if (error?.name === 'NotAllowedError') status.blocked = true;
+    else if (error?.name !== 'AbortError') failedClips.add(clip);
   }
   function skinTheme() {
     return settings.skinThemes && SKIN_TRACKS.get(currentGame?.entities?.chicken?.skin);
@@ -105,56 +136,69 @@ const AudioSystem = (() => {
     if (music && musicTrack !== target) {
       pauseMusic(); rewind(music); music.src = path(target); musicTrack = target;
     }
-    const wanted = active && status.unlocked && !status.unsupported && !status.blocked && !settings.muted && settings.musicVolume > 0;
+    const title = currentGame?.phase === 'menu' && currentGame.hasSave === false && !hidden();
+    const wanted = (active || title) && status.unlocked && !status.unsupported && !status.blocked && !settings.muted && settings.musicVolume > 0 && !failedClips.has(path(target));
     if (!wanted) { if (music && (!music.paused || musicAttempted)) pauseMusic(); return; }
     if (!music) {
       music = makeAudio(target);
       if (!music) return;
       musicTrack = target;
       music.loop = true;
-      music.onerror = () => { status.blocked = true; pauseMusic(); };
+      music.onerror = () => { failedClips.add(path(musicTrack)); pauseMusic(); };
     }
     volumes();
     if (musicAttempted || !music.paused) return;
     musicAttempted = true;
     const token = ++musicToken;
-    attempt(music, () => {
+    attempt(music, error => {
       if (token !== musicToken) return;
-      status.blocked = true;
+      failedPlayback(error, path(target));
       // Leave attempted set: update() must never retry a rejected play every frame.
-    }, () => { if (!active || settings.muted || hidden()) music.pause(); });
+    }, () => { if ((!active && !(currentGame?.phase === 'menu' && currentGame.hasSave === false)) || settings.muted || hidden()) music.pause(); });
   }
   function unlock() {
     if (status.unsupported) return false;
     status.unlocked = true;
     status.blocked = false;
     musicAttempted = false;
+    failedClips.clear();
+    if (currentGame) sync(currentGame);
     syncMusic();
     return true;
   }
   function play(name, options = {}) {
     if (!EFFECTS.has(name) || !active || !status.unlocked || status.unsupported || status.blocked ||
       settings.muted || settings.effectsVolume <= 0 || hidden()) return false;
-    const gain = unit(options.volume, 1);
+    const gain = unit(options.volume, 1) * (EFFECT_TRIM[name] || 1);
     if (!gain) return false;
+    const variant = variantFor(name), clip = path(name, variant), priority = priorityFor(name, options);
+    if (failedClips.has(clip)) return false;
+    // Several pickups in one simulation tick share a cue, not six aligned copies.
+    const repeated = !isVoice(name) && voices.find(v=>v.active&&v.name===name);
+    if (repeated) {
+      if (!options.playerHurt) return false;
+      release(repeated); // A new hit restarts its feedback without stacking copies.
+    }
+    // Incidental chatter waits its turn instead of cutting through a rescue or warning.
+    if (options.ambient && voices.some(v=>v.active&&blocksChatter(v.name))) return false;
     // Footsteps never steal a voice from a rescue, animal call or challenge cue.
     const contact = name.startsWith('step-');
     if (contact && (voices.filter(v => v.active && v.name.startsWith('step-')).length >= 2 ||
       voices.some(v => v.active && ['panto-dodge','panto-victory','thor-hero','victory','rescue'].includes(v.name)) ||
       voices.filter(v => v.active).length >= 6)) return false;
     // Hits and challenge feedback take precedence over incidental farm chatter.
-    if ((options.playerHurt || ['goose-honk', 'panto-dodge', 'panto-victory','thor-hero'].includes(name)) && !options.ambient) {
+    if ((options.playerHurt || ['goose-honk','owl-hoot','owl-siren','fox-rustle', 'panto-dodge', 'panto-victory','thor-hero'].includes(name)) && !options.ambient) {
       for (const item of voices) if (item.active && item.ambient) release(item);
     }
-    if (isAnimal(name)) {
-      const speaking = voices.filter(item => item.active && isAnimal(item.name));
+    if (isVoice(name)) {
+      const speaking = voices.filter(item => item.active && isVoice(item.name));
       if (speaking.length >= 2) {
-        const oldest = speaking.filter(item => item.ambient).sort((a, b) => a.order - b.order)[0] ||
-          speaking.sort((a, b) => a.order - b.order)[0];
+        const oldest = speaking.filter(item => item.priority <= priority)
+          .sort((a,b)=>a.priority-b.priority||a.order-b.order)[0];
+        if (!oldest) return false;
         release(oldest);
       }
     }
-    const variant = variantFor(name), clip = path(name, variant);
     let voice = voices.find(item => !item.active);
     if (!voice && voices.length < 6) {
       const audio = makeAudio(name, variant);
@@ -162,26 +206,29 @@ const AudioSystem = (() => {
       voice = { audio, name, clip, active: false, token: 0, gain: 1, order: 0, ambient: false };
       voices.push(voice);
     }
-    if (!voice) voice = voices.filter(item=>item.name!=='thor-hero').reduce((oldest,item)=>!oldest||item.order<oldest.order?item:oldest,null)||voices[0];
+    if (!voice) voice = voices.filter(item=>item.priority<=priority)
+      .sort((a,b)=>a.priority-b.priority||a.order-b.order)[0];
+    if (!voice) return false;
     release(voice);
     if (voice.clip !== clip) { voice.audio.src = clip; voice.clip = clip; }
     voice.name = name;
     voice.ambient = options.ambient === true;
     voice.gain = gain;
+    voice.priority = priority;
     voice.order = ++serial;
     voice.active = true;
     voice.audio.loop = false;
     voice.audio.volume = settings.effectsVolume * gain;
-    voice.audio.playbackRate = !isAnimal(name) && Number.isFinite(options.rate) ? Math.max(0.7, Math.min(1.4, options.rate)) : 1;
+    voice.audio.playbackRate = !isVoice(name) && Number.isFinite(options.rate) ? Math.max(0.7, Math.min(1.4, options.rate)) : 1;
     const token = ++voice.token;
     voice.audio.onended = () => { if (voice.token === token) { voice.active = false; volumes(); } };
-    voice.audio.onerror = () => { if (voice.token === token) release(voice); };
+    voice.audio.onerror = () => { if (voice.token === token) { failedClips.add(clip); release(voice); } };
     volumes();
     attempt(voice.audio, error => {
       if (voice.token !== token) return;
       release(voice);
-      if (!error || error.name !== "AbortError") status.blocked = true;
-    }, () => { if (!active || !voice.active || settings.muted || hidden()) voice.audio.pause(); });
+      failedPlayback(error, clip);
+    }, () => { if ((voice.token === token || !voice.active) && (!active || !voice.active || settings.muted || hidden())) voice.audio.pause(); });
     if (VARIANTS.has(name)) takes.set(name, (takes.get(name) || 0) + 1);
     return true;
   }
@@ -202,6 +249,7 @@ const AudioSystem = (() => {
   }
   // Only the menu's explicit click uses this voice. Gameplay and music stay paused.
   function playMenuAnimal(game, species) {
+    species = voiceSpecies(species);
     if (game?.phase !== 'menu' || hidden() || !ANIMAL_SPECIES.has(species) || status.unsupported ||
       settings.muted || settings.effectsVolume <= 0) return false;
     sync(game);
@@ -219,13 +267,13 @@ const AudioSystem = (() => {
     voice.active = true;
     const token = ++voice.token;
     audio.onended = () => { if (voice.token === token) voice.active = false; };
-    audio.onerror = () => { if (voice.token === token) stopMenuAnimal(); };
+    audio.onerror = () => { if (voice.token === token) { failedClips.add(path(name, variant)); stopMenuAnimal(); } };
     attempt(audio, error => {
       if (voice.token !== token) return;
       stopMenuAnimal();
-      if (!error || error.name !== 'AbortError') status.blocked = true;
+      failedPlayback(error, path(name, variant));
     }, () => {
-      if (!voice.active || currentGame?.phase !== 'menu' || settings.muted || hidden()) audio.pause();
+      if ((voice.token === token || !voice.active) && (!voice.active || currentGame?.phase !== 'menu' || settings.muted || hidden())) audio.pause();
     });
     if (VARIANTS.has(name)) takes.set(name, (takes.get(name) || 0) + 1);
     return true;
@@ -239,8 +287,7 @@ const AudioSystem = (() => {
     // Simulation time only: no timers survive pause, tab hiding or a new adventure.
     farmTime += Math.min(dt, .25);
     if (farmTime < nextCall || !status.unlocked || settings.muted || settings.effectsVolume <= 0) return;
-    if (game.lake?.active || voices.some(voice => voice.active &&
-      (isAnimal(voice.name) || voice.name === 'panto-dodge' || voice.name === 'panto-victory' || voice.name==='thor-hero'))) return;
+    if (game.lake?.active || voices.some(voice => voice.active && blocksChatter(voice.name))) return;
     const nearby = animals.map((animal, index) => ({ animal, index,
       distance: Math.hypot(animal.x - chicken.x, animal.y - chicken.y), last: heard.get(animal) ?? -60
     })).filter(item => item.distance < (item.animal.species === 'rabbit' ? 90 : 310) &&
@@ -313,9 +360,10 @@ const AudioSystem = (() => {
     active = nextActive;
     currentPhase = game.phase;
     if (game.phase !== 'menu' || hidden()) stopMenuAnimal();
-    duck = game.phase === "win_cutscene" && ["cloud", "dizzy", "flee"].includes(stageAt(game.cutscene || {})) ? 0.25 : 1;
+    duck = game.phase === "win_cutscene" && ["cloud", "dizzy", "flee"].includes(stageAt(game.cutscene || {})) ? 0.55 : 1;
     if (!active) {
       if (changed || hidden()) { pauseMusic(); stopEffects(game.phase === "won" && !hidden()); }
+      musicMix=duck;
       observeScene(game, false, true);
     } else if (changed && !wasActive && scene === game.cutscene) {
       // The paused instant has already been heard; resume with the next beat or stage.
@@ -328,12 +376,13 @@ const AudioSystem = (() => {
     sync(game);
     if (active && game.phase === "win_cutscene" && Number.isFinite(dt) && dt > 0) observeScene(game, true);
     if (active && game.phase === "playing" && Number.isFinite(dt) && dt > 0) farmVoices(game, dt);
+    if (active && Number.isFinite(dt) && dt > 0) advanceMix(dt);
   }
   function reset() {
     pauseMusic();
     if (music) rewind(music);
     stopEffects(); stopMenuAnimal(); clearScene();
-    currentGame = null; currentPhase = null; active = false; duck = 1;
+    currentGame = null; currentPhase = null; active = false; duck = 1; musicMix = 1;
     flock = null; heard.clear(); takes.clear(); farmTime = 0; nextCall = 1.8; playerCall = 24;
     volumes();
   }
@@ -372,9 +421,9 @@ const AudioSystem = (() => {
   if (typeof document !== "undefined" && document.addEventListener) {
     document.addEventListener("visibilitychange", () => { if (currentGame) sync(currentGame); });
   }
-  return { unlock, update, sync, reset, pause, play, playAnimal, playPlayerHurt, playMenuAnimal, stopMenuAnimal, setMusicVolume, setEffectsVolume, setTrack, setSkinThemes, toggleMute,
+  return { catalog, unlock, update, sync, reset, pause, play, playAnimal, playPlayerHurt, playMenuAnimal, stopMenuAnimal, setMusicVolume, setEffectsVolume, setTrack, setSkinThemes, toggleMute,
     get settings() { return Object.freeze({ ...settings }); },
-    get status() { return Object.freeze({ ...status, track: selectedTrack(), trackTitle: TRACK_TITLES.get(selectedTrack()),
+    get status() { return Object.freeze({ ...status, failedClips: Object.freeze([...failedClips]), track: selectedTrack(), trackTitle: TRACK_TITLES.get(selectedTrack()),
       skinTheme: !!skinTheme(), music: status.unsupported ? "unsupported" :
       !status.unlocked ? "locked" : status.blocked ? "blocked" : music && !music.paused ? "playing" : "paused" }); } };
 })();

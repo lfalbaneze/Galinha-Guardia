@@ -1,0 +1,48 @@
+{
+  "checked": [
+    {
+      "id": "thor",
+      "actions": [
+        "idle",
+        "walk",
+        "happy",
+        "scared",
+        "angry",
+        "sad",
+        "run"
+      ],
+      "directions": 8,
+      "walkFrames": 8
+    }
+  ],
+  "game": {
+    "characters": 29,
+    "newCharacters": 29,
+    "owl": true,
+    "goose": true,
+    "fox": true
+  },
+  "headings": [
+    "up",
+    "upright",
+    "right",
+    "downright",
+    "down",
+    "downleft",
+    "left",
+    "upleft"
+  ],
+  "audio": [
+    {
+      "file": "owl-siren.wav",
+      "duration": 0.72,
+      "playing": true
+    },
+    {
+      "file": "owl-siren-2.wav",
+      "duration": 0.72,
+      "playing": true
+    }
+  ],
+  "errors": []
+}

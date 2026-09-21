@@ -1,6 +1,7 @@
 /* A seed only chooses the scenery once. Rendering never consumes random numbers. */
 const FarmArt = (() => {
   const INK = "#695640", TAU = Math.PI * 2;
+  const boundaryCache = new WeakMap(), propsCache = new WeakMap();
   const hash = (x, y = 0) => { const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return n - Math.floor(n); };
   function ellipse(c, x, y, rx, ry, color, outline = false) {
     c.beginPath(); c.ellipse(x, y, Math.max(.1, rx), Math.max(.1, ry), 0, 0, TAU);
@@ -335,18 +336,10 @@ const FarmArt = (() => {
       decoration(c,d.plotId ? {...d,scale:1} : d);
       c.restore();
     }
-    FarmScenery.draw(c,layout,camera);
     // Standalone ground previews still include crops; live play sorts them with actors.
     if(!game)for(const crop of getCrops(layout))if(visible(c,crop,camera,35))gardenPlant(c,crop);
-    // Low split-rail boundary, leaving the meadow itself free of a square grid.
-    for (let x = 35; x < layout.width - 25; x += 84) {
-      for (const y of [28, layout.height - 23]) if (visible(c, { x, y, w: 84, h: 24 }, camera, 30)) fence(c, x, y, 84);
-    }
-    for (let y = 28; y < layout.height - 23; y += 64) {
-      for (const x of [23, layout.width - 23]) if (visible(c, { x, y, w: 16, h: 84 }, camera, 30)) {
-        verticalFence(c,x,y,Math.min(64,layout.height-23-y));
-      }
-    }
+    // Live fences sort with actors so the front rails cover their feet.
+    if(!game)for(const p of boundaryProps(layout))if(visible(c,p,camera,40))drawBoundary(c,p);
     c.restore();
   }
   function fence(c, x, y, w) {
@@ -355,7 +348,41 @@ const FarmArt = (() => {
     line(c, [[x, y - 5], [x + w, y - 5]], "#ceb385", 5);
     rounded(c, x - 4, y - 24, 8, 27, 2, "#e4ca94", true);
   }
+  function boundaryLines(layout) {
+    return {left:23,right:layout.width-23,top:28,bottom:layout.height-23};
+  }
+  function playableBounds(layout) {
+    const b=boundaryLines(layout);
+    return {x:b.left+4,y:b.top+4,w:b.right-b.left-8,h:b.bottom-b.top-7};
+  }
+  function boundaryObstacles(layout) {
+    const b=playableBounds(layout),right=b.x+b.w,bottom=b.y+b.h;
+    // Fill the outside strip, rather than leaving a walkable gap beyond the rails.
+    return [
+      {x:0,y:0,w:b.x,h:layout.height},
+      {x:right,y:0,w:layout.width-right,h:layout.height},
+      {x:0,y:0,w:layout.width,h:b.y},
+      {x:0,y:bottom,w:layout.width,h:layout.height-bottom},
+    ].map(p=>({...p,type:'boundary-fence',opaque:false}));
+  }
+  function boundaryProps(layout) {
+    if(boundaryCache.has(layout))return boundaryCache.get(layout);
+    const b=boundaryLines(layout),result=[];
+    for(let x=b.left;x<b.right;x+=84)for(const y of [b.top,b.bottom])
+      result.push({x,y,w:Math.min(84,b.right-x),h:0,depth:y+4,type:'boundary-fence',id:`boundary-h-${x}-${y}`});
+    for(let y=b.top;y<b.bottom;y+=32)for(const x of [b.left,b.right]) {
+      const h=Math.min(32,b.bottom-y);
+      result.push({x,y,w:0,h,depth:y+h+4,type:'boundary-fence',id:`boundary-v-${x}-${y}`});
+    }
+    boundaryCache.set(layout,result);
+    return result;
+  }
+  function drawBoundary(c,p) {
+    if(p.w)fence(c,p.x,p.y,p.w);
+    else verticalFence(c,p.x,p.y,p.h);
+  }
   function getProps(layout) {
+    if(propsCache.has(layout))return propsCache.get(layout);
     const s = layout.structures || {}, result = [];
     for (const [key, type] of [["coops","coop"],["silos","silo"],["hayBales","hay"]])
       for (const [i, p] of (s[key] || []).entries()) result.push({ ...p, type, id: p.id || `${type}-${i}`, depth: p.y + p.h });
@@ -371,7 +398,15 @@ const FarmArt = (() => {
       result.push({...d,w:28,h:1,depth:d.y+3,id:`corn-${d.x}-${d.y}`});
     // Old generators scatter short decorative rails around district rectangles.
     // They enclose nothing and have no collisions. Keep only the actual refuge and world boundary fences.
-    return FarmDetails.decorate(layout, result.concat(FarmRefuge.props(),SunflowerSystem.props(layout)));
+    const decorated=FarmDetails.decorate(layout, result.concat(FarmRefuge.props(),SunflowerSystem.props(layout))).concat(boundaryProps(layout));
+    propsCache.set(layout,decorated);
+    return decorated;
+  }
+  function signObstacles(layout) {
+    if(!layout)return [];
+    return getProps(layout).filter(p=>p.type==='sign'||p.type==='sunflower-sign').map(p=>({
+      x:p.x,y:p.y,w:p.w,h:p.h||49,type:'sign',id:p.id,opaque:false
+    }));
   }
 
   function corn(c,p) {
@@ -518,6 +553,7 @@ const FarmArt = (() => {
     if(p.type==='sunflower-sign'){FarmDetails.drawSign(c,p);c.restore();return;}
     if(p.type==='corn') {if(game)EnvironmentSystem.transform(c,p,game);corn(c,p);c.restore();return;}
     if(p.type==='paddock-fence') {paddockFence(c,p);c.restore();return;}
+    if(p.type==='boundary-fence') {drawBoundary(c,p);c.restore();return;}
     if(p.type==='stable'||p.type==='trough') {
       const box=FarmDetails.shape(p);
       if(!FarmSprites.draw(c,p.type==='stable'?(FarmSprites.habitatsReady?'shelter':'barn'):'trough',box.x,box.y,box.w,box.h,{grounded:true,shadow:true,palette:0}))
@@ -605,6 +641,6 @@ const FarmArt = (() => {
     }
     c.restore();
   }
-  return {drawGround,getProps,getCrops,drawProp,drawCoverForeground,drawSecretCover};
+  return {drawGround,getProps,getCrops,drawProp,drawCoverForeground,drawSecretCover,playableBounds,boundaryObstacles,signObstacles};
 })();
 if (typeof module !== "undefined" && module.exports) module.exports = FarmArt;

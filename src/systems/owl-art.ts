@@ -1,19 +1,32 @@
-/* Four-direction pixel sheet with the same world foot plane as the farm cast. */
+/* Notice, inhale, call and settle are drawn poses, synchronized with the alarm. */
 const OwlArt = (() => {
-  const frames = [
-    {x:92,y:56,w:244,h:300},{x:419,y:56,w:247,h:300},{x:746,y:56,w:247,h:300},
-    {x:77,y:382,w:264,h:303},{x:402,y:382,w:278,h:303},{x:729,y:382,w:280,h:303},
-    {x:59,y:705,w:280,h:309},{x:398,y:705,w:281,h:309},{x:729,y:705,w:275,h:309},
-    {x:91,y:1033,w:245,h:304},{x:419,y:1033,w:247,h:304},{x:749,y:1033,w:244,h:304}
-  ];
-  const sheet=createWildlifeSheet('assets/sprites/sources/owl-custom.png',1086,1448,frames);
-  const rows: Record<Farm.Direction,number>={down:0,left:1,right:2,up:3};
+  const {src:source,width,height,frames,columns}=PremiumWildlifeData.owl;
+  const sheet=createWildlifeSheet(source,width,height,frames,columns);
+  const flight=PremiumWildlifeData['owl-flight'];
+  const flightSheet=createWildlifeSheet(flight.src,flight.width,flight.height,flight.frames,flight.columns);
+  let pending:Promise<boolean>|null=null;
+  function load(loader?:(src:string)=>Promise<CanvasImageSource>):Promise<boolean>{
+    if(pending)return pending;
+    pending=Promise.all([sheet.load(loader),flightSheet.load(loader)]).then(r=>{pending=null;return r.every(Boolean);});return pending;
+  }
+  const rows: Record<Farm.ArtDirection,number>={down:0,right:1,up:2,left:3,downright:4,upright:5,downleft:6,upleft:7};
   function frameFor(owl: Farm.Owl): {row:number;column:number} {
-    return {row:rows[owl.direction]??0,column:owl.mode==='alert'?2:owl.mode==='cooldown'?1:0};
+    const acting=owl.mode==='alert'||(owl.callTime||0)>0;
+    const angle=acting?(owl.callHeading??owl.heading):owl.heading;
+    const direction=CharacterArt.directionFor(owl.direction,Math.cos(angle),Math.sin(angle));
+    let column=0;
+    if(owl.mode==='relocate')column=Math.floor(owl.anim)%flight.columns;
+    const callStart=Math.floor(columns/2);
+    if(owl.mode==='alert')column=1+Math.min(callStart-2,Math.floor(owl.alertProgress*(callStart-1)));
+    if((owl.callTime||0)>0)column=callStart+Math.min(columns-callStart-1,Math.floor((.72-(owl.callTime||0))/.72*(columns-callStart)));
+    return {row:rows[direction]??0,column:Math.min(columns-1,column)};
   }
   function draw(c:CanvasRenderingContext2D,owl:Farm.Owl,view:Farm.Camera):boolean {
-    const x=Math.round(owl.perch.x-view.x+(view.shakeX||0)),feet=Math.round(owl.perch.y-view.y+(view.shakeY||0))-42;
-    const frame=frameFor(owl);return sheet.drawFrame(c,x,feet,frame.row,frame.column,.15,42);
+    const flying=owl.mode==='relocate',position=flying?owl:owl.perch;
+    const elevation=42+(flying?Math.sin(Math.PI*(owl.flight?.progress||0))*58:0);
+    const x=position.x-view.x+(view.shakeX||0),feet=position.y-view.y+(view.shakeY||0)-elevation;
+    const frame=frameFor(owl);return (flying?flightSheet:sheet).drawFrame(c,x,feet,frame.row,frame.column,1,elevation);
   }
-  return {draw,frameFor,frames,load:sheet.load,install:sheet.install,get ready(){return sheet.ready;},get loading(){return sheet.loading;},get errors(){return sheet.errors;}};
+  return {draw,frameFor,frames,load,install:(loader:(src:string)=>CanvasImageSource)=>{sheet.install(loader);flightSheet.install(loader);},
+    get ready(){return sheet.ready&&flightSheet.ready;},get loading(){return sheet.loading||flightSheet.loading;},get errors(){return [...sheet.errors,...flightSheet.errors];}};
 })();

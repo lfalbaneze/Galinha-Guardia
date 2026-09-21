@@ -2,12 +2,21 @@
 const Player = {
     sprintMultiplier: 1.32,
     sprintSeconds: 3,
+    directionFor(previous, x, y) {
+        if (!Number.isFinite(x) || !Number.isFinite(y) || Math.hypot(x, y) < 0.01)
+            return previous;
+        // Keep the current axis around diagonals; tiny steering corrections must not
+        // flicker between two drawings. A clear turn or reversal still responds now.
+        const horizontal = previous === 'left' || previous === 'right';
+        const useHorizontal = horizontal ? Math.abs(x) * 1.2 >= Math.abs(y) : Math.abs(x) > Math.abs(y) * 1.2;
+        return useHorizontal ? (x < 0 ? 'left' : 'right') : (y < 0 ? 'up' : 'down');
+    },
     face(entity, x, y) {
         if (Math.hypot(x, y) < 0.01)
             return;
         if (x !== 0)
             entity.facing = Math.sign(x);
-        entity.direction = Math.abs(x) > Math.abs(y) ? (x < 0 ? "left" : "right") : (y < 0 ? "up" : "down");
+        entity.direction = Player.directionFor(entity.direction, x, y);
     },
     move(entity, dx, dy) {
         if (!Number.isFinite(dx) || !Number.isFinite(dy))
@@ -15,9 +24,16 @@ const Player = {
         // Resolve short steps so fast movement cannot jump across narrow obstacles.
         const steps = Math.max(1, Math.ceil(Math.hypot(dx, dy) / 8));
         for (let i = 0; i < steps; i++) {
+            const beforeX = entity.x, beforeY = entity.y;
             entity.x += dx / steps;
             entity.y += dy / steps;
-            resolveEnvironment(entity);
+            // A gap narrower than the body can push it between opposing contacts.
+            // Keep the last valid step instead of letting a wall eject it through another.
+            if (!resolveEnvironment(entity)) {
+                entity.x = beforeX;
+                entity.y = beforeY;
+                break;
+            }
         }
     },
     moveVector() {
@@ -67,7 +83,7 @@ const Player = {
             chicken.stamina = Math.min(1, chicken.stamina + recovering * (chicken.hidden ? 0.65 : 0.28));
         }
         chicken.state = chicken.moving ? "walk" : "idle";
-        chicken.anim += dt * (chicken.sprinting ? 15 : chicken.moving ? 9 : 2.4);
+        chicken.anim = CharacterArt.advance(chicken.anim, 'chicken', traveled, { skin: chicken.skin, speed: dt > 0 ? traveled / dt : 0 });
         chicken.invulnerable = Math.max(0, chicken.invulnerable - dt);
         if (moving)
             Player.face(chicken, move.x, move.y);

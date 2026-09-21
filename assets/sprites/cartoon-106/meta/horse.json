@@ -1,0 +1,8 @@
+{
+  "name": "horse",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-b30c35d7-c439-43b2-9e4e-395c9f05bf1f.png",
+  "rows": 5,
+  "columns": 12,
+  "prompt": "Correct ONLY the layout of this horse sheet. Preserve the same cute cartoon horse and all 60 distinct walk drawings, 5 rows and exactly 12 columns. Scale each entire horse to 65 percent of its current size around its cell center, then keep it centered in its cell. Add wide empty gutters and margins on every side. The last horse in each row must have its entire muzzle and all its tail visible with at least 20 pixels empty margin before the image edge. Do not crop any contour. Transparent background. Same colors and model.",
+  "tool": "built-in imagegen"
+}

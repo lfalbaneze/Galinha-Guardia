@@ -249,7 +249,12 @@ const GameInput = (() => {
   function navigate(game,buttons,pressed,dt) {
     const help=document.getElementById('howToPlayDialog');
     const overlay=help.open?help:document.getElementById(game.phase==='menu'?'menuScreen':'endScreen');
-    if(pressed(1)||pressed(9)){if(help.open)help.close();else if(game.phase==='menu'&&game.hasSave)GameUI.resume();return;}
+    if(pressed(1)||pressed(9)){
+      if(help.open)help.close();
+      else if(game.phase==='menu'&&typeof InterfaceMotion!=='undefined'&&InterfaceMotion.backToMenu())return;
+      else if(game.phase==='menu'&&game.hasSave)GameUI.resume();
+      return;
+    }
     if(pressed(0)){document.activeElement?.click?.();return;}
     menuDelay=Math.max(0,menuDelay-dt);
     const x=buttons.has(15)?1:buttons.has(14)?-1:Math.abs(padVector.x)>.5?Math.sign(padVector.x):0;

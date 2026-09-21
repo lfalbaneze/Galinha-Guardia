@@ -11,6 +11,13 @@ const WolfAI = (() => {
   const navigationCache = new Map<number, Farm.Navigation>();
   type Track=Farm.Point & {age:number;id:number;heading:number};
   const trails=new WeakMap<Farm.GameState,{prints:Track[];last:Farm.Point|null;next:number;read:number}>();
+  const hungerRules = {easy:{seconds:420,boost:.12},normal:{seconds:240,boost:.18},
+    hard:{seconds:180,boost:.22},hardcore:{seconds:140,boost:.26}};
+  function appetite(game: Farm.GameState): {value:number;tier:number;label:string} {
+    const value=Number.isFinite(game.wolfHunger)?clamp(game.wolfHunger,0,1):0;
+    const tier=value>=.75?2:value>=.35?1:0;
+    return {value,tier,label:['À espreita','Faminto','Voraz'][tier]};
+  }
 
   function updateTracks(game: Farm.GameState,dt:number): void {
     let trail=trails.get(game);
@@ -59,25 +66,27 @@ const WolfAI = (() => {
     const rescuedChicks = Number.isFinite(game.rescuedChicks) ? clamp(Math.floor(game.rescuedChicks), 0, 6) : 0;
     const chickMultiplier = 1 + 0.5 * rescuedChicks / 6;
     const difficulty = game.difficultyKey || "normal";
+    const hunger=appetite(game).value;
     const capSetting = game.settings.wolfSprintCap;
     const sprintCap = Number.isFinite(capSetting) ? clamp(capSetting!, 0.75, 0.96) : difficulty === "easy" ? 0.90 : 0.96;
     const sprintMultiplier = typeof Player !== "undefined" && Number.isFinite(Player.sprintMultiplier) ? Player.sprintMultiplier : 1.32;
-    const nominalSpeed = game.settings.wolfMaxSpeed * config.speedScale * chickMultiplier;
+    const nominalSpeed = game.settings.wolfMaxSpeed * config.speedScale * chickMultiplier * (1+hunger*hungerRules[difficulty].boost);
     // Chicks sharpen pursuit, but full sprint always opens a gap even at the final tier.
     const totalProgress = (rescuedFriends + rescuedChicks * .5) / 13;
-    const ceilingProgress = .88 + .12 * totalProgress;
+    const ceilingProgress = .88 + .12 * totalProgress + .04*hunger*(1-totalProgress);
     const speed = Math.min(nominalSpeed, game.settings.chickenSpeed * sprintMultiplier * sprintCap * ceilingProgress);
-    return { ...config, level, rescuedFriends, rescuedChicks, chickMultiplier, nominalSpeed, sprintCap, speed,
-      pressure: config.speedScale / levels[0].speedScale * chickMultiplier,
+    return { ...config, level, rescuedFriends, rescuedChicks, chickMultiplier, nominalSpeed, sprintCap, speed, hunger,
+      pressure: config.speedScale / levels[0].speedScale * chickMultiplier * (1+hunger*hungerRules[difficulty].boost),
+      searchPoints: config.searchPoints + Math.floor(hunger*3),
       fov: Math.min(165, config.fov + rescuedChicks * 2.5) * Math.PI / 180,
       range: Math.min(840 * ceilingProgress, config.range * chickMultiplier),
       awarenessTime: Math.max(0.18, config.awarenessTime / chickMultiplier),
-      searchDuration: Math.min(24, config.searchDuration * chickMultiplier),
-      searchRadius: Math.min(310, config.searchRadius * (1 + rescuedChicks / 24)),
+      searchDuration: Math.min(24, config.searchDuration * chickMultiplier) * (1+hunger*.6),
+      searchRadius: Math.min(310, config.searchRadius * (1 + rescuedChicks / 24)) * (1+hunger*.15),
       hideWitnessRange: difficulty === "easy" ? 180 : ['hard', 'hardcore'].includes(difficulty) ? 260 : 220,
-      hideMemoryDuration: 8 + rescuedFriends * .6,
-      patrolSpeed: speed * (level === 3 ? 0.80 : 0.70), awarenessDecay: 0.9,
-      contactRange: 28, soundInterval: 0.65, investigateDuration: 2.6 + level * 0.3 };
+      hideMemoryDuration: (8 + rescuedFriends * .6) * (1+hunger*.3),
+      patrolSpeed: speed * (level === 3 ? 0.80 : 0.70), awarenessDecay: 0.9 * (1-hunger*.35),
+      contactRange: 28, soundInterval: 0.65, investigateDuration: (2.6 + level * 0.3) * (1+hunger*.5) };
   }
 
   function initialize(game: Farm.GameState): void {
@@ -104,7 +113,7 @@ const WolfAI = (() => {
       distance(wolf, chicken) > config.hideWitnessRange ||
       !DetectionSystem.canSee(wolf, chicken, { ...config, range: config.hideWitnessRange })) return false;
     wolf.exposedCover = { spotId: spot.id, x: chicken.x, y: chicken.y,
-      remaining: config.hideMemoryDuration, inspectTime: 0.8 };
+      remaining: config.hideMemoryDuration, inspectTime: 0.8, revealIn: 5 };
     SunflowerSystem.cancel(game);
     wolf.lastKnown = { x: chicken.x, y: chicken.y };
     wolf.mode = "inspect"; wolf.awareness = 1; wolf.detected = true;
@@ -136,6 +145,7 @@ const WolfAI = (() => {
       Number.isFinite(saved.remaining) && saved.remaining > 0) {
       wolf.exposedCover = { spotId: spot.id, x: saved.x, y: saved.y,
         remaining: Math.min(saved.remaining, getConfig(game).hideMemoryDuration),
+        revealIn: Number.isFinite(saved.revealIn) ? clamp(saved.revealIn!, 0, 5) : 5,
         inspectTime: Number.isFinite(saved.inspectTime) ? clamp(saved.inspectTime, 0, 0.8) : 0.8 };
       wolf.mode = "inspect";
       wolf.lastKnown = { x: saved.x, y: saved.y };
@@ -333,7 +343,6 @@ const WolfAI = (() => {
     wolf.vx = 0;
     wolf.vy = 0;
     wolf.moveSpeed = 0;
-    wolf.anim += dt * 3;
   }
 
   function turnToward(wolf: Farm.Wolf, heading: number, dt: number, rate = 4.6): void {
@@ -420,7 +429,8 @@ const WolfAI = (() => {
         if ([.25,.5,.75,1].every(t => physicallyFree({x:from.x+(next.x-from.x)*t,y:from.y+(next.y-from.y)*t},nav))) {
           wolf.x = next.x - (wolf.hitbox?.ox || 0); wolf.y = next.y - (wolf.hitbox?.oy || 0);
           wolf.vx = (wolf.x-original.x)/dt; wolf.vy = (wolf.y-original.y)/dt;
-          wolf.route = []; wolf.routeTimer = 0; wolf.moveSpeed = 0; wolf.anim += dt*8;
+          wolf.route = []; wolf.routeTimer = 0; wolf.moveSpeed = 0;
+          wolf.anim = CharacterArt.advance(wolf.anim,'wolf',distance(original,wolf),{speed:dt>0?distance(original,wolf)/dt:0});
           return false;
         }
       }
@@ -452,7 +462,7 @@ const WolfAI = (() => {
     wolf.vy = (wolf.y - original.y) / dt;
     if (!wolf.route.length) wolf.moveSpeed = 0;
     if (Math.abs(wolf.vx) > 0.1) wolf.facing = Math.sign(wolf.vx);
-    wolf.anim += dt * (Math.hypot(wolf.vx, wolf.vy) > 10 ? 8 : 3);
+    wolf.anim = CharacterArt.advance(wolf.anim,'wolf',distance(original,wolf),{speed:dt>0?distance(original,wolf)/dt:0});
     return arrived || (!wolf.route.length && distance(wolf, target) < 12);
   }
 
@@ -490,8 +500,12 @@ const WolfAI = (() => {
   function update(game: Farm.GameState, dt: number): void {
     if (game.lake?.active || game.phase !== "playing" || !Number.isFinite(dt) || dt <= 0) return;
     const wolf = game.entities.wolf;
-    const config = getConfig(game);
     if (!wolf.mode) initialize(game);
+    // The appetite belongs to the attempt. Menus, the lake and Thor's respite
+    // cannot silently build it; reinitializing a route cannot erase it either.
+    if(wolf.huntUnlockTimer<=0&&wolf.pauseTimer<=0&&wolf.mode!=='frightened')
+      game.wolfHunger=Math.min(1,appetite(game).value+dt/hungerRules[game.difficultyKey].seconds);
+    const config = getConfig(game);
     updateTracks(game,dt);
     wolf.huntUnlockTimer = Math.max(0, (wolf.huntUnlockTimer || 0) - dt);
     wolf.pauseTimer = Math.max(0, (wolf.pauseTimer || 0) - dt);
@@ -507,6 +521,13 @@ const WolfAI = (() => {
       return;
     }
     if (wolf.exposedCover) {
+      const memory = wolf.exposedCover;
+      memory.revealIn = Math.max(0, (memory.revealIn ?? 5) - dt);
+      if (memory.revealIn <= 1e-8 && isExposed(game)) {
+        const chicken = game.entities.chicken;
+        chicken.hidden = false; chicken.hidingSpotId = null; chicken.hideBlend = 0;
+        setStatus('O lobo achou você na moita! Fuja e quebre a visão antes de se esconder de novo.');
+      }
       wolf.exposedCover.remaining = Math.max(0, wolf.exposedCover.remaining - dt);
       if (wolf.exposedCover.remaining <= 0) {
         wolf.exposedCover = null;
@@ -551,7 +572,7 @@ const WolfAI = (() => {
         wolf.awareness = 1;
         const arrived = moveToward(wolf, { x: memory.x, y: memory.y }, config.speed, dt);
         // At the remembered entrance, physical contact can expose the chicken. A wall cannot.
-        if ((arrived || (!wolf.route.length && wolf.routeTimer > 0)) && !canCatchHidden(game)) {
+        if ((arrived || (!wolf.route.length && wolf.routeTimer > 0)) && !canCatchHidden(game) && !isExposed(game)) {
           memory.inspectTime = Math.max(0, memory.inspectTime - dt);
           if (memory.inspectTime <= 0) { wolf.exposedCover = null; beginSearch(wolf, config); }
         }
@@ -675,6 +696,6 @@ const WolfAI = (() => {
     return true;
   }
 
-  return { initialize, update, getConfig, findPath, patrolPoints, witnessHide, isExposed, canCatchHidden, restoreCoverMemory, investigateSound, frighten, drawTracks,
+  return { initialize, update, getConfig, appetite, findPath, patrolPoints, witnessHide, isExposed, canCatchHidden, restoreCoverMemory, investigateSound, frighten, drawTracks,
     moveTo:moveToward,clearTracks:(game:Farm.GameState)=>{trails.delete(game);SunflowerSystem.reset(game);} };
 })();

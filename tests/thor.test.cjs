@@ -127,7 +127,12 @@ test('Thor art validates its sheet and both map and hero drawing preserve canvas
   const h=createGame(()=>.5,{skipThorInstall:true}),art=h.run('ThorArt');
   assert.equal(await art.load(async()=>({width:1,height:1})),false);
   assert.equal(art.errors.length,1);
-  assert.equal(await art.load(async()=>({width:1024,height:1536})),true);
+  assert.equal(await art.load(async()=>({width:art.width,height:art.height})),true);
+  assert.ok(art.columns>=8);assert.equal(art.frames.length,art.columns*8);
+  for(const direction of ['down','right','up','left','downright','upright','downleft','upleft']){
+    const poses=[0,.5,1,1.5,2,2.5,3,3.5].map(anim=>art.frameFor({direction,anim,moving:true}));
+    assert.equal(new Set(poses.map(p=>p.row+':'+p.column)).size,8);
+  }
   let depth=0,draws=0;const c=new Proxy({save(){depth++;},restore(){depth--;},drawImage(){draws++;}}, {get:(o,k)=>o[k]??(()=>{})});
   art.drawHero(c,200,300,180,'right',1);
   assert.equal(depth,0);assert.equal(draws,1);

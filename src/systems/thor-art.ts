@@ -1,35 +1,36 @@
-/* One generated golden retriever sheet; source pixels remain unchanged. */
+/* Complete coherent walk cycles at the farm's world pixel scale. */
 const ThorArt = (() => {
-  const frames = [
-    {x:96,y:55,w:168,h:308},{x:431,y:55,w:167,h:315},{x:769,y:59,w:167,h:311},
-    {x:30,y:470,w:308,h:220},{x:374,y:470,w:293,h:220},{x:702,y:467,w:298,h:224},
-    {x:25,y:805,w:299,h:222},{x:358,y:805,w:304,h:226},{x:692,y:805,w:302,h:226},
-    {x:110,y:1133,w:139,h:292},{x:444,y:1124,w:139,h:316},{x:782,y:1129,w:148,h:298}
-  ];
-  const sheet = createWildlifeSheet('assets/sprites/sources/thor.png',1024,1536,frames);
-  const rows: Record<Farm.Direction,number> = {down:0,left:1,right:2,up:3};
+  const {frames,columns,src:source,width,height}=PremiumWildlifeData.thor;
+  const bodyHeight=Math.max(...frames.map(f=>f.h*(f.scale??1)));
+  const sheet = createWildlifeSheet(source,width,height,frames,columns);
+  const rows: Record<Farm.ArtDirection,number> = {down:0,right:1,up:2,left:3,downright:4,upright:5,downleft:6,upleft:7};
   function frameFor(dog: Farm.Thor): {row:number;column:number} {
-    return {row:rows[dog.direction]??0,column:dog.moving&&!InterfaceMotion.reduced?
-      [0,1,0,2][Math.floor(Math.abs(dog.anim))%4]:0};
+    return {row:rows[CharacterArt.heading(dog)]??0,column:dog.moving&&!InterfaceMotion.reduced?
+      Math.floor(Math.abs(dog.anim)*columns/4)%columns:0};
   }
   function draw(c: CanvasRenderingContext2D, dog: Farm.Thor, view: Farm.Camera): boolean {
     if(!sheet.ready)return false;
-    const x=Math.round(dog.x-view.x+(view.shakeX||0)),y=Math.round(dog.y-view.y+(view.shakeY||0));
+    const x=dog.x-view.x+(view.shakeX||0),y=dog.y-view.y+(view.shakeY||0);
     const frame=frameFor(dog);
     c.save();
     // A brief fade also handles visits ending near a world boundary.
     c.globalAlpha=InterfaceMotion.reduced?1:Math.min(1,dog.age*3,dog.mode==='leave'?dog.timer:1);
-    c.fillStyle='rgba(45,49,25,.2)';c.beginPath();c.ellipse(x,y+14,20,4,0,0,Math.PI*2);c.fill();
-    sheet.drawFrame(c,x,y+14,frame.row,frame.column,.22);
-    c.fillStyle='#314b30';c.beginPath();c.roundRect(x-27,y-72,54,20,5);c.fill();
+    if(CharacterArt.frameFor?.('thor')?.definition?.provider==='pixellab'&&CharacterArt.ready)
+      CharacterArt.draw(c,'thor',x,y,{direction:CharacterArt.heading(dog),anim:dog.anim,
+        moving:dog.moving&&!InterfaceMotion.reduced,mood:dog.mode==='greet'?'happy':'normal'});
+    else sheet.drawFrame(c,x,y+14,frame.row,frame.column,1);
+    const labelY=y+14-bodyHeight-26;
+    c.fillStyle='#314b30';c.beginPath();c.roundRect(x-27,labelY,54,20,5);c.fill();
     c.fillStyle='#ffe0a0';c.font='bold 12px Trebuchet MS,sans-serif';c.textAlign='center';
-    c.fillText('Thor',x,y-58);
+    c.fillText('Thor',x,labelY+14);
     c.restore();return true;
   }
   function drawHero(c:CanvasRenderingContext2D,x:number,feet:number,height:number,direction:Farm.Direction,anim:number):boolean {
-    const row=rows[direction],column=InterfaceMotion.reduced?0:[0,1,0,2][Math.floor(Math.abs(anim))%4];
-    return sheet.drawFrame(c,x,feet,row,column,height/frames[row*3+column].h);
+    const row=rows[direction],column=InterfaceMotion.reduced?0:Math.floor(Math.abs(anim)*columns/4)%columns;
+    // One scale for the full directional cycle: stepping does not resize the body.
+    const poseHeight=Math.max(...frames.slice(row*columns,(row+1)*columns).map(f=>f.h*(f.scale??1)));
+    return sheet.drawFrame(c,x,feet,row,column,height/poseHeight);
   }
-  return {draw,drawHero,frameFor,frames,load:sheet.load,install:sheet.install,
+  return {draw,drawHero,frameFor,frames,columns,source,width,height,load:sheet.load,install:sheet.install,
     get ready(){return sheet.ready;},get loading(){return sheet.loading;},get errors(){return sheet.errors;}};
 })();

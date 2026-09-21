@@ -1,0 +1,8 @@
+{
+  "name": "cat",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-a5c9ab05-df2c-4188-8518-f0b5860d7e1e.png",
+  "rows": 5,
+  "columns": 12,
+  "prompt": "Correct the CAT anatomy in this sprite atlas while preserving its FIVE ROWS by TWELVE COLUMNS, the directions and walking sequence. This must clearly be a HOUSE CAT, not a fox or dog: round cheeky FELINE face, very SHORT rounded muzzle, a tiny PINK TRIANGULAR NOSE, paired creamwhiskerpads, 3simpleblackwhiskersperside, shorttriangularears, longSLENDERorangetail curvedupwardwith NOwhitefluffytip. Creamgingerbody andwhitepaws. Keep the appealing cute classic Orson's Farm comic look, expressivewhiteovaleyes, thickblackink, flatcolors. Preserveclear12phase fourlegwalk, consistentbodyproportions andfeetgroundline. All60fullbodysprites smallwithgeneroustransparentgutters, transparentRGBAbackground, no shadows/floor/labels. Same5views:right,frontright,front,backright,back. Do notchangeframecount or layoutrules. Allpawsandtailfullyinsidecells.",
+  "tool": "built-in imagegen"
+}

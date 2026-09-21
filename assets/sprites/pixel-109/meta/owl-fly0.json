@@ -1,0 +1,14 @@
+{
+  "id": "owl",
+  "action": "fly0",
+  "targetAction": "fly",
+  "rows": 2,
+  "columns": 8,
+  "directions": [
+    "down",
+    "downleft"
+  ],
+  "prompt": "Create NEW supplementary pixel sprite atlas for the SAME cute tawny OWL with cream heart face and amber eyes. Reference is CHARACTER DESIGN ONLY. DO NOT COPY its grid or layout.\nEXACTLY TWO ROWS × EIGHT COLUMNS,16 separate full owls on TRANSPARENT background with wideemptygutters. Row1: FRONT, beak centered, both eyes symmetric. Row2: FRONT-LEFT45degrees, beak LEFT, both eyes visible, left flank visible.\nEvery column within row holds exact same head/body ANGLE, eye count and beak facing. Animate ONLY WINGS: 1 fully up,2 upperdiagonal,3 horizontal,4 lowerdiagonal,5 fully down,6 bent-wing recovery,7 horizontal rising,8upperdiagonal rising. Talons tucked, same body pivot/volume. Stable round torso, no camera movement, no face turning, no walking. BOTH full wings inside middle65%of eachcell; distinct layeredflightfeathers, consistent dark outline, warm crisp pixelart matchingreference. No branch, no shadow, no text.",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-f4449d99-f2e7-49e4-8831-987ff7b226a4.png",
+  "tool": "built-in imagegen"
+}

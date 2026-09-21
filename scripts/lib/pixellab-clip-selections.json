@@ -1,0 +1,10 @@
+{
+  "c2f101d1-39f8-4203-a4db-5272fb2b31af": {
+    "scared": {
+      "north-west": {
+        "animationName": "farm-scared-reviewed-1",
+        "reason": "Original clip rotated the head 180 degrees while the torso stayed facing away. Replacement visually reviewed: original back view retained throughout all eight frames."
+      }
+    }
+  }
+}

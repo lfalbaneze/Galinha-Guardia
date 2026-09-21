@@ -8,9 +8,13 @@ const GameManager = (() => {
     game.rescuedChickIds = new Set<string>();
     game.rescuedChicks = 0;
     game.wolfLevel = 0;
+    game.wolfHunger = 0;
     game.elapsed = 0;
     game.timeRemaining = game.settings.timeLimit ?? null;
     game.timeBonus = 0;
+    game.timeBonusRate = 0;
+    game.legacyTimer = false;
+    game.chickCombo = {count:0,remaining:0};
     game.timeRewardNotice = undefined;
     game.defeatReason = undefined;
     game.entities.chicken.invulnerable = 0;
@@ -41,25 +45,42 @@ const GameManager = (() => {
     game.rescuedCount = game.rescuedIds.size;
     game.rescuedChicks = game.rescuedChickIds.size;
     game.wolfLevel = level(game.rescuedCount);
-    game.score += SCORE_PER_RESCUE;
+    game.wolfHunger = Math.min(1, (game.wolfHunger || 0) + (chick ? .01 : .035));
+    game.score += game.settings.rescueScore || SCORE_PER_RESCUE;
     rewardRescueTime(game, chick);
     SkinSystem.record(game);
     return true;
   }
   function rewardRescueTime(game: Farm.GameState, chick = false): number {
     if (game.phase !== 'playing' || game.timeRemaining === null || game.timeRemaining <= 0) return 0;
-    const seconds = (chick ? game.settings.chickTime : game.settings.friendTime) || 0;
+    let seconds = (chick ? game.settings.chickTime : game.settings.friendTime) || 0;
+    if (chick && game.settings.chickCombo) {
+      const combo = game.chickCombo;
+      combo.count = combo.remaining > 0 ? combo.count + 1 : 1;
+      combo.remaining = combo.count === 1 ? 10 : Math.min(10, combo.remaining + Math.min(7, combo.count + 1));
+      seconds *= comboMultiplier(game);
+    } else if (!chick) {
+      const friends = game.rescuedCount + Number(!!game.lake?.gooseRescued);
+      if (friends % (game.settings.friendTimeEvery || 1) !== 0) seconds = 0;
+    }
     if (seconds > 0) {
       game.timeRemaining += seconds;
       game.timeRewardNotice = { time: 2.5, seconds };
     }
     return seconds;
   }
+  function comboMultiplier(game: Farm.GameState): number {
+    return game.chickCombo.remaining > 0 ? Math.min(10, 2 ** Math.max(0, game.chickCombo.count - 1)) : 1;
+  }
+  function timeScoreRate(game: Farm.GameState): number {
+    return game.settings.timeScorePerChick ? game.settings.timeScorePerChick * game.rescuedChicks : game.settings.timeScore || 0;
+  }
   function win(game: Farm.GameState): boolean {
     if (game.phase !== "playing" || game.rescuedIds.size !== WORLD.targetRescues) return false;
     if (game.timeRemaining === 0 && !game.winBonusApplied) return false;
     if (!game.winBonusApplied) {
-      game.timeBonus = remainingSeconds(game) * (game.settings.timeScore || 0);
+      game.timeBonusRate = timeScoreRate(game);
+      game.timeBonus = remainingSeconds(game) * game.timeBonusRate;
       game.score += game.lives * SCORE_BONUS_PER_LIFE + game.timeBonus;
       game.winBonusApplied = true;
     }
@@ -76,11 +97,12 @@ const GameManager = (() => {
       fleeFrom: a.fleeFrom || null, fleeHeading: a.fleeHeading ?? null });
     const wolf = game.entities.wolf, chicken = game.entities.chicken;
     const data: Farm.SaveData = {
-      version: 4, worldSeed: game.worldSeed, worldVersion: game.worldVersion, difficulty: game.difficultyKey, phase,
+      version: 5, worldSeed: game.worldSeed, worldVersion: game.worldVersion, difficulty: game.difficultyKey, phase,
       rescuedIds: [...game.rescuedIds], lives: game.lives, score: game.score, winBonusApplied: game.winBonusApplied,
       rescuedChickIds: [...game.rescuedChickIds],
       timerMode: 'arcade', timeRemaining: game.timeRemaining, timeBonus: game.timeBonus, defeatReason: game.defeatReason,
-      elapsed: game.elapsed, chicken: { ...point(chicken), hidden: chicken.hidden,
+      chickCombo: {...game.chickCombo}, timeBonusRate: game.timeBonusRate, legacyTimer: game.legacyTimer,
+      elapsed: game.elapsed, wolfHunger: game.wolfHunger, chicken: { ...point(chicken), hidden: chicken.hidden,
         hidingSpotId: chicken.hidingSpotId || null, direction: chicken.direction,
         stamina: chicken.stamina, staminaDelay: chicken.staminaDelay, exhausted: chicken.exhausted },
       wolf: { ...point(wolf), mode: wolf.mode, lastKnown: wolf.lastKnown,
@@ -106,7 +128,7 @@ const GameManager = (() => {
     try {
       // Parsing is followed by the existing structural/identity checks below; a type alone cannot validate storage.
       const data = JSON.parse(localStorage.getItem(SAVE_KEY)!) as Farm.SaveData | null;
-      if (!data || ![1, 2, 3, 4].includes(data.version) || !DIFFICULTIES[data.difficulty]) return null;
+      if (!data || ![1, 2, 3, 4, 5].includes(data.version) || !DIFFICULTIES[data.difficulty]) return null;
       if (data.version >= 2 && (!Number.isInteger(data.worldSeed) || data.worldSeed < 0 || data.worldSeed > 4294967295)) return null;
       if (data.version === 1) data.worldSeed = 20260915;
       if (data.worldVersion === undefined) data.worldVersion = 1;
@@ -131,10 +153,11 @@ const GameManager = (() => {
         data.animals.some(a => !ids.has(a.id) || !validPoint(a))) return null;
       if (["win_cutscene", "won"].includes(data.phase) && data.rescuedIds.length !== expectedFriends) return null;
       if (data.version >= 3) {
-        const chickIds = new Set(Array.from({ length: WORLD.targetChicks }, (_, i) => `chick_${i}`));
+        const chickCount = data.version >= 5 ? DIFFICULTIES[data.difficulty].bonusChicks || WORLD.targetChicks : WORLD.targetChicks;
+        const chickIds = new Set(Array.from({ length: chickCount }, (_, i) => `chick_${i}`));
         if (!Array.isArray(data.rescuedChickIds) || !Array.isArray(data.chicks) ||
           data.rescuedChickIds.some(id => !chickIds.has(id)) || new Set(data.rescuedChickIds).size !== data.rescuedChickIds.length ||
-          data.chicks.length !== WORLD.targetChicks || new Set(data.chicks.map(c => c.id)).size !== WORLD.targetChicks ||
+          data.chicks.length !== chickCount || new Set(data.chicks.map(c => c.id)).size !== chickCount ||
           data.chicks.some(c => !chickIds.has(c.id) || !validPoint(c))) return null;
         if (data.version === 3 && ["win_cutscene", "won"].includes(data.phase) && data.rescuedChickIds.length !== WORLD.targetChicks) return null;
       } else {
@@ -166,6 +189,8 @@ const GameManager = (() => {
     }
     if (game.entities.animals.length !== WORLD.layout.animalSpawns.length)
       game.entities.animals = spawnAnimals(game.settings, game.entities.wolf);
+    if (game.entities.chicks.length !== (game.settings.bonusChicks || WORLD.targetChicks))
+      game.entities.chicks = spawnChicks(game.settings);
     LakeChallenge.restore(game, data.lake);
     game.rescuedIds = new Set(data.rescuedIds);
     // A finished adventure stays finished; an ongoing one gets two new friends to find.
@@ -179,18 +204,29 @@ const GameManager = (() => {
     game.lives = data.lives;
     game.score = data.score;
     game.elapsed = Number.isFinite(data.elapsed) ? Math.max(0, data.elapsed!) : 0;
+    game.wolfHunger = Number.isFinite(data.wolfHunger) ? clamp(data.wolfHunger!, 0, 1) : 0;
     const bounded = (value: number | null | undefined, min: number, max: number, fallback = min): number => Number.isFinite(value) ? clamp(value!, min, max) : fallback;
     // Earned time can exceed the starting clock. Loading never awards rescues again.
+    const maxChickTime = Array.from({length:game.rescuedChicks}, (_, i) =>
+      (game.settings.chickTime || 0) * (game.settings.chickCombo ? Math.min(10, 2 ** i) : 1)).reduce((sum, n) => sum + n, 0);
     const allowance = (game.settings.timeLimit || 0) +
-      (game.rescuedCount + Number(!!game.lake?.gooseRescued)) * (game.settings.friendTime || 0) +
-      game.rescuedChicks * (game.settings.chickTime || 0);
+      Math.floor((game.rescuedCount + Number(!!game.lake?.gooseRescued)) / (game.settings.friendTimeEvery || 1)) *
+      (game.settings.friendTime || 0) + maxChickTime;
     const finished = ['won', 'win_cutscene', 'lose'].includes(data.phase);
     // Ongoing fixed-timer saves switch once to a fresh arcade clock; past results stay intact.
     const savedTime = data.timerMode === 'arcade' || finished ? data.timeRemaining : undefined;
+    game.legacyTimer = data.legacyTimer === true || (data.version < 5 && data.timerMode === 'arcade');
     // Finished runs may still show the old ten-minute clock after repeated migrations.
     game.timeRemaining = game.settings.timeLimit ? bounded(savedTime, 0,
-      finished ? Math.max(600, allowance) : allowance, game.settings.timeLimit) : null;
+      finished || game.legacyTimer ? Math.max(600, allowance) : allowance, game.settings.timeLimit) : null;
     game.timeBonus = bounded(data.timeBonus, 0, Number.MAX_SAFE_INTEGER);
+    game.timeBonusRate = bounded(data.timeBonusRate, 0, Number.MAX_SAFE_INTEGER,
+      data.version < 5 && game.timeBonus ? data.difficulty === 'hardcore' ? 10000 : 1000 : timeScoreRate(game));
+    game.chickCombo = {count:0,remaining:0};
+    if(game.settings.chickCombo && data.chickCombo && Number.isInteger(data.chickCombo.count) &&
+      data.chickCombo.count > 0 && data.chickCombo.count <= game.rescuedChicks &&
+      Number.isFinite(data.chickCombo.remaining) && data.chickCombo.remaining > 0 && data.chickCombo.remaining <= 10)
+      game.chickCombo = {...data.chickCombo};
     game.timeRewardNotice = undefined;
     game.defeatReason = data.defeatReason === 'timeout' && game.timeRemaining === 0 ? 'timeout' : undefined;
     const restoreFriend = (animal: Farm.Animal, saved: Farm.FriendSnapshot) => {
@@ -223,7 +259,7 @@ const GameManager = (() => {
     const last = data.wolf.lastKnown;
     wolf.lastKnown = last && Number.isFinite(last.x) && Number.isFinite(last.y)
       ? { x: clamp(last.x, 0, WORLD.width), y: clamp(last.y, 0, WORLD.height) } : null;
-    wolf.searchTime = Number.isFinite(data.wolf.searchTime!) ? clamp(data.wolf.searchTime!, 0, 30) : 0;
+    wolf.searchTime = Number.isFinite(data.wolf.searchTime!) ? clamp(data.wolf.searchTime!, 0, 40) : 0;
     wolf.patrolIndex = Number.isInteger(data.wolf.patrolIndex!) ? Math.max(0, data.wolf.patrolIndex!) : 0;
     wolf.heading = Number.isFinite(data.wolf.heading!) ? data.wolf.heading! : 0;
     wolf.huntUnlockTimer = Number.isFinite(data.wolf.huntUnlockTimer!) ? clamp(data.wolf.huntUnlockTimer!, 0, 10) : 0;
@@ -263,7 +299,7 @@ const GameManager = (() => {
       resolveEnvironment(animal);
       FarmRefuge.ensureClear(animal);
     }
-    const bonusHomes = HidingSpots.bonusHomes();
+    const bonusHomes = HidingSpots.bonusHomes(WORLD.layout, game.entities.chicks.length);
     for (const [index, chick] of game.entities.chicks.entries()) {
       chick.rescued = game.rescuedChickIds.has(chick.id);
       const home = bonusHomes[index];
@@ -309,6 +345,10 @@ const GameManager = (() => {
   function update(game: Farm.GameState, dt: number): void {
     if (game.phase !== "playing" || !Number.isFinite(dt) || dt < 0) return;
     if (game.timeRewardNotice) game.timeRewardNotice.time = Math.max(0, game.timeRewardNotice.time - dt);
+    if (game.chickCombo.remaining > 0) {
+      game.chickCombo.remaining = Math.max(0, game.chickCombo.remaining - dt);
+      if (game.chickCombo.remaining <= 1e-8) game.chickCombo = {count:0,remaining:0};
+    }
     game.elapsed += game.timeRemaining === null ? dt : Math.min(dt, game.timeRemaining);
     if (game.timeRemaining !== null) {
       game.timeRemaining = Math.max(0, game.timeRemaining - dt);
@@ -325,6 +365,6 @@ const GameManager = (() => {
   function remainingSeconds(game: Farm.GameState): number {
     return game.timeRemaining === null ? 0 : Math.max(0, Math.floor(game.timeRemaining + 1e-8));
   }
-  return { initialize, level, rescue, rewardRescueTime, win, save, read, restore, clear, update, remainingSeconds,
+  return { initialize, level, rescue, rewardRescueTime, comboMultiplier, timeScoreRate, win, save, read, restore, clear, update, remainingSeconds,
     get storageAvailable() { return storageAvailable; } };
 })();

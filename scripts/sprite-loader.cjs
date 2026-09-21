@@ -3,7 +3,7 @@ const fs = require('node:fs'), path = require('node:path'), vm = require('node:v
 const root = path.resolve(__dirname, '..');
 async function loadArt() {
   const context = vm.createContext({ console, setTimeout, clearTimeout });
-  for (const file of ['sprite-style.js','sprite-data.js', 'character-art.js'])
+  for (const file of ['sprite-style.js','sprite-data.js','arcade-art-data.js','premium-art-data.js','pixel-art-data.js','pixellab-art-data.js', 'character-art.js'])
     vm.runInContext(fs.readFileSync(path.join(root, 'systems', file), 'utf8'), context);
   vm.runInContext('SpriteStyle',context).install(createCanvas);
   const art = vm.runInContext('CharacterArt', context);

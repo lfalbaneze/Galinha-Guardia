@@ -1,0 +1,8 @@
+{
+  "name": "skin-zeca",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-6c6e20ba-14fa-4dae-9cb8-ea6b4163ff6b.png",
+  "rows": 5,
+  "columns": 12,
+  "prompt": "Redraw this farm duck game character in a soft, cute traditional comic cartoon design. Preserve the straw hat with dark brown hatband, cream-white feathers, orange bill and feet. Round bean body and oval expressive eyes, broad clean black outlines, flat cream, gold and orange colors. No fine texture. Create a complete walk sprite sheet: EXACTLY 5 rows and 12 columns. Each row is one smoothly sequenced 12-frame walk cycle with alternating planted left and right feet, passing poses and inbetweens. Row 1 side right, row 2 down-right, row 3 front, row 4 up-right, row 5 back. Fixed camera, consistent model size throughout. All 60 characters fully inside their cells with wide transparent margins. No scenery or text. Transparent PNG.",
+  "tool": "built-in imagegen"
+}

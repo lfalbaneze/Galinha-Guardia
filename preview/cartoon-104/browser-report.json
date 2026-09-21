@@ -1,0 +1,163 @@
+{
+  "characters": 29,
+  "checked": [
+    {
+      "name": "chicken",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "sheep",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "pig",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "cow",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "dog",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "cat",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "rabbit",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "duck",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "horse",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "donkey",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "goat",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "lamb",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "chick",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "turkey",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "wolf",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "hen-silkie",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "hen-blue",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "skin-zeca",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "skin-pipoca",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "skin-amora",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "skin-pacoca",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "skin-gumercindo",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "goose",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "fox",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "amanda",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "thor",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "owl",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "scarecrow",
+      "phases": 8,
+      "directions": 8
+    },
+    {
+      "name": "crow",
+      "phases": 8,
+      "directions": 8
+    }
+  ],
+  "audio": [
+    {
+      "file": "owl-hoot.wav",
+      "duration": 0.74,
+      "playing": true
+    },
+    {
+      "file": "owl-hoot-2.wav",
+      "duration": 0.74,
+      "playing": true
+    }
+  ],
+  "runtimeErrors": []
+}

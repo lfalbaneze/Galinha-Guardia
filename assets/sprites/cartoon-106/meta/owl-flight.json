@@ -1,0 +1,8 @@
+{
+  "name": "owl-flight",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-384cdd7a-de00-4970-98e4-bc0b5d56262a.png",
+  "rows": 5,
+  "columns": 12,
+  "prompt": "Create a new ACTION animation sheet for the exact cartoon animal in the reference. Preserve its colors, rounded proportions and bold black outlines. ONE tawnybrown OWL, creamfaceandbreast, twoear tufts, ovalwhitecomiceyes withblackpupils andarchbrows, smallgoldbeak andtalons, funnyexpressiveface. NOT WALKING. Twelve AIRBORNE wingbeatframes, talonstucked, torsoforward, beakclosed.1highestupstroke,2startsdown,3upperhalf,4wingshorizontal,5lowerhalf,6lowestdownstroke,7beginbentrecovery,8recoverout,9midup,10upperup,11neartop,12beforehighest. Stabletorsosize. EXACTLY 5 rows and 12 columns, 60 distinct drawings. Row 1 profile right; row 2 down-right; row 3 facing viewer; row 4 up-right; row 5 back. Orthographic game camera. Keep the body volume consistent in all drawings. Wings and feet must be fully inside each cell: animal occupies at most 60% of cell width and 70% of cell height. Wide transparent empty gutters, no contact between neighbors. Transparent PNG, no scenery, no text.",
+  "tool": "built-in imagegen"
+}

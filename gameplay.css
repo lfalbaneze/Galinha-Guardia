@@ -10,7 +10,7 @@ body:has(.game-shell:not([data-phase="menu"])) { padding:0; overflow:hidden; bac
   border:0; border-radius:0; overflow:hidden; background:#284c37; box-shadow:none; color:var(--play-ink);
 }
 .game-shell:not([data-phase="menu"]) > .stage { position:absolute; inset:0; }
-.game-shell:not([data-phase="menu"]) #gameCanvas { width:100%; height:100%; object-fit:contain; border:0; border-radius:0; box-shadow:none; background:#284c37; image-rendering:pixelated; }
+.game-shell:not([data-phase="menu"]) #gameCanvas { width:100%; height:100%; object-fit:contain; border:0; border-radius:0; box-shadow:none; background:#284c37; image-rendering:auto; }
 .expedition-bar {
   position:absolute; z-index:5; top:16px; left:20px; right:20px; max-width:1120px; margin:auto;
   display:grid; grid-template-columns:185px minmax(0,1fr) 110px; align-items:center; gap:20px;
@@ -48,6 +48,9 @@ body:has(.game-shell:not([data-phase="menu"])) { padding:0; overflow:hidden; bac
 .play-hud .run-timer[data-urgent="true"] { color:#ffb08e; }
 .play-hud .time-reward { color:#b9f4a7; font-weight:800; white-space:nowrap; }
 .play-hud .time-reward[hidden] { display:none; }
+.play-hud .chick-combo { display:flex; flex-wrap:wrap; align-items:center; gap:2px 5px; color:#ffdf81; font-size:10px; font-variant-numeric:tabular-nums; }
+.play-hud .chick-combo[hidden] { display:none; }
+.play-hud .chick-combo meter { width:45px; height:6px; accent-color:#f1c75b; }
 .play-hud .rescue-extra { color:#a6e2a0; font-size:10px; white-space:nowrap; }
 .play-hud .rescue-extra[hidden] { display:none; }
 .play-hud .bonus-value { display:flex; align-items:center; gap:6px; }
@@ -115,18 +118,6 @@ body:has(.game-shell:not([data-phase="menu"])) { padding:0; overflow:hidden; bac
 .game-shell:not([data-phase="menu"]) :is(button,canvas):focus-visible { outline:3px solid #f9d47e; outline-offset:-3px; }
 .game-shell:not([data-phase="menu"]) #gameCanvas:focus-visible { outline:none; }
 .game-shell:not([data-phase="menu"]) #endScreen { z-index:7; }
-/* Results own their colors: the playfield's pale HUD ink must not leak onto paper. */
-#endScreen { position:absolute; inset:0; margin:0; padding:20px; background:#132d249e; backdrop-filter:blur(3px); }
-#endScreen .end-card { background:#fffaf0; color:#304235; border-color:#b7ad8c; box-shadow:0 6px 0 #344735,0 18px 48px #10251e66; }
-#endScreen #endTitle { color:#294b36; }
-#endScreen #endEyebrow { color:#59613c; }
-#endScreen #endMessage { color:#3d483b; line-height:1.6; }
-#endScreen .end-summary { color:#244635; background:#e6ecdd; border:1px solid #c0cfb5; line-height:1.6; }
-#endScreen #replayBtn { color:#fffaf0; background:#2b513a; border-color:#1e3b2b; box-shadow:0 3px 0 #1e3b2b; }
-#endScreen #replayBtn:hover { background:#1e3b2b; }
-#endScreen #menuBtn { color:#39442f; background:#e8dfca; border-color:#9a9d80; box-shadow:0 3px 0 #9a9d80; }
-#endScreen #menuBtn:hover { background:#ded4be; }
-#endScreen button:focus-visible { outline:3px solid #173e62; outline-offset:3px; }
 .game-shell:not([data-phase="menu"]) .lake-panel { position:absolute; z-index:5; left:22px; bottom:112px; max-width:calc(100% - 44px); margin:0; }
 .game-shell:not([data-phase="menu"]) .lake-counter { top:150px; left:22px; }
 .game-shell:not([data-phase="menu"]) .touch-controls { position:absolute; z-index:6; left:18px; right:18px; bottom:12px; padding:0; margin:0; background:none; border:0; box-shadow:none; }

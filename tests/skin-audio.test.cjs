@@ -62,8 +62,8 @@ test('wolf, goose and fox hits use the equipped animal voice once, including aft
   const h = harness(unlockedStorage()); start(h);
   h.run('SkinSystem.unlockLake(state,false);GameUI.update(state);');
   const expected = [
-    ['classic', /^animal-chicken(?:-2)?\.wav$/], ['silkie', /^animal-chicken(?:-2)?\.wav$/],
-    ['blue', /^animal-chicken(?:-2)?\.wav$/], ['punk', /^animal-duck\.wav$/],
+    ['classic', /^animal-chicken(?:-[23])?\.wav$/], ['silkie', /^animal-chicken(?:-[23])?\.wav$/],
+    ['blue', /^animal-chicken(?:-[23])?\.wav$/], ['punk', /^animal-duck\.wav$/],
     ['astronaut', /^squeak\.wav$/], ['robocop', /^animal-cat\.wav$/],
     ['priest', /^animal-dog\.wav$/], ['goose', /^goose-honk(?:-2)?\.wav$/],
   ];
@@ -142,7 +142,7 @@ test('real chick rescues unlock four distinct themes and locked skins cannot cha
   }
   assert.equal(titles.size, 4, 'each secret skin names its own theme');
   assert.equal(h.players.filter(player => player.loop).length, 1);
-  assert.equal(h.plays.filter(play => /chick\.wav$/.test(play.src)).length, 6);
+  assert.equal(h.plays.filter(play => /chick(?:-2)?\.wav$/.test(play.src)).length, 6);
 });
 
 test('base track selection preserves an active theme and both theme checkboxes control the same preference', () => {
@@ -235,23 +235,28 @@ test('equipped skins and the theme preference survive reload and a new adventure
 test('skin themes preserve rescue effects and lower the music during the wolf finale', () => {
   const h = harness(unlockedStorage('punk')); start(h);
   rescueChicks(h, 1);
-  const chickCalls = h.plays.filter(play => /chick\.wav$/.test(play.src));
+  const chickCalls = h.plays.filter(play => /chick(?:-2)?\.wav$/.test(play.src));
   assert.equal(chickCalls.length, 1);
   assert.equal(chickCalls[0].volume, .55);
-  // Finish the actual 1.2-second recording before fast-forwarding the mock clock.
-  h.players.find(player => /chick\.wav$/.test(player.src)).onended();
+  // Finish the short recording before fast-forwarding the mock clock.
+  h.players.find(player => /chick(?:-2)?\.wav$/.test(player.src)).onended();
   h.run('for (const friend of RescueSystem.all(state)) GameManager.rescue(state, Object.assign(friend,{discovered:true})); GameManager.win(state);');
   advanceFinale(h, 7.1);
   assert.equal(h.run('state.cutscene.stage'), 'cloud');
-  assert.equal(music(h).volume, .25 * .25);
+  assert.ok(music(h).volume>=.25*.55&&music(h).volume<.25);
+  const beforeSwitch=music(h).volume;
   equip(h, 'astronaut');
   assert.match(music(h).src, /skin-astronaut\.wav$/);
-  assert.equal(music(h).volume, .25 * .25, 'a new theme retains the finale volume reduction');
+  assert.equal(music(h).volume,beforeSwitch,'a new theme retains the current mix');
   h.run('AudioSystem.setMusicVolume(.4);');
-  assert.equal(music(h).volume, .1);
+  assert.ok(Math.abs(music(h).volume-beforeSwitch*.4/.25)<.00001);
   advanceFinale(h, 16.1);
   assert.equal(h.run('state.cutscene.stage'), 'celebrate');
-  assert.equal(music(h).volume, .4);
+  assert.ok(music(h).volume>.4*.55&&music(h).volume<.4,'music returns gradually');
+  // MockAudio has no media clock: the one-second wolf calls ended before celebration.
+  for(const player of h.players.filter(p=>/sob(?:-2)?\.wav$/.test(p.src)))player.onended();
+  h.run('for(let i=0;i<160;i++)AudioSystem.update(state,.05)');
+  assert.equal(music(h).volume,.4);
   assert.equal(h.plays.filter(play => /victory\.wav$/.test(play.src)).length, 1);
   assert.ok(h.plays.some(play => /(?:pop|boing|bonk|squeak)\.wav$/.test(play.src)));
 });

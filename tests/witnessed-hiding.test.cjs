@@ -119,7 +119,7 @@ for (const type of ['hay', 'bush']) {
     pressE(game);
     assert.equal(run('WolfAI.isExposed(state)'), true);
     run(`let captureCount=0;
-      for(let i=0;i<220 && !captureCount;i++) {
+      for(let i=0;i<200 && !captureCount;i++) {
         Player.update(state,0.025); WolfAI.update(state,0.025);
         if(Player.checkCatch(state)) captureCount++;
       }`);
@@ -213,7 +213,7 @@ test('escaping unseen to another cover keeps the old snapshot until its empty sp
   assert.deepEqual(plain(game, 'wolf.lastKnown'), original);
 });
 
-test('the memory countdown freezes with the menu and eventually expires without revealing the chicken', () => {
+test('the memory countdown freezes with the menu and eventually expires without remote damage', () => {
   const game = coverScenario();
   const { run } = game;
   pressE(game);
@@ -228,6 +228,31 @@ test('the memory countdown freezes with the menu and eventually expires without 
   assert.equal(run('state.lives'), 3);
 });
 
+test('a witnessed cover reveals at five seconds if the wolf has not reached it; unwitnessed cover remains safe',()=>{
+  for(const watched of [true,false]){
+    const game=coverScenario();
+    if(!watched)game.run('wolf.heading=Math.PI;');
+    pressE(game);
+    game.run('wolf.accel=0;wolf.moveSpeed=0;for(let i=0;i<49;i++)WolfAI.update(state,.1);');
+    assert.equal(game.run('chicken.hidden'),true);
+    game.run('WolfAI.update(state,.1);Player.checkCatch(state);');
+    assert.equal(game.run('chicken.hidden'),!watched);
+    assert.equal(game.run('state.lives'),3,'finding the cover cannot hurt from a distance');
+  }
+});
+
+test('the five-second reveal countdown survives pause and reload, and stops after leaving for unseen cover',()=>{
+  const game=coverScenario({real:true});pressE(game);
+  game.run('wolf.accel=0;wolf.moveSpeed=0;WolfAI.update(state,2);GameUI.showMenu(state);updateGame(20);');
+  assert.equal(game.run('wolf.exposedCover.revealIn'),3);
+  game.run('var saved=GameManager.read();resetGame(saved.worldSeed);GameManager.restore(state,saved);state.phase="playing";');
+  assert.equal(game.run('state.entities.wolf.exposedCover.revealIn'),3);
+  game.run('state.entities.wolf.accel=0;state.entities.wolf.moveSpeed=0;WolfAI.update(state,2.9);');
+  assert.equal(game.run('state.entities.chicken.hidden'),true);
+  game.run('WolfAI.update(state,.1);');
+  assert.equal(game.run('state.entities.chicken.hidden'),false);
+});
+
 test('a valid save restores the observed cover, remaining search time and a fair reload grace period', () => {
   const game = coverScenario({ real: true });
   const { run } = game;
@@ -237,7 +262,7 @@ test('a valid save restores the observed cover, remaining search time and a fair
     resetGame(saved.worldSeed); GameManager.restore(state,saved); state.phase='playing';`);
   assert.equal(run('state.entities.chicken.hidden'), true);
   assert.equal(run('state.entities.wolf.mode'), 'inspect');
-  assert.equal(run('JSON.stringify(state.entities.wolf.exposedCover)'), run('savedExposure'));
+  assert.deepEqual(plain(game,'state.entities.wolf.exposedCover'), JSON.parse(run('savedExposure')));
   assert.equal(run('WolfAI.isExposed(state)'), true);
   assert.ok(run('state.entities.chicken.invulnerable > 0'));
   run(`state.entities.wolf.x=state.entities.chicken.x;

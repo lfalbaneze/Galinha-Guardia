@@ -9,7 +9,7 @@ function setup(mode) {
 }
 const rescueAll = h => h.run('for(const a of state.entities.animals)GameManager.rescue(state,a);GameManager.win(state);');
 
-for (const [mode, limit, multiplier, friendTime, chickTime] of [['hard', 60, 1000, 10, 20], ['hardcore', 45, 10000, 15, 30]]) {
+for (const [mode, limit, multiplier, friendTime, chickTime] of [['hard', 60, 2, 10, 20]]) {
   test(`${mode}: deadline, exact 30-second bonus, frozen ending and no duplicate on reload`, () => {
     const h = setup(mode);
     assert.equal(h.run('state.timeRemaining'), limit);
@@ -17,14 +17,14 @@ for (const [mode, limit, multiplier, friendTime, chickTime] of [['hard', 60, 100
     h.run(`for(const a of state.entities.animals.slice(0,-1))GameManager.rescue(state,a);
       state.timeRemaining=${30 - friendTime};GameManager.rescue(state,state.entities.animals.at(-1));GameManager.win(state);`);
     assert.equal(h.run('state.timeBonus'), 30 * multiplier);
-    assert.equal(h.run('state.score'), 1950 + 30 * multiplier);
+    assert.equal(h.run('state.score'), 2550 + 30 * multiplier);
     h.run('GameManager.win(state);GameManager.update(state,15);updateGame(.05);');
     assert.equal(h.run('state.timeRemaining'), 30);
     const saved = h.run('GameManager.read()');
     assert.equal(saved.timeBonus, 30 * multiplier);
     h.context.saved = saved;
     h.run('resetGame(52);GameManager.restore(state,saved);state.phase="won";GameUI.update(state);');
-    assert.equal(h.run('state.score'), 1950 + 30 * multiplier);
+    assert.equal(h.run('state.score'), 2550 + 30 * multiplier);
     assert.match(h.elements.get('endTimeBonus').textContent, /30s/);
     assert.equal(h.elements.get('endTimeBonus').hidden, false);
   });
@@ -36,13 +36,13 @@ for (const [mode, limit, multiplier, friendTime, chickTime] of [['hard', 60, 100
     h.run('GameManager.rescue(state,a);GameManager.rescue(state,a);c.discovered=true;GameManager.rescue(state,c);GameManager.rescue(state,c);GameUI.update(state);');
     const earned = limit + friendTime + chickTime;
     assert.equal(h.run('state.timeRemaining'), earned);
-    assert.equal(h.run('state.score'), 200);
+    assert.equal(h.run('state.score'), 300);
     assert.equal(h.elements.get('timeReward').textContent, `+${chickTime}s`);
     assert.equal(h.elements.get('timeReward').hidden, false);
     for (let i=0;i<2;i++) {
       h.run('GameManager.save(state);var saved=GameManager.read();resetGame(52);GameManager.restore(state,saved);state.phase="playing";GameManager.rescue(state,state.entities.animals[0]);GameManager.rescue(state,state.entities.chicks[0]);');
       assert.equal(h.run('state.timeRemaining'), earned);
-      assert.equal(h.run('state.score'), 200);
+      assert.equal(h.run('state.score'), 300);
     }
     h.run('GameManager.rescue(state,state.entities.animals[1]);GameUI.update(state);');
     assert.equal(h.elements.get('timeReward').textContent, `+${friendTime}s`);
@@ -59,7 +59,7 @@ for (const [mode, limit, multiplier, friendTime, chickTime] of [['hard', 60, 100
     assert.equal(h.run('state.timeRemaining'), limit+friendTime);
     h.run('GameManager.save(state);var saved=GameManager.read();resetGame(52);GameManager.restore(state,saved);');
     assert.equal(h.run('state.timeRemaining'), limit+friendTime);
-    assert.equal(h.run('state.score'), 100);
+    assert.equal(h.run('state.score'), 150);
   });
 
   test(`${mode}: timeout ends the run with hearts, persists and retries with the full time`, () => {
@@ -69,7 +69,8 @@ for (const [mode, limit, multiplier, friendTime, chickTime] of [['hard', 60, 100
     assert.equal(h.run('state.lives'), 3);
     assert.equal(h.run('state.timeBonus'), 0);
     assert.equal(h.run('GameManager.read().defeatReason'), 'timeout');
-    assert.equal(h.elements.get('endTitle').textContent, 'O tempo acabou!');
+    assert.equal(h.elements.get('endTitle').textContent, 'GAME OVER');
+    assert.equal(h.elements.get('endEyebrow').textContent, 'TEMPO ESGOTADO');
     assert.equal(h.run('GameManager.rescue(state,state.entities.animals[0])'), false);
     h.run('var saved=GameManager.read();resetGame(52);GameManager.restore(state,saved);');
     assert.equal(h.run('state.phase'), 'lose');
@@ -100,7 +101,7 @@ test('pause and reload preserve the countdown; only full seconds earn points', (
   h.run('var saved=GameManager.read();resetGame(52);GameManager.restore(state,saved);');
   assert.equal(h.run('state.timeRemaining'), 58.75);
   h.run('state.phase="playing";for(const a of state.entities.animals)GameManager.rescue(state,a);state.timeRemaining=30.99;GameManager.win(state);');
-  assert.equal(h.run('state.timeBonus'), 30000);
+  assert.equal(h.run('state.timeBonus'), 60);
 });
 
 test('legacy hard saves get a fresh deadline and completed saves keep their original score', () => {
@@ -119,14 +120,14 @@ test('the hardcore menu option is selectable with the keyboard and displays the 
   assert.equal(h.elements.get('difficultySelect').value, 'hardcore');
   assert.equal(h.elements.get('difficulty-hardcore').attributes['aria-checked'], 'true');
   assert.match(h.elements.get('difficultyFlavor').textContent, /45s/);
-  assert.match(h.elements.get('difficultyFlavor').textContent, /\+30s/);
-  assert.match(h.elements.get('difficultyFlavor').textContent, /\+15s/);
-  assert.match(h.elements.get('difficultyFlavor').textContent, /10\.000/);
+  assert.match(h.elements.get('difficultyFlavor').textContent, /\+5s até \+50s/);
+  assert.match(h.elements.get('difficultyFlavor').textContent, /\+15s a cada 2 amigos/);
+  assert.match(h.elements.get('difficultyFlavor').textContent, /\+4 pontos\/s/);
 });
 
 test('fixed-timer saves migrate once without re-awarding already rescued friends', () => {
   const h=setup('hardcore');
-  h.run('GameManager.rescue(state,state.entities.animals[0]);GameManager.save(state);var saved=GameManager.read();delete saved.timerMode;saved.timeRemaining=399;saved.elapsed=21;resetGame(52);GameManager.restore(state,saved);');
+  h.run('GameManager.rescue(state,state.entities.animals[0]);GameManager.save(state);var saved=GameManager.read();delete saved.timerMode;saved.score=100;saved.timeRemaining=399;saved.elapsed=21;resetGame(52);GameManager.restore(state,saved);');
   assert.equal(h.run('state.timeRemaining'),45);
   assert.equal(h.run('state.score'),100);
   assert.equal(h.run('GameManager.read().timerMode'),'arcade');
@@ -137,7 +138,7 @@ test('fixed-timer saves migrate once without re-awarding already rescued friends
 
 test('legacy winning scores keep their fixed-timer bonus and timeouts stay defeats', () => {
   const h=setup('hardcore');rescueAll(h);
-  h.run('var saved=GameManager.read();delete saved.timerMode;saved.timeRemaining=350;saved.timeBonus=3500000;saved.score=3501950;resetGame(52);GameManager.restore(state,saved);');
+  h.run('var saved=GameManager.read();saved.version=4;delete saved.timerMode;delete saved.timeBonusRate;saved.timeRemaining=350;saved.timeBonus=3500000;saved.score=3501950;resetGame(52);GameManager.restore(state,saved);');
   assert.equal(h.run('state.timeBonus'),3500000);
   assert.equal(h.run('state.score'),3501950);
   h.run('saved=GameManager.read();resetGame(52);GameManager.restore(state,saved);');

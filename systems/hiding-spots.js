@@ -14,8 +14,8 @@ const HidingSpots = (() => {
             chicken.y >= spot.y + 8 && chicken.y <= spot.y + spot.h - 8;
     }
     function candidate(chicken) {
-        return spots.find(s => s.id === chicken.hidingSpotId && contains(s, chicken)) ||
-            spots.find(s => contains(s, chicken)) || null;
+        return spots.find(s => s.type !== 'tree' && s.id === chicken.hidingSpotId && contains(s, chicken)) ||
+            spots.find(s => s.type !== 'tree' && contains(s, chicken)) || null;
     }
     function occupied(game, spot) {
         return !!occupant(game, spot);
@@ -39,7 +39,7 @@ const HidingSpots = (() => {
         // Call from any nearby edge instead of requiring a precise step inside the foliage.
         return Math.hypot(chicken.x - clamp(chicken.x, spot.x, spot.x + spot.w), chicken.y - clamp(chicken.y, spot.y, spot.y + spot.h)) <= 40;
     }
-    function bonusHomes(layout = WORLD.layout) {
+    function bonusHomes(layout = WORLD.layout, count = layout.chickSpawns.length) {
         // A separate deterministic selection keeps saved buildings and cover IDs intact.
         const rank = (id) => {
             let hash = (layout.seed ^ 0x76a92ed1) >>> 0;
@@ -55,7 +55,7 @@ const HidingSpots = (() => {
                 { x: spot.x + 18, y: spot.y + spot.h / 2 },
                 { x: spot.x + spot.w - 18, y: spot.y + spot.h / 2 }
             ];
-            const point = points.find(p => contains(spot, p) && candidate(p)?.id === spot.id && OBSTACLES.every(o => {
+            const point = points.find(p => contains(spot, p) && (spot.type === 'tree' || candidate(p)?.id === spot.id) && OBSTACLES.every(o => {
                 const x = p.x - clamp(p.x, o.x, o.x + o.w);
                 const y = p.y + 8 - clamp(p.y + 8, o.y, o.y + o.h);
                 return Math.hypot(x, y) > 19;
@@ -66,11 +66,12 @@ const HidingSpots = (() => {
             return [{ ...point, areaId: area?.id, coverId: spot.id, rank: rank(spot.id) }];
         }).sort((a, b) => a.rank - b.rank || a.coverId.localeCompare(b.coverId));
         const chosen = new Set();
-        return layout.chickSpawns.map(oldHome => {
+        return Array.from({ length: count }, (_, index) => {
+            const oldHome = layout.chickSpawns[index % layout.chickSpawns.length];
             const available = options.filter(p => !chosen.has(p.coverId));
             const home = available.find(p => p.areaId === oldHome.areaId) || available[0];
             if (!home)
-                throw new Error('A fazenda precisa de seis esconderijos acessíveis para os bônus.');
+                throw new Error(`A fazenda precisa de ${count} esconderijos acessíveis para os bônus.`);
             chosen.add(home.coverId);
             return { x: home.x, y: home.y, areaId: home.areaId || oldHome.areaId, coverId: home.coverId };
         });
@@ -120,7 +121,7 @@ const HidingSpots = (() => {
             GameInput.clear();
         else
             input.clear();
-        setStatus(WolfAI.isExposed(game) ? "O lobo viu esse bico entrar! Saia daí, despiste-o e procure outro abrigo." :
+        setStatus(WolfAI.isExposed(game) ? "O lobo viu esse bico entrar! Ele acha a moita em até 5s. Saia, despiste-o e procure outro abrigo." :
             "Agora você é paisagismo. Bico fechado até a ronda passar!");
         spawnBurst(chicken.x, chicken.y, spot.type === "hay" ? "#ebc774" : "#94ba71", 9);
         GameUI.update(game);

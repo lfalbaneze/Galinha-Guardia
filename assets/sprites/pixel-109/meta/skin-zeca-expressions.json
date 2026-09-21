@@ -1,0 +1,13 @@
+{
+  "id": "skin-zeca",
+  "template": "mannequin",
+  "height": 45,
+  "description": "Zeca, a cream-white duck wearing a little straw hat with green band, broad ochre bill, orange webbed feet, round belly, two folded wings, cheeky happy eyes. Hat stays the same size and orientation relative to his head.",
+  "gait": "bird",
+  "prompt": "Create the matching ACTING/EXPRESSION atlas for EXACTLY the same pixel-art animal in the reference. Identity-preserving sprite variant: match its precise proportions, markings, colors, anatomy and pixel-cluster art style. Entire body every cell, never a face-only sticker.\nEXACTLY EIGHT ROWS and FIVE COLUMNS, 40 sprites, equal cells, generous TRANSPARENT empty gutters, no shadows/background/text or external emotion symbols. Columns left to right are:\n1 NEUTRAL standing idle, all feet grounded and eyes open;\n2 HAPPY, delighted smile with raised cheeks and joyful eyes, ears alert;\n3 SCARED, raised inner eyebrows, wide worried eyes and small alarmed mouth, ears react but keep same anatomical shape;\n4 GRUMPY/ANGRY, brows lowered, determined mouth, cute frustration;\n5 SAD, drooping eyelids and mouth, lower head slightly, ears softly lowered.\nRows orientation: 1 SOUTH/front; 2 SOUTHWEST/front-left diagonal; 3 WEST/left profile; 4 NORTHWEST/back-left diagonal; 5 NORTH/straight back, FACE HIDDEN; 6 NORTHEAST/back-right diagonal; 7 EAST/right profile; 8 SOUTHEAST/front-right diagonal. Orientation stays fixed WITHIN EACH ROW. On rear rows express emotion through ears, shoulders and tail, never rotate head to reveal a face from straight back. Every row keeps same body volume and orthographic camera. Four paws for quadrupeds, two feet for birds, preserve ALL ears and tails. Character centered inside middle60% of each cell. No accessories not in reference.\nCharacter identity: Zeca, a cream-white duck wearing a little straw hat with green band, broad ochre bill, orange webbed feet, round belly, two folded wings, cheeky happy eyes. Hat stays the same size and orientation relative to his head.",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-6f26cdb5-4d31-4863-b83b-c5080e263414.png",
+  "action": "expressions",
+  "rows": 8,
+  "columns": 5,
+  "tool": "built-in imagegen"
+}

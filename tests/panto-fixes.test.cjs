@@ -66,7 +66,7 @@ test('third dodge shows 3/3 and completion, plays one fanfare and survives UI re
   const h=setup();h.run('state.lake.misses=2');step(h,10);claim(h);h.run('GameUI.update(state)');
   assert.equal(h.run('state.lake.completed'),true);assert.equal(h.elements.get('lakeCounter').hidden,false);
   assert.equal(h.elements.get('lakeCounterValue').textContent,'3/3');
-  assert.equal(h.elements.get('lakeCounterTitle').textContent,'DESAFIO CONCLUÍDO!');
+  assert.equal(h.elements.get('lakeCounterTitle').textContent,'PANTO RESGATADO!');
   assert.equal(h.elements.get('lakeStamp3').dataset.earned,'true');
   h.run('for(let i=0;i<5;i++){LakeChallenge.recordMiss(state,g);GameUI.update(state);renderGame()}');
   assert.equal(h.run('sounds.filter(n=>n==="panto-victory").length'),1);
@@ -99,8 +99,10 @@ test('the victory cue lowers the background music temporarily and respects mute,
   h.run('AudioSystem.sync(state);AudioSystem.unlock();AudioSystem.setMusicVolume(.5);AudioSystem.setEffectsVolume(.4)');
   assert.equal(h.run("AudioSystem.play('panto-victory',{volume:.8})"),true);
   const music=players.find(a=>a.loop),cue=players.find(a=>a.src.endsWith('panto-victory.wav'));
-  assert.ok(cue);assert.ok(Math.abs(cue.volume-.32)<.001);assert.equal(music.volume,.09);
-  cue.onended();assert.equal(music.volume,.5);
+  assert.ok(cue);assert.ok(Math.abs(cue.volume-.4*.8*.68)<.001);assert.equal(music.volume,.5,'music fades instead of jumping');
+  h.run('for(let i=0;i<40;i++)AudioSystem.update(state,.05)');
+  assert.ok(Math.abs(music.volume-.5*.55)<.001);
+  cue.onended();h.run('for(let i=0;i<160;i++)AudioSystem.update(state,.05)');assert.equal(music.volume,.5);
   h.run('AudioSystem.toggleMute()');assert.equal(h.run("AudioSystem.play('panto-victory')"),false);
   h.run('AudioSystem.toggleMute();AudioSystem.setEffectsVolume(0)');assert.equal(h.run("AudioSystem.play('panto-dodge')"),false);
   h.run('AudioSystem.setEffectsVolume(.4);AudioSystem.pause()');assert.equal(h.run("AudioSystem.play('panto-victory')"),false);
@@ -132,9 +134,10 @@ test('three counters can be earned on real farm layouts with their original coll
     assert.equal(h.run('started'),true,`start ${seed}`);
     assert.equal(h.run('state.lake.completed'),true,`complete ${seed}`);
     assert.equal(h.run('state.lake.misses'),3);assert.equal(h.run('state.lives'),3);
-    // Completion can happen beyond the normal leash: Panto must still walk back safely.
+    // A defeated Panto joins the rescued herd, including when the final dash left his leash.
     h.run('for(let i=0;i<500;i++)GooseSystem.update(state,.05)');
-    assert.ok(h.run('distance(g,g.home)')<1,`return after completion ${seed}`);
+    assert.equal(h.run('g.rescued'),true);
+    assert.ok(h.run('distance(g,FarmRefuge.gooseHome())')<1,`refuge after completion ${seed}`);
     assert.equal(h.run('WildlifeRules.clear(g,g,g.hitbox)'),true,`collision ${seed}`);
   }
 });

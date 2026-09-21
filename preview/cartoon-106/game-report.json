@@ -1,0 +1,73 @@
+{
+  "directions": [
+    "up",
+    "upright",
+    "right",
+    "downright",
+    "down",
+    "downleft",
+    "left",
+    "upleft"
+  ],
+  "phases": [
+    {
+      "name": "notice",
+      "mode": "alert",
+      "callTime": 0,
+      "frame": {
+        "row": 3,
+        "column": 2
+      },
+      "wolf": "patrol"
+    },
+    {
+      "name": "call",
+      "mode": "cooldown",
+      "callTime": 0.72,
+      "frame": {
+        "row": 3,
+        "column": 6
+      },
+      "wolf": "investigate"
+    },
+    {
+      "name": "settle",
+      "mode": "cooldown",
+      "callTime": 0.21999999999999986,
+      "frame": {
+        "row": 3,
+        "column": 10
+      },
+      "wolf": "investigate"
+    }
+  ],
+  "audio": [
+    {
+      "src": "./assets/audio/effects/v1/owl-siren.wav",
+      "duration": 0.72,
+      "playing": true
+    },
+    {
+      "src": "./assets/audio/effects/v1/owl-siren-2.wav",
+      "duration": 0.72,
+      "playing": true
+    }
+  ],
+  "flight": {
+    "from": "green-1",
+    "to": "green-13",
+    "frame": {
+      "row": 3,
+      "column": 5
+    },
+    "progress": 0.45486898189896213,
+    "x": 1800.5796784435238,
+    "y": 784.3593970695188
+  },
+  "landed": {
+    "treeId": "green-13",
+    "mode": "watch",
+    "grace": 1
+  },
+  "runtimeErrors": []
+}

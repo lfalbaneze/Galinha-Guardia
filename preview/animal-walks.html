@@ -1,0 +1,29 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><base href="../"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Elenco em movimento · Penas pro Ar!</title>
+<style>body{margin:0;padding:24px;background:#182b26;color:#f0e6c9;font:15px system-ui}main{max-width:1120px;margin:auto}h1{font-size:27px;margin-bottom:6px}p{color:#bbc6af}.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:16px 0}button,select{background:#e9c887;color:#203b2c;border:0;border-radius:5px;padding:11px 14px;font:600 14px system-ui;cursor:pointer}canvas{display:block;width:100%;height:auto;image-rendering:auto;border-radius:8px}a{color:#e9c887}label{display:flex;gap:8px;align-items:center}</style></head>
+<body><main><h1>O elenco em oito direções</h1><p>Cartoon de gibi · os mesmos desenhos usados no jogo e no menu.</p>
+<div class="controls"><label>Personagem <select id="animal"></select></label><button id="toggle">Pausar</button><button id="step">Próximo quadro</button><label>Ritmo <select id="speed"><option value="30">Devagar</option><option value="85" selected>Caminhada</option><option value="300">Rápido</option></select></label><label>Escala <select id="scale"><option value="1">Tamanho do jogo</option><option value="2" selected>Ampliado 2×</option></select></label><output id="frame"></output></div>
+<canvas id="walks" width="1120" height="1000" aria-label="Oito direções animadas, ciclo completo de quadros e movimento contínuo"></canvas>
+<p>Na faixa inferior, o deslocamento determina o ritmo das patas. A coruja mostra a sequência de perceber e chamar. <a id="sheet">Abrir folha do personagem</a> · <a href="index.html">Jogar</a></p></main>
+<script src="systems/sprite-style.js"></script><script src="systems/sprite-data.js"></script><script src="systems/arcade-art-data.js"></script><script src="systems/premium-art-data.js"></script><script src="systems/character-art.js"></script>
+<script>
+const c=document.getElementById('walks').getContext('2d'),directions=['up','upright','right','downright','down','downleft','left','upleft'],labels=['Norte','Nordeste','Leste','Sudeste','Sul','Sudoeste','Oeste','Noroeste'];
+const names={chicken:'Erina',sheep:'Ovelha',pig:'Porco',cow:'Vaca',dog:'Cachorro',cat:'Gato',rabbit:'Coelho',duck:'Pato',horse:'Cavalo',donkey:'Burro',goat:'Cabra',lamb:'Cordeiro',chick:'Pintinho',turkey:'Peru',wolf:'Lobo','hen-silkie':'Midori','hen-blue':'Alzira','skin-zeca':'Zeca','skin-pipoca':'Pipoca','skin-amora':'Stella','skin-pacoca':'Paçoca','skin-gumercindo':'Gumercindo',goose:'Panto',fox:'Lorenzo',amanda:'Amanda',thor:'Thor',owl:'Coruja',scarecrow:'Espantalho',crow:'Corvo'};
+const select=document.getElementById('animal');Object.entries(names).forEach(([id,name])=>select.add(new Option(name,id)));
+let running=!matchMedia('(prefers-reduced-motion: reduce)').matches,anim=0,last=0,travel=0;const toggle=document.getElementById('toggle');
+function label(){toggle.textContent=running?'Pausar':'Animar';toggle.setAttribute('aria-pressed',String(running));}label();
+const count=()=>PremiumArtData[select.value].poses.right.frames.length;
+toggle.onclick=()=>{running=!running;label()};document.getElementById('step').onclick=()=>{running=false;anim=(Math.floor(anim*count()/4)+1)%count()*4/count();label()};
+select.onchange=()=>{anim=0;document.getElementById('sheet').href=PremiumArtData[select.value].source};select.onchange();
+function animal(x,y,direction,phase,scale){CharacterArt.draw(c,select.value,x,y,{direction,moving:true,anim:phase,scale,shadow:true});}
+window.renderReview=function(time,manual=false){const dt=last?Math.min(.05,(time-last)/1000):0;last=time;const speed=Number(document.getElementById('speed').value),scale=Number(document.getElementById('scale').value);
+ if(running&&!manual){anim=CharacterArt.advance(anim,select.value==='amanda'?'fox':select.value,dt*speed,{speed});travel+=dt*speed;}
+ c.fillStyle='#dbe9b3';c.fillRect(0,0,1120,1000);c.font='600 14px system-ui';c.textAlign='center';
+ for(let i=0;i<8;i++){const x=140+(i%4)*280,y=210+Math.floor(i/4)*240;c.fillStyle='#3d522e';c.fillText(labels[i],x,y-182);c.fillStyle='#496042';c.fillRect(x-112,y+15,224,1);animal(x,y,directions[i],anim,scale);}
+ c.fillStyle='#c6d59e';c.fillRect(12,492,1096,326);c.fillStyle='#2d432a';c.textAlign='left';c.fillText(count()+' quadros · tamanho real',26,516);
+ for(let i=0;i<count();i++){const x=96+(i%6)*186,y=612+Math.floor(i/6)*150;animal(x,y,'right',i*4/count(),1);c.textAlign='center';c.fillStyle='#3c5332';c.fillText(i+1,x,y+25);}
+ c.fillStyle='#bbc997';c.fillRect(12,844,1096,144);c.fillStyle='#30482b';c.textAlign='left';c.fillText('Deslocamento contínuo',26,868);
+ const x=80+travel%960;animal(x,956,'right',anim,1);document.getElementById('frame').textContent='Quadro '+(Math.floor(anim*count()/4)%count()+1)+' / '+count();
+};
+function draw(time){renderReview(time);requestAnimationFrame(draw)}
+CharacterArt.load().then(ok=>{if(ok)requestAnimationFrame(draw);else document.querySelector('p').textContent='Falha ao carregar: '+CharacterArt.errors.join(', ')});
+</script></body></html>

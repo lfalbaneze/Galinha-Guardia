@@ -89,7 +89,7 @@ test('rescue and capture sounds fire on successful events without duplicating th
     Object.assign(state.entities.wolf,{x:state.entities.chicken.x,y:state.entities.chicken.y,huntUnlockTimer:0,pauseTimer:0});
     Player.checkCatch(state);Player.checkCatch(state);`);
   assert.equal(h.plays.filter(p => /chick\.wav$/.test(p.src)).length, 1);
-  assert.equal(h.plays.filter(p => /animal-chicken(?:-2)?\.wav$/.test(p.src)).length, 1);
+  assert.equal(h.plays.filter(p => /animal-chicken(?:-[23])?\.wav$/.test(p.src)).length, 1);
   assert.equal(h.run('state.lives'), 2);
 });
 
@@ -105,7 +105,8 @@ test('all twelve friends and six chicks use their own rescue call once, includin
   for (const species of adultSpecies) {
     assert.equal(calls.filter(name => name === `animal-${species}.wav`).length, 1, species);
   }
-  assert.equal(calls.filter(name => name === 'chick.wav').length, 6);
+  assert.equal(calls.filter(name => /^chick(?:-2)?\.wav$/.test(name)).length, 6);
+  assert.equal(calls.filter(name => name === 'chick-2.wav').length, 3,'rescued chicks alternate distinct calls');
   assert.equal(calls.length, 18);
   assert.equal(h.run('state.score'), 2550);
   const saved = harness(new Map(h.storage), true);

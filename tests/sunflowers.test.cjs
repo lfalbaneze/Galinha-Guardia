@@ -34,8 +34,12 @@ test('new and old layouts get a deterministic sunflower field without moving sav
     assert.equal(h.run('SunflowerSystem.plot()===bed'),true);
     assert.equal(h.run(`WORLD.paths.concat(WORLD.layout.lanes||[]).some(r=>bed.x<r.x+r.w&&bed.x+bed.w>r.x&&bed.y<r.y+r.h&&bed.y+bed.h>r.y)`),false);
     assert.ok(h.run('SunflowerSystem.props(WORLD.layout).filter(p=>p.type==="sunflower").length')>=24);
-    assert.equal(h.run(`(()=>{for(let y=bed.y+80;y<bed.y+bed.h-25;y+=24)for(let x=bed.x+28;x<bed.x+bed.w-28;x+=24)
-      if(!WildlifeRules.clear({x,y},{x,y},state.entities.wolf.hitbox))return false;return true;})()`),true);
+    assert.equal(h.run(`(()=>{const sign=OBSTACLES.find(o=>o.id==='sunflower-sign'),box=state.entities.wolf.hitbox;
+      for(let y=bed.y+80;y<bed.y+bed.h-25;y+=24)for(let x=bed.x+28;x<bed.x+bed.w-28;x+=24){
+        // The field's own sign is intentionally solid; the planted ground around it remains walkable.
+        if(sign&&!WildlifeRules.clear({x,y},{x,y},box,[sign]))continue;
+        if(!WildlifeRules.clear({x,y},{x,y},box))return false;
+      }return true;})()`),true);
   }
 });
 

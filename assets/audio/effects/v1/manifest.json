@@ -1,0 +1,28 @@
+{
+  "description": "Sirene cômica da coruja: duas variações curtas de uí-ó, sincronizadas ao chamado.",
+  "generator": "scripts/generate-owl-siren.cjs",
+  "recordings": [
+    {
+      "file": "owl-siren.wav",
+      "seconds": 0.72,
+      "sampleRate": 22050,
+      "channels": 1,
+      "bits": 16,
+      "peak": 0.37101426457115283,
+      "rms": 0.20999999999999996,
+      "sha256": "9b898863bfbe9bfa60348a7e16d689edde7cf9a1eabd521dcb69b3f76caf9ba9",
+      "source": "Original procedural composition; no third-party samples."
+    },
+    {
+      "file": "owl-siren-2.wav",
+      "seconds": 0.72,
+      "sampleRate": 22050,
+      "channels": 1,
+      "bits": 16,
+      "peak": 0.3709785553990151,
+      "rms": 0.21,
+      "sha256": "16d1c75c6876420f9f211d37cc43fb70e3a3959a5fd4f160f020d162561c8aa6",
+      "source": "Original procedural composition; no third-party samples."
+    }
+  ]
+}

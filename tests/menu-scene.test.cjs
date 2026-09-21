@@ -2,8 +2,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createGame } = require('./helpers.cjs');
 
-function menu(options) {
-  const game = createGame(() => .5, options);
+function menu(options, random = () => .5) {
+  const game = createGame(random, options);
   game.run(`GameUI.showMenu(state);
     const sceneContext=document.getElementById('menuScene').getContext('2d');
     const sceneDraws=[], scenePositions=[];
@@ -16,6 +16,28 @@ function menu(options) {
   game.elements.get('menuScreen').getBoundingClientRect = () => ({ left: 0, top: 0, width: 1360, height: 730 });
   return game;
 }
+
+test('fresh page loads vary guests, positions and headings while the same page keeps its cast and saved game',()=>{
+ const casts=[],placements=[],headings=[];
+ for(const seed of [17,42,93]){
+  let rng=seed;const h=menu({reducedMotion:true},()=>((rng=(Math.imul(rng,1664525)+1013904223)>>>0)/4294967296));
+  h.run(`const drawnCast=[];let origin;
+   sceneContext.translate=(x,y)=>{origin={x,y}};
+   sceneContext.drawImage=(image,sx,sy)=>{
+    const [name,data]=Object.entries(SpriteData).find(([name,data])=>data.source===image.src);
+    const direction=Object.entries(data.actions.idle).find(([dir,pose])=>pose.frames[0].x===sx&&pose.frames[0].y===sy)?.[0];
+    drawnCast.push({name,...origin,direction});};
+   InterfaceMotion.frame(state,0);`);
+  const cast=h.run('drawnCast.slice(-6)');
+  assert.equal(new Set(cast.map(a=>a.name)).size,6);assert.ok(cast.some(a=>a.name==='chicken'));
+  assert.ok(cast.filter(a=>['cow','horse','donkey'].includes(a.name)).length<=1);
+  casts.push(cast.map(a=>a.name).sort().join(','));placements.push(JSON.stringify(cast.map(a=>[a.x,a.y])));headings.push(cast.map(a=>a.direction).join(','));
+  h.events.window.resize();h.run('InterfaceMotion.frame(state,0);');
+  assert.equal(h.run('JSON.stringify(drawnCast.slice(-6))'),JSON.stringify(cast));
+  assert.equal(h.run('JSON.stringify(state)===snapshot'),true);
+ }
+ assert.ok(new Set(casts).size>1);assert.ok(new Set(placements).size>1);assert.ok(new Set(headings).size>1);
+});
 
 test('farm menu animates its own herd while saved animals, chicks, map, clock and audio stay paused', () => {
   const { run, elements, storage, events } = menu();
@@ -80,8 +102,8 @@ test('every route stays on the painted dirt through wandering, commotion and res
     h.run('feet.length=0;for(let i=0;i<2400;i++)MenuScene.frame(state,.05,false);');
     h.events.elements.menuScatter.click();
     h.run('for(let i=0;i<300;i++)MenuScene.frame(state,.05,false);');
-    const cover = Math.max(width / image.width, height / image.height);
-    const left = (width - image.width * cover) * .42, top = (height - image.height * cover) * .5;
+    const cover = Math.max(width / image.width, height / image.height) * 1.12;
+    const left = (width - image.width * cover) * .42, top = height - image.height * cover;
     const calls = h.run('feet');
     assert.ok(calls.length > 6000);
     for (let i = 0; i < calls.length; i++) {
@@ -116,7 +138,7 @@ test('the button starts a somersault, a joke and a reply, with grounded shadows 
   const h = audibleMenu();
   assert.equal(h.plays.length, 0, 'no menu autoplay');
   h.events.elements.menuScatter.click();
-  assert.match(h.plays[0].src, /voices\/v4\/animal-chicken\.wav$/);
+  assert.match(h.plays[0].src, /voices\/v5\/animal-chicken\.wav$/);
   assert.equal(h.plays[0].loop, false);
   assert.equal(h.elements.get('menuBanter').hidden, false);
   assert.match(h.elements.get('menuBanter').textContent, /Erina/);
@@ -128,12 +150,12 @@ test('the button starts a somersault, a joke and a reply, with grounded shadows 
   assert.doesNotMatch(h.elements.get('menuBanter').textContent, /^Erina/);
   assert.equal(h.plays.length, 1, 'one explicit animal call, no automatic audio chatter');
   h.run('for(let i=0;i<68;i++)InterfaceMotion.frame(state,.05);hops.length=0;InterfaceMotion.frame(state,.05);');
-  assert.equal(h.run('hops.length'), 0, 'lands and resumes normal walking');
+  assert.ok(h.run('hops.every(height => height <= 4)'), 'lands; only the rabbit keeps its small walking hops');
   assert.equal(h.elements.get('menuBanter').hidden, true);
   assert.equal(h.run('JSON.stringify(state)===snapshot'), true);
   h.events.elements.menuScatter.click();
-  assert.match(h.plays.at(-1).src, /animal-duck\.wav$/);
-  assert.match(h.elements.get('menuBanter').textContent, /Pato/);
+  assert.ok(h.plays.at(-1).src.includes('animal-'+h.elements.get('menuBanter').dataset.speaker));
+  assert.doesNotMatch(h.elements.get('menuBanter').textContent, /^Erina/);
 });
 
 test('menu reactions follow the equipped appearance and rapid clicks reuse one audio voice', () => {
@@ -189,9 +211,40 @@ test('muting keeps the jump, reduced motion keeps the call, and hidden menus ign
 
 test('the button skips an animal hidden behind the menu card', () => {
   const h = audibleMenu();
-  h.elements.get('menuCard').getBoundingClientRect = () => ({ left: 400, top: 400, width: 130, height: 260 });
+  h.run(`let coveredOrigin,latestOrigin;
+    sceneContext.translate=(x,y)=>{if(x>100&&y>100)latestOrigin={x,y};};
+    sceneContext.drawImage=image=>{if(image.src.includes('pixellab-108/runtime/chicken-'))coveredOrigin={...latestOrigin};};
+    InterfaceMotion.frame(state,.05);`);
+  const chicken=h.run('coveredOrigin');
+  h.elements.get('menuCard').getBoundingClientRect = () => ({ left: chicken.x-42, top: chicken.y-80, width: 84, height: 100 });
   h.events.elements.menuScatter.click();
-  assert.match(h.plays[0].src, /animal-duck\.wav$/);
+  assert.notEqual(h.elements.get('menuBanter').dataset.speaker,'chicken');
+  assert.ok(h.plays[0].src.includes('animal-'+h.elements.get('menuBanter').dataset.speaker));
+});
+
+test('walking renders each refresh and moves the same distance at 30, 60 and 144 Hz', () => {
+  const destinations=[];
+  for(const hz of [30,60,144]) {
+    const h=menu();
+    h.run(`let depth=0;const origins=[];
+      sceneContext.save=()=>depth++;sceneContext.restore=()=>depth--;
+      sceneContext.translate=(x,y)=>{if(depth===1)origins.push({x,y});};
+      InterfaceMotion.frame(state,0);sceneDraws.length=0;`);
+    h.run(`for(let i=0;i<${hz*3};i++)InterfaceMotion.frame(state,${1/hz});`);
+    assert.equal(h.run('sceneDraws.length'),hz*3*6,'no throttling to 24 FPS');
+    destinations.push(h.run('origins.slice(-6)'));
+  }
+  for(const points of destinations.slice(1))for(let i=0;i<6;i++)
+    assert.ok(Math.hypot(points[i].x-destinations[0][i].x,points[i].y-destinations[0][i].y)<.4,'refresh rate must not change walking speed');
+});
+
+test('the hidden title troupe stops drawing while adventure settings are open', () => {
+  const h=menu();h.run('InterfaceMotion.frame(state,.05);');
+  h.events.elements.newAdventureBtn.click();
+  h.run('const beforeSettings=sceneDraws.length;for(let i=0;i<60;i++)InterfaceMotion.frame(state,1/60);');
+  assert.equal(h.run('sceneDraws.length===beforeSettings'),true);
+  h.events.elements.menuBackBtn.click();h.run('InterfaceMotion.frame(state,.05);');
+  assert.ok(h.run('sceneDraws.length>beforeSettings'));
 });
 
 test('resizing redraws a static farm at the new resolution and hidden pages do no drawing', () => {
@@ -255,7 +308,7 @@ test('tapping an animal starts its joke, while drags and menu controls do not', 
     sceneContext.translate=(x,y)=>{if(x>100&&y>100)origin={x,y};};
     sceneContext.drawImage=image=>hitTargets.push({...origin,src:image.src});
     InterfaceMotion.frame(state,.05);`);
-  const p = h.run('hitTargets.find(p=>p.src.includes("cute-hen-v2"))');
+  const p = h.run('hitTargets.find(p=>p.src.includes("pixellab-108/runtime/chicken-"))');
   const event = {clientX:p.x,clientY:p.y,pointerType:'touch'};
   h.events.elements.menuScreen.pointerdown(event);
   h.events.elements.menuScreen.pointerup(event);
@@ -270,21 +323,22 @@ test('tapping an animal starts its joke, while drags and menu controls do not', 
   assert.equal(h.plays.length,1,'controls do not trigger a background animal');
 });
 
-test('the visible part of a dog at the viewport edge still responds with its bark', () => {
+test('the equipped dog fits in the title viewport and still responds with its bark', () => {
   const h=audibleMenu();
   h.context.window.innerHeight=680;h.context.window.innerWidth=1360;
-  h.run(`let dogOrigin=null;const dogTargets=[];
+  h.run(`state.entities.chicken.skin='priest';const equippedSnapshot=JSON.stringify(state);let dogOrigin=null;const dogTargets=[];
     sceneContext.translate=(x,y)=>{if(x>100&&y>100)dogOrigin={x,y};};
-    sceneContext.drawImage=image=>{if(image.src.includes('cute-dog-v2'))dogTargets.push({...dogOrigin});};
+    sceneContext.drawImage=image=>{if(image.src.includes('pixellab-108/runtime/skin-pacoca-'))dogTargets.push({...dogOrigin});};
     InterfaceMotion.frame(state,.05);`);
   const dog=h.run('dogTargets.at(-1)');
-  assert.ok(dog.y>680,'the feet are cropped by the viewport');
+  assert.ok(dog.y<660,'the dog stays clear of the viewport edge');
   const event={clientX:dog.x,clientY:Math.min(676,dog.y-18),pointerType:'mouse',button:0};
   h.events.elements.menuScreen.pointerdown(event);h.events.elements.menuScreen.pointerup(event);
   assert.match(h.plays.at(-1)?.src||'',/animal-dog\.wav$/);
   assert.equal(h.elements.get('menuBanter').dataset.speaker,'dog');
   h.run('InterfaceMotion.frame(state,.05)');
   assert.equal(h.elements.get('menuBanter').hidden,false,'a clipped foot must not immediately cancel the response');
-  assert.ok(Number.parseFloat(h.elements.get('menuBanter').style.top)<=670);
-  assert.equal(h.run('JSON.stringify(state)===snapshot'),true);
+  if(h.elements.get('menuBanter').style.visibility==='visible')assert.ok(Number.parseFloat(h.elements.get('menuBanter').style.top)<=670);
+  else assert.equal(h.elements.get('menuBanterLink').getAttribute('d'),'','no room means no detached tail');
+  assert.equal(h.run('JSON.stringify(state)===equippedSnapshot'),true);
 });

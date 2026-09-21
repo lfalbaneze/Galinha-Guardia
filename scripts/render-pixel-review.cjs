@@ -1,0 +1,12 @@
+const fs=require('node:fs'),path=require('node:path');
+const {createCanvas}=require('@napi-rs/canvas');
+const {loadArt}=require('./sprite-loader.cjs');
+const root=path.resolve(__dirname,'..');
+(async()=>{const art=await loadArt(),names=art.species.filter(n=>art.frameFor(n).definition.edition===109);
+  const canvas=createCanvas(1120,names.length*150+44),c=canvas.getContext('2d');c.fillStyle='#c8d7a4';c.fillRect(0,0,canvas.width,canvas.height);c.font='14px system-ui';
+  const dirs=['down','downleft','left','upleft','up','upright','right','downright'];
+  dirs.forEach((d,i)=>{c.fillStyle='#254831';c.fillText(d,170+i*119,25)});
+  names.forEach((name,row)=>{c.fillStyle='#254831';c.fillText(name,8,90+row*150);dirs.forEach((direction,col)=>art.draw(c,name,207+col*119,120+row*150,{direction,moving:true,anim:row%4,shadow:true}));});
+  fs.mkdirSync(path.join(root,'preview/pixel-109'),{recursive:true});fs.writeFileSync(path.join(root,'preview/pixel-109/cast.png'),canvas.toBuffer('image/png'));
+  console.log('Rendered '+names.length+' installed pixel characters.');
+})().catch(e=>{console.error(e);process.exitCode=1});

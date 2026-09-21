@@ -71,23 +71,15 @@ test('Amanda owns her bush in both hints and her visible speech bubble',()=>{
   assert.equal(labels.length,0,'offscreen foxes do not reveal their location through dialogue');
 });
 
-test('Amanda has a visible bow in all twelve poses; Lorenzo retains the original sprite',async()=>{
-  const {createCanvas,loadImage}=require('@napi-rs/canvas'),path=require('node:path');
-  const h=createGame(),art=h.run('FoxArt');
-  const source=await loadImage(path.join(__dirname,'../assets/sprites/sources/fox-custom.png'));
-  art.install(()=>source);
-  const canvas=createCanvas(150,120),ctx=canvas.getContext('2d');
-  const view={x:0,y:0,shakeX:0,shakeY:0};
-  for(const direction of ['down','left','right','up'])for(const anim of [0,1,3]){
-    const fox={x:75,y:85,direction,anim,moving:true,name:'Lorenzo'};
-    ctx.clearRect(0,0,150,120);art.draw(ctx,fox,view);const before=ctx.getImageData(0,0,150,120).data;
-    ctx.clearRect(0,0,150,120);art.draw(ctx,{...fox,name:'Amanda'},view);const after=ctx.getImageData(0,0,150,120).data;
-    let changed=0,minX=150,minY=120,maxX=0,maxY=0;
-    for(let y=0;y<120;y++)for(let x=0;x<150;x++){
-      const i=(y*150+x)*4;
-      if([0,1,2,3].some(c=>before[i+c]!==after[i+c])){changed++;minX=Math.min(minX,x);maxX=Math.max(maxX,x);minY=Math.min(minY,y);maxY=Math.max(maxY,y);}
-    }
-    assert.ok(changed>35,`${direction}/${anim}: visible accessory`);
-    assert.ok(maxX-minX<20&&maxY-minY<16,`${direction}/${anim}: only the small bow changes`);
-  }
+test('Amanda has her authored pink bow in every direction and phase',async()=>{
+ const {createCanvas,loadImage}=require('@napi-rs/canvas'),path=require('node:path');
+ const h=createGame(),art=h.run('FoxArt'),sheets=new Map();
+ for(const name of ['fox','amanda']){const source=h.run('PremiumWildlifeData')[name].src;sheets.set(source,await loadImage(path.join(__dirname,'..',source)));}
+ art.install(src=>sheets.get(src));h.run('CharacterArt').install(src=>sheets.get(src));const ctx=createCanvas(180,140).getContext('2d');
+ for(const direction of ['down','downright','right','upright','up','upleft','left','downleft'])for(let phase=0;phase<8;phase++){
+  ctx.clearRect(0,0,180,140);art.draw(ctx,{x:90,y:95,direction,anim:phase/2,moving:true,name:'Amanda'},{x:0,y:0});
+  const pixels=ctx.getImageData(0,0,180,140).data;let pink=0,opaque=0;
+  for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]>100){opaque++;if(pixels[i]>150&&pixels[i+2]>65&&pixels[i+2]>=pixels[i+1]&&pixels[i]>pixels[i+1]*1.5)pink++;}
+  assert.ok(opaque>300);assert.ok(pink>=1,direction+'/'+phase+' has visible pink bow');
+ }
 });

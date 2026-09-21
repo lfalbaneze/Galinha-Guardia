@@ -48,7 +48,6 @@ const ThorCinematic = (() => {
     CharacterArt.draw(c,'chicken',playerX,playerFeet-14*playerSize,{skin:game.entities.chicken.skin,direction:'left',scale:playerSize,
       lift:arrived&&!reduced?Math.max(0,Math.sin((t-ThorSystem.healAt)*Math.PI*2))*10:0});
     const emerging=ease(t/.85),dogHeight=lerp(narrow?100:115,narrow?145:168,emerging);
-    c.fillStyle='#16302455';c.beginPath();c.ellipse(dogX,dogFeet+2,58,9,0,0,Math.PI*2);c.fill();
     c.save();c.globalAlpha=reduced?1:emerging;
     ThorArt.drawHero(c,dogX,dogFeet,dogHeight,t<1.25?'down':arrived?'down':'right',reduced?0:t*10);c.restore();
     if(t>1.3&&t<ThorSystem.healAt&&!reduced){

@@ -1,0 +1,157 @@
+{
+  "base": "Use case: stylized-concept. Redesign an ORIGINAL farm-game character in the SAME appealing rounded comic-cartoon style as the attached wolf atlas. Inspired by U.S. Acres / Orson's Farm: funny, CUTE, soft bean shapes, large simple white oval eyes with small black pupils, generous muzzles/beaks, thick clean BLACK ink, cheerful FLAT colors. NO fine texture, fur strokes, realistic anatomy, pixel art, gradients, glossy3D, or baby-chibi proportions. Reference is STYLE AND SHEET FORMAT ONLY; do not draw the wolf. ",
+  "layout": "\nProduction SPRITE ATLAS on a true transparent RGBA background. EXACTLY FIVE ROWS and TWELVE COLUMNS,60 distinct drawings. Wide3072x2048. All equalcells. Character occupies ONLY65%cell width and70%height, with CLEAR transparent gutters between ALL cells and generous outside margin. No overlap or clipping, no backgrounds, shadows, ground, labels, text, gridlines. Whole body visible including tail, ears, nose, paws. FIVE genuine views: row1 RIGHT/EAST side profile; row2 DOWN-RIGHT/SE45deg; row3 DOWN/SOUTH FRONT; row4 UP-RIGHT/NE rear45deg; row5 UP/NORTH BACK. Constant orthographic camera15degrees elevated, SAME model proportions and drawing scale for allviews. Head/torso keep same pivot and size, stable groundline. Each row ONE seamless TWELVE-frame WALK, no duplicated endpoint or inserted idle. Frames1and7 opposite foot CONTACTS; frames4and10 opposite PASSING; otherframes gradual hand-drawn inbetweens. No changing body shape/size/camera midcycle. Supporting foot moves back smoothly on the ground, lifts and bends only for return. Equal left/right stride, clear feet, subtle secondary follow-through.",
+  "styleReference": "C:/Users/user/.codex/generated_images/01a0bf27-0f6d-72b0-a982-24fc805f573e/exec-416935b1-d40e-4bbb-abe9-eae1dd69469f.png",
+  "characters": [
+    [
+      "chicken",
+      "ONE white farm HEN Erina, rounded pear body, modest red comb and wattle, gold yellow beak and broad three-toed feet, short cream-tipped tail, friendly confident expression.",
+      "BIPED, alternate left/right steps with natural knee bend, balanced breast, small wing sway. Keep her a chicken, not a rooster."
+    ],
+    [
+      "sheep",
+      "ONE cream-white SHEEP, round cloud scallops of wool, peach beige face and floppy ears, small dark hooves, oval innocent comic eyes and warm smile.",
+      "QUADRUPED four-beat walk, far feet visible beneath wool, near hind then near fore then far hind then far fore, quarter-cycle offsets."
+    ],
+    [
+      "pig",
+      "ONE peach-pink PIG, round tubby bean torso, very broad oval snout with two oval nostrils, big floppy ears, curly tail, short legs with dark split hooves, playful expression.",
+      "QUADRUPED four-beat walk with clear short bent knees and weight shift, consistent snout size, alternating4feet not twofootwaddle."
+    ],
+    [
+      "cow",
+      "ONE cream COW with cocoa-brown patches, rounded pink muzzle, small horns, floppy beige ears, friendly oval eyes, dark split hooves, tail ending in brown tuft, subtle small udder.",
+      "QUADRUPED stately four-beat walk, near hind then near fore then far hind then far fore, quartercycleoffset, natural hock bend."
+    ],
+    [
+      "dog",
+      "ONE beagle-like farm DOG, white chest, paws and tail-tip, cocoa-brown floppy ears and saddle coat, rounded muzzle, oval bright eyes, black round nose, teal collar.",
+      "QUADRUPED balanced walk on4paws. Hind and forefoot offsets, equal stride both sides, no limping. Tail follows gently."
+    ],
+    [
+      "cat",
+      "ONE cream ginger CAT, warm orange ears and rounded cheek patches, white muzzle/belly/paws, long curled orange tail, oval comic eyes and little triangular nose.",
+      "QUADRUPED supple catwalk, four legs with clean curled paws, balanced equal steps and soft tail follow-through."
+    ],
+    [
+      "rabbit",
+      "ONE cinnamon-brown RABBIT, long upright ears, white muzzle and cotton tail, big soft hindfeet, cheerful oval eyes.",
+      "TWELVE-frame looping HOP instead of walk:1 crouch,2anticipation,3push,4extend,5airborne,6apex,7reachforepaws,8landfront,9hindlegsfollow,10hindcontact,11absorb,12returncrouch. Head/torso stable proportions."
+    ],
+    [
+      "duck",
+      "ONE white DUCK, bright golden rounded flat bill, broad orange webbed feet, short curled tail, cheerful comic eyes.",
+      "BIPED alternating webbed-foot walk, subtle waddling weight shift, draw support/return correctly."
+    ],
+    [
+      "horse",
+      "ONE chestnut HORSE, cream blaze and pale muzzle, chocolate mane and tail, broad rounded comic muzzle, big oval white eyes, darkhooves, strong friendly rounded body.",
+      "QUADRUPEDfourbeatwalk, longlegs with knees and hocks, coherentcontacts andhind/foreoffsets, NOTgalloping."
+    ],
+    [
+      "donkey",
+      "ONE friendly gray DONKEY, very long rounded upright ears, charcoal short mane, cream muzzle/belly, darkhooves, thin tailwithdarktuft, goofy gentle ovaleyes.",
+      "QUADRUPEDfourbeatwalk, longlegs correctknees/hocks andoneconsistentbody."
+    ],
+    [
+      "goat",
+      "ONE white GOAT with brown back patch, tan face, two small curved horns, short goatee, cheerful ovaleyes, darksplit hooves, small uprighttail. NOsaddle orstraps.",
+      "QUADRUPEDfourbeatwalk, nimblebutbalanced, completehooves."
+    ],
+    [
+      "lamb",
+      "ONE small cream LAMB with scalloped cloudwool, peachface and floppyears, small blackhooves, friendly comic ovaleyes.",
+      "QUADRUPEDfourbeatwalk, clear feetbelowfleece, equalleft/rightstep."
+    ],
+    [
+      "chick",
+      "ONE tiny yellow CHICK, round eggbody, tiny goldbeak, orangefeet, twoheadfeathertufts, simpleovalwhiteeyesblackpupils.",
+      "BIPEDtwostepwalk with alternate3toedfeet, wingsonlysmallfollowthrough."
+    ],
+    [
+      "turkey",
+      "ONE plump brown TURKEY, cream cheekpatches, redsmallwattle, modest fan tailwith tan featherends, goldbeak/feet, comicfriendlyeyes.",
+      "BIPEDtwostepwalk, balancedbody, keepfan tailsizeconsistent andnoopenclose."
+    ],
+    [
+      "hen-silkie",
+      "ONE ivory SILKIE HEN Midori, soft scalloped fluffy crest, cloudlike body, tiny redwattle andcomb, goldenbeak, featheredankles andgoldfeet, playful comicovaleyes.",
+      "BIPEDalternate feet with visibletoes andclear support; do notletfeathershidebothfeet."
+    ],
+    [
+      "hen-blue",
+      "ONE slate-BLUE HEN Alzira, roundbluebody andtail, creambeak, redcomb/wattle, yellowfeet, mischievous comicovaleyes.",
+      "BIPEDalternatefeet, balancedbreastandcoherentcrest acrossdirections."
+    ],
+    [
+      "skin-zeca",
+      "ONE white DUCK Zeca wearing a small golden STRAW HAT withbrown ribbon; yellowbill, orangewebbedfeet, mischievouscomicovaleyes.",
+      "BIPEDwebbedfootwalk with subtlewaddle, keepstrawhatconsistent."
+    ],
+    [
+      "skin-pipoca",
+      "ONE cream RABBIT Pipoca, oneearupright andonefolded, green neck scarf, whitecottontail, broadbackfeet, brightcomicovaleyes.",
+      "TWELVE-frameloopHOP:1crouch,2anticipation,3push,4extend,5airborne,6apex,7reachforepaws,8landfront,9hindfollow,10hindcontact,11absorb,12returncrouch."
+    ],
+    [
+      "skin-amora",
+      "ONE darkgray CAT Stella, white muzzle/bellyandwhite sockpaws, a lilac bow besideoneear, longcurledgraytail, wryfriendlyovaleyes.",
+      "QUADRUPEDcatwalk, balanced4feet, correctpawcontacts andreturn."
+    ],
+    [
+      "skin-pacoca",
+      "ONE caramel golden DOG Paçoca, floppyroundedears, cream muzzle/chest, blackroundnose, RED BANDANA atneck, curvedupwardtail, friendlycomicovaleyes.",
+      "QUADRUPEDbalancedwalk on4paws, NOlimping; equalstrides, tailfollows."
+    ],
+    [
+      "skin-gumercindo",
+      "ONE gray GOOSE Gumercindo withcreamchestandmuzzle, orangewidebill/webbedfeet, small black-and-white CHECKERED neckscarf, funnyovaleyes.",
+      "BIPEDgoosewalk, neckretainscurvedshapeandheight, alternatingwebbedfeet."
+    ],
+    [
+      "goose",
+      "ONE white GOOSE Panto, generous roundedorangebill, longsoftS-neck, broadorangewebbedfeet, comicovaleyes withcheekybrows, roundedbeanbody.",
+      "BIPEDgoosewalk, alternatewebbedfeet, consistentneckheight andgentlewingfollowthrough."
+    ],
+    [
+      "fox",
+      "ONE orange FOX Lorenzo, cream cheeks/muzzle/chest/paws, darkeartips, roundblacknose, fluffy cream-tippedtail, schemingbutsillyovaleyes.",
+      "QUADRUPEDlightfourbeatwalk, nofox-leap, naturalfeet andtailfollowthrough."
+    ],
+    [
+      "amanda",
+      "ONE orange FOX Amanda, creamcheeks/muzzle/chest/paws, darkeartips, roundblacknose, fluffycream-tippedtail, a PINK BOW besideoneear, wittyovaleyes.",
+      "QUADRUPEDlightfourbeatwalk, pinkbowvisibleineveryangle, samenatural4legcycle."
+    ],
+    [
+      "thor",
+      "ONE robust farm DOG Thor, creamwhitecoat withcocoabrownlargepatches andfloppyears, broadblacknose, bluecollarandroundgoldtag, bigfriendlyovaleyes, thicksoftpaws.",
+      "QUADRUPEDbalancedconfidentfourbeatwalk, equalleft/rightstep, no limp."
+    ],
+    [
+      "owl",
+      "ONE tawnybrown OWL, creamfaceandbreast, twoear tufts, ovalwhitecomiceyes withblackpupils andarchbrows, smallgoldbeak andtalons, funnyexpressiveface.",
+      "NOT WALKING. Twelve reactionposes:1calmwatch,2notices,3leansforward,4alert,5inhales,6opensbeak,7callsBEAKOPENwingsraised,8callswingsout,9callswingshalfdown,10secondcallwingsup,11foldwings,12settled. Talonsplanted, no branch."
+    ],
+    [
+      "scarecrow",
+      "ONE friendly SCARECROW, roundburlapfacewithstitchedeyesandcomic smile, floppy strawhat, mutedteal patchedshirt, brownsuspenders andstrawhands, mountedon ONE woodenpost.",
+      "NOT WALKING. Twelve subtlewindposes, floppyhatbrim andsleeves fluttergradually, woodenpostandsupportcrossbarholdstill. Allfiveviews."
+    ],
+    [
+      "crow",
+      "ONE friendly clever CROW, charcoalblackbody withflatbluefeatherpanels, broadroundedgraybeak, largewhiteovaleyesblackpupils, curledblacktail.",
+      "Col1PERCHEDwingsfoldedfeetdown. Columns2–12 eleven sequentialFLIGHT wingbeatposes withfeettucked, upstroke-powerstroke-downstroke-bentrecovery-return, smoothloop2–12."
+    ],
+    [
+      "goose-alert",
+      "ONE white GOOSE Panto, generous roundedorangebill, longsoftS-neck, broadorangewebbedfeet, comicovaleyeswithcheekybrows, roundedbeanbody.",
+      "NOT WALKING. TwelveTHREATposes feetplanted:1notices,2leansneck,3beginhonk,4wingshighBEAKOPEN,5wingsexpand,6wingsout,7wingshalfdown,8wingsup,9honkagain,10wingshalfdown,11fold,12settle. Nochangebodyvolume."
+    ],
+    [
+      "owl-flight",
+      "ONE tawnybrown OWL, creamfaceandbreast, twoear tufts, ovalwhitecomiceyes withblackpupils andarchbrows, smallgoldbeak andtalons, funnyexpressiveface.",
+      "NOT WALKING. TwelveAIRBORNE wingbeatframes, talonstucked, torsoforward, beakclosed.1highestupstroke,2startsdown,3upperhalf,4wingshorizontal,5lowerhalf,6lowestdownstroke,7beginbentrecovery,8recoverout,9midup,10upperup,11neartop,12beforehighest. Stabletorsosize."
+    ]
+  ]
+}

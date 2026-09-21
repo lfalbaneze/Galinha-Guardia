@@ -1,0 +1,11 @@
+{
+  "provider": "PixelLab Pro",
+  "endpoint": "/generate-image-v2",
+  "seed": 620940,
+  "size": {
+    "width": 624,
+    "height": 416
+  },
+  "styleReference": "assets/menu/difficulty-easy-6ea10849fc88.png",
+  "prompt": "Create an original illustrated COVER for the charming farm rescue videogame \"PENAS PRO AR!\". Landscape 3:2, polished expressive cartoon PIXEL ART with crisp dark outlines and deliberate pixel clusters, same animals and treatment as references. Large beautifully readable custom chunky cream-and-honey title lettering across the top third, dark brown outline and subtle golden depth. Exact title on two lines: \"PENAS\" then \"PRO AR!\". No other lettering. In the lower two thirds, a lively adventurous triangular composition: brave white hen Erina with red comb at center foreground spreading her TWO feathered wings protectively, two small yellow chicks safely beside her two orange feet. Paçoca, caramel puppy with cream muzzle and red bandana, bounds in from the lower left with an excited face and four anatomically correct legs. A fluffy cream sheep with peach face looks startled and a round pink pig with floppy ears looks determined on the right. One mischievous gray wolf with pointed ears and long bushy tail peeks from behind a distant wooden fence, small enough to be a secondary discovery. Rich farm scenery: red barn, winding dirt path leading into rolling green hills, apple tree framing one side, daisies and a few airborne white feathers. Warm late-afternoon sun and soft mint sky, vibrant honey, coral and sage colors, cheerful adventure with a hint of comic danger. Clear hierarchy: title, hen, animal friends, distant wolf. Full bodies inside frame, distinct silhouettes, stable correct species anatomy. Do not copy the pose or composition of the style reference. No humans, knights, witches, armor, modern objects, UI, watermarks, floating platforms or oval shadows. This must feel like a memorable game cover, not a menu screenshot."
+}

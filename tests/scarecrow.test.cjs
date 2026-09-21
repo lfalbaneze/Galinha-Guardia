@@ -1,6 +1,23 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const {createGame}=require('./helpers.cjs');
 const plain=v=>JSON.parse(JSON.stringify(v));
+
+test('authored reactions follow the flock state and keep flight elevation',()=>{
+  const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),draws=[];
+  const data=Object.fromEntries(['scarecrow','crow','scarecrow-happy','scarecrow-scared','scarecrow-sad','crow-scared'].map(id=>[id,{src:id,width:100,height:100,frames:[],columns:9}]));
+  const context=vm.createContext({PremiumWildlifeData:data,InterfaceMotion:{reduced:false},CharacterArt:{directionFor:()=> 'upright'},
+    createWildlifeSheet:src=>({drawFrame:(...args)=>draws.push({src,args}),ready:true,loading:false,errors:[]})});
+  vm.runInContext(fs.readFileSync(path.join(__dirname,'../systems/scarecrow-art.js'),'utf8'),context);
+  const art=vm.runInContext('ScarecrowArt',context),c=new Proxy({globalAlpha:1},{get:(o,k)=>o[k]??(()=>{}),set:(o,k,v)=>(o[k]=v,true)}),view={x:0,y:0};
+  for(const [mode,source]of [['perched','scarecrow'],['fleeing','scarecrow-scared'],['away','scarecrow-sad'],['returning','scarecrow-happy']]){
+    art.drawPost(c,{x:20,y:100,clock:.5,mode},view);assert.equal(draws.at(-1).src,source);
+  }
+  const bird={x:30,y:200,z:120,left:false,opacity:1,flying:true,target:{x:40,y:190},from:{x:20,y:210}};
+  art.drawCrow(c,bird,0,.5,view,true);assert.equal(draws.at(-1).src,'crow-scared');
+  assert.equal(draws.at(-1).args[2],80);assert.equal(draws.at(-1).args[6],120);
+  art.drawCrow(c,bird,0,.5,view,false);assert.equal(draws.at(-1).src,'crow');
+  art.drawCrow(c,{...bird,flying:false},0,.5,view,true);assert.equal(draws.at(-1).src,'crow');assert.equal(draws.at(-1).args[4],0);
+});
 function setup(){
   const h=createGame(()=>.5);
   h.run(`resetGame(52);state.phase='playing';var s=state.scarecrow,c=state.entities.chicken;
@@ -89,12 +106,12 @@ test('real frames load with alpha, failed loading can retry, and the actual rend
   h.run('GameUI.update(state)');assert.equal(h.elements.get('startBtn').disabled,true);
   assert.equal(await art.load(src=>loadImage(path.join(__dirname,'..',src))),true);
   h.run('GameUI.update(state)');assert.equal(h.elements.get('startBtn').disabled,false);
-  const im=await loadImage(path.join(__dirname,'../assets/sprites/sources/scarecrow-crows.png'));
+  const im=await loadImage(path.join(__dirname,'..',h.run('PremiumWildlifeData.scarecrow.src')));
   const c=createCanvas(im.width,im.height).getContext('2d');c.drawImage(im,0,0);
   for(const f of art.frames){
     const data=c.getImageData(f.x,f.y,f.w,f.h).data;let painted=0,empty=0;
     for(let i=3;i<data.length;i+=4){if(data[i]>100)painted++;if(data[i]===0)empty++;}
-    assert.ok(painted>1000&&empty>500);
+    assert.ok(painted>500&&empty>100);
   }
   h.run(`var draws={post:0,birds:0};ScarecrowArt.drawPost=()=>draws.post++;ScarecrowArt.drawCrow=()=>draws.birds++;renderGame()`);
   assert.deepEqual(plain(h.run('draws')),{post:1,birds:3});

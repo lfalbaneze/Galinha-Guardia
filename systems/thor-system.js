@@ -306,7 +306,7 @@ const ThorSystem = (() => {
         dog.vx = (dog.x - before.x) / step;
         dog.vy = (dog.y - before.y) / step;
         dog.moving = Math.hypot(dog.vx, dog.vy) > 1;
-        dog.anim += step * (dog.moving ? 10 : 2);
+        dog.anim = CharacterArt.advance(dog.anim, 'thor', distance(before, dog), { speed: dt > 0 ? distance(before, dog) / dt : 0 });
         dog.areaId = getAreaAt(dog.x, dog.y).id;
     }
     function snapshot(game) {

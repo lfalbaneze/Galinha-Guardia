@@ -1,11 +1,19 @@
 /* A fixed home inside the generator's reserved yard; the rest of the farm stays procedural. */
 const FarmRefuge = (() => {
   const bounds = Object.freeze({ x: 90, y: 174, w: 260, h: 308 });
-  const nursery = Object.freeze({ x: 102, y: 156, w: 242, h: 114 });
+  // The taller edition-93 sheet fits the existing walls and nest floor at y=270.
+  const nursery = Object.freeze({ x: 102, y: 120, w: 242, h: 150 });
   // Horse, cow and donkey stand in the back, where their taller silhouettes
   // fit below the nursery. Small friends occupy the front without hiding them.
   const homes = [[128,402],[196,402],[116,442],[162,442],[234,354],[264,402],[212,442],[260,442],[310,354],[312,442],[141,354],[326,402]];
-  const nests = [[143,226],[166,228],[205,233],[228,235],[267,240],[290,242]];
+  const nests = [[168,237],[190,237],[212,237],[234,237],[256,237],[168,257],[190,257],[212,257],[234,257],[256,257]];
+  // The atlas fits inside the nursery's drawing box. Collide with its wooden
+  // walls and posts, leaving the open front and the chicks' floor accessible.
+  const nurseryWalls = [
+    {x:153,y:203,w:130,h:19,type:'nursery'},
+    {x:142,y:210,w:14,h:58,type:'nursery'},
+    {x:270,y:208,w:39,h:62,type:'nursery'}
+  ];
   const rails = [
     ...[0,1,2].map(i => ({ x:90+i*86.67,y:174,w:86.67,h:0 })),
     ...[0,1,2].map(i => ({ x:90+i*86.67,y:482,w:86.67,h:0 })),
@@ -21,7 +29,7 @@ const FarmRefuge = (() => {
   function obstacles() {
     return [
       ...rails.map(p => ({ x:p.x-4,y:p.y-3,w:p.w+8,h:p.h+6,type:'refuge-fence',opaque:false })),
-      { x:108,y:166,w:230,h:45,type:'nursery' },
+      ...nurseryWalls.map(wall=>({...wall})),
       { x:108,y:284,w:55,h:18,type:'trough',opaque:false }
     ];
   }
@@ -58,7 +66,12 @@ const FarmRefuge = (() => {
       if(!FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true,shadow:true})) FarmSprites.draw(c,'coop',p.x+65,p.y,105,p.h,{grounded:true,shadow:true});
     } else if(p.type==='nursery-lip') {
       if(FarmSprites.cohesiveReady) {
-        c.save();c.beginPath();c.rect(p.x,p.y+p.h-7,p.w,7);c.clip();
+        // Roof and front posts must cover actors standing inside the shelter.
+        // Painting only its bottom strip made actors appear on top of the roof.
+        c.save();c.beginPath();
+        c.rect(p.x,p.y,p.w,46);
+        c.rect(p.x+40,p.y+44,14,p.h-44);c.rect(p.x+168,p.y+44,39,p.h-44);
+        c.rect(p.x,p.y+p.h-7,p.w,7);c.clip();
         FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true,solar:false});c.restore();return;
       }
       // Only the low front boards cover the chicks' feet, never their faces.

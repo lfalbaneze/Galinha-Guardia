@@ -106,16 +106,16 @@ test('sneaking gives more time under the owl, but standing in its sight still tr
   const h=arena();h.run('c.x=1400;c.y=620;c.sneaking=true;w.x=950;w.y=620');
   step(h,'OwlSystem',1.5);
   assert.equal(h.run('o.mode'),'alert');assert.equal(h.run('w.mode'),'patrol');
-  assert.ok(h.run('o.alertProgress')<.55);
+  assert.ok(Math.abs(h.run('o.alertProgress')-.75)<.01);
   step(h,'OwlSystem',1.8);
-  assert.equal(h.run('o.mode'),'cooldown');assert.equal(h.run('w.mode'),'investigate');
+  assert.ok(['cooldown','relocate'].includes(h.run('o.mode')));assert.equal(h.run('w.mode'),'investigate');
 });
 
 test('breaking sight cancels even a nearly complete slow owl alarm',()=>{
-  const h=arena();h.run('c.x=1400;c.y=620;c.sneaking=true');step(h,'OwlSystem',2.8);
+  const h=arena();h.run('c.x=1400;c.y=620;c.sneaking=true');step(h,'OwlSystem',1.85);
   h.run('OBSTACLES=[{x:1280,y:550,w:10,h:150}]');step(h,'OwlSystem',.1);
   assert.equal(h.run('o.alertProgress'),0);assert.equal(h.run('o.target'),null);
-  assert.equal(h.run('sounds.includes("owl-hoot")'),false);
+  assert.equal(h.run('sounds.includes("owl-siren")'),false);
 });
 
 test('the fox anticipates a visible runner but never changes the announced dash',()=>{

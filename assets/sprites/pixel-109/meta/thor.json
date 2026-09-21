@@ -1,0 +1,13 @@
+{
+  "id": "thor",
+  "template": "dog",
+  "height": 66,
+  "description": "Thor, a heroic golden-brown farm guardian dog, broad friendly muzzle, floppy cocoa ears, cream chest patch, FOUR robust cream sock paws, blue collar with brass medallion, thick curved tail. Big kind eyebrows and warm grin.",
+  "gait": "dog",
+  "prompt": "Create cute original farm game pixel-art sprite atlas. Reference image STYLE ONLY: rounded charming character, warm limited palette, deliberate crisp pixel clusters, dark clean outlines, no glossy 3D. NEW character: Thor, a heroic golden-brown farm guardian dog, broad friendly muzzle, floppy cocoa ears, cream chest patch, FOUR robust cream sock paws, blue collar with brass medallion, thick curved tail. Big kind eyebrows and warm grin.\nEXACTLY EIGHT ROWS by EIGHT COLUMNS, 64 whole characters, equal cells and broad transparent gutters. Every character fits in the middle 60% of its cell. True transparent background, no ground or shadows, no text. ALL ears, tails and feet fully inside their cell.\nEIGHT distinct viewing directions, one row each: 1 SOUTH/front; 2 SOUTHWEST/front-left diagonal with head toward BOTTOM-LEFT and rump TOP-RIGHT; 3 WEST/left profile; 4 NORTHWEST/rear-left diagonal with head toward TOP-LEFT and rump BOTTOM-RIGHT, one side flank visible (NOT straight back); 5 NORTH/straight back; 6 NORTHEAST/rear-right diagonal with head TOP-RIGHT and rump BOTTOM-LEFT, a visible side flank (NOT side profile); 7 EAST/right profile; 8 SOUTHEAST/front-right diagonal head BOTTOM-RIGHT and rump TOP-LEFT.\nFixed slightly elevated orthographic camera, same body size, palette, markings and limb count across all64. Every row is a seamless eight-phase cycle: CONTACT A, DOWN A, PASSING A, UP A, opposite CONTACT B, DOWN B, PASSING B, UP B. Columns 1 and 5 must exchange left/right leg positions. Supporting foot sweeps backward while the lifted foot bends and returns forward. Fixed torso center, grounded baseline, stable head. All physical limbs accounted for, no morphing, limping, dragging or sliding, no repeated endpoint.\nSPECIAL MOTION: FOUR articulated legs with natural balanced four-beat dog walk. Four paws in every phase; no limping.\nWithin a row, NEVER turn the torso or change camera angle; eight exactly matching orientations. Straight front and straight back are symmetrical throughout their rows, facial features hidden from back. Draw eight DISTINCT camera directions. No extra props, no text.",
+  "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-255c927e-ed78-4164-9ce0-07ed77663290.png",
+  "action": "walk",
+  "rows": 8,
+  "columns": 8,
+  "tool": "built-in imagegen"
+}

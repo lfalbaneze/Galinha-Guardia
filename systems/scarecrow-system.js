@@ -142,22 +142,7 @@ const ScarecrowSystem = (() => {
             return;
         for (const [i, b] of s.birds.entries())
             if (b.flying)
-                ScarecrowArt.drawCrow(ctx, b, i, s.clock, camera);
+                ScarecrowArt.drawCrow(ctx, b, i, s.clock, camera, s.mode === 'fleeing');
     }
-    function drawShadows(game) {
-        const s = game.scarecrow;
-        if (!s || s.mode === 'away')
-            return;
-        ctx.save();
-        ctx.fillStyle = '#293624';
-        for (const b of s.birds)
-            if (b.flying && b.opacity > 0) {
-                ctx.globalAlpha = .14 * b.opacity;
-                ctx.beginPath();
-                ctx.ellipse(b.x - camera.x + (camera.shakeX || 0), b.y - camera.y + (camera.shakeY || 0), 10, 3, 0, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        ctx.restore();
-    }
-    return { location, obstacles, initialize, update, drawPost, drawFlying, drawShadows };
+    return { location, obstacles, initialize, update, drawPost, drawFlying };
 })();

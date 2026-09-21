@@ -1,0 +1,9 @@
+[
+  {
+    "name": "sheep",
+    "source": "C:\\Users\\user\\.codex\\generated_images\\01a0bf27-0f6d-72b0-a982-24fc805f573e\\exec-2333dfc6-2403-4c00-bc5d-40866fc0c429.png",
+    "prompt": "Create an actual game-animation sprite sheet on transparent background. A charming CARTOON sheep, cream cloudlike wool, big expressive warm dark eyes, small chocolate-brown muzzle, short chunky dark legs, floppy ears. Appealing rounded proportions, clean confident dark-brown outline, broad warm cel-shaded color shapes with only 3 shades per material, readable at 48px. Premium polished 2D animated cartoon game style, not realistic, not detailed painterly fur, not a photo, no grain or dithering.\nEXACTLY 5 ROWS x 8 COLUMNS, 40 separated full-body drawings. Canvas 2048x1536 landscape. All cells same scale with plenty of transparent padding. No text, no labels, no shadows, no ground, no checkerboard.\nEach row is an eight-frame WALK cycle at one different facing angle:\nROW1 EAST: facing directly right.\nROW2 SOUTHEAST: diagonal front-right at45degrees.\nROW3 SOUTH: facing directly toward the viewer.\nROW4 NORTHEAST: diagonal back-right at45degrees.\nROW5 NORTH: facing directly away from viewer.\nLeft directions will be mirrored in engine. These FIVE authored angles MUST be different, giving EIGHT movement axes with their mirrors. Camera stays orthographic at15degrees above horizontal, never top-down. Same head size, leg length, body volume, wool shape and light direction across all rows. Front must look like the same sheep turning, not an overhead oval.\nEight true sequential walk drawings per row: contact,down,passing,up,OPPOSITE contact,down,passing,up. Forelegs alternate support; near foreleg forward at frame1 and backward at5, far foreleg opposite. Stable grounded body, bent lifted knees, feet plant naturally. Maintain anatomy and coloring; no cut-off ears/tails, no overlapping cells.",
+    "rows": 5,
+    "columns": 8
+  }
+]

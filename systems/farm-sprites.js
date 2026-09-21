@@ -11,7 +11,7 @@ const FarmSprites = (() => {
   let props=null,propsPending=null;
   let cohesive=null,cohesivePending=null;
   // Measured alpha bounds: generated atlases need not land on exact grid cells.
-  const cohesiveFrames=Object.freeze({
+  const cohesiveFrames=Object.freeze(typeof FarmArcadeData!=='undefined'?FarmArcadeData.frames:{
     tree:[27,53,270,300],bush:[322,161,297,186],pear:[651,43,265,309],willow:[956,63,280,284],
     bramble:[23,482,275,154],shelter:[323,440,291,189],barn:[642,375,284,258],coop:[992,423,223,228],
     silo:[96,648,131,295],hay:[345,735,249,201],trough:[635,819,297,112],fence:[962,797,265,131],
@@ -36,11 +36,12 @@ const FarmSprites = (() => {
   function loadCohesive(loader=browserImage,makeSurface=surface) {
     if(cohesive)return Promise.resolve(true);
     if(cohesivePending)return cohesivePending;
-    if(typeof FarmCohesiveData==='undefined')return Promise.resolve(false);
+    if(typeof FarmCohesiveData==='undefined'&&typeof FarmArcadeData==='undefined')return Promise.resolve(false);
     cohesivePending=Promise.resolve().then(async()=>{
       try {
-        const source=await loader(FarmCohesiveData);
-        if(source.width!==1254||source.height!==1254)return false;
+        const spec=typeof FarmArcadeData==='undefined'?{image:FarmCohesiveData,width:1254,height:1254}:FarmArcadeData;
+        const source=await loader(spec.image);
+        if(source.width!==spec.width||source.height!==spec.height)return false;
         cohesive=source;makeVariantSurface=makeSurface;SpriteStyle.install(makeSurface);return true;
       } catch{return false;}finally{cohesivePending=null;}
     });return cohesivePending;
@@ -189,8 +190,11 @@ const FarmSprites = (() => {
         const feet=[];
         // A raised water trough rests on two feet, not on the suspended bowl.
         // Measure each end separately: the rear foot is higher in the older angled sprite.
+        const coopSupports=cohesive&&typeof FarmArcadeData!=='undefined'
+          ?[[.04,.18],[.67,.92],[.37,.51]]
+          :[[.065,.11],[.14,.4],[.60,.75],[.79,.93]];
         const ends=name==='trough'?[[0,Math.ceil(width*.28)],[Math.floor(width*.7),width]]:
-          name==='coop'?[[.065,.11],[.14,.4],[.60,.75],[.79,.93]].map(([a,b])=>[Math.floor(a*width),Math.ceil(b*width)]):null;
+          name==='coop'?coopSupports.map(([a,b])=>[Math.floor(a*width),Math.ceil(b*width)]):null;
         const depths=ends?.map(([a,b])=>Math.max(...edge.slice(a,b)));
         for(let x=0;x<width;x++) {
           const y=edge[x];if(y<floor)continue;
@@ -215,7 +219,7 @@ const FarmSprites = (() => {
           });
           const foundation=makeVariantSurface(width+16,height+10);
           if(foundation&&supports.every(p=>Number.isFinite(p.left))) {
-            const c=foundation.getContext('2d'),[left,ramp,front,rear]=supports;
+            const c=foundation.getContext('2d'),[left,ramp,front,rear=ramp]=supports;
             c.translate(8,0);
             // A small bare-earth apron establishes the ground plane under the
             // raised coop. It follows the feet in perspective, not the ramp's baseline.
@@ -223,8 +227,8 @@ const FarmSprites = (() => {
             c.lineTo(rear.right+6,rear.y+4);c.lineTo(front.right+5,front.y+5);
             c.lineTo(ramp.right+4,ramp.y+3);c.lineTo(ramp.left-4,ramp.y+3);
             c.lineTo(left.left-5,left.y+3);c.closePath();c.fillStyle='#ab925dcc';c.fill();
-            // Three little stone feet touch the wooden posts; the ramp rests on soil.
-            for(const support of [left,front,rear]) {
+            // Stone feet touch the visible posts; the ramp rests on soil.
+            for(const support of supports.filter((_,i)=>i!==1)) {
               const l=support.left-1,r=support.right+1,y=support.y;
               c.fillStyle='#3b3d2840';c.fillRect(l-1,y+3,r-l+3,1);
               c.beginPath();c.moveTo(l,y);c.lineTo(r,y);c.lineTo(r+1,y+2);

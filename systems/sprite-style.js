@@ -19,7 +19,10 @@ const SpriteStyle = (() => {
       c.drawImage(sample,0,0,next.width,next.height);sample=next;
     }
     const result=makeSurface(width,height),c=result.getContext('2d');
-    c.imageSmoothingEnabled=true;c.drawImage(sample,0,0,width,height);
+    // Reduction blends source detail once. Enlarging already packed pixel art
+    // must retain its pixel clusters, including the hero in the Thor cinematic.
+    c.imageSmoothingEnabled=width<sample.width||height<sample.height;
+    c.drawImage(sample,0,0,width,height);
     try {
       const pixels=c.getImageData(0,0,width,height),data=pixels.data;
       for(let i=0;i<data.length;i+=4) {

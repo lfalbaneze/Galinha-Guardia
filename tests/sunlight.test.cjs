@@ -48,8 +48,8 @@ test('live renderers all cast solar shadows, while nursery foreground does not c
   for(const [renderer,entity]of [['GooseArt','state.entities.goose'],['FoxArt','state.entities.foxes[0]'],['OwlArt','state.entities.owls[0]']])
     check(renderer,()=>h.run(renderer).draw(c,h.run(entity),camera));
   check('Thor',()=>h.run('ThorArt').drawHero(c,450,250,70,'right',0));
-  check('Scarecrow',()=>h.run('ScarecrowArt').drawPost(c,{x:450,y:250},camera));
-  check('Crow',()=>h.run('ScarecrowArt').drawCrow(c,{x:450,y:250,z:30,opacity:1,flying:true,left:false},0,0,camera));
+  check('Scarecrow',()=>h.run('ScarecrowArt').drawPost(c,{x:450,y:250,clock:0},camera));
+  check('Crow',()=>h.run('ScarecrowArt').drawCrow(c,{x:450,y:250,z:30,opacity:1,flying:true,left:false,from:{x:400,y:250,z:0},target:{x:500,y:250,z:30}},0,0,camera));
   const before=sun.inspect().casts;h.run('FarmRefuge').drawProp(c,{type:'nursery-lip',x:300,y:150,w:242,h:114});
   assert.equal(sun.inspect().casts,before);sun.end();
 });

@@ -1,0 +1,502 @@
+{
+  "actors": [
+    {
+      "name": "chicken",
+      "frames": [
+        17804,
+        17892,
+        17912,
+        17672
+      ]
+    },
+    {
+      "name": "hen-silkie",
+      "frames": [
+        19376,
+        19180,
+        19184,
+        18732
+      ]
+    },
+    {
+      "name": "hen-blue",
+      "frames": [
+        21928,
+        21800,
+        22152,
+        22224
+      ]
+    },
+    {
+      "name": "skin-zeca",
+      "frames": [
+        13880,
+        14032,
+        13772,
+        13952
+      ]
+    },
+    {
+      "name": "skin-pipoca",
+      "frames": [
+        12652,
+        12644,
+        12588,
+        12536
+      ]
+    },
+    {
+      "name": "skin-amora",
+      "frames": [
+        11932,
+        11784,
+        11868,
+        11608
+      ]
+    },
+    {
+      "name": "skin-pacoca",
+      "frames": [
+        14860,
+        14908,
+        15036,
+        14940
+      ]
+    },
+    {
+      "name": "skin-gumercindo",
+      "frames": [
+        18576,
+        18260,
+        18316,
+        18056
+      ]
+    },
+    {
+      "name": "wolf",
+      "frames": [
+        37464,
+        37260,
+        37316,
+        36916
+      ]
+    },
+    {
+      "name": "goose",
+      "frames": [
+        19692,
+        19332,
+        19692,
+        19332
+      ]
+    },
+    {
+      "name": "sheep",
+      "frames": [
+        25616,
+        25612,
+        25888,
+        25624
+      ]
+    },
+    {
+      "name": "pig",
+      "frames": [
+        24836,
+        24364,
+        24820,
+        24520
+      ]
+    },
+    {
+      "name": "goat",
+      "frames": [
+        22736,
+        22360,
+        22792,
+        22504
+      ]
+    },
+    {
+      "name": "cow",
+      "frames": [
+        64392,
+        64740,
+        64476,
+        63940
+      ]
+    },
+    {
+      "name": "duck",
+      "frames": [
+        8456,
+        8560,
+        8572,
+        8468
+      ]
+    },
+    {
+      "name": "rabbit",
+      "frames": [
+        11780,
+        11700,
+        11792,
+        11696
+      ]
+    },
+    {
+      "name": "dog",
+      "frames": [
+        14336,
+        14172,
+        14452,
+        14236
+      ]
+    },
+    {
+      "name": "cat",
+      "frames": [
+        9176,
+        9064,
+        9104,
+        9180
+      ]
+    },
+    {
+      "name": "donkey",
+      "frames": [
+        44996,
+        44908,
+        45192,
+        44856
+      ]
+    },
+    {
+      "name": "lamb",
+      "frames": [
+        12852,
+        13052,
+        13048,
+        12956
+      ]
+    },
+    {
+      "name": "chick",
+      "frames": [
+        4052,
+        3936,
+        4064,
+        3996
+      ]
+    },
+    {
+      "name": "horse",
+      "frames": [
+        68580,
+        68768,
+        69596,
+        68376
+      ]
+    },
+    {
+      "name": "turkey",
+      "frames": [
+        22396,
+        22320,
+        22212,
+        22308
+      ]
+    },
+    {
+      "name": "fox",
+      "frames": [
+        22217,
+        21884,
+        22123,
+        21854
+      ]
+    },
+    {
+      "name": "amanda",
+      "frames": [
+        22401,
+        22136,
+        22307,
+        22078
+      ]
+    },
+    {
+      "name": "thor",
+      "frames": [
+        46749,
+        47186,
+        47581,
+        47033
+      ]
+    },
+    {
+      "name": "panto",
+      "frames": [
+        20810,
+        20964,
+        27124,
+        27124
+      ]
+    },
+    {
+      "name": "owl",
+      "frames": [
+        17668,
+        18056,
+        17672,
+        17668
+      ]
+    },
+    {
+      "name": "crow",
+      "frames": [
+        14336,
+        11768,
+        7192,
+        11768
+      ]
+    },
+    {
+      "name": "scarecrow",
+      "frames": [
+        61072,
+        61072,
+        61072,
+        61072
+      ]
+    }
+  ],
+  "audio": [
+    {
+      "src": "./assets/audio/forest.wav",
+      "seconds": 48,
+      "volume": 0.25
+    },
+    {
+      "src": "./assets/audio/whistle.wav",
+      "seconds": 32,
+      "volume": 0.25
+    },
+    {
+      "src": "./assets/audio/skin-punk.wav",
+      "seconds": 27.428571,
+      "volume": 0.25
+    },
+    {
+      "src": "./assets/audio/skin-astronaut.wav",
+      "seconds": 24,
+      "volume": 0.25
+    },
+    {
+      "src": "./assets/audio/skin-robocop.wav",
+      "seconds": 17.142857,
+      "volume": 0.25
+    },
+    {
+      "src": "./assets/audio/skin-priest.wav",
+      "seconds": 20,
+      "volume": 0.25
+    },
+    {
+      "src": "./assets/audio/boing.wav",
+      "seconds": 0.650023,
+      "volume": 0.41800000000000004
+    },
+    {
+      "src": "./assets/audio/pop.wav",
+      "seconds": 0.22,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/bonk.wav",
+      "seconds": 0.36,
+      "volume": 0.42900000000000005
+    },
+    {
+      "src": "./assets/audio/voices/v5/squeak.wav",
+      "seconds": 0.505896,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/dizzy.wav",
+      "seconds": 1.550023,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/sob.wav",
+      "seconds": 1.00712,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/sob-2.wav",
+      "seconds": 1.066893,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/runaway.wav",
+      "seconds": 1.149977,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/rescue.wav",
+      "seconds": 1.149977,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/chick.wav",
+      "seconds": 0.746939,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/chick-2.wav",
+      "seconds": 0.596961,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/victory.wav",
+      "seconds": 1.950023,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/goose-honk.wav",
+      "seconds": 1.114512,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/goose-honk-2.wav",
+      "seconds": 1.116961,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/panto-dodge.wav",
+      "seconds": 0.52,
+      "volume": 0.231
+    },
+    {
+      "src": "./assets/audio/panto-victory.wav",
+      "seconds": 2.5,
+      "volume": 0.37400000000000005
+    },
+    {
+      "src": "./assets/audio/voices/v5/owl-hoot.wav",
+      "seconds": 1.266939,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/owl-hoot-2.wav",
+      "seconds": 1.437052,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/fox-rustle.wav",
+      "seconds": 0.356961,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/step-water.wav",
+      "seconds": 0.310023,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/step-mud.wav",
+      "seconds": 0.2,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/step-leaves.wav",
+      "seconds": 0.24,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/thor-hero.wav",
+      "seconds": 5.400045,
+      "volume": 0.275
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-sheep.wav",
+      "seconds": 0.795238,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-pig.wav",
+      "seconds": 0.327029,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-pig-2.wav",
+      "seconds": 0.370748,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-goat.wav",
+      "seconds": 1.064626,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-cow.wav",
+      "seconds": 3.296916,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-duck.wav",
+      "seconds": 1.498186,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-rabbit.wav",
+      "seconds": 1.096916,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-dog.wav",
+      "seconds": 0.256463,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-cat.wav",
+      "seconds": 0.815193,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-donkey.wav",
+      "seconds": 2.401587,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-lamb.wav",
+      "seconds": 0.589025,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-chicken.wav",
+      "seconds": 0.625624,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-chicken-2.wav",
+      "seconds": 0.705442,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-chicken-3.wav",
+      "seconds": 0.815193,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-horse.wav",
+      "seconds": 1.324036,
+      "volume": 0.55
+    },
+    {
+      "src": "./assets/audio/voices/v5/animal-turkey.wav",
+      "seconds": 1.034694,
+      "volume": 0.55
+    }
+  ],
+  "runtimeErrors": []
+}

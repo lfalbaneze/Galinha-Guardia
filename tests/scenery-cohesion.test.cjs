@@ -20,7 +20,7 @@ test('removing visual clutter never moves cover, rescue spawns or existing colli
   const game = createGame(() => .5);
   const snapshot = () => game.run('JSON.stringify([WORLD.layout,OBSTACLES,HidingSpots.getSpots(),state.entities.chicks])');
   const before = snapshot();
-  game.run('renderGame();FarmArt.getProps(WORLD.layout);FarmScenery.details(WORLD.layout);renderGame()');
+  game.run('renderGame();FarmArt.getProps(WORLD.layout);renderGame()');
   assert.equal(snapshot(),before);
   assert.equal(game.run('state.entities.animals.length'),12);
   assert.equal(game.run('state.entities.chicks.length'),6);

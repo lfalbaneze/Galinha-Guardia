@@ -1,18 +1,45 @@
 /* A little comedy troupe for the title screen; never touches the saved simulation. */
 const MenuScene = (() => {
+  function shuffled(values) {
+    const result=[...values];
+    for(let i=result.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[result[i],result[j]]=[result[j],result[i]];}
+    return result;
+  }
+  // One draw per page load: reopening the menu never replaces a walking actor.
+  const largeGuests=new Set(['cow','horse','donkey']);
+  const guests=[];
+  for(const species of shuffled(['sheep','pig','duck','rabbit','dog','cat','goat','lamb','turkey','cow','horse','donkey'])){
+    if(largeGuests.has(species)&&guests.some(s=>largeGuests.has(s)))continue;
+    guests.push(species);if(guests.length===5)break;
+  }
+  const large=guests.findIndex(s=>largeGuests.has(s));
+  if(large>0)[guests[0],guests[large]]=[guests[large],guests[0]];
+  const headings=['down','downleft','left','upleft','up','upright','right','downright'];
   const herd = [
-    { species: 'sheep', route: [[715,754],[758,724],[770,695],[748,670]], pace: 19, phase: .3 },
-    { species: 'pig', route: [[800,767],[850,795],[905,817],[963,827]], pace: 16, phase: 2.1 },
-    { species: 'duck', route: [[630,790],[659,781],[681,768]], pace: 25, phase: 4.7 },
-    { species: 'rabbit', route: [[760,851],[820,844],[880,852]], pace: 30, phase: 1.2 },
-    { species: 'chicken', route: [[480,851],[535,829],[590,821]], pace: 23, phase: 3.3 },
-    { species: 'dog', route: [[600,891],[666,886],[723,892]], pace: 20, phase: 5.6 }
+    { species: 'sheep', route: [[780,721],[809,746],[843,766],[866,782]], pace: 26, phase: .3 },
+    { species: 'pig', route: [[1015,791],[1064,805],[1130,811],[1190,795]], pace: 25, phase: 2.1 },
+    { species: 'duck', route: [[795,795],[834,818],[872,821]], pace: 31, phase: 4.7 },
+    { species: 'rabbit', route: [[1000,859],[1064,850],[1120,831]], pace: 36, phase: 1.2 },
+    { species: 'chicken', route: [[674,813],[713,837],[770,850]], pace: 30, phase: 3.3 },
+    { species: 'dog', route: [[831,891],[899,878],[957,859]], pace: 29, phase: 5.6 }
   ].map(animal => {
-    const lengths = animal.route.slice(1).map((point, i) => Math.hypot(point[0] - animal.route[i][0], point[1] - animal.route[i][1]));
+    const species=animal.species==='chicken'?'chicken':guests.shift();
+    const phase=Math.random()*Math.PI*2;
+    // Sample gentle curves once; distance along them drives both feet and stride.
+    const route = [animal.route[0]];
+    for (let i=0;i<animal.route.length-1;i++) {
+      const p0=animal.route[Math.max(0,i-1)],p1=animal.route[i],p2=animal.route[i+1],p3=animal.route[Math.min(animal.route.length-1,i+2)];
+      for(let j=1;j<=24;j++) {
+        const t=j/24,t2=t*t,t3=t2*t;
+        route.push([0,1].map(k=>.5*(2*p1[k]+(-p0[k]+p2[k])*t+(2*p0[k]-5*p1[k]+4*p2[k]-p3[k])*t2+(-p0[k]+3*p1[k]-3*p2[k]+p3[k])*t3)));
+      }
+    }
+    const lengths = route.slice(1).map((point, i) => Math.hypot(point[0] - route[i][0], point[1] - route[i][1]));
     const length = lengths.reduce((sum, value) => sum + value, 0);
-    return { ...animal, lengths, length, line: 0, travel: animal.phase / (Math.PI * 2) * length * 2 };
+    return { ...animal, species, phase, route, lengths, length, line: 0, travel: phase / (Math.PI * 2) * length * 2,
+      speed:0, pause:.15+Math.random()*.6, stride:phase, moving:false, direction:headings[Math.floor(Math.random()*headings.length)] };
   });
-  const calls = { sheep: 'Mééé!', pig: 'Oinc!', duck: 'Quá-quá!', rabbit: 'Croc-croc!', chicken: 'Có-có-có!', dog: 'Au-au!', cat: 'Miau!', goose: 'Honk-honk!' };
+  const calls = { sheep: 'Mééé!', lamb:'Méé!', goat:'Bééé!', cow:'Muuu!', horse:'Hiii!', donkey:'Ió-ió!', turkey:'Glu-glu!', pig: 'Oinc!', duck: 'Quá-quá!', rabbit: 'Croc-croc!', chicken: 'Có-có-có!', dog: 'Au-au!', cat: 'Miau!', goose: 'Honk-honk!' };
   const jokes = {
     chicken: ['Se eu cair, chama de ovo mexido!', 'Meu voo está em manutenção.', 'Tô treinando pra fugir do almoço.'],
     duck: ['Quáse que eu consigo!', 'Sou pato. Pago mico nas horas vagas.', 'Minha aterrissagem pede um lago.'],
@@ -21,7 +48,13 @@ const MenuScene = (() => {
     sheep: ['Se eu rolar, viro novelo!', 'Penteei a lã pra esse momento.', 'Eu conto ovelhas e me perco em mim.'],
     dog: ['Quem jogou? Eu busco até elogio!', 'Isso vale biscoito?', 'Tentei pegar o rabo. Ele fugiu.'],
     cat: ['Eu planejei esse tombo.', 'Caí de pé. A dignidade vem depois.', 'Miau… viu? Não viu? Ótimo.'],
-    goose: ['Elegância de ganso. Freio de chinelo.', 'Buzina eu tenho. Carteira, não.', 'Meu pescoço chegou antes de mim.']
+    goose: ['Elegância de ganso. Freio de chinelo.', 'Buzina eu tenho. Carteira, não.', 'Meu pescoço chegou antes de mim.'],
+    cow: ['Se eu girar, sai manteiga?', 'O pasto aplaudiu. Eu ouvi!', 'Muuuuita calma nessa hora!'],
+    horse: ['Troquei o galope por um passinho.', 'A crina tá pronta pro vento!', 'Freio? Achei que era recreio.'],
+    donkey: ['Esse passo eu inventei agora.', 'Minhas orelhas aplaudem sozinhas!', 'Devagar também chega bonito.'],
+    goat: ['A cerca tá me chamando pra pular.', 'Subir eu sei. Descer é surpresa!', 'Hoje eu mastigo os aplausos.'],
+    lamb: ['Pequeno no tamanho. Grande no salto!', 'Minha lã amortece o vexame.', 'Ainda tô aprendendo a contar ovelhas.'],
+    turkey: ['Abri a cauda. Podem aplaudir!', 'Glu-glu… perdi o compasso.', 'Meu desfile inclui tropeço.']
   };
   const replies = {
     tumble: ['Dez na coragem. Dois no pouso!', 'O chão também queria um abraço.', 'De novo! Pisquei na melhor parte.'],
@@ -29,17 +62,38 @@ const MenuScene = (() => {
     jump: ['Já pode colher nuvem!', 'O céu não é esconderijo!', 'Meu joelho mandou lembranças.'],
     spin: ['A fazenda ainda tá girando!', 'Agora gira pro outro lado!', 'Vai bater manteiga assim?']
   };
-  const order = ['chicken', 'duck', 'sheep', 'pig', 'dog', 'rabbit'];
+  const order = ['chicken', ...herd.filter(a=>a.species!=='chicken').map(a=>a.species)];
   const tricks = ['tumble', 'dance', 'jump', 'spin'];
-  let canvas, world, button, caption, screen, context;
-  let time = 0, elapsed = 0, turn = 0, sequence = 0, routine = null, speaker = null, currentGame = null;
+  let canvas, world, button, caption, captionLink, screen, context;
+  let captionSpot = null;
+  let turn = 0, sequence = 0, routine = null, speaker = null, currentGame = null;
   let signature = '', active = false, reduced = false, idle = 0, nextShow = 5.5, equipped = '', pointer = null;
   let width = 0, height = 0, pixelRatio = 1, resizeDirty = true;
 
   // Feet stay on paths painted in farm-title.png; cover/crop matches the backdrop.
   function projection(w, h) {
-    const scale = Math.max(w / 1536, h / 1024);
-    return { scale, x: (w - 1536 * scale) * .42, y: (h - 1024 * scale) * .5 };
+    const scale = Math.max(w / 1536, h / 1024) * 1.12;
+    return { scale, x: (w - 1536 * scale) * .42, y: h - 1024 * scale };
+  }
+  function actorScale(y, view) { return view.scale * (.8 + (y - 640) / 600) * 1.22; }
+  function walk(animal, dt) {
+    // Small steps keep acceleration and endpoint pauses consistent at 30–144 Hz.
+    for(let remaining=dt;remaining>0;) {
+      const step=Math.min(1/120,remaining);remaining-=step;
+      animal.pause=Math.max(0,animal.pause-step);
+      // Ignore rounding dust at an endpoint, otherwise the pause restarts forever.
+      const nextEnd=(Math.floor((animal.travel+1e-7)/animal.length)+1)*animal.length;
+      const distance=nextEnd-animal.travel;
+      const target=speaker===animal||participating(animal)||animal.pause>0 ? 0 : animal.pace*Math.min(1,.16+distance/24);
+      animal.speed+=(target-animal.speed)*(1-Math.exp(-6*step));
+      const advance=animal.speed*step;
+      if(advance>=distance) {
+        animal.travel+=distance;animal.stride=CharacterArt.advance(animal.stride,animal.species,distance,{skin:currentGame?.entities.chicken.skin,speed:animal.speed});
+        animal.speed=0;animal.pause=.65+animal.phase*.12;
+      } else { animal.travel+=advance;animal.stride=CharacterArt.advance(animal.stride,animal.species,advance,{skin:currentGame?.entities.chicken.skin,speed:animal.speed}); }
+    }
+    animal.moving=animal.speed>1;
+    if(animal.moving)animal.direction=position(animal).direction;
   }
   function position(animal) {
     const cycle = animal.travel % (animal.length * 2), forward = cycle < animal.length;
@@ -48,7 +102,7 @@ const MenuScene = (() => {
     const a = animal.route[segment], b = animal.route[segment + 1], amount = remaining / animal.lengths[segment];
     const sign = forward ? 1 : -1, dx = (b[0] - a[0]) * sign, dy = (b[1] - a[1]) * sign;
     return { x: a[0] + (b[0] - a[0]) * amount, y: a[1] + (b[1] - a[1]) * amount,
-      direction: Math.abs(dy) > Math.abs(dx) ? (dy > 0 ? 'down' : 'up') : (dx > 0 ? 'right' : 'left') };
+      direction: CharacterArt.directionFor(animal.direction,dx,dy) };
   }
   function resetParallax() { if (world) world.style.transform = 'scale(1.025)'; }
   function appearance(animal) { return animal.species === 'chicken' ? { skin: currentGame.entities.chicken.skin } : {}; }
@@ -60,12 +114,25 @@ const MenuScene = (() => {
   }
   function projected(animal, actualPose = false) {
     const point = position(animal), view = projection(width, height);
-    const scale = view.scale * (.8 + (point.y - 640) / 600);
-    const moving = !reduced && !participating(animal) && Math.sin(time*.28+animal.phase)>-.6;
-    const art = CharacterArt.frameFor(animal.species, { ...appearance(animal), direction: actualPose ?
-      (motion(animal).direction || (moving ? point.direction : 'down')) : 'down' });
+    const scale = actorScale(point.y,view);
+    const action = actualPose ? motion(animal) : {};
+    const options = { ...appearance(animal), mood:participating(animal)?'happy':'normal', moving: actualPose && !reduced && animal.moving, anim: animal.stride,
+      direction: actualPose ? animal.direction : 'down', ...action };
+    const art = CharacterArt.frameFor(animal.species, options);
+    const f=art.frame, s=art.scale, flipped=!!art.pose.flip!==!!f.flip;
+    const left=Math.round(-(f.cx??art.pose.cx)*s), top=14-Math.round((f.bottom??art.pose.bottom)*s);
+    const fw=Math.round(f.w*s),fh=Math.round(f.h*s),pivot=14-f.h*s*.48;
+    const squash=Math.max(.75,Math.min(1.25,action.squash||1)),angle=action.rotation||0;
+    const hop=['rabbit','skin-pipoca'].includes(art.spriteName)&&options.moving?Math.max(0,Math.sin(((options.anim||0)%4-1.5)*Math.PI/2))*4:0;
+    const lift=Math.max(0,Math.min(64,(action.lift||0)+hop));
+    const corners=[[left,top],[left+fw,top],[left,top+fh],[left+fw,top+fh]].map(([x,y])=>{
+      x=(flipped?-x:x)/squash;y=(y-pivot)*squash;
+      return {x:(x*Math.cos(angle)-y*Math.sin(angle))*scale,y:(x*Math.sin(angle)+y*Math.cos(angle)+pivot-14-lift)*scale};
+    });
+    const box={left:Math.min(...corners.map(p=>p.x)),right:Math.max(...corners.map(p=>p.x)),
+      top:Math.min(...corners.map(p=>p.y)),bottom:Math.max(...corners.map(p=>p.y))};
     return { x: view.x + point.x * view.scale, y: view.y + point.y * view.scale, scale,
-      w: art.pose.width * art.scale * scale, h: (art.pose.bottom - art.pose.top) * art.scale * scale };
+      w: art.pose.width * art.scale * scale, h: (art.pose.bottom - art.pose.top) * art.scale * scale, box };
   }
   function visibleAnimal(animal, partial = false) {
     if (!width || !height) return false;
@@ -95,12 +162,13 @@ const MenuScene = (() => {
     return null;
   }
   function clearReaction() {
-    routine = null; speaker = null; idle = 0;
+    routine = null; speaker = null; idle = 0; captionSpot = null;
     if (caption) caption.hidden = true;
+    if (captionLink) captionLink.setAttribute('d','');
   }
   function say(animal, line) {
     const { name, species } = identity(animal);
-    speaker = animal;
+    speaker = animal; animal.speed = 0; animal.moving = false; captionSpot = null;
     caption.setAttribute('aria-live', routine.manual ? 'polite' : 'off');
     caption.textContent = `${name} · ${calls[species] || 'Opa!'}\n${line}`;
     caption.dataset.trick = routine.kind; caption.dataset.speaker = species;
@@ -135,9 +203,13 @@ const MenuScene = (() => {
     if (canvas) return;
     canvas = document.getElementById('menuScene'); world = document.getElementById('menuWorld');
     button = document.getElementById('menuScatter'); caption = document.getElementById('menuBanter');
+    captionLink = document.getElementById('menuBanterLink');
     screen = document.getElementById('menuScreen'); context = canvas.getContext('2d');
     button.addEventListener('click', () => { if (canInteract()) startShow(chooseAnimal(), true); });
     screen.addEventListener('pointerdown', event => {
+      if (active && !currentGame.hasSave && !AudioSystem.status.unlocked) {
+        AudioSystem.sync(currentGame); AudioSystem.unlock(); AudioControls.update(currentGame);
+      }
       pointer = event.button && event.button !== 0 ? null : { x: event.clientX, y: event.clientY, animal: hitAnimal(event) };
     });
     screen.addEventListener('pointerup', event => {
@@ -158,7 +230,7 @@ const MenuScene = (() => {
     window.addEventListener('resize', () => { resizeDirty = true; });
     if (typeof ResizeObserver !== 'undefined') new ResizeObserver(() => { resizeDirty = true; }).observe(world);
   }
-  function participating(animal) { return routine && (routine.lead === animal || routine.partner === animal); }
+  function participating(animal) { return routine && (routine.lead === animal && routine.age<1.9 || routine.partner === animal && routine.age>=2.8 && routine.age<4.3); }
   function motion(animal) {
     if (!participating(animal)) return {};
     const partner = routine.lead === animal ? routine.partner : routine.lead;
@@ -174,33 +246,77 @@ const MenuScene = (() => {
   }
   function placeCaption() {
     if (!speaker || caption.hidden) return;
-    const p = projected(speaker), bounds = canvas.getBoundingClientRect(), area = screen.getBoundingClientRect();
+    const bounds = canvas.getBoundingClientRect(), area = screen.getBoundingClientRect();
     const sx = bounds.width/width, sy = bounds.height/height, rootWidth = area.width || width;
     const half = Math.min(rootWidth/2-8,(caption.offsetWidth || 236)/2), h = caption.offsetHeight || 76;
-    const px = (bounds.left || 0)-(area.left || 0)+p.x*sx;
-    const py = (bounds.top || 0)-(area.top || 0)+p.y*sy;
-    const x = Math.max(half+8,Math.min(rootWidth-half-8,px));
     const minY = Math.max(h+10,h-(area.top || 0)+10);
     const maxY = Math.min(area.height || height,(window.innerHeight || Infinity)-(area.top || 0))-10;
-    // Keep text still while the animal flips. Try the other side of the animal
-    // when a title, control or card occupies the preferred speaking space.
-    const candidates = [
-      {x,y:py-(p.h+(reduced?0:48)*p.scale)*sy-12,placement:'above'},
-      {x,y:py+h+18,placement:'below'}
+    const actors = herd.map(animal => {
+      const p=projected(animal,true),b=p.box;
+      const x=(bounds.left||0)-(area.left||0)+(p.x+b.left)*sx;
+      const y=(bounds.top||0)-(area.top||0)+(p.y+b.top)*sy;
+      return {animal,left:x-3,top:y-3,width:(b.right-b.left)*sx+6,height:(b.bottom-b.top)*sy+6};
+    });
+    const body=actors.find(a=>a.animal===speaker),px=body.left+body.width/2,py=body.top-4;
+    const x=Math.max(half+8,Math.min(rootWidth-half-8,px));
+    const candidates=[
+      {x,y:body.top-16,placement:'above'},
+      {x,y:body.top+body.height+h+16,placement:'below'},
+      {x:body.left-half-16,y:body.top+body.height/2+h/2,placement:'left'},
+      {x:body.left+body.width+half+16,y:body.top+body.height/2+h/2,placement:'right'}
     ];
+    for(const offset of [-half,half])candidates.push(
+      {x:x+offset,y:body.top-16,placement:'above'},
+      {x:x+offset,y:body.top+body.height+h+16,placement:'below'});
     const blockers = ['menuCard','farmTitle','menuTagline','menuSubtitle','menuMischief'].map(id => {
       const r = document.getElementById(id).getBoundingClientRect();
       return {left:r.left-(area.left || 0),top:r.top-(area.top || 0),width:r.width,height:r.height};
-    });
+    }).filter(r=>r.width>0&&r.height>0);
+    blockers.push(...actors);
     const overlaps = (point,r) => point.x+half>r.left-8 && point.x-half<r.left+r.width+8 && point.y>r.top-8 && point.y-h<r.top+r.height+8;
-    const card = blockers[0];
-    if (card.left>half*2+24) candidates.push({x:Math.min(x,card.left-half-12),y:candidates[0].y,placement:'above'});
     for (const r of blockers) {
-      candidates.push({x,y:r.top-12,placement:'above'}, {x,y:r.top+r.height+h+12,placement:'below'});
+      candidates.push({x,y:r.top-16,placement:'above'}, {x,y:r.top+r.height+h+16,placement:'below'});
+      candidates.push({x:r.left-half-16,y:body.top+body.height/2+h/2,placement:'left'},
+        {x:r.left+r.width+half+16,y:body.top+body.height/2+h/2,placement:'right'});
+      for(const offset of [-half,half])candidates.push(
+        {x:x+offset,y:r.top-16,placement:'above'},
+        {x:x+offset,y:r.top+r.height+h+16,placement:'below'});
     }
-    const chosen = candidates.find(point=>point.y>=minY&&point.y<=maxY&&!blockers.some(r=>overlaps(point,r))) || candidates[0];
-    caption.style.left = `${chosen.x}px`; caption.style.top = `${Math.max(minY,Math.min(maxY,chosen.y))}px`;
+    function connection(point) {
+      const top=point.y-h,left=point.x-half,right=point.x+half,bottom=point.y;
+      const target=bottom<=body.top?{x:px,y:body.top-4}:top>=body.top+body.height?{x:px,y:body.top+body.height+4}:
+        point.x<px?{x:body.left-4,y:body.top+body.height/2}:{x:body.left+body.width+4,y:body.top+body.height/2};
+      const vertical=bottom<=body.top||top>=body.top+body.height;
+      const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+      const start=vertical?{x:clamp(target.x,left+28,right-28),y:bottom<=body.top?bottom-2:top+2}:
+        {x:point.x<px?right-2:left+2,y:clamp(target.y,top+24,bottom-24)};
+      const bend={x:start.x,y:(start.y+target.y)/2};
+      return {start,bend,target,vertical};
+    }
+    const lineClear=point=>{
+      const {start,bend,target}=connection(point);
+      if(Math.hypot(target.x-start.x,target.y-start.y)>48)return false;
+      for(let i=1;i<=24;i++) {
+        const t=i/24,u=1-t,x=u*u*start.x+2*u*t*bend.x+t*t*target.x,y=u*u*start.y+2*u*t*bend.y+t*t*target.y;
+        if(blockers.some(r=>r.animal!==speaker&&x>r.left-4&&x<r.left+r.width+4&&y>r.top-4&&y<r.top+r.height+4))return false;
+      }
+      return true;
+    };
+    const clear=point=>point.x-half>=8&&point.x+half<=rootWidth-8&&point.y>=minY&&point.y<=maxY&&!blockers.some(r=>overlaps(point,r))&&lineClear(point);
+    const distance=point=>Math.hypot(Math.max(0,Math.abs(point.x-px)-half),Math.max(0,point.y-h-py,py-point.y));
+    const chosen=candidates.filter(clear).sort((a,b)=>distance(a)-distance(b))[0];
+    // Never fall back to painting text across another animal's face.
+    caption.style.visibility=chosen?'visible':'hidden';
+    if(!chosen){captionSpot=null;captionLink.setAttribute('d','');return;}
+    captionSpot=chosen;
+    caption.style.left = `${chosen.x}px`; caption.style.top = `${chosen.y}px`;
     caption.dataset.placement = chosen.placement;
+    const {start,target,vertical}=connection(chosen);
+    const dx=vertical?9:0,dy=vertical?0:9;
+    // An open, filled wedge joins the bubble's edge without a seam across its base.
+    captionLink.setAttribute('d',`M ${start.x-dx} ${start.y-dy} L ${target.x} ${target.y} L ${start.x+dx} ${start.y+dy}`);
+    captionLink.setAttribute('data-tip-x',target.x);
+    captionLink.setAttribute('data-tip-y',target.y);
   }
   function sparkles(x, y, scale, progress) {
     if (!progress || progress < .35) return;
@@ -217,7 +333,7 @@ const MenuScene = (() => {
   function frame(game, dt, reduceMotion) {
     initialize(); currentGame = game;
     if (reduced !== reduceMotion) { reduced = reduceMotion; signature = ''; clearReaction(); resetParallax(); }
-    const visible = game.phase === 'menu' && !document.hidden && !document.getElementById('howToPlayDialog').open;
+    const visible = game.phase === 'menu' && screen.dataset.view !== 'settings' && !document.hidden && !document.getElementById('howToPlayDialog').open;
     if (active !== visible || equipped !== game.entities.chicken.skin) {
       active = visible; equipped = game.entities.chicken.skin; signature = ''; resizeDirty = true;
       clearReaction(); resetParallax(); pointer = null;
@@ -227,13 +343,12 @@ const MenuScene = (() => {
     if (resizeDirty) {
       const bounds = canvas.getBoundingClientRect();
       width = Math.round(canvas.clientWidth || bounds.width); height = Math.round(canvas.clientHeight || bounds.height);
-      if (width <= 0 || height <= 0) return;
+      if (width <= 0 || height <= 0) { clearReaction(); return; }
       pixelRatio = Math.min(2, window.devicePixelRatio || 1);
       canvas.width = Math.round(width*pixelRatio); canvas.height = Math.round(height*pixelRatio);
-      resizeDirty = false; signature = '';
+      resizeDirty = false; signature = ''; captionSpot = null;
     }
     dt = Math.max(0,Math.min(.1,dt));
-    if (!reduced) time += dt;
     if (routine) {
       routine.age += dt;
       if (!visibleAnimal(routine.lead,routine.manual)) clearReaction();
@@ -246,22 +361,20 @@ const MenuScene = (() => {
       idle += dt;
       if (idle>=nextShow) { idle = 0; startShow(chooseAnimal(),false); }
     }
-    elapsed += dt;
     const next = `${game.entities.chicken.skin}:${reduced}`;
-    if (signature === next && (reduced || elapsed<1/24)) { placeCaption(); return; }
-    const step = Math.min(.15,elapsed); elapsed = 0; signature = next;
+    if (signature === next && reduced) { placeCaption(); return; }
+    signature = next;
     context.setTransform(pixelRatio,0,0,pixelRatio,0,0); context.clearRect(0,0,width,height); context.imageSmoothingEnabled = false;
     const view = projection(width,height);
     const walkers = herd.map(animal => {
-      const moving = !reduced && !participating(animal) && Math.sin(time*.28+animal.phase)>-.6;
-      if (moving) animal.travel += step*animal.pace;
-      return { animal, moving, ...position(animal) };
+      if (!reduced) walk(animal,dt);
+      return { animal, moving:!reduced&&animal.moving, ...position(animal) };
     }).sort((a,b)=>a.y-b.y);
-    for (const {animal,moving,x,y,direction} of walkers) {
-      const scale = view.scale*(.8+(y-640)/600), action = motion(animal);
+    for (const {animal,moving,x,y} of walkers) {
+      const scale = actorScale(y,view), action = motion(animal);
       const px = view.x+x*view.scale, py = view.y+y*view.scale;
       CharacterArt.draw(context,animal.species,px,py-14*scale,{
-        scale, direction: moving?direction:'down', moving, anim: animal.travel/7, ...appearance(animal), ...action
+        scale, direction: animal.direction, mood:participating(animal)?'happy':'normal', moving, anim: animal.stride, subpixel:true, ...appearance(animal), ...action
       });
       if (!reduced) sparkles(px,py,scale,action.progress);
     }

@@ -30,6 +30,7 @@ function load(obstacles = []) {
     circleVsCircle: (a, b) => Math.hypot(a.x - b.x, a.y - b.y) <= a.radius + b.radius,
   });
   const root = path.resolve(__dirname, '..');
+  vm.runInContext('const SpriteData={};'+fs.readFileSync(path.join(root,'systems/character-art.js'),'utf8'),context);
   for (const file of ['detection-system.js', 'wolf-ai.js', 'hiding-spots.js']) {
     vm.runInContext(fs.readFileSync(path.join(root, 'systems', file), 'utf8'), context, { filename: file });
   }

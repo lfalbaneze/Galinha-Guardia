@@ -18,7 +18,7 @@ const call=(method,params={},sessionId)=>new Promise((resolve,reject)=>{const id
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 (async()=>{
   const results=[];
-  for(const [name,width,height,touch,difficulty,cost] of [['desktop',1440,900,false,'easy',0],['mobile',390,844,true,'normal',2],['small-mobile',360,640,true,'hard',3],['landscape',844,390,true,'normal',2]]){
+  for(const [name,width,height,touch,difficulty,cost] of [['desktop',1440,900,false,'easy',0],['mobile',390,844,true,'normal',2],['small-mobile',360,640,true,'hard',4],['landscape',844,390,true,'normal',2]]){
     const {targetId}=await call('Target.createTarget',{url:'about:blank'});
     const {sessionId}=await call('Target.attachToTarget',{targetId,flatten:true});
     await call('Runtime.enable',{},sessionId);
@@ -32,11 +32,11 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
     };
     const shot=async suffix=>{await evaluate('GameUI.update(state);renderGame();');const r=await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false},sessionId);fs.writeFileSync(path.join(root,`preview/thor-${name}-${suffix}.png`),Buffer.from(r.data,'base64'));};
     await call('Page.navigate',{url:pathToFileURL(path.join(out,'index.html')).href},sessionId);await ready();
-    await evaluate(`localStorage.clear();difficultySelect.value='${difficulty}';document.getElementById('startBtn').click();state.lives=1;
+    await evaluate(`localStorage.clear();difficultySelect.value='${difficulty}';resetGame(814237);state.phase='playing';state.lives=1;
       window.p=state.entities.chicken;for(const b of ThorSystem.bones(state)){p.x=b.x;p.y=b.y;ThorSystem.update(state,.05);}
       p.x=WORLD.layout.start.x;p.y=WORLD.layout.start.y;GameUI.update(state);renderGame();`);
     if(cost){
-      if(!await evaluate(`ThorSystem.boneCount(state)===${cost}&&!ThorSystem.active(state)&&!document.getElementById('thorSupply').disabled`))throw Error('Paid summon readiness failed');
+      if(!await evaluate(`ThorSystem.boneCount(state)===${cost}&&!ThorSystem.active(state)&&!document.getElementById('thorSupply').disabled`))throw Error('Paid summon readiness failed '+JSON.stringify(await evaluate('({difficulty:state.difficultyKey,count:ThorSystem.boneCount(state),cost:ThorSystem.cost(state),active:ThorSystem.active(state),disabled:document.getElementById("thorSupply").disabled})')));
       await shot('ready');await click('thorSupply');
     }else await evaluate('updateGame(.05);');
     if(!await evaluate('ThorSystem.active(state)&&ThorSystem.boneCount(state)===0'))throw Error('No rescue started after call '+JSON.stringify(await evaluate('({phase:state.phase,difficulty:state.difficultyKey,lives:state.lives,visit:state.thorVisit,swim:SwimmingSystem.profile(state),lake:state.lake.active})')));

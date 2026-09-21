@@ -14,6 +14,8 @@
     "verify": "npm run typecheck && npm test && npm run build",
     "sprites:build": "node scripts/build-sprite-data.cjs && node scripts/render-wardrobe.cjs",
     "sprites:review": "node scripts/render-sprite-review.cjs && node scripts/render-characters.cjs",
+    "sprites:pixellab": "node scripts/pixellab.cjs",
+    "sprites:pixellab:build": "node scripts/build-pixellab-art.cjs",
     "preview:render": "node scripts/render-preview.cjs",
     "audio:generate": "node scripts/generate-audio.cjs",
     "audio:preview": "node scripts/render-audio-preview.cjs"
