@@ -1,0 +1,54 @@
+name: Grounded scenery and animal names
+on:
+  push:
+    branches: [fix/scenery-names-jay-jay]
+permissions:
+  contents: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - run: npm ci
+      - name: Apply the reviewed changes to the exact source revision
+        run: |
+          python .github/apply-grounding.py
+          npm run compile
+          node .github/finish-grounding.cjs stamp
+      - name: Check names, real scenery contact and gameplay regressions
+        run: |
+          npm run typecheck
+          npm run check:generated
+          node --test tests/animal-names.test.cjs tests/scenery-contact-layer.test.cjs tests/prop-grounding.test.cjs tests/ground-shadows.test.cjs tests/sunlight.test.cjs tests/stealth-lagoon.test.cjs tests/farm-personality.test.cjs tests/farm-rendering.test.cjs
+      - name: Build and render actual scenery
+        run: |
+          npm run build
+          node .github/finish-grounding.cjs stamp
+          mkdir -p .cache/names-scenery
+          node scripts/review-grounded-props.cjs .cache/names-scenery/scenery.png
+      - run: python -m pip install -r tests/browser/requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Verify names, scenery and packaged startup in Chromium
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 >/tmp/grounding-http.log 2>&1 &
+          SERVER=$!
+          trap 'kill "$SERVER"' EXIT
+          python tests/browser/names_scenery_smoke.py
+      - name: Save only the verified changes on this review branch
+        run: |
+          node .github/finish-grounding.cjs manifest
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'fix: cenário apoiado no chão e nomes dos animais com Jay Jay'
+          git push origin HEAD:fix/scenery-names-jay-jay
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scenery-names-review
+          path: .cache/names-scenery/
+          retention-days: 7
