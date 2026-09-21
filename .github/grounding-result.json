@@ -1,0 +1,128 @@
+{
+  "base": "153b0c4f249b0ce72ea47b22a17218a7539e7217",
+  "files": [
+    {
+      "path": "systems/sunlight.js",
+      "sha": "547ed398195fcceaab511082d41e1ef41665e185",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "systems/farm-sprites.js",
+      "sha": "6246e478e42920978c72030c3c0c3e76355aed0b",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "systems/farm-details.js",
+      "sha": "8cdd3294aecb02931e24af6be219477c9a60fe90",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "systems/farm-art.js",
+      "sha": "6a6e98a19f295d8205418b914506b7f0ddfa9ee7",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "src/systems/rescue-system.ts",
+      "sha": "166ac6c4cd1dbe8d9415f65c7dc3a5aa134ec3a8",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "systems/rescue-system.js",
+      "sha": "bc64e626d74a463fd75d768dc52183084f8eee98",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "src/systems/sunflower-system.ts",
+      "sha": "21607b392b614499ea2a6078c2852b74d2dd762b",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "systems/sunflower-system.js",
+      "sha": "53975ecb963e0d70d3582dddfbf0df57e7a3db42",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "src/types/browser-bridge.d.ts",
+      "sha": "c76ad44e6e316241e11f7f7c664e8b7f5dd89bd6",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "src/types/game.d.ts",
+      "sha": "79cbd4e6d33eb1fb20e4993296979577fa21c3a2",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "systems/ui.js",
+      "sha": "7755443c661b2e4c45a7d6244b2db26e246f5252",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "index.html",
+      "sha": "4d89cc03523a4fda06fabfd2cb9ca67fb2867068",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "tests/farm-rendering.test.cjs",
+      "sha": "de4c2e50cd7e496472af9460d175e0297c5c5fdd",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "tests/sunlight.test.cjs",
+      "sha": "7e21782db9ad284f098d130fc22271fa6d312913",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "tests/animal-names.test.cjs",
+      "sha": "52c9100341ba92979430e32a44aef6a60db4adad",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "tests/scenery-contact-layer.test.cjs",
+      "sha": "f55886bcea966a37b755b9e202c6c7eaa2714b53",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "tests/browser/names_scenery_smoke.py",
+      "sha": "dfa498d39de82fa99524e4ac820936d246eb1ed0",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "scripts/review-grounded-props.cjs",
+      "sha": "9bef764635705f7648d5b5e47f97974df0b78970",
+      "mode": "100644",
+      "type": "blob"
+    },
+    {
+      "path": "docs/scenery-and-names.md",
+      "sha": "520051382dbed11c7d48f143cade8ada1d517b11",
+      "mode": "100644",
+      "type": "blob"
+    }
+  ],
+  "checks": [
+    "Visible menu flow and Jay Jay name with actual game sprites",
+    "Name header preserves contextual stealth dialogue",
+    "Production scenery uses contacts only, with unchanged map and collision data",
+    "Phone viewport has no horizontal overflow",
+    "Named rescue and saved progress survive reload",
+    "Packaged file:// game starts with the same names"
+  ],
+  "errors": []
+}

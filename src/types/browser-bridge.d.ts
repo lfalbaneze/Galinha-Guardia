@@ -88,6 +88,7 @@ declare const SpriteStyle: {
   tile(image:CanvasImageSource,rect:readonly number[],width:number,height:number):HTMLCanvasElement|null;
 };
 declare const Sunlight: {
+  ground(c:CanvasRenderingContext2D,paint:(out:CanvasRenderingContext2D)=>void):boolean;
   readonly active:boolean;
   cast(c:CanvasRenderingContext2D,image:CanvasImageSource,x:number,y:number,w:number,h:number,ground:number,rect?:number[]):boolean;
   native(c:CanvasRenderingContext2D,key:string,box:Farm.Rect,ground:number,paint:(c:CanvasRenderingContext2D)=>void):void;

@@ -36,7 +36,7 @@ test('sprite silhouettes are cached without pixel reads; the shadow pass does no
   assert.deepEqual(sprite.toBuffer('image/png'),before);
 });
 
-test('live renderers all cast solar shadows, while nursery foreground does not cast a duplicate',async()=>{
+test('live renderers cast their ground contacts or airborne shadows, while nursery foreground does not cast a duplicate',async()=>{
   const c=createCanvas(900,520).getContext('2d'),h=createGame(()=>.5,{drawingContext:c});await loadGameSprites(h);
   const sun=h.run('Sunlight'),art=h.run('FarmArt');sun.begin(0);
   const camera={x:0,y:0,shakeX:0,shakeY:0};

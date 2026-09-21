@@ -153,13 +153,12 @@ const FarmDetails = (() => {
     return dressed;
   }
   function drawSign(c, p) {
-    if(typeof Sunlight!=='undefined')Sunlight.native(c,`sign/${p.name}/${p.w}/${p.h||49}`,
-      {x:p.x-1,y:p.y-1,w:p.w+2,h:(p.h||49)+2},p.y+(p.h||49)-1,out=>drawSign(out,p));
     const x=Math.round(p.x),y=Math.round(p.y),w=p.w,h=p.h||49;
     c.save();c.imageSmoothingEnabled=false;c.lineJoin='round';c.lineWidth=2;
-    // One sign family throughout the farm, with actual posts and short contact shadows.
+    // Only the two visible post feet cast contact, below every body layer.
+    const contact=out=>{out.fillStyle='#30402660';for(const at of [x+19,x+w-23])out.fillRect(at-1,y+h-3,8,3);};
+    if(typeof Sunlight==='undefined'||!Sunlight.ground(c,contact))contact(c);
     for(const at of [x+19,x+w-23]) {
-      c.fillStyle='#30402640';c.fillRect(at-2,y+h-3,10,3);
       c.beginPath();c.roundRect(at,y+18,6,h-21,2);c.fillStyle='#b77b3e';c.fill();
       c.strokeStyle='#3d2a1b';c.stroke();c.fillStyle='#e7b969';c.fillRect(at+1,y+29,2,h-33);
     }

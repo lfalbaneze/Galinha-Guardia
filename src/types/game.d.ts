@@ -129,7 +129,7 @@ declare namespace Farm {
   }
   interface TimedNotice { time: number; }
   interface ChickCombo { count: number; remaining: number; }
-  interface SecretNotice extends TimedNotice { bonus?: boolean; x?: number; y?: number; targetX?: number; targetY?: number; }
+  interface SecretNotice extends TimedNotice { name?: string; bonus?: boolean; x?: number; y?: number; targetX?: number; targetY?: number; }
   interface RescueNotice extends TimedNotice { name: string; count: number; total: number; chick: boolean; }
   interface Crow extends Point {
     z:number; from:Point & {z:number}; target:Point & {z:number};

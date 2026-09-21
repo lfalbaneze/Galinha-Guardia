@@ -255,9 +255,15 @@ const FarmSprites = (() => {
     // Align the last opaque pixel, not the transparent edge of the frame.
     c.translate(Math.round(x),Math.round(y+h)-1-placed.bottom);
     if(options.flip){c.translate(width,0);c.scale(-1,1);}
-    if(options.foundation&&placed.foundation)c.drawImage(placed.foundation,-8,0);
-    if(options.solar!==false&&typeof Sunlight!=='undefined')Sunlight.cast(c,placed.tile,0,0,width,height,placed.bottom+1);
-    if(options.shadow&&placed.shadow)c.drawImage(placed.shadow,-1,-1);
+    // Static scenery has one attached contact contour, not a second stretched
+    // copy of the whole object. Foreground re-paints must never cast it again.
+    if(options.solar!==false&&(options.foundation||options.shadow)) {
+      const paint=out=>{
+        if(options.foundation&&placed.foundation)out.drawImage(placed.foundation,-8,0);
+        if(options.shadow&&placed.shadow)out.drawImage(placed.shadow,-1,-1);
+      };
+      if(typeof Sunlight==='undefined'||!Sunlight.ground(c,paint))paint(c);
+    }
     c.drawImage(placed.tile,0,0);c.restore();
   }
   const pixelWidths = { barn:80, coop:56, silo:36, tree:60, bush:44, hay:32, fence:44, trough:32, nursery:112,

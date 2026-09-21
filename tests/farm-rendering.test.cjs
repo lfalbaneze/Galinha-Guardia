@@ -48,9 +48,9 @@ test('a found chick clears an older rescue notice and suppresses the region bann
     var labels=[];ctx.fillText=text=>labels.push(text);GameUI.render(state);`);
   assert.equal(h.run('state.rescueNotice'),null);
   assert.equal(h.elements.get('regionNotice').hidden,true);
-  assert.equal(h.run('labels.includes("Pintinho no ninho!")'),true);
+  assert.equal(h.run('labels.includes(`${state.secretNotice.name} no ninho!`)'),true);
   assert.equal(h.run('labels.includes("Cordeirinho a salvo!")'),false);
   h.run(`state.skinNotice={text:'Pato',time:4};labels.length=0;GameUI.render(state);`);
   assert.equal(h.run('labels.includes("Nova aparência: Pato")'),true);
-  assert.equal(h.run('labels.includes("Pintinho no ninho!")'),false);
+  assert.equal(h.run('labels.includes(`${state.secretNotice.name} no ninho!`)'),false);
 });
