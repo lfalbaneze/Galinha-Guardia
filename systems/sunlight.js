@@ -96,12 +96,14 @@ const Sunlight = (() => {
   function cast(c,image,x,y,w,h,ground,rect,support) {
     if(!enabled||capturing||!image||w<1||h<1)return false;
     const tile=mask(image,Math.max(1,Math.round(w)),Math.max(1,Math.round(h)),rect);if(!tile)return false;
-    if ((support||actorType) && actorType !== 'owl') {
+    if (support || (actorType && !['owl', 'crow'].includes(actorType))) {
       const lift=Math.max(0,ground-y-(support?.bottom??h));
       const center=support?x+(support.footLeft+support.footRight)/2:x+w/2;
       const rx=support?Math.max(3,(support.footRight-support.footLeft)/2+1):Math.max(5,Math.min(24,w*.21));
       const ry=support?Math.max(1.5,Math.min(3,(support.bottom-support.top)*.045)):Math.max(2,Math.min(5,h*.07));
-      contact(c,center,ground-(support ? .5 : 0),rx,ry,(support ? .24 : .18)/(1+lift/16));
+      // One compact footprint, not a second solar silhouette beneath it.
+      contact(c,center,ground-.5,rx,ry,.26/(1+lift/16));
+      casts++;return true;
     }
     const matrix=c.getTransform(),dx=light.dx*(matrix.a<0?-1:1),out=groundContext(c);
     out.save();out.globalAlpha*=light.opacity;out.imageSmoothingEnabled=false;
@@ -114,7 +116,7 @@ const Sunlight = (() => {
     const out=groundContext(c);out.save();out.fillStyle='#25352b';
     out.globalAlpha*=Math.max(0,Math.min(1,opacity));
     out.beginPath();out.ellipse(x,ground,rx,ry,0,0,Math.PI*2);out.fill();
-    out.globalAlpha*=.55;out.beginPath();out.ellipse(x,ground,rx*.66,ry*.66,0,0,Math.PI*2);out.fill();out.restore();
+    out.restore();
   }
   function native(c,key,box,ground,paint) {
     if(!enabled||capturing)return;
