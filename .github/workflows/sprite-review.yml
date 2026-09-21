@@ -1,0 +1,27 @@
+name: Sprite contact review
+on:
+  push:
+    branches: [fix/single-grounded-shadow]
+permissions:
+  contents: read
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: Prepare local renderer test bundle
+        run: |
+          mkdir -p .cache/sprite-review
+          tar -czf .cache/sprite-review/render-fixture.tar.gz assets systems src tests scripts node_modules package.json package-lock.json tsconfig*.json index.html game.js *.css
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sprite-contact-fixture
+          path: .cache/sprite-review/render-fixture.tar.gz
+          retention-days: 1
