@@ -1,3 +1,9 @@
 const path=require('node:path');
 const {buildData}=require('./lib/pixellab-import.cjs');
-console.log(`PixelLab: ${buildData(path.resolve(__dirname,'..'))} personagens instalados.`);
+const {bakeGrounding}=require('./bake-sprite-grounding.cjs');
+async function main(){
+  const root=path.resolve(__dirname,'..'),characters=buildData(root);
+  const frames=await bakeGrounding(root);
+  console.log(`PixelLab: ${characters} personagens instalados; ${frames} quadros com apoio nos pés.`);
+}
+main().catch(error=>{console.error(error);process.exitCode=1;});

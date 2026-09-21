@@ -5,6 +5,7 @@ const Sunlight = (() => {
     const c=document.createElement('canvas');c.width=w;c.height=h;return c;
   },masks=new WeakMap(),nativeTiles=new Map(),enabled=false,capturing=false,casts=0;
   let light=sample(0), layer=null, surfaces=null, actorType=null;
+  let footprints=new WeakMap(),unreadable=new WeakSet();
   function sample(seconds,reduced=false) {
     // A gentle return journey avoids a jump in every shadow when the sun loops.
     const phase=reduced?.5:.5-.5*Math.cos((Math.max(0,seconds)+18)*Math.PI*2/240);
@@ -12,7 +13,7 @@ const Sunlight = (() => {
     return {phase,height,dx:(.5-phase)*1.12,dy:.13+(1-height)*.19,
       opacity:.15+(1-height)*.035,reduced};
   }
-  function install(factory){end();maker=factory;masks=new WeakMap();nativeTiles.clear();surfaces=null;}
+  function install(factory){end();maker=factory;masks=new WeakMap();footprints=new WeakMap();unreadable=new WeakSet();nativeTiles.clear();surfaces=null;}
   function begin(seconds,on=true,reduced=false){end();light=sample(seconds,reduced);enabled=on;casts=0;}
   // Keep the floor and the projected shadows separate from depth-sorted bodies.
   // Reusable surfaces avoid drawing/animating every character twice per frame.
@@ -64,12 +65,43 @@ const Sunlight = (() => {
     const entries=saved||new Map();if(entries.size>=128)entries.delete(entries.keys().next().value);
     entries.set(key,tile);masks.set(image,entries);return tile;
   }
-  function cast(c,image,x,y,w,h,ground,rect) {
+  function footprint(image,w,h,rect,baked) {
+    if(!image||!Number.isFinite(w)||!Number.isFinite(h)||w<1||h<1)return null;
+    const keys=['left','right','top','bottom','footLeft','footRight'];
+    // Builds store normalized ink bounds, so file:// never needs a pixel read.
+    if(baked&&keys.every(k=>Number.isFinite(baked[k])&&baked[k]>=0&&baked[k]<=1)&&
+      baked.left<baked.right&&baked.top<baked.bottom&&baked.footLeft<baked.footRight)
+      return Object.fromEntries(keys.map(k=>[k,baked[k]*(['top','bottom'].includes(k)?h:w)]));
+    if(unreadable.has(image))return null;
+    try {
+      const tile=mask(image,Math.round(w),Math.round(h),rect);if(!tile)return null;
+      if(footprints.has(tile))return footprints.get(tile);
+      const tw=tile.width,th=tile.height,data=tile.getContext('2d').getImageData(0,0,tw,th).data;
+      if(!data||data.length!==tw*th*4){unreadable.add(image);return null;}
+      // Ignore translucent fringes: the opaque paw, not the transparent atlas
+      // cell or a faint painted shadow, determines where the character stands.
+      let left=tw,right=0,top=th,bottom=0;
+      for(let y=0;y<th;y++)for(let x=0;x<tw;x++)if(data[(y*tw+x)*4+3]>=128){
+        left=Math.min(left,x);right=Math.max(right,x+1);top=Math.min(top,y);bottom=Math.max(bottom,y+1);
+      }
+      if(!bottom){footprints.set(tile,null);return null;}
+      let footLeft=tw,footRight=0;
+      const band=Math.max(1,Math.min(3,Math.ceil((bottom-top)*.04)));
+      for(let y=Math.max(top,bottom-band);y<bottom;y++)for(let x=left;x<right;x++)
+        if(data[(y*tw+x)*4+3]>=128){footLeft=Math.min(footLeft,x);footRight=Math.max(footRight,x+1);}
+      const result={left,right,top,bottom,footLeft,footRight};
+      footprints.set(tile,result);return result;
+    } catch {unreadable.add(image);return null;}
+  }
+  function cast(c,image,x,y,w,h,ground,rect,support) {
     if(!enabled||capturing||!image||w<1||h<1)return false;
     const tile=mask(image,Math.max(1,Math.round(w)),Math.max(1,Math.round(h)),rect);if(!tile)return false;
-    if (actorType && actorType !== 'owl') {
-      const lift=Math.max(0,ground-y-h);
-      contact(c,x+w/2,ground,Math.max(5,Math.min(24,w*.21)),Math.max(2,Math.min(5,h*.07)),.18/(1+lift/16));
+    if ((support||actorType) && actorType !== 'owl') {
+      const lift=Math.max(0,ground-y-(support?.bottom??h));
+      const center=support?x+(support.footLeft+support.footRight)/2:x+w/2;
+      const rx=support?Math.max(3,(support.footRight-support.footLeft)/2+1):Math.max(5,Math.min(24,w*.21));
+      const ry=support?Math.max(1.5,Math.min(3,(support.bottom-support.top)*.045)):Math.max(2,Math.min(5,h*.07));
+      contact(c,center,ground-(support ? .5 : 0),rx,ry,(support ? .24 : .18)/(1+lift/16));
     }
     const matrix=c.getTransform(),dx=light.dx*(matrix.a<0?-1:1),out=groundContext(c);
     out.save();out.globalAlpha*=light.opacity;out.imageSmoothingEnabled=false;
@@ -104,6 +136,6 @@ const Sunlight = (() => {
     out.beginPath();out.moveTo(x1,y1);out.lineTo(x1+dx,y1+dy);out.lineTo(x2+dx,y2+dy);out.lineTo(x2,y2);out.stroke();out.restore();
   }
   // The sun is an off-screen light source, not an icon sitting on the field.
-  return {install,begin,beginLayer,actor,end,sample,cast,contact,native,rail,
+  return {install,begin,beginLayer,actor,end,sample,cast,contact,footprint,native,rail,
     get active(){return enabled&&!capturing;},inspect:()=>({...light,casts,active:enabled,nativeTiles:nativeTiles.size,groundLayer:!!layer})};
 })();

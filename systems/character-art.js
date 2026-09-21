@@ -130,10 +130,18 @@ const CharacterArt = (() => {
     const lift = Math.max(0, Math.min(64, (options.lift || 0) + hop));
     const width=Math.round(frame.w*scale),height=Math.round(frame.h*scale);
     const tile=smooth||pixelArt||typeof SpriteStyle==='undefined'?null:SpriteStyle.tile(image,[frame.x,frame.y,frame.w,frame.h],width,height);
-    const left=Math.round(-(frame.cx ?? pose.cx)*scale),top=14-Math.round((frame.bottom ?? pose.bottom)*scale);
+    const rect=tile?undefined:[frame.x,frame.y,frame.w,frame.h];
+    // A clip-wide bottom includes the empty space below raised paws. Align the
+    // actual opaque foot row instead; deliberate jumps still use lift above.
+    // Flying birds and open-wing alerts retain their authored perch reference.
+    const terrestrial=!['owl','crow'].includes(spriteName)&&!['fly','alert'].includes(current.action);
+    const support=terrestrial&&options.grounded!==false&&typeof Sunlight!=='undefined'?
+      Sunlight.footprint?.(tile||image,width,height,rect,frame.grounding):null;
+    const left=Math.round(-(frame.cx ?? pose.cx)*scale);
+    const top=14-Math.round(support?.bottom??((frame.bottom ?? pose.bottom)*scale));
     if(options.shadow!==false&&typeof Sunlight!=='undefined') {
       c.save();if(flipped)c.scale(-1,1);
-      Sunlight.cast(c,tile||image,left,top-lift,width,height,14,tile?undefined:[frame.x,frame.y,frame.w,frame.h]);c.restore();
+      Sunlight.cast(c,tile||image,left,top-lift,width,height,14,rect,support);c.restore();
     }
     if (lift) c.translate(0, -lift);
     c.save();
