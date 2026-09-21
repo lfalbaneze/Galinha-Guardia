@@ -1,12 +1,12 @@
 """Real Chromium checks. Positions are controlled; attacks, keys and visibility use game code."""
 from playwright.sync_api import sync_playwright
 from pathlib import Path
+from game_ui import READY, start_adventure
 import json
 import os
 ROOT=Path(__file__).resolve().parents[2]
 OUT=Path(os.environ.get('WILDLIFE_SCREENSHOTS',ROOT/'.cache/wildlife-review'));OUT.mkdir(parents=True,exist_ok=True)
 BASE=os.environ.get('GAME_BASE_URL','http://127.0.0.1:8765')
-READY='CharacterArt.ready && GooseArt.ready && FoxArt.ready && OwlArt.ready && FarmSprites.ready'
 report={'checks':[],'page_errors':[],'http_errors':[]}
 with sync_playwright() as p:
  browser=p.chromium.launch(headless=True)
@@ -14,19 +14,18 @@ with sync_playwright() as p:
  page.on('pageerror',lambda e:report['page_errors'].append(str(e)))
  page.on('response',lambda r:report['http_errors'].append([r.url,r.status]) if r.status>=400 else None)
  try:
-  page.goto(BASE,wait_until='networkidle');page.wait_for_function(READY,polling=50)
-  page.locator('#startBtn').click();page.wait_for_timeout(120)
+  page.goto(BASE,wait_until='networkidle');start_adventure(page);page.wait_for_timeout(120)
   assert 'Luis Albaneze' in page.locator('.game-author').inner_text()
   before=page.evaluate('state.entities.chicken.x')
   page.keyboard.down('d');page.wait_for_timeout(150);page.keyboard.up('d')
   assert page.evaluate('state.entities.chicken.x')>before
-  report['checks'].append('Normal startup, all PNGs ready, authorship and live keyboard movement')
+  report['checks'].append('Visible home/setup flow, all PNGs ready, authorship and live keyboard movement')
   page.close()
   page=browser.new_page(viewport={'width':1280,'height':1000})
   page.add_init_script('window.requestAnimationFrame=()=>0')
   page.on('pageerror',lambda e:report['page_errors'].append(str(e)))
   page.on('response',lambda r:report['http_errors'].append([r.url,r.status]) if r.status>=400 else None)
-  page.goto(BASE,wait_until='networkidle');page.wait_for_function(READY,polling=50);page.locator('#startBtn').click()
+  page.goto(BASE,wait_until='networkidle');start_adventure(page)
   page.evaluate("""()=>{
     resetGame(2147483648);state.phase='playing';
     window.foxApproach=()=>{
@@ -64,12 +63,14 @@ with sync_playwright() as p:
   page.evaluate("""()=>{
     window.owlApproach=()=>{
       const o=state.entities.owls[0],c=state.entities.chicken;
-      Object.assign(o,{mode:'watch',cooldown:0,grace:0,alertProgress:0,target:null});
+      Object.assign(o,{x:o.perch.x,y:o.perch.y,mode:'watch',cooldown:0,grace:0,
+        alertProgress:0,target:null,movePending:false,relocateRetry:0,flight:null,callTime:0});
       const dx=Math.cos(o.heading),dy=Math.sin(o.heading);
-      for(const range of [200,220,180]){
+      // Start close enough to the cone boundary to escape the current sub-second warning.
+      for(const range of [o.range-12,o.range-18,o.range-24]){
         const pos={x:o.x+dx*range,y:o.y+dy*range},end={x:o.x+dx*(range+110),y:o.y+dy*(range+110)};
         if(!WildlifeRules.clear(pos,pos,c.hitbox)||!WildlifeRules.clear(pos,end,c.hitbox))continue;
-        Object.assign(c,{...pos,hidden:false,invulnerable:0});
+        Object.assign(c,{...pos,hidden:false,invulnerable:0,sneaking:false});
         if(!OwlSystem.canSee(o,c))continue;
         camera.x=clamp(o.x-440,0,WORLD.width-900);camera.y=clamp(o.y-240,0,WORLD.height-520);
         const w=state.entities.wolf;w.x=pos.x;w.y=pos.y;w.mode='patrol';w.huntUnlockTimer=0;w.pauseTimer=0;w.heardPoint=null;
@@ -78,22 +79,25 @@ with sync_playwright() as p:
     };
   }""")
   escape=page.evaluate('owlApproach()')
-  page.evaluate('for(let i=0;i<8;i++)OwlSystem.update(state,.05);renderGame()')
+  page.evaluate('OwlSystem.update(state,.05);renderGame()')
   assert page.evaluate('state.entities.owls[0].mode')=='alert'
+  assert page.evaluate('state.entities.owls[0].alertProgress>0 && state.entities.owls[0].alertProgress<1')
   page.screenshot(path=str(OUT/'owl-warning.png'))
   page.locator('#gameCanvas').focus();page.keyboard.down(escape)
   page.evaluate('for(let i=0;i<8;i++){Player.update(state,.05);OwlSystem.update(state,.05)}')
   page.keyboard.up(escape)
   assert page.evaluate('state.entities.owls[0].alertProgress')==0
   assert page.evaluate('state.entities.wolf.heardPoint') is None
-  report['checks'].append('Owl visible sector and warning; keyboard exit cancels it before completion')
+  report['checks'].append('Owl visible sector and sub-second warning; keyboard exit cancels it before completion')
   page.evaluate('owlApproach()');observed=page.evaluate('JSON.stringify({x:state.entities.chicken.x,y:state.entities.chicken.y})')
-  page.evaluate('for(let i=0;i<30;i++)OwlSystem.update(state,.05);GameUI.update(state);renderGame()')
+  # Stop at the alarm transition: later frames intentionally make the owl relocate.
+  page.evaluate("for(let i=0;i<40&&state.entities.owls[0].mode!=='cooldown';i++)OwlSystem.update(state,.05);GameUI.update(state);renderGame()")
   assert page.evaluate('state.entities.owls[0].mode')=='cooldown'
   assert page.evaluate('state.entities.wolf.mode')=='investigate'
   assert page.evaluate('JSON.stringify(state.entities.wolf.heardPoint)')==observed
+  assert page.evaluate('state.entities.owls[0].movePending && state.entities.owls[0].callTime>0')
   page.screenshot(path=str(OUT/'owl-after-alarm.png'))
-  report['checks'].append('Completed alarm creates a local observation snapshot for the wolf')
+  report['checks'].append('Completed alarm creates a local observation snapshot and schedules a new perch')
   before=page.evaluate('JSON.stringify([state.entities.foxes,state.entities.owls])')
   page.keyboard.press('Escape');page.evaluate('for(let i=0;i<20;i++){FoxSystem.update(state,.05);OwlSystem.update(state,.05)}')
   assert page.evaluate('JSON.stringify([state.entities.foxes,state.entities.owls])')==before
@@ -107,24 +111,26 @@ with sync_playwright() as p:
    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
   report['checks'].append('Pause freezes encounters; reload restores identities with grace; four viewport widths')
   for name in ['fox','owl']:
+   # Use the installed art source, not a filename from the retired sprite set.
+   asset=page.evaluate(f'{name.capitalize()}Art.source')
    failure=browser.new_page();failure.add_init_script('window.requestAnimationFrame=()=>0')
-   pattern=f'**/assets/sprites/sources/{name}.png'
+   pattern=f'**/{asset}*'
    failure.route(pattern,lambda route:route.abort())
    failure.goto(BASE,wait_until='networkidle');failure.wait_for_function(f'{name.capitalize()}Art.errors.length>0',polling=50)
    assert failure.locator('#startBtn').is_disabled();assert failure.locator('#retrySprites').is_visible()
    failure.unroute(pattern);failure.locator('#retrySprites').click()
-   # Gameplay RAF is intentionally stopped in this test; image readiness uses a separate poll.
+   # Gameplay RAF is intentionally stopped in this test; readiness uses a separate poll.
    failure.wait_for_function(READY,polling=50)
    assert failure.locator('#startBtn').is_enabled()
-   failure.locator('#startBtn').click();assert failure.evaluate('state.phase')=='playing';failure.close()
+   start_adventure(failure);assert failure.evaluate('state.phase')=='playing';failure.close()
   report['checks'].append('Each missing enemy PNG blocks start and can be retried successfully')
   offline=browser.new_page();offline.add_init_script('window.requestAnimationFrame=()=>0')
   offline.on('pageerror',lambda e:report['page_errors'].append(str(e)))
-  offline.goto((ROOT/'dist/index.html').as_uri(),wait_until='networkidle');offline.wait_for_function(READY,polling=50)
-  offline.locator('#startBtn').click();offline.evaluate('updateGame(.05);renderGame()')
+  offline.goto((ROOT/'dist/index.html').as_uri(),wait_until='networkidle');start_adventure(offline)
+  offline.evaluate('updateGame(.05);renderGame()')
   assert offline.evaluate('state.entities.foxes.length>0 || state.entities.owls.length>0')
   offline.screenshot(path=str(OUT/'offline.png'));offline.close()
-  report['checks'].append('Built distribution loads the new PNG sheets via file://')
+  report['checks'].append('Built distribution loads the current PNG sheets via file://')
   assert not report['page_errors'],report['page_errors'];assert not report['http_errors'],report['http_errors']
  finally:
   try: page.screenshot(path=str(OUT/'last-state.png'))
