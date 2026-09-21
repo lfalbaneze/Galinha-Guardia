@@ -19,7 +19,7 @@ jobs:
       - name: Prepare local renderer test bundle
         run: |
           mkdir -p .cache/sprite-review
-          tar -czf .cache/sprite-review/render-fixture.tar.gz assets systems src tests scripts node_modules package.json package-lock.json tsconfig*.json index.html game.js *.css
+          tar --exclude='*/raw' --exclude='assets/sprites/premium-102' --exclude='assets/sprites/cartoon-103' --exclude='assets/sprites/cartoon-104' --exclude='assets/sprites/cartoon-107' --exclude='assets/sprites/cartoon-106/runtime' -czf .cache/sprite-review/render-fixture.tar.gz assets systems src tests scripts node_modules package.json package-lock.json tsconfig*.json index.html game.js *.css
       - uses: actions/upload-artifact@v4
         with:
           name: sprite-contact-fixture
