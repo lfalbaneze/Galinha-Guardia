@@ -54,12 +54,17 @@ with sync_playwright() as p:
   page.evaluate("for(let i=0;i<20&&state.entities.foxes[0].mode==='dash';i++)updateGame(.05);renderGame()")
   assert page.evaluate('!state.entities.foxes[0].hit && state.entities.foxes[0].mode==="rest"')
   assert page.evaluate('state.lives')==3
+  assert page.evaluate('state.entities.foxes[0].relocateIn')==0
   page.screenshot(path=str(OUT/'fox-after-dodge.png'))
-  report['checks'].append('Fox warning, fixed target, real keyboard sidestep, completed miss and rest')
-  page.evaluate('foxApproach()')
+  report['checks'].append('Fox warning, fixed target, real keyboard sidestep, completed miss and scheduled relocation')
+  # Independent contact scenario. A recovered fox now changes dens, so reusing
+  # the partially reset actor from the dodge scenario would trigger relocation.
+  page.evaluate("resetGame(2147483648);state.phase='playing';foxApproach()")
   page.evaluate('for(let i=0;i<36&&!state.entities.foxes[0].hit;i++)updateGame(.05)')
-  assert page.evaluate('state.entities.foxes[0].hit && state.entities.chicken.invulnerable>0 && state.lives===3')
-  report['checks'].append('Fox contact causes protected knockback, not lost lives')
+  assert page.evaluate('state.entities.foxes[0].hit && state.entities.chicken.invulnerable>0 && state.lives===2')
+  page.evaluate('for(let i=0;i<6;i++)updateGame(.05)')
+  assert page.evaluate('state.lives')==2, 'One landed dash must not drain several hearts'
+  report['checks'].append('Fox contact costs exactly one heart and grants protected knockback')
   page.evaluate("""()=>{
     window.owlApproach=()=>{
       const o=state.entities.owls[0],c=state.entities.chicken;
