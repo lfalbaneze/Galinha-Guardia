@@ -38,10 +38,11 @@ const FarmArt = (() => {
     }
     c.closePath(); c.fillStyle = color; c.fill();
   }
+  function ground(c,paint) {
+    if(typeof Sunlight==='undefined'||!Sunlight.ground(c,paint)){c.save();try{paint(c);}finally{c.restore();}}
+  }
   function gardenPlant(c,d) {
     const type=(d.variant||0)%4,n=hash(d.x,d.y);
-    if(typeof Sunlight!=='undefined')Sunlight.native(c,`crop/${type}/${!!d.sprout}/${Math.round(n*10)}`,
-      {x:d.x-17,y:d.y-35,w:34,h:39},d.y+2,out=>gardenPlant(out,d));
     c.save();c.translate(Math.round(d.x),Math.round(d.y));
     // Broad shapes, warm outlines and a few highlights match the animal sprites.
     // Growth varies without shifting roots or changing the saved planting grid.
@@ -59,25 +60,25 @@ const FarmArt = (() => {
       stroke([[x,y],[x+dx*.65,y+dy*.65]],'#a8c459',1);
     };
     if(d.sprout) {
-      stroke([[-4,1],[4,1]],'#49332155',2);stroke([[0,0],[0,-9]],'#426529',2);
+      ground(c,out=>line(out,[[-4,1],[4,1]],'#49332155',2));stroke([[0,0],[0,-9]],'#426529',2);
       leaf(0,-5,-8,-7,'#7fa638');leaf(0,-7,8,-6,'#adc650');c.restore();return;
     }
     if(type===0) {
-      stroke([[-8,2],[8,2]],'#49332155',2);
+      ground(c,out=>line(out,[[-8,2],[8,2]],'#49332155',2));
       oval(-7,-4,6,5,'#588430');oval(7,-4,6,5,'#6d9834');oval(0,-8,9,8,'#94b742');
       leaf(-4,-3,-7,-7,'#8eaf41');leaf(4,-3,7,-7,'#a3bd46');
       oval(0,-8,5.5,5,'#b9cf63');
       stroke([[-3,-11],[1,-12],[3,-9],[0,-7],[-2,-8]],'#78963b',1.5);
       stroke([[-5,-12],[-2,-14],[2,-13]],'#e0e8a0',1.5);
     } else if(type===1) {
-      stroke([[-7,2],[7,2]],'#49332155',2);
+      ground(c,out=>line(out,[[-7,2],[7,2]],'#49332155',2));
       for(const [x,y] of [[-5,-1],[5,0]]) {
         oval(x,y-2,4,4,'#ed9636');oval(x-1,y-3,1.4,2,'#ffd479',false);
         stroke([[x,y-5],[x+1,y-20]],'#382919',3);
         for(const [dx,dy,color]of [[-8,-12,'#70a137'],[7,-17,'#86b33c'],[-4,-23,'#a4c64d']])leaf(x,y-5,dx,dy,color);
       }
     } else if(type===2) {
-      stroke([[-9,2],[9,2]],'#49332155',2);
+      ground(c,out=>line(out,[[-9,2],[9,2]],'#49332155',2));
       leaf(-2,-11,-12,-6,'#78a038');
       oval(0,-8,12,10,'#e28b30');oval(-6,-8,4,8,'#f4a539',false);oval(0,-8,4.5,9,'#ffbe4d',false);
       for(const side of [-1,1]) {
@@ -87,7 +88,7 @@ const FarmArt = (() => {
       stroke([[0,-17],[1,-22],[4,-23]],'#382919',4);stroke([[0,-18],[1,-21],[3,-22]],'#78943b',2);
       stroke([[-7,-12],[-5,-14],[-3,-14]],'#ffe19a',2);
     } else {
-      stroke([[-4,2],[5,2]],'#49332155',2);
+      ground(c,out=>line(out,[[-4,2],[5,2]],'#49332155',2));
       stroke([[3,0],[3,-31]],'#382919',4);stroke([[3,-1],[3,-30]],'#b28348',2);
       stroke([[0,0],[-1,-25]],'#42632c',3);
       for(const [x,y,dx,dy]of [[-1,-8,-10,-7],[-1,-16,10,-7],[-1,-22,-8,-6]])leaf(x,y,dx,dy,'#79a139');
@@ -410,11 +411,9 @@ const FarmArt = (() => {
   }
 
   function corn(c,p) {
-    if(typeof Sunlight!=='undefined')Sunlight.native(c,`corn/${p.variant}/${Math.round(hash(p.x,p.y)*4)}`,
-      {x:p.x-18,y:p.y-68,w:36,h:72},p.y+2,out=>corn(out,p));
     const height=48+(p.variant===1?6:0),bend=(hash(p.x,p.y)-.5)*4;
     c.save();c.translate(Math.round(p.x),Math.round(p.y));c.lineJoin='round';c.lineCap='round';
-    c.fillStyle='#33442640';c.fillRect(-3,0,7,2);
+    ground(c,out=>{out.fillStyle='#33442650';out.fillRect(-3,0,7,2);});
     line(c,[[0,0],[bend,-height]],'#382919',4);line(c,[[0,-1],[bend,-height]],'#8bb442',2);
     for(const [level,side]of [[12,-1],[20,1],[31,-1],[39,1]]) {
       const tip=side*(level<30?15:12),top=-level-11;

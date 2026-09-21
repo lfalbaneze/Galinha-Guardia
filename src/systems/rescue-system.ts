@@ -1,6 +1,27 @@
 const RescueSystem = {
-  names: { sheep: "Ovelha", pig: "Porquinho", goat: "Cabra", cow: "Vaquinha", duck: "Pato",
-    rabbit: "Coelho", dog: "Cachorrinho", cat: "Gatinho", donkey: "Burrinho", lamb: "Cordeirinho", chick: "Pintinho", horse: "Cavalo", turkey: "Peru" },
+  names: { sheep:'Amélia',pig:'Tonico',goat:'Josefina',cow:'Mimosa',duck:'Quincas',
+    rabbit:'Jay Jay',dog:'Bento',cat:'Nino',donkey:'Astolfo',lamb:'Floquinho',chick:'Pingo',horse:'Ventania',turkey:'Osvaldo' },
+  chickNames: ['Pingo','Fubá','Quindim','Cacau','Farofa','Dengo','Biscoito','Mel','Tutu','Jujuba'],
+  owlNames: ['Aurora','Olívia'],
+  crowNames: ['Tico','Teco','Cacá'],
+  nameOf(animal: {species?:string;type?:string;id?:string;skin?:string;name?:string},game?:Farm.GameState): string {
+    // Pipoca is a playable appearance; Jay Jay is the separate rescued rabbit.
+    if(animal.type==='chicken'||animal.species==='chicken')return CharacterArt.appearances[animal.skin||'classic']?.name||'Erina';
+    if(animal.name?.trim())return animal.name.trim();
+    const species=animal.species||animal.type||'';
+    const index=Number(/(?:^|[_-])(\d+)$/.exec(animal.id||'')?.[1]||0);
+    if(species==='chick')return RescueSystem.chickNames[index]||`Pintinho ${index+1}`;
+    if(species==='owl'){
+      const found=game?.entities.owls?.findIndex(o=>o.id===animal.id)??-1,n=found>=0?found:index;
+      return RescueSystem.owlNames[n]||`Coruja ${n+1}`;
+    }
+    if(species==='crow')return RescueSystem.crowNames[index]||`Corvo ${index+1}`;
+    if(species==='wolf')return 'Baltazar';
+    if(species==='goose')return 'Panto';
+    if(species==='thor')return 'Thor';
+    if(species==='fox')return 'Lorenzo';
+    return RescueSystem.names[species as Farm.Species]||'Amigo da fazenda';
+  },
   personalities: {
     sheep: { pace: 1, nerve: 1, endurance: 1 }, pig: { pace: .9, nerve: .88, endurance: .9 },
     goat: { pace: 1.04, nerve: 1.05, endurance: 1.1 }, cow: { pace: .86, nerve: .85, endurance: 1.18 },
@@ -47,7 +68,7 @@ const RescueSystem = {
     chick.discovered = true;
     chick.lastSeen = { x: chick.x, y: chick.y };
     if (!GameManager.rescue(game, chick)) return false;
-    game.secretNotice = { time: 4, bonus: true, x: chick.x, y: chick.y,
+    game.secretNotice = { time: 4, bonus: true, name: RescueSystem.nameOf(chick,game), x: chick.x, y: chick.y,
       targetX: chicken.x + (chick.x < chicken.x ? -28 : 28), targetY: chicken.y };
     game.rescueNotice = null;
     chicken.hideHintTimer = 0;
@@ -56,7 +77,7 @@ const RescueSystem = {
     const safe = RescueSystem.chickPosition(game.entities.chicks.indexOf(chick));
     Object.assign(chick, { x: safe.x, y: safe.y, targetX: safe.x, targetY: safe.y,
       moving: false, direction: 'down', temper: 'safe', speechTime: 0 });
-    setStatus(`Piu! Fim da expedição de dois passos. ${game.rescuedChicks} de ${game.entities.chicks.length} pintinhos no ninho. +100 pontos!`, 'win');
+    setStatus(`${RescueSystem.nameOf(chick,game)}: Piu! Fim da expedição de dois passos. ${game.rescuedChicks} de ${game.entities.chicks.length} pintinhos no ninho. +100 pontos!`, 'win');
     GameManager.save(game); GameUI.update(game);
     return true;
   },
@@ -294,8 +315,8 @@ const RescueSystem = {
           AudioSystem.playAnimal(animal.species);
           const count = chick ? game.rescuedChicks : game.rescuedCount;
           const total = chick ? game.entities.chicks.length : WORLD.targetRescues;
-          setStatus(`${RescueSystem.names[animal.species]}: “${RescueSystem.thanks[animal.species]}” ${count} de ${total} ${chick ? "pintinhos" : "amigos"} a salvo.`, "win");
-          game.rescueNotice = { name: RescueSystem.names[animal.species], count, total, chick, time: 2.6 };
+          setStatus(`${RescueSystem.nameOf(animal,game)}: “${RescueSystem.thanks[animal.species]}” ${count} de ${total} ${chick ? "pintinhos" : "amigos"} a salvo.`, "win");
+          game.rescueNotice = { name: RescueSystem.nameOf(animal,game), count, total, chick, time: 2.6 };
           const safe = safePosition(index);
           animal.x = safe.x; animal.y = safe.y;
           animal.targetX = safe.x; animal.targetY = safe.y;

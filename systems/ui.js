@@ -345,6 +345,35 @@ const GameUI = (() => {
     ctx.beginPath(); ctx.roundRect(x, y, width, height, 8); ctx.fill();
   }
 
+  function renderNames(game,speaking) {
+    const player=game.entities.chicken,occupied=[];
+    const tag=(animal,offset,identity=animal)=>{
+      if(distance(player,animal)>=300)return;
+      const p=worldToScreen(animal),y=p.y-offset-12;
+      if(p.x<12||p.x>canvas.width-12||y<72||y>canvas.height-12)return;
+      const name=RescueSystem.nameOf(identity,game);
+      ctx.font='bold 11px Trebuchet MS,sans-serif';
+      const width=Math.min(130,ctx.measureText(name).width+8),x=clamp(p.x,width/2+8,canvas.width-width/2-8);
+      const b={x:x-width/2,y:y-12,w:width,h:17};
+      if(occupied.some(a=>b.x<a.x+a.w&&b.x+b.w>a.x&&b.y<a.y+a.h&&b.y+b.h>a.y))return;
+      occupied.push(b);ctx.save();ctx.textAlign='center';ctx.lineWidth=3;ctx.lineJoin='round';
+      ctx.strokeStyle='rgba(34,50,31,.9)';ctx.fillStyle='#fff3cf';
+      ctx.strokeText(name,x,y,122);ctx.fillText(name,x,y,122);ctx.restore();
+    };
+    // Never label undiscovered chicks or reveal friends through cover.
+    for(const a of RescueSystem.all(game).filter(a=>!speaking.has(a)&&RescueSystem.visible(game,a))
+      .sort((a,b)=>distance(player,a)-distance(player,b)).slice(0,6))
+      tag(a,CharacterArt.markerOffset(a.species)*(a.type==='chick'&&a.rescued?.72:1));
+    const wolf=game.entities.wolf;
+    if(wolf.mode==='patrol'&&!SunflowerSystem.concealed(game)&&DetectionSystem.hasLineOfSight(getHitbox(player),getHitbox(wolf)))
+      tag(wolf,CharacterArt.markerOffset('wolf'));
+    // Panto, Thor and the foxes already have named captions.
+    for(const owl of game.entities.owls||[])if(owl.mode!=='relocate'&&OwlSystem.visible(game,owl))tag(owl,owl.mode==='alert'?124:112);
+    const flock=game.scarecrow;
+    if(flock&&flock.mode!=='away'&&DetectionSystem.hasLineOfSight(getHitbox(player),flock))
+      for(const [i,b]of flock.birds.entries())if(!b.flying&&b.opacity>.9)tag(b,b.z+28,{type:'crow',id:`crow_${i}`});
+  }
+
   function render(game) {
     if (game.phase !== "playing") return;
     ctx.save();
@@ -352,18 +381,21 @@ const GameUI = (() => {
     const p = worldToScreen(chicken), w = worldToScreen(wolf);
     const talkers = RescueSystem.all(game).filter(a => !a.rescued && RescueSystem.visible(game, a))
       .sort((a, b) => distance(a, chicken) - distance(b, chicken));
+    renderNames(game,new Set(talkers.slice(0,2).filter(a=>a.speechTime>0)));
     for (const animal of talkers.slice(0, 2)) {
       const at = worldToScreen(animal);
       if (at.x < 0 || at.x > canvas.width || at.y < 75 || at.y > canvas.height) continue;
       if (animal.speechTime > 0) {
         ctx.font = "bold 13px Trebuchet MS, sans-serif";
-        const width = Math.min(260, ctx.measureText(animal.speech).width + 26);
+        const name=RescueSystem.nameOf(animal,game);
+        const width = Math.min(canvas.width-20,260,Math.max(ctx.measureText(animal.speech).width,ctx.measureText(name).width)+26);
         const bx = clamp(at.x - width / 2, 10, canvas.width - width - 10);
-        const by = at.y - CharacterArt.markerOffset(animal.species) - 36;
-        panel(bx, by, width, 30, "#fff3ce");
-        ctx.fillStyle = "#fff3ce"; ctx.beginPath(); ctx.moveTo(at.x-5,by+29); ctx.lineTo(at.x+5,by+29); ctx.lineTo(at.x,by+36); ctx.fill();
+        const by = Math.max(6,at.y - CharacterArt.markerOffset(animal.species) - 52);
+        panel(bx, by, width, 46, "#fff3ce");
+        ctx.fillStyle = "#fff3ce"; ctx.beginPath(); ctx.moveTo(at.x-5,by+45); ctx.lineTo(at.x+5,by+45); ctx.lineTo(at.x,by+52); ctx.fill();
         ctx.fillStyle = "#663d28"; ctx.textAlign = "center";
-        ctx.fillText(animal.speech, bx + width / 2, by + 20, width - 14);
+        ctx.font="bold 11px Trebuchet MS,sans-serif";ctx.fillText(name,bx+width/2,by+15,width-14);
+        ctx.font="13px Trebuchet MS,sans-serif";ctx.fillText(animal.speech,bx+width/2,by+34,width-14);
       }
       if (animal.temper === "tired") {
         panel(at.x - 35, at.y + 20, 70, 20, "#365343");
@@ -375,8 +407,9 @@ const GameUI = (() => {
     if (!SunflowerSystem.concealed(game) && wolf.mode !== "patrol" && w.x > 65 && w.x < canvas.width - 65 && w.y > 93 && w.y < canvas.height + 20) {
       const color = ["chase", "inspect"].includes(wolf.mode) ? "#f6b9a4" : wolf.mode === "alert" ? "#ffe398" : "#cce2e6";
       const labels = { frightened: "DEU MEDO DO THOR!", chase: "! PERSEGUINDO", alert: "? DESCONFIOU", investigate: "ACHOU UMA PISTA", search: "PROCURANDO", inspect: "! TE VI ENTRAR" };
-      panel(w.x - 60, w.y - 94, 120, wolf.mode === "alert" ? 33 : 25, "rgba(42, 57, 46, .92)");
+      panel(w.x - 60, w.y - 105, 120, wolf.mode === "alert" ? 44 : 36, "rgba(42, 57, 46, .92)");
       ctx.fillStyle = color; ctx.textAlign = "center"; ctx.font = "bold 10px sans-serif";
+      ctx.fillText(RescueSystem.nameOf(wolf,game),w.x,w.y-92,108);
       ctx.fillText(labels[wolf.mode] || "", w.x, w.y - 77);
       if (wolf.mode === "alert") {
         ctx.fillStyle = "#627060"; ctx.fillRect(w.x - 43, w.y - 70, 86, 3);
@@ -435,7 +468,7 @@ const GameUI = (() => {
     if(game.skinNotice?.time>0)return {time:game.skinNotice.time,title:`Nova aparência: ${game.skinNotice.text}`,
       detail:game.secretNotice?.time>0?'Pintinho salvo, figurino novo! Confira o baú.':'Roupa nova pra aprontar. Confira o baú!'};
     if(game.secretNotice?.time>0)return {time:game.secretNotice.time,
-      title:game.secretNotice.bonus?'Pintinho no ninho!':'Esse piado tem perninhas!',
+      title:game.secretNotice.bonus?(game.secretNotice.name?`${game.secretNotice.name} no ninho!`:'Pintinho no ninho!'):'Esse piado tem perninhas!',
       detail:game.secretNotice.bonus?`+100 pontos · ${game.rescuedChicks} de ${game.entities.chicks.length} pintinhos`:'Chegue perto para levar o pequeno ao poleiro.'};
     if(game.rescueNotice?.time>0)return {time:game.rescueNotice.time,title:`${game.rescueNotice.name} a salvo!`,
       detail:`+100 pontos · ${game.rescueNotice.count} de ${game.rescueNotice.total} no poleiro`};

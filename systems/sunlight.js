@@ -54,6 +54,11 @@ const Sunlight = (() => {
     out.setTransform(m.a,m.b,m.c,m.d,m.e,m.f);
     out.globalAlpha=c.globalAlpha;out.globalCompositeOperation='source-over';return out;
   }
+  function ground(c,paint) {
+    if(!enabled||capturing||typeof paint!=='function')return false;
+    const out=groundContext(c);out.save();
+    try {paint(out);casts++;return true;} finally {out.restore();}
+  }
   function mask(image,w,h,rect) {
     const key=[w,h,...(rect||[])].join('/'),saved=masks.get(image);
     if(saved?.has(key))return saved.get(key);
@@ -134,10 +139,11 @@ const Sunlight = (() => {
     if(!enabled||capturing)return;
     const out=groundContext(c);
     out.save();out.globalAlpha*=light.opacity;out.strokeStyle='#25352b';out.lineWidth=width;out.lineCap='round';
-    const dx=light.dx*height,dy=light.dy*height;
-    out.beginPath();out.moveTo(x1,y1);out.lineTo(x1+dx,y1+dy);out.lineTo(x2+dx,y2+dy);out.lineTo(x2,y2);out.stroke();out.restore();
+    // Fence supports touch this ground line; do not add a second raised rail silhouette.
+    out.lineWidth=Math.min(3,width);
+    out.beginPath();out.moveTo(x1,y1);out.lineTo(x2,y2);out.stroke();out.restore();casts++;
   }
   // The sun is an off-screen light source, not an icon sitting on the field.
-  return {install,begin,beginLayer,actor,end,sample,cast,contact,footprint,native,rail,
+  return {install,begin,beginLayer,actor,end,sample,cast,contact,footprint,native,rail,ground,
     get active(){return enabled&&!capturing;},inspect:()=>({...light,casts,active:enabled,nativeTiles:nativeTiles.size,groundLayer:!!layer})};
 })();

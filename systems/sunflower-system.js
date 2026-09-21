@@ -200,8 +200,6 @@ const SunflowerSystem = (() => {
         FarmDetails.drawRows(c, p, 82, 27, 32);
     }
     function drawPlant(c, p, game) {
-        if (typeof Sunlight !== 'undefined')
-            Sunlight.native(c, `sunflower/${p.variant}`, { x: p.x - 20, y: p.y - 94, w: 40, h: 98 }, p.y + 2, out => drawPlant(out, p));
         c.save();
         if (game)
             EnvironmentSystem.transform(c, p, game);
@@ -214,8 +212,9 @@ const SunflowerSystem = (() => {
         const h = 61 + p.variant * 6;
         c.lineJoin = 'round';
         c.lineCap = 'round';
-        c.fillStyle = '#33442640';
-        c.fillRect(-3, 0, 7, 2);
+        const contact = (out) => { out.fillStyle = '#33442650'; out.fillRect(-3, 0, 7, 2); };
+        if (typeof Sunlight === 'undefined' || !Sunlight.ground(c, contact))
+            contact(c);
         c.beginPath();
         c.moveTo(0, 0);
         c.quadraticCurveTo(3, -h * .5, 0, -h);
