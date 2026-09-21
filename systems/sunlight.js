@@ -4,7 +4,7 @@ const Sunlight = (() => {
     if(typeof document==='undefined'||!document.createElement)return null;
     const c=document.createElement('canvas');c.width=w;c.height=h;return c;
   },masks=new WeakMap(),nativeTiles=new Map(),enabled=false,capturing=false,casts=0;
-  let light=sample(0);
+  let light=sample(0), layer=null, surfaces=null, actorType=null;
   function sample(seconds,reduced=false) {
     // A gentle return journey avoids a jump in every shadow when the sun loops.
     const phase=reduced?.5:.5-.5*Math.cos((Math.max(0,seconds)+18)*Math.PI*2/240);
@@ -12,9 +12,47 @@ const Sunlight = (() => {
     return {phase,height,dx:(.5-phase)*1.12,dy:.13+(1-height)*.19,
       opacity:.15+(1-height)*.035,reduced};
   }
-  function install(factory){maker=factory;masks=new WeakMap();nativeTiles.clear();}
-  function begin(seconds,on=true,reduced=false){light=sample(seconds,reduced);enabled=on;casts=0;}
-  function end(){enabled=false;}
+  function install(factory){end();maker=factory;masks=new WeakMap();nativeTiles.clear();surfaces=null;}
+  function begin(seconds,on=true,reduced=false){end();light=sample(seconds,reduced);enabled=on;casts=0;}
+  // Keep the floor and the projected shadows separate from depth-sorted bodies.
+  // Reusable surfaces avoid drawing/animating every character twice per frame.
+  function beginLayer(c) {
+    if(!enabled||capturing||layer||!c.canvas||!c.getTransform)return false;
+    const w=c.canvas.width,h=c.canvas.height;if(w<1||h<1)return false;
+    try {
+      if(!surfaces||surfaces.w!==w||surfaces.h!==h){
+        const floor=maker(w,h),shadows=maker(w,h);
+        if(!floor||!shadows||floor===c.canvas||shadows===c.canvas)return false;
+        const floorContext=floor.getContext('2d'),shadowContext=shadows.getContext('2d');
+        if(!floorContext||!shadowContext)return false;
+        surfaces={w,h,floor,shadows,floorContext,shadowContext};
+      }
+      const {floorContext,shadowContext}=surfaces;
+      for(const out of [floorContext,shadowContext]){
+        out.setTransform(1,0,0,1,0,0);out.globalAlpha=1;out.globalCompositeOperation='source-over';out.clearRect(0,0,w,h);
+      }
+      floorContext.drawImage(c.canvas,0,0);
+      c.save();c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,w,h);c.restore();
+      layer={context:c,...surfaces};return true;
+    } catch { return false; } // Non-browser preview contexts retain inline shadows.
+  }
+  function actor(type) { actorType=type; }
+  function end() {
+    actorType=null;
+    if(layer){
+      const current=layer;layer=null;const c=current.context;
+      c.save();c.setTransform(1,0,0,1,0,0);c.globalAlpha=1;
+      c.globalCompositeOperation='destination-over';
+      c.drawImage(current.shadows,0,0);c.drawImage(current.floor,0,0);c.restore();
+    }
+    enabled=false;
+  }
+  function groundContext(c) {
+    if(!layer||layer.context!==c)return c;
+    const out=layer.shadowContext,m=c.getTransform();
+    out.setTransform(m.a,m.b,m.c,m.d,m.e,m.f);
+    out.globalAlpha=c.globalAlpha;out.globalCompositeOperation='source-over';return out;
+  }
   function mask(image,w,h,rect) {
     const key=[w,h,...(rect||[])].join('/'),saved=masks.get(image);
     if(saved?.has(key))return saved.get(key);
@@ -29,10 +67,22 @@ const Sunlight = (() => {
   function cast(c,image,x,y,w,h,ground,rect) {
     if(!enabled||capturing||!image||w<1||h<1)return false;
     const tile=mask(image,Math.max(1,Math.round(w)),Math.max(1,Math.round(h)),rect);if(!tile)return false;
-    const matrix=c.getTransform(),dx=light.dx*(matrix.a<0?-1:1);
-    c.save();c.globalAlpha*=light.opacity;c.imageSmoothingEnabled=false;
-    c.translate(x,ground);c.transform(1,0,-dx,-light.dy,0,0);
-    c.drawImage(tile,0,y-ground,w,h);c.restore();casts++;return true;
+    if (actorType && actorType !== 'owl') {
+      const lift=Math.max(0,ground-y-h);
+      contact(c,x+w/2,ground,Math.max(5,Math.min(24,w*.21)),Math.max(2,Math.min(5,h*.07)),.18/(1+lift/16));
+    }
+    const matrix=c.getTransform(),dx=light.dx*(matrix.a<0?-1:1),out=groundContext(c);
+    out.save();out.globalAlpha*=light.opacity;out.imageSmoothingEnabled=false;
+    out.translate(x,ground);out.transform(1,0,-dx,-light.dy,0,0);
+    out.drawImage(tile,0,y-ground,w,h);out.restore();casts++;return true;
+  }
+  // Contact stays at the feet even when the body bobs, hops or tilts above it.
+  function contact(c,x,ground,rx,ry,opacity=.18) {
+    if(!enabled||capturing||![x,ground,rx,ry,opacity].every(Number.isFinite)||rx<=0||ry<=0)return;
+    const out=groundContext(c);out.save();out.fillStyle='#25352b';
+    out.globalAlpha*=Math.max(0,Math.min(1,opacity));
+    out.beginPath();out.ellipse(x,ground,rx,ry,0,0,Math.PI*2);out.fill();
+    out.globalAlpha*=.55;out.beginPath();out.ellipse(x,ground,rx*.66,ry*.66,0,0,Math.PI*2);out.fill();out.restore();
   }
   function native(c,key,box,ground,paint) {
     if(!enabled||capturing)return;
@@ -48,12 +98,12 @@ const Sunlight = (() => {
   }
   function rail(c,x1,y1,x2,y2,height,width=3) {
     if(!enabled||capturing)return;
-    c.save();c.globalAlpha*=light.opacity;c.strokeStyle='#25352b';c.lineWidth=width;c.lineCap='round';
+    const out=groundContext(c);
+    out.save();out.globalAlpha*=light.opacity;out.strokeStyle='#25352b';out.lineWidth=width;out.lineCap='round';
     const dx=light.dx*height,dy=light.dy*height;
-    c.beginPath();c.moveTo(x1,y1);c.lineTo(x1+dx,y1+dy);c.lineTo(x2+dx,y2+dy);c.lineTo(x2,y2);c.stroke();c.restore();
+    out.beginPath();out.moveTo(x1,y1);out.lineTo(x1+dx,y1+dy);out.lineTo(x2+dx,y2+dy);out.lineTo(x2,y2);out.stroke();out.restore();
   }
-  // The sun is an off-screen light source. A screen-space icon laid over this
-  // top-down field looked like a loose object sitting on grass and fences.
-  return {install,begin,end,sample,cast,native,rail,
-    get active(){return enabled&&!capturing;},inspect:()=>({...light,casts,active:enabled,nativeTiles:nativeTiles.size})};
+  // The sun is an off-screen light source, not an icon sitting on the field.
+  return {install,begin,beginLayer,actor,end,sample,cast,contact,native,rail,
+    get active(){return enabled&&!capturing;},inspect:()=>({...light,casts,active:enabled,nativeTiles:nativeTiles.size,groundLayer:!!layer})};
 })();
