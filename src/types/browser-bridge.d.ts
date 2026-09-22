@@ -69,6 +69,7 @@ declare const FarmRefuge: {
   readonly bounds: Readonly<Farm.Rect>;
   gooseHome(): Farm.Point;
   home(index: number, chick?: boolean): Farm.Point;
+  contains(point: Farm.Point | Farm.Body, padding?: number): boolean;
   ensureClear(entity: Farm.Body): void;
   drawGround(context: CanvasRenderingContext2D, camera: Farm.Camera): void;
 };
