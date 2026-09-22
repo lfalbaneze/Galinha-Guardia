@@ -1,7 +1,5 @@
 /* A fixed home inside the generator's reserved yard; the rest of the farm stays procedural. */
 const FarmRefuge = (() => {
-  const noWolfSignImage=typeof Image!=='undefined'?new Image():null;
-  if(noWolfSignImage) noWolfSignImage.src='./assets/signs/proibido-lobo.png';
   const bounds = Object.freeze({ x: 90, y: 174, w: 260, h: 308 });
   // The taller edition-93 sheet fits the existing walls and nest floor at y=270.
   const nursery = Object.freeze({ x: 102, y: 120, w: 242, h: 150 });
@@ -47,10 +45,7 @@ const FarmRefuge = (() => {
       ...rails.map((p,i) => ({ ...p,type:'refuge-rail',id:`refuge-rail-${i}`,depth:p.y+p.h+5 })),
       { ...nursery,type:'nursery',id:'nursery',depth:216 },
       { ...nursery,type:'nursery-lip',id:'nursery-lip',depth:274 },
-      { x:105,y:275,w:61,h:34,type:'refuge-trough',id:'refuge-trough',depth:307 },
-      // Visual-only sign beside the east gate: it teaches the safe-area rule
-      // without changing collision or narrowing the entrance.
-      { x:329,y:282,w:42,h:56,type:'refuge-no-wolf-sign',id:'refuge-no-wolf-sign',depth:338,mounted:true }
+      { x:105,y:275,w:61,h:34,type:'refuge-trough',id:'refuge-trough',depth:307 }
     ];
   }
   function ensureClear(entity) {
@@ -96,26 +91,6 @@ const FarmRefuge = (() => {
       FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true,solar:false});c.restore();
     } else if(p.type==='refuge-trough') {
       FarmSprites.draw(c,'trough',p.x,p.y,p.w,p.h,{grounded:true,shadow:true});
-    } else if(p.type==='refuge-no-wolf-sign') {
-      const baseY=p.y+p.h;
-      if(!p.mounted) {
-        const paintGround=out=>{
-          out.fillStyle='#2633232e';out.beginPath();out.ellipse(p.x+p.w/2,baseY,8,2.5,0,0,Math.PI*2);out.fill();
-        };
-        if(typeof Sunlight==='undefined'||!Sunlight.ground?.(c,paintGround))paintGround(c);
-      }
-      if(noWolfSignImage?.complete&&noWolfSignImage.naturalWidth) {
-        c.save();c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';
-        c.drawImage(noWolfSignImage,p.x,p.y,p.w,p.h);c.restore();
-      } else {
-        // Tiny fallback for non-browser tests or the first frame before the asset loads.
-        c.save();c.translate(Math.round(p.x+p.w/2),Math.round(baseY));
-        c.fillStyle='#8a572d';c.fillRect(-3,-34,6,34);
-        c.fillStyle='#d7a15d';c.beginPath();c.roundRect(-28,-73,56,42,5);c.fill();
-        c.strokeStyle='#b93e32';c.lineWidth=4;c.beginPath();c.arc(0,-52,14,0,Math.PI*2);c.stroke();
-        c.beginPath();c.moveTo(-10,-62);c.lineTo(10,-42);c.stroke();
-        c.restore();
-      }
     } else if(p.type==='refuge-rail') {
       if(p.w) {
         if(!FarmSprites.draw(c,'fence',p.x-4,p.y-35,p.w+8,39,{grounded:true,shadow:true})) {
@@ -124,9 +99,10 @@ const FarmRefuge = (() => {
         }
       } else {
         if(typeof Sunlight!=='undefined')Sunlight.rail(c,p.x,p.y+4,p.x,p.y+p.h+4,30,4);
-        c.fillStyle='#61492f';c.fillRect(p.x-3,p.y-22,6,p.h+16);
-        c.fillStyle='#a77d41';c.fillRect(p.x-2,p.y-22,3,p.h+16);
-        c.fillStyle='#d0a765';c.fillRect(p.x-3,p.y-22,2,p.h+16);
+        // Match the same darker wood palette used by the horizontal fence.
+        c.fillStyle='#644526';c.fillRect(p.x-4,p.y-22,8,p.h+16);
+        c.fillStyle='#b68b4d';c.fillRect(p.x-2,p.y-22,4,p.h+16);
+        c.fillStyle='#e0b264';c.fillRect(p.x-3,p.y-22,2,p.h+16);
         post(c,p.x,p.y);post(c,p.x,p.y+p.h);
       }
     }
