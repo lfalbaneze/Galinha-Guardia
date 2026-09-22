@@ -60,14 +60,13 @@ const FarmRefuge = (() => {
       setEntityPosFromHitbox(entity,x,y);return;
     }
   }
-  const fenceWood=Object.freeze({dark:'#523723',base:'#805030',light:'#925a31',knot:'#644526'});
   function post(c,x,y) {
     c.fillStyle='#26332330';c.fillRect(x-6,y+3,12,2);
     x=Math.round(x);y=Math.round(y);
-    c.fillStyle=fenceWood.dark;c.fillRect(x-5,y-30,10,34);
-    c.fillStyle=fenceWood.base;c.fillRect(x-3,y-28,6,30);
-    c.fillStyle=fenceWood.light;c.fillRect(x-3,y-28,2,28);c.fillRect(x-4,y-29,8,3);
-    c.fillStyle=fenceWood.knot;c.fillRect(x+1,y-19,2,9);
+    c.fillStyle='#644526';c.fillRect(x-5,y-30,10,34);
+    c.fillStyle='#ab773e';c.fillRect(x-3,y-28,6,30);
+    c.fillStyle='#e0b264';c.fillRect(x-3,y-28,3,28);c.fillRect(x-4,y-29,8,3);
+    c.fillStyle='#80562f';c.fillRect(x+1,y-19,2,9);
   }
   function drawProp(c,p) {
     if(p.type==='nursery') {
@@ -95,15 +94,14 @@ const FarmRefuge = (() => {
     } else if(p.type==='refuge-rail') {
       if(p.w) {
         if(!FarmSprites.draw(c,'fence',p.x-4,p.y-35,p.w+8,39,{grounded:true,shadow:true})) {
-          c.fillStyle=fenceWood.base;c.fillRect(p.x,p.y-23,p.w,5);c.fillRect(p.x,p.y-10,p.w,5);
+          c.fillStyle='#b68b4d';c.fillRect(p.x,p.y-23,p.w,5);c.fillRect(p.x,p.y-10,p.w,5);
           post(c,p.x,p.y);post(c,p.x+p.w,p.y);
         }
       } else {
         if(typeof Sunlight!=='undefined')Sunlight.rail(c,p.x,p.y+4,p.x,p.y+p.h+4,30,4);
-        // Same timber palette as the horizontal fence: dark outline, muted brown body and small warm highlight.
-        c.fillStyle=fenceWood.dark;c.fillRect(p.x-4,p.y-22,8,p.h+16);
-        c.fillStyle=fenceWood.base;c.fillRect(p.x-2,p.y-22,4,p.h+16);
-        c.fillStyle=fenceWood.light;c.fillRect(p.x-3,p.y-22,1,p.h+16);
+        c.fillStyle='#61492f';c.fillRect(p.x-3,p.y-22,6,p.h+16);
+        c.fillStyle='#a77d41';c.fillRect(p.x-2,p.y-22,3,p.h+16);
+        c.fillStyle='#d0a765';c.fillRect(p.x-3,p.y-22,2,p.h+16);
         post(c,p.x,p.y);post(c,p.x,p.y+p.h);
       }
     }
