@@ -13,6 +13,12 @@ const WolfAI = (() => {
     const trails = new WeakMap();
     const hungerRules = { easy: { seconds: 420, boost: .12 }, normal: { seconds: 240, boost: .18 },
         hard: { seconds: 180, boost: .22 }, hardcore: { seconds: 140, boost: .26 } };
+    function refugeContains(point) {
+        return typeof FarmRefuge !== 'undefined' && refugeContains(point);
+    }
+    function refugeBounds() {
+        return typeof FarmRefuge !== 'undefined' ? FarmRefuge.bounds : null;
+    }
     function appetite(game) {
         const value = Number.isFinite(game.wolfHunger) ? clamp(game.wolfHunger, 0, 1) : 0;
         const tier = value >= .75 ? 2 : value >= .35 ? 1 : 0;
@@ -28,7 +34,7 @@ const WolfAI = (() => {
             p.age += dt;
         trail.prints = trail.prints.filter(p => p.age < 8);
         const c = game.entities.chicken;
-        if (FarmRefuge.contains(c) || c.hidden || !c.sprinting || c.sneaking || EnvironmentSystem.surfaceAt(game, { x: c.x, y: c.y + 14 }) === 'water') {
+        if (refugeContains(c) || c.hidden || !c.sprinting || c.sneaking || EnvironmentSystem.surfaceAt(game, { x: c.x, y: c.y + 14 }) === 'water') {
             trail.last = null;
             return;
         }
@@ -126,7 +132,7 @@ const WolfAI = (() => {
     // Record the visible entrance once. Hidden movement never updates this observation.
     function witnessHide(game, spot) {
         const wolf = game.entities.wolf, chicken = game.entities.chicken, config = getConfig(game);
-        if (game.phase !== "playing" || wolf.mode === 'frightened' || FarmRefuge.contains(chicken) || chicken.hidden || !spot || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
+        if (game.phase !== "playing" || wolf.mode === 'frightened' || refugeContains(chicken) || chicken.hidden || !spot || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
             distance(wolf, chicken) > config.hideWitnessRange ||
             !DetectionSystem.canSee(wolf, chicken, { ...config, range: config.hideWitnessRange }))
             return false;
@@ -154,7 +160,7 @@ const WolfAI = (() => {
     }
     function canCatchHidden(game) {
         const wolf = game.entities.wolf, chicken = game.entities.chicken;
-        return !FarmRefuge.contains(chicken) && isExposed(game) && circleVsCircle(chicken, wolf) &&
+        return !refugeContains(chicken) && isExposed(game) && circleVsCircle(chicken, wolf) &&
             DetectionSystem.hasLineOfSight(getHitbox(wolf), getHitbox(chicken));
     }
     function restoreCoverMemory(game, saved) {
@@ -187,11 +193,11 @@ const WolfAI = (() => {
         if ([...navigationCache.values()].some(nav => !current(nav)))
             navigationCache.clear();
         const padding = radius + 2;
-        const refuge = FarmRefuge.bounds;
+        const refuge = refugeBounds();
         // The refuge is walkable for the player, but a solid no-go rectangle for the wolf.
         // Existing rails still handle player/animal collision and the east gate remains usable.
         const blockers = [...OBSTACLES.filter(rect => rect.blocking !== false),
-            { x: refuge.x, y: refuge.y, w: refuge.w, h: refuge.h }];
+            ...(refuge ? [{ x: refuge.x, y: refuge.y, w: refuge.w, h: refuge.h }] : [])];
         const rects = blockers.map(rect => ({
             x: rect.x - padding, y: rect.y - padding,
             w: rect.w + padding * 2, h: rect.h + padding * 2,
@@ -616,7 +622,7 @@ const WolfAI = (() => {
             stop(wolf, dt);
             return;
         }
-        const refugeSafe = FarmRefuge.contains(game.entities.chicken);
+        const refugeSafe = refugeContains(game.entities.chicken);
         if (refugeSafe) {
             // Crossing the gate breaks pursuit immediately. The wolf forgets player-specific
             // evidence and returns to its public patrol, while navigation keeps it outside.
@@ -790,7 +796,7 @@ const WolfAI = (() => {
     function investigateSound(game, source, radius = 360, reportedPoint = source, acousticObstacles = OBSTACLES) {
         const wolf = game.entities.wolf;
         if (game.lake?.active || game.phase !== 'playing' || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
-            FarmRefuge.contains(source) || FarmRefuge.contains(reportedPoint) ||
+            refugeContains(source) || refugeContains(reportedPoint) ||
             ['chase', 'inspect', 'alert', 'frightened'].includes(wolf.mode) || !Number.isFinite(source.x) || !Number.isFinite(source.y) ||
             source.x < 0 || source.y < 0 || source.x > WORLD.width || source.y > WORLD.height ||
             !Number.isFinite(radius) || radius <= 0 || !Number.isFinite(reportedPoint.x) || !Number.isFinite(reportedPoint.y) ||
