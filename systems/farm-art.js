@@ -349,6 +349,57 @@ const FarmArt = (() => {
     line(c, [[x, y - 5], [x + w, y - 5]], "#ceb385", 5);
     rounded(c, x - 4, y - 24, 8, 27, 2, "#e4ca94", true);
   }
+  // The world border has its own fence kit. Horizontal and vertical sides are
+  // deliberately the same construction rotated 90 degrees, so the map reads
+  // as one continuous enclosure instead of a wood fence plus bamboo side bars.
+  const boundaryFenceStyle=Object.freeze({
+    shadow:'#26332330',edge:'#563720',dark:'#744729',base:'#9e6338',
+    light:'#c4874c',cap:'#dfaa65',knot:'#604027',bolt:'#69767d',boltLight:'#cbd3d5'
+  });
+  function boundaryBolt(c,x,y) {
+    x=Math.round(x);y=Math.round(y);
+    c.fillStyle=boundaryFenceStyle.bolt;c.fillRect(x,y,3,3);
+    c.fillStyle=boundaryFenceStyle.boltLight;c.fillRect(x,y,1,1);
+  }
+  function boundaryPost(c,x,y) {
+    x=Math.round(x);y=Math.round(y);
+    c.fillStyle=boundaryFenceStyle.shadow;c.fillRect(x-7,y+3,14,2);
+    c.fillStyle=boundaryFenceStyle.edge;c.fillRect(x-6,y-31,12,35);
+    c.fillStyle=boundaryFenceStyle.dark;c.fillRect(x-4,y-29,8,32);
+    c.fillStyle=boundaryFenceStyle.base;c.fillRect(x-3,y-28,6,30);
+    c.fillStyle=boundaryFenceStyle.light;c.fillRect(x-3,y-28,2,28);
+    c.fillStyle=boundaryFenceStyle.cap;c.fillRect(x-5,y-31,10,4);
+    c.fillStyle=boundaryFenceStyle.knot;c.fillRect(x+1,y-19,2,8);
+    boundaryBolt(c,x-1,y-22);boundaryBolt(c,x-1,y-11);
+  }
+  function boundaryRailH(c,x,y,w) {
+    x=Math.round(x);y=Math.round(y);w=Math.max(1,Math.round(w));
+    c.fillStyle=boundaryFenceStyle.edge;c.fillRect(x,y,w,6);
+    c.fillStyle=boundaryFenceStyle.dark;c.fillRect(x+1,y+1,Math.max(1,w-2),4);
+    c.fillStyle=boundaryFenceStyle.base;c.fillRect(x+1,y+1,Math.max(1,w-2),3);
+    c.fillStyle=boundaryFenceStyle.light;c.fillRect(x+2,y+1,Math.max(1,w-4),1);
+  }
+  function boundaryRailV(c,x,y,h) {
+    x=Math.round(x);y=Math.round(y);h=Math.max(1,Math.round(h));
+    c.fillStyle=boundaryFenceStyle.edge;c.fillRect(x,y,6,h);
+    c.fillStyle=boundaryFenceStyle.dark;c.fillRect(x+1,y+1,4,Math.max(1,h-2));
+    c.fillStyle=boundaryFenceStyle.base;c.fillRect(x+1,y+1,3,Math.max(1,h-2));
+    c.fillStyle=boundaryFenceStyle.light;c.fillRect(x+1,y+2,1,Math.max(1,h-4));
+  }
+  function boundaryFenceHorizontal(c,x,y,w) {
+    const left=Math.round(x),right=Math.round(x+w);
+    if(typeof Sunlight!=='undefined')Sunlight.rail(c,left,y+4,right,y+4,30,4);
+    boundaryRailH(c,left+4,y-24,Math.max(1,right-left-8));
+    boundaryRailH(c,left+4,y-11,Math.max(1,right-left-8));
+    boundaryPost(c,left,y);boundaryPost(c,right,y);
+  }
+  function boundaryFenceVertical(c,x,y,h) {
+    const top=Math.round(y),bottom=Math.round(y+h);
+    if(typeof Sunlight!=='undefined')Sunlight.rail(c,x,top+4,x,bottom+4,30,4);
+    boundaryRailV(c,x-10,top-25,Math.max(1,bottom-top+25));
+    boundaryRailV(c,x+4,top-25,Math.max(1,bottom-top+25));
+    boundaryPost(c,x,top);boundaryPost(c,x,bottom);
+  }
   function boundaryLines(layout) {
     return {left:23,right:layout.width-23,top:28,bottom:layout.height-23};
   }
@@ -368,19 +419,20 @@ const FarmArt = (() => {
   }
   function boundaryProps(layout) {
     if(boundaryCache.has(layout))return boundaryCache.get(layout);
-    const b=boundaryLines(layout),result=[];
-    for(let x=b.left;x<b.right;x+=84)for(const y of [b.top,b.bottom])
-      result.push({x,y,w:Math.min(84,b.right-x),h:0,depth:y+4,type:'boundary-fence',id:`boundary-h-${x}-${y}`});
-    for(let y=b.top;y<b.bottom;y+=32)for(const x of [b.left,b.right]) {
-      const h=Math.min(32,b.bottom-y);
+    const b=boundaryLines(layout),result=[],span=64;
+    // Matching cadence on all four sides gives corners and posts the same rhythm.
+    for(let x=b.left;x<b.right;x+=span)for(const y of [b.top,b.bottom])
+      result.push({x,y,w:Math.min(span,b.right-x),h:0,depth:y+4,type:'boundary-fence',id:`boundary-h-${x}-${y}`});
+    for(let y=b.top;y<b.bottom;y+=span)for(const x of [b.left,b.right]) {
+      const h=Math.min(span,b.bottom-y);
       result.push({x,y,w:0,h,depth:y+h+4,type:'boundary-fence',id:`boundary-v-${x}-${y}`});
     }
     boundaryCache.set(layout,result);
     return result;
   }
   function drawBoundary(c,p) {
-    if(p.w)fence(c,p.x,p.y,p.w);
-    else verticalFence(c,p.x,p.y,p.h);
+    if(p.w)boundaryFenceHorizontal(c,p.x,p.y,p.w);
+    else boundaryFenceVertical(c,p.x,p.y,p.h);
   }
   function getProps(layout) {
     if(propsCache.has(layout))return propsCache.get(layout);
