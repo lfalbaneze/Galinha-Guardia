@@ -1,0 +1,21 @@
+name: Generated no-wolf sign review
+on:
+  push:
+    branches: [review/generated-no-wolf-sign]
+permissions:
+  contents: read
+jobs:
+  targeted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run check:generated
+      - run: node --test tests/refuge-sign-grumble.test.cjs tests/refuge-safe-area.test.cjs tests/refuge.test.cjs
+      - run: test -s assets/signs/proibido-lobo.png
