@@ -27,11 +27,15 @@ test('ordinary patrol inside the safe-area state does not create fake retreat di
   assert.equal(h.run("w.speech||''"),'');
 });
 
-test('the refuge has no no-wolf sign prop and keeps the original fence drawing',()=>{
+test('the refuge uses one modular fence kit for horizontal and vertical rails',()=>{
   const h=createGame(()=>.5);
   assert.equal(h.run("FarmRefuge.props().some(p=>p.type==='refuge-no-wolf-sign')"),false);
   const source=require('node:fs').readFileSync(require('node:path').resolve(__dirname,'../systems/farm-refuge.js'),'utf8');
-  assert.match(source,/c\.fillStyle='#61492f';c\.fillRect\(p\.x-3/);
-  assert.match(source,/c\.fillStyle='#a77d41';c\.fillRect\(p\.x-2/);
-  assert.match(source,/c\.fillStyle='#d0a765';c\.fillRect\(p\.x-3/);
+  assert.match(source,/const fenceStyle=Object\.freeze/);
+  assert.match(source,/function fencePost\(/);
+  assert.match(source,/function drawFenceHorizontal\(/);
+  assert.match(source,/function drawFenceVertical\(/);
+  assert.match(source,/drawFenceBarHorizontal/);
+  assert.match(source,/drawFenceBarVertical/);
+  assert.doesNotMatch(source,/FarmSprites\.draw\(c,'fence'/);
 });
