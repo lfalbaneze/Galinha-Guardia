@@ -14,7 +14,7 @@ const WolfAI = (() => {
     const hungerRules = { easy: { seconds: 420, boost: .12 }, normal: { seconds: 240, boost: .18 },
         hard: { seconds: 180, boost: .22 }, hardcore: { seconds: 140, boost: .26 } };
     function refugeContains(point) {
-        return typeof FarmRefuge !== 'undefined' && refugeContains(point);
+        return typeof FarmRefuge !== 'undefined' && FarmRefuge.contains(point);
     }
     function refugeBounds() {
         return typeof FarmRefuge !== 'undefined' ? FarmRefuge.bounds : null;
