@@ -102,12 +102,13 @@ const FarmRefuge = (() => {
     fencePost(c,left,y);fencePost(c,mid,y);fencePost(c,right,y);
   }
   function drawFenceVertical(c,x,y,h) {
-    const top=Math.round(y),bottom=Math.round(y+h),mid=Math.round((top+bottom)/2);
+    const top=Math.round(y),bottom=Math.round(y+h),inside=x<=bounds.x?1:-1;
     if(typeof Sunlight!=='undefined')Sunlight.rail(c,x,top+4,x,bottom+4,30,4);
-    // Same two-rail construction as the horizontal fence, rotated ninety degrees.
-    drawFenceBarVertical(c,x-8,top-25,bottom-top+25);
-    drawFenceBarVertical(c,x+2,top-25,bottom-top+25);
-    fencePost(c,x,top);fencePost(c,x,mid);fencePost(c,x,bottom);
+    // Match the map border: rails stay inside the enclosure and never sit
+    // directly under the posts, so the side reads as a fence instead of a ladder.
+    drawFenceBarVertical(c,x+inside*5,top-25,bottom-top+25);
+    drawFenceBarVertical(c,x+inside*13,top-25,bottom-top+25);
+    fencePost(c,x,top);fencePost(c,x,bottom);
   }
   function drawProp(c,p) {
     if(p.type==='nursery') {

@@ -29,10 +29,18 @@ test('map boundary vertical mirrors the refuge vertical fence geometry and palet
     assert.ok(boundary.includes(token),token+' missing from boundary');
     assert.ok(refuge.includes(token),token+' missing from refuge');
   }
-  assert.match(boundary,/boundaryRailV\(c,x-8,top-25,bottom-top\+25\)/);
-  assert.match(boundary,/boundaryRailV\(c,x\+2,top-25,bottom-top\+25\)/);
-  assert.match(boundary,/boundaryPost\(c,x,top\);boundaryPost\(c,x,mid\);boundaryPost\(c,x,bottom\)/);
-  assert.match(refuge,/drawFenceBarVertical\(c,x-8,top-25,bottom-top\+25\)/);
-  assert.match(refuge,/drawFenceBarVertical\(c,x\+2,top-25,bottom-top\+25\)/);
-  assert.match(refuge,/fencePost\(c,x,top\);fencePost\(c,x,mid\);fencePost\(c,x,bottom\)/);
+  assert.match(boundary,/boundaryRailV\(c,x\+inside\*5,top-25,bottom-top\+25\)/);
+  assert.match(boundary,/boundaryRailV\(c,x\+inside\*13,top-25,bottom-top\+25\)/);
+  assert.match(boundary,/boundaryPost\(c,x,top\);boundaryPost\(c,x,bottom\)/);
+  assert.match(refuge,/drawFenceBarVertical\(c,x\+inside\*5,top-25,bottom-top\+25\)/);
+  assert.match(refuge,/drawFenceBarVertical\(c,x\+inside\*13,top-25,bottom-top\+25\)/);
+  assert.match(refuge,/fencePost\(c,x,top\);fencePost\(c,x,bottom\)/);
+});
+
+test('vertical map rails sit on the playable side of their posts',()=>{
+  const h=createGame(()=>.5);
+  h.run("var v=FarmArt.getProps(WORLD.layout).filter(p=>p.type==='boundary-fence'&&p.h>0);");
+  assert.ok(h.run("v.some(p=>p.side==='left')"));
+  assert.ok(h.run("v.some(p=>p.side==='right')"));
+  assert.equal(h.run("v.every(p=>p.side==='left'||p.side==='right')"),true);
 });
