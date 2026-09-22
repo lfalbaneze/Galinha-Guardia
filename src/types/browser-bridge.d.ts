@@ -53,7 +53,10 @@ declare function startWinCutscene(): void;
 declare function finishLose(message: string, cause?: 'caught' | 'timeout'): void;
 declare const WorldGenerator: { generate(seed: number, version?: number): Farm.Layout; };
 declare const GameUI: { update(game: Farm.GameState): void; };
-declare const WolfDialogue: { witnessLine(game: Farm.GameState): string; };
+declare const WolfDialogue: {
+  witnessLine(game: Farm.GameState): string;
+  refugeLine(game: Farm.GameState): string;
+};
 declare const SkinSystem: {
   initialize(game: Farm.GameState): void;
   record(game: Farm.GameState, notify?: boolean): void;

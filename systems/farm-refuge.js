@@ -45,7 +45,10 @@ const FarmRefuge = (() => {
       ...rails.map((p,i) => ({ ...p,type:'refuge-rail',id:`refuge-rail-${i}`,depth:p.y+p.h+5 })),
       { ...nursery,type:'nursery',id:'nursery',depth:216 },
       { ...nursery,type:'nursery-lip',id:'nursery-lip',depth:274 },
-      { x:105,y:275,w:61,h:34,type:'refuge-trough',id:'refuge-trough',depth:307 }
+      { x:105,y:275,w:61,h:34,type:'refuge-trough',id:'refuge-trough',depth:307 },
+      // Visual-only sign beside the east gate: it teaches the safe-area rule
+      // without changing collision or narrowing the entrance.
+      { x:302,y:354,w:42,h:62,type:'refuge-no-wolf-sign',id:'refuge-no-wolf-sign',depth:416 }
     ];
   }
   function ensureClear(entity) {
@@ -91,6 +94,30 @@ const FarmRefuge = (() => {
       FarmSprites.draw(c,'nursery',p.x,p.y,p.w,p.h,{grounded:true,solar:false});c.restore();
     } else if(p.type==='refuge-trough') {
       FarmSprites.draw(c,'trough',p.x,p.y,p.w,p.h,{grounded:true,shadow:true});
+    } else if(p.type==='refuge-no-wolf-sign') {
+      const baseY=p.y+p.h;
+      const paintGround=out=>{
+        out.fillStyle='#2633232e';out.beginPath();out.ellipse(p.x+p.w/2,baseY,9,2.5,0,0,Math.PI*2);out.fill();
+      };
+      if(typeof Sunlight==='undefined'||!Sunlight.ground?.(c,paintGround))paintGround(c);
+      // One post and a slightly crooked wooden board, matching the farm signs.
+      c.save();c.translate(Math.round(p.x+p.w/2),Math.round(p.y+p.h));c.rotate(-.035);
+      c.fillStyle='#664526';c.fillRect(-4,-31,8,31);
+      c.fillStyle='#b57b3f';c.fillRect(-2,-30,4,29);
+      c.fillStyle='#e0b264';c.fillRect(-2,-30,2,27);
+      c.fillStyle='#694725';c.beginPath();c.roundRect(-21,-62,42,34,4);c.fill();
+      c.fillStyle='#d8a45c';c.beginPath();c.roundRect(-19,-60,38,30,3);c.fill();
+      c.fillStyle='#f0c77d';c.fillRect(-16,-57,30,2);
+      // Gray wolf head crossed by a red "no" symbol. No font/icon dependency.
+      c.fillStyle='#4b5356';
+      c.beginPath();c.moveTo(-7,-50);c.lineTo(-12,-57);c.lineTo(-10,-45);
+      c.quadraticCurveTo(-8,-39,0,-38);c.quadraticCurveTo(8,-39,10,-45);
+      c.lineTo(12,-57);c.lineTo(6,-51);c.quadraticCurveTo(0,-55,-7,-50);c.fill();
+      c.fillStyle='#d8ded7';c.fillRect(-5,-47,3,3);c.fillRect(4,-47,3,3);
+      c.fillStyle='#28302f';c.fillRect(-4,-46,1,1);c.fillRect(5,-46,1,1);c.fillRect(-1,-42,3,2);
+      c.strokeStyle='#b93e32';c.lineWidth=3;c.beginPath();c.arc(0,-47,13,0,Math.PI*2);c.stroke();
+      c.beginPath();c.moveTo(-9,-56);c.lineTo(9,-38);c.stroke();
+      c.restore();
     } else if(p.type==='refuge-rail') {
       if(p.w) {
         if(!FarmSprites.draw(c,'fence',p.x-4,p.y-35,p.w+8,39,{grounded:true,shadow:true})) {

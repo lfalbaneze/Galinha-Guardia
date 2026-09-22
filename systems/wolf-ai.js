@@ -626,6 +626,7 @@ const WolfAI = (() => {
         if (refugeSafe) {
             // Crossing the gate breaks pursuit immediately. The wolf forgets player-specific
             // evidence and returns to its public patrol, while navigation keeps it outside.
+            const retreating = ['chase', 'alert', 'inspect', 'search', 'investigate'].includes(wolf.mode);
             wolf.awareness = 0;
             wolf.detected = false;
             wolf.exposedCover = null;
@@ -637,8 +638,14 @@ const WolfAI = (() => {
             wolf.searchTime = 0;
             wolf.investigateTime = 0;
             wolf.scanTime = 0;
-            if (['chase', 'alert', 'inspect', 'search', 'investigate'].includes(wolf.mode))
+            if (retreating) {
                 resumePatrol(wolf);
+                wolf.speech = WolfDialogue.refugeLine(game);
+                wolf.speechTime = 2.6;
+                wolf.speechPriority = 2.6;
+                wolf.speechCooldown = Math.max(wolf.speechCooldown || 0, 5);
+                wolf.speechMode = wolf.mode;
+            }
         }
         const perception = !refugeSafe && wolf.huntUnlockTimer <= 0 ?
             DetectionSystem.perceive(wolf, game.entities.chicken, config) :
