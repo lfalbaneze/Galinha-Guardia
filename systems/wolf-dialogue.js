@@ -48,7 +48,13 @@ const WolfDialogue = (() => {
     if(mode==='search')return [`${name}, cadê você?!`,'Ué. O almoço evaporou.','Nariz, colabora comigo!'];
     return lines[mode];
   }
+  const refugeGrumbles=['Aff... curral de novo.','Essa regra é injusta...','Tá bom, tá bom... já tô indo.','Maldita placa.'];
   function witnessLine(game) { return identity(game).lines.inspect[0].toUpperCase(); }
+  function refugeLine(game) {
+    const wolf=game.entities.wolf;
+    wolf.speechIndex=(wolf.speechIndex||0)+1;
+    return refugeGrumbles[(wolf.speechIndex-1)%refugeGrumbles.length];
+  }
   function update(game, dt) {
     const wolf = game.entities.wolf;
     if(SunflowerSystem.concealed(game)){wolf.speechTime=0;return;}
@@ -72,5 +78,5 @@ const WolfDialogue = (() => {
       wolf.speechCooldown = 5;
     }
   }
-  return { update, witnessLine };
+  return { update, witnessLine, refugeLine };
 })();
