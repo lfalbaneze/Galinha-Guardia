@@ -18,3 +18,21 @@ test('map boundary uses one matching fence kit on horizontal and vertical sides'
   assert.match(source,/if\(p\.w\)boundaryFenceHorizontal/);
   assert.doesNotMatch(source,/if\(p\.w\)fence\(c,p\.x,p\.y,p\.w\);\s*else verticalFence/);
 });
+
+test('map boundary vertical mirrors the refuge vertical fence geometry and palette',()=>{
+  const boundary=fs.readFileSync(path.resolve(__dirname,'../systems/farm-art.js'),'utf8');
+  const refuge=fs.readFileSync(path.resolve(__dirname,'../systems/farm-refuge.js'),'utf8');
+  for(const token of [
+    "edge:'#5b3a24'","dark:'#74482a'","base:'#9c6338'","light:'#c4894f'",
+    "top:'#dea967'","bolt:'#66737a'","boltLight:'#c6d0d3'"
+  ]) {
+    assert.ok(boundary.includes(token),token+' missing from boundary');
+    assert.ok(refuge.includes(token),token+' missing from refuge');
+  }
+  assert.match(boundary,/boundaryRailV\(c,x-8,top-25,bottom-top\+25\)/);
+  assert.match(boundary,/boundaryRailV\(c,x\+2,top-25,bottom-top\+25\)/);
+  assert.match(boundary,/boundaryPost\(c,x,top\);boundaryPost\(c,x,mid\);boundaryPost\(c,x,bottom\)/);
+  assert.match(refuge,/drawFenceBarVertical\(c,x-8,top-25,bottom-top\+25\)/);
+  assert.match(refuge,/drawFenceBarVertical\(c,x\+2,top-25,bottom-top\+25\)/);
+  assert.match(refuge,/fencePost\(c,x,top\);fencePost\(c,x,mid\);fencePost\(c,x,bottom\)/);
+});

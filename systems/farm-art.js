@@ -353,8 +353,8 @@ const FarmArt = (() => {
   // deliberately the same construction rotated 90 degrees, so the map reads
   // as one continuous enclosure instead of a wood fence plus bamboo side bars.
   const boundaryFenceStyle=Object.freeze({
-    shadow:'#26332330',edge:'#563720',dark:'#744729',base:'#9e6338',
-    light:'#c4874c',cap:'#dfaa65',knot:'#604027',bolt:'#69767d',boltLight:'#cbd3d5'
+    shadow:'#26332330',edge:'#5b3a24',dark:'#74482a',base:'#9c6338',
+    light:'#c4894f',top:'#dea967',knot:'#604027',bolt:'#66737a',boltLight:'#c6d0d3'
   });
   function boundaryBolt(c,x,y) {
     x=Math.round(x);y=Math.round(y);
@@ -368,7 +368,7 @@ const FarmArt = (() => {
     c.fillStyle=boundaryFenceStyle.dark;c.fillRect(x-4,y-29,8,32);
     c.fillStyle=boundaryFenceStyle.base;c.fillRect(x-3,y-28,6,30);
     c.fillStyle=boundaryFenceStyle.light;c.fillRect(x-3,y-28,2,28);
-    c.fillStyle=boundaryFenceStyle.cap;c.fillRect(x-5,y-31,10,4);
+    c.fillStyle=boundaryFenceStyle.top;c.fillRect(x-5,y-31,10,4);
     c.fillStyle=boundaryFenceStyle.knot;c.fillRect(x+1,y-19,2,8);
     boundaryBolt(c,x-1,y-22);boundaryBolt(c,x-1,y-11);
   }
@@ -387,18 +387,19 @@ const FarmArt = (() => {
     c.fillStyle=boundaryFenceStyle.light;c.fillRect(x+1,y+2,1,Math.max(1,h-4));
   }
   function boundaryFenceHorizontal(c,x,y,w) {
-    const left=Math.round(x),right=Math.round(x+w);
+    const left=Math.round(x),right=Math.round(x+w),mid=Math.round((left+right)/2);
     if(typeof Sunlight!=='undefined')Sunlight.rail(c,left,y+4,right,y+4,30,4);
-    boundaryRailH(c,left+4,y-24,Math.max(1,right-left-8));
-    boundaryRailH(c,left+4,y-11,Math.max(1,right-left-8));
-    boundaryPost(c,left,y);boundaryPost(c,right,y);
+    boundaryRailH(c,left,y-24,right-left);
+    boundaryRailH(c,left,y-11,right-left);
+    boundaryPost(c,left,y);boundaryPost(c,mid,y);boundaryPost(c,right,y);
   }
   function boundaryFenceVertical(c,x,y,h) {
-    const top=Math.round(y),bottom=Math.round(y+h);
+    const top=Math.round(y),bottom=Math.round(y+h),mid=Math.round((top+bottom)/2);
     if(typeof Sunlight!=='undefined')Sunlight.rail(c,x,top+4,x,bottom+4,30,4);
-    boundaryRailV(c,x-10,top-25,Math.max(1,bottom-top+25));
-    boundaryRailV(c,x+4,top-25,Math.max(1,bottom-top+25));
-    boundaryPost(c,x,top);boundaryPost(c,x,bottom);
+    // Keep the map edge visually identical to the refuge side fence.
+    boundaryRailV(c,x-8,top-25,bottom-top+25);
+    boundaryRailV(c,x+2,top-25,bottom-top+25);
+    boundaryPost(c,x,top);boundaryPost(c,x,mid);boundaryPost(c,x,bottom);
   }
   function boundaryLines(layout) {
     return {left:23,right:layout.width-23,top:28,bottom:layout.height-23};
