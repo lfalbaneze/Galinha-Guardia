@@ -64,15 +64,18 @@ test('four movement directions follow input and hiding restores energy without l
   assert.equal(run('chicken.moving || chicken.sprinting'), false);
 });
 
-test('rescue feedback names the friend once and saved friends stop walking in place', () => {
+test('rescue feedback uses the animal name and the saved friend later wanders in the refuge', () => {
   const { run } = arena();
   run(`const friend=state.entities.animals[0]; chicken.x=friend.x; chicken.y=friend.y;
-    RescueSystem.update(state,0); RescueSystem.update(state,0.05);`);
+    RescueSystem.update(state,0); const safe=RescueSystem.safePosition(0);
+    for(let i=0;i<80;i++)RescueSystem.update(state,0.05);`);
   assert.equal(run('state.rescuedCount'), 1);
-  assert.equal(run('state.rescueNotice.name'), 'Ovelha');
+  assert.equal(run('state.rescueNotice.name'), 'Amélia');
   assert.equal(run('state.rescueNotice.count'), 1);
-  assert.equal(run('friend.moving'), false);
-  assert.equal(run('friend.direction'), 'down');
+  assert.ok(run('distance(friend,safe) > 1'));
+  assert.equal(run(`friend.x>=FarmRefuge.bounds.x+20&&friend.x<=FarmRefuge.bounds.x+FarmRefuge.bounds.w-20&&
+    friend.y>=312&&friend.y<=FarmRefuge.bounds.y+FarmRefuge.bounds.h-20`), true);
+  assert.equal(run('friend.temper'), 'safe');
 });
 
 test('contact across an opaque divider does not rescue a friend', () => {

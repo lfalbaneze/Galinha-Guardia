@@ -39,10 +39,14 @@ test('front and back use separately drawn phases for the opposite half cycle',()
   }
 });
 
-test('rescued animals keep their feet at their home instead of sliding in place',()=>{
-  h.run(`GameManager.rescue(state,state.entities.animals[0]);
-    const friend=state.entities.animals[0],home=RescueSystem.safePosition(0);
-    for(let i=0;i<50;i++)RescueSystem.update(state,.05);`);
-  assert.equal(h.run('distance(friend,home)'),0);
-  assert.equal(h.run('friend.moving'),false);
+test('rescued animals wander naturally inside the refuge instead of becoming statues',()=>{
+  const yard=createGame(()=>.8);
+  yard.run(`GameManager.rescue(state,state.entities.animals[0]);
+    const friend=state.entities.animals[0],home=RescueSystem.safePosition(0),startAnim=friend.anim;
+    for(let i=0;i<100;i++)RescueSystem.update(state,.05);`);
+  assert.ok(yard.run('distance(friend,home)')>1,'friend left its assigned standing point');
+  assert.ok(yard.run('friend.anim')>yard.run('startAnim'),'walking advanced the gait');
+  assert.equal(yard.run(`friend.x>=FarmRefuge.bounds.x+20&&friend.x<=FarmRefuge.bounds.x+FarmRefuge.bounds.w-20&&
+    friend.y>=312&&friend.y<=FarmRefuge.bounds.y+FarmRefuge.bounds.h-20`),true);
+  assert.equal(yard.run('friend.temper'),'safe');
 });
