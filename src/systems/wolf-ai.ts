@@ -25,7 +25,7 @@ const WolfAI = (() => {
     for(const p of trail.prints)p.age+=dt;
     trail.prints=trail.prints.filter(p=>p.age<8);
     const c=game.entities.chicken;
-    if(c.hidden||!c.sprinting||c.sneaking||EnvironmentSystem.surfaceAt(game,{x:c.x,y:c.y+14})==='water'){trail.last=null;return;}
+    if(FarmRefuge.contains(c)||c.hidden||!c.sprinting||c.sneaking||EnvironmentSystem.surfaceAt(game,{x:c.x,y:c.y+14})==='water'){trail.last=null;return;}
     if(!trail.last){trail.last={x:c.x,y:c.y};return;}
     const gap=distance(c,trail.last);
     if(gap>=24) {
@@ -109,7 +109,7 @@ const WolfAI = (() => {
   // Record the visible entrance once. Hidden movement never updates this observation.
   function witnessHide(game: Farm.GameState, spot: Farm.Cover | null): boolean {
     const wolf = game.entities.wolf, chicken = game.entities.chicken, config = getConfig(game);
-    if (game.phase !== "playing" || wolf.mode === 'frightened' || chicken.hidden || !spot || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
+    if (game.phase !== "playing" || wolf.mode === 'frightened' || FarmRefuge.contains(chicken) || chicken.hidden || !spot || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
       distance(wolf, chicken) > config.hideWitnessRange ||
       !DetectionSystem.canSee(wolf, chicken, { ...config, range: config.hideWitnessRange })) return false;
     wolf.exposedCover = { spotId: spot.id, x: chicken.x, y: chicken.y,
@@ -131,7 +131,7 @@ const WolfAI = (() => {
 
   function canCatchHidden(game: Farm.GameState): boolean {
     const wolf = game.entities.wolf, chicken = game.entities.chicken;
-    return isExposed(game) && circleVsCircle(chicken, wolf) &&
+    return !FarmRefuge.contains(chicken) && isExposed(game) && circleVsCircle(chicken, wolf) &&
       DetectionSystem.hasLineOfSight(getHitbox(wolf), getHitbox(chicken));
   }
 
