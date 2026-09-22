@@ -163,7 +163,12 @@ const WolfAI = (() => {
     if (cached && current(cached)) return cached;
     if ([...navigationCache.values()].some(nav => !current(nav))) navigationCache.clear();
     const padding = radius + 2;
-    const rects = OBSTACLES.filter(rect => rect.blocking !== false).map(rect => ({
+    const refuge=FarmRefuge.bounds;
+    // The refuge is walkable for the player, but a solid no-go rectangle for the wolf.
+    // Existing rails still handle player/animal collision and the east gate remains usable.
+    const blockers=[...OBSTACLES.filter(rect => rect.blocking !== false),
+      {x:refuge.x,y:refuge.y,w:refuge.w,h:refuge.h}];
+    const rects = blockers.map(rect => ({
       x: rect.x - padding, y: rect.y - padding,
       w: rect.w + padding * 2, h: rect.h + padding * 2,
     }));
@@ -537,7 +542,16 @@ const WolfAI = (() => {
     if(SunflowerSystem.updateWolf(game,dt,config)){wolf.areaId=getAreaAt(wolf.x,wolf.y).id;return;}
     if (wolf.pauseTimer > 0) { wolf.detected = false; stop(wolf, dt); return; }
 
-    const perception = wolf.huntUnlockTimer <= 0 ?
+    const refugeSafe=FarmRefuge.contains(game.entities.chicken);
+    if(refugeSafe) {
+      // Crossing the gate breaks pursuit immediately. The wolf forgets player-specific
+      // evidence and returns to its public patrol, while navigation keeps it outside.
+      wolf.awareness=0;wolf.detected=false;wolf.exposedCover=null;wolf.lastKnown=null;
+      wolf.heardPoint=null;wolf.searchPoints=[];wolf.searchIndex=0;wolf.searchOrigin=null;
+      wolf.searchTime=0;wolf.investigateTime=0;wolf.scanTime=0;
+      if(['chase','alert','inspect','search','investigate'].includes(wolf.mode)) resumePatrol(wolf);
+    }
+    const perception = !refugeSafe && wolf.huntUnlockTimer <= 0 ?
       DetectionSystem.perceive(wolf, game.entities.chicken, config) :
       { visible: false as const, contact: false, heardPoint: null };
     wolf.detected = false;
@@ -678,6 +692,7 @@ const WolfAI = (() => {
     reportedPoint: Farm.Point = source, acousticObstacles: Farm.Obstacle[] = OBSTACLES): boolean {
     const wolf = game.entities.wolf;
     if (game.lake?.active || game.phase !== 'playing' || wolf.huntUnlockTimer > 0 || wolf.pauseTimer > 0 ||
+      FarmRefuge.contains(source) || FarmRefuge.contains(reportedPoint) ||
       ['chase', 'inspect', 'alert', 'frightened'].includes(wolf.mode) || !Number.isFinite(source.x) || !Number.isFinite(source.y) ||
       source.x < 0 || source.y < 0 || source.x > WORLD.width || source.y > WORLD.height ||
       !Number.isFinite(radius) || radius <= 0 || !Number.isFinite(reportedPoint.x) || !Number.isFinite(reportedPoint.y) ||
