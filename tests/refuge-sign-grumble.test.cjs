@@ -37,5 +37,8 @@ test('the refuge uses one modular fence kit for horizontal and vertical rails',(
   assert.match(source,/function drawFenceVertical\(/);
   assert.match(source,/drawFenceBarHorizontal/);
   assert.match(source,/drawFenceBarVertical/);
+  assert.match(source,/\{ x:90,y:174,w:260,h:0 \}/);
+  assert.match(source,/\{ x:90,y:174,w:0,h:308 \}/);
+  assert.match(source,/drawFenceBarVertical\(c,x-12/);
   assert.doesNotMatch(source,/FarmSprites\.draw\(c,'fence'/);
 });

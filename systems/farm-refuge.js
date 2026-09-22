@@ -14,11 +14,12 @@ const FarmRefuge = (() => {
     {x:142,y:210,w:14,h:58,type:'nursery'},
     {x:270,y:208,w:39,h:62,type:'nursery'}
   ];
+  // Draw each side as a continuous fence run. The east side keeps the gate opening.
   const rails = [
-    ...[0,1,2].map(i => ({ x:90+i*86.67,y:174,w:86.67,h:0 })),
-    ...[0,1,2].map(i => ({ x:90+i*86.67,y:482,w:86.67,h:0 })),
-    ...[0,1,2,3,4].map(i => ({ x:90,y:174+i*61.6,w:0,h:61.6 })),
-    ...[0,1,2].map(i => ({ x:350,y:174+i*54.67,w:0,h:54.67 })),
+    { x:90,y:174,w:260,h:0 },
+    { x:90,y:482,w:260,h:0 },
+    { x:90,y:174,w:0,h:308 },
+    { x:350,y:174,w:0,h:164 },
     { x:350,y:430,w:0,h:52 }
   ];
   function home(index, chick = false) {
@@ -95,19 +96,22 @@ const FarmRefuge = (() => {
     c.fillStyle=fenceStyle.light;c.fillRect(x+1,y+2,1,Math.max(1,h-4));
   }
   function drawFenceHorizontal(c,x,y,w) {
-    const left=Math.round(x),right=Math.round(x+w),mid=Math.round((left+right)/2);
+    const left=Math.round(x),right=Math.round(x+w),length=Math.max(1,right-left);
+    const intervals=Math.max(1,Math.round(length/52));
     if(typeof Sunlight!=='undefined')Sunlight.rail(c,left,y+4,right,y+4,30,4);
-    drawFenceBarHorizontal(c,left,y-24,right-left);
-    drawFenceBarHorizontal(c,left,y-11,right-left);
-    fencePost(c,left,y);fencePost(c,mid,y);fencePost(c,right,y);
+    drawFenceBarHorizontal(c,left,y-24,length);
+    drawFenceBarHorizontal(c,left,y-11,length);
+    for(let i=0;i<=intervals;i++)fencePost(c,Math.round(left+length*i/intervals),y);
   }
   function drawFenceVertical(c,x,y,h) {
-    const top=Math.round(y),bottom=Math.round(y+h),mid=Math.round((top+bottom)/2);
+    const top=Math.round(y),bottom=Math.round(y+h),length=Math.max(1,bottom-top);
+    const intervals=Math.max(1,Math.round(length/52));
     if(typeof Sunlight!=='undefined')Sunlight.rail(c,x,top+4,x,bottom+4,30,4);
-    // Same two-rail construction as the horizontal fence, rotated ninety degrees.
-    drawFenceBarVertical(c,x-8,top-25,bottom-top+25);
-    drawFenceBarVertical(c,x+2,top-25,bottom-top+25);
-    fencePost(c,x,top);fencePost(c,x,mid);fencePost(c,x,bottom);
+    // Give the side fence the same visual weight as the horizontal run:
+    // two clearly separated rails plus the exact same posts at the same cadence.
+    drawFenceBarVertical(c,x-12,top-25,length+25);
+    drawFenceBarVertical(c,x+6,top-25,length+25);
+    for(let i=0;i<=intervals;i++)fencePost(c,x,Math.round(top+length*i/intervals));
   }
   function drawProp(c,p) {
     if(p.type==='nursery') {
