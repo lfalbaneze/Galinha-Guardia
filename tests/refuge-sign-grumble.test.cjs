@@ -40,10 +40,11 @@ test('the refuge uses one modular fence kit for horizontal and vertical rails',(
   assert.doesNotMatch(source,/FarmSprites\.draw\(c,'fence'/);
 });
 
-test('refuge vertical rails use the same inward offset as the map border',()=>{
+test('refuge vertical fence uses continuous rails and one post per joint',()=>{
   const source=require('node:fs').readFileSync(require('node:path').resolve(__dirname,'../systems/farm-refuge.js'),'utf8');
-  assert.match(source,/const top=Math\.round\(y\),bottom=Math\.round\(y\+h\),inside=x<=bounds\.x\?1:-1/);
-  assert.match(source,/drawFenceBarVertical\(c,x\+inside\*5/);
-  assert.match(source,/drawFenceBarVertical\(c,x\+inside\*13/);
-  assert.doesNotMatch(source,/fencePost\(c,x,mid\)/);
+  assert.match(source,/drawFenceBarVertical\(c,x-9,top,length\)/);
+  assert.match(source,/drawFenceBarVertical\(c,x\+4,top,length\)/);
+  assert.match(source,/if\(postStart\)fencePost\(c,x,top\)/);
+  assert.match(source,/if\(postEnd\)fencePost\(c,x,bottom\)/);
+  assert.doesNotMatch(source,/top-25/);
 });

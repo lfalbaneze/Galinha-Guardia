@@ -29,18 +29,17 @@ test('map boundary vertical mirrors the refuge vertical fence geometry and palet
     assert.ok(boundary.includes(token),token+' missing from boundary');
     assert.ok(refuge.includes(token),token+' missing from refuge');
   }
-  assert.match(boundary,/boundaryRailV\(c,x\+inside\*5,top-25,bottom-top\+25\)/);
-  assert.match(boundary,/boundaryRailV\(c,x\+inside\*13,top-25,bottom-top\+25\)/);
-  assert.match(boundary,/boundaryPost\(c,x,top\);boundaryPost\(c,x,bottom\)/);
-  assert.match(refuge,/drawFenceBarVertical\(c,x\+inside\*5,top-25,bottom-top\+25\)/);
-  assert.match(refuge,/drawFenceBarVertical\(c,x\+inside\*13,top-25,bottom-top\+25\)/);
-  assert.match(refuge,/fencePost\(c,x,top\);fencePost\(c,x,bottom\)/);
+  assert.match(boundary,/boundaryRailV\(c,x-9,top,length\)/);
+  assert.match(boundary,/boundaryRailV\(c,x\+4,top,length\)/);
+  assert.match(refuge,/drawFenceBarVertical\(c,x-9,top,length\)/);
+  assert.match(refuge,/drawFenceBarVertical\(c,x\+4,top,length\)/);
+  assert.doesNotMatch(boundary,/top-25/);
+  assert.doesNotMatch(refuge,/top-25/);
 });
 
-test('vertical map rails sit on the playable side of their posts',()=>{
+test('vertical map fence creates one post per seam instead of duplicate rungs',()=>{
   const h=createGame(()=>.5);
   h.run("var v=FarmArt.getProps(WORLD.layout).filter(p=>p.type==='boundary-fence'&&p.h>0);");
-  assert.ok(h.run("v.some(p=>p.side==='left')"));
-  assert.ok(h.run("v.some(p=>p.side==='right')"));
-  assert.equal(h.run("v.every(p=>p.side==='left'||p.side==='right')"),true);
+  assert.equal(h.run("v.every(p=>p.postStart===true)"),true);
+  assert.equal(h.run("v.filter(p=>p.postEnd===true).length"),2);
 });

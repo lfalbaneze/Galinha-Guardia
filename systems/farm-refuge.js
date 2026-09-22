@@ -17,9 +17,9 @@ const FarmRefuge = (() => {
   const rails = [
     ...[0,1,2].map(i => ({ x:90+i*86.67,y:174,w:86.67,h:0 })),
     ...[0,1,2].map(i => ({ x:90+i*86.67,y:482,w:86.67,h:0 })),
-    ...[0,1,2,3,4].map(i => ({ x:90,y:174+i*61.6,w:0,h:61.6 })),
-    ...[0,1,2].map(i => ({ x:350,y:174+i*54.67,w:0,h:54.67 })),
-    { x:350,y:430,w:0,h:52 }
+    ...[0,1,2,3,4].map(i => ({ x:90,y:174+i*61.6,w:0,h:61.6,postStart:true,postEnd:i===4 })),
+    ...[0,1,2].map(i => ({ x:350,y:174+i*54.67,w:0,h:54.67,postStart:true,postEnd:i===2 })),
+    { x:350,y:430,w:0,h:52,postStart:true,postEnd:true }
   ];
   function home(index, chick = false) {
     const points = chick ? nests : homes, p = points[index % points.length];
@@ -101,14 +101,13 @@ const FarmRefuge = (() => {
     drawFenceBarHorizontal(c,left,y-11,right-left);
     fencePost(c,left,y);fencePost(c,mid,y);fencePost(c,right,y);
   }
-  function drawFenceVertical(c,x,y,h) {
-    const top=Math.round(y),bottom=Math.round(y+h),inside=x<=bounds.x?1:-1;
+  function drawFenceVertical(c,x,y,h,postStart=true,postEnd=false) {
+    const top=Math.round(y),bottom=Math.round(y+h),length=Math.max(1,bottom-top);
     if(typeof Sunlight!=='undefined')Sunlight.rail(c,x,top+4,x,bottom+4,30,4);
-    // Match the map border: rails stay inside the enclosure and never sit
-    // directly under the posts, so the side reads as a fence instead of a ladder.
-    drawFenceBarVertical(c,x+inside*5,top-25,bottom-top+25);
-    drawFenceBarVertical(c,x+inside*13,top-25,bottom-top+25);
-    fencePost(c,x,top);fencePost(c,x,bottom);
+    drawFenceBarVertical(c,x-9,top,length);
+    drawFenceBarVertical(c,x+4,top,length);
+    if(postStart)fencePost(c,x,top);
+    if(postEnd)fencePost(c,x,bottom);
   }
   function drawProp(c,p) {
     if(p.type==='nursery') {
@@ -135,7 +134,7 @@ const FarmRefuge = (() => {
       FarmSprites.draw(c,'trough',p.x,p.y,p.w,p.h,{grounded:true,shadow:true});
     } else if(p.type==='refuge-rail') {
       if(p.w) drawFenceHorizontal(c,p.x,p.y,p.w);
-      else drawFenceVertical(c,p.x,p.y,p.h);
+      else drawFenceVertical(c,p.x,p.y,p.h,p.postStart,p.postEnd);
     }
   }
   function drawGround(c,camera) {

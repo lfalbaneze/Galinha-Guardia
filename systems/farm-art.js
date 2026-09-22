@@ -393,14 +393,15 @@ const FarmArt = (() => {
     boundaryRailH(c,left,y-11,right-left);
     boundaryPost(c,left,y);boundaryPost(c,mid,y);boundaryPost(c,right,y);
   }
-  function boundaryFenceVertical(c,x,y,h,side='left') {
-    const top=Math.round(y),bottom=Math.round(y+h),inside=side==='right'?-1:1;
+  function boundaryFenceVertical(c,x,y,h,postStart=true,postEnd=false) {
+    const top=Math.round(y),bottom=Math.round(y+h),length=Math.max(1,bottom-top);
     if(typeof Sunlight!=='undefined')Sunlight.rail(c,x,top+4,x,bottom+4,30,4);
-    // On a north/south fence the rails sit beside the posts, toward the playable
-    // field. Keeping them off the post centre prevents the "ladder" silhouette.
-    boundaryRailV(c,x+inside*5,top-25,bottom-top+25);
-    boundaryRailV(c,x+inside*13,top-25,bottom-top+25);
-    boundaryPost(c,x,top);boundaryPost(c,x,bottom);
+    // A vertical run is two straight rails behind upright posts. Rails stop at
+    // the segment joints; posts cover those joints, so there are no tan "rungs".
+    boundaryRailV(c,x-9,top,length);
+    boundaryRailV(c,x+4,top,length);
+    if(postStart)boundaryPost(c,x,top);
+    if(postEnd)boundaryPost(c,x,bottom);
   }
   function boundaryLines(layout) {
     return {left:23,right:layout.width-23,top:28,bottom:layout.height-23};
@@ -425,16 +426,17 @@ const FarmArt = (() => {
     // Matching cadence on all four sides gives corners and posts the same rhythm.
     for(let x=b.left;x<b.right;x+=span)for(const y of [b.top,b.bottom])
       result.push({x,y,w:Math.min(span,b.right-x),h:0,depth:y+4,type:'boundary-fence',id:`boundary-h-${x}-${y}`});
-    for(let y=b.top;y<b.bottom;y+=span)for(const [x,side] of [[b.left,'left'],[b.right,'right']]) {
+    for(let y=b.top;y<b.bottom;y+=span)for(const x of [b.left,b.right]) {
       const h=Math.min(span,b.bottom-y);
-      result.push({x,y,w:0,h,side,depth:y+h+4,type:'boundary-fence',id:`boundary-v-${x}-${y}`});
+      result.push({x,y,w:0,h,postStart:true,postEnd:y+h>=b.bottom,
+        depth:y+h+4,type:'boundary-fence',id:`boundary-v-${x}-${y}`});
     }
     boundaryCache.set(layout,result);
     return result;
   }
   function drawBoundary(c,p) {
     if(p.w)boundaryFenceHorizontal(c,p.x,p.y,p.w);
-    else boundaryFenceVertical(c,p.x,p.y,p.h,p.side);
+    else boundaryFenceVertical(c,p.x,p.y,p.h,p.postStart,p.postEnd);
   }
   function getProps(layout) {
     if(propsCache.has(layout))return propsCache.get(layout);
