@@ -566,11 +566,15 @@ function drawChicken(entity) {
     p.x=lerp(p.x,worldX(shape.x+shape.w/2),amount);
     p.y=lerp(p.y,worldY(shape.y+height-32),amount);
   }
-  if (entity.skin && entity.skin !== 'classic' && !entity.hidden && blend<0.02 && state.phase === 'playing') {
-    // A player marker keeps animal appearances distinct from the friends being rescued.
-    ctx.save(); ctx.strokeStyle = '#fff0a1'; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.ellipse(p.x, p.y+14, 29, 9, 0, 0, Math.PI*2); ctx.stroke(); ctx.restore();
-  }
+  const showMarker=entity.skin&&entity.skin!=='classic'&&!entity.hidden&&blend<0.02&&state.phase==='playing';
+  const markerHalf=front=>{
+    if(!showMarker)return;
+    // The paws stand on the marker's center line. Splitting the rear/front arcs
+    // makes the ellipse read as paint on the ground around the actor, not a halo behind it.
+    ctx.save();ctx.strokeStyle='#fff0a1';ctx.lineWidth=front?2.5:3;ctx.globalAlpha=front?.92:.78;
+    ctx.beginPath();ctx.ellipse(p.x,p.y+14,29,9,0,front?0:Math.PI,front?Math.PI:Math.PI*2);ctx.stroke();ctx.restore();
+  };
+  markerHalf(false);
   const mood = state.phase === 'lose' ? 'sad' : state.phase === 'won' ? 'happy' :
     EndGameSequence.active(state) ? entity.mood || 'normal' :
     entity.mood && entity.mood !== 'normal' ? entity.mood :
@@ -579,6 +583,7 @@ function drawChicken(entity) {
     facing: entity.facing, direction: entity.hidden ? "down" : CharacterArt.heading(entity), anim: entity.anim, moving: entity.moving,
     hidden: entity.hidden, hideBlend: inHay?0:blend, shadow:!inHay, sprinting: entity.sprinting,
     mood, skin: entity.skin || "classic", ...EndGameSequence.pose(state, entity) });
+  markerHalf(true);
 }
 
 function drawWolf(entity) {

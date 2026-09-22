@@ -256,6 +256,30 @@ const RescueSystem = {
         }
         animal.wanderTime = 1.8 + Math.random() * 2.4;
     },
+    refugeWander(animal, home, index) {
+        const yard = FarmRefuge.bounds;
+        const active = ['rabbit', 'dog', 'cat', 'duck'].includes(animal.species);
+        const heavy = ['cow', 'donkey', 'horse'].includes(animal.species);
+        const rx = active ? 54 : heavy ? 34 : 44, ry = active ? 36 : heavy ? 24 : 30;
+        const minX = yard.x + 28, maxX = yard.x + yard.w - 28;
+        const minY = Math.max(yard.y + 146, 320), maxY = yard.y + yard.h - 28;
+        // Each rescued friend roams near its own home. This keeps the yard lively
+        // without turning the refuge into another chase or letting residents cross a rail.
+        for (let attempt = 0; attempt < 8; attempt++) {
+            const target = { x: clamp(home.x + rand(-rx, rx), minX, maxX), y: clamp(home.y + rand(-ry, ry), minY, maxY) };
+            const probe = { ...animal };
+            Player.move(probe, target.x - animal.x, target.y - animal.y);
+            resolveEnvironment(probe);
+            if (distance(probe, target) > 2)
+                continue;
+            animal.targetX = target.x;
+            animal.targetY = target.y;
+            return;
+        }
+        animal.targetX = home.x;
+        animal.targetY = home.y;
+        animal.restTime = .8 + (index % 4) * .18;
+    },
     update(game, dt) {
         if (!Number.isFinite(dt) || dt < 0)
             return;
@@ -387,15 +411,61 @@ const RescueSystem = {
                     animal.direction = "down";
                     animal.temper = "safe";
                     animal.speechTime = 0;
+                    animal.restTime = .8 + (index % 4) * .18;
+                    animal.wanderTime = 0;
                     GameManager.save(game);
                     refreshHud();
                 }
             }
-            else {
+            else if (chick) {
                 const safe = safePosition(index);
                 animal.x = safe.x;
                 animal.y = safe.y;
+                animal.targetX = safe.x;
+                animal.targetY = safe.y;
                 animal.direction = ['down', 'right', 'down', 'left'][Math.floor(animal.anim / 12 + index) % 4];
+            }
+            else {
+                const safe = safePosition(index), yard = FarmRefuge.bounds, margin = 20;
+                const inside = animal.x >= yard.x + margin && animal.x <= yard.x + yard.w - margin &&
+                    animal.y >= Math.max(yard.y + 138, 312) && animal.y <= yard.y + yard.h - margin;
+                if (!inside || ![animal.targetX, animal.targetY].every(Number.isFinite)) {
+                    animal.x = safe.x;
+                    animal.y = safe.y;
+                    animal.targetX = safe.x;
+                    animal.targetY = safe.y;
+                    animal.restTime = .8 + (index % 4) * .18;
+                }
+                animal.temper = 'safe';
+                animal.restTime = Math.max(0, (animal.restTime || 0) - dt);
+                let dx = animal.targetX - animal.x, dy = animal.targetY - animal.y, len = Math.hypot(dx, dy);
+                if (len <= 4 && animal.restTime <= 0 && dt > 0) {
+                    RescueSystem.refugeWander(animal, safe, index);
+                    dx = animal.targetX - animal.x;
+                    dy = animal.targetY - animal.y;
+                    len = Math.hypot(dx, dy);
+                }
+                if (len > 4 && animal.restTime <= 0 && dt > 0) {
+                    const active = ['rabbit', 'dog', 'cat', 'duck'].includes(animal.species);
+                    const heavy = ['cow', 'donkey', 'horse'].includes(animal.species);
+                    const cruise = (active ? 29 : heavy ? 18 : 22) * RescueSystem.personality(animal).pace;
+                    const step = Math.min(len, cruise * dt);
+                    Player.move(animal, dx / len * step, dy / len * step);
+                    resolveEnvironment(animal);
+                    animal.moving = Math.hypot(animal.x - oldX, animal.y - oldY) > .02;
+                    if (animal.moving)
+                        Player.face(animal, animal.x - oldX, animal.y - oldY);
+                    if (distance(animal, { x: animal.targetX, y: animal.targetY }) <= 4) {
+                        animal.targetX = animal.x;
+                        animal.targetY = animal.y;
+                        animal.restTime = active ? rand(.7, 1.8) : heavy ? rand(2.3, 4.2) : rand(1.4, 3.1);
+                    }
+                    else if (!animal.moving) {
+                        animal.targetX = animal.x;
+                        animal.targetY = animal.y;
+                        animal.restTime = .8;
+                    }
+                }
             }
             if (animal.moving) {
                 const travel = Math.hypot(animal.x - oldX, animal.y - oldY);
