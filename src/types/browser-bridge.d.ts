@@ -66,6 +66,7 @@ declare const AudioSystem: {
   playPlayerHurt(game: Farm.GameState): boolean;
 };
 declare const FarmRefuge: {
+  readonly bounds: Readonly<Farm.Rect>;
   gooseHome(): Farm.Point;
   home(index: number, chick?: boolean): Farm.Point;
   ensureClear(entity: Farm.Body): void;
