@@ -26,6 +26,13 @@ const FarmRefuge = (() => {
     return { x:p[0], y:p[1] };
   }
   function gooseHome() { return { x: 190, y: 327 }; }
+  function contains(point, padding = 0) {
+    if (!point) return false;
+    const inset=Math.max(0,Number.isFinite(padding)?padding:0);
+    const x=point.x+(point.hitbox?.ox||0),y=point.y+(point.hitbox?.oy||0);
+    return x>=bounds.x+inset&&x<=bounds.x+bounds.w-inset&&
+      y>=bounds.y+inset&&y<=bounds.y+bounds.h-inset;
+  }
   function obstacles() {
     return [
       ...rails.map(p => ({ x:p.x-4,y:p.y-3,w:p.w+8,h:p.h+6,type:'refuge-fence',opaque:false })),
@@ -112,5 +119,5 @@ const FarmRefuge = (() => {
     }
     c.restore();
   }
-  return { bounds,nursery,home,gooseHome,obstacles,props,drawProp,drawGround,ensureClear };
+  return { bounds,nursery,home,gooseHome,contains,obstacles,props,drawProp,drawGround,ensureClear };
 })();
