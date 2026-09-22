@@ -1,0 +1,19 @@
+name: Map boundary fence review
+on:
+  push:
+    branches: [review/map-boundary-fence-v1]
+permissions:
+  contents: read
+jobs:
+  targeted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node --check systems/farm-art.js
+      - run: node --test tests/map-boundary-fence.test.cjs tests/sprite-collision.test.cjs
