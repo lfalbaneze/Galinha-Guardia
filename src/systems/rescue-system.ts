@@ -231,6 +231,11 @@ const RescueSystem = {
     // without turning the refuge into another chase or letting residents cross a rail.
     for(let attempt=0;attempt<8;attempt++) {
       const target={x:clamp(home.x+rand(-rx,rx),minX,maxX),y:clamp(home.y+rand(-ry,ry),minY,maxY)};
+      if(distance(target,animal)<8) {
+        const angle=(index+1)*2.39996+attempt*.83,step=active?24:heavy?15:20;
+        target.x=clamp(home.x+Math.cos(angle)*step,minX,maxX);
+        target.y=clamp(home.y+Math.sin(angle)*step*.7,minY,maxY);
+      }
       const probe={...animal};
       Player.move(probe,target.x-animal.x,target.y-animal.y);resolveEnvironment(probe);
       if(distance(probe,target)>2)continue;
