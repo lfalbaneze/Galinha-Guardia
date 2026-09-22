@@ -31,6 +31,7 @@ test('the refuge has no no-wolf sign prop and keeps the darker vertical fence pa
   const h=createGame(()=>.5);
   assert.equal(h.run("FarmRefuge.props().some(p=>p.type==='refuge-no-wolf-sign')"),false);
   const source=require('node:fs').readFileSync(require('node:path').resolve(__dirname,'../systems/farm-refuge.js'),'utf8');
-  assert.match(source,/c\.fillStyle='#644526';c\.fillRect\(p\.x-4/);
-  assert.match(source,/c\.fillStyle='#b68b4d';c\.fillRect\(p\.x-2/);
+  assert.match(source,/dark:'#523723',base:'#805030',light:'#925a31'/);
+  assert.match(source,/c\.fillStyle=fenceWood\.dark;c\.fillRect\(p\.x-4/);
+  assert.match(source,/c\.fillStyle=fenceWood\.base;c\.fillRect\(p\.x-2/);
 });
