@@ -41,5 +41,5 @@ test('the cute no-wolf art is packaged as a transparent PNG and referenced by th
   assert.equal(asset.subarray(1,4).toString(),'PNG');
   const refuge=fs.readFileSync(path.join(root,'systems/farm-refuge.js'),'utf8');
   assert.match(refuge,/assets\/signs\/proibido-lobo\.png/);
-  assert.match(refuge,/x:370,y:344,w:54,h:72/);
+  assert.match(refuge,/x:329,y:282,w:42,h:56[^\n]*mounted:true/);
 });

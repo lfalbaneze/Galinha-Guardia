@@ -50,7 +50,7 @@ const FarmRefuge = (() => {
       { x:105,y:275,w:61,h:34,type:'refuge-trough',id:'refuge-trough',depth:307 },
       // Visual-only sign beside the east gate: it teaches the safe-area rule
       // without changing collision or narrowing the entrance.
-      { x:370,y:344,w:54,h:72,type:'refuge-no-wolf-sign',id:'refuge-no-wolf-sign',depth:416 }
+      { x:329,y:282,w:42,h:56,type:'refuge-no-wolf-sign',id:'refuge-no-wolf-sign',depth:338,mounted:true }
     ];
   }
   function ensureClear(entity) {
@@ -98,10 +98,12 @@ const FarmRefuge = (() => {
       FarmSprites.draw(c,'trough',p.x,p.y,p.w,p.h,{grounded:true,shadow:true});
     } else if(p.type==='refuge-no-wolf-sign') {
       const baseY=p.y+p.h;
-      const paintGround=out=>{
-        out.fillStyle='#2633232e';out.beginPath();out.ellipse(p.x+p.w/2,baseY,8,2.5,0,0,Math.PI*2);out.fill();
-      };
-      if(typeof Sunlight==='undefined'||!Sunlight.ground?.(c,paintGround))paintGround(c);
+      if(!p.mounted) {
+        const paintGround=out=>{
+          out.fillStyle='#2633232e';out.beginPath();out.ellipse(p.x+p.w/2,baseY,8,2.5,0,0,Math.PI*2);out.fill();
+        };
+        if(typeof Sunlight==='undefined'||!Sunlight.ground?.(c,paintGround))paintGround(c);
+      }
       if(noWolfSignImage?.complete&&noWolfSignImage.naturalWidth) {
         c.save();c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';
         c.drawImage(noWolfSignImage,p.x,p.y,p.w,p.h);c.restore();
