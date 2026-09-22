@@ -1,4 +1,5 @@
 const test=require('node:test'),assert=require('node:assert/strict');
+const fs=require('node:fs'),path=require('node:path');
 const {createGame}=require('./helpers.cjs');
 
 test('the refuge gate includes a visual no-wolf sign without adding a collision obstacle',()=>{
@@ -31,4 +32,14 @@ test('ordinary patrol inside the safe-area state does not create fake retreat di
     Object.assign(w,{x:390,y:385,mode:'patrol',pauseTimer:0,huntUnlockTimer:0,speech:'',speechTime:0,speechPriority:0});
     WolfAI.update(state,.05);`);
   assert.equal(h.run("w.speech||''"),'');
+});
+
+
+test('the cute no-wolf art is packaged as a transparent PNG and referenced by the refuge',()=>{
+  const root=path.resolve(__dirname,'..');
+  const asset=fs.readFileSync(path.join(root,'assets/signs/proibido-lobo.png'));
+  assert.equal(asset.subarray(1,4).toString(),'PNG');
+  const refuge=fs.readFileSync(path.join(root,'systems/farm-refuge.js'),'utf8');
+  assert.match(refuge,/assets\/signs\/proibido-lobo\.png/);
+  assert.match(refuge,/x:358,y:328,w:84,h:112/);
 });
