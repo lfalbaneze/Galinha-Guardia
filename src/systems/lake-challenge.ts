@@ -3,10 +3,12 @@ const LakeChallenge = (() => {
   const ARENA = 310;
   const COUNTER_RANGE = 82;
   const sheltered = new WeakMap<Farm.GameState, boolean>();
+  const shorelinePatrol = new WeakMap<Farm.GameState, { side:'top'|'bottom'|'left'|'right'; index:number; stalled:number }>();
   const rounds = ['Bote direto', 'Bote duplo', 'Blefe e arrancada'];
   const copy = (p: Farm.Point): Farm.Point => ({ x: p.x, y: p.y });
   function initialize(game: Farm.GameState): void {
     sheltered.delete(game);
+    shorelinePatrol.delete(game);
     game.lake = { version: 1, active: false, completed: false, gooseRescued: false, misses: 0, attempts: 0, notice: 0 };
   }
   function available(game: Farm.GameState): boolean {
@@ -54,18 +56,52 @@ const LakeChallenge = (() => {
     }
     return candidates.filter(clear).sort((a,b)=>distance(a,wolf)-distance(b,wolf))[0] || null;
   }
-  function guardWolf(game: Farm.GameState): boolean {
-    if (game.phase !== 'playing' || !blocksWolf(game)) { sheltered.delete(game); return false; }
-    const wolf = game.entities.wolf;
-    if (sheltered.get(game) !== !!game.lake?.completed) {
-      const resting = safeWolfPosition(game);
-      WolfAI.initialize(game);
-      wolf.speechTime = 0;
-      if (resting) { wolf.x = resting.x; wolf.y = resting.y; }
-      sheltered.set(game, !!game.lake?.completed);
-      if (game.lake?.completed) setStatus('Lagoa segura! Aqui o lobo espera na margem. Ao sair da área marcada, a perseguição volta.');
+  function shorelineSide(wolf: Farm.Wolf): 'top'|'bottom'|'left'|'right' {
+    const r=sanctuary(),p=getHitbox(wolf);
+    const choices:[('top'|'bottom'|'left'|'right'),number][]=[
+      ['top',Math.abs(p.y-r.y)],['bottom',Math.abs(p.y-(r.y+r.h))],
+      ['left',Math.abs(p.x-r.x)],['right',Math.abs(p.x-(r.x+r.w))]
+    ];
+    return choices.sort((a,b)=>a[1]-b[1])[0][0];
+  }
+  function shorelineTargets(game: Farm.GameState, side:'top'|'bottom'|'left'|'right'): Farm.Point[] {
+    const r=sanctuary(),wolf=game.entities.wolf,gap=wolf.hitbox.r+52,inset=58;
+    if(side==='top')return [{x:r.x+inset,y:r.y-gap},{x:r.x+r.w-inset,y:r.y-gap}];
+    if(side==='bottom')return [{x:r.x+inset,y:r.y+r.h+gap},{x:r.x+r.w-inset,y:r.y+r.h+gap}];
+    if(side==='left')return [{x:r.x-gap,y:r.y+inset},{x:r.x-gap,y:r.y+r.h-inset}];
+    return [{x:r.x+r.w+gap,y:r.y+inset},{x:r.x+r.w+gap,y:r.y+r.h-inset}];
+  }
+  function guardWolf(game: Farm.GameState, dt=1/60): boolean {
+    if (game.phase !== 'playing' || !blocksWolf(game)) {
+      sheltered.delete(game); shorelinePatrol.delete(game); return false;
     }
-    wolf.vx = 0; wolf.vy = 0; wolf.moving = false; wolf.moveSpeed = 0;
+    const wolf=game.entities.wolf,completed=!!game.lake?.completed;
+    if (sheltered.get(game) !== completed) {
+      const resting=safeWolfPosition(game);
+      WolfAI.initialize(game); wolf.speechTime=0;
+      if(resting){wolf.x=resting.x;wolf.y=resting.y;}
+      sheltered.set(game,completed);shorelinePatrol.delete(game);
+      if(completed)setStatus('Lagoa segura! O lobo ronda a margem, mas não entra. A proteção acaba ao sair da área marcada.');
+    }
+    // During Panto's live challenge the wolf remains suspended outside the arena.
+    if(!completed){wolf.vx=0;wolf.vy=0;wolf.moving=false;wolf.moveSpeed=0;return true;}
+    // Once unlocked, keep the sanctuary safe while Baltazar visibly patrols its edge.
+    let patrol=shorelinePatrol.get(game);
+    if(!patrol){
+      const side=shorelineSide(wolf),targets=shorelineTargets(game,side);
+      patrol={side,index:distance(wolf,targets[0])<distance(wolf,targets[1])?1:0,stalled:0};
+      shorelinePatrol.set(game,patrol);
+    }
+    const targets=shorelineTargets(game,patrol.side),target=targets[patrol.index];
+    const before={x:wolf.x,y:wolf.y};
+    const speed=Math.max(76,WolfAI.getConfig(game).patrolSpeed*.7);
+    const arrived=WolfAI.moveTo(wolf,target,speed,dt),moved=distance(before,wolf);
+    patrol.stalled=moved<.15?patrol.stalled+dt:0;
+    if(arrived||distance(wolf,target)<18||patrol.stalled>1.2){
+      patrol.index=1-patrol.index;patrol.stalled=0;
+      wolf.route=[];wolf.routeTarget=null;wolf.routeTimer=0;
+    }
+    wolf.mode='patrol';wolf.detected=false;wolf.awareness=0;wolf.lastKnown=null;wolf.heardPoint=null;
     return true;
   }
   function start(game: Farm.GameState): boolean {

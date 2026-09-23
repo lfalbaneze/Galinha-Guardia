@@ -33,8 +33,13 @@ function fixture() {
     SkinSystem:{power:()=>({friendSpecies:null}),unlockLake(){}},
     ThorSystem:{active:()=>false},SwimmingSystem:{profile:()=>({swimming:false})},
     SunflowerSystem:{concealed:()=>false,canCatch:()=>true},
-    WolfAI:{initialize:()=>{calls.wolfReset++;Object.assign(wolf,{mode:'patrol',lastKnown:null,exposedCover:null});},
-      isExposed:()=>false,canCatchHidden:()=>false},
+    WolfAI:{initialize:()=>{calls.wolfReset++;Object.assign(wolf,{mode:'patrol',lastKnown:null,exposedCover:null,route:[],routeTarget:null,routeTimer:0,moveSpeed:0,awareness:0,detected:false,heardPoint:null});},
+      getConfig:()=>({patrolSpeed:120}),moveTo:(body,target,speed,dt)=>{
+        const dx=target.x-body.x,dy=target.y-body.y,len=Math.hypot(dx,dy);
+        if(len<1)return true;
+        const step=Math.min(len,speed*dt);body.vx=dx/len*speed;body.vy=dy/len*speed;
+        body.x+=dx/len*step;body.y+=dy/len*step;body.moving=true;return step>=len;
+      },isExposed:()=>false,canCatchHidden:()=>false},
     GooseSystem:{rescue(){}},AudioSystem:{play(){},playPlayerHurt(){},playAnimal(){calls.audio++;}},
     GameUI:{update(){}},GameManager:{save(){calls.save++;},win(){},
       rescue(game,a){if(a.rescued)return false;a.rescued=true;game.rescuedCount++;return true;}},
@@ -130,19 +135,20 @@ test('crossing any refuge edge immediately removes geographical protection',()=>
   }
 });
 
-test('guard relocates an inside wolf to clear ground outside and does not teleport every frame',()=>{
+test('guard relocates an inside wolf and then patrols the shoreline instead of freezing',()=>{
   const h=fixture();shelter(h);h.wolf.x=h.chicken.x;h.wolf.y=h.chicken.y;
-  assert.equal(h.run('LakeChallenge.guardWolf(state)'),true);
+  assert.equal(h.run('LakeChallenge.guardWolf(state,.1)'),true);
   assert.ok(h.run(`(()=>{const p=getHitbox(wolf),r=LakeChallenge.sanctuary();return Math.hypot(p.x-clamp(p.x,r.x,r.x+r.w),p.y-clamp(p.y,r.y,r.y+r.h))>wolf.hitbox.r+24;})()`));
-  const pos=[h.wolf.x,h.wolf.y];for(let i=0;i<100;i++)h.run('LakeChallenge.guardWolf(state)');
-  assert.deepEqual([h.wolf.x,h.wolf.y],pos);assert.equal(h.calls.wolfReset,1);
-  h.chicken.x=1000;assert.equal(h.run('LakeChallenge.guardWolf(state)'),false);
-  h.chicken.x=1500;assert.equal(h.run('LakeChallenge.guardWolf(state)'),true);assert.equal(h.calls.wolfReset,2);
+  const pos=[h.wolf.x,h.wolf.y];for(let i=0;i<20;i++)h.run('LakeChallenge.guardWolf(state,.1)');
+  assert.notDeepEqual([h.wolf.x,h.wolf.y],pos);assert.equal(h.wolf.mode,'patrol');assert.equal(h.calls.wolfReset,1);
+  h.chicken.x=1000;assert.equal(h.run('LakeChallenge.guardWolf(state,.1)'),false);
+  h.chicken.x=1500;assert.equal(h.run('LakeChallenge.guardWolf(state,.1)'),true);assert.equal(h.calls.wolfReset,2);
 });
 
-test('a wolf already outside is not moved and returning to gameplay does not grant invulnerability',()=>{
+test('an outside wolf keeps moving on the bank without granting player invulnerability',()=>{
   const h=fixture();shelter(h);const pos=[h.wolf.x,h.wolf.y];
-  h.run('LakeChallenge.guardWolf(state)');assert.deepEqual([h.wolf.x,h.wolf.y],pos);
+  h.run('LakeChallenge.guardWolf(state,.25)');
+  assert.notDeepEqual([h.wolf.x,h.wolf.y],pos);
   assert.equal(h.chicken.invulnerable,0);assert.equal(h.wolf.huntUnlockTimer,0);
 });
 
@@ -160,4 +166,13 @@ test('the real game loop checks the sanctuary before updating the wolf',()=>{
   let updates=0;h.context.WolfAI.update=()=>updates++;h.context.WolfDialogue={update(){}};
   vm.runInContext(fn,h.context);shelter(h);h.run('updateWolf(.05)');assert.equal(updates,0);
   h.chicken.x=1000;h.run('updateWolf(.05)');assert.equal(updates,1);
+});
+
+
+test('the live Panto challenge still parks the wolf outside the arena',()=>{
+  const h=fixture();h.run('state.lake.active=true;state.lake.completed=false;chicken.x=1500;chicken.y=820;wolf.vx=80;wolf.vy=40');
+  const pos=[h.wolf.x,h.wolf.y];
+  assert.equal(h.run('LakeChallenge.guardWolf(state,.2)'),true);
+  assert.deepEqual([h.wolf.x,h.wolf.y],pos);
+  assert.equal(h.wolf.vx,0);assert.equal(h.wolf.vy,0);
 });

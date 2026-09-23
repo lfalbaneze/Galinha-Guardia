@@ -464,7 +464,7 @@ function updateChicken(dt) {
 }
 
 function updateWolf(dt) {
-  if (LakeChallenge.guardWolf(state)) return;
+  if (LakeChallenge.guardWolf(state, dt)) return;
   WolfAI.update(state, dt);
   WolfDialogue.update(state, dt);
 }
