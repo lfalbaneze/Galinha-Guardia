@@ -48,3 +48,10 @@ test('refuge vertical fence uses continuous rails and one post per joint',()=>{
   assert.match(source,/if\(postEnd\)fencePost\(c,x,bottom\)/);
   assert.doesNotMatch(source,/top-25/);
 });
+
+
+test('refuge fence renders from the shared sprite kit',()=>{
+  const source=require('node:fs').readFileSync(require('node:path').resolve(__dirname,'../systems/farm-refuge.js'),'utf8');
+  assert.match(source,/FenceArt\.drawHorizontal\(c,p\.x,p\.y,p\.w/);
+  assert.match(source,/FenceArt\.drawVertical\(c,p\.x,p\.y,p\.h/);
+});

@@ -15,8 +15,8 @@ test('map boundary uses one matching fence kit on horizontal and vertical sides'
   assert.match(source,/function boundaryFenceVertical\(/);
   assert.match(source,/boundaryRailH\(c/);
   assert.match(source,/boundaryRailV\(c/);
-  assert.match(source,/if\(p\.w\)boundaryFenceHorizontal/);
-  assert.doesNotMatch(source,/if\(p\.w\)fence\(c,p\.x,p\.y,p\.w\);\s*else verticalFence/);
+  assert.match(source,/FenceArt\.drawHorizontal\(c,p\.x,p\.y,p\.w/);
+  assert.match(source,/FenceArt\.drawVertical\(c,p\.x,p\.y,p\.h/);
 });
 
 test('map boundary vertical mirrors the refuge vertical fence geometry and palette',()=>{
@@ -42,4 +42,11 @@ test('vertical map fence creates one post per seam instead of duplicate rungs',(
   h.run("var v=FarmArt.getProps(WORLD.layout).filter(p=>p.type==='boundary-fence'&&p.h>0);");
   assert.equal(h.run("v.every(p=>p.postStart===true)"),true);
   assert.equal(h.run("v.filter(p=>p.postEnd===true).length"),2);
+});
+
+
+test('map boundary uses the shared sprite fence before procedural fallback',()=>{
+  const source=fs.readFileSync(path.resolve(__dirname,'../systems/farm-art.js'),'utf8');
+  assert.ok(source.indexOf('FenceArt.drawHorizontal')<source.indexOf("FarmSprites.draw(c,'fence'"));
+  assert.ok(source.indexOf('FenceArt.drawVertical')<source.indexOf("Sunlight.rail(c,x,y+4,x,y+height+4"));
 });

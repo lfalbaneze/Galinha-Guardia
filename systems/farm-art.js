@@ -344,6 +344,7 @@ const FarmArt = (() => {
     c.restore();
   }
   function fence(c, x, y, w) {
+    if(FenceArt.drawHorizontal(c,x,y,w,{postStart:true,postEnd:true}))return;
     if(FarmSprites.draw(c,'fence',x-4,y-36,w+8,40,{grounded:true,shadow:true}))return;
     line(c, [[x, y - 14], [x + w, y - 14]], "#b59a6d", 6);
     line(c, [[x, y - 5], [x + w, y - 5]], "#ceb385", 5);
@@ -435,8 +436,11 @@ const FarmArt = (() => {
     return result;
   }
   function drawBoundary(c,p) {
-    if(p.w)boundaryFenceHorizontal(c,p.x,p.y,p.w);
-    else boundaryFenceVertical(c,p.x,p.y,p.h,p.postStart,p.postEnd);
+    if(p.w) {
+      if(!FenceArt.drawHorizontal(c,p.x,p.y,p.w,{postStart:true,postEnd:true}))
+        boundaryFenceHorizontal(c,p.x,p.y,p.w);
+    } else if(!FenceArt.drawVertical(c,p.x,p.y,p.h,{postStart:p.postStart!==false,postEnd:!!p.postEnd}))
+      boundaryFenceVertical(c,p.x,p.y,p.h,p.postStart,p.postEnd);
   }
   function getProps(layout) {
     if(propsCache.has(layout))return propsCache.get(layout);
@@ -502,6 +506,7 @@ const FarmArt = (() => {
   }
 
   function verticalFence(c,x,y,height) {
+    if(FenceArt.drawVertical(c,x,y,height,{postStart:true,postEnd:true}))return;
     if(typeof Sunlight!=='undefined')Sunlight.rail(c,x,y+4,x,y+height+4,30,4);
     x=Math.round(x);y=Math.round(y);height=Math.ceil(height);
     c.fillStyle='#57482f';c.fillRect(x-3,y-23,7,height+3);

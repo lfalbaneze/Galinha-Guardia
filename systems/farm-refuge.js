@@ -133,8 +133,11 @@ const FarmRefuge = (() => {
     } else if(p.type==='refuge-trough') {
       FarmSprites.draw(c,'trough',p.x,p.y,p.w,p.h,{grounded:true,shadow:true});
     } else if(p.type==='refuge-rail') {
-      if(p.w) drawFenceHorizontal(c,p.x,p.y,p.w);
-      else drawFenceVertical(c,p.x,p.y,p.h,p.postStart,p.postEnd);
+      if(p.w) {
+        if(!FenceArt.drawHorizontal(c,p.x,p.y,p.w,{postStart:true,postEnd:true}))
+          drawFenceHorizontal(c,p.x,p.y,p.w);
+      } else if(!FenceArt.drawVertical(c,p.x,p.y,p.h,{postStart:p.postStart!==false,postEnd:!!p.postEnd}))
+        drawFenceVertical(c,p.x,p.y,p.h,p.postStart,p.postEnd);
     }
   }
   function drawGround(c,camera) {
