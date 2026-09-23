@@ -440,7 +440,7 @@ const GooseSystem = (() => {
     ctx.save();ctx.font = 'bold 11px Trebuchet MS, sans-serif'; ctx.textAlign = 'center';
     if (!speaking) {
       const x=clamp(p.x,35,canvas.width-35),y=Math.max(24,p.y-69);
-      const label=goose.rescued?'PANTO · A salvo':'PANTO';
+      const label='PANTO';
       ctx.strokeStyle='#243c2ddd';ctx.lineWidth=3;ctx.lineJoin='round';ctx.strokeText(label,x,y);
       ctx.fillStyle='#fff0bd';ctx.fillText(label,x,y);
     } else {
