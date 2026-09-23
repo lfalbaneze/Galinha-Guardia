@@ -12,7 +12,7 @@ test('Baltazar grumbles once when a pursuit ends at the refuge',()=>{
     WolfAI.update(state,.05);
     var secondSpeech=w.speech,secondIndex=w.speechIndex;`);
   assert.equal(h.run('w.mode'),'patrol');
-  assert.match(h.run('firstSpeech'),/(curral|regra|indo|placa)/i);
+  assert.match(h.run('firstSpeech'),/(curral|regra|indo|entro)/i);
   assert.ok(h.run('firstTime')>=2.5);
   assert.equal(h.run('secondSpeech'),h.run('firstSpeech'));
   assert.equal(h.run('secondIndex'),h.run('firstIndex'));
@@ -54,4 +54,18 @@ test('refuge fence renders from the shared sprite kit',()=>{
   const source=require('node:fs').readFileSync(require('node:path').resolve(__dirname,'../systems/farm-refuge.js'),'utf8');
   assert.match(source,/FenceArt\.drawHorizontal\(c,p\.x,p\.y,p\.w/);
   assert.match(source,/FenceArt\.drawVertical\(c,p\.x,p\.y,p\.h/);
+});
+
+
+test('wolf chase uses speech bubbles without the old floating Baltazar state card',()=>{
+  const source=require('node:fs').readFileSync(require('node:path').resolve(__dirname,'../systems/ui.js'),'utf8');
+  assert.doesNotMatch(source,/! PERSEGUINDO|ACHOU UMA PISTA|! TE VI ENTRAR/);
+  assert.doesNotMatch(source,/fillText\(RescueSystem\.nameOf\(wolf,game\)/);
+  assert.match(source,/wolf\.speechTime > 0 && wolf\.speech/);
+});
+
+test('refuge dialogue no longer mentions the removed sign',()=>{
+  const source=require('node:fs').readFileSync(require('node:path').resolve(__dirname,'../systems/wolf-dialogue.js'),'utf8');
+  assert.doesNotMatch(source,/Maldita placa/i);
+  assert.match(source,/Droga\.\.\. aqui eu não entro\./);
 });

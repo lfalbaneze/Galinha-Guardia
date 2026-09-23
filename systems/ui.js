@@ -403,19 +403,6 @@ const GameUI = (() => {
         ctx.fillText("Pode chegar!", at.x, at.y + 34);
       }
     }
-    // Brief, local feedback ties each state to the character causing it.
-    if (!SunflowerSystem.concealed(game) && wolf.mode !== "patrol" && w.x > 65 && w.x < canvas.width - 65 && w.y > 93 && w.y < canvas.height + 20) {
-      const color = ["chase", "inspect"].includes(wolf.mode) ? "#f6b9a4" : wolf.mode === "alert" ? "#ffe398" : "#cce2e6";
-      const labels = { frightened: "DEU MEDO DO THOR!", chase: "! PERSEGUINDO", alert: "? DESCONFIOU", investigate: "ACHOU UMA PISTA", search: "PROCURANDO", inspect: "! TE VI ENTRAR" };
-      panel(w.x - 60, w.y - 105, 120, wolf.mode === "alert" ? 44 : 36, "rgba(42, 57, 46, .92)");
-      ctx.fillStyle = color; ctx.textAlign = "center"; ctx.font = "bold 10px sans-serif";
-      ctx.fillText(RescueSystem.nameOf(wolf,game),w.x,w.y-92,108);
-      ctx.fillText(labels[wolf.mode] || "", w.x, w.y - 77);
-      if (wolf.mode === "alert") {
-        ctx.fillStyle = "#627060"; ctx.fillRect(w.x - 43, w.y - 70, 86, 3);
-        ctx.fillStyle = color; ctx.fillRect(w.x - 43, w.y - 70, 86 * clamp(wolf.awareness || 0, 0, 1), 3);
-      }
-    }
     if (!SunflowerSystem.concealed(game) && wolf.speechTime > 0 && wolf.speech && w.x > 0 && w.x < canvas.width && w.y > 137 && w.y < canvas.height + 20) {
       ctx.font = "bold 12px sans-serif";ctx.textAlign = "center";
       const width=Math.min(280,Math.max(216,ctx.measureText(wolf.speech).width+24));

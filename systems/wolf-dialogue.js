@@ -48,7 +48,7 @@ const WolfDialogue = (() => {
     if(mode==='search')return [`${name}, cadê você?!`,'Ué. O almoço evaporou.','Nariz, colabora comigo!'];
     return lines[mode];
   }
-  const refugeGrumbles=['Aff... curral de novo.','Essa regra é injusta...','Tá bom, tá bom... já tô indo.','Maldita placa.'];
+  const refugeGrumbles=['Aff... curral de novo.','Essa regra é injusta...','Tá bom, tá bom... já tô indo.','Droga... aqui eu não entro.'];
   function witnessLine(game) { return identity(game).lines.inspect[0].toUpperCase(); }
   function refugeLine(game) {
     const wolf=game.entities.wolf;
