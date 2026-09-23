@@ -95,16 +95,21 @@ const GameInput = (() => {
       if(!value&&scrollPosition){window.scrollTo?.(scrollPosition.x,scrollPosition.y);scrollPosition=null;}
     }
     function measure() {
-      // CSS pixels, not hardware pixels: multiplying by DPR changes the camera's
-      // world units and can make the chicken tiny on high-density phone screens.
+      // CSS pixels, not hardware pixels: DPR must not change world units.
+      // visualViewport follows browser bars/notches; pinch zoom deliberately falls
+      // back to the layout viewport so zoom gestures do not resize the game world.
       const view=window.visualViewport;
       const useVisual=view&&Math.abs(view.scale-1)<.01;
-      const width=useVisual?view.width:window.innerWidth;
-      const height=useVisual?view.height:window.innerHeight;
-      if(width>0)shell.style.setProperty('--mobile-width',`${Math.round(width)}px`);
-      if(height>0)shell.style.setProperty('--mobile-height',`${Math.round(height)}px`);
+      const width=Math.max(1,useVisual?view.width:window.innerWidth);
+      const height=Math.max(1,useVisual?view.height:window.innerHeight);
+      const shortSide=Math.min(width,height),longSide=Math.max(width,height);
+      shell.style.setProperty('--mobile-width',`${Math.round(width)}px`);
+      shell.style.setProperty('--mobile-height',`${Math.round(height)}px`);
+      shell.style.setProperty('--mobile-short-side',`${Math.round(shortSide)}px`);
+      shell.style.setProperty('--mobile-long-side',`${Math.round(longSide)}px`);
       shell.dataset.orientation=width>height?'landscape':'portrait';
-      // fitGameViewport already fits canvas/camera to the stage on the next frame.
+      shell.dataset.viewport=shortSide<360?'tiny':shortSide<480?'compact':shortSide<700?'medium':'large';
+      // fitGameViewport reads the resized stage on the next render frame.
     }
     function resize() {
       clear();measure();
@@ -147,7 +152,7 @@ const GameInput = (() => {
     if(!document.createElement||!el.touchControls.querySelector)return;
     const shell=document.getElementById('gameShell');
     const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';
-    stylesheet.href=new URL('mobile-controls.css?v=touch-2',inputSource||new URL('systems/game-input.js',document.baseURI)).href;
+    stylesheet.href=new URL('mobile-controls.css?v=touch-3',inputSource||new URL('systems/game-input.js',document.baseURI)).href;
     document.head.appendChild(stylesheet);
     const viewport=document.querySelector('meta[name="viewport"]');
     if(viewport&&!/viewport-fit\s*=/.test(viewport.content))viewport.content+=', viewport-fit=cover';

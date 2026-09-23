@@ -784,12 +784,17 @@ const viewportInsets = { top: 0, bottom: 0, hudBottom: 0 };
 function fitGameViewport() {
   const stage = document.getElementById('gameStage');
   if (state.phase === 'menu' || !stage?.clientWidth || !stage.clientHeight) return;
-  const zoom = Math.max(1, Math.min(1.65, stage.clientWidth / 900));
+  const shell=document.getElementById('gameShell');
+  const mobile=shell?.dataset.mobile==='true'||shell?.dataset.touch==='true';
+  // Desktop keeps the old 1:1 minimum. Phones zoom the logical camera out just
+  // enough to preserve a useful playfield at 320–600 CSS px without stretching.
+  const minZoom=mobile?(stage.clientWidth<360?.70:stage.clientWidth<430?.74:stage.clientWidth<600?.80:.88):1;
+  const zoom=Math.max(minZoom,Math.min(1.65,stage.clientWidth/900));
   const ending = EndGameSequence.active(state);
   const portraitEnding = ending && stage.clientHeight > stage.clientWidth * 1.15;
   const width = ending ? (portraitEnding ? 600 : 900) : Math.round(stage.clientWidth / zoom);
   const height = ending ? (portraitEnding ? Math.min(1100, Math.round(600 * stage.clientHeight / stage.clientWidth)) : 520) : Math.round(stage.clientHeight / zoom);
-  const touch=document.getElementById('gameShell').dataset.touch==='true';
+  const touch=shell?.dataset.touch==='true';
   // The arcade board grows when a combo appears. Keep the player and map below it.
   const stageTop=stage.getBoundingClientRect().top;
   const hudBottom=ending?0:Math.max(0,...['expeditionBar','chickCombo','threatIndicator'].map(id=>{

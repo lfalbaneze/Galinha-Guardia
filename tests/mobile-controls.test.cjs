@@ -249,12 +249,18 @@ test('blocked storage does not prevent phone controls or changing preferences', 
 test('viewport follows rotation and browser bars; pinch zoom does not change world scale', () => {
   const h = harness(), shell = h.elements.get('gameShell');
   assert.equal(shell.style['--mobile-width'], '390px');
+  assert.equal(shell.style['--mobile-height'], '780px');
+  assert.equal(shell.style['--mobile-short-side'], '390px');
+  assert.equal(shell.style['--mobile-long-side'], '780px');
   assert.equal(shell.dataset.orientation, 'portrait');
+  assert.equal(shell.dataset.viewport, 'compact');
   Object.assign(h.window.visualViewport, { width: 844, height: 350 });
   h.emit(h.window, 'orientationchange');
   assert.equal(shell.style['--mobile-width'], '844px');
   assert.equal(shell.style['--mobile-height'], '350px');
+  assert.equal(shell.style['--mobile-short-side'], '350px');
   assert.equal(shell.dataset.orientation, 'landscape');
+  assert.equal(shell.dataset.viewport, 'tiny');
   h.window.visualViewport.height = 390; h.emit(h.window.visualViewport, 'resize');
   assert.equal(shell.style['--mobile-height'], '390px');
   Object.assign(h.window, { innerWidth: 844, innerHeight: 390 });
@@ -324,4 +330,16 @@ test('prefixed fullscreen works and duplicate taps do not issue concurrent reque
   h.document.webkitFullscreenElement = shell; h.emit(h.document, 'webkitfullscreenchange');
   finish(); await pending;
   assert.equal(h.elements.get('mobileFullscreen').textContent, 'Sair da tela cheia');
+});
+
+
+test('mobile resolution auto-fit keeps a wider logical playfield and fills the measured stage',()=>{
+  const game=fs.readFileSync(path.join(__dirname,'../game.js'),'utf8');
+  const css=fs.readFileSync(path.join(__dirname,'../systems/mobile-controls.css'),'utf8');
+  assert.match(game,/const minZoom=mobile\?\(stage\.clientWidth<360\?\.70:/);
+  assert.match(game,/stage\.clientWidth<430\?\.74/);
+  assert.match(game,/stage\.clientWidth<600\?\.80/);
+  assert.match(css,/width: var\(--mobile-width, 100vw\)/);
+  assert.match(css,/#gameCanvas \{[\s\S]*width: 100%; height: 100%/);
+  assert.match(css,/data-viewport="compact"/);
 });

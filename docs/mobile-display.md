@@ -17,9 +17,12 @@ escapar do iframe do itch.io. O mesmo botão desfaz o modo expandido; Escape tam
 
 A área disponível é medida novamente ao redimensionar, girar o aparelho, entrar/sair
 da tela cheia ou mudar a altura da barra do navegador. VisualViewport é usado sem
-confundir zoom por pinça com resolução do jogo. O renderizador existente adapta o
-canvas e a câmera ao stage, em unidades lógicas, sem multiplicar o mundo pelo DPR.
-Os controles respeitam safe-area-inset e o menu continua rolável.
+confundir zoom por pinça com resolução do jogo. O modo normal no celular já ocupa a
+largura e altura disponíveis; tela cheia é opcional. O canvas preenche o stage e a
+câmera usa um zoom lógico mínimo adaptativo (0,70–0,88 em telas touch pequenas), para
+mostrar uma área jogável útil em 320–600 CSS px sem esticar sprites nem multiplicar o
+mundo pelo DPR. Joystick e botões também diminuem conforme o lado menor da tela.
+Safe areas continuam respeitadas e o menu permanece rolável.
 
 ## Validação desta alteração
 
