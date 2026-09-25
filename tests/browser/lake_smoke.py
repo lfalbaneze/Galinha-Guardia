@@ -99,8 +99,8 @@ with sync_playwright() as p:
  # Bridge collision uses real generated obstacles and the ordinary Player.move function.
  crossed=page.evaluate("""()=>{const b=LakeChallenge.bridge(),c=state.entities.chicken;c.x=b.x;c.y=b.y+b.h/2-14;Player.move(c,b.w,0);return Math.abs(c.x-b.x-b.w)<.01;}""")
  assert crossed;result['checks'].append('Unlocked bridge can actually be crossed')
- assert page.evaluate('LakeChallenge.blocksWolf(state)'), 'The earned lagoon protects its bank after Panto goes home'
- result['checks'].append('Completed lagoon refuge remains active at the bridge exit')
+ assert page.evaluate('!LakeChallenge.blocksWolf(state)'), 'Winning Panto must not make the bridge exit a permanent safe zone'
+ result['checks'].append('Completed lake has no permanent wolf immunity')
  equip_from_pause(page,'goose')
  assert page.evaluate('state.entities.chicken.skin==="goose"')
  page.evaluate('GameUI.update(state);updateCamera(1);renderGame();GameManager.save(state)')
@@ -108,7 +108,12 @@ with sync_playwright() as p:
  page.reload(wait_until='networkidle');page.wait_for_function(READY,polling=50)
  assert page.evaluate('state.lake.completed && SkinSystem.unlocked("goose") && state.entities.chicken.skin==="goose"')
  page.locator('#continueBtn').click();assert page.evaluate('state.entities.goose.mode==="defeated"')
- assert page.evaluate('state.entities.goose.rescued && distance(state.entities.goose,FarmRefuge.gooseHome())<1')
+ assert page.evaluate('state.entities.goose.rescued && FarmRefuge.contains(state.entities.goose)')
+ walked=page.evaluate("""()=>{const g=state.entities.goose;let traveled=0;
+   for(let i=0;i<120;i++){const before={x:g.x,y:g.y};GooseSystem.update(state,.05);traveled+=distance(g,before);}
+   return g.rescued && FarmRefuge.contains(g) && traveled>40 && g.anim>0;}""")
+ assert walked, 'Rescued Panto must actually walk, not reset to the same home every frame'
+ result['checks'].append('Rescued Panto walks inside the pen after reload')
  result['checks'].append('Victory, open bridge and equipped cosmetic persisted after reload')
  page.evaluate("""()=>{resetGame(814237);state.phase='playing';const sign=FarmArt.getProps(WORLD.layout).find(p=>p.id==='sign-quintal');
    camera.x=clamp(sign.x-450,0,WORLD.width-900);camera.y=clamp(sign.y-260,0,WORLD.height-520);renderGame();GameUI.update(state);}""")

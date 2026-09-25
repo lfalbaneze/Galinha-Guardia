@@ -3,13 +3,11 @@
 const LakeChallenge = (() => {
     const ARENA = 310;
     const COUNTER_RANGE = 82;
-    const sheltered = new WeakMap();
-    const shorelinePatrol = new WeakMap();
+    const sheltered = new WeakSet();
     const rounds = ['Bote direto', 'Bote duplo', 'Blefe e arrancada'];
     const copy = (p) => ({ x: p.x, y: p.y });
     function initialize(game) {
         sheltered.delete(game);
-        shorelinePatrol.delete(game);
         game.lake = { version: 1, active: false, completed: false, gooseRescued: false, misses: 0, attempts: 0, notice: 0 };
     }
     function available(game) {
@@ -18,41 +16,27 @@ const LakeChallenge = (() => {
             !chicken.hidden && !SwimmingSystem.profile(game).swimming && distance(chicken, goose.home) < 255 &&
             DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(goose));
     }
-    // The refuge belongs to the pond, not Panto, who moves to the coop on rescue.
+    // Compatibility with older callers: winning the challenge no longer unlocks
+    // geographical protection. Only the active encounter temporarily suspends the wolf.
     function sanctuary() {
         const p = STRUCTURES.pond;
         return { x: p.x - 70, y: p.y - 70, w: p.w + 140, h: p.h + 140 };
     }
-    function inSanctuary(game) {
-        if (!game.lake?.completed)
-            return false;
-        const p = getHitbox(game.entities.chicken), r = sanctuary();
-        return p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h;
-    }
+    function inSanctuary(_game) { return false; }
     function safeWolfPosition(game) {
-        const wolf = game.entities.wolf, radius = wolf.hitbox.r + 8, refuge = sanctuary();
-        const origin = game.lake?.completed ? { x: refuge.x + refuge.w / 2, y: refuge.y + refuge.h / 2 } : game.entities.goose?.home;
+        const wolf = game.entities.wolf, radius = wolf.hitbox.r + 8, origin = game.entities.goose?.home;
         if (!origin)
             return null;
         const clear = (p) => {
             const q = { x: p.x + wolf.hitbox.ox, y: p.y + wolf.hitbox.oy };
-            const outside = game.lake?.completed ?
-                Math.hypot(q.x - clamp(q.x, refuge.x, refuge.x + refuge.w), q.y - clamp(q.y, refuge.y, refuge.y + refuge.h)) > radius + 24 :
-                distance(p, origin) > ARENA + 90;
-            return q.x > radius && q.y > radius && q.x < WORLD.width - radius && q.y < WORLD.height - radius &&
-                outside && OBSTACLES.every(r => r.blocking === false ||
-                Math.hypot(q.x - clamp(q.x, r.x, r.x + r.w), q.y - clamp(q.y, r.y, r.y + r.h)) > radius);
+            return distance(p, origin) > ARENA + 90 && q.x > radius && q.y > radius &&
+                q.x < WORLD.width - radius && q.y < WORLD.height - radius &&
+                OBSTACLES.every(r => r.blocking === false ||
+                    Math.hypot(q.x - clamp(q.x, r.x, r.x + r.w), q.y - clamp(q.y, r.y, r.y + r.h)) > radius);
         };
         if (clear(wolf))
             return copy(wolf);
         const candidates = [];
-        if (game.lake?.completed) {
-            const gap = radius + 32;
-            for (let i = 0; i <= 16; i++) {
-                const x = refuge.x + refuge.w * i / 16, y = refuge.y + refuge.h * i / 16;
-                candidates.push({ x, y: refuge.y - gap }, { x, y: refuge.y + refuge.h + gap }, { x: refuge.x - gap, y }, { x: refuge.x + refuge.w + gap, y });
-            }
-        }
         for (const radius of [440, 520, 640])
             for (let i = 0; i < 32; i++) {
                 const angle = i * Math.PI / 16;
@@ -60,35 +44,13 @@ const LakeChallenge = (() => {
             }
         return candidates.filter(clear).sort((a, b) => distance(a, wolf) - distance(b, wolf))[0] || null;
     }
-    function shorelineSide(wolf) {
-        const r = sanctuary(), p = getHitbox(wolf);
-        const choices = [
-            ['top', Math.abs(p.y - r.y)],
-            ['bottom', Math.abs(p.y - (r.y + r.h))],
-            ['left', Math.abs(p.x - r.x)],
-            ['right', Math.abs(p.x - (r.x + r.w))],
-        ];
-        return choices.sort((a, b) => a[1] - b[1])[0][0];
-    }
-    function shorelineTargets(game, side) {
-        const r = sanctuary(), wolf = game.entities.wolf;
-        const gap = wolf.hitbox.r + 52, inset = 58;
-        if (side === 'top')
-            return [{ x: r.x + inset, y: r.y - gap }, { x: r.x + r.w - inset, y: r.y - gap }];
-        if (side === 'bottom')
-            return [{ x: r.x + inset, y: r.y + r.h + gap }, { x: r.x + r.w - inset, y: r.y + r.h + gap }];
-        if (side === 'left')
-            return [{ x: r.x - gap, y: r.y + inset }, { x: r.x - gap, y: r.y + r.h - inset }];
-        return [{ x: r.x + r.w + gap, y: r.y + inset }, { x: r.x + r.w + gap, y: r.y + r.h - inset }];
-    }
-    function guardWolf(game, dt = 1 / 60) {
+    function guardWolf(game, _dt = 1 / 60) {
         if (game.phase !== 'playing' || !blocksWolf(game)) {
             sheltered.delete(game);
-            shorelinePatrol.delete(game);
             return false;
         }
-        const wolf = game.entities.wolf, completed = !!game.lake?.completed;
-        if (sheltered.get(game) !== completed) {
+        const wolf = game.entities.wolf;
+        if (!sheltered.has(game)) {
             const resting = safeWolfPosition(game);
             WolfAI.initialize(game);
             wolf.speechTime = 0;
@@ -96,45 +58,12 @@ const LakeChallenge = (() => {
                 wolf.x = resting.x;
                 wolf.y = resting.y;
             }
-            sheltered.set(game, completed);
-            shorelinePatrol.delete(game);
-            if (completed)
-                setStatus('Lagoa segura! O lobo ronda a margem, mas não entra. A proteção acaba ao sair da área marcada.');
+            sheltered.add(game);
         }
-        // During Panto's live challenge the wolf remains suspended outside the arena.
-        if (!completed) {
-            wolf.vx = 0;
-            wolf.vy = 0;
-            wolf.moving = false;
-            wolf.moveSpeed = 0;
-            return true;
-        }
-        // After the challenge, the sanctuary stays safe without turning the wolf into
-        // a statue. He paces along the nearest shore and ignores the player inside.
-        let patrol = shorelinePatrol.get(game);
-        if (!patrol) {
-            const side = shorelineSide(wolf), targets = shorelineTargets(game, side);
-            patrol = { side, index: distance(wolf, targets[0]) < distance(wolf, targets[1]) ? 1 : 0, stalled: 0 };
-            shorelinePatrol.set(game, patrol);
-        }
-        const targets = shorelineTargets(game, patrol.side), target = targets[patrol.index];
-        const before = { x: wolf.x, y: wolf.y };
-        const speed = Math.max(76, WolfAI.getConfig(game).patrolSpeed * 0.7);
-        const arrived = WolfAI.moveTo(wolf, target, speed, dt);
-        const moved = distance(before, wolf);
-        patrol.stalled = moved < 0.15 ? patrol.stalled + dt : 0;
-        if (arrived || distance(wolf, target) < 18 || patrol.stalled > 1.2) {
-            patrol.index = 1 - patrol.index;
-            patrol.stalled = 0;
-            wolf.route = [];
-            wolf.routeTarget = null;
-            wolf.routeTimer = 0;
-        }
-        wolf.mode = 'patrol';
-        wolf.detected = false;
-        wolf.awareness = 0;
-        wolf.lastKnown = null;
-        wolf.heardPoint = null;
+        wolf.vx = 0;
+        wolf.vy = 0;
+        wolf.moving = false;
+        wolf.moveSpeed = 0;
         return true;
     }
     function start(game) {
@@ -274,7 +203,7 @@ const LakeChallenge = (() => {
             releaseWolf(game);
             GooseSystem.rescue(game);
             AudioSystem.play('panto-victory', { volume: .85 });
-            setStatus('PANTO resgatado! +100 pontos e mais um amigo no poleiro. Atalho e refúgio do lago liberados! Dentro da área marcada, o lobo não pega você.', 'win');
+            setStatus('PANTO resgatado! +100 pontos e mais um amigo no poleiro. Ponte liberada! O lobo continua à solta pela fazenda.', 'win');
         }
         else {
             goose.mode = 'recover';
@@ -316,7 +245,7 @@ const LakeChallenge = (() => {
         updateUI(game);
     }
     function blocksWolf(game) {
-        return game.lake?.active === true || inSanctuary(game);
+        return game.lake?.active === true && game.lake.completed !== true;
     }
     function snapshot(game) {
         return game.lake ? { version: 1, completed: game.lake.completed, misses: game.lake.misses, active: game.lake.active, gooseRescued: !!game.lake.gooseRescued } : undefined;
@@ -351,23 +280,9 @@ const LakeChallenge = (() => {
         const b = bridge();
         return [{ ...water, h: b.y - water.y }, { ...water, y: b.y + b.h, h: water.y + water.h - b.y - b.h }].filter(r => r.h > 0);
     }
-    function drawSanctuary(game) {
-        if (!game.lake?.completed)
-            return;
-        const r = sanctuary(), p = worldToScreen(r);
-        if (p.x > canvas.width || p.y > canvas.height || p.x + r.w < 0 || p.y + r.h < 0)
-            return;
-        ctx.save();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = '#d5ebac99';
-        ctx.setLineDash([10, 9]);
-        ctx.strokeRect(p.x, p.y, r.w, r.h);
-        ctx.restore();
-    }
     function drawGround(game) {
         if (game.phase !== 'playing' && game.phase !== 'menu')
             return;
-        drawSanctuary(game);
         const b = bridge(), p = worldToScreen(b), open = game.lake?.completed;
         if (p.x < -b.w || p.x > canvas.width || p.y < -b.h || p.y > canvas.height)
             return;
@@ -476,7 +391,6 @@ const LakeChallenge = (() => {
         const goose = game.entities.goose;
         const completed = game.lake?.completed, active = game.lake?.active, lake = game.lake;
         panel.hidden = game.phase !== 'playing' || !!completed || !(active || available(game));
-        const safe = inSanctuary(game);
         const failed = lake?.feedback === 'failed' && lake.notice > 0;
         const counter = (lake?.counterWindow || 0) > 0;
         const action = typeof GameInput === 'undefined' ? 'E' : GameInput.label('interact');
@@ -489,15 +403,15 @@ const LakeChallenge = (() => {
         const hud = document.getElementById('lakeCounter'), value = document.getElementById('lakeCounterValue');
         const hudTitle = document.getElementById('lakeCounterTitle'), hudCue = document.getElementById('lakeCounterCue');
         if (hud && value && hudTitle && hudCue) {
-            hud.hidden = game.phase !== 'playing' || !(active || failed || safe || (completed && game.lake.notice > 0));
+            hud.hidden = game.phase !== 'playing' || !(active || failed || (completed && game.lake.notice > 0));
             hud.dataset.completed = String(!!completed);
             hud.dataset.feedback = (game.lake?.notice || 0) > 0 ? game.lake?.feedback || '' : '';
             const count = `${game.lake?.misses || 0}/3`;
             if (value.textContent !== count)
                 value.textContent = count;
             value.setAttribute('aria-label', `${game.lake?.misses || 0} de 3 carimbos`);
-            hudTitle.textContent = safe ? 'LAGOA SEGURA' : completed ? 'PANTO RESGATADO!' : failed ? 'TENTATIVA ENCERRADA' : 'CARIMBOS DO PANTO';
-            hudCue.textContent = safe ? 'O lobo espera fora. A proteção acaba ao sair da área marcada.' : completed ? 'Panto a salvo! A lagoa agora é um refúgio do lobo.' : failed ? 'Três bicadas. Tente o desafio novamente.' : cue;
+            hudTitle.textContent = completed ? 'PANTO RESGATADO!' : failed ? 'TENTATIVA ENCERRADA' : 'CARIMBOS DO PANTO';
+            hudCue.textContent = completed ? 'Panto resgatado! Ponte aberta. Cuidado: o lobo continua por perto.' : failed ? 'Três bicadas. Tente o desafio novamente.' : cue;
             const round = document.getElementById('lakeRound'), chances = document.getElementById('lakeChances');
             if (round)
                 round.textContent = completed ? 'Passagem aprovada' : failed ? 'PANTO reteve seu crachá' : `${Math.min(3, (lake?.misses || 0) + 1)} · ${rounds[Math.min(2, lake?.misses || 0)]}`;
@@ -518,9 +432,9 @@ const LakeChallenge = (() => {
             }
         }
         title.textContent = completed ? 'PANTO liberou a ponte' : 'PANTO · O fiscal do lago';
-        text.textContent = completed ? 'Atalho e refúgio abertos. O lobo não captura dentro da área marcada na lagoa.' : active ?
+        text.textContent = completed ? 'Ponte aberta e Panto no poleiro. A lagoa não protege contra o lobo.' : active ?
             `${game.lake.misses}/3 carimbos · ${cue} O lobo espera fora.` :
-            `Desvie, aproxime-se de PANTO tonto e use ${action} para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Resgate Panto, ganhe +100 pontos, a ponte, um refúgio do lobo e a aparência de ganso.`;
+            `Desvie, aproxime-se de PANTO tonto e use ${action} para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Resgate Panto, ganhe +100 pontos, a ponte e a aparência de ganso.`;
         button.hidden = !!completed;
         button.disabled = !active && !available(game);
         const key = typeof GameInput === 'undefined' ? 'F' : GameInput.label('lake');
