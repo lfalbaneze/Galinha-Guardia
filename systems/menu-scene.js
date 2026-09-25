@@ -64,7 +64,7 @@ const MenuScene = (() => {
   };
   const order = ['chicken', ...herd.filter(a=>a.species!=='chicken').map(a=>a.species)];
   const tricks = ['tumble', 'dance', 'jump', 'spin'];
-  let canvas, world, button, caption, captionLink, screen, context;
+  let canvas, world, button, caption, captionLink, screen, context, playHint, invitation;
   let captionSpot = null;
   let turn = 0, sequence = 0, routine = null, speaker = null, currentGame = null;
   let signature = '', active = false, reduced = false, idle = 0, nextShow = 5.5, equipped = '', pointer = null;
@@ -204,6 +204,7 @@ const MenuScene = (() => {
     canvas = document.getElementById('menuScene'); world = document.getElementById('menuWorld');
     button = document.getElementById('menuScatter'); caption = document.getElementById('menuBanter');
     captionLink = document.getElementById('menuBanterLink');
+    playHint = document.getElementById('menuPlayHint'); invitation = document.getElementById('menuMischief');
     screen = document.getElementById('menuScreen'); context = canvas.getContext('2d');
     button.addEventListener('click', () => { if (canInteract()) startShow(chooseAnimal(), true); });
     screen.addEventListener('pointerdown', event => {
@@ -228,6 +229,7 @@ const MenuScene = (() => {
     });
     screen.addEventListener('pointerleave', () => { pointer = null; resetParallax(); });
     window.addEventListener('resize', () => { resizeDirty = true; });
+    document.fonts?.ready.then(() => { resizeDirty = true; });
     if (typeof ResizeObserver !== 'undefined') new ResizeObserver(() => { resizeDirty = true; }).observe(world);
   }
   function participating(animal) { return routine && (routine.lead === animal && routine.age<1.9 || routine.partner === animal && routine.age>=2.8 && routine.age<4.3); }
@@ -243,6 +245,55 @@ const MenuScene = (() => {
     if (kind === 'jump') return { direction, progress: p, lift: Math.abs(Math.sin(p*Math.PI*3))*36, squash: 1-.09*Math.sin(p*Math.PI*6) };
     if (kind === 'spin') return { direction: ['down','left','up','right'][Math.floor(p*12)%4], progress: p, lift: wave*18, moving: true, anim: p*12 };
     return { direction: kind==='dance'?'down':direction, progress: p, lift: Math.abs(Math.sin(p*Math.PI*4))*12, rotation: Math.sin(p*Math.PI*6)*.18, squash: 1-.07*Math.sin(p*Math.PI*4) };
+  }
+  function placePlayHint() {
+    // Anchor once per layout change to the paths, not to an animal that keeps
+    // walking. This avoids chasing the button with a pointer or keyboard focus.
+    const area=screen.getBoundingClientRect(), bounds=canvas.getBoundingClientRect();
+    const rootWidth=area.width || width, rootHeight=area.height || height;
+    if (!rootWidth || !rootHeight || !bounds.width || !bounds.height) return;
+    invitation.dataset.placement='herd';
+    const size=invitation.getBoundingClientRect();
+    const boxWidth=Math.min(size.width || 250,rootWidth-32), boxHeight=size.height || 68;
+    const view=projection(width,height), sx=bounds.width/width, sy=bounds.height/height;
+    const offsetX=(bounds.left || 0)-(area.left || 0), offsetY=(bounds.top || 0)-(area.top || 0);
+    const group=[];
+    // Use the whole route envelope so normal walking never runs under the hint.
+    for (const animal of herd) for (const point of animal.route) {
+      const x=offsetX+(view.x+point[0]*view.scale)*sx;
+      const y=offsetY+(view.y+point[1]*view.scale)*sy;
+      const scale=actorScale(point[1],view), art=CharacterArt.frameFor(animal.species,appearance(animal));
+      const aw=art.pose.width*art.scale*scale*sx, ah=(art.pose.bottom-art.pose.top)*art.scale*scale*sy;
+      if (x+aw/2<0 || x-aw/2>rootWidth || y<0 || y-ah>rootHeight) continue;
+      group.push({left:x-aw/2,right:x+aw/2,top:y-ah,bottom:y});
+    }
+    if (!group.length) return;
+    const herdBox={left:Math.max(8,Math.min(...group.map(p=>p.left))),right:Math.min(rootWidth-8,Math.max(...group.map(p=>p.right))),
+      top:Math.max(8,Math.min(...group.map(p=>p.top))),bottom:Math.min(rootHeight-8,Math.max(...group.map(p=>p.bottom)))};
+    const rectangles=['menuCard','farmTitle','menuTagline'].map(id=>document.getElementById(id)?.getBoundingClientRect());
+    rectangles.push(screen.querySelector?.('.menu-footer')?.getBoundingClientRect());
+    const blockers=rectangles.filter(r=>r?.width>0&&r?.height>0).map(r=>({left:r.left-(area.left||0),right:r.left+r.width-(area.left||0),
+      top:r.top-(area.top||0),bottom:r.top+r.height-(area.top||0)}));
+    blockers.push(...group);
+    const half=boxWidth/2, center=(herdBox.left+herdBox.right)/2;
+    const candidates=[{x:center,y:herdBox.bottom+18},{x:center,y:herdBox.top-boxHeight-18},
+      {x:herdBox.right+half+18,y:herdBox.bottom-boxHeight},{x:herdBox.left-half-18,y:herdBox.bottom-boxHeight}];
+    for (const y of [rootHeight-boxHeight-16,herdBox.bottom+18,herdBox.top-boxHeight-18])
+      for (const x of [center,rootWidth/2,rootWidth-half-16,half+16]) candidates.push({x,y});
+    const fits=p=>p.x-half>=12&&p.x+half<=rootWidth-12&&p.y>=12&&p.y+boxHeight<=rootHeight-12&&
+      !blockers.some(r=>p.x+half>r.left-10&&p.x-half<r.right+10&&p.y+boxHeight>r.top-10&&p.y<r.bottom+10);
+    const chosen=candidates.map(p=>({...p,x:Math.max(half+16,Math.min(rootWidth-half-16,p.x))})).find(fits);
+    invitation.dataset.placement=chosen?'herd':'flow';
+    invitation.style.left=chosen?`${Math.round(chosen.x)}px`:'';
+    invitation.style.top=chosen?`${Math.round(chosen.y)}px`:'';
+    invitation.style.bottom=chosen?'auto':'';
+  }
+  function updatePlayHint() {
+    const device=typeof GameInput==='undefined'?'keyboard':GameInput.device;
+    const text=device==='gamepad'?'Selecione o botão para brincar.':device==='touch'?'Toque nos bichos para brincar.':'Clique nos bichos para brincar.';
+    if (playHint.textContent===text) return false;
+    playHint.textContent=text;
+    return true;
   }
   function placeCaption() {
     if (!speaker || caption.hidden) return;
@@ -340,6 +391,8 @@ const MenuScene = (() => {
       if (!active) AudioSystem.stopMenuAnimal();
     }
     if (!active || !context || !CharacterArt.ready) return;
+    const hintChanged=updatePlayHint();
+    const placeHint=resizeDirty || hintChanged;
     if (resizeDirty) {
       const bounds = canvas.getBoundingClientRect();
       width = Math.round(canvas.clientWidth || bounds.width); height = Math.round(canvas.clientHeight || bounds.height);
@@ -348,6 +401,7 @@ const MenuScene = (() => {
       canvas.width = Math.round(width*pixelRatio); canvas.height = Math.round(height*pixelRatio);
       resizeDirty = false; signature = ''; captionSpot = null;
     }
+    if (placeHint) placePlayHint();
     dt = Math.max(0,Math.min(.1,dt));
     if (routine) {
       routine.age += dt;
