@@ -28,7 +28,7 @@ function fixture() {
     circleVsCircle:(a,b)=>Math.hypot(a.x+a.hitbox.ox-b.x-b.hitbox.ox,a.y+a.hitbox.oy-b.y-b.hitbox.oy)<=a.hitbox.r+b.hitbox.r,
     resolveEnvironment:()=>true,spawnBurst(){},refreshHud(){},finishLose(){},buildObstacles(){},
     setStatus:text=>calls.status.push(text),document:{getElementById:()=>null},
-    FarmRefuge:{home:()=>({x:200,y:200})},
+    FarmRefuge:{bounds:{x:90,y:174,w:260,h:308},home:()=>({x:200,y:200}),contains:p=>p.x>=90&&p.x<=350&&p.y>=174&&p.y<=482},
     HidingSpots:{candidate:()=>null},CharacterArt:{advance:(n)=>n},
     SkinSystem:{power:()=>({friendSpecies:null}),unlockLake(){}},
     ThorSystem:{active:()=>false},SwimmingSystem:{profile:()=>({swimming:false})},
@@ -106,73 +106,88 @@ test('contact rescue still works from behind, without attracting the animal firs
   assert.equal(h.friend.rescued,true);assert.equal(h.state.rescuedCount,1);
 });
 
-function shelter(h) {h.run('state.lake.completed=true;state.lake.misses=3;chicken.x=1500;chicken.y=820;wolf.huntUnlockTimer=0');}
+function completed(h) {h.run('state.lake.completed=true;state.lake.misses=3;chicken.x=1500;chicken.y=820;wolf.huntUnlockTimer=0');}
 
-test('the lagoon is not safe before victory, but an active challenge still protects',()=>{
+test('only an active Panto challenge protects against the wolf',()=>{
   const h=fixture();h.run('chicken.x=1500;chicken.y=820');
   assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
   h.state.lake.active=true;assert.equal(h.run('LakeChallenge.blocksWolf(state)'),true);
-  h.state.lake.active=false;assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
+  h.state.lake.active=false;completed(h);
+  assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
+  assert.equal(h.run('LakeChallenge.inSanctuary(state)'),false);
+  h.state.lake.active=true;
+  assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false,'a stale active flag cannot revive completed-lake protection');
 });
 
-test('the unlocked refuge uses the pond, not the relocated or missing goose',()=>{
-  const h=fixture();shelter(h);h.state.entities.goose.home={x:100,y:100};
-  assert.equal(h.run('LakeChallenge.blocksWolf(state)'),true);
-  h.state.entities.goose=null;assert.equal(h.run('LakeChallenge.blocksWolf(state)'),true);
-  h.chicken.x=100;h.chicken.y=100;assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
+test('winning the lake does not leave a safe zone, including with a relocated or missing Panto',()=>{
+  const h=fixture();completed(h);h.state.entities.goose.home={x:100,y:100};
+  assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
+  h.state.entities.goose=null;assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
 });
 
-test('an overlapping wolf cannot capture inside the refuge, even without invulnerability',()=>{
-  const h=fixture();shelter(h);h.wolf.x=h.chicken.x;h.wolf.y=h.chicken.y;
-  assert.equal(h.run('Player.checkCatch(state)'),false);assert.equal(h.state.lives,3);
-});
-
-test('crossing any refuge edge immediately removes geographical protection',()=>{
-  for(const [x,y] of [[1349,820],[1731,820],[1500,701],[1500,1003]]){
-    const h=fixture();shelter(h);h.chicken.x=x;h.chicken.y=y;h.wolf.x=x;h.wolf.y=y;
-    assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false,`${x},${y}`);
-    assert.equal(h.run('Player.checkCatch(state)'),true);assert.equal(h.state.lives,2);
+test('the wolf can catch on the bank and inside all former sanctuary boundaries after victory',()=>{
+  for(const [x,y] of [[1500,820],[1351,820],[1729,820],[1500,712],[1500,993]]){
+    const h=fixture();completed(h);h.chicken.x=x;h.chicken.y=y;h.wolf.x=x;h.wolf.y=y;
+    assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
+    assert.equal(h.run('Player.checkCatch(state)'),true,`${x},${y}`);
+    assert.equal(h.state.lives,2);
   }
 });
 
-test('guard relocates an inside wolf and then patrols the shoreline instead of freezing',()=>{
-  const h=fixture();shelter(h);h.wolf.x=h.chicken.x;h.wolf.y=h.chicken.y;
-  assert.equal(h.run('LakeChallenge.guardWolf(state,.1)'),true);
-  assert.ok(h.run(`(()=>{const p=getHitbox(wolf),r=LakeChallenge.sanctuary();return Math.hypot(p.x-clamp(p.x,r.x,r.x+r.w),p.y-clamp(p.y,r.y,r.y+r.h))>wolf.hitbox.r+24;})()`));
-  const pos=[h.wolf.x,h.wolf.y];for(let i=0;i<20;i++)h.run('LakeChallenge.guardWolf(state,.1)');
-  assert.notDeepEqual([h.wolf.x,h.wolf.y],pos);assert.equal(h.wolf.mode,'patrol');assert.equal(h.calls.wolfReset,1);
-  h.chicken.x=1000;assert.equal(h.run('LakeChallenge.guardWolf(state,.1)'),false);
-  h.chicken.x=1500;assert.equal(h.run('LakeChallenge.guardWolf(state,.1)'),true);assert.equal(h.calls.wolfReset,2);
+test('the curral still protects the chicken independently of the removed lake rule',()=>{
+  const h=fixture();completed(h);h.chicken.x=230;h.chicken.y=370;h.wolf.x=230;h.wolf.y=370;
+  assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
+  assert.equal(h.run('Player.checkCatch(state)'),false);assert.equal(h.state.lives,3);
 });
 
-test('an outside wolf keeps moving on the bank without granting player invulnerability',()=>{
-  const h=fixture();shelter(h);const pos=[h.wolf.x,h.wolf.y];
-  h.run('LakeChallenge.guardWolf(state,.25)');
-  assert.notDeepEqual([h.wolf.x,h.wolf.y],pos);
-  assert.equal(h.chicken.invulnerable,0);assert.equal(h.wolf.huntUnlockTimer,0);
+test('completed lake guard does not teleport, stop, reset or patrol the wolf',()=>{
+  const h=fixture();completed(h);h.wolf.x=1500;h.wolf.y=820;h.wolf.vx=35;h.wolf.vy=20;
+  h.wolf.mode='chase';const before=JSON.stringify(h.wolf);
+  for(let i=0;i<120;i++)assert.equal(h.run('LakeChallenge.guardWolf(state,.05)'),false);
+  assert.equal(JSON.stringify(h.wolf),before);assert.equal(h.calls.wolfReset,0);assert.equal(h.chicken.invulnerable,0);
 });
 
-test('completed saves restore the refuge; interrupted and new games do not unlock it',()=>{
+test('legacy completed saves keep Panto and bridge progress but never restore lake immunity',()=>{
   const h=fixture();h.run('chicken.x=1500;chicken.y=820;LakeChallenge.restore(state,{version:1,completed:true,misses:3})');
-  assert.equal(h.run('LakeChallenge.blocksWolf(state)'),true);
+  assert.equal(h.run('state.lake.completed && state.lake.gooseRescued'),true);
+  assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
   h.run('LakeChallenge.restore(state,{version:1,active:true,completed:false,misses:2})');
   assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
   h.run('LakeChallenge.initialize(state)');assert.equal(h.run('LakeChallenge.blocksWolf(state)'),false);
 });
 
-test('the real game loop checks the sanctuary before updating the wolf',()=>{
+test('the real game loop updates the wolf normally at a completed lake',()=>{
   const h=fixture(),code=fs.readFileSync(path.join(__dirname,'../game.js'),'utf8');
   const fn=code.match(/function updateWolf\(dt\) \{[\s\S]*?\n\}/)[0];
-  let updates=0;h.context.WolfAI.update=()=>updates++;h.context.WolfDialogue={update(){}};
-  vm.runInContext(fn,h.context);shelter(h);h.run('updateWolf(.05)');assert.equal(updates,0);
-  h.chicken.x=1000;h.run('updateWolf(.05)');assert.equal(updates,1);
+  let updates=0,dialogue=0;h.context.WolfAI.update=()=>updates++;h.context.WolfDialogue={update(){dialogue++;}};
+  vm.runInContext(fn,h.context);completed(h);h.run('updateWolf(.05)');
+  assert.equal(updates,1);assert.equal(dialogue,1);
+  h.chicken.x=1000;h.run('updateWolf(.05)');assert.equal(updates,2);
+  h.state.lake.completed=false;h.state.lake.active=true;h.run('updateWolf(.05)');assert.equal(updates,2);
 });
 
-
-test('the live Panto challenge still parks the wolf outside the arena',()=>{
-  const h=fixture();h.run('state.lake.active=true;state.lake.completed=false;chicken.x=1500;chicken.y=820;wolf.vx=80;wolf.vy=40');
+test('the live Panto challenge still parks the wolf outside the arena, only once',()=>{
+  const h=fixture();h.run('state.lake.active=true;chicken.x=1500;chicken.y=820;wolf.vx=80;wolf.vy=40');
   const pos=[h.wolf.x,h.wolf.y];
   assert.equal(h.run('LakeChallenge.guardWolf(state,.2)'),true);
-  assert.deepEqual([h.wolf.x,h.wolf.y],pos);
-  assert.equal(h.wolf.vx,0);assert.equal(h.wolf.vy,0);
+  assert.deepEqual([h.wolf.x,h.wolf.y],pos);assert.equal(h.wolf.vx,0);assert.equal(h.wolf.vy,0);
+  for(let i=0;i<10;i++)h.run('LakeChallenge.guardWolf(state,.05)');
+  assert.equal(h.calls.wolfReset,1);
+  h.state.lake.active=false;assert.equal(h.run('LakeChallenge.guardWolf(state,.05)'),false);
+});
+
+test('completed lake HUD expires and no longer advertises permanent protection',()=>{
+  const h=fixture(),nodes=new Map();completed(h);h.state.lake.notice=0;
+  h.context.document.getElementById=id=>{
+    if(!nodes.has(id))nodes.set(id,{hidden:false,textContent:'',dataset:{},setAttribute(){}});
+    return nodes.get(id);
+  };
+  h.run('LakeChallenge.updateUI(state)');
+  assert.equal(nodes.get('lakeCounter').hidden,true);
+  assert.equal(nodes.get('lakePanel').hidden,true);
+  assert.equal(nodes.get('lakeCounterTitle').textContent,'PANTO RESGATADO!');
+  const source=fs.readFileSync(path.join(__dirname,'../systems/lake-challenge.js'),'utf8');
+  assert.doesNotMatch(source,/LAGOA SEGURA|Lagoa segura!|drawSanctuary|shorelinePatrol/);
+  h.state.lake.notice=3;h.run('LakeChallenge.updateUI(state)');assert.equal(nodes.get('lakeCounter').hidden,false);
+  h.state.lake.notice=0;h.run('LakeChallenge.updateUI(state)');assert.equal(nodes.get('lakeCounter').hidden,true);
 });

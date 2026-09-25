@@ -59,6 +59,7 @@ const GooseSystem = (() => {
   }
 
   function settle(goose: Farm.Goose): void {
+    if (typeof PenLife !== 'undefined') PenLife.resetGoose(goose);
     Object.assign(goose, FarmRefuge.gooseHome(), {mode:'defeated',moving:false,vx:0,vy:0,direction:'down',state:'idle',
       chargeHit:false,chargeCounted:false,comboRemaining:0,comboFollowup:false,returnPath:[]});
     goose.areaId=getAreaAt(goose.x,goose.y).id;
@@ -249,11 +250,13 @@ const GooseSystem = (() => {
 
   function update(game: Farm.GameState, dt: number): void {
     const goose = game.entities.goose;
-    if (game.phase !== 'playing' || !goose || !Number.isFinite(dt) || dt <= 0) return;
+    if (game.phase !== 'playing' || !Number.isFinite(dt) || dt <= 0) return;
     dt = Math.min(dt, .1);
-    if(goose.rescued){
-      settle(goose);goose.anim+=dt*2;
-      goose.direction=(['down','right','down','left'] as const)[Math.floor(goose.anim/12)%4];
+    // Pen comments still work in farms without Panto or before his rescue.
+    if (typeof PenLife !== 'undefined') PenLife.update(game, dt);
+    if (!goose) return;
+    if (goose.rescued) {
+      if (typeof PenLife !== 'undefined') PenLife.updateGoose(game, goose, dt);
       return;
     }
     const config = getConfig(game), before = point(goose);
@@ -431,6 +434,7 @@ const GooseSystem = (() => {
   }
 
   function drawIndicator(game: Farm.GameState): void {
+    if (typeof PenLife !== 'undefined') PenLife.draw(game);
     const goose = game.entities.goose;
     if (!goose || game.phase !== 'playing' || !visible(game, goose)) return;
     if (goose.mode === 'defeated' && (game.skinNotice?.time || 0) > 0) return;
