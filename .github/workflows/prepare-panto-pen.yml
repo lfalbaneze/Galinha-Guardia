@@ -32,9 +32,17 @@ jobs:
           test "$(git hash-object src/systems/lake-challenge.ts)" = fe82fab0df98ec7d3bbb5bd4984139875154231b
           test "$(git hash-object tests/stealth-lagoon.test.cjs)" = 2928243394387b5d2ed01e01fac39016a288a5dc
           test "$(git hash-object tests/browser/lake_smoke.py)" = a7cc90974f769ffa787df03d9999de5fd79e3c81
+          test "$(git hash-object tests/lake-challenge.test.cjs)" = 71590a8fbe25a048677b7cd0aa4d8f64c12e0e5f
           gzip -dc .github/panto-pen.patch.gz > "$RUNNER_TEMP/panto-pen.patch"
           git apply --check --unidiff-zero "$RUNNER_TEMP/panto-pen.patch"
           git apply --unidiff-zero "$RUNNER_TEMP/panto-pen.patch"
+          node <<'JS'
+          const fs=require('node:fs');
+          function replace(file,from,to){const s=fs.readFileSync(file,'utf8');if(!s.includes(from))throw Error('Missing test anchor '+file);fs.writeFileSync(file,s.replace(from,to));}
+          replace('tests/lake-challenge.test.cjs','/Atalho e refúgio abertos/','/Ponte aberta e Panto no poleiro/');
+          replace('tests/lake-challenge.test.cjs','/lobo não captura dentro da área marcada/','/A lagoa não protege contra o lobo/');
+          replace('tests/stealth-lagoon.test.cjs','FarmRefuge:{home:','FarmRefuge:{bounds:{x:90,y:174,w:260,h:308},home:');
+          JS
           git diff --check
       - run: npm ci
       - run: npm run compile
@@ -56,7 +64,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git rm .github/panto-pen.patch.gz .github/workflows/prepare-panto-pen.yml
-          git add index.html src/systems/goose-system.ts src/systems/lake-challenge.ts src/systems/pen-life.ts systems/goose-system.js systems/lake-challenge.js systems/pen-life.js tests/pen-life.test.cjs tests/stealth-lagoon.test.cjs tests/browser/lake_smoke.py
+          git add index.html src/systems/goose-system.ts src/systems/lake-challenge.ts src/systems/pen-life.ts systems/goose-system.js systems/lake-challenge.js systems/pen-life.js tests/pen-life.test.cjs tests/stealth-lagoon.test.cjs tests/lake-challenge.test.cjs tests/browser/lake_smoke.py
           git diff --cached --check
           git commit -m 'fix: remove refúgio da lagoa e dá vida ao curral e ao Panto'
           git push origin HEAD:fix/panto-pen-life
