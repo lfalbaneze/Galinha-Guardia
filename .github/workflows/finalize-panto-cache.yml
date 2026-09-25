@@ -1,0 +1,44 @@
+name: Preserve existing asset versions
+on:
+  push:
+    branches: [fix/panto-pen-life]
+    paths: ['.github/workflows/finalize-panto-cache.yml']
+permissions:
+  contents: write
+jobs:
+  finalize:
+    if: github.repository == 'lfalbaneze/Galinha-Guardia' && github.ref == 'refs/heads/fix/panto-pen-life'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: fix/panto-pen-life
+      - name: Keep unrelated asset cache versions from the original main
+        run: |
+          node <<'JS'
+          const fs=require('node:fs');
+          let html=fs.readFileSync('index.html','utf8');
+          for(const [file,before,after] of [
+            ['menu.css','f783a4c5af10','c0f931bb7e85'],
+            ['systems/sunlight.js','dcdb47a63a6f','f0cb4c3a8f80'],
+            ['systems/character-art.js','b34243d42226','591ae300cf4d'],
+            ['systems/thor-cinematic.js','2794cea4dec9','d78036499317'],
+            ['systems/menu-scene.js','0f8f59fa258e','e7968db0f026'],
+            ['systems/menu-briefing.js','3384f57b193c','e1ea6a1e9958'],
+            ['game.js','d9ca809bd2e9','326c6609543b']
+          ]){
+            const old='"./'+file+'?v='+before+'"', next='"./'+file+'?v='+after+'"';
+            if(!html.includes(old))throw Error('Unexpected asset version: '+file);
+            html=html.replace(old,next);
+          }
+          if(!html.includes('systems/pen-life.js?v=pen-life-1'))throw Error('Missing PenLife');
+          fs.writeFileSync('index.html',html);
+          JS
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/finalize-panto-cache.yml
+          git add index.html
+          git diff --cached --check
+          git commit -m 'chore: mantém os caches atuais dos assets não alterados'
+          git push origin HEAD:fix/panto-pen-life
