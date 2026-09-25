@@ -55,11 +55,14 @@ body:has(.game-shell[data-phase='menu']) { padding:0; background:#244433; }
 #menuScreen .menu-footer { position:absolute; left:clamp(40px,6.4vw,132px); bottom:26px; margin:0; padding:0; border:0; }
 #menuScreen .game-author { margin:0; color:#ecdfbf9e; font:600 11px/1.2 var(--menu-text); }
 #menuScreen .game-author strong { color:#ecdfbf; font-weight:800; }
-#menuScreen .menu-mischief { position:absolute; z-index:1; right:clamp(40px,6.4vw,132px); left:auto; top:auto; bottom:26px; width:auto; max-width:250px; transform:none; text-align:right; }
-#menuScreen #menuScatter { display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:8px 0; border:0; border-radius:0; background:none; color:#fff0c5; box-shadow:none; font:800 13px/1.2 var(--menu-text); text-shadow:0 1px 4px #173c2b; }
-#menuScreen #menuScatter svg { width:18px; height:18px; }
-#menuScreen #menuScatter > span { font-size:19px; }
-#menuScreen #menuPlayHint { margin:-2px 0 0; color:#dedfc5ad; font:600 11px/1.4 var(--menu-text); }
+/* An invitation beside the herd, not an arrow/link pointing out of the scene. */
+#menuScreen .menu-mischief { position:absolute; z-index:2; right:auto; left:70%; top:auto; bottom:44px; width:250px; max-width:calc(100% - 32px); transform:translateX(-50%); text-align:center; user-select:none; }
+#menuScreen #menuScatter { display:inline-flex; justify-content:center; align-items:center; gap:8px; min-height:44px; padding:10px 16px; border:1px solid #d9c28c99; border-radius:22px; background:#243f32e8; color:#fff0c5; box-shadow:0 3px 8px #16372a40; font:800 13px/1.2 var(--menu-text); text-shadow:none; }
+#menuScreen #menuScatter:hover:not(:disabled) { background:#3a5940; color:#fff6de; }
+#menuScreen #menuScatter svg { flex:none; width:18px; height:18px; }
+#menuScreen #menuPlayHint { display:block; margin:6px 0 0; color:#fff2cf; font:700 12px/1.4 var(--menu-text); text-shadow:0 1px 4px #173c2b; }
+/* In very crowded layouts keep the keyboard/touch button in normal flow. */
+#menuScreen #menuMischief[data-placement='flow'] { position:relative; left:auto; right:auto; top:auto; bottom:auto; transform:none; grid-column:1 / -1; grid-row:4; order:3; justify-self:center; align-self:start; margin:12px auto 36px; }
 #menuScreen #menuBanter { position:absolute; z-index:4; width:236px; max-width:calc(100% - 24px); margin:0; padding:11px 15px; transform:translate(-50%,-100%); border:2px solid #695137; border-radius:24px; background:#fff4d8; color:#535034; font:700 13px/1.4 var(--menu-text); white-space:pre-line; text-align:center; box-shadow:0 4px 12px #173a3040; pointer-events:none; }
 #menuScreen #menuBanter::first-line { color:#96703e; font-weight:900; }
 .menu-banter-link { position:absolute; inset:0; z-index:5; width:100%; height:100%; overflow:visible; pointer-events:none; }
@@ -79,8 +82,7 @@ body:has(.game-shell[data-phase='menu']) { padding:0; background:#244433; }
   #menuScreen .farm-title { font-size:113px; }
   #menuScreen .farm-tagline { font-size:16px; }
   #menuScreen .menu-footer { left:25px; bottom:22px; }
-  #menuScreen .menu-mischief { right:25px; bottom:20px; }
-  #menuScreen #menuPlayHint { display:none; }
+  #menuScreen .menu-mischief { left:50%; bottom:38px; }
 }
 @media (max-width:540px) {
   #gameShell #menuScreen { display:grid; height:var(--mobile-height,100dvh); min-height:0; padding:max(24px,env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) max(62px,env(safe-area-inset-bottom,0px)) max(22px,env(safe-area-inset-left,0px)); row-gap:24px; overflow-y:auto; }
@@ -97,10 +99,9 @@ body:has(.game-shell[data-phase='menu']) { padding:0; background:#244433; }
   #menuScreen #menuDescription { font-size:11px; }
   #menuScreen .menu-footer { left:22px; bottom:20px; }
   #menuScreen .game-author { font-size:9px; }
-  #menuScreen .menu-mischief { right:22px; bottom:9px; max-width:148px; }
-  #menuScreen #menuScatter { font-size:10px; gap:5px; }
-  #menuScreen #menuScatter svg { width:15px; height:15px; }
-  #menuScreen #menuScatter > span { display:none; }
+  #menuScreen .menu-mischief { bottom:max(36px,env(safe-area-inset-bottom,0px)); width:240px; }
+  #menuScreen #menuScatter { font-size:12px; gap:7px; }
+  #menuScreen #menuScatter svg { width:16px; height:16px; }
 }
 @media (orientation:landscape) and (max-height:540px) {
   #gameShell #menuScreen { grid-template-columns:minmax(240px,1fr) minmax(280px,1fr); grid-template-rows:1fr auto 1fr; column-gap:6vw; padding:25px max(35px,env(safe-area-inset-right,0px)) 40px max(35px,env(safe-area-inset-left,0px)); }
@@ -114,7 +115,7 @@ body:has(.game-shell[data-phase='menu']) { padding:0; background:#244433; }
   #menuScreen button.menu-secondary { min-height:44px; font-size:20px; }
   #menuScreen .home-links button { font-size:12px; }
   #menuScreen .menu-footer { bottom:16px; }
-  #menuScreen .menu-mischief { bottom:4px; }
+  #menuScreen .menu-mischief { bottom:32px; }
 }
 @media (prefers-reduced-motion:reduce) {
   #menuScreen .menu-world { will-change:auto; }
