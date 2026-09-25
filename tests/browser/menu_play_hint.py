@@ -6,7 +6,7 @@ OUT=Path('.cache/menu-hint-review'); OUT.mkdir(parents=True,exist_ok=True)
 report=[]
 with sync_playwright() as p:
     browser=p.chromium.launch(headless=True)
-    for width,height,touch in [(1440,900,False),(1920,1080,False),(1280,720,False),(900,1000,False),(390,844,True),(844,390,True)]:
+    for width,height,touch in [(1440,900,False),(1920,1080,False),(1280,720,False),(900,1000,False),(900,1000,True),(390,844,True),(844,390,True)]:
         context=browser.new_context(viewport={'width':width,'height':height},is_mobile=touch,has_touch=touch)
         page=context.new_page(); errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
@@ -19,14 +19,22 @@ with sync_playwright() as p:
         assert '↗' not in button.inner_text()
         expected='Toque' if touch else 'Clique'
         assert page.locator('#menuPlayHint').inner_text().startswith(expected)
-        box=button.bounding_box();assert box and box['height']>=44
+        page.screenshot(path=str(OUT/f'menu-{width}x{height}-{"touch" if touch else "mouse"}.png'),full_page=True)
+        # The existing compact title layout deliberately hides the animal canvas.
+        # Do not re-enable a button inviting users to play with invisible animals.
+        if not page.locator('#menuScene').is_visible():
+            assert not button.is_visible(), 'Invitation shown without the herd'
+            assert not errors, errors
+            report.append({'viewport':[width,height],'touch':touch,'hiddenWithHerd':True,'errors':errors})
+            context.close()
+            continue
+        box=button.bounding_box();assert box and box['height']>=43.99, (width,height,box)
         assert box['x']>=0 and box['x']+box['width']<=width+1
         placement=hint.get_attribute('data-placement')
         if placement=='herd':
             invitation=hint.bounding_box(); card=page.locator('#menuCard').bounding_box()
             assert not (invitation['x']<card['x']+card['width'] and invitation['x']+invitation['width']>card['x'] and invitation['y']<card['y']+card['height'] and invitation['y']+invitation['height']>card['y']), 'Hint covers main controls'
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
-        page.screenshot(path=str(OUT/f'menu-{width}x{height}.png'),full_page=True)
         button.click()
         page.evaluate('MenuScene.frame(state,.1,true)')
         assert page.evaluate("state.phase==='menu' && !document.getElementById('menuBanter').hidden"), 'Play button no longer starts a reaction'
