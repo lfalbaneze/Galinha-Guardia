@@ -36,17 +36,18 @@ const Player = {
   update(game: Farm.GameState, dt: number): void {
     if (game.phase !== "playing" || !Number.isFinite(dt) || dt < 0) return;
     const chicken = game.entities.chicken, move = Player.moveVector(), power = SkinSystem.power(chicken);
+    const boosts = typeof ExpeditionSystem !== 'undefined' ? ExpeditionSystem.modifiers(game) : {speed:1,sprint:1,recovery:1,sneak:1,hurtGrace:0};
     const moving = move.x !== 0 || move.y !== 0;
     if (moving) { chicken.hidden = false; chicken.hidingSpotId = null; }
     const shift = typeof GameInput === 'undefined' ? input.has('shift') : GameInput.held('shift');
     if (!shift && chicken.stamina >= 0.25) chicken.exhausted = false;
     chicken.sneaking = (typeof GameInput === 'undefined' ? input.has('c') : GameInput.held('c')) && !chicken.hidden;
     const wantsSprint = moving && shift && !chicken.sneaking && !chicken.exhausted && chicken.stamina > 0;
-    const sprintSeconds = Player.sprintSeconds * power.sprintDuration;
+    const sprintSeconds = Player.sprintSeconds * power.sprintDuration * boosts.sprint;
     const sprintPart = wantsSprint && dt > 0 ? Math.min(1, chicken.stamina * sprintSeconds / dt) : 0;
     const landSpeed = SwimmingSystem.profile(game).depth > 0 ? 1 : power.landSpeed;
-    const speed = chicken.speed * landSpeed * EnvironmentSystem.movementScale(game) *
-      (chicken.sneaking ? power.sneakSpeed : 1 + (Player.sprintMultiplier - 1) * sprintPart);
+    const speed = chicken.speed * landSpeed * boosts.speed * EnvironmentSystem.movementScale(game) *
+      (chicken.sneaking ? power.sneakSpeed * boosts.sneak : 1 + (Player.sprintMultiplier - 1) * sprintPart);
     const oldX = chicken.x, oldY = chicken.y;
     Player.move(chicken, move.x * speed * dt, move.y * speed * dt);
     const traveled = Math.hypot(chicken.x - oldX, chicken.y - oldY);
@@ -61,7 +62,7 @@ const Player = {
     } else {
       const recovering = Math.max(0, dt - chicken.staminaDelay);
       chicken.staminaDelay = Math.max(0, chicken.staminaDelay - dt);
-      chicken.stamina = Math.min(1, chicken.stamina + recovering * (chicken.hidden ? 0.65 : 0.28));
+      chicken.stamina = Math.min(1, chicken.stamina + recovering * (chicken.hidden ? 0.65 : 0.28) * boosts.recovery);
     }
     chicken.state = chicken.moving ? "walk" : "idle";
     chicken.anim = CharacterArt.advance(chicken.anim, 'chicken', traveled, {skin:chicken.skin,speed:dt>0?traveled/dt:0});
@@ -76,6 +77,12 @@ const Player = {
     if (refugeSafe || LakeChallenge.blocksWolf(game) || ThorSystem.active(game) || game.phase !== "playing" || !SunflowerSystem.canCatch(game) || (chicken.hidden && !WolfAI.canCatchHidden(game)) || chicken.invulnerable > 0 ||
       wolf.mode === 'frightened' || wolf.pauseTimer > 0 || wolf.huntUnlockTimer > 0 || !circleVsCircle(chicken, wolf) ||
       !DetectionSystem.hasLineOfSight(getHitbox(wolf), getHitbox(chicken))) return false;
+    if (typeof ExpeditionSystem !== 'undefined' && ExpeditionSystem.blockWolfHit(game)) {
+      spawnBurst(chicken.x, chicken.y, '#fff0ba', 12);
+      setStatus('A casca segurou essa! O próximo golpe já não tem garantia.');
+      GameManager.save(game);
+      return false;
+    }
     const caughtInCover = chicken.hidden;
     chicken.hidden = false; chicken.hidingSpotId = null; chicken.hideBlend = 0;
     wolf.exposedCover = null;
@@ -83,7 +90,7 @@ const Player = {
     game.lives -= 1;
     AudioSystem.playPlayerHurt(game);
     game.score = Math.max(0, game.score - SCORE_PENALTY_LOSS);
-    chicken.invulnerable = 3;
+    chicken.invulnerable = 3 + (typeof ExpeditionSystem !== 'undefined' ? ExpeditionSystem.modifiers(game).hurtGrace : 0);
     wolf.pauseTimer = 1.5;
     const dx = chicken.x - wolf.x, dy = chicken.y - wolf.y, len = Math.hypot(dx, dy);
     Player.move(chicken, (len > 0 ? dx / len : 1) * 65, (len > 0 ? dy / len : 0) * 65);

@@ -1,0 +1,33 @@
+/* New-mode UI only; no overrides for classic gameplay, scenery or character art. */
+#menuScreen .expedition-mode-link{display:block;order:4;padding:12px 10px;margin:2px auto 0;max-width:310px;border:1px solid #d8bd8270;border-radius:8px;background:#203d30d9;color:#ffe3a2;font:800 13px/1.4 var(--menu-text,'Trebuchet MS',sans-serif);text-decoration:none;text-align:center}
+#menuScreen .expedition-mode-link:hover{background:#355641;color:#fff2ca}
+#menuScreen .expedition-mode-link:focus-visible{outline:3px solid #f4c55e;outline-offset:4px}
+#expeditionStatus{position:absolute;z-index:3;left:50%;bottom:50px;transform:translateX(-50%);width:min(400px,calc(100% - 28px));padding:9px 14px;border:1px solid #d8bb7450;border-radius:9px;background:#1e382deb;color:#fff1cc;text-align:center;pointer-events:none;font:600 11px/1.4 var(--menu-text,'Trebuchet MS',sans-serif)}
+#expeditionStatus[hidden]{display:none}
+#expeditionStatus strong,#expeditionStatus span,#expeditionStatus small{display:block}
+#expeditionStatus strong{color:#f7d589;letter-spacing:.12em;font-size:10px}
+#expeditionStatus small{font-size:10px;color:#d3dfc7;margin-top:3px}
+.game-shell[data-touch='true'] #expeditionStatus{bottom:calc(150px + env(safe-area-inset-bottom,0px));width:min(340px,calc(100% - 28px))}
+#expeditionDraft{box-sizing:border-box;width:min(850px,calc(100vw - 28px));max-width:none;max-height:calc(100dvh - 28px);padding:0;border:2px solid #c09b61;border-radius:18px;background:#f7edcf;color:#473626;box-shadow:0 14px 70px #0008;font:600 15px/1.5 var(--menu-text,'Trebuchet MS',sans-serif);overflow:auto;overscroll-behavior:contain}
+#expeditionDraft::backdrop{background:#10291fe8}
+.expedition-sheet{padding:30px}
+.expedition-kicker{margin:0 0 9px;font-size:11px;letter-spacing:.14em;font-weight:900;color:#6b7048}
+#expeditionTitle{margin:0;font:400 clamp(25px,3.4vw,36px)/1.08 var(--menu-display,'Trebuchet MS',sans-serif);color:#443424}
+.expedition-lead{margin:12px 0 24px;color:#776448}
+#expeditionChoices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#expeditionChoices button{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-width:0;min-height:254px;padding:22px 18px 18px;border:2px solid #c4b28c;border-radius:12px;background:#fff9e8;color:#473626;text-align:left;font:inherit;cursor:pointer;box-shadow:0 4px 0 #b5a27b;transition:transform .12s,border-color .12s}
+#expeditionChoices button:hover{transform:translateY(-3px);border-color:#5b7646;background:#fffff0}
+#expeditionChoices button:active{transform:translateY(1px)}
+#expeditionChoices button:focus-visible,#expeditionDraft .expedition-draft-footer button:focus-visible{outline:3px solid #496d3e;outline-offset:4px}
+.expedition-card-number{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;background:#31503a;color:#ffe6a6;font:900 14px/1 var(--menu-text,sans-serif)}
+#expeditionChoices small{font-size:10px;font-weight:900;letter-spacing:.12em;color:#72774f}
+#expeditionChoices strong{font-size:19px;line-height:1.2}
+.expedition-card-effect{font-size:13px;line-height:1.55}
+#expeditionChoices em{display:block;margin-top:auto;padding-top:10px;border-top:1px solid #d9caa7;font-size:11px;line-height:1.4;color:#887255}
+.expedition-draft-footer{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:25px}
+.expedition-draft-footer button{min-height:44px;padding:10px 15px;border:1px solid #a79a73;border-radius:7px;background:#eadeb8;color:#423c2a;font:800 12px/1.4 var(--menu-text,sans-serif);cursor:pointer}
+.expedition-draft-footer button:disabled{opacity:.55;cursor:default}
+.expedition-draft-footer p{flex:1;margin:0;text-align:right;font-size:11px;color:#82704f}
+@media(max-width:600px){.expedition-sheet{padding:20px 16px}#expeditionChoices{grid-template-columns:1fr;gap:11px}#expeditionChoices button{display:grid;grid-template-columns:36px 1fr;gap:4px 12px;min-height:132px;padding:14px}.expedition-card-number{grid-row:1/4}#expeditionChoices small,#expeditionChoices strong,.expedition-card-effect{grid-column:2}#expeditionChoices em{grid-column:2;border:0;margin:0;padding:4px 0 0}#expeditionChoices strong{font-size:17px}.expedition-lead{font-size:13px;margin-bottom:16px}.expedition-draft-footer{gap:8px;margin-top:18px}.expedition-draft-footer p{flex-basis:100%;text-align:left}}
+@media(prefers-reduced-motion:reduce){#expeditionChoices button{transition:none}#expeditionChoices button:hover{transform:none}}
+@media(forced-colors:active){#expeditionDraft,#expeditionChoices button,#expeditionStatus{border-color:CanvasText}.expedition-card-number{border:1px solid CanvasText}}
