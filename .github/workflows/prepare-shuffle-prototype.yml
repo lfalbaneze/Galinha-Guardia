@@ -29,6 +29,7 @@ jobs:
         run: |
           test "$(git hash-object index.html)" = 9704276d3235930c63caa48a80faece8f6ead954
           test "$(git hash-object scripts/build.cjs)" = 887788b4b871e586371aeca9a01346117f82174d
+          test "$(git hash-object shuffle/ui.js)" = a5238137317888103391a4e2ddcd169d0e5fc128
           python - <<'PY'
           from pathlib import Path
           p=Path('index.html');text=p.read_text(encoding='utf-8')
@@ -45,6 +46,45 @@ jobs:
           anchor="new vm.Script(fs.readFileSync(path.join(root,'game.js'),'utf8'),{filename:'game.js'});"
           assert text.count(anchor)==1
           text=text.replace(anchor,anchor+"\nfor(const name of ['engine.js','ui.js'])\n  new vm.Script(fs.readFileSync(path.join(root,'shuffle',name),'utf8'),{filename:'shuffle/'+name});")
+          p.write_text(text,encoding='utf-8')
+          p=Path('shuffle/ui.js');text=p.read_text(encoding='utf-8')
+          anchor="'Carta necessária':p.cornCooldown>0?"
+          assert text.count(anchor)==1
+          text=text.replace(anchor,"'Carta necessária':p?.cornCooldown>0?")
+          p.write_text(text,encoding='utf-8')
+          p=Path('tests/browser/shuffle_smoke.py');text=p.read_text(encoding='utf-8')
+          text=text.replace("page.wait_for_function('ShuffleDemo.ready')", "page.wait_for_function('window.ShuffleDemo && ShuffleDemo.ready')")
+          anchor="    page.locator('#shuffleModeLink').click()\n"
+          assert text.count(anchor)==1
+          text=text.replace(anchor,anchor+"    page.wait_for_url('**/shuffle/index.html')\n")
+          anchor='    # A valid boss-phase checkpoint is a fixture, not an injected victory.\n'
+          assert text.count(anchor)==1
+          regression='''    # Restoring a draft with corn has no player object until a card is chosen.
+              context = browser.new_context(viewport={'width': 390, 'height': 844}, has_touch=True, is_mobile=True)
+              page = context.new_page()
+              draft_errors = []
+              page.on('pageerror', lambda error: draft_errors.append(str(error)))
+              page.goto(BASE + 'shuffle/', wait_until='networkidle')
+              page.wait_for_function('window.ShuffleDemo && ShuffleDemo.ready')
+              page.evaluate("""() => localStorage.setItem(ShuffleDemo.saveKey, JSON.stringify({version:1,seed:19,rng:19,stage:1,phase:'draft',skills:{corn:1},level:1,hp:3,choices:['boots','heart','call'],rerolls:1,elapsed:1}))""")
+              page.reload(wait_until='networkidle')
+              page.wait_for_function('window.ShuffleDemo && ShuffleDemo.ready')
+              page.locator('#continueRun').click()
+              assert page.locator('[data-skill]').count() == 3
+              assert page.evaluate('ShuffleDemo.run.player === null')
+              page.locator('[data-skill]').first.click()
+              assert page.evaluate("ShuffleDemo.run.phase === 'playing' && ShuffleDemo.run.skills.corn === 1 && ShuffleDemo.run.level === 2")
+              assert not draft_errors, draft_errors
+              results.append({'restoredDraftWithCorn': True})
+              context.close()
+          '''
+          import textwrap
+          lines=regression.splitlines()
+          regression=lines[0]+'\n'+textwrap.dedent('\n'.join(lines[1:])).rstrip()+'\n'
+          # Keep this block at the same indentation as the boss fixture.
+          regression=regression.splitlines()[0]+'\n'+'\n'.join('    '+line for line in regression.splitlines()[1:])+'\n'
+          text=text.replace(anchor,regression+anchor)
+          compile(text,str(p),'exec')
           p.write_text(text,encoding='utf-8')
           PY
           git diff --check
