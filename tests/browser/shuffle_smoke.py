@@ -57,7 +57,7 @@ with sync_playwright() as p:
             assert b and b['height'] >= 44
         page.screenshot(path=str(OUT / f'play-{width}.png'))
         page.reload(wait_until='networkidle')
-        page.wait_for_function('ShuffleDemo.ready')
+        page.wait_for_function('window.ShuffleDemo && ShuffleDemo.ready')
         page.locator('#continueRun').click()
         assert page.evaluate('(id) => ShuffleDemo.run.skills[id]', chosen) == 1
         assert page.evaluate('ShuffleDemo.run.stage') == 0
@@ -65,14 +65,32 @@ with sync_playwright() as p:
         assert not errors, errors
         results.append({'viewport': [width, height], 'touch': touch, 'errors': errors, 'movement': True, 'pause': True, 'checkpoint': True})
         context.close()
+    # Restoring a draft with corn has no player object until a card is chosen.
+    context = browser.new_context(viewport={'width': 390, 'height': 844}, has_touch=True, is_mobile=True)
+    page = context.new_page()
+    draft_errors = []
+    page.on('pageerror', lambda error: draft_errors.append(str(error)))
+    page.goto(BASE + 'shuffle/', wait_until='networkidle')
+    page.wait_for_function('window.ShuffleDemo && ShuffleDemo.ready')
+    page.evaluate("""() => localStorage.setItem(ShuffleDemo.saveKey, JSON.stringify({version:1,seed:19,rng:19,stage:1,phase:'draft',skills:{corn:1},level:1,hp:3,choices:['boots','heart','call'],rerolls:1,elapsed:1}))""")
+    page.reload(wait_until='networkidle')
+    page.wait_for_function('window.ShuffleDemo && ShuffleDemo.ready')
+    page.locator('#continueRun').click()
+    assert page.locator('[data-skill]').count() == 3
+    assert page.evaluate('ShuffleDemo.run.player === null')
+    page.locator('[data-skill]').first.click()
+    assert page.evaluate("ShuffleDemo.run.phase === 'playing' && ShuffleDemo.run.skills.corn === 1 && ShuffleDemo.run.level === 2")
+    assert not draft_errors, draft_errors
+    results.append({'restoredDraftWithCorn': True})
+    context.close()
     # A valid boss-phase checkpoint is a fixture, not an injected victory.
     context = browser.new_context(viewport={'width': 1280, 'height': 900})
     page = context.new_page()
     page.goto(BASE + 'shuffle/', wait_until='networkidle')
-    page.wait_for_function('ShuffleDemo.ready')
+    page.wait_for_function('window.ShuffleDemo && ShuffleDemo.ready')
     page.evaluate("""() => localStorage.setItem(ShuffleDemo.saveKey, JSON.stringify({version:1,seed:19,rng:19,stage:2,phase:'playing',skills:{boots:2,heart:1},level:3,hp:4,choices:[],rerolls:1,elapsed:1}))""")
     page.reload(wait_until='networkidle')
-    page.wait_for_function('ShuffleDemo.ready')
+    page.wait_for_function('window.ShuffleDemo && ShuffleDemo.ready')
     page.locator('#continueRun').click()
     page.wait_for_function("ShuffleDemo.run.boss.mode==='warning'")
     assert page.locator('#bossHud').is_visible()
@@ -89,12 +107,13 @@ with sync_playwright() as p:
     page.locator('#shuffleModeLink').wait_for(state='visible')
     assert page.locator('#shuffleModeLink').get_attribute('href') == './shuffle/index.html'
     page.locator('#shuffleModeLink').click()
-    page.wait_for_function('ShuffleDemo.ready')
+    page.wait_for_url('**/shuffle/index.html')
+    page.wait_for_function('window.ShuffleDemo && ShuffleDemo.ready')
     results.append({'classicMenuEntry': True})
     context.close()
     page = browser.new_page()
     page.goto((Path('dist') / 'shuffle' / 'index.html').resolve().as_uri(), wait_until='networkidle')
-    page.wait_for_function('ShuffleDemo.ready')
+    page.wait_for_function('window.ShuffleDemo && ShuffleDemo.ready')
     page.locator('#startRun').click()
     assert page.locator('[data-skill]').count() == 3
     results.append({'packagedFileProtocol': True})

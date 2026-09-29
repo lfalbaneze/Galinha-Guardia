@@ -58,7 +58,7 @@
     $('dash').disabled=run.phase!=='playing'||run.paused||!p||p.dashCooldown>0;
     $('dash').querySelector('small').textContent=p?.dashCooldown>0?`${p.dashCooldown.toFixed(1)}s`:'Espaço';
     $('corn').disabled=run.phase!=='playing'||run.paused||!run.skills.corn||p.cornCooldown>0;
-    $('corn').querySelector('small').textContent=!run.skills.corn?'Carta necessária':p.cornCooldown>0?`${p.cornCooldown.toFixed(1)}s`:'Q';
+    $('corn').querySelector('small').textContent=!run.skills.corn?'Carta necessária':p?.cornCooldown>0?`${p.cornCooldown.toFixed(1)}s`:'Q';
     $('interact').disabled=run.phase!=='playing'||run.paused||!run.boss||run.boss.mode!=='stunned';
   }
   const direction=a=>{if(!a)return'down';const names=['right','downright','down','downleft','left','upleft','up','upright'];return names[(Math.round(Math.atan2(a.dy,a.dx)/ (Math.PI/4))+8)%8];};

@@ -17,8 +17,10 @@ fs.mkdirSync(output,{recursive:true});
 for(const name of fs.readdirSync(path.join(root,'systems')).filter(n=>n.endsWith('.js')))
   new vm.Script(fs.readFileSync(path.join(root,'systems',name),'utf8'),{filename:name});
 new vm.Script(fs.readFileSync(path.join(root,'game.js'),'utf8'),{filename:'game.js'});
+for(const name of ['engine.js','ui.js'])
+  new vm.Script(fs.readFileSync(path.join(root,'shuffle',name),'utf8'),{filename:'shuffle/'+name});
 const artStudies=new Set(['assets/sprites/premium-102','assets/sprites/cartoon-103','assets/sprites/cartoon-104/raw','assets/sprites/cartoon-106/raw','assets/sprites/cartoon-107','assets/sprites/pixellab-108/meta','assets/sprites/pixel-109/raw','assets/sprites/pixel-109/meta']);
-for(const item of ['index.html','style.css','gameplay.css','menu.css','expedition-ui.css','results.css','game.js','systems','assets'])
+for(const item of ['index.html','style.css','gameplay.css','menu.css','expedition-ui.css','results.css','game.js','systems','assets','shuffle'])
   fs.cpSync(path.join(root,item),path.join(output,item),{recursive:true,
     filter:source=>{const relative=path.relative(path.toNamespacedPath(root),path.toNamespacedPath(source)).split(path.sep).join('/');
       return !artStudies.has(relative)&&!/^assets\/sprites\/cartoon-106\/runtime\/.*\.png$/.test(relative);}});
