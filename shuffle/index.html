@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#152b26" />
+<title>Penas pro Ar — Modo Shuffle</title>
+<link rel="stylesheet" href="./style.css?v=shuffle-1" />
+</head>
+<body>
+<main id="app">
+  <header class="topbar">
+    <a href="../index.html" class="brand" aria-label="Voltar ao Penas pro Ar"><span>PENAS PRO AR</span><strong>Modo Shuffle <small>PROTÓTIPO</small></strong></a>
+    <button id="pause" type="button" disabled>Pausar</button>
+  </header>
+  <section id="playfield" aria-label="Fazenda do modo Shuffle">
+    <canvas id="game" tabindex="0" aria-label="Use WASD ou setas para mover, espaço para esquivar, Q para isca e E para interagir."></canvas>
+    <div class="hud" aria-live="off"><div><span id="stageLabel">UM NOVO BARALHO</span><strong id="objective">Escolha seus poderes.</strong></div><div class="health"><span id="health">3 / 3 vidas</span><small id="level">Nível 0</small></div></div>
+    <div id="bossHud" hidden><span>BALTAZAR · POSE DE VALENTÃO</span><progress id="bossMeter" value="3" max="3" aria-label="Resistência do chefe"></progress></div>
+    <p id="notice" role="status" aria-live="polite"></p>
+    <div id="overlay" class="overlay">
+      <section id="panel" class="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" tabindex="-1"></section>
+    </div>
+  </section>
+  <footer id="controls">
+    <div id="joystick" role="group" aria-label="Arraste para mover a galinha"><span class="cross"></span><span id="knob"></span></div>
+    <div class="keyboard-hint"><strong>Resgate. Escolha. Improvise.</strong><span>WASD / setas · mover &nbsp; Espaço · esquiva &nbsp; E · interagir &nbsp; Q · isca</span><small id="buildSummary">Suas habilidades aparecem aqui.</small></div>
+    <div class="actions"><button id="dash" type="button">Esquiva <small>Espaço</small></button><button id="corn" type="button" disabled>Isca <small>Bloqueada</small></button><button id="interact" type="button">Interagir <small>E</small></button></div>
+  </footer>
+</main>
+<script>const SpriteData = {}; const PremiumWildlifeData = {};</script>
+<script src="../systems/pixellab-art-data.js"></script>
+<script src="./engine.js?v=shuffle-1"></script>
+<script src="./ui.js?v=shuffle-1"></script>
+</body>
+</html>

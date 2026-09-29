@@ -1,0 +1,5 @@
+/* Opt-in prototype entry. No selectors or styles leak into classic gameplay. */
+#gameShell #menuScreen #shuffleModeLink{display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 12px;border:1px solid #e2c68566;border-radius:7px;background:#203e32cc;color:#f2deab;font:800 12px var(--menu-text);text-decoration:none}
+#gameShell #menuScreen #shuffleModeLink small{font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:#b8c7a4}
+#gameShell #menuScreen #shuffleModeLink:hover{background:#3c5c42;color:#fff0c9}
+#gameShell #menuScreen #shuffleModeLink:focus-visible{outline:3px solid #f4c55e;outline-offset:3px}
