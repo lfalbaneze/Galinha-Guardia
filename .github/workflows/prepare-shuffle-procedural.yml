@@ -1,0 +1,24 @@
+name: Prepare Shuffle procedural validation
+on:
+  push:
+    branches: [feat/shuffle-procedural-10]
+    paths: ['.github/workflows/prepare-shuffle-procedural.yml']
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Export only tracked Shuffle sources and existing public game assets
+        run: |
+          mkdir -p /tmp/shuffle-source
+          git archive --format=tar.gz -o /tmp/shuffle-source/source.tar.gz HEAD shuffle tests/shuffle-run.test.cjs tests/browser/shuffle_smoke.py docs/shuffle-prototype.md scripts/build.cjs package.json package-lock.json AGENTS.md systems/pixellab-art-data.js assets/sprites/pixellab-108 assets/fonts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shuffle-procedural-source
+          path: /tmp/shuffle-source/source.tar.gz
+          retention-days: 1
