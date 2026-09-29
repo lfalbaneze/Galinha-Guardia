@@ -1,0 +1,47 @@
+name: Python assets review
+on:
+  push:
+    branches: [feat/python-shuffle]
+    paths: ['.github/workflows/python-assets-review.yml']
+permissions:
+  contents: read
+jobs:
+  assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Export existing art and renderer dependencies for local validation
+        run: |
+          mkdir -p .cache/python-review
+          python -m pip download --only-binary=:all: --no-deps pygame-ce==2.5.8 -d .cache/python-review/wheels
+          node <<'JS'
+          const fs=require('fs'),path=require('path'),vm=require('vm');
+          const out='.cache/python-review';
+          function copy(src){const clean=src.replace(/^\.\//,'');if(!clean.startsWith('assets/')||clean.includes('..'))throw Error('Asset path');const dst=path.join(out,clean);fs.mkdirSync(path.dirname(dst),{recursive:true});fs.copyFileSync(clean,dst);return clean;}
+          const c=vm.createContext({SpriteData:{},PremiumWildlifeData:{}});
+          vm.runInContext(fs.readFileSync('systems/pixellab-art-data.js','utf8'),c);
+          const data=vm.runInContext('PixelLabArtData',c),chars={};
+          for(const id of ['chicken','wolf','fox','goose','sheep','pig','rabbit','cow','duck','dog']){
+            const d=data[id];if(!d)throw Error('Missing '+id);copy(d.source);
+            chars[id]={source:d.source,width:d.width,height:d.height,poses:d.poses,actions:{idle:d.actions?.idle,walk:d.actions?.walk}};
+          }
+          const a=vm.createContext({});vm.runInContext(fs.readFileSync('assets/farm/arcade-data.js','utf8'),a);const scene=vm.runInContext('FarmArcadeData',a);
+          if(scene.image.startsWith('data:')){fs.mkdirSync(out+'/assets/farm',{recursive:true});fs.writeFileSync(out+'/assets/farm/python-scene.png',Buffer.from(scene.image.split(',')[1],'base64'));scene.image='assets/farm/python-scene.png';}else copy(scene.image);
+          fs.writeFileSync(out+'/characters.json',JSON.stringify(chars));fs.writeFileSync(out+'/scenery.json',JSON.stringify(scene));
+          copy('assets/fonts/Nunito-Variable.ttf');copy('assets/fonts/LilitaOne-Regular.ttf');
+          JS
+          cp AGENTS.md .cache/python-review/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-render-assets
+          path: .cache/python-review/
+          retention-days: 3
