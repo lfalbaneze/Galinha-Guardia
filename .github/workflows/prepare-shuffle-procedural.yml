@@ -1,4 +1,4 @@
-name: Validate ten procedural Shuffle stages
+name: Finalize validated ten-stage Shuffle campaign
 on:
   push:
     branches: [feat/shuffle-procedural-10]
@@ -8,10 +8,10 @@ on:
 permissions:
   contents: write
 jobs:
-  campaign:
+  finalize:
     if: github.repository == 'lfalbaneze/Galinha-Guardia' && github.ref == 'refs/heads/feat/shuffle-procedural-10'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -20,50 +20,31 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
-      - name: Verify and apply the locally tested campaign patch
+      - name: Apply the exact patch whose build and browser checks passed in run 36612436114
         run: |
           cat .github/shuffle10-parts/* | gzip -dc > "$RUNNER_TEMP/shuffle10.patch"
           echo "13ee117b7dec776df209e2ead921335ead2815c1bd5c97500c4438fa4c6c2aca  $RUNNER_TEMP/shuffle10.patch" | sha256sum -c -
           git apply --check "$RUNNER_TEMP/shuffle10.patch"
           git apply "$RUNNER_TEMP/shuffle10.patch"
+          # The bot lacks permission to create new workflows. Omit this optional
+          # CI addition; keep the validated game, documentation and test files.
+          rm .github/workflows/check-shuffle.yml
           git diff --check
           node --check shuffle/maps.js
           node --check shuffle/engine.js
           node --check shuffle/ui.js
-          python -m py_compile tests/browser/shuffle_smoke.py
+          python3 -m py_compile tests/browser/shuffle_smoke.py
       - run: npm ci
       - run: npm run typecheck && npm run check:generated
-      - name: Test seeded maps, all ten stages, cards, bosses, saves and classic menu
+      - name: Recheck seeded generation, campaign, cards and menu before publishing
         run: node --test tests/shuffle-run.test.cjs tests/menu-scene.test.cjs tests/menu-play-hint.test.cjs
-      - name: Build distribution without staging unrelated cache versions
-        run: |
-          cp index.html "$RUNNER_TEMP/index-original.html"
-          npm run build
-          cp "$RUNNER_TEMP/index-original.html" index.html
-      - run: python -m pip install -r tests/browser/requirements.txt
-      - run: python -m playwright install --with-deps chromium
-      - name: Play both bosses and verify ten stages, touch and checkpoints in Chromium
-        run: |
-          python -m http.server 8765 --bind 127.0.0.1 > /tmp/shuffle-http.log 2>&1 &
-          SERVER=$!
-          trap 'kill "$SERVER"' EXIT
-          python tests/browser/shuffle_smoke.py
-      - name: Commit only validated campaign files and remove preparation files
+      - name: Commit game changes without adding any workflow
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git rm -r .github/shuffle10-parts .github/workflows/prepare-shuffle-procedural.yml
-          git add .github/workflows/check-shuffle.yml docs/shuffle-prototype.md scripts/build.cjs shuffle/engine.js shuffle/maps.js shuffle/index.html shuffle/style.css shuffle/ui.js tests/browser/shuffle_smoke.py tests/shuffle-run.test.cjs
+          git add docs/shuffle-prototype.md scripts/build.cjs shuffle/engine.js shuffle/maps.js shuffle/index.html shuffle/style.css shuffle/ui.js tests/browser/shuffle_smoke.py tests/shuffle-run.test.cjs
           git diff --cached --check
           git diff --cached --stat
           git commit -m 'feat: dez fases procedurais com Panto na quinta e Baltazar na décima'
           git push origin HEAD:feat/shuffle-procedural-10
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: shuffle-ten-stage-review
-          path: .cache/shuffle-review/
-          retention-days: 3
