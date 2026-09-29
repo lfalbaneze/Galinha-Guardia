@@ -1,58 +1,91 @@
-# Modo Shuffle — primeiro protótipo jogável
+# Modo Shuffle — campanha procedural de 10 fases
 
-Modo opcional em `shuffle/index.html`. Não substitui a aventura clássica: usa outro
-motor, outra página e outra chave de salvamento (`penas-pro-ar.shuffle.v1`).
+Entrada opcional em `shuffle/index.html`. A aventura clássica, o curral, Panto do
+modo original e seus saves não são alterados.
 
-## Conteúdo desta versão
+## Campanha
 
-Duas arenas curtas de resgate (Pomar e Milharal) e um confronto final com Baltazar.
-Cada arena de resgate tem três amigos; a porteira só libera a próxima etapa quando
-todos são encontrados. Antes de cada uma das três etapas, escolha uma entre três
-cartas sorteadas. As escolhas acumulam durante a tentativa. Há um embaralhamento
-extra por etapa, sem custo e sem compras.
+| Fase | Cenário | Objetivo |
+| --- | --- | --- |
+| 1 | Pomar do susto | 3 amigos; 1 perseguidor |
+| 2 | Trilhas do milharal | 3 amigos; 2 perseguidores |
+| 3 | Bosque dos cochichos | 4 amigos; 2 perseguidores |
+| 4 | Campo dos espantalhos | 4 amigos; 2 perseguidores |
+| 5 | Panto, fiscal da porteira | Chefe: 3 contra-ataques; depois use a saída |
+| 6 | Colheita em disparada | 4 amigos; 3 perseguidores |
+| 7 | Pedreira das penas | 5 amigos; 3 perseguidores |
+| 8 | Pomar ao entardecer | 5 amigos; 3 perseguidores |
+| 9 | Caminho do último feno | 5 amigos; 4 perseguidores |
+| 10 | Baltazar, o sem-almoço | Chefe final: 5 contra-ataques |
 
-Seis habilidades: Pé de vento, Coração valente, Pena de aço, Asa ligeira, Isca de
-milho e Có-có de alcance. Os efeitos alteram velocidade, vida, proteção, recarga da
-esquiva, distração e distância de interação. O sorteio não repete cartas na mesma
-oferta nem oferece habilidades no nível máximo. Uma semente própria permite
-repetir o mesmo sorteio sem alterar os números aleatórios do jogo clássico.
+São oito fases de exploração e duas de chefe, dez no total. Os 33 resgates são
+cumulativos; fases de chefe não acrescentam três amigos fictícios ao contador.
+Panto derrotado libera a porteira para a sexta fase, não a vitória da campanha.
+A vitória só acontece ao derrotar Baltazar na fase 10.
 
-Baltazar anuncia a direção do bote e não a muda durante a investida. Depois da
-corrida, abre uma janela de contra-ataque: aproxime-se e interaja. Três acertos
-encerram a tentativa com vitória. Colisão, imunidade curta após um golpe, esquiva,
-pausa e derrota estão implementadas.
+## Geração real e repetível
 
-## Controles e salvamento
+`shuffle/maps.js` deriva uma semente de mapa da semente da tentativa e do índice da
+fase. O sorteio de cartas usa outro fluxo aleatório: trocar a oferta ou renderizar
+mais quadros não muda o mapa. Mesma semente e mesma versão do gerador reproduzem a
+mesma geometria, posições e caminhos. O botão "Repetir mapas e cartas" reutiliza a
+semente; "Novo baralho" sorteia outra.
 
-WASD/setas movem; Espaço esquiva; Q solta a isca quando desbloqueada; E interage;
-Escape pausa. Em telas de toque, joystick e três botões ficam fora da área jogável.
-O layout acompanha a janela, retrato e paisagem. Sair da aba pausa automaticamente.
-O modo não implementa gamepad ainda.
+Mudam os caminhos, a orientação da entrada/saída, a posição dos resgates e inimigos,
+a espécie dos amigos e a distribuição de árvores, feno e pedras. Temas, número de
+objetivos e marcos dos chefes são definidos pela campanha, não sorteados.
 
-O checkpoint é salvo no início de cada fase e durante a escolha de cartas. Reabrir
-a página reinicia a fase em andamento, mantendo as habilidades e os corações do
-checkpoint. Não salva a posição a cada frame. Ao terminar a tentativa, o checkpoint
-é removido; nenhuma outra chave de armazenamento é apagada. Sem armazenamento
-permitido pelo navegador, é possível jogar sem persistência.
+O gerador reserva rotas largas antes de colocar obstáculos. A entrada, a saída e
+todos os objetivos pertencem à rede conectada. Obstáculos têm distância mínima,
+não cobrem as rotas e respeitam a área de surgimento. Inimigos aparecem a pelo menos
+380 unidades da entrada. Um grid de navegação permite contornar os objetos.
+Nas fases de chefe, o piso central de combate permanece aberto; acessos, saída e
+cobertura periférica variam. Não são dez cópias de um cenário que só muda de cor.
 
-## Arte e escopo
+## Habilidades e encontros
 
-Reutiliza os atlas PixelLab já instalados. Não chama API, não usa créditos e não
-cria sprites novos. O terreno e os objetos da arena são provisórios; esta versão
-valida progressão e habilidades, não é a prometida revisão gráfica final do jogo.
-Panto, curral, sombras, cercas e regras do modo clássico não são alterados.
+Antes de cada fase há três cartas sem repetição, uma escolha e um embaralhamento
+extra. Níveis máximos são respeitados. As seis habilidades anteriores continuam;
+três novas mantêm variedade ao longo de dez escolhas:
 
-Próximos marcos, ainda não implementados: arenas com arte final e layouts variados,
-mais inimigos/chefes com identidade própria, áudio, gamepad e balanceamento por
-playtest. Python não faz parte do runtime; pode continuar sendo usado em ferramentas
-de produção, sem migrar o jogo do navegador.
+- Pena escorregadia: +0,35 segundo de imunidade após um golpe por nível.
+- Fôlego do resgate: cura um coração a cada três resgates; nível 2, a cada dois.
+- Pausa pro lanche: cura mais um coração entre fases por nível.
 
-## Verificação
+O escudo é renovado no início de cada fase. Isca e esquiva continuam com recargas.
+Resgates e contra-ataques nunca atravessam objetos sólidos, mesmo com alcance extra.
+Panto anuncia uma investida e fica tonto ao terminar. Baltazar, a partir de três
+pontos de resistência restantes, faz dois botes antes de ficar vulnerável. Cada
+bote tem um novo aviso visível e direção travada; o segundo não mira escondido.
+Derrotas, pausa e imunidade breve após dano continuam funcionando.
 
-`node --test tests/shuffle-run.test.cjs` testa sorteio, efeitos, colisões, progressão,
-chefe, pausa e validação do checkpoint. `python tests/browser/shuffle_smoke.py`
-verifica a distribuição em `dist` via servidor local na porta 8765, desktop, toque,
-retrato/paisagem, entrada pelo menu, recarga e abertura `file://`.
+## Controles e checkpoint
 
-O teste de chefe no navegador inicia de um checkpoint de fixture válido; não é
-uma alegação de playthrough humano completo nem substitui testes de balanceamento.
+WASD/setas: mover; Espaço: esquiva; Q: isca desbloqueada; E: contra-atacar;
+Escape: pausa. Touch mantém joystick e botões fora da área jogável. Gamepad e áudio
+do Shuffle ainda não estão implementados.
+
+Campanha usa `penas-pro-ar.shuffle.v2`, formato 2 e gerador 1. O checkpoint do antigo
+protótipo de três fases (`v1`) permanece guardado, mas não é convertido para a
+campanha nova; ela começa sua própria tentativa. Nenhuma chave do jogo clássico é
+lida ou apagada. Novas fases e escolhas são salvas; reabrir reinicia a fase atual
+com os mesmos mapas, cartas e corações do checkpoint. Checkpoints incompatíveis ou
+inválidos são recusados. Ausência de armazenamento não impede uma tentativa na aba.
+
+## Arte e verificação
+
+Reutiliza os sprites PixelLab já publicados, inclusive Panto, sem API ou créditos.
+Terreno e props continuam sendo a arte provisória do Shuffle; não há migração para
+Python nem promessa de revisão gráfica final nesta alteração.
+
+`node --test tests/shuffle-run.test.cjs` verifica geração, rotas, colisões, cartas,
+progressão até a fase 10, chefes e checkpoints. Inclui 2.000 mapas, flood-fill
+independente de 250 mapas e 80 campanhas de estado completas. Esses testes de
+estado são fixtures, não relatos de partidas humanas.
+
+`python tests/browser/shuffle_smoke.py` roda contra `dist/` servido na porta 8765:
+desktop, touch retrato/paisagem, dez fixtures de fases renderizadas, entrada pelo
+menu, pausa, recarga, isolamento dos saves e abertura `file://`. Os encontros dos
+chefes começam por checkpoints explícitos e depois usam somente entradas reais
+de teclado e botões para desviar/contra-atacar. Balanceamento final ainda requer
+playtests humanos.
