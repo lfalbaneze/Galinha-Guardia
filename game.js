@@ -510,6 +510,7 @@ function updateGame(dt) {
   if (!Number.isFinite(dt) || dt <= 0) return;
 
   if (state.phase === "menu") return;
+  if (state.phase === "playing" && typeof ExpeditionUI !== 'undefined' && ExpeditionUI.gate(state)) return;
   if (state.phase === "playing") {
     const rescuing = ThorSystem.active(state);
     ThorSystem.update(state, dt);
@@ -523,6 +524,9 @@ function updateGame(dt) {
     updateChicken(dt);
     LakeChallenge.update(state, dt);
     if (!state.lake?.active) updateAnimals(dt);
+    if (state.phase === 'playing' && typeof ExpeditionUI !== 'undefined' && ExpeditionUI.gate(state)) {
+      updateCamera(dt); GameUI.update(state); return;
+    }
     if (state.phase === "playing") {
       GooseSystem.update(state, dt);
       FoxSystem.update(state, dt);
@@ -681,7 +685,8 @@ function drawDebugHitboxes() {
   drawEntity(state.entities.wolf, "#ff5959");
   for (const fox of state.entities.foxes || []) if (fox.mode !== 'hidden') drawEntity(fox, '#ffab66');
   for (const owl of state.entities.owls || []) {
-    const x = worldX(owl.x), y = worldY(owl.y);
+    const x = worldX(owl.x);
+    const y = worldY(owl.y);
     ctx.strokeStyle = owl.mode === 'alert' ? '#ffe780' : '#c7c2b1';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
@@ -882,14 +887,17 @@ function tick(timestamp) {
   const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
   lastTime = timestamp;
 
-  GameInput.poll(state, dt);
+  if (typeof ExpeditionUI !== 'undefined' && ExpeditionUI.blocking(state)) ExpeditionUI.poll(state);
+  else GameInput.poll(state, dt);
   updateGame(dt);
   if (state.phase !== "menu") renderGame();
   InterfaceMotion.frame(state, dt);
+  if (typeof ExpeditionUI !== 'undefined') ExpeditionUI.sync(state);
   requestAnimationFrame(tick);
 }
 
 window.addEventListener("keydown", (event) => {
+  if (typeof ExpeditionUI !== 'undefined' && ExpeditionUI.blocking(state)) return;
   const key = event.key.toLowerCase();
   if (["INPUT", "SELECT", "TEXTAREA", "BUTTON"].includes(event.target?.tagName)) return;
   if (["arrowup", "arrowdown", "arrowleft", "arrowright", " "].includes(key)) event.preventDefault();
@@ -940,6 +948,7 @@ restartBtn.addEventListener("click", () => {
 
 buildObstacles();
 GameUI.initialize();
+if (typeof ExpeditionUI !== 'undefined') ExpeditionUI.initialize();
 const savedGame = GameManager.read();
 if (savedGame) difficultySelect.value = savedGame.difficulty;
 resetGame(savedGame?.worldSeed);

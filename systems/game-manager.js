@@ -2,6 +2,9 @@
 /* Progress belongs to the session, never to an individual region. */
 const GameManager = (() => {
     const SAVE_KEY = "galinha-guardia-save-v1";
+    function saveKey() {
+        return typeof ExpeditionSystem !== 'undefined' ? ExpeditionSystem.saveKey() : SAVE_KEY;
+    }
     let saveTimer = 0;
     let storageAvailable = true;
     function initialize(game) {
@@ -24,6 +27,8 @@ const GameManager = (() => {
         game.entities.chicken.stamina = 1;
         game.entities.chicken.staminaDelay = 0;
         game.entities.chicken.exhausted = false;
+        if (typeof ExpeditionSystem !== 'undefined')
+            ExpeditionSystem.initialize(game);
         SkinSystem.initialize(game);
         LakeChallenge.initialize(game);
         GooseSystem.initialize(game);
@@ -52,6 +57,8 @@ const GameManager = (() => {
         game.score += game.settings.rescueScore || SCORE_PER_RESCUE;
         rewardRescueTime(game, chick);
         SkinSystem.record(game);
+        if (typeof ExpeditionSystem !== 'undefined')
+            ExpeditionSystem.onRescue(game);
         return true;
     }
     function rewardRescueTime(game, chick = false) {
@@ -129,9 +136,10 @@ const GameManager = (() => {
             foxes: FoxSystem.snapshot(game), owls: OwlSystem.snapshot(game),
             thor: ThorSystem.snapshot(game),
             lake: LakeChallenge.snapshot(game),
+            expedition: typeof ExpeditionSystem !== 'undefined' ? ExpeditionSystem.snapshot(game) : undefined,
         };
         try {
-            localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+            localStorage.setItem(saveKey(), JSON.stringify(data));
             storageAvailable = true;
         }
         catch (_) {
@@ -141,7 +149,7 @@ const GameManager = (() => {
     function read() {
         try {
             // Parsing is followed by the existing structural/identity checks below; a type alone cannot validate storage.
-            const data = JSON.parse(localStorage.getItem(SAVE_KEY));
+            const data = JSON.parse(localStorage.getItem(saveKey()));
             if (!data || ![1, 2, 3, 4, 5].includes(data.version) || !DIFFICULTIES[data.difficulty])
                 return null;
             if (data.version >= 2 && (!Number.isInteger(data.worldSeed) || data.worldSeed < 0 || data.worldSeed > 4294967295))
@@ -384,6 +392,8 @@ const GameManager = (() => {
         if (!newGeography && data.wolf.mode === 'frightened' && Number.isFinite(data.wolf.fearTime) && data.wolf.fearTime > 0 &&
             WildlifeRules.validPoint(data.wolf.fearFrom))
             WolfAI.frighten(game, data.wolf.fearFrom, bounded(data.wolf.fearTime, 0, 6));
+        if (typeof ExpeditionSystem !== 'undefined')
+            ExpeditionSystem.restore(game, data.expedition);
         game.winBonusApplied = data.winBonusApplied === true;
         if (data.phase === 'lose') {
             game.phase = 'lose';
@@ -398,7 +408,7 @@ const GameManager = (() => {
     }
     function clear() {
         try {
-            localStorage.removeItem(SAVE_KEY);
+            localStorage.removeItem(saveKey());
         }
         catch (_) {
             storageAvailable = false;
