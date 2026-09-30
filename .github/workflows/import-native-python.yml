@@ -64,7 +64,10 @@ jobs:
           node python_game/tools/export_assets.cjs
           python - <<'PY'
           from pathlib import Path
-          import hashlib
+          import hashlib, json
+          # JS exports compact JSON; the delivered scenery JSON used Python spacing.
+          scenery = Path('python_game/assets/scenery.json')
+          scenery.write_text(json.dumps(json.loads(scenery.read_text(encoding='utf-8'))), encoding='utf-8')
           expected = {
             'scenery.json':'405abcef9e7126e3718983346718dc714adc771217e284a5225b36b911d3e8b8',
             'scenery.png':'9cede2e59503e4c95eab9406d49cf1aa95bd79a11539779659d1a79968a178e0',
