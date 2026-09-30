@@ -7,6 +7,7 @@ import random
 import pygame as pg
 from world import WIDTH, HEIGHT, STAGES, Prop, Layout, point_segment
 from engine import Actor, Run, SKILLS
+from survival import Survival, POWERS, COLORS, DURATION
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parent
@@ -144,6 +145,7 @@ class Art:
 
     def scene_draw(self,surface,run:Run,camera:Point):
         cx,cy=camera
+        surface.fill((43,67,44))
         surface.blit(self.terrain(run.layout),(-round(cx),-round(cy)))
         # Gate stays centered on its navigable destination, regardless of map orientation.
         gx,gy=run.layout.exit;gx-=cx;gy-=cy
@@ -151,7 +153,7 @@ class Art:
         pg.draw.rect(surface,(66,62,36),(gx-36,gy-10,10,43),border_radius=3)
         pg.draw.rect(surface,(66,62,36),(gx+28,gy-10,10,43),border_radius=3)
         pg.draw.rect(surface,col,(gx-40,gy-45,84,38),border_radius=6)
-        self.text(surface,'SAÍDA' if run.exit_ready else 'PORTEIRA',(gx+2,gy-26),15,INK,True,True)
+        self.text(surface,'FAZENDA' if isinstance(run,Survival) else 'SAÍDA' if run.exit_ready else 'PORTEIRA',(gx+2,gy-26),15,INK,True,True)
         if run.exit_ready:
             pg.draw.line(surface,(255,225,139),(gx-21,gy+14),(gx+20,gy+14),3)
             pg.draw.lines(surface,(255,225,139),False,[(gx+12,gy+6),(gx+20,gy+14),(gx+12,gy+22)],3)
@@ -169,12 +171,27 @@ class Art:
             for i in range(9):
                 x=run.decoy[0]-cx+(i%3)*6-8;y=run.decoy[1]-cy+(i//3)*5-4
                 pg.draw.rect(surface,(246,205,68),(x,y,4,3),border_radius=1)
+        if isinstance(run,Survival):
+            for item in run.pickups:
+                x,y=round(item.x-cx),round(item.y-cy)
+                if not -30<x<SIZE[0]+30 or not -30<y<SIZE[1]+30:continue
+                color=COLORS[item.kind]
+                if item.kind=='xp':
+                    pg.draw.polygon(surface,color,[(x,y-7),(x+5,y),(x,y+7),(x-5,y)])
+                else:
+                    self.pickup_icon(surface,item.kind,x,y)
+                    if distance2(item.pos,run.player.pos)<100:
+                        self.tag(surface,POWERS[item.kind][0] if item.kind in POWERS else 'Leite · +2 vidas',(x,y-38))
         drawables=[(p.y,0,p) for p in run.layout.props]
         drawables += [(a.y,1,a) for a in run.friends+run.enemies+[run.player]+([run.boss] if run.boss else [])]
         for _,kind,a in sorted(drawables,key=lambda v:v[0]):
             if not -240<a.x-cx<SIZE[0]+240 or not -70<a.y-cy<SIZE[1]+250:continue
             if kind==0:
-                image=self.prop(a);surface.blit(image,(round(a.x-cx-image.get_width()/2),round(a.y-cy-image.get_height())))
+                image=self.prop(a)
+                rect=image.get_rect(midbottom=(round(a.x-cx),round(a.y-cy)))
+                if isinstance(run,Survival) and a.y>run.player.y and rect.collidepoint(run.player.x-cx,run.player.y-cy-30):
+                    image=image.copy();image.set_alpha(100)
+                surface.blit(image,rect)
             else:
                 self.actor(surface,a,camera,145 if a is run.player and a.invulnerable>0 and int(run.elapsed*12)%2 else 255)
         for f in run.friends:
@@ -191,10 +208,37 @@ class Art:
             pg.draw.arc(surface,GOLD,(p.x-cx-28,p.y-cy-72,56,50),.25,2.9,2)
         for e in run.effects:
             t=1-e['time']/.55
+            if e['kind']=='sickle':
+                radius=e['radius']
+                rect=pg.Rect(e['x']-cx-radius,e['y']-cy-radius,2*radius,2*radius)
+                pg.draw.arc(surface,COLORS['sickle'],rect,t*2*pi,t*2*pi+2.2,4)
             col=(246,179,124) if e['kind']=='hurt' else GOLD
             for i in range(8):
                 a=i*pi/4
                 pg.draw.rect(surface,col,(e['x']-cx+cos(a)*t*38,e['y']-cy-10+sin(a)*t*28,4,3))
+        if isinstance(run,Survival):
+            for shot in run.shots:
+                x,y=round(shot.x-cx),round(shot.y-cy)
+                pg.draw.ellipse(surface,INK,(x-6,y-8,12,16))
+                pg.draw.ellipse(surface,COLORS[shot.kind],(x-4,y-6,8,12))
+
+    def pickup_icon(self,surface,kind,x,y):
+        rect=pg.Rect(x-15,y-15,30,30)
+        pg.draw.rect(surface,INK,rect,border_radius=7)
+        pg.draw.rect(surface,COLORS[kind],rect,2,border_radius=7)
+        color=COLORS[kind]
+        if kind=='cornshot':
+            pg.draw.ellipse(surface,color,(x-5,y-10,10,19))
+            pg.draw.lines(surface,(115,184,92),False,[(x-10,y),(x,y+11),(x+9,y-3)],3)
+        elif kind=='egg':pg.draw.ellipse(surface,color,(x-7,y-10,14,21))
+        elif kind=='sickle':
+            pg.draw.line(surface,(190,140,90),(x-6,y+10),(x+1,y-4),3)
+            pg.draw.arc(surface,color,(x-7,y-10,18,15),-.5,pi,3)
+        elif kind=='boots':
+            pg.draw.polygon(surface,color,[(x-7,y-9),(x+2,y-9),(x+2,y+4),(x+9,y+4),(x+9,y+10),(x-7,y+10)])
+        else:
+            pg.draw.rect(surface,color,(x-6,y-7,12,17),border_radius=3)
+            pg.draw.rect(surface,PAPER,(x-4,y-11,8,5))
 
     def tag(self,surface,text,pos):
         w=self.font(15).size(text)[0]+18
@@ -203,6 +247,9 @@ class Art:
         self.text(surface,text,rect.center,15,PAPER,center=True)
 
     def hud(self,surface,run:Run,buttons:list):
+        if isinstance(run,Survival):
+            self.survival_hud(surface,run,buttons)
+            return
         cfg=STAGES[run.stage]
         self.panel(surface,pg.Rect(20,18,320,78))
         self.text(surface,f'FASE {run.stage+1:02} / 10   ·   NÍVEL {run.level}',(36,28),13,GOLD)
@@ -250,6 +297,44 @@ class Art:
         x,y=pos;col=(231,144,111) if full else (78,95,76)
         points=[(x-10,y-5),(x-6,y-9),(x-1,y-9),(x+2,y-6),(x+5,y-9),(x+10,y-9),(x+14,y-5),(x+14,y),(x+2,y+11),(x-10,y)]
         pg.draw.polygon(surface,col,points)
+
+    def survival_hud(self,surface,run,buttons):
+        self.panel(surface,pg.Rect(20,18,320,78))
+        self.text(surface,f'SHUFFLE  ·  ONDA {min(10,run.wave)}  ·  NÍVEL {run.level}',(36,28),13,GOLD)
+        self.text(surface,STAGES[run.stage].name,(36,50),24,PAPER,True)
+        self.panel(surface,pg.Rect(400,18,400,78))
+        remaining=max(0,int(DURATION-run.elapsed))
+        self.text(surface,f'{remaining//60:02}:{remaining%60:02}  ·  {run.kills} afastados  ·  {len(run.enemies)} na horda',(600,42),18,PAPER,center=True)
+        pg.draw.rect(surface,(63,82,53),(423,66,354,9),border_radius=4)
+        pg.draw.rect(surface,COLORS['xp'],(423,66,round(354*run.xp/run.xp_needed),9),border_radius=4)
+        self.panel(surface,pg.Rect(956,18,224,78))
+        self.text(surface,'VIDAS',(973,28),12,MUTED)
+        for i in range(run.max_hp):self.heart(surface,(982+i*33,63),i<run.hp)
+        rect=pg.Rect(996,112,184,120);self.panel(surface,rect,(26,48,34,225),radius=9)
+        def mp(p):return round(rect.x+8+p[0]/WIDTH*(rect.w-16)),round(rect.y+8+p[1]/HEIGHT*(rect.h-16))
+        for a,b in run.layout.roads:pg.draw.line(surface,(130,125,81),mp(a),mp(b),2)
+        for item in run.pickups:
+            if item.kind!='xp':pg.draw.circle(surface,COLORS[item.kind],mp(item.pos),3)
+        for enemy in run.enemies:pg.draw.circle(surface,(222,122,87),mp(enemy.pos),2)
+        pg.draw.circle(surface,PAPER,mp(run.player.pos),4)
+        self.panel(surface,pg.Rect(0,684,1200,76),(22,43,34,248),radius=0)
+        self.text(surface,'WASD / SETAS  ·  ESC pausa',(20,695),13,GOLD)
+        self.text(surface,'Ataques automáticos · Colete os itens',(20,721),14,MUTED)
+        for i,kind in enumerate(POWERS):
+            x=360+i*164;rank=run.powers.get(kind,0)
+            self.pickup_icon(surface,kind,x+16,719)
+            label={'cornshot':'Milho','egg':'Ovos','sickle':'Foice','boots':'Botas'}[kind]
+            self.text(surface,label,(x+39,694),14,GOLD)
+            self.text(surface,f'{rank}/3' if rank else 'Colete',(x+39,718),16,PAPER if rank else MUTED)
+        rect=pg.Rect(1032,695,153,54);self.panel(surface,rect)
+        self.text(surface,'ESPAÇO',(1044,701),11,GOLD)
+        cool=run.player.dash_cooldown
+        self.text(surface,f'{cool:.1f}s' if cool>0 else 'Esquiva',(1044,721),16)
+        buttons.append((rect,'dash'))
+        if run.notice_time>0:
+            width=min(1120,self.font(17).size(run.notice)[0]+36);rect=pg.Rect(0,0,width,43);rect.center=(600,655)
+            self.panel(surface,rect)
+            self.text(surface,run.notice,rect.center,17,PAPER,center=True)
 
 
 def distance2(a,b):return hypot(a[0]-b[0],a[1]-b[1])

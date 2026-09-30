@@ -1,7 +1,7 @@
 // Production queue for the authorized cast. Generation is staged for visual review.
 const fs=require('node:fs'),path=require('node:path');
 const {PixelLabClient,loadKey,readJSON,writeJSON}=require('./lib/pixellab-client.cjs');
-const {cast,actionsFor}=require('./lib/pixellab-cast.cjs');
+const {cast,actionsFor}=require(process.argv.includes('--shuffle')?'./lib/pixellab-shuffle-cast.cjs':'./lib/pixellab-cast.cjs');
 const {characterRequest,generateAnimation,downloadFrames,updateReview}=require('./pixellab.cjs');
 const {packCharacter}=require('./lib/pixellab-import.cjs');
 const root=path.resolve(__dirname,'..'),cache=path.join(root,'.cache/pixellab');
@@ -9,6 +9,7 @@ const args=process.argv.slice(2),option=n=>args.find(a=>a.startsWith('--'+n+'=')
 const phase=option('phase')||'base',exclude=new Set((option('exclude')||'').split(','));
 const requested=option('characters')?.split(',');
 const workers=Number(option('workers')||6);
+const frameCount=Number(option('frames')||8);
 const queue=option('queue')||phase;
 if(!/^[a-z0-9-]+$/.test(queue))throw Error('Nome de fila inválido.');
 const stateFile=path.join(cache,'batch-'+queue+'.json'),state=readJSON(stateFile,{phase,items:{}});
@@ -28,7 +29,7 @@ async function produce(item){
   const available=actionsFor(item),names=phase==='base'?['walk',...(item.id==='owl'?['alert','fly']:item.id==='goose'?['alert']:[])]:Object.keys(available);
   const actions=Object.fromEntries(names.map(n=>[n,available[n]]));
   for(const [action,description]of Object.entries(actions)){
-   entry.action=action;save();const frames=action==='alert'?12:8;
+   entry.action=action;save();const frames=action==='alert'?12:frameCount;
    await resume(()=>generateAnimation(client,item,character.character_id,action,description,'v3',frames));
   }
   entry.status='downloading';save();
@@ -41,6 +42,7 @@ async function produce(item){
 (async()=>{
  if(state.stoppedByUser)throw Error('Esta fila foi interrompida pelo usuário. Não retome o tratamento dos outros sprites sem novo pedido.');
  if(!['base','extras'].includes(phase)||!Number.isInteger(workers)||workers<1||workers>8)throw Error('Fase ou quantidade de workers inválida.');
+ if(![8,10,12,14,16].includes(frameCount))throw Error('Quantidade de quadros inválida.');
  if(requested?.some(id=>!cast.some(item=>item.id===id)))throw Error('Personagem desconhecido na fila.');
  const selected=(requested?requested.map(id=>cast.find(item=>item.id===id)):cast).filter(item=>!exclude.has(item.id)&&state.items[item.id]?.status!=='ready');let next=0;
  console.log(`PixelLab ${phase}: ${selected.length} personagens, ${workers} trabalhadores de fila.`);

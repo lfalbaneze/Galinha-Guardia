@@ -5,6 +5,15 @@ const {PixelLabClient,loadKey,writeJSON,readJSON}=require('../scripts/lib/pixell
 const {cast,directions}=require('../scripts/lib/pixellab-cast.cjs');
 const {packCharacter,installCandidate,buildData}=require('../scripts/lib/pixellab-import.cjs');
 const {characterRequest,animationRequest,generateAnimation,downloadFrames}=require('../scripts/pixellab.cjs');
+test('folklore production keeps the reviewed headless reference and species-specific anatomy',()=>{
+  const folklore=require('../scripts/lib/pixellab-shuffle-cast.cjs');
+  assert.equal(folklore.cast.length,5);
+  const mule=folklore.cast.find(item=>item.id==='mula-sem-cabeca'),request=characterRequest(mule);
+  assert.ok(Buffer.from(request.reference_image.base64,'base64').subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])));
+  assert.ok(!request.description.includes('expressive bright eyes'));
+  assert.match(folklore.actionsFor(folklore.cast.find(item=>item.id==='boitata')).walk,/legless snake/);
+  assert.match(folklore.actionsFor(folklore.cast.find(item=>item.id==='curupira')).walk,/BACKWARD/);
+});
 function temporary(t){const dir=fs.mkdtempSync(path.join(os.tmpdir(),'farm-pixellab-'));t.after(()=>{
   assert.equal(path.dirname(path.resolve(dir)),path.resolve(os.tmpdir()));
   assert.ok(path.basename(dir).startsWith('farm-pixellab-'));fs.rmSync(dir,{recursive:true,force:true,maxRetries:3,retryDelay:50});

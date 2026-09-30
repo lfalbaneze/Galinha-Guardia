@@ -12,6 +12,7 @@ import pygame as pg
 from main import App
 from engine import Run,SKILLS
 from world import STAGES
+from survival import Survival, POWERS
 
 class InterfaceTests(unittest.TestCase):
     @classmethod
@@ -66,5 +67,28 @@ class InterfaceTests(unittest.TestCase):
             code=(Path(__file__).resolve().parents[1]/name).read_text(encoding='utf-8')
             self.assertNotIn('import subprocess',code)
             self.assertNotIn('webview',code.replace('JavaScript or webview',''))
+
+    def test_survival_menu_events_render_retry_and_campaign_save_isolation(self):
+        a=self.app;a.start(614)
+        saved=a.save_file.read_bytes()
+        a.command('menu');a.draw()
+        self.assertTrue(any(command=='survival' for _,command in a.buttons))
+        a.event(pg.event.Event(pg.KEYDOWN,key=pg.K_s))
+        self.assertIsInstance(a.run,Survival)
+        seed=a.run.seed
+        a.run.powers=dict.fromkeys(POWERS,3)
+        for _ in range(30):a.update(1/60)
+        a.draw()
+        self.assertTrue(a.run.enemies)
+        a.event(pg.event.Event(pg.KEYDOWN,key=pg.K_ESCAPE));a.draw()
+        self.assertTrue(a.run.paused)
+        a.run.phase='lost';a.persist();a.draw();a.command('retry')
+        self.assertIsInstance(a.run,Survival);self.assertEqual(a.run.seed,seed)
+        self.assertEqual(a.run.powers,{'cornshot':1})
+        a.run.phase='won';a.draw();a.command('new')
+        self.assertIsInstance(a.run,Survival)
+        a.command('menu');a.command('continue')
+        self.assertNotIsInstance(a.run,Survival)
+        self.assertEqual(a.save_file.read_bytes(),saved)
 
 if __name__=='__main__':unittest.main()

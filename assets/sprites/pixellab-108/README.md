@@ -1,8 +1,8 @@
-# Produção PixelLab — 20/09/2026
+# Produção PixelLab
 
 Sprites produzidos pela API oficial https://api.pixellab.ai/v2. Criação v3/Pixen e animação v3; nenhum outro gerador foi usado nesta produção.
 
-29 de 29 personagens/aparências instalados. Esta tabela é atualizada a partir dos atlas que o jogo realmente carrega.
+29 personagens/aparências instalados. Esta tabela é atualizada a partir dos atlas que o jogo realmente carrega.
 
 | Personagem | Direções por ação | Ações instaladas | Quadros |
 | --- | --- | --- | --- |

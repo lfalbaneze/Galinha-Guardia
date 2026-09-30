@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#152b26" />
 <title>Penas pro Ar — Modo Shuffle</title>
-<link rel="stylesheet" href="./style.css?v=shuffle-10-1" />
+<link rel="stylesheet" href="./style.css?v=hero-powers-1" />
 </head>
 <body>
 <main id="app">
@@ -22,6 +22,7 @@
       <section id="panel" class="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" tabindex="-1"></section>
     </div>
   </section>
+  <div id="powerHud" hidden aria-label="Personagem e poderes coletados"></div>
   <footer id="controls">
     <div id="joystick" role="group" aria-label="Arraste para mover a galinha"><span class="cross"></span><span id="knob"></span></div>
     <div class="keyboard-hint"><strong>Resgate. Escolha. Improvise.</strong><span>WASD / setas · mover &nbsp; Espaço · esquiva &nbsp; E · interagir &nbsp; Q · isca</span><small id="buildSummary">Suas habilidades aparecem aqui.</small></div>
@@ -29,9 +30,15 @@
   </footer>
 </main>
 <script>const SpriteData = {}; const PremiumWildlifeData = {};</script>
-<script src="../systems/pixellab-art-data.js"></script>
+<script src="../assets/farm/arcade-data.js"></script>
+<script src="../systems/sprite-style.js"></script>
+<script src="../systems/farm-sprites.js"></script>
+<script src="../systems/pixellab-art-data.js?v=folklore-1"></script>
+<script src="../systems/character-art.js?v=folklore-1"></script>
+<script src="../systems/skin-system.js"></script>
 <script src="./maps.js?v=shuffle-10-1"></script>
-<script src="./engine.js?v=shuffle-10-1"></script>
-<script src="./ui.js?v=shuffle-10-1"></script>
+<script src="./engine.js?v=folklore-1"></script>
+<script src="./survival.js?v=hero-powers-1"></script>
+<script src="./ui.js?v=hero-powers-1"></script>
 </body>
 </html>

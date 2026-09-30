@@ -27,7 +27,7 @@
     return run.rng / 4294967296;
   }
   function stats(run) {
-    return {speed:176*(1+.12*(run.skills.boots||0)), maxHp:3+(run.skills.heart||0),
+    return {speed:(run.mode==='survival'?205:176)*(1+.12*(run.skills.boots||0)), maxHp:run.mode==='survival'?5:3+(run.skills.heart||0),
       dashCooldown:3.6*(1-.25*(run.skills.dash||0)), reach:30+18*(run.skills.call||0),
       cornDuration:run.skills.corn===2?6:4, cornCooldown:9,
       hurtGrace:1.65+.35*(run.skills.feather||0), stageHealing:1+(run.skills.recovery||0)};
@@ -102,7 +102,7 @@
     if(p.shield){p.shield=false;notice(run,'A pena de aço segurou essa!');burst(run,p.x,p.y,'shield');}
     else {run.hp--;notice(run,'Essa passou raspando nas penas!');burst(run,p.x,p.y,'hurt');}
     p.invulnerable=stats(run).hurtGrace;
-    if(run.hp<=0){run.hp=0;run.phase='lost';p.moving=false;notice(run,'Baltazar ganhou essa. Outro baralho, outra tentativa.',99);}
+    if(run.hp<=0){run.hp=0;run.phase='lost';p.moving=false;notice(run,run.mode==='survival'?'A horda levou essa. Outra fazenda, outra tentativa.':'Baltazar ganhou essa. Outro baralho, outra tentativa.',99);}
     return true;
   }
   function decoy(run) {
@@ -165,14 +165,14 @@
       }
     }else if(b.mode==='stunned'&&b.timer<=0){b.mode='recover';b.timer=.8;}
   }
-  function exitReady(run){return run.phase==='playing'&&(run.boss?run.boss.courage===0:run.rescued===run.friends.length);}
+  function exitReady(run){return run.mode!=='survival'&&run.phase==='playing'&&(run.boss?run.boss.courage===0:run.rescued===run.friends.length);}
   function advance(run) {
     if(!exitReady(run)||!run.exit||gap(run.player,run.exit)>39)return false;
     if(run.stage>=STAGES.length-1)return false;
     run.stage++;run.phase='draft';run.hp=Math.min(stats(run).maxHp,run.hp+stats(run).stageHealing);run.rerolls=1;
     run.choices=offer(run);run.paused=false;run.player.moving=false;return true;
   }
-  function tick(run,dt,input={}) {
+  function tick(run,dt,input={},enemyStep=chase) {
     if(run.phase!=='playing'||run.paused||!Number.isFinite(dt)||dt<=0)return;
     dt=Math.min(.05,dt);run.elapsed+=dt;run.noticeTime=Math.max(0,run.noticeTime-dt);
     run.effects=run.effects.filter(e=>(e.time-=dt)>0);
@@ -190,7 +190,7 @@
       notice(run,run.rescued===run.friends.length?'Turma reunida! Siga a seta até a porteira.':`${f.name}: "O almoço pediu demissão!"`);
     }
     for(const e of run.enemies){
-      chase(run,e,run.decoy||p,dt);
+      enemyStep(run,e,run.decoy||p,dt);
       if(run.decoy&&gap(e,run.decoy)<28){e.moving=false;}
       if(gap(e,p)<p.r+e.r&&clearContact(run,p,e))hurt(run);
       if(run.phase!=='playing')break;
@@ -231,5 +231,5 @@
     return run;
   }
   return Object.freeze({VERSION,MAP_VERSION,WIDTH,HEIGHT,SKILLS,STAGES,newRun,stats,reroll,choose,tick,
-    dash,decoy,interact,pause,checkpoint,restore,clearCircle,exitReady,generateStage:Maps.generate,route:Maps.route});
+    dash,decoy,interact,pause,checkpoint,restore,clearCircle,exitReady,beginStage,move,chase,hurt,generateStage:Maps.generate,route:Maps.route});
 });

@@ -16,6 +16,7 @@ except ImportError:
     raise SystemExit('Instale as dependências: python -m pip install -r python_game/requirements.txt')
 
 from engine import Run, SKILLS, BY_ID, new_run, load, save
+from survival import Survival, POWERS
 from world import WIDTH, HEIGHT, STAGES
 from art import Art, SIZE, PAPER, GOLD, MUTED, INK
 
@@ -41,11 +42,12 @@ class App:
         if not self.muted and name in self.sounds:self.sounds[name].play()
 
     def persist(self):
-        if self.run:self.save_ok=save(self.run,self.save_file)
+        if self.run and not isinstance(self.run,Survival):self.save_ok=save(self.run,self.save_file)
 
-    def start(self,seed=None):
-        self.run=new_run(secrets.randbits(32) if seed is None else seed)
+    def start(self,seed=None,survival=False):
+        self.run=(Survival if survival else new_run)(secrets.randbits(32) if seed is None else seed)
         self.mode='run';self.keys.clear();self.accumulator=0.;self.persist()
+        if self.run.player:self.camera=self.camera_target(self.run)
 
     def choose(self,id):
         if self.run and self.run.choose(id):
@@ -59,11 +61,13 @@ class App:
 
     def camera_target(self,run):
         return (max(0.,min(WIDTH-SIZE[0],run.player.x-SIZE[0]*.5)),
-                max(0.,min(HEIGHT-684,run.player.y-390)))
+                max(-110. if isinstance(run,Survival) else 0.,
+                    min(HEIGHT-(590 if isinstance(run,Survival) else 684),run.player.y-390)))
 
     def command(self,command):
         r=self.run
         if command=='start':self.start();return
+        if command=='survival':self.start(survival=True);return
         if command=='continue' and self.saved:
             self.run=self.saved;self.saved=None;self.mode='run'
             if self.run.player:self.camera=self.camera_target(self.run)
@@ -71,8 +75,8 @@ class App:
         if command=='quit':self.running=False;return
         if command=='menu':
             self.mode='menu';self.run=None;self.keys.clear();self.saved=load(self.save_file);return
-        if command=='retry':self.start(r.seed);return
-        if command=='new':self.start();return
+        if command=='retry':self.start(r.seed,survival=isinstance(r,Survival));return
+        if command=='new':self.start(survival=isinstance(r,Survival));return
         if not r:return
         if command.startswith('skill:'):self.choose(command.split(':',1)[1])
         elif command=='reroll':
@@ -109,6 +113,7 @@ class App:
             if e.key==pg.K_m:self.muted=not self.muted;return
             if self.mode=='menu':
                 if e.key==pg.K_RETURN:self.command('start')
+                elif e.key==pg.K_s:self.command('survival')
                 elif e.key==pg.K_c:self.command('continue')
                 elif e.key==pg.K_ESCAPE:self.running=False
                 return
@@ -165,19 +170,20 @@ class App:
         a.text(s,'UMA NOVA EXPEDIÇÃO  /  PYTHON',(103,123),15,GOLD)
         a.text(s,'Penas',(97,157),110,PAPER,True)
         a.text(s,'pro Ar',(98,252),102,GOLD,True)
-        a.wrap(s,'Resgate a turma, improvise com as habilidades e deixe os valentões sem almoço.',pg.Rect(105,370,438,100),21)
-        self.button(pg.Rect(105,473,430,57),'Nova expedição   [Enter]','start',True)
-        self.button(pg.Rect(105,544,280,48),'Continuar   [C]','continue',enabled=bool(self.saved))
-        self.button(pg.Rect(398,544,137,48),'Sair','quit')
+        a.wrap(s,'Explore mapas sorteados. Colha poderes e enfrente hordas na fazenda!',pg.Rect(105,370,438,90),21)
+        self.button(pg.Rect(105,459,430,54),'Sobrevivência Shuffle   [S]','survival',True)
+        self.button(pg.Rect(105,525,430,46),'Campanha de resgate   [Enter]','start')
+        self.button(pg.Rect(105,583,280,46),'Continuar campanha   [C]','continue',enabled=bool(self.saved))
+        self.button(pg.Rect(398,583,137,46),'Sair','quit')
         a.panel(s,pg.Rect(723,192,391,370),(30,53,35,224),radius=21)
-        a.text(s,'DEZ FASES. NENHUM ALMOÇO.',(750,220),16,GOLD)
-        for y,number,title,subtitle in [(278,'01–04','Explore a fazenda','Mapas e resgates mudam por semente.'),
-                                       (372,'05','Panto quer passagem','Desvie. Espere. Contra-ataque.'),
-                                       (466,'06–10','A última correria','Baltazar espera na décima fase.')]:
+        a.text(s,'COLHA PODERES. SEGURE A HORDA.',(750,220),16,GOLD)
+        for y,number,title,subtitle in [(278,'01','Mapa embaralhado','Uma nova fazenda a cada semente.'),
+                                       (372,'02','Poderes pelo chão','Milho, ovos e foice atacam sozinhos.'),
+                                       (466,'03','Cinco minutos','Ondas crescentes. Corra e colha XP!')]:
             a.text(s,number,(751,y),23,GOLD,True)
             a.text(s,title,(848,y),21,PAPER,True)
             a.wrap(s,subtitle,pg.Rect(751,y+38,327,38),15,MUTED)
-        a.text(s,'Aventura original preservada • Salvamento próprio',(600,700),16,PAPER,center=True)
+        a.text(s,'Sobrevivência: 5 min, sem checkpoint  ·  Campanha: salvamento próprio',(600,700),16,PAPER,center=True)
         a.text(s,'F11 tela cheia   ·   M som   ·   Feito para PC',(600,729),14,MUTED,center=True)
 
     def draw_draft(self):
@@ -206,7 +212,9 @@ class App:
         a.panel(s,pg.Rect(310,160,580,430),(27,48,35,249),radius=22)
         a.text(s,'UMA PAUSA PARA AS PENAS',(600,207),15,GOLD,center=True)
         a.text(s,'Respira, galinha.',(600,268),49,PAPER,True,True)
-        a.wrap(s,'Continuar mantém esta fase. Ao fechar o jogo, você retorna ao checkpoint do início da fase, com as habilidades escolhidas.',pg.Rect(365,320,470,100),19,MUTED)
+        message=('Sobrevivência dura cinco minutos e não tem checkpoint. Voltar ao menu ou fechar encerra esta tentativa.'
+                 if isinstance(self.run,Survival) else 'Continuar mantém esta fase. Ao fechar o jogo, você retorna ao checkpoint do início da fase, com as habilidades escolhidas.')
+        a.wrap(s,message,pg.Rect(365,320,470,100),19,MUTED)
         self.button(pg.Rect(370,440,460,54),'Continuar  [ESC]','pause',True)
         self.button(pg.Rect(370,511,460,46),'Voltar ao menu','menu')
 
@@ -215,11 +223,15 @@ class App:
         a.panel(s,pg.Rect(235,108,730,548),(29,49,35,246),radius=24)
         a.text(s,'VALENTÃO SEM ALMOÇO' if won else 'A TURMA ESPERA A REVANCHE',(600,151),16,GOLD,center=True)
         a.text(s,'Deu galinha!' if won else 'Foi por pouco.',(600,221),62,PAPER,True,True)
-        a.text(s,f'{r.total_rescued} amigos   ·   {r.bosses} chefes   ·   Fase {r.stage+1} / 10',(600,295),22,GOLD,center=True)
-        build='  ·  '.join(f'{BY_ID[k].name} {v}' for k,v in r.skills.items())
+        survival=isinstance(r,Survival)
+        summary=(f'{r.kills} inimigos afastados   ·   Onda {r.wave}   ·   Nível {r.level}' if survival
+                 else f'{r.total_rescued} amigos   ·   {r.bosses} chefes   ·   Fase {r.stage+1} / 10')
+        a.text(s,summary,(600,295),22,GOLD,center=True)
+        build=('  ·  '.join(f'{POWERS[k][0]} {v}' for k,v in r.powers.items()) if survival
+               else '  ·  '.join(f'{BY_ID[k].name} {v}' for k,v in r.skills.items()))
         a.wrap(s,build,pg.Rect(295,344,610,100),18,MUTED)
         self.button(pg.Rect(315,456,570,55),'Novo baralho  [Enter]','new',True)
-        self.button(pg.Rect(315,529,340,46),'Repetir mapas e cartas','retry')
+        self.button(pg.Rect(315,529,340,46),'Repetir semente' if survival else 'Repetir mapas e cartas','retry')
         self.button(pg.Rect(672,529,213,46),'Menu','menu')
         a.text(s,f'Semente {r.seed}   ·   {int(r.elapsed)//60}min {int(r.elapsed)%60:02}s',(600,620),15,MUTED,center=True)
 
@@ -281,7 +293,19 @@ def main():
                 app.update(.05);assert app.run.paused and app.run.player.pos==before
                 app.event(pg.event.Event(pg.KEYDOWN,key=pg.K_ESCAPE));assert not app.run.paused
                 if out:app.draw();pg.image.save(app.surface,out/'python-gameplay.png')
-                print(f'SMOKE OK: menu, cartas, movimento, pausa e 120 quadros em {elapsed:.2f}s.');pg.quit()
+                app.start(641817,survival=True)
+                for _ in range(120):app.update(1/60);app.draw()
+                assert app.run.enemies and app.run.pickups
+                if out:pg.image.save(app.surface,out/'python-survival.png')
+                # Explicit late-wave fixture checks crowded rendering without claiming a playthrough.
+                app.run.elapsed=240;app.run.player.invulnerable=60
+                app.run.powers=dict.fromkeys(POWERS,3)
+                for _ in range(6):app.run.spawn_wave()
+                start=time.perf_counter()
+                for _ in range(180):app.update(1/60);app.draw()
+                crowded=time.perf_counter()-start
+                if out:pg.image.save(app.surface,out/'python-survival-horde.png')
+                print(f'SMOKE OK: menu, cartas, movimento, pausa e sobrevivência. Campanha: 120 quadros em {elapsed:.2f}s; horda: 180 em {crowded:.2f}s.');pg.quit()
         else:App().loop()
     except (OSError,ValueError,KeyError,pg.error) as error:
         pg.quit()

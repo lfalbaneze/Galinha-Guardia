@@ -154,9 +154,9 @@ function buildData(root) {
     fs.writeFileSync(htmlFile,html);
   }
   const report=[
-    '# Produção PixelLab — 20/09/2026','',
+    '# Produção PixelLab','',
     'Sprites produzidos pela API oficial https://api.pixellab.ai/v2. Criação v3/Pixen e animação v3; nenhum outro gerador foi usado nesta produção.','',
-    `${Object.keys(data).length} de 29 personagens/aparências instalados. Esta tabela é atualizada a partir dos atlas que o jogo realmente carrega.`,'',
+    `${Object.keys(data).length} personagens/aparências instalados. Esta tabela é atualizada a partir dos atlas que o jogo realmente carrega.`,'',
     '| Personagem | Direções por ação | Ações instaladas | Quadros |',
     '| --- | --- | --- | --- |',
     ...Object.entries(data).map(([id,d])=>`| ${id} | 8 | ${Object.keys(d.actions).join(', ')} | ${Object.values(d.actions).flatMap(p=>Object.values(p)).reduce((n,p)=>n+p.frames.length,0)} |`),'',

@@ -30,6 +30,33 @@ já existem em `assets/`. Nenhum arquivo do jogo web precisa ser substituído.
 As fontes do projeto não são incluídas no pacote: a versão avulsa usa fontes
 disponíveis no sistema; dentro do repositório, usa as fontes já existentes.
 
+## Sobrevivência Shuffle — hordas na fazenda
+
+No menu, clique em **Sobrevivência Shuffle** ou aperte **S**. Sobreviva por
+cinco minutos em um mapa procedural: a semente sorteia o tema, caminhos,
+obstáculos e itens. **Repetir semente** permite tentar a mesma fazenda novamente.
+
+Mova-se com WASD/setas e use Espaço para esquivar. Os ataques são automáticos:
+
+- **Milho estourado:** arma inicial; mira no inimigo mais próximo sem obstáculos.
+- **Ovos em roda:** disparam em oito direções no primeiro nível, aumentando com melhorias.
+- **Foice da colheita:** golpe periódico em área ao redor da galinha.
+- **Botas de borracha:** aumentam a velocidade. Cada poder vai até o nível 3.
+- **Leite:** recupera até dois corações; poderes repetidos no máximo recuperam um.
+- **Cristais verdes:** experiência deixada pelos inimigos. Subir de nível aumenta
+  o dano e recupera um coração. Cristais próximos são atraídos sem atravessar obstáculos.
+
+Raposas rápidas, lobos resistentes e gansos perseguem a galinha pelas rotas.
+A cada 30 segundos, as ondas ganham força; há no máximo 48 inimigos simultâneos.
+Novos itens aparecem durante a partida e a cada 12 inimigos afastados. O minimapa
+mostra os itens e a horda; o HUD mostra os poderes, vida, XP e tempo restante.
+
+Esta modalidade é uma tentativa curta **sem checkpoint**: sair para o menu ou
+fechar encerra a tentativa. O checkpoint da campanha fica preservado.
+ESC pausa; perder o foco também congela movimento, ataques e ondas.
+Reutiliza os personagens existentes nas oito direções; não gera novos sprites.
+O balanceamento das hordas ainda precisa de partidas humanas.
+
 ## Campanha
 
 Dez fases procedurais, com oito etapas de resgate e duas de chefe:
@@ -113,6 +140,7 @@ python python_game/main.py --smoke --screenshots .cache/python-review
 `world.py`: geração e navegação; `engine.py`: regras e checkpoint;
 `art.py`: composição visual e carregamento de sprites; `main.py`: janela,
 interface, eventos e loop a 60 passos por segundo.
+`survival.py`: hordas, coleta de poderes, ataques automáticos e experiência.
 
 Testes incluem 250 mapas, conectividade por verificação independente, campanhas
 completas de estado, habilidades, colisões, chefes, checkpoint e eventos SDL.

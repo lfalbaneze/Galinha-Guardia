@@ -1,9 +1,10 @@
 const fs=require('node:fs'),path=require('node:path');
 const {PixelLabClient,loadKey,readJSON,writeJSON}=require('./lib/pixellab-client.cjs');
-const {cast,style,directions,actionsFor}=require('./lib/pixellab-cast.cjs');
+const {cast:originalCast,style,directions,actionsFor:originalActions}=require('./lib/pixellab-cast.cjs');
 const {packCharacter,installCandidate,buildData}=require('./lib/pixellab-import.cjs');
 const root=path.resolve(__dirname,'..'),cache=path.join(root,'.cache/pixellab');
 const args=process.argv.slice(2),command=args[0]||'status';
+const {cast,actionsFor}=args.includes('--shuffle')?require('./lib/pixellab-shuffle-cast.cjs'):{cast:originalCast,actionsFor:originalActions};
 const option=name=>args.find(a=>a.startsWith('--'+name+'='))?.slice(name.length+3);
 const requested=option('character')||'skin-pacoca';
 const requestedIds=(option('characters')||requested).split(',');
@@ -17,9 +18,10 @@ function characterRequest(item, styleCharacterId, creation='v3', requestedSize) 
   if(creation==='v3') {
     const size=requestedSize||(item.height<=52?64:item.height<=82?96:128);
     const anatomy=['bird','crow'].includes(item.gait)?' BIRD anatomy only: smooth feathered head or the described comb, NO mammal ears, NO horns, exactly two feet and two feathered wings.':'';
-    return {description:item.description+' '+style+anatomy,image_size:{width:size,height:size},
+    return {description:item.description+(item.reference?'':' '+style)+anatomy,image_size:{width:size,height:size},
       name:item.id,view:'low top-down',template_id:item.template,no_background:true,
-      outline:'single color black outline',detail:'medium detail',seed:108000+cast.indexOf(item)};
+      outline:'single color black outline',detail:'medium detail',seed:108000+cast.indexOf(item),
+      ...(item.reference?{reference_image:{base64:fs.readFileSync(path.join(root,item.reference)).toString('base64')}}:{})};
   }
   return {description:item.description,image_size:{width:128,height:128},method:'create_with_style',
     view:'low top-down',template_id:item.template,style_description:style,no_background:true,
@@ -95,7 +97,7 @@ async function downloadFrames(client,item,characterId,actions) {
 function updateReview() {
   const folder=path.join(root,'preview/pixellab');fs.mkdirSync(folder,{recursive:true});
   const candidates={};
-  for (const item of cast) {
+  for (const item of [...new Map([...originalCast,...cast].map(item=>[item.id,item])).values()]) {
     const candidate=readJSON(path.join(folder,item.id,'candidate.json'));
     if(candidate)candidates[item.id]=candidate;
   }

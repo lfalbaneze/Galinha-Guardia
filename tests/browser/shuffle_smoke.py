@@ -141,7 +141,7 @@ with sync_playwright() as p:
     play_boss(page,4);play_boss(page,9)
     assert not errors,errors
     page.goto(BASE+'index.html',wait_until='networkidle');page.locator('#shuffleModeLink').wait_for(state='visible')
-    page.locator('#shuffleModeLink').click();page.wait_for_url('**/shuffle/index.html');page.wait_for_function(READY)
+    page.locator('#shuffleModeLink').click();page.wait_for_url('**/shuffle/index.html#survival');page.wait_for_function(READY)
     results.append({'classicMenuEntry':True})
     context.close()
     page=browser.new_page();page.goto((Path('dist')/'shuffle'/'index.html').resolve().as_uri(),wait_until='networkidle')

@@ -35,6 +35,15 @@ Pelo caminho, piados revelam **seis pintinhos escondidos, ou dez no Hardcore**. 
 
 Baixe ou clone o repositório e abra `index.html` no navegador. Não é necessário instalar dependências para jogar; os scripts compilados acompanham o projeto.
 
+No menu, **Sobrevivência Shuffle** inicia diretamente uma partida com mapas
+procedurais, poderes coletáveis e hordas crescentes. Sobreviva por cinco minutos:
+WASD/setas movem, Espaço esquiva e os ataques são automáticos. Milho, ovos,
+foice e botas evoluem até o nível 3; leite recupera vida e cristais dão XP.
+Funciona também abrindo o `index.html` por duplo clique, com teclado ou controles
+de toque. Não precisa de Python, servidor ou instalação para jogar.
+Esta modalidade não tem checkpoint e preserva os saves da aventura e da campanha.
+Para abrir a seleção entre sobrevivência e campanha, use `shuffle/index.html`.
+
 Para servir os arquivos em um endereço local fixo, execute na pasta do projeto, com Python instalado:
 
 ```sh

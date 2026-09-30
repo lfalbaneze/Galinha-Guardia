@@ -20,7 +20,8 @@ const CharacterArt = (() => {
   // the phase follows actual ground travel rather than a fixed animation timer.
   const strides = Object.freeze({chicken:42,'hen-silkie':42,'hen-blue':42,
     duck:30,chick:18,turkey:40,goose:42,sheep:38,lamb:28,pig:34,goat:40,
-    cow:60,horse:76,donkey:58,dog:38,cat:30,rabbit:30,wolf:60,fox:46,thor:54});
+    cow:60,horse:76,donkey:58,dog:38,cat:30,rabbit:30,wolf:60,fox:46,thor:54,
+    fuinha:32,'mula-sem-cabeca':70,curupira:36,boitata:72,cuca:46});
   const directions = Object.freeze(['right','downright','down','downleft','left','upleft','up','upright']);
   const headings = new WeakMap();
   function directionFor(previous, x, y) {
