@@ -1,4 +1,4 @@
-# Penas pro Ar — Python Shuffle
+# Penas pro Ar — Revoada do Caos — Python
 
 Versão **nativa em Python + pygame-ce**, para computador. Não é uma página web
 embrulhada: geração de mapas, movimentação, colisões, chefes, habilidades,
@@ -30,9 +30,9 @@ já existem em `assets/`. Nenhum arquivo do jogo web precisa ser substituído.
 As fontes do projeto não são incluídas no pacote: a versão avulsa usa fontes
 disponíveis no sistema; dentro do repositório, usa as fontes já existentes.
 
-## Sobrevivência Shuffle — hordas na fazenda
+## Revoada do Caos — hordas na fazenda
 
-No menu, clique em **Sobrevivência Shuffle** ou aperte **S**. Sobreviva por
+No menu, clique em **Revoada do Caos** ou aperte **S**. Sobreviva por
 cinco minutos em um mapa procedural: a semente sorteia o tema, caminhos,
 obstáculos e itens. **Repetir semente** permite tentar a mesma fazenda novamente.
 

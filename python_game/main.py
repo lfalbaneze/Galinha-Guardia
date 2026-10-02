@@ -25,7 +25,7 @@ class App:
         pg.mixer.pre_init(44100,-16,1,512)
         pg.init()
         self.window=pg.display.set_mode(SIZE,pg.RESIZABLE)
-        pg.display.set_caption('Penas pro Ar — Python Shuffle')
+        pg.display.set_caption('Penas pro Ar — Revoada do Caos — Python')
         self.surface=pg.Surface(SIZE)
         self.art=Art()
         self.buttons=[];self.running=True;self.fullscreen=False;self.normal_size=SIZE
@@ -171,7 +171,7 @@ class App:
         a.text(s,'Penas',(97,157),110,PAPER,True)
         a.text(s,'pro Ar',(98,252),102,GOLD,True)
         a.wrap(s,'Explore mapas sorteados. Colha poderes e enfrente hordas na fazenda!',pg.Rect(105,370,438,90),21)
-        self.button(pg.Rect(105,459,430,54),'Sobrevivência Shuffle   [S]','survival',True)
+        self.button(pg.Rect(105,459,430,54),'Revoada do Caos   [S]','survival',True)
         self.button(pg.Rect(105,525,430,46),'Campanha de resgate   [Enter]','start')
         self.button(pg.Rect(105,583,280,46),'Continuar campanha   [C]','continue',enabled=bool(self.saved))
         self.button(pg.Rect(398,583,137,46),'Sair','quit')
@@ -261,7 +261,7 @@ class App:
 
 
 def main():
-    parser=argparse.ArgumentParser(description='Penas pro Ar: campanha Shuffle nativa em Python.')
+    parser=argparse.ArgumentParser(description='Penas pro Ar: campanha de resgate nativa em Python.')
     parser.add_argument('--smoke',action='store_true',help='Valida inicialização, movimento e renderização e encerra.')
     parser.add_argument('--screenshots',type=Path,help='Diretório de capturas do teste (use com --smoke).')
     args=parser.parse_args()

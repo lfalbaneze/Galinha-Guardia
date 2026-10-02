@@ -250,11 +250,6 @@ const RescueSystem = {
     const chicken = game.entities.chicken;
     game.animalSpeechCooldown = Math.max(0, (game.animalSpeechCooldown || 0) - dt);
     game.secretSoundCooldown = Math.max(0, (game.secretSoundCooldown || 0) - dt);
-    const secret = RescueSystem.secretHint(game);
-    if (dt > 0 && game.secretSoundCooldown <= 0 && secret) {
-      AudioSystem.playAnimal("chick", { volume: .4 + .4 * Math.max(0, 1 - distance(chicken, secret) / 280) });
-      game.secretSoundCooldown = 3.5;
-    }
     if (game.rescueNotice) game.rescueNotice.time = Math.max(0, game.rescueNotice.time - dt);
     if (game.skinNotice) game.skinNotice.time = Math.max(0, game.skinNotice.time - dt);
     if (game.secretNotice) game.secretNotice.time = Math.max(0, game.secretNotice.time - dt);
@@ -387,6 +382,13 @@ const RescueSystem = {
       if (animal.moving) {const travel=Math.hypot(animal.x-oldX,animal.y-oldY);animal.anim=CharacterArt.advance(animal.anim,animal.species,travel,{speed:dt>0?travel/dt:0});}
       animal.vx = animal.moving && dt > 0 ? (animal.x-oldX)/dt : 0;
       animal.vy = animal.moving && dt > 0 ? (animal.y-oldY)/dt : 0;
+    }
+    // Let the visible fleeing animal speak first. A hidden chick must not sound like its voice.
+    const chasing = game.entities.animals.some(a => !a.rescued && (a.fleeTime || 0) > 0 && RescueSystem.visible(game, a));
+    const secret = !chasing && RescueSystem.secretHint(game);
+    if (dt > 0 && game.secretSoundCooldown <= 0 && secret) {
+      AudioSystem.playAnimal("chick", { volume: .4 + .4 * Math.max(0, 1 - distance(chicken, secret) / 280), ambient: true });
+      game.secretSoundCooldown = 3.5;
     }
     GameManager.win(game);
   },

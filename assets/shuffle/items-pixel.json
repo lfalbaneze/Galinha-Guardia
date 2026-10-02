@@ -1,0 +1,26 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/generate-image-v2",
+  "image_size": {
+    "width": 192,
+    "height": 128
+  },
+  "seed": 630927,
+  "no_background": true,
+  "description": "A polished hand-pixeled 16-bit farm adventure inventory sprite sheet, EXACTLY 3 columns by 2 rows on a transparent 192x128 canvas. Six separate collectible objects, each centered in its own 64x64 cell with at least 12 completely transparent pixels of padding on all sides. Top row LEFT: a plump golden corn cob, detailed individual kernels and curling green husk leaves. Top row CENTER: a large intact ivory chicken egg nestled in a small golden straw nest, subtle warm speckles and a small amber gleam, NO cartoon face and NO fried egg. Top row RIGHT: a rustic curved steel harvesting sickle, broad crescent blade with blue-gray steel shading, nicked edge, wooden handle wrapped in reddish twine. Bottom row LEFT: a chunky worn brown leather farm work boot, brass eyelets, ivory laces, dark thick ridged sole and a green cloth cuff. Bottom row CENTER: a squat full glass milk bottle, creamy white milk, metal cap and a tiny red cloth tied around the neck, small blue farm stamp with NO readable text. Bottom row RIGHT: a compact cluster of three faceted mint-green emerald XP crystals with bright angular facets and deep teal edges. Consistent charming tactile RPG pixel art, visible deliberate square pixel clusters, 1-pixel dark colored outlines, rich limited warm palette, stepped 3-tone shadows ON THE OBJECTS, top-left highlights, slight three-quarter top-down view. Objects occupy at most 40x40 pixels each. Mandatory 12-pixel fully transparent gutters inside EVERY cell, including the outer canvas edges; no object may touch its cell boundary. Crisp native 1:1 pixel art, not vector icons, not smooth cartoons, no antialiasing, no gradients, no plastic 3D. NO drop shadow, no oval ground shadows, no ground, no scenery, no container tiles, no frames, no borders, no text, no letters, no numbers, no overlapping cells, no extra objects.",
+  "jobId": "b52cbdac-4d1a-4500-8a8c-33a0b7424983",
+  "replacements": {
+    "boots": {
+      "provider": "PixelLab",
+      "endpoint": "/generate-image-v2",
+      "image_size": {
+        "width": 64,
+        "height": 64
+      },
+      "seed": 630928,
+      "no_background": true,
+      "description": "One small COMPLETE rustic brown leather farm work boot, isolated at the CENTER of a transparent 64x64 canvas, with generous empty margins on ALL four sides. The entire boot fits inside a centered 40x40 pixel box, so keep at least 12 pixels blank along every canvas edge. Boot toe points RIGHT, heel on LEFT. Thick dark treaded sole, warm worn chestnut leather, brass eyelets, ivory criss-cross laces, green folded cloth cuff. Cute tactile 16-bit farming RPG inventory item, rich deliberate square pixel clusters and three-tone material shading, crisp native single-pixel dark colored outline, warm light from upper left, slightly top-down three-quarter side view. Preserve full toe and full heel, complete closed silhouette. A small usable pixel-art sprite with empty space around it, NOT a zoomed close-up. NO ground, no shadow, no oval, no panel, no labels, no words, no background, no smooth vector lines or antialiasing.",
+      "jobId": "72831459-2f41-4d7a-9169-1be66dbc26d9"
+    }
+  }
+}

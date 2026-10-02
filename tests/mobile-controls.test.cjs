@@ -72,6 +72,7 @@ function harness({ touch = true, saved = null, coarse = false, storageBlocked = 
     ThorSystem: { active: game => game.scene, request: () => calls.thor++, skip() {} },
     LakeChallenge: { interact: () => false, canCounter: () => true, start() {}, cancel() {} },
     RescueSystem: { callTarget: () => true, callChick: () => { calls.interact++; return true; } },
+    FolkloreSystem: { candidate: () => undefined, interact: () => false },
     HidingSpots: { candidate: () => true, toggle() {} },
     clamp: (value, min, max) => Math.max(min, Math.min(max, value)),
   });
@@ -95,7 +96,7 @@ test('mobile detection, stylesheet URL and viewport work in a nested HTML-game p
   const h = harness();
   assert.equal(h.run('GameInput.preferences.touch'), true);
   assert.equal(h.elements.get('touchControls').hidden, false);
-  assert.equal(h.document.head.children[0].href, 'https://game.example/path/systems/mobile-controls.css?v=touch-2');
+  assert.equal(h.document.head.children[0].href, 'https://game.example/path/systems/mobile-controls.css?v=touch-3');
   assert.match(h.meta.content, /viewport-fit=cover/);
   assert.match(h.help.textContent, /analógico/);
   assert.equal(h.elements.get('gameShell').style['--mobile-height'], '780px');

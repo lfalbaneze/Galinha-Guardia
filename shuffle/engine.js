@@ -27,8 +27,8 @@
     return run.rng / 4294967296;
   }
   function stats(run) {
-    return {speed:(run.mode==='survival'?205:176)*(1+.12*(run.skills.boots||0)), maxHp:run.mode==='survival'?5:3+(run.skills.heart||0),
-      dashCooldown:3.6*(1-.25*(run.skills.dash||0)), reach:30+18*(run.skills.call||0),
+    return {speed:(run.mode==='survival'?205:176)*(1+.12*(run.skills.boots||0)), maxHp:(run.mode==='survival'?5:3)+(run.skills.heart||0),
+      dashCooldown:3.6*(1-(run.mode==='survival'?.2:.25)*(run.skills.dash||0)), reach:30+18*(run.skills.call||0),
       cornDuration:run.skills.corn===2?6:4, cornCooldown:9,
       hurtGrace:1.65+.35*(run.skills.feather||0), stageHealing:1+(run.skills.recovery||0)};
   }
@@ -96,13 +96,13 @@
   }
   function notice(run,text,time=3) {run.notice=text;run.noticeTime=time;}
   function burst(run,x,y,kind) {run.effects.push({x,y,kind,time:.55});}
-  function hurt(run) {
+  function hurt(run,source=null) {
     const p=run.player;
     if(run.phase!=='playing'||run.paused||p.invulnerable>0||p.dashTime>0)return false;
     if(p.shield){p.shield=false;notice(run,'A pena de aço segurou essa!');burst(run,p.x,p.y,'shield');}
     else {run.hp--;notice(run,'Essa passou raspando nas penas!');burst(run,p.x,p.y,'hurt');}
     p.invulnerable=stats(run).hurtGrace;
-    if(run.hp<=0){run.hp=0;run.phase='lost';p.moving=false;notice(run,run.mode==='survival'?'A horda levou essa. Outra fazenda, outra tentativa.':'Baltazar ganhou essa. Outro baralho, outra tentativa.',99);}
+    if(run.hp<=0){run.defeatedBy=source?{species:source.species,name:source.name}:null;run.hp=0;run.phase='lost';p.moving=false;notice(run,run.mode==='survival'?'A horda levou essa. Outra fazenda, outra tentativa.':'A horda ganhou essa. Outro baralho, outra tentativa.',99);}
     return true;
   }
   function decoy(run) {
@@ -125,6 +125,7 @@
       run.stage===STAGES.length-1?'Turma salva. Valentão sem pose!':'Panto: "Passagem aprovada! Pode seguir pela porteira."',5);
     burst(run,b.x,b.y,'rescue');
     if(b.courage===0){
+      run.defeatedBoss={species:b.species,name:b.name};
       run.bossesDefeated++;b.mode='defeated';b.moving=false;
       if(run.stage===STAGES.length-1){run.phase='won';run.player.moving=false;}
     }
@@ -157,7 +158,7 @@
     else if(b.mode==='charge'){
       const speed=b.chargeSpeed+(b.id==='baltazar'&&b.courage<=2?30:0);
       const moved=move(run,b,b.aimX*speed*dt,b.aimY*speed*dt);
-      if(gap(p,b)<p.r+b.r&&clearContact(run,p,b))hurt(run);
+      if(gap(p,b)<p.r+b.r&&clearContact(run,p,b))hurt(run,b);
       if(run.decoy&&gap(run.decoy,b)<b.r+12){run.decoy=null;b.timer=0;}
       if(b.timer<=0||moved<speed*dt*.65){
         if(b.comboRemaining>0){b.comboRemaining--;warnBoss(run,true);}
@@ -192,7 +193,7 @@
     for(const e of run.enemies){
       enemyStep(run,e,run.decoy||p,dt);
       if(run.decoy&&gap(e,run.decoy)<28){e.moving=false;}
-      if(gap(e,p)<p.r+e.r&&clearContact(run,p,e))hurt(run);
+      if(gap(e,p)<p.r+e.r&&clearContact(run,p,e))hurt(run,e);
       if(run.phase!=='playing')break;
     }
     if(run.phase==='playing')updateBoss(run,dt);

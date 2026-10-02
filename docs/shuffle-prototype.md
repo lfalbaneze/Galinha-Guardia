@@ -1,23 +1,24 @@
-# Modo Shuffle — campanha procedural de 10 fases
+# Revoada do Caos — campanha procedural de 10 fases
 
 ## Sobrevivência no navegador (30/09/2026)
 
-O botão **Sobrevivência Shuffle** no `index.html` principal abre
+O botão **Revoada do Caos** no `index.html` principal abre
 `shuffle/index.html#survival` e inicia a partida após carregar os sprites.
 Funciona por `file://` ou HTTP, sem Python no computador do jogador. A versão
 nativa permanece em `python_game/`; as mecânicas foram adaptadas para JavaScript
 e Canvas em `shuffle/survival.js`, reutilizando mapas, colisão e navegação web.
 
 Sobreviva cinco minutos, com dez ondas e até 48 inimigos simultâneos: raposas
-rápidas, lobos resistentes e gansos. Colete milho, ovos, foice e botas (níveis 1–3),
-leite para curar e XP para aumentar dano e recuperar vida. Os ataques são
+rápidas, lobos resistentes e gansos. Colete cristais para encher a barra de XP:
+cada nível pausa a partida para escolher um poder entre três cartas. Habilidades
+podem evoluir até 3/3; XP excedente e níveis seguem entre fases. Leite cura. Os ataques são
 automáticos. WASD/setas ou joystick touch movem; Espaço/botão esquiva; Esc pausa.
 Minimapa mostra inimigos e itens; HUD mostra tempo, poderes, nível e experiência.
 Repetir semente reproduz o mapa e os itens iniciais. As sementes web não
 reproduzem a geometria Python: são geradores diferentes.
 
 A sobrevivência não lê nem grava checkpoints: recarregar reinicia a tentativa.
-Os saves da campanha Shuffle e da aventura permanecem preservados, inclusive
+Os saves da campanha de resgate e da aventura permanecem preservados, inclusive
 ao perder, vencer e repetir. Sem o fragmento `#survival`, a página permite
 escolher sobrevivência ou campanha de resgate.
 

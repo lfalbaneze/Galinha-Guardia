@@ -41,7 +41,7 @@ declare namespace Farm {
   interface Camera extends Point { shakeX: number; shakeY: number; }
   interface Body extends Point { radius: number; hitbox: Hitbox; }
   interface Entity extends Body {
-    id: string; type: 'chicken' | 'wolf' | 'animal' | 'chick' | 'goose' | 'fox' | 'owl' | 'thor';
+    id: string; type: 'chicken' | 'wolf' | 'animal' | 'chick' | 'goose' | 'fox' | 'owl' | 'thor' | 'folklore';
     vx: number; vy: number; facing: number; direction: Direction;
     moving: boolean; anim: number; areaId: string; state: string;
   }
@@ -139,9 +139,10 @@ declare namespace Farm {
     mode:'perched'|'fleeing'|'away'|'returning'; clock:number; quiet:number; flights:number; birds:Crow[];
   }
   interface GameState {
+    folkloreThreats?: FolkloreThreat[];
     scarecrow?: Scarecrow;
     phase: Phase; resumePhase?: Phase; difficultyKey: Difficulty; settings: DifficultySettings;
-    entities: { chicken: Chicken; wolf: Wolf; animals: Animal[]; chicks: Animal[]; goose?: Goose; foxes?: Fox[]; owls?: Owl[]; thor?: Thor | null; };
+    entities: { chicken: Chicken; wolf: Wolf; animals: Animal[]; chicks: Animal[]; goose?: Goose; foxes?: Fox[]; owls?: Owl[]; thor?: Thor | null; folklore?: FolkloreEnemy[]; };
     thorVisit?: { nextIn: number; visits: number; boneIds: string[]; cycle: number; easyUsed: boolean };
     thorRescue?: ThorRescue;
     thorBoneNotice?: TimedNotice & { count: number };
@@ -195,6 +196,7 @@ declare namespace Farm {
     'patrolScanHeading' | 'searchApproached' | 'searchIndex' | 'scanTime' | 'exposedCover' |
     'seenVelocity' | 'investigateReturnMode' | 'fearTime' | 'fearFrom'>>;
   interface SaveData {
+    folklore?: {id:string;x:number;y:number;active:boolean;discovered?:boolean;defeated?:boolean;courage?:number}[];
     /** Legacy defeat marker, read only to migrate older saves to a loss. */
     needsRecovery?: boolean;
     version: 1 | 2 | 3 | 4 | 5; worldSeed: number; worldVersion?: number; difficulty: Difficulty; phase: Phase;

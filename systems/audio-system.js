@@ -58,7 +58,7 @@ const AudioSystem = (() => {
   const takes = new Map();
   const variantFor = name => (takes.get(name) || 0) % (VARIANTS.get(name) || 1) + 1;
   // A versioned directory also replaces clips cached by an older copy of the game.
-  const path = (name, variant = 1) => `./assets/audio/${name === 'owl-siren' ? 'effects/v1/' : name === 'owl-hoot' ? 'voices/v6/' : isVoice(name) || ['fox-rustle','squeak'].includes(name) ? 'voices/v5/' : ''}${name}${variant > 1 ? `-${variant}` : ''}.wav`;
+  const path = (name, variant = 1) => `./assets/audio/${['animal-duck','animal-rabbit'].includes(name) ? 'voices/v7/' : name === 'owl-siren' ? 'effects/v1/' : name === 'owl-hoot' ? 'voices/v6/' : isVoice(name) || ['fox-rustle','squeak'].includes(name) ? 'voices/v5/' : ''}${name}${variant > 1 ? `-${variant}` : ''}.wav`;
   // Shared with the complete media review: one list of the files actually played.
   const catalog = Object.freeze([...TRACKS,...SKIN_TRACKS.values(),...EFFECTS].flatMap(name =>
     Array.from({length:VARIANTS.get(name)||1},(_,i)=>Object.freeze({name,variant:i+1,src:path(name,i+1),
@@ -179,6 +179,8 @@ const AudioSystem = (() => {
       if (!options.playerHurt) return false;
       release(repeated); // A new hit restarts its feedback without stacking copies.
     }
+    // A nearby animal takes precedence over a hidden chick's ambient hint, never its rescue call.
+    if(isAnimal(name)&&name!=='chick')for(const item of voices)if(item.active&&item.ambient&&item.name==='chick')release(item);
     // Incidental chatter waits its turn instead of cutting through a rescue or warning.
     if (options.ambient && voices.some(v=>v.active&&blocksChatter(v.name))) return false;
     // Footsteps never steal a voice from a rescue, animal call or challenge cue.

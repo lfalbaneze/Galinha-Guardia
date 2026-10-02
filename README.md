@@ -35,10 +35,50 @@ Pelo caminho, piados revelam **seis pintinhos escondidos, ou dez no Hardcore**. 
 
 Baixe ou clone o repositório e abra `index.html` no navegador. Não é necessário instalar dependências para jogar; os scripts compilados acompanham o projeto.
 
-No menu, **Sobrevivência Shuffle** inicia diretamente uma partida com mapas
-procedurais, poderes coletáveis e hordas crescentes. Sobreviva por cinco minutos:
-WASD/setas movem, Espaço esquiva e os ataques são automáticos. Milho, ovos,
-foice e botas evoluem até o nível 3; leite recupera vida e cristais dão XP.
+No menu, **Revoada do Caos** inicia diretamente uma partida com mapas
+procedurais, 30 habilidades combináveis e cinco fases com chefes. WASD/setas
+movem, Espaço esquiva e os ataques são automáticos. Você começa no nível 1,
+com o ataque do personagem. Colete cristais dos inimigos ou da fazenda para
+encher a barra de XP: 8 XP levam ao nível 2; os próximos níveis exigem 11, 14,
+17 XP e assim por diante. Cada nível pausa o combate e libera uma escolha
+entre três poderes, com um embaralhamento por oferta. Uma carta concede uma
+habilidade nova ou melhora uma existente até 3/3. XP excedente é preservado,
+com uma escolha para cada nível conquistado. Os poderes são ganhos pelas
+cartas; os itens no chão são cristais e leite para recuperar vida.
+Nível, XP e poderes acompanham as cinco fases e reiniciam na próxima partida.
+O botão **Fusões** abre a **Cozinha do caos** e pausa a ação. Cada receita exige
+dois poderes em 3/3; **Fundir** substitui seus ataques por uma arma mais forte,
+sem custo extra. As cartas mostram o ingrediente parceiro e seu nível atual.
+São oito fusões: Sol de Omelete (ovos + fogo), Ceifadora de Mundos (foice +
+bumerangue), Tempestade do Poleiro (raios + jatos cruzados), Nevasca da Midori
+(gelo + espiral), Cenoura Orbital (tiro de elite + minas), Caldeirão Cataclísmico
+(veneno + onda sísmica), Fortaleza de Garras (órbitas + escudo) e Milhopocalipse
+(tiro básico + ricochete). Elas acompanham a tentativa pelas cinco fases e
+reiniciam numa nova partida. Explosões, rastros, impactos e campos têm efeitos
+próprios; a preferência de movimento reduzido diminui partículas e animações.
+Cada fase tem 60 segundos de hordas antes do chefe: Panto, Baltazar, Lorenzo,
+Fuinha e a última investida de Baltazar. É preciso derrotá-lo para avançar; o relógio sozinho
+nunca dá vitória. Você leva seus poderes para o próximo mapa e recupera até
+dois corações. A vitória vem depois do quinto chefe.
+Mula sem Cabeça, Curupira, Boitatá e Cuca são **chefes secretos opcionais**,
+fora das hordas e da sequência obrigatória. Nas quatro primeiras fases há
+um selo escondido em um caminho distante: explore antes do chefe de fase,
+aproxime-se e use **E / Despertar**. Durante o desafio, o relógio da fase pausa;
+a vitória rende pontos extras e até dois corações, sem pular a fase.
+A cada fase vencida, a horda ganha resistência, velocidade e reforços mais
+frequentes; eles continuam chegando durante os chefes. A quinta fase tem
+inimigos com três vezes a vida da primeira na mesma onda. Uma vitória completa
+libera automaticamente a próxima Revanche: cada nível soma 45% da vida base
+às hordas e 60% aos chefes, além de aumentar a pressão dos ataques. A Revanche
+fica salva neste navegador e não diminui com derrotas. Os avisos dos ataques
+mantêm o tempo para esquivar e o limite de inimigos simultâneos continua em 48.
+Cada bicho tem um tiro básico próprio: Erina lança ovos, Midori penas, Alzira
+raios, Zeca água, Pipoca cenouras, Stella garras, Paçoca latidos e Gumercindo
+grasnados. O milho aumenta o dano e a frequência desse tiro; os especiais
+de cada personagem continuam funcionando junto dele.
+As telas de resultado têm poses próprias de vitória e derrota para os oito
+personagens jogáveis e os oito tipos de inimigo, com 64 falas de provocação.
+Os derrotados aparecem descabelados, de curativo e olho roxo, no humor de desenho animado.
 Funciona também abrindo o `index.html` por duplo clique, com teclado ou controles
 de toque. Não precisa de Python, servidor ou instalação para jogar.
 Esta modalidade não tem checkpoint e preserva os saves da aventura e da campanha.
@@ -124,6 +164,29 @@ A **coruja** fica em uma árvore e observa um setor marcado no chão. O alerta s
 O alcance do pio parte da coruja, e paredes entre ela e o lobo abafam o som. Se ele ouvir, investiga apenas a posição que ela viu naquele instante; não recebe a posição atual de quem já saiu dali ou se escondeu.
 
 Os encontros aproveitam árvores e moitas existentes, longe do início, dos pintinhos escondidos e da arena do ganso. A quantidade depende dos locais seguros disponíveis, até duas raposas e duas corujas por fazenda. Eles ficam pausados durante o desafio do lago e não participam da cena final. As novas folhas de sprites acompanham o jogo offline; se uma imagem falhar, o menu oferece uma nova tentativa antes de liberar a partida.
+
+### Novos encontros do jogo base
+
+`FolkloreSystem` mantém a Fuinha como inimigo comum após um resgate.
+Mula sem Cabeça, Curupira, Boitatá e Cuca são chefes secretos: seus selos ficam
+disponíveis após 3, 5, 7 e 9 resgates no Médio/Difícil; no Fácil, um resgate
+depois; no Hardcore, um antes. O selo é revelado apenas de perto. Use **E /
+Interagir** para despertar uma lenda, desvie e contra-ataque durante a
+**ABERTURA**. Três contra-ataques vencem o desafio e rendem 250 pontos e até
+um coração, uma vez por lenda e tentativa. Só uma lenda pode estar ativa.
+Sair da região permite recuar; descoberta, contra-ataques e vitórias ficam
+salvos. Nenhuma lenda é necessária para concluir os resgates.
+As investidas têm aviso e direção fixa; raízes e fogo expiram, e feitiços
+param nos obstáculos. Refúgio, esconderijos, pausa, lago e ajuda do Thor
+são respeitados. Carregar a partida limpa ataques em andamento e concede
+um intervalo de segurança.
+
+**Fuinha comum e quatro desafios opcionais**, usando temporariamente as poses PixelLab já
+criadas. Os personagens se deslocam e atacam, mas os sprites ainda são
+estáticos: faltam os ciclos completos de caminhada em oito direções.
+Um atlas animado aprovado passa a ser usado automaticamente quando instalado.
+A ativação exige arte carregada, evitando inimigos invisíveis. Nenhuma compra
+de créditos é feita pelo jogo ou pelo build.
 
 ## Thor e os amigos da fazenda
 
@@ -261,7 +324,7 @@ npm test
 npm run build
 ```
 
-`npm test` compila antes de executar a suíte. O build também compila e prepara os arquivos públicos em `dist/`. Para executar checagem de tipos, testes e build em sequência, use `npm run verify`.
+`npm test` compila antes de executar a suíte. O build também compila e recria `dist/` com os arquivos públicos, removendo saídas antigas; mantenha os arquivos-fonte fora dessa pasta. Para executar checagem de tipos, testes e build em sequência, use `npm run verify`.
 
 Durante a edição, `npm run dev` recompila os arquivos TypeScript a cada alteração; não inicia servidor nem recarrega a página. **Edite os sistemas migrados em `src/systems/` e inclua seus JavaScript compilados no commit.** `npm run check:generated` verifica se essas saídas estão atualizadas.
 

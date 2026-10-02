@@ -12,6 +12,38 @@ function harness(storage, fullStartup = false) {
   return { ...createGame(() => 0.5, { Audio: MockAudio, storage, fullStartup }), players, plays };
 }
 function start(h) { h.events.elements.startBtn.click(); }
+test('a hidden chick waits while a visible animal flees, then gives its hint when the chase is over',()=>{
+  for(const species of ['duck','rabbit']){
+    const h=harness();start(h);
+    h.run(`const animal=state.entities.animals.find(a=>a.species==='${species}');
+      Object.assign(state.entities.chicken,{x:animal.x-90,y:animal.y,sneaking:false});
+      Object.assign(animal,{fleeFrom:{kind:'player',x:animal.x-90,y:animal.y},fleeTime:.9,restTime:0,speechTime:0,fatigue:0});
+      const secret=state.entities.chicks[0];Object.assign(secret,{coverId:null,x:state.entities.chicken.x,y:state.entities.chicken.y+80,discovered:false,rescued:false});
+      state.animalSpeechCooldown=0;state.secretSoundCooldown=0;`);
+    assert.equal(h.run('RescueSystem.secretHint(state)===secret'),true,'a real nearby hint');
+    h.run('RescueSystem.update(state,.01)');
+    const effects=h.plays.filter(p=>!p.loop);
+    assert.ok(effects.some(p=>p.src.endsWith('animal-'+species+'.wav')),species+' keeps its own voice');
+    assert.ok(!effects.some(p=>/\/chick(?:-2)?\.wav$/.test(p.src)),'no misleading chick call during the chase');
+    for(const player of h.players)if(player.onended)player.onended();
+    h.run('state.entities.animals=[];RescueSystem.update(state,.01)');
+    assert.match(h.plays.at(-1).src,/\/chick(?:-2)?\.wav$/,'the secret hint is deferred, not removed');
+  }
+});
+test('chased ducks and rabbits use the revised species recordings, not chick calls',()=>{
+  for(const species of ['duck','rabbit']){
+    const h=harness();start(h);
+    h.run(`const animal=state.entities.animals.find(a=>a.species==='${species}');
+      Object.assign(state.entities.chicken,{x:animal.x-90,y:animal.y,sneaking:false});
+      animal.fleeFrom={kind:'player',x:state.entities.chicken.x,y:state.entities.chicken.y};
+      animal.speechTime=0;state.animalSpeechCooldown=0;
+      RescueSystem.talk(state,animal);RescueSystem.talk(state,animal);`);
+    const calls=h.plays.filter(p=>!p.loop);
+    assert.equal(calls.length,1,species+' speaks once');
+    assert.match(calls[0].src,new RegExp('voices/v7/animal-'+species+'\\.wav$'));
+    assert.equal(calls[0].volume,.55*.55);
+  }
+});
 function finale(h, time) {
   h.run(`for(const friend of RescueSystem.all(state))GameManager.rescue(state,Object.assign(friend,{discovered:true}));GameManager.win(state);
     while(state.phase==='win_cutscene' && state.cutscene.time<${time}-0.00001)updateGame(Math.min(.05,${time}-state.cutscene.time));`);

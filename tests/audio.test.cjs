@@ -45,6 +45,17 @@ function audioHarness(options = {}) {
 const microtasks = async () => { await Promise.resolve(); await Promise.resolve(); };
 const mixFor=(h,seconds)=>{for(let i=0;i<seconds*20;i++)h.audio.update(h.game,.05);};
 
+test('an animal voice interrupts only a hidden chick hint, never a chick rescue',()=>{
+  for(const species of ['duck','rabbit'])for(const ambient of [true,false]){
+    const h=audioHarness();h.start();assert.ok(h.audio.playAnimal('chick',{ambient}));
+    const chick=h.instances.find(a=>!a.loop&&!a.paused);
+    assert.equal(h.audio.playAnimal(species,{ambient:true}),ambient);
+    assert.equal(h.effects().at(-1),ambient?'animal-'+species:'chick');
+    if(!ambient)assert.equal(chick.paused,false);
+    else assert.ok(h.instances.filter(a=>!a.loop&&!a.paused).every(a=>!a.src.endsWith('/chick.wav')));
+  }
+});
+
 test('the complete runtime sound catalog contains every take and only existing decodable files',()=>{
   const h=audioHarness(),catalog=h.audio.catalog;
   assert.equal(catalog.length,47);assert.ok(Object.isFrozen(catalog));
@@ -291,7 +302,8 @@ test('animal recordings are real local PCM assets and new adventures do not repl
     let peak = 0;
     for (let offset = 44; offset < wav.length; offset += 2) peak = Math.max(peak, Math.abs(wav.readInt16LE(offset)) / 32768);
     assert.ok(peak <= .681, 'actual samples leave ample headroom');
-    assert.equal(require('node:crypto').createHash('sha256').update(wav).digest('hex'), item.sha256);
+    const installed=JSON.parse(fs.readFileSync(path.join(path.dirname(file),'manifest.json'))).recordings.find(c=>c.file===path.basename(file));
+    assert.equal(require('node:crypto').createHash('sha256').update(wav).digest('hex'), installed.sha256);
   }
   assert.equal(manifest.recordings.length, 20);
   assert.equal(new Set(manifest.recordings.map(item => item.species)).size, 15);

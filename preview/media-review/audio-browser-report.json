@@ -1,0 +1,334 @@
+{
+  "note": "Browser decode and playback only; no human listening or timbre assessment.",
+  "clips": [
+    {
+      "name": "forest",
+      "variant": 1,
+      "src": "./assets/audio/forest.wav",
+      "seconds": 48,
+      "advanced": true
+    },
+    {
+      "name": "whistle",
+      "variant": 1,
+      "src": "./assets/audio/whistle.wav",
+      "seconds": 32,
+      "advanced": true
+    },
+    {
+      "name": "skin-punk",
+      "variant": 1,
+      "src": "./assets/audio/skin-punk.wav",
+      "seconds": 27.428571,
+      "advanced": true
+    },
+    {
+      "name": "skin-astronaut",
+      "variant": 1,
+      "src": "./assets/audio/skin-astronaut.wav",
+      "seconds": 24,
+      "advanced": true
+    },
+    {
+      "name": "skin-robocop",
+      "variant": 1,
+      "src": "./assets/audio/skin-robocop.wav",
+      "seconds": 17.142857,
+      "advanced": true
+    },
+    {
+      "name": "skin-priest",
+      "variant": 1,
+      "src": "./assets/audio/skin-priest.wav",
+      "seconds": 20,
+      "advanced": true
+    },
+    {
+      "name": "boing",
+      "variant": 1,
+      "src": "./assets/audio/boing.wav",
+      "seconds": 0.650023,
+      "advanced": true
+    },
+    {
+      "name": "pop",
+      "variant": 1,
+      "src": "./assets/audio/pop.wav",
+      "seconds": 0.22,
+      "advanced": true
+    },
+    {
+      "name": "bonk",
+      "variant": 1,
+      "src": "./assets/audio/bonk.wav",
+      "seconds": 0.36,
+      "advanced": true
+    },
+    {
+      "name": "squeak",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/squeak.wav",
+      "seconds": 0.505896,
+      "advanced": true
+    },
+    {
+      "name": "dizzy",
+      "variant": 1,
+      "src": "./assets/audio/dizzy.wav",
+      "seconds": 1.550023,
+      "advanced": true
+    },
+    {
+      "name": "sob",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/sob.wav",
+      "seconds": 1.00712,
+      "advanced": true
+    },
+    {
+      "name": "sob",
+      "variant": 2,
+      "src": "./assets/audio/voices/v5/sob-2.wav",
+      "seconds": 1.066893,
+      "advanced": true
+    },
+    {
+      "name": "runaway",
+      "variant": 1,
+      "src": "./assets/audio/runaway.wav",
+      "seconds": 1.149977,
+      "advanced": true
+    },
+    {
+      "name": "rescue",
+      "variant": 1,
+      "src": "./assets/audio/rescue.wav",
+      "seconds": 1.149977,
+      "advanced": true
+    },
+    {
+      "name": "chick",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/chick.wav",
+      "seconds": 0.746939,
+      "advanced": true
+    },
+    {
+      "name": "chick",
+      "variant": 2,
+      "src": "./assets/audio/voices/v5/chick-2.wav",
+      "seconds": 0.596961,
+      "advanced": true
+    },
+    {
+      "name": "victory",
+      "variant": 1,
+      "src": "./assets/audio/victory.wav",
+      "seconds": 1.950023,
+      "advanced": true
+    },
+    {
+      "name": "goose-honk",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/goose-honk.wav",
+      "seconds": 1.114512,
+      "advanced": true
+    },
+    {
+      "name": "goose-honk",
+      "variant": 2,
+      "src": "./assets/audio/voices/v5/goose-honk-2.wav",
+      "seconds": 1.116961,
+      "advanced": true
+    },
+    {
+      "name": "panto-dodge",
+      "variant": 1,
+      "src": "./assets/audio/panto-dodge.wav",
+      "seconds": 0.52,
+      "advanced": true
+    },
+    {
+      "name": "panto-victory",
+      "variant": 1,
+      "src": "./assets/audio/panto-victory.wav",
+      "seconds": 2.5,
+      "advanced": true
+    },
+    {
+      "name": "owl-hoot",
+      "variant": 1,
+      "src": "./assets/audio/voices/v6/owl-hoot.wav",
+      "seconds": 0.74,
+      "advanced": true
+    },
+    {
+      "name": "owl-hoot",
+      "variant": 2,
+      "src": "./assets/audio/voices/v6/owl-hoot-2.wav",
+      "seconds": 0.74,
+      "advanced": true
+    },
+    {
+      "name": "fox-rustle",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/fox-rustle.wav",
+      "seconds": 0.356961,
+      "advanced": true
+    },
+    {
+      "name": "owl-siren",
+      "variant": 1,
+      "src": "./assets/audio/effects/v1/owl-siren.wav",
+      "seconds": 0.72,
+      "advanced": true
+    },
+    {
+      "name": "owl-siren",
+      "variant": 2,
+      "src": "./assets/audio/effects/v1/owl-siren-2.wav",
+      "seconds": 0.72,
+      "advanced": true
+    },
+    {
+      "name": "step-water",
+      "variant": 1,
+      "src": "./assets/audio/step-water.wav",
+      "seconds": 0.310023,
+      "advanced": true
+    },
+    {
+      "name": "step-mud",
+      "variant": 1,
+      "src": "./assets/audio/step-mud.wav",
+      "seconds": 0.2,
+      "advanced": true
+    },
+    {
+      "name": "step-leaves",
+      "variant": 1,
+      "src": "./assets/audio/step-leaves.wav",
+      "seconds": 0.24,
+      "advanced": true
+    },
+    {
+      "name": "thor-hero",
+      "variant": 1,
+      "src": "./assets/audio/thor-hero.wav",
+      "seconds": 5.400045,
+      "advanced": true
+    },
+    {
+      "name": "animal-sheep",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-sheep.wav",
+      "seconds": 0.795238,
+      "advanced": true
+    },
+    {
+      "name": "animal-pig",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-pig.wav",
+      "seconds": 0.327029,
+      "advanced": true
+    },
+    {
+      "name": "animal-pig",
+      "variant": 2,
+      "src": "./assets/audio/voices/v5/animal-pig-2.wav",
+      "seconds": 0.370748,
+      "advanced": true
+    },
+    {
+      "name": "animal-goat",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-goat.wav",
+      "seconds": 1.064626,
+      "advanced": true
+    },
+    {
+      "name": "animal-cow",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-cow.wav",
+      "seconds": 3.296916,
+      "advanced": true
+    },
+    {
+      "name": "animal-duck",
+      "variant": 1,
+      "src": "./assets/audio/voices/v7/animal-duck.wav",
+      "seconds": 0.470068,
+      "advanced": true
+    },
+    {
+      "name": "animal-rabbit",
+      "variant": 1,
+      "src": "./assets/audio/voices/v7/animal-rabbit.wav",
+      "seconds": 1.089977,
+      "advanced": true
+    },
+    {
+      "name": "animal-dog",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-dog.wav",
+      "seconds": 0.256463,
+      "advanced": true
+    },
+    {
+      "name": "animal-cat",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-cat.wav",
+      "seconds": 0.815193,
+      "advanced": true
+    },
+    {
+      "name": "animal-donkey",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-donkey.wav",
+      "seconds": 2.401587,
+      "advanced": true
+    },
+    {
+      "name": "animal-lamb",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-lamb.wav",
+      "seconds": 0.589025,
+      "advanced": true
+    },
+    {
+      "name": "animal-chicken",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-chicken.wav",
+      "seconds": 0.625624,
+      "advanced": true
+    },
+    {
+      "name": "animal-chicken",
+      "variant": 2,
+      "src": "./assets/audio/voices/v5/animal-chicken-2.wav",
+      "seconds": 0.705442,
+      "advanced": true
+    },
+    {
+      "name": "animal-chicken",
+      "variant": 3,
+      "src": "./assets/audio/voices/v5/animal-chicken-3.wav",
+      "seconds": 0.815193,
+      "advanced": true
+    },
+    {
+      "name": "animal-horse",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-horse.wav",
+      "seconds": 1.324036,
+      "advanced": true
+    },
+    {
+      "name": "animal-turkey",
+      "variant": 1,
+      "src": "./assets/audio/voices/v5/animal-turkey.wav",
+      "seconds": 1.034694,
+      "advanced": true
+    }
+  ]
+}

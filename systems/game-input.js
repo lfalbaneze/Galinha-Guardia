@@ -46,7 +46,7 @@ const GameInput = (() => {
     if(state.phase!=='playing')return;
     if(ThorSystem.active(state)){if(name==='thor')ThorSystem.skip(state);return;}
     if(name==='thor'){ThorSystem.request(state);GameUI.update(state);return;}
-    if(name==='interact'){if(!LakeChallenge.interact(state)&&!RescueSystem.callChick(state))HidingSpots.toggle(state);}
+    if(name==='interact'){if(!LakeChallenge.interact(state)&&!RescueSystem.callChick(state)&&!FolkloreSystem.interact(state))HidingSpots.toggle(state);}
     else if(name==='lake'){if(state.lake?.active)LakeChallenge.cancel(state);else LakeChallenge.start(state);}
     else if(name==='sneak')toggle('c');
     else if(name==='run')toggle('shift');
@@ -239,15 +239,18 @@ const GameInput = (() => {
     document.getElementById('liveControls').hidden=!playing||preferences.touch;
     if(stick){stick.hidden=!preferences.joystick;el.touchDpad.hidden=preferences.joystick;if(!playing||!preferences.touch)resetStick();}
     el.touchRun.setAttribute('aria-pressed',String(held('shift')));el.touchSneak.setAttribute('aria-pressed',String(held('c')));
-    const callable=playing&&RescueSystem.callTarget(game),hidden=game.entities.chicken.hidden;
-    el.touchInteract.textContent=game.lake?.active?'Carimbar':callable?'Chamar':hidden?'Sair':'Esconder';
-    el.touchInteract.disabled=!playing||(game.lake?.active?!LakeChallenge.canCounter(game):(!callable&&!hidden&&!HidingSpots.candidate(game.entities.chicken)));
+    const callable=playing&&RescueSystem.callTarget(game),hidden=game.entities.chicken.hidden,legend=playing&&FolkloreSystem.candidate(game);
+    el.touchInteract.textContent=game.lake?.active?'Carimbar':callable?'Chamar':legend?legend.active?'Contra-atacar':'Despertar':hidden?'Sair':'Esconder';
+    el.touchInteract.disabled=!playing||(game.lake?.active?!LakeChallenge.canCounter(game):(!callable&&!legend&&!hidden&&!HidingSpots.candidate(game.entities.chicken)));
     el.controlDevice.textContent=device==='gamepad'?'Controle conectado · A confirma, B volta, direcional navega.':device==='touch'?`${preferences.joystick?'Arraste o analógico':'Toque nas setas'} para andar. Mansinho e Correr ligam e desligam com um toque.`:'Teclado · WASD ou setas para mover; E para interagir.';
     const labels=device==='gamepad'?['Analógico / ✚','B','RT','A']:device==='touch'?['✚','Mansinho','Correr',el.touchInteract.textContent]:['WASD / setas','C','Shift','E'];
     ['keyMove','keySneak','keySprint','keyHide'].forEach((id,i)=>{const item=document.getElementById(id);if(item.textContent!==labels[i])item.textContent=labels[i];});
   }
   function label(action) {
     if(action==='interact'&&device==='touch'&&state.lake?.active)return 'Carimbar';
+    if(action==='interact'&&device==='touch'){
+      const legend=FolkloreSystem.candidate(state);if(legend)return legend.active?'Contra-atacar':'Despertar';
+    }
     return ({keyboard:{interact:'E',hide:'E',exit:'E',lake:'F',sneak:preferences.toggleSneak?'aperte C':'segure C',run:'Shift'},
       gamepad:{interact:'A',hide:'A',exit:'A',lake:'X',sneak:'aperte B',run:'RT',thor:'Y'},touch:{interact:'Chamar',hide:'Esconder',exit:'Sair',lake:'',sneak:'toque em Mansinho',run:'Correr',thor:'Chamar Thor'}})[device][action] || (action==='thor'?'T':'');
   }

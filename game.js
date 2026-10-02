@@ -527,6 +527,7 @@ function updateGame(dt) {
       GooseSystem.update(state, dt);
       FoxSystem.update(state, dt);
       OwlSystem.update(state, dt);
+      FolkloreSystem.update(state, dt);
       ScarecrowSystem.update(state, dt);
       updateWolf(dt);
       Player.checkCatch(state);
@@ -818,7 +819,7 @@ function renderGame() {
   const ending = EndGameSequence.active(state);
   Sunlight.begin(state.elapsed||0,!ending,InterfaceMotion.reduced);
   if (ending) { ctx.save(); EndGameSequence.frame(state); EndGameSequence.drawBackdrop(state); }
-  else { drawWorld(); LakeChallenge.drawGround(state); OwlSystem.drawGround(state); GooseSystem.drawTerritory(state); }
+  else { drawWorld(); LakeChallenge.drawGround(state); OwlSystem.drawGround(state); GooseSystem.drawTerritory(state); FolkloreSystem.drawGround(state); }
   if (!ending) for (const chick of state.entities.chicks) {
     if (RescueSystem.isSecret(chick) && !chick.coverId) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
   }
@@ -828,6 +829,8 @@ function renderGame() {
   if (state.entities.goose && (!ending || state.entities.goose.rescued)) layers.push({ depth: state.entities.goose.y + 12, entity: state.entities.goose });
   if (!ending) for (const fox of state.entities.foxes || [])
     layers.push({ depth: fox.y + 12, entity: fox });
+  if (!ending && !state.lake?.active) for (const enemy of state.entities.folklore || [])
+    if(enemy.active)layers.push({depth:enemy.y+12,entity:enemy});
   if (!ending) for (const owl of state.entities.owls || []) layers.push({depth: owl.mode === 'relocate' ? Infinity : owl.y + .1, entity: owl});
   if (!ending && !state.lake?.active && state.entities.thor) layers.push({depth:state.entities.thor.y+12,entity:state.entities.thor});
   if (!ending) for (const prop of FarmArt.getProps(WORLD.layout)) layers.push({ depth: prop.depth, prop });
@@ -854,6 +857,7 @@ function renderGame() {
     else if (entity.type === 'fox') FoxArt.draw(ctx, entity, camera);
     else if (entity.type === 'owl') OwlSystem.drawEntity(entity);
     else if (entity.type === 'thor') ThorArt.draw(ctx,entity,camera);
+    else if (entity.type === 'folklore') FolkloreSystem.drawEntity(entity);
     else drawAnimal(entity);
   }
   Sunlight.actor(null);
@@ -861,6 +865,7 @@ function renderGame() {
   else {
     ScarecrowSystem.drawFlying(state);
     FoxSystem.drawWarnings(state);
+    FolkloreSystem.drawLabels(state);
     SunflowerSystem.drawWarning(state);
     OwlSystem.drawIndicators(state);
     // Keep a peeking silhouette legible above the prop, then cover its lower body.
@@ -909,7 +914,7 @@ window.addEventListener("keydown", (event) => {
     if (state.lake?.active) LakeChallenge.cancel(state); else LakeChallenge.start(state);
     return;
   }
-  if (key === "e" && !event.repeat && !LakeChallenge.interact(state) && !RescueSystem.callChick(state)) HidingSpots.toggle(state);
+  if (key === "e" && !event.repeat && !LakeChallenge.interact(state) && !RescueSystem.callChick(state) && !FolkloreSystem.interact(state)) HidingSpots.toggle(state);
   if (key === "h" && !event.repeat) state.debugHitboxes = !state.debugHitboxes;
   input.add(key);
 });
@@ -952,7 +957,7 @@ if (savedGame) {
 state.hasSave = Boolean(savedGame);
 GameUI.showMenu(state);
 GameUI.update(state);
-Promise.all([CharacterArt.load(), GooseArt.load(), FoxArt.load(), OwlArt.load(), ThorArt.load(), ScarecrowArt.load()]).then(() => GameUI.update(state));
+Promise.all([CharacterArt.load(), GooseArt.load(), FoxArt.load(), OwlArt.load(), ThorArt.load(), ScarecrowArt.load(), FolkloreSystem.load(true)]).then(() => GameUI.update(state));
 GameUI.update(state);
 FarmSprites.loadCohesive().then(ready=>{
   if(ready)return;

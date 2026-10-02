@@ -28,6 +28,7 @@ const GameManager = (() => {
     GooseSystem.initialize(game);
     FoxSystem.initialize(game);
     OwlSystem.initialize(game);
+    FolkloreSystem.initialize(game);
     ThorSystem.initialize(game);
     ScarecrowSystem.initialize(game);
     saveTimer = 0;
@@ -118,6 +119,7 @@ const GameManager = (() => {
       chicks: game.entities.chicks.map(friend),
       goose: GooseSystem.snapshot(game),
       foxes: FoxSystem.snapshot(game), owls: OwlSystem.snapshot(game),
+      folklore: FolkloreSystem.snapshot(game),
       thor: ThorSystem.snapshot(game),
       lake: LakeChallenge.snapshot(game),
     };
@@ -328,6 +330,7 @@ const GameManager = (() => {
     WolfAI.restoreCoverMemory(game, newGeography?null:data.wolf.exposedCover);
     HidingSpots.update(game);
     OwlSystem.restore(game, data.owls);
+    FolkloreSystem.restore(game,newGeography?undefined:data.folklore);
     ThorSystem.restore(game, data.thor);
     ScarecrowSystem.initialize(game);
     if(!newGeography && data.wolf.mode==='frightened' && Number.isFinite(data.wolf.fearTime) && data.wolf.fearTime!>0 &&

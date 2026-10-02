@@ -2,6 +2,7 @@
  * These declarations emit no code. Keep them aligned with the corresponding JavaScript APIs.
  */
 declare const WORLD: Farm.World;
+declare const ShuffleResultArt:Record<string,{win:string;lose:string}>;
 declare const ThorArtData: {
   src:string; width:number; height:number; columns:number;
   frames:readonly {x:number;y:number;w:number;h:number}[];

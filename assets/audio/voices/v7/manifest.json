@@ -1,0 +1,43 @@
+{
+  "version": 7,
+  "recordings": [
+    {
+      "species": "duck",
+      "variant": 1,
+      "file": "animal-duck.wav",
+      "author": "Breviceps",
+      "license": "CC0-1.0",
+      "sourcePage": "https://freesound.org/people/Breviceps/sounds/445960/",
+      "derivedFrom": "../v3/animal-duck.wav",
+      "sourceSha256": "e49860cc38379f8e44e23ca5a5ebf27cbf134c20be5952d729b37d77d293048d",
+      "processing": {
+        "pitchRatio": 1,
+        "lowpassHz": 3200,
+        "poles": 2,
+        "peakCeiling": 0.4
+      },
+      "seconds": 0.47006802721088436,
+      "peak": 0.35504150390625,
+      "sha256": "1a7e585ef6c639db67eff8370a3826f0343f7f757c3097fb1595142417916b6a"
+    },
+    {
+      "species": "rabbit",
+      "variant": 1,
+      "file": "animal-rabbit.wav",
+      "author": "Voltiment555",
+      "license": "CC0-1.0",
+      "sourcePage": "https://opengameart.org/content/rabbit-eating",
+      "derivedFrom": "../raw-v5/animal-rabbit.wav",
+      "sourceSha256": "ffcb169dde3d74b9a69c7201ab0b35d46ad83bdd50e73f47b4b500ecded8c0d7",
+      "processing": {
+        "pitchRatio": 1,
+        "lowpassHz": 1600,
+        "poles": 2,
+        "peakCeiling": 0.18
+      },
+      "seconds": 1.0899773242630386,
+      "peak": 0.17999267578125,
+      "sha256": "6aafff91606b17009670302ad6084a124b4395009c29a7eba3b4b244789b8de7"
+    }
+  ]
+}

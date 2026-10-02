@@ -8,6 +8,20 @@ const manifest = JSON.parse(fs.readFileSync(path.join(base, 'manifest.json'), 'u
 const clips = [...manifest.recordings, ...manifest.specialEffects];
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 
+test('revised duck and rabbit clips retain credits, natural timing, headroom and separate chick identity',()=>{
+  const folder=path.resolve(base,'../v7'),revised=JSON.parse(fs.readFileSync(path.join(folder,'manifest.json'),'utf8'));
+  assert.deepEqual(revised.recordings.map(c=>c.species),['duck','rabbit']);
+  for(const clip of revised.recordings){
+    const wav=fs.readFileSync(path.join(folder,clip.file)),source=fs.readFileSync(path.resolve(folder,clip.derivedFrom));
+    assert.equal(sha(wav),clip.sha256);assert.equal(sha(source),clip.sourceSha256);
+    assert.equal(clip.license,'CC0-1.0');assert.ok(clip.author&&clip.sourcePage);
+    assert.equal(clip.processing.pitchRatio,1);assert.ok(clip.peak>.05&&clip.peak<=clip.processing.peakCeiling);
+    assert.equal(wav.toString('ascii',0,4),'RIFF');assert.equal(wav.readUInt32LE(24),22050);
+    assert.ok(wav.subarray(44,44+882).every(v=>v===0));assert.ok(wav.subarray(-882).every(v=>v===0));
+    for(const chick of clips.filter(c=>c.species==='chick'))assert.notEqual(clip.sha256,chick.sha256);
+  }
+});
+
 test('every current animal clip is decodable PCM with headroom, quiet edges and preserved source attribution',()=>{
   assert.equal(clips.length,26);
   for(const clip of clips){

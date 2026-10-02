@@ -4,20 +4,21 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="theme-color" content="#152b26" />
-<title>Penas pro Ar — Modo Shuffle</title>
-<link rel="stylesheet" href="./style.css?v=hero-powers-1" />
+<title>Penas pro Ar — Revoada do Caos</title>
+<link rel="stylesheet" href="./style.css?v=levels-1" />
 </head>
 <body>
 <main id="app">
   <header class="topbar">
-    <a href="../index.html" class="brand" aria-label="Voltar ao Penas pro Ar"><span>PENAS PRO AR</span><strong>Modo Shuffle <small>10 FASES</small></strong></a>
-    <button id="pause" type="button" disabled>Pausar</button>
+    <a href="../index.html" class="brand" aria-label="Voltar ao Penas pro Ar"><span>PENAS PRO AR</span><strong>Revoada do Caos <small>10 FASES</small></strong></a>
+    <div class="topbar-actions"><button id="fusionBook" type="button" hidden>Fusões</button><button id="pause" type="button" disabled>Pausar</button></div>
   </header>
-  <section id="playfield" aria-label="Fazenda do modo Shuffle">
+  <section id="playfield" aria-label="Fazenda da Revoada do Caos">
     <canvas id="game" tabindex="0" aria-label="Use WASD ou setas para mover, espaço para esquivar, Q para isca e E para interagir."></canvas>
-    <div class="hud" aria-live="off"><div><span id="stageLabel">UM NOVO BARALHO</span><strong id="objective">Escolha seus poderes.</strong></div><div class="health"><span id="health">3 / 3 vidas</span><small id="level">Nível 0</small></div></div>
+    <div class="hud" aria-live="off"><div><span id="stageLabel">UM NOVO BARALHO</span><strong id="objective">Escolha seus poderes.</strong></div><div class="health"><span id="health">3 / 3 vidas</span><small id="level">Nível 0</small><div id="xpHud" hidden><progress id="xpMeter" value="0" max="8" aria-label="Experiência até o próximo nível"></progress><small id="xpLabel">0 / 8 XP</small></div></div></div>
     <div id="bossHud" hidden><span id="bossName">CHEFE</span><progress id="bossMeter" value="3" max="3" aria-label="Resistência do chefe"></progress></div>
     <p id="notice" role="status" aria-live="polite"></p>
+    <aside id="combatQuip" hidden role="status" aria-live="polite" aria-label="Fala do inimigo"></aside>
     <div id="overlay" class="overlay">
       <section id="panel" class="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" tabindex="-1"></section>
     </div>
@@ -37,8 +38,10 @@
 <script src="../systems/character-art.js?v=folklore-1"></script>
 <script src="../systems/skin-system.js"></script>
 <script src="./maps.js?v=shuffle-10-1"></script>
-<script src="./engine.js?v=folklore-1"></script>
-<script src="./survival.js?v=hero-powers-1"></script>
-<script src="./ui.js?v=hero-powers-1"></script>
+<script src="./engine.js?v=banter-1"></script>
+<script src="./survival.js?v=levels-1"></script>
+<script src="./result-art.js?v=result-poses-1"></script>
+<script src="./effects.js?v=fusions-1"></script>
+<script src="./ui.js?v=levels-1"></script>
 </body>
 </html>

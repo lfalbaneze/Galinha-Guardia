@@ -227,10 +227,11 @@ const GameUI = (() => {
     }
     put("hiddenText", swim.swimming ? (swim.native ? "Nadando" : "De boia") : exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
+    const folkloreHint=playing?FolkloreSystem.hint(game):null;
     const hint = !playing ? (game.phase === 'lose' || game.resumePhase === 'lose' ? 'Fim da tentativa. A próxima começa do zero.' : game.phase === "menu" ? "A porteira tá aberta. O juízo saiu por ela." : "Poleiro cheio. Lobo sem almoço. Belo dia!") :
       game.lake?.active ? (LakeChallenge.canCounter(game) ? `${interact} para pegar o carimbo!` :
         (game.lake.counterWindow||0)>0 ? 'PANTO ficou tonto! Chegue perto antes que a barra acabe.' : 'Desvie da sequência. Quando PANTO ficar tonto, chegue perto para pegar o carimbo.') :
-      swim.swimming ? SwimmingSystem.hint(game) :
+      folkloreHint ? folkloreHint : swim.swimming ? SwimmingSystem.hint(game) :
       exposed ? `Ele viu você! Saia com ${exitKey} e procure outro esconderijo.` :
       callableChick ? `Piu-piu! Aperte ${interact} uma vez para chamar o pintinho ao ninho.` :
       wolf.mode === "frightened" ? "Thor latiu e o valentão afinou! Aproveite para seguir seu caminho." :
