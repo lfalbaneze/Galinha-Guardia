@@ -1,0 +1,7 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/edit-image-pixen",
+  "description": "Remove ONLY the gray horizontal ground shadow beneath and beside the goose feet and tail. Replace all ground, floor, cast shadow and oval shadow pixels with full transparency. Keep the entire defeated goose, all feathers, feet, tail, purple eyelid and accessories unchanged. Transparent background.",
+  "seed": 651002,
+  "jobId": "c1e9f565-c2f3-43b1-bf78-9a209b100529"
+}

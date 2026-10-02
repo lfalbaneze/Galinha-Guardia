@@ -1,0 +1,12 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/create-image-pixen",
+  "description": "BOITATA, the Brazilian magical FIRE SERPENT. One continuous thick sinuous orange-gold snake body with a cream underside and a tapered tail, gently S-curved, bright expressive emerald eyes on a single broad rounded snake head. Small golden flame tongues along its spine and tail, a luminous warm outline within a clean dark contour. Absolutely NO legs, arms, wings, horns or cattle anatomy. Cute original magical snake guardian, full coiled body and tail inside frame, transparent background, no floor glow or ground shadow. Triumphant S-coiled fire SNAKE victory pose, proud raised head and grin, one continuous legless body. No arms, legs or wings. Keep identity, anatomy, colors and accessories. Full body, front 3/4, transparent margins. Cute pixel art. No text, floor or shadows.",
+  "image_size": {
+    "width": 128,
+    "height": 128
+  },
+  "no_background": true,
+  "seed": 641028,
+  "enhance_prompt": false
+}

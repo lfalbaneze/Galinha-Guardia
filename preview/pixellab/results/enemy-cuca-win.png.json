@@ -1,0 +1,7 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/edit-image-pixen",
+  "description": "Remove ONLY the gray oval ground shadow beneath the feet and tail. Replace every ground pixel with full transparency. Preserve the complete victorious green crocodile witch, feet, tail, purple dress, teal shawl, blond hair and expression. Keep only the character silhouette, transparent background, NO floor or shadow.",
+  "seed": 651002,
+  "jobId": "693d8db7-254d-47e2-900d-6aa83e5b2e8e"
+}

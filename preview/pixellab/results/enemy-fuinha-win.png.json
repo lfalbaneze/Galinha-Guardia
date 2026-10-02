@@ -1,0 +1,12 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/create-image-pixen",
+  "description": "A cute European pine MARTEN, chocolate brown fur, long slim torso, short round ears, cream throat bib, pointed muzzle. One long bushy SOLID CHOCOLATE BROWN tail, uniformly brown from base to tip. VICTORY: proud grinning mammal raises TWO furry forepaws, standing on TWO hind paws. Exactly FOUR paws total, ONE furry tail. No feathers, wings, extra limbs, floor or ground shadow. Keep identity, anatomy, colors and accessories. Full body, front 3/4, transparent margins. Cute pixel art. No text, floor or shadows.",
+  "image_size": {
+    "width": 128,
+    "height": 128
+  },
+  "no_background": true,
+  "seed": 641018,
+  "enhance_prompt": false
+}

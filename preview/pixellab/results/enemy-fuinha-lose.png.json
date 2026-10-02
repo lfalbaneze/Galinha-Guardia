@@ -1,0 +1,7 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/edit-image-pixen",
+  "description": "Remove ONLY the gray oval ground shadow beneath the feet and tail. Replace every gray ground pixel with full transparency. Preserve the complete defeated brown marten, paws, ears, tail, bandage and facial expression. Keep only the animal silhouette, transparent background, NO floor or shadow.",
+  "seed": 651002,
+  "jobId": "efc14334-fe45-4a07-b807-fc40063fb2f0"
+}

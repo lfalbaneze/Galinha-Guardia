@@ -1,0 +1,7 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/edit-image-pixen",
+  "description": "Remove the ENTIRE donkey HEAD: erase ears, eyes, muzzle and skull. HEADLESS MULE: its neck ends directly in a small drooping fire plume instead of a head. Preserve exhausted slumped sitting body, four legs and leg bandage. Remove ALL loose stones and gray floor pixels beneath hooves. Transparent sprite, no head, no face, no floor, no shadow.",
+  "seed": 651002,
+  "jobId": "9be85425-40c8-4262-b30d-0060e16c2838"
+}

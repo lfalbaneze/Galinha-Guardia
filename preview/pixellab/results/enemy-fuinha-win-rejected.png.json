@@ -1,0 +1,12 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/create-image-pixen",
+  "description": "A mischievous cute farm stone marten, a FUINHA. Long slim chocolate-brown mustelid body, short rounded ears, cream throat bib, pointed little muzzle, dark nose, curious oval eyes, long bushy brown tail. Exactly FOUR short separate paws, horizontal torso close to ground. No fox ears, no striped raccoon tail, no clothing. Redraw a fighting-game VICTORY pose: proud broad grin, chin up, chest out, raised feathered wings or forepaws as appropriate, feet planted. Exuberant champion, big readable expression. Keep identity, anatomy, colors and accessories. Full body, front 3/4, transparent margins. Cute pixel art. No text, floor or shadows.",
+  "image_size": {
+    "width": 128,
+    "height": 128
+  },
+  "no_background": true,
+  "seed": 641018,
+  "enhance_prompt": false
+}
