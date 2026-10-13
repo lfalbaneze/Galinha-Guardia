@@ -30,14 +30,18 @@ test('encounters use existing vegetation, avoid bonuses/refuge/lake, and do not 
  }
  assert.ok(foxCount>=100);assert.ok(owlCount>=85);
 });
-test('fox direction is locked at the warning, and moving sideways actually dodges a completed dash',()=>{
- const h=setup();warning(h);const target=h.run('JSON.stringify(f.target)');h.run('c.x=1085;c.y=890');
- step(h,'FoxSystem',1.15);assert.equal(h.run('f.mode'),'dash');assert.equal(h.run('JSON.stringify(f.target)'),target);
+test('fox tracks visible preparation, then a late sidestep dodges the committed dash',()=>{
+ const h=setup();warning(h);const initial=h.run('JSON.stringify(f.target)');h.run('c.y=830');
+ step(h,'FoxSystem',.1);assert.notEqual(h.run('JSON.stringify(f.target)'),initial);
+ h.run("while(f.mode==='warning'&&f.timer>.11)FoxSystem.update(state,.01)");
+ const target=h.run('JSON.stringify(f.target)');h.run('c.x=1085;c.y=730');
+ h.run("while(f.mode==='warning')FoxSystem.update(state,.01)");
+ assert.equal(h.run('f.mode'),'dash');assert.equal(h.run('JSON.stringify(f.target)'),target);
  step(h,'FoxSystem',.7);assert.equal(h.run('f.mode'),'rest');assert.equal(h.run('c.invulnerable'),0);assert.equal(h.run('state.lives'),3);
- assert.ok(h.run('f.x>1100 && Math.abs(f.y-800)<.01'));
+ assert.ok(h.run('f.x>1100 && f.y>800'));
 });
 test('fox cannot attack before the full warning has elapsed',()=>{
- const h=setup();warning(h);step(h,'FoxSystem',.9);assert.equal(h.run('f.mode'),'warning');assert.equal(h.run('f.x'),1000);
+ const h=setup();warning(h);step(h,'FoxSystem',h.run('FoxSystem.getConfig(state).warning')-.1);assert.equal(h.run('f.mode'),'warning');assert.equal(h.run('f.x'),1000);
 });
 test('hidden or occluded players do not trigger ambushes',()=>{
  const h=setup();h.run('c.hidden=true');step(h,'FoxSystem',2);assert.equal(h.run('f.mode'),'hidden');
@@ -56,16 +60,16 @@ test('fox dash takes one heart, preserves points and stamina and grants protecti
  h.run('w.x=c.x;w.y=c.y');assert.equal(h.run('Player.checkCatch(state)'),false);
 });
 test('a fox dash stops at a thin wall and cannot contact the chicken across it',()=>{
- const h=setup();warning(h);step(h,'FoxSystem',1.15);h.run('OBSTACLES=[{x:1040,y:740,w:1,h:120}]');
+ const h=setup();warning(h);h.run("while(f.mode==='warning')FoxSystem.update(state,.01)");h.run('OBSTACLES=[{x:1040,y:740,w:1,h:120}]');
  step(h,'FoxSystem',.6);assert.ok(h.run('getHitbox(f).x+f.hitbox.r<1040'));assert.equal(h.run('c.invulnerable'),0);
 });
 test('knockback cannot push the chicken through a fence',()=>{
- const h=setup();warning(h);step(h,'FoxSystem',1.15);h.run('OBSTACLES=[{x:1140,y:740,w:2,h:120}]');
+ const h=setup();warning(h);h.run("while(f.mode==='warning')FoxSystem.update(state,.01)");h.run('OBSTACLES=[{x:1140,y:740,w:2,h:120}]');
  step(h,'FoxSystem',.5);assert.equal(h.run('c.invulnerable'),1.2);assert.ok(h.run('getHitbox(c).x+c.hitbox.r<=1140.01'));
 });
 test('a dash cannot hit a player who entered cover or has spawn protection',()=>{
  for(const condition of ['c.hidden=true','c.invulnerable=2']){
-  const h=setup();warning(h);step(h,'FoxSystem',1.15);h.run(condition);step(h,'FoxSystem',.7);assert.equal(h.run('f.hit'),false);
+  const h=setup();warning(h);h.run("while(f.mode==='warning')FoxSystem.update(state,.01)");h.run(condition);step(h,'FoxSystem',.7);assert.equal(h.run('f.hit'),false);
  }
 });
 test('a returning fox stays blocked instead of teleporting through a wall',()=>{

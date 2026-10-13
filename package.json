@@ -17,7 +17,8 @@
     "sprites:pixellab": "node scripts/pixellab.cjs",
     "sprites:pixellab:build": "node scripts/build-pixellab-art.cjs",
     "preview:render": "node scripts/render-preview.cjs",
-    "audio:generate": "node scripts/generate-audio.cjs",
+    "audio:generate": "node scripts/generate-audio.cjs && node scripts/generate-music.cjs && node scripts/generate-folklore-audio.cjs",
+    "audio:music": "node scripts/generate-music.cjs",
     "audio:preview": "node scripts/render-audio-preview.cjs"
   },
   "devDependencies": {

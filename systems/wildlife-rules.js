@@ -32,6 +32,10 @@ const WildlifeRules = (() => {
         // Tests may run a system without a camera. Normal play always supplies it.
         return typeof camera === 'undefined' || (p.x >= camera.x - margin && p.y >= camera.y - margin && p.x <= camera.x + canvas.width + margin && p.y <= camera.y + canvas.height + margin);
     }
+    function overlapsRefuge(p, radius = 0) {
+        const r = FarmRefuge.bounds;
+        return Math.hypot(p.x - clamp(p.x, r.x, r.x + r.w), p.y - clamp(p.y, r.y, r.y + r.h)) <= radius;
+    }
     function observe(game, origin, range, obstacles = OBSTACLES) {
         const p = game.entities.chicken;
         return !p.hidden && p.invulnerable <= 0 && distance(origin, p) <= range &&
@@ -54,5 +58,5 @@ const WildlifeRules = (() => {
         Player.face(body, dx, dy);
         return length <= amount + .01 ? 'arrived' : 'moving';
     }
-    return { point, validPoint, rank, pathDistance, reserved, clear, onScreen, observe, move };
+    return { point, validPoint, rank, pathDistance, reserved, clear, onScreen, overlapsRefuge, observe, move };
 })();

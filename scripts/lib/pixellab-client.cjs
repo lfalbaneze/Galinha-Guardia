@@ -45,7 +45,7 @@ class PixelLabClient {
         if(body===undefined && attempt<3){await this.pause(2000*(attempt+1));continue;}
         throw Error(body===undefined?'Falha ao consultar PixelLab. Retome o comando para continuar o trabalho existente.':'Falha de conexão com PixelLab. A requisição paga não será reenviada automaticamente.');
       }
-      if (body === undefined && [429, 502, 503, 504].includes(response.status) && attempt < 3) {
+      if (body === undefined && [429, 500, 502, 503, 504].includes(response.status) && attempt < 3) {
         await this.pause(Math.min(30000, Number(response.headers.get('retry-after') || 2 ** attempt) * 1000));
         continue;
       }
@@ -74,6 +74,9 @@ class PixelLabClient {
         // Ambiguous transport failures stay locked, avoiding duplicate paid jobs.
         if ([401, 402, 422, 429].includes(error.status)) fs.unlinkSync(file);
         throw error;
+      }
+      if(saved.response.image?.base64||saved.response.images?.length){
+        saved.state='completed';writeJSON(file,saved);return saved.response;
       }
       saved.jobIds = saved.response.background_job_ids || [saved.response.background_job_id].filter(Boolean);
       if(!saved.jobIds.length && Array.isArray(saved.response.directions) && !saved.response.directions.length){

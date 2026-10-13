@@ -1,4 +1,16 @@
 /* The sentinel sounds a toy siren, then flies to a different unoccupied tree. */
+declare namespace Farm {
+  interface Owl {
+    lastSeen?: Point | null;
+    lastSeenAge?: number;
+    observedMotion?: Point;
+    lookTarget?: number;
+    lookTimer?: number;
+    lookIndex?: number;
+    watchAge?: number;
+    surveillance?: 'roads' | 'search' | 'alarm';
+  }
+}
 const OwlSystem = (() => {
   const point=WildlifeRules.point;
   const coneCache=new WeakMap<Farm.Owl,{source:Farm.Obstacle[];key:string;points:Farm.Point[]}>();
@@ -17,6 +29,35 @@ const OwlSystem = (() => {
       .sort((a,b)=>distance(a,ground)-distance(b,ground))[0]||WORLD.layout.start;
     return Math.atan2(nearest.y-ground.y,nearest.x-ground.x);
   }
+  function roadViews(owl: Farm.Owl): Farm.Point[] {
+    const points=WORLD.paths.flatMap(r=>[
+      {x:clamp(owl.x,r.x,r.x+r.w),y:clamp(owl.y,r.y,r.y+r.h)},
+      {x:r.x+r.w/2,y:r.y+r.h/2}
+    ]).filter(p=>distance(p,owl)>35&&distance(p,owl)<owl.range*1.6);
+    points.sort((a,b)=>distance(a,owl)-distance(b,owl));
+    const views: Farm.Point[]=[];
+    for(const p of points){
+      const angle=Math.atan2(p.y-owl.y,p.x-owl.x);
+      if(views.every(v=>Math.abs(Math.atan2(Math.sin(angle-Math.atan2(v.y-owl.y,v.x-owl.x)),
+        Math.cos(angle-Math.atan2(v.y-owl.y,v.x-owl.x))))>.5))views.push(p);
+      if(views.length===4)break;
+    }
+    return views;
+  }
+  function survey(owl: Farm.Owl,dt: number): void {
+    owl.lookTimer=Math.max(0,(owl.lookTimer??2.4)-dt);
+    if(owl.lastSeen&&(owl.lastSeenAge??99)<3){
+      owl.surveillance='search';
+      const sweep=Math.sin((owl.lastSeenAge||0)*2)*.3;
+      owl.lookTarget=Math.atan2(owl.lastSeen.y-owl.y,owl.lastSeen.x-owl.x)+sweep;
+    }else if(owl.lookTimer===0){
+      owl.surveillance='roads';owl.lookIndex=(owl.lookIndex||0)+1;owl.lookTimer=2.4;
+      const views=roadViews(owl),p=views.length?views[owl.lookIndex%views.length]:undefined;
+      owl.lookTarget=p?Math.atan2(p.y-owl.y,p.x-owl.x):watchHeading(owl.perch)+(owl.lookIndex%2?-.65:.65);
+    }
+    const delta=Math.atan2(Math.sin((owl.lookTarget??owl.heading)-owl.heading),Math.cos((owl.lookTarget??owl.heading)-owl.heading));
+    owl.heading+=clamp(delta,-.75*dt,.75*dt);owl.direction=direction(owl.heading);owl.facing=Math.cos(owl.heading)<0?-1:1;
+  }
   function initialize(game: Farm.GameState): void {
     const trees=perches(game);
     const chosen: typeof trees=[];
@@ -31,7 +72,8 @@ const OwlSystem = (() => {
         facing:Math.cos(heading)<0?-1:1,direction:direction(heading),moving:false,anim:0,
         areaId:getAreaAt(ground.x,ground.y).id,state:'idle',mode:'watch',perch:point(ground),treeId:tree.id,
         heading,range:250,fov:Math.PI*.65,alertTime:game.difficultyKey==='easy'?.5:['hard', 'hardcore'].includes(game.difficultyKey)?.25:.35,
-        alertProgress:0,cooldown:0,grace:2,target:null,movePending:false,relocations:0,relocateRetry:0,flight:null};
+        alertProgress:0,cooldown:0,grace:2,target:null,movePending:false,relocations:0,relocateRetry:0,flight:null,
+        lastSeen:null,lastSeenAge:99,observedMotion:{x:0,y:0},lookTimer:2.4,lookIndex:0,watchAge:0,surveillance:'roads'};
     });
   }
   function relocate(game: Farm.GameState,owl: Farm.Owl): boolean {
@@ -48,7 +90,17 @@ const OwlSystem = (() => {
     const nearby=choices.filter(p=>distance(p.ground,owl)<=1000);if(nearby.length)choices=nearby;
     const fresh=choices.filter(p=>p.tree.id!==owl.previousTreeId);if(fresh.length)choices=fresh;
     if(!choices.length){owl.relocateRetry=1;return false;}
-    const selected=choices[Math.min(choices.length-1,Math.floor(Math.random()*choices.length))];
+    if(owl.lastSeen&&(owl.lastSeenAge??99)<6){
+      const velocity=owl.observedMotion||{x:0,y:0},focus={x:owl.lastSeen.x+velocity.x*.65,y:owl.lastSeen.y+velocity.y*.65};
+      const overlooking=choices.filter(p=>distance(p.ground,focus)<=owl.range&&
+        DetectionSystem.hasLineOfSight(p.ground,focus,OBSTACLES.filter(o=>{
+          const own=p.tree.blockingRect!;return o.x!==own.x||o.y!==own.y||o.w!==own.w||o.h!==own.h;
+        })));
+      if(overlooking.length)choices=overlooking;
+    }
+    // Among useful viewpoints, vary routes instead of repeatedly occupying the same branch.
+    choices.sort((a,b)=>WildlifeRules.pathDistance(a.ground)-WildlifeRules.pathDistance(b.ground));
+    const selected=choices[Math.min(choices.length-1,Math.floor(Math.random()*Math.min(3,choices.length)))];
     owl.flight={from:point(owl),to:point(selected.ground),treeId:selected.tree.id,progress:0,duration:Math.max(1.1,distance(owl,selected.ground)/220)};
     owl.mode='relocate';owl.movePending=false;owl.moving=true;owl.anim=0;
     owl.heading=Math.atan2(selected.ground.y-owl.y,selected.ground.x-owl.x);owl.direction=direction(owl.heading);
@@ -63,7 +115,10 @@ const OwlSystem = (() => {
     if(t<1)return;
     owl.previousTreeId=owl.treeId;owl.treeId=flight.treeId;owl.perch=point(flight.to);owl.flight=null;
     owl.x=owl.perch.x;owl.y=owl.perch.y;owl.vx=0;owl.vy=0;owl.moving=false;owl.anim=0;
-    owl.relocations=(owl.relocations||0)+1;owl.heading=watchHeading(owl.perch);owl.direction=direction(owl.heading);
+    owl.relocations=(owl.relocations||0)+1;
+    owl.heading=owl.lastSeen&&(owl.lastSeenAge??99)<6&&distance(owl.perch,owl.lastSeen)<owl.range*1.4?
+      Math.atan2(owl.lastSeen.y-owl.y,owl.lastSeen.x-owl.x):watchHeading(owl.perch);
+    owl.direction=direction(owl.heading);owl.lookTarget=owl.heading;owl.lookTimer=2.4;owl.watchAge=0;
     owl.areaId=getAreaAt(owl.x,owl.y).id;owl.cooldown=0;owl.grace=.6;owl.mode='watch';
     owl.alertProgress=0;owl.target=null;owl.callTime=0;owl.movePending=false;
     GameManager.save(game);
@@ -72,7 +127,8 @@ const OwlSystem = (() => {
     return Math.abs(Math.cos(angle))>Math.abs(Math.sin(angle))?(Math.cos(angle)<0?'left':'right'):(Math.sin(angle)<0?'up':'down');
   }
   function canSee(owl: Farm.Owl,chicken: Farm.Chicken): boolean {
-    if(owl.mode==='relocate'||chicken.hidden||chicken.invulnerable>0||distance(owl.perch,chicken)>owl.range)return false;
+    if(owl.mode==='relocate'||chicken.hidden||chicken.invulnerable>0||WildlifeRules.overlapsRefuge(chicken,chicken.hitbox.r)||
+      distance(owl.perch,chicken)>owl.range)return false;
     const angle=Math.atan2(chicken.y-owl.perch.y,chicken.x-owl.perch.x);
     const difference=Math.atan2(Math.sin(angle-owl.heading),Math.cos(angle-owl.heading));
     return Math.abs(difference)<=owl.fov/2 && DetectionSystem.hasLineOfSight(owl.perch,getHitbox(chicken),obstacles(owl));
@@ -85,6 +141,8 @@ const OwlSystem = (() => {
     if(game.phase!=='playing'||game.lake?.active||!Number.isFinite(dt)||dt<=0)return;
     dt=Math.min(dt,.1);
     for(const owl of game.entities.owls||[]){
+      owl.lastSeenAge=(owl.lastSeenAge??99)+dt;owl.watchAge=(owl.watchAge||0)+dt;
+      if(owl.lastSeenAge>6){owl.lastSeen=null;owl.observedMotion={x:0,y:0};}
       owl.cooldown=Math.max(0,owl.cooldown-dt);owl.grace=Math.max(0,owl.grace-dt);
       owl.callTime=Math.max(0,(owl.callTime||0)-dt);
       if(owl.mode==='relocate'){fly(game,owl,dt);continue;}
@@ -93,15 +151,18 @@ const OwlSystem = (() => {
         if(relocate(game,owl))continue;
       }
       owl.anim+=dt*2;owl.x=owl.perch.x;owl.y=owl.perch.y;
+      if(owl.mode!=='alert'&&owl.callTime===0)survey(owl,dt);
       if(owl.cooldown>0||owl.grace>0){owl.alertProgress=0;owl.target=null;continue;}
       if(owl.mode==='cooldown')owl.mode='watch';
       if(canSee(owl,game.entities.chicken)&&visible(game,owl)){
+        const chicken=game.entities.chicken,old=owl.lastSeen,age=owl.lastSeenAge;
+        const velocity=old&&age<=.2?{x:(chicken.x-old.x)/age,y:(chicken.y-old.y)/age}:{x:0,y:0};
+        owl.observedMotion=Math.hypot(velocity.x,velocity.y)<=game.settings.chickenSpeed*1.6?velocity:{x:0,y:0};
+        owl.lastSeen=point(chicken);owl.lastSeenAge=0;owl.watchAge=0;owl.surveillance='alarm';
         owl.mode='alert';owl.target=point(game.entities.chicken);
         owl.callHeading=Math.atan2(owl.target.y-owl.y,owl.target.x-owl.x);
         owl.direction=direction(owl.callHeading);
-        // Quiet movement gives time to cross the edge of the cone; it is not invisibility.
-        const attention = game.entities.chicken.sneaking ? .7 : 1;
-        owl.alertProgress=Math.min(1,owl.alertProgress+dt/owl.alertTime*attention);
+        owl.alertProgress=Math.min(1,owl.alertProgress+dt/owl.alertTime);
         if(owl.alertProgress>=1){
           const heard=WolfAI.investigateSound(game,point(owl.perch),360,point(owl.target),obstacles(owl));
           owl.callTime=.72;
@@ -113,15 +174,20 @@ const OwlSystem = (() => {
         }
       }else{
         owl.mode='watch';owl.alertProgress=0;owl.target=null;owl.direction=direction(owl.heading);
+        const interval=(game.difficultyKey==='easy'?32:['hard','hardcore'].includes(game.difficultyKey)?24:28)+WildlifeRules.rank(owl.id)%5;
+        if(owl.watchAge>=interval&&!owl.movePending&&!(game.entities.owls||[]).some(other=>other!==owl&&other.mode==='relocate')){
+          owl.movePending=true;owl.relocateRetry=0;
+        }
       }
     }
   }
   function cone(owl: Farm.Owl): Farm.Point[] {
-    const key=[owl.perch.x,owl.perch.y,owl.heading,owl.range,owl.fov].join(',');
+    // Nearby gaze angles share the expensive scenery trace during a continuous head turn.
+    const heading=Math.round(owl.heading*40)/40,key=[owl.perch.x,owl.perch.y,heading,owl.range,owl.fov].join(',');
     const cached=coneCache.get(owl);if(cached?.source===OBSTACLES&&cached.key===key)return cached.points;
     const walls=obstacles(owl),points: Farm.Point[]=[];
     for(let i=0;i<=24;i++){
-      const angle=owl.heading-owl.fov/2+owl.fov*i/24,dx=Math.cos(angle),dy=Math.sin(angle);
+      const angle=heading-owl.fov/2+owl.fov*i/24,dx=Math.cos(angle),dy=Math.sin(angle);
       let lo=0,hi=owl.range;
       if(!DetectionSystem.hasLineOfSight(owl.perch,{x:owl.x+dx*hi,y:owl.y+dy*hi},walls)){
         for(let j=0;j<10;j++){

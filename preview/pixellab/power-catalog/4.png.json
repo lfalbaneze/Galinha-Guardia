@@ -1,0 +1,12 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/create-image-pixen",
+  "image_size": {
+    "width": 256,
+    "height": 128
+  },
+  "seed": 100830,
+  "no_background": true,
+  "enhance_prompt": false,
+  "description": "Premium cartoon FARM GAME inventory sprite sheet. EXACTLY FOUR columns, TWO rows of 64x64 cells. Eight separate complete objects, ONE in each cell, each centered within 48x48, surrounded by 8 transparent pixels. Cell 1 (TOP row, column 1): An angry ivory egg bomb with orange yolk eyes, black fuse and tiny gold spark. Cell 2 (TOP row, column 2): A double turquoise sickle carrying three mint XP crystals tied to its brown handle. Cell 3 (TOP row, column 3): A copper farm drinking trough overflowing with blue water and two jagged electric sparks. Cell 4 (TOP row, column 4): A short wooden clothesline between two stakes, three frozen lavender feathers hanging on it. Cell 5 (BOTTOM row, column 1): Three orange carrots bursting from a cracked brown garden bed, green leaves and gold impact rays. Cell 6 (BOTTOM row, column 2): A round purple witch cauldron with green soup, wooden spoon and a tiny grumpy face carved on it. Cell 7 (BOTTOM row, column 3): An ivory eggshell fortress shield framed by six curved violet cat claws, brass studs. Cell 8 (BOTTOM row, column 4): An overflowing red farm popcorn bucket with golden popping kernels and green corn-husk handles. Playful handmade farm equipment, strong unique silhouettes, charming rounded shapes, clean dark outline, rich flat colors with three crisp pixel shade clusters. Native pixel art, no blur, realism, plastic shine, text, frames, floor or shadows. All objects fit their own cells; no overlap."
+}

@@ -1,0 +1,9 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/edit-image-pixen",
+  "width": 256,
+  "height": 128,
+  "seed": 100529,
+  "description": "Keep these 8 tiny icons in the SAME positions and sizes, FOUR columns TWO rows. Complete feather tip, lightning tips, carrot leaves and three cat claw tips. Preserve drop, paw sound, goose beak sound and eggshell shield. Each icon fits the central 40x40 of its own 64x64 cell: 12 TRANSPARENT pixels on ALL sides of EVERY cell. Do NOT enlarge. Closed complete silhouettes, crisp square pixels, dark outline. No shadows, glow, panels or text.",
+  "jobId": "8367ed37-94fc-4049-bf32-a30ad529243d"
+}

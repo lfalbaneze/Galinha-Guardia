@@ -1,6 +1,6 @@
 # Elenco cartoon — edição 104
 
-29 personagens e aparências, incluindo as três galinhas, cinco personagens desbloqueáveis, animais da fazenda, lobo, Lorenzo, Amanda, Thor, Panto, coruja, espantalho e corvos.
+29 personagens e aparências, incluindo as três galinhas, cinco personagens desbloqueáveis, animais da fazenda, lobo, Lorenzo, Sophis, Thor, Panto, coruja, espantalho e corvos.
 
 Direção: cartoon de aventura, olhos menores, proporções adultas, contorno escuro e cores contidas. Sem olhos brilhantes de mascote bebê. As folhas anteriores das edições 102 e 103 são estudos descartados.
 

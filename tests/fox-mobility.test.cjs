@@ -71,8 +71,9 @@ test('a missed attack still changes dens when the player stands near the next fr
     assert.equal(h.run('state.lives'),3);
     assert.equal(h.run('f.mode'),'relocate',`${mode}: proximity is not occupation`);
     assert.equal(h.run('f.bushId'),'next');
-    step(h,3);
+    h.run("for(let i=0;i<120&&f.mode!=='hidden';i++)FoxSystem.update(state,.05)");
     assert.equal(h.run('f.mode'),'hidden');
+    assert.ok(h.run('f.cooldown>=1'),'settle at the new den before another approach');
     assert.ok(h.run('distance(f,f.home)<1'));
     assert.equal(h.run('state.lives'),3,'travel does not damage the nearby player');
   }

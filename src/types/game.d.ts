@@ -89,13 +89,14 @@ declare namespace Farm {
     temper: 'secret' | 'tired' | 'fleeing' | 'calm' | 'idle' | 'safe';
   }
   interface Fox extends Entity {
-    name: 'Lorenzo' | 'Amanda';
+    name: 'Lorenzo' | 'Sophis';
     speech: string; speechTime: number; speechCooldown: number;
     speechCounts: Partial<Record<'idle'|'warning'|'miss'|'hit'|'move'|'scared',number>>;
-    type: 'fox'; mode: 'hidden' | 'warning' | 'dash' | 'rest' | 'return' | 'flee' | 'relocate';
-    home: Point; anchor: Point; target: Point; bushId: string | null;
+    type: 'fox'; mode: 'hidden' | 'stalk' | 'warning' | 'dash' | 'rest' | 'return' | 'flee' | 'relocate';
+    home: Point; anchor: Point; target: Point; bushId: string | null; previousBushId?: string | null;
     timer: number; cooldown: number; grace: number; notice: number; attempts: number; hit: boolean; route: Point[];
     scaredTime?: number;
+    sighting?: Point; sightingAge?: number;
     relocateIn: number;
   }
   interface Owl extends Entity {
@@ -108,7 +109,7 @@ declare namespace Farm {
     target: Point | null;
   }
 
-  interface FoxSnapshot extends Point { id: string; cooldown: number; bushId?: string | null; relocateIn?: number; }
+  interface FoxSnapshot extends Point { id: string; cooldown: number; bushId?: string | null; previousBushId?: string | null; relocateIn?: number; }
   interface OwlSnapshot { id: string; cooldown: number; treeId?: string; previousTreeId?: string; relocations?: number; movePending?: boolean; }
   interface Thor extends Entity {
     type: 'thor'; mode: 'enter' | 'greet' | 'leave'; timer: number;

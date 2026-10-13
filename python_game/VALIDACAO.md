@@ -1,5 +1,20 @@
 # Verificações desta entrega
 
+## IA e ataques — 10/10/2026
+
+- Suíte completa: **52 testes passaram**, incluindo patrulha, perda de visão,
+  iscas, flanqueamento, interceptação, avisos com direção travada, recuperação,
+  obstáculos, separação, limites de ataques e entrada/pausas dos reforços.
+- Após a revisão final, os **15 testes específicos de IA** passaram, incluindo
+  memória que expira durante ataques e passadas sincronizadas com o deslocamento
+  líquido quando separação e perseguição se opõem. A compilação Python passou.
+- `main.py --smoke` passou com pygame-ce 2.5.8 e SDL dummy: menu, cartas,
+  movimento, pausa e horda renderizados. A fixture de 180 quadros da horda levou
+  1,25 s; isso não mede FPS de apresentação em um monitor.
+- A captura dos avisos de ataque foi inspecionada. Checkpoints e os 250 mapas
+  continuam cobertos; nenhum formato de save ou atlas foi alterado.
+- Não houve playtest humano completo; o novo ritmo ainda precisa dessa avaliação.
+
 ## Executado
 
 - Atualização de 30/09/2026: Python 3.12.10 e pygame-ce 2.5.8 em Windows.

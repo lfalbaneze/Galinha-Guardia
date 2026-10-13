@@ -1,0 +1,22 @@
+{
+  "provider": "PixelLab",
+  "method": "installed-atlas-frame",
+  "source": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+  "sourceSha256": "aa9309de99bab9e5a74102c1d456c2ca1ae849b45d78b17d6cc9a400565670b4",
+  "action": "walk",
+  "direction": "left",
+  "index": 5,
+  "crop": {
+    "x": 311,
+    "y": 600,
+    "w": 50,
+    "h": 45
+  },
+  "destination": {
+    "x": 14,
+    "y": 26,
+    "w": 100,
+    "h": 90
+  },
+  "scale": 2
+}

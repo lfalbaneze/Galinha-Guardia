@@ -1,0 +1,12 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/generate-image-v2",
+  "image_size": {
+    "width": 192,
+    "height": 96
+  },
+  "seed": 100527,
+  "no_background": true,
+  "description": "A charming polished cartoon farm game prop sprite sheet on TRANSPARENT 192x96 canvas, EXACTLY THREE columns of 64x96 cells, slight top-down RPG three-quarter camera. LEFT cell: a compact cluster of three tall corn stalks with broad folded green leaves, two golden corn cobs and golden tassels, entire plant including base visible. CENTER cell: a compact pile of three chunky angular blue gray quarry stones, quartz veins and pale stepped highlights, low broad silhouette. RIGHT cell: one rustic wooden lamp post with a hanging warm golden farm lantern and a tiny curled metal hook; entire pole and base visible. Each prop fits within its own centered 48x76 pixel box, minimum EIGHT fully transparent pixels on all four sides of its cell. Rounded cartoon shapes, clean dark pixel outline, rich legible flat colors, deliberate crisp square pixel clusters, no antialiasing or plastic rendering. Matching farm game pixel art style. No ground, no oval shadow, no contact shadow, no text, no borders, no extra objects, no overlap, NO cropping at cell boundaries.",
+  "jobId": "b6425b1d-1962-4e2c-b815-13959c626939"
+}

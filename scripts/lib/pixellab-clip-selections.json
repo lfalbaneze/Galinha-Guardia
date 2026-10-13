@@ -6,5 +6,153 @@
         "reason": "Original clip rotated the head 180 degrees while the torso stayed facing away. Replacement visually reviewed: original back view retained throughout all eight frames."
       }
     }
+  },
+  "15f17755-55e5-4b0b-97ac-a4ac628b1d88": {
+    "run": {
+      "west": {
+        "animationName": "farm-run-headless-repair",
+        "reason": "Original left run grew a horizontal muzzle beneath the flames. Replacement reviewed across all 12 frames: short vertical neck stump, no head, four legs."
+      }
+    }
+  },
+  "8ab1cad6-7597-4c12-82a9-69065d07d63e": {
+    "walk": {
+      "south": {
+        "animationName": "walking-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "south-west": {
+        "animationName": "walking-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "west": {
+        "animationName": "walking-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "north-west": {
+        "animationName": "walking-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "north": {
+        "animationName": "walking-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "north-east": {
+        "animationName": "walking-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "east": {
+        "animationName": "walking-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "south-east": {
+        "animationName": "walking-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      }
+    },
+    "run": {
+      "south": {
+        "animationName": "running-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "south-west": {
+        "animationName": "running-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "west": {
+        "animationName": "running-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "north-west": {
+        "animationName": "running-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "north": {
+        "animationName": "running-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "north-east": {
+        "animationName": "running-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "east": {
+        "animationName": "running-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      },
+      "south-east": {
+        "animationName": "running-8-frames",
+        "reason": "Text-generated clips turned during their gait. Skeleton v3 replacement visually reviewed for stable facing and human anatomy. Its 144px viewport is calibrated to the 96px reference before packing."
+      }
+    }
+  },
+  "bc2367d4-5a0d-4fad-814f-940e61dd0dea": {
+    "walk": {
+      "south": {
+        "animationName": "walking-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "south-west": {
+        "animationName": "walking-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "west": {
+        "animationName": "walking-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "north-west": {
+        "animationName": "walking-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "north": {
+        "animationName": "walking-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "north-east": {
+        "animationName": "walking-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "east": {
+        "animationName": "walking-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "south-east": {
+        "animationName": "walking-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      }
+    },
+    "run": {
+      "south": {
+        "animationName": "running-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "south-west": {
+        "animationName": "running-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "west": {
+        "animationName": "running-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "north-west": {
+        "animationName": "running-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "north": {
+        "animationName": "running-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "north-east": {
+        "animationName": "running-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "east": {
+        "animationName": "running-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      },
+      "south-east": {
+        "animationName": "running-8-frames",
+        "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
+      }
+    }
   }
 }

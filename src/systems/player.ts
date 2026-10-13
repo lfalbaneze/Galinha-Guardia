@@ -74,6 +74,7 @@ const Player = {
     const chicken = game.entities.chicken, wolf = game.entities.wolf;
     const refugeSafe=typeof FarmRefuge!=='undefined'&&FarmRefuge.contains(chicken);
     if (refugeSafe || LakeChallenge.blocksWolf(game) || ThorSystem.active(game) || game.phase !== "playing" || !SunflowerSystem.canCatch(game) || (chicken.hidden && !WolfAI.canCatchHidden(game)) || chicken.invulnerable > 0 ||
+      wolf.interceptPhase === 'warning' || (wolf.pursuitRest || 0) > 0 ||
       wolf.mode === 'frightened' || wolf.pauseTimer > 0 || wolf.huntUnlockTimer > 0 || !circleVsCircle(chicken, wolf) ||
       !DetectionSystem.hasLineOfSight(getHitbox(wolf), getHitbox(chicken))) return false;
     const caughtInCover = chicken.hidden;

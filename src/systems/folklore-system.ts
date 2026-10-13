@@ -6,6 +6,9 @@ declare namespace Farm {
     active:boolean; mode:'patrol'|'hunt'|'warning'|'attack'|'rest'|'return';
     timer:number; grace:number; trailTimer:number; route:Point[]; routeTimer:number;
     discovered:boolean; defeated:boolean; courage:number; maxCourage:number;
+    speech?:string; speechTime?:number; speechCooldown?:number; speechCounts?:Record<string,number>; landed?:boolean;
+    lastSeen?:Point; memory?:number;
+    attacks?:number; attackPoints?:Point[]; warningDuration?:number; maneuver?:Point; maneuverTime?:number;
   }
   interface FolkloreThreat extends Point {
     kind:'roots'|'fire'|'spell'; species:FolkloreSpecies; arm:number; life:number; vx:number; vy:number; r:number;
@@ -13,24 +16,33 @@ declare namespace Farm {
 }
 const FolkloreSystem=(()=>{
   const cast={
-    fuinha:{name:'Fuinha',after:1,speed:110,size:62,color:'#e6bf8b',hint:'Arrancada à vista! Saia da frente.'},
+    fuinha:{name:'TIH',after:1,speed:110,size:62,color:'#e6bf8b',hint:'Arrancada à vista! Saia da frente.'},
     'mula-sem-cabeca':{name:'Mula sem Cabeça',after:3,speed:85,size:88,color:'#ffb347',hint:'Tropel de fogo! Desvie para o lado da faixa.'},
     curupira:{name:'Curupira',after:5,speed:95,size:68,color:'#b6dd75',hint:'As raízes vão brotar! Saia do círculo.'},
-    boitata:{name:'Boitatá',after:7,speed:100,size:88,color:'#ffd16b',hint:'Não pise no rastro de fogo!'},
-    cuca:{name:'Cuca',after:9,speed:70,size:82,color:'#d7a6ed',hint:'Feitiço a caminho! Use as cercas e desvie.'}
+    boitata:{name:'Boitatá',after:7,speed:100,size:88,color:'#ffd16b',hint:'A serpente vai cruzar a faixa! Passe pela abertura e evite o rastro.'},
+    cuca:{name:'Cuca',after:9,speed:70,size:82,color:'#d7a6ed',hint:'Olhe as linhas do feitiço! Encontre uma abertura ou use as cercas.'}
   } as const;
   const ids=Object.keys(cast) as Farm.FolkloreSpecies[];
   const secret=(e:Farm.FolkloreEnemy)=>e.species!=='fuinha';
+  const fuinhaLines={
+    appear:['Cheguei! Pode conferir o galinheiro.','Sou pequena. O problema, nem tanto.','Essa fazenda precisava de um desaforo.'],
+    hunt:['Essas perninhas têm turbo!','Você corre. Eu corto caminho.','Sou fuinha, não sou visita!'],
+    warning:['Pisca que eu passo!','Licença! O freio ficou em casa!','Agora vai! Segura esse desaforo!'],
+    hit:['Peguei! Cadê meu troféu?','Um susto tamanho família!','Pequena, sim. Inofensiva, jamais!'],
+    miss:['Meu freio pediu demissão!','Era ensaio. O tombo era de verdade.','Você saiu bem na minha melhor pose!']
+  };
   const box:Farm.Hitbox={ox:0,oy:4,r:16},point=WildlifeRules.point;
-  const stills=new Map<string,HTMLImageElement>();
-  function artReady(id:Farm.FolkloreSpecies):boolean{return !!CharacterArt.frameFor(id)||stills.has(id);}
-  async function load(allowStills=false):Promise<void>{
-    if(!allowStills)return;
-    await Promise.all(ids.map(id=>new Promise<void>(resolve=>{
-      const image=new Image();image.onload=()=>{stills.set(id,image);resolve();};image.onerror=()=>resolve();
-      image.src=ShuffleResultArt['enemy-'+id].win;
-    })));
+  function visible(game:Farm.GameState,e:Farm.FolkloreEnemy):boolean{
+    return distance(game.entities.chicken,e)<420&&WildlifeRules.onScreen(e,60)&&
+      DetectionSystem.hasLineOfSight(getHitbox(game.entities.chicken),getHitbox(e));
   }
+  function say(game:Farm.GameState,e:Farm.FolkloreEnemy,event:keyof typeof fuinhaLines):void{
+    if(e.species!=='fuinha'||!visible(game,e))return;
+    const counts=e.speechCounts||(e.speechCounts={}),choices=fuinhaLines[event],index=counts[event]||0;
+    e.speech=choices[index%choices.length];counts[event]=index+1;e.speechTime=3;e.speechCooldown=7;
+  }
+  function artReady(id:Farm.FolkloreSpecies):boolean{return CharacterArt.ready&&!!CharacterArt.frameFor(id);}
+  async function load():Promise<void>{await CharacterArt.load();}
   const threshold=(game:Farm.GameState,id:Farm.FolkloreSpecies)=>Math.max(0,cast[id].after+(game.difficultyKey==='easy'?1:game.difficultyKey==='hardcore'?-1:0));
   function initialize(game:Farm.GameState):void{
     game.entities.folklore=[];game.folkloreThreats=[];
@@ -49,12 +61,12 @@ const FolkloreSystem=(()=>{
       game.entities.folklore.push({id:'folklore-'+species,type:'folklore',species,...home,home:point(home),target:point(home),
         radius:22,hitbox:{...box},vx:0,vy:0,facing:1,direction:'down',moving:false,anim:0,areaId:getAreaAt(home.x,home.y).id,state:'idle',
         active:false,mode:'patrol',timer:1+i*.3,grace:2,trailTimer:0,route:[],routeTimer:0,
-        discovered:false,defeated:false,courage:3,maxCourage:3});
+        discovered:false,defeated:false,courage:3,maxCourage:3,speech:'',speechTime:0,speechCooldown:0,speechCounts:{}});
     }
   }
   function protectedPlayer(game:Farm.GameState):boolean{
     const p=game.entities.chicken;
-    return p.hidden||p.invulnerable>0||FarmRefuge.contains(p,30)||distance(p,WORLD.safeZone)<WORLD.safeZone.r+35;
+    return p.hidden||p.invulnerable>0||FarmRefuge.contains(p)||distance(p,WORLD.safeZone)<WORLD.safeZone.r+35;
   }
   function candidate(game:Farm.GameState):Farm.FolkloreEnemy|undefined{
     if(game.phase!=='playing'||game.lake?.active||ThorSystem.active(game)||game.entities.chicken.hidden)return;
@@ -78,13 +90,15 @@ const FolkloreSystem=(()=>{
     if(!e.active){
       Object.assign(e,point(e.home));e.active=true;e.discovered=true;e.mode='patrol';e.grace=2;e.timer=2;e.route=[];
       player.invulnerable=Math.max(player.invulnerable,2);
+      AudioSystem.playFolklore(e.species,'warn',e);
       setStatus(`CHEFE SECRETO: ${cast[e.species].name}! Desvie dos ataques; chegue perto e use ${GameInput.label('interact')} quando aparecer ABERTURA. Você pode sair da região para recuar.`);
       spawnBurst(e.x,e.y,cast[e.species].color,20);
     }else{
       e.courage--;spawnBurst(e.x,e.y,cast[e.species].color,14);AudioSystem.play('bonk',{volume:.6});
-      e.mode='return';e.timer=1.5;e.grace=1;e.route=[];
+      e.mode='return';e.timer=1.5;e.grace=1;e.route=[];e.attackPoints=[];e.maneuver=undefined;
       game.folkloreThreats=(game.folkloreThreats||[]).filter(h=>h.species!==e.species);
       if(e.courage<=0){
+        AudioSystem.playFolklore(e.species,'defeat',e);
         e.defeated=true;e.active=false;game.score+=250;game.lives=Math.min(MAX_LIVES,game.lives+1);
         Object.assign(e,point(e.home));AudioSystem.play('rescue',{volume:.7});
         setStatus(`LENDA VENCIDA! ${cast[e.species].name}: +250 pontos e até 1 coração. O selo se apagou.`, 'win');
@@ -99,14 +113,79 @@ const FolkloreSystem=(()=>{
     p.invulnerable=1.6;game.lives=Math.max(0,game.lives-1);
     const d=distance(from,p)||1;Player.move(p,(p.x-from.x)/d*35,(p.y-from.y)/d*35);
     AudioSystem.playPlayerHurt(game);spawnBurst(p.x,p.y,cast[species].color,8);
+    if(species==='fuinha'){
+      const speaker=game.entities.folklore?.find(e=>e.species===species);
+      if(speaker){speaker.landed=true;say(game,speaker,'hit');}
+    }
     if(!game.lives)finishLose(`${cast[species].name} levou essa! ${cast[species].hint}`);
     else setStatus(`${cast[species].name} tirou um coração. ${cast[species].hint}`);
     refreshHud();GameManager.save(game);return true;
   }
   function threat(game:Farm.GameState,e:Farm.FolkloreEnemy,p:Farm.Point,kind:Farm.FolkloreThreat['kind'],vx=0,vy=0):void{
-    if((game.folkloreThreats?.length||0)>=32||FarmRefuge.contains(p,35)||!WildlifeRules.clear(p,p,{ox:0,oy:0,r:10}))return;
+    const r=kind==='roots'?30:kind==='fire'?19:7;
+    if((game.folkloreThreats?.length||0)>=32||WildlifeRules.overlapsRefuge(p,r)||!WildlifeRules.clear(p,p,{ox:0,oy:0,r}))return;
     game.folkloreThreats!.push({...p,kind,species:e.species,arm:kind==='roots'?.95:kind==='fire'?.6:0,
-      life:kind==='spell'?2.5:3,vx,vy,r:kind==='roots'?30:kind==='fire'?19:7});
+      life:kind==='spell'?2.5:3,vx,vy,r});
+  }
+  function lane(from:Farm.Point,to:Farm.Point,hitbox:Farm.Hitbox):Farm.Point{
+    const length=distance(from,to);let end=point(from);
+    for(let s=5;s<length+5;s+=5){
+      const ratio=Math.min(s/Math.max(1,length),1),next={x:from.x+(to.x-from.x)*ratio,y:from.y+(to.y-from.y)*ratio};
+      if(WildlifeRules.overlapsRefuge({x:next.x+hitbox.ox,y:next.y+hitbox.oy},hitbox.r)||!WildlifeRules.clear(end,next,hitbox))break;
+      end=next;
+    }
+    return end;
+  }
+  function prepare(game:Farm.GameState,e:Farm.FolkloreEnemy,tempo:number,scale:number):void{
+    const player=game.entities.chicken,angle=Math.atan2(player.y-e.y,player.x-e.x),turn=e.attacks||0;
+    const phase=e.maxCourage-e.courage,hard=game.difficultyKey==='hard'||game.difficultyKey==='hardcore';
+    e.target=point(player);e.attackPoints=[];e.attacks=turn+1;e.maneuver=undefined;
+    if(e.species==='curupira'){
+      const cross=angle+(turn%2?0:Math.PI/2),spread=game.difficultyKey==='easy'?125:110;
+      const offsets=phase>0||hard?[-spread,0,spread]:[0];
+      e.attackPoints=offsets.map(offset=>({x:player.x+Math.cos(cross)*offset,y:player.y+Math.sin(cross)*offset}))
+        .filter(p=>distance(p,e.home)<420&&!WildlifeRules.overlapsRefuge(p,30)&&WildlifeRules.clear(p,p,{ox:0,oy:0,r:30})&&
+          DetectionSystem.hasLineOfSight(getHitbox(e),p));
+    }else if(e.species==='cuca'){
+      const offsets=turn%2?[-.48,-.23,.23,.48]:phase>0||hard?[-.5,-.25,0,.25,.5]:[-.24,0,.24];
+      e.attackPoints=offsets.map(offset=>lane(e,{x:e.x+Math.cos(angle+offset)*450*scale,
+        y:e.y+Math.sin(angle+offset)*450*scale},{ox:0,oy:0,r:7})).filter(p=>distance(e,p)>20);
+    }else if(e.species==='boitata'){
+      const side=turn%2?1:-1,reach=Math.min(240,distance(e,player)+70);
+      let from=point(e);
+      // Three fixed legs leave a real escape side; the trail never follows a hidden player.
+      for(const bend of [0,.7*side,1.4*side]){
+        const next=lane(from,{x:from.x+Math.cos(angle+bend)*reach/(bend===0?1:1.8),
+          y:from.y+Math.sin(angle+bend)*reach/(bend===0?1:1.8)},e.hitbox);
+        if(distance(next,e.home)>420||distance(from,next)<20)break;
+        e.attackPoints.push(next);from=next;
+      }
+      e.target=e.attackPoints[0]||point(e);
+    }else{
+      const speed=Math.hypot(player.vx,player.vy),lead=e.species==='fuinha'?Math.min(35,speed*.16):0;
+      const reach=e.species==='mula-sem-cabeca'?90:0;
+      const predicted={x:player.x+(speed?player.vx/speed*lead:0)+Math.cos(angle)*reach,
+        y:player.y+(speed?player.vy/speed*lead:0)+Math.sin(angle)*reach};
+      e.target=lane(e,predicted,e.hitbox);
+    }
+    e.mode='warning';e.route=[];e.landed=false;say(game,e,'warning');
+    e.warningDuration=Math.max(.65,(e.species==='cuca'?1.15:e.species==='curupira'?.8:e.species==='boitata'?1.15:1)*tempo);
+    e.timer=e.warningDuration;Player.face(e,player.x-e.x,player.y-e.y);
+    AudioSystem.playFolklore(e.species,'warn',e);setStatus(`${cast[e.species].name}: ${cast[e.species].hint}`);
+  }
+  function approach(game:Farm.GameState,e:Farm.FolkloreEnemy,scale:number,dt:number):void{
+    const p=game.entities.chicken,gap=distance(e,p),angle=Math.atan2(e.y-p.y,e.x-p.x);
+    // Cuca keeps casting distance; the small hunters alternate sides instead of forming a queue.
+    if((e.maneuverTime||0)<=0||!e.maneuver||distance(e,e.maneuver)<8){
+      const radius=e.species==='cuca'?205:e.species==='curupira'?175:115;
+      const side=(e.attacks||0)%2?1:-1;
+      const candidates=[.55*side,-.55*side,0].map(offset=>({x:p.x+Math.cos(angle+offset)*radius,y:p.y+Math.sin(angle+offset)*radius}));
+      e.maneuver=candidates.find(target=>distance(target,e.home)<400&&!WildlifeRules.overlapsRefuge(target,e.hitbox.r)&&
+        WildlifeRules.clear(e,target,e.hitbox)&&DetectionSystem.hasLineOfSight(target,getHitbox(p)));
+      e.maneuverTime=.75;
+    }
+    if(e.species==='cuca'&&gap>170&&gap<235)return;
+    move(e,e.maneuver||p,cast[e.species].speed*scale,dt);
   }
   function move(e:Farm.FolkloreEnemy,target:Farm.Point,speed:number,dt:number,onStep?:()=>boolean):void{
     if(WildlifeRules.clear(e,target,e.hitbox))e.route=[];
@@ -122,9 +201,12 @@ const FolkloreSystem=(()=>{
   function update(game:Farm.GameState,dt:number):void{
     if(game.phase!=='playing'||game.lake?.active||ThorSystem.active(game)||!Number.isFinite(dt)||dt<=0)return;
     dt=Math.min(.1,dt);const player=game.entities.chicken;
-    const scale=1+Math.min(.3,game.rescuedCount*.018+(game.difficultyKey==='hardcore'?.1:0));
+    const tempo=game.difficultyKey==='easy'?1.2:game.difficultyKey==='hard'?.95:game.difficultyKey==='hardcore'?.9:1;
+    const scale=(game.difficultyKey==='easy'?.9:1)+Math.min(.3,game.rescuedCount*.018+
+      (game.difficultyKey==='hardcore'?.1:game.difficultyKey==='hard'?.05:0));
     for(const e of game.entities.folklore||[]){
       if(!artReady(e.species))continue;
+      e.speechTime=Math.max(0,(e.speechTime||0)-dt);e.speechCooldown=Math.max(0,(e.speechCooldown||0)-dt);
       if(!e.active){
         if(secret(e)){
           if(!e.defeated&&game.rescuedCount>=threshold(game,e.species)&&distance(e.home,player)<190&&
@@ -134,7 +216,7 @@ const FolkloreSystem=(()=>{
           continue;
         }
         if(game.rescuedCount<threshold(game,e.species)||distance(e,player)<260)continue;
-        e.active=true;e.grace=2;setStatus(`${cast[e.species].name} apareceu na fazenda! ${cast[e.species].hint}`);
+        e.active=true;e.grace=2;AudioSystem.playFolklore(e.species,'warn',e);setStatus(`${cast[e.species].name} apareceu na fazenda! ${cast[e.species].hint}`);
       }
       if(secret(e)&&distance(player,e.home)>650){
         e.active=false;e.moving=false;Object.assign(e,point(e.home));
@@ -142,40 +224,59 @@ const FolkloreSystem=(()=>{
         setStatus('Você recuou. O selo guarda seu progresso para outra tentativa.');GameManager.save(game);continue;
       }
       const before=point(e);e.timer-=dt;e.grace=Math.max(0,e.grace-dt);e.routeTimer-=dt;e.trailTimer-=dt;
+      e.maneuverTime=(e.maneuverTime||0)-dt;
       const seen=!protectedPlayer(game)&&distance(player,e.home)<420&&WildlifeRules.observe(game,getHitbox(e),340);
+      e.memory=Math.max(0,(e.memory||0)-dt);
+      if(seen){e.lastSeen=point(player);e.memory=game.difficultyKey==='easy'?1.2:2.4;}
+      if(FarmRefuge.contains(player)){
+        e.memory=0;e.lastSeen=undefined;
+        if(['hunt','warning','attack'].includes(e.mode)){e.mode='return';e.route=[];e.routeTimer=0;e.attackPoints=[];e.maneuver=undefined;}
+      }
+      if(e.species==='fuinha'&&seen&&!e.speechCounts?.appear)say(game,e,'appear');
       if(e.grace>0){e.moving=false;continue;}
       if(e.mode==='warning'){
         if(protectedPlayer(game)){e.mode='rest';e.timer=1;}
         else if(e.timer<=0){
-          if(e.species==='curupira'){threat(game,e,e.target,'roots');e.mode='rest';e.timer=3;}
+          AudioSystem.playFolklore(e.species,'attack',e);
+          if(e.species==='curupira'){
+            for(const p of e.attackPoints||[e.target])threat(game,e,p,'roots');
+            e.mode='rest';e.timer=3.2;
+          }
           else if(e.species==='cuca'){
-            const a=Math.atan2(e.target.y-e.y,e.target.x-e.x);
-            for(const offset of [-.24,0,.24])threat(game,e,e,'spell',Math.cos(a+offset)*180*scale,Math.sin(a+offset)*180*scale);
-            e.mode='rest';e.timer=2.5;
-          }else{e.mode='attack';e.timer=.8;}
+            for(const p of e.attackPoints||[e.target]){
+              const a=Math.atan2(p.y-e.y,p.x-e.x);
+              threat(game,e,e,'spell',Math.cos(a)*180*scale,Math.sin(a)*180*scale);
+            }
+            e.mode='rest';e.timer=3;
+          }else{e.mode='attack';e.timer=e.species==='boitata'?3.2:Math.max(.8,distance(e,e.target)/(340*scale)+.1);e.trailTimer=0;}
         }
       }else if(e.mode==='attack'){
         const from=point(e);
-        WildlifeRules.move(e,e.target,(e.species==='fuinha'?250:340)*scale*dt,()=>hit(game,e,e.species,18));
-        if(e.timer<=0||distance(e,e.target)<8||distance(e,from)<.1||player.invulnerable>0){e.mode='rest';e.timer=secret(e)?3:1.4;}
+        const speed=e.species==='fuinha'?250:e.species==='boitata'?180:340;
+        const result=WildlifeRules.move(e,e.target,speed*scale*dt,()=>hit(game,e,e.species,18));
+        if(e.species==='boitata'&&distance(e,from)>.1&&e.trailTimer<=0){threat(game,e,e,'fire');e.trailTimer=.38;}
+        if(e.species==='boitata'&&result==='arrived'&&(e.attackPoints?.length||0)>1){
+          e.attackPoints!.shift();e.target=e.attackPoints![0];
+        }
+        if(e.timer<=0||distance(e,e.target)<8||distance(e,from)<.1||player.invulnerable>0){
+          if(!e.landed)say(game,e,'miss');e.mode='rest';e.timer=secret(e)?3:1.4;
+        }
       }else if(e.mode==='rest'){
         if(e.timer<=0){e.mode='return';e.timer=.6;}
       }else if(!seen||e.mode==='return'){
-        move(e,e.home,cast[e.species].speed,dt);
-        if(distance(e,e.home)<5){e.mode='patrol';if(e.timer<0)e.timer=.4;}
-      }else if(e.species==='boitata'){
-        if(e.mode!=='hunt'){e.mode='hunt';e.timer=6;}
-        if(e.timer<=0){e.mode='rest';e.timer=3;}
-        else{
-          move(e,player,cast[e.species].speed*scale,dt,()=>hit(game,e,e.species,18));
-          if(distance(e,before)>.1&&e.trailTimer<=0){threat(game,e,e,'fire');e.trailTimer=.65;}
+        if(e.mode!=='return'&&e.lastSeen&&e.memory>0){
+          e.mode='hunt';move(e,e.lastSeen,cast[e.species].speed*scale,dt);
+        }else{
+          move(e,e.home,cast[e.species].speed,dt);
+          if(distance(e,e.home)<5){e.mode='patrol';if(e.timer<0)e.timer=.4;}
         }
+      }else if(e.species==='cuca'&&distance(e,player)<135&&e.timer>-1.4){
+        e.mode='hunt';approach(game,e,scale,dt);
       }else if(e.timer<=0&&distance(e,player)<(e.species==='fuinha'?165:290)){
-        e.mode='warning';e.target=point(player);e.route=[];
-        e.timer=e.species==='cuca'?1.1:e.species==='curupira'?.65:1;
-        Player.face(e,player.x-e.x,player.y-e.y);setStatus(`${cast[e.species].name}: ${cast[e.species].hint}`);
+        prepare(game,e,tempo,scale);
       }else{
-        e.mode='hunt';move(e,player,cast[e.species].speed*scale,dt);
+        e.mode='hunt';approach(game,e,scale,dt);
+        if((e.speechCooldown||0)<=0)say(game,e,'hunt');
       }
       const traveled=distance(before,e);e.vx=(e.x-before.x)/dt;e.vy=(e.y-before.y)/dt;e.moving=traveled>.01;
       e.anim=CharacterArt.advance(e.anim,e.species,traveled,{speed:traveled/dt});e.state=e.moving?'walk':'idle';
@@ -186,7 +287,7 @@ const FolkloreSystem=(()=>{
       h.arm-=dt;h.life-=dt;if(h.life<=0)return false;
       if(h.kind==='spell'){
         const next={x:h.x+h.vx*dt,y:h.y+h.vy*dt};
-        if(!WildlifeRules.clear(h,next,{ox:0,oy:0,r:h.r})||FarmRefuge.contains(next,35))return false;
+        if(!WildlifeRules.clear(h,next,{ox:0,oy:0,r:h.r})||WildlifeRules.overlapsRefuge(next,h.r))return false;
         Object.assign(h,next);
       }
       if(h.arm<=0&&hit(game,h,h.species,h.r)&&h.kind==='spell')return false;
@@ -195,12 +296,7 @@ const FolkloreSystem=(()=>{
   }
   function drawEntity(e:Farm.FolkloreEnemy):void{
     if(!e.active)return;
-    if(CharacterArt.frameFor(e.species)){
-      CharacterArt.draw(ctx,e.species,worldX(e.x),worldY(e.y),{direction:CharacterArt.heading(e),anim:e.anim,moving:e.moving,shadow:false,scale:secret(e)?1.5:1});return;
-    }
-    const image=stills.get(e.species);if(!image)return;
-    const size=cast[e.species].size*(secret(e)?1.5:1);ctx.save();ctx.imageSmoothingEnabled=false;
-    ctx.drawImage(image,worldX(e.x)-size/2,worldY(e.y)-size*.86,size,size);ctx.restore();
+    CharacterArt.draw(ctx,e.species,worldX(e.x),worldY(e.y),{direction:CharacterArt.heading(e),anim:e.anim,moving:e.moving,sprinting:e.mode==='attack',shadow:false,scale:secret(e)?1.5:1});
   }
   function drawGround(game:Farm.GameState):void{
     if(game.lake?.active)return;ctx.save();ctx.lineWidth=2;
@@ -217,14 +313,28 @@ const FolkloreSystem=(()=>{
     }
     ctx.setLineDash([]);
     for(const e of game.entities.folklore||[]){
-      if(!e.active||e.mode!=='warning'||!WildlifeRules.onScreen(e,60))continue;
+      // The origin may be outside a narrow screen while the warned area is on the player.
+      if(!e.active||e.mode!=='warning')continue;
       ctx.strokeStyle=cast[e.species].color;ctx.fillStyle=cast[e.species].color+'44';
       if(e.species==='curupira'){
-        ctx.beginPath();ctx.arc(worldX(e.target.x),worldY(e.target.y),30,0,Math.PI*2);ctx.fill();ctx.stroke();
+        for(const p of e.attackPoints||[e.target]){
+          ctx.beginPath();ctx.arc(worldX(p.x),worldY(p.y),30,0,Math.PI*2);ctx.fill();ctx.stroke();
+        }
       }else{
-        ctx.lineWidth=e.species==='cuca'?5:32;ctx.globalAlpha=.4;ctx.beginPath();
-        ctx.moveTo(worldX(e.x),worldY(e.y));ctx.lineTo(worldX(e.target.x),worldY(e.target.y));ctx.stroke();ctx.globalAlpha=1;ctx.lineWidth=2;
+        const points=e.species==='cuca'||e.species==='boitata'?e.attackPoints||[e.target]:[e.target];
+        let from:Farm.Point=e;
+        for(const p of points){
+          ctx.lineWidth=e.species==='cuca'?14:2*(e.hitbox.r+game.entities.chicken.hitbox.r);ctx.globalAlpha=.28;
+          ctx.beginPath();ctx.moveTo(worldX(from.x),worldY(from.y));ctx.lineTo(worldX(p.x),worldY(p.y));ctx.stroke();
+          ctx.globalAlpha=.95;ctx.lineWidth=2;ctx.setLineDash([6,5]);
+          ctx.beginPath();ctx.moveTo(worldX(from.x),worldY(from.y));ctx.lineTo(worldX(p.x),worldY(p.y));ctx.stroke();ctx.setLineDash([]);
+          if(e.species==='boitata')from=p;
+        }
+        ctx.globalAlpha=1;
       }
+      const x=worldX(e.x),y=worldY(e.y)-cast[e.species].size*(secret(e)?1.2:.65)-12;
+      ctx.fillStyle='#243528';ctx.fillRect(x-25,y,50,6);ctx.fillStyle=cast[e.species].color;
+      ctx.fillRect(x-24,y+1,48*clamp(1-e.timer/(e.warningDuration||1),0,1),4);
     }
     ctx.restore();
   }
@@ -236,6 +346,22 @@ const FolkloreSystem=(()=>{
       ctx.strokeText(text,x,y);ctx.fillStyle='#fff0c5';ctx.fillText(text,x,y);
     }
     for(const e of game.entities.folklore||[])if(e.active&&WildlifeRules.onScreen(e,60)){
+      if(e.species==='fuinha'&&(e.speechTime||0)>0&&e.speech&&visible(game,e)){
+        const compact=canvas.width<600,font=compact?16:12,h=compact?54:46;
+        ctx.font=font+'px Trebuchet MS, sans-serif';
+        const width=Math.min(canvas.width-20,compact?340:280,Math.max(136,ctx.measureText(e.speech).width+26));
+        const fx=worldX(e.x),fy=worldY(e.y),above=fy-CharacterArt.markerOffset(e.species)>130;
+        const x=clamp(fx-width/2,10,canvas.width-width-10),y=above?fy-CharacterArt.markerOffset(e.species)-h-13:Math.min(canvas.height-h-14,fy+18);
+        const tip=clamp(fx,x+14,x+width-14),r=8;
+        ctx.fillStyle='#fff3ce';ctx.strokeStyle='#745b3b';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x+r,y);
+        if(!above){ctx.lineTo(tip-6,y);ctx.lineTo(tip,y-7);ctx.lineTo(tip+6,y);}
+        ctx.lineTo(x+width-r,y);ctx.quadraticCurveTo(x+width,y,x+width,y+r);
+        ctx.lineTo(x+width,y+h-r);ctx.quadraticCurveTo(x+width,y+h,x+width-r,y+h);
+        if(above){ctx.lineTo(tip+6,y+h);ctx.lineTo(tip,y+h+7);ctx.lineTo(tip-6,y+h);}
+        ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fill();ctx.stroke();
+        ctx.fillStyle='#663d28';ctx.font=`bold ${compact?14:11}px Trebuchet MS, sans-serif`;ctx.fillText('TIH',x+width/2,y+(compact?18:15));
+        ctx.font=font+'px Trebuchet MS, sans-serif';ctx.fillText(e.speech,x+width/2,y+(compact?40:34),width-18);continue;
+      }
       const text=cast[e.species].name+(secret(e)?` · ${e.courage}/${e.maxCourage}`:'')+(e.mode==='warning'?' !':''),x=worldX(e.x),y=worldY(e.y)-cast[e.species].size*(secret(e)?1.2:.65);
       ctx.strokeText(text,x,y);ctx.fillStyle=cast[e.species].color;ctx.fillText(text,x,y);
       if(secret(e)){
@@ -261,5 +387,5 @@ const FolkloreSystem=(()=>{
       e.mode='return';e.grace=2.5;
     }
   }
-  return {cast,initialize,load,update,candidate,interact,hint,drawEntity,drawGround,drawLabels,snapshot,restore,get ready(){return ids.every(artReady);}};
+  return {cast,fuinhaLines,initialize,load,update,candidate,interact,hint,drawEntity,drawGround,drawLabels,snapshot,restore,get ready(){return ids.every(artReady);}};
 })();

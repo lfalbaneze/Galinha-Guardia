@@ -2,7 +2,7 @@
 from playwright.sync_api import Page
 from sprite_grounding import check_sprite_grounding
 
-READY = '[CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt, ScarecrowArt, FarmSprites].every(art => art.ready)'
+READY = '[CharacterArt, GooseArt, FoxArt, OwlArt, ThorArt, ScarecrowArt, FarmSprites].every(art => art.ready) && FenceArt.ready()'
 
 
 def start_adventure(page: Page) -> None:

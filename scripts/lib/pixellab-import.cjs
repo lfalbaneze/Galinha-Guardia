@@ -33,8 +33,13 @@ async function packCharacter(item, input, destination) {
       for (const filename of files) {
         const full = path.resolve(input, filename);
         if (!full.startsWith(path.resolve(input) + path.sep)) throw Error('Frame path escapes input directory');
-        const bytes = fs.readFileSync(full), image = await loadImage(bytes);
+        const bytes = fs.readFileSync(full);let image = await loadImage(bytes);
         if (image.width > 512 || image.height > 512) throw Error('Unexpected oversized sprite');
+        if(item.frameSize&&(image.width!==item.frameSize||image.height!==item.frameSize)){
+          if(![128,144].includes(image.width)||image.height!==image.width||item.frameSize!==96)throw Error('Unexpected skeleton viewport');
+          const normalized=createCanvas(item.frameSize,item.frameSize),c=normalized.getContext('2d');
+          c.imageSmoothingEnabled=false;c.drawImage(image,0,0,item.frameSize,item.frameSize);image=normalized;
+        }
         const hash=createHash('sha256').update(bytes).digest('hex'),review=borderReviews[item.id]?.[hash];
         if(review)reviewedBorders[hash]=review;
         frames.push({image, ink:bounds(image,`${item.id}/${action}/${direction}/${frames.length}`,!!review), hash});
@@ -49,7 +54,7 @@ async function packCharacter(item, input, destination) {
       rows.push({action,direction,frames,ground:referenceGround??Math.max(...frames.map(f=>f.ink.bottom+1-f.image.height/2))});
     }
   }
-  if (!source.actions.walk) throw Error(`${item.id}: falta ciclo de caminhada.`);
+  if (!rows.some(r=>r.action==='walk')) throw Error(`${item.id}: falta ciclo de caminhada.`);
   const all = rows.flatMap(r=>r.frames), padding = 4;
   // One bounding rectangle for the WHOLE character, including every action.
   // No per-frame trimming, stretching, centering or lost airborne motion.
@@ -87,11 +92,12 @@ async function packCharacter(item, input, destination) {
     (actions[row.action] ||= {})[row.direction] = {frames, cx, bottom:ground, top:rowTop, width, idleIndex, flip:false};
   });
   const definition = {edition:108, provider:'pixellab', pixelArt:true, smooth:false, scale, cycle:4,
-    source:'atlas.png', width:sheet.width, height:sheet.height, viewRotation:item.viewRotation||0, poses:actions.walk, actions};
+    source:'atlas.png', width:sheet.width, height:sheet.height, viewRotation:item.viewRotation||0,
+    poses:actions.walk, actions};
   fs.mkdirSync(destination,{recursive:true});
   fs.writeFileSync(path.join(destination,'atlas.png'),sheet.toBuffer('image/png'));
   writeJSON(path.join(destination,'candidate.json'), {id:item.id, characterId:source.characterId, definition, warnings, reviewedBorders,
-    checks:{directions:8, rows:rows.length, frames:all.length, clipped:false}, generatedAt:source.generatedAt});
+    checks:{directions:8, animatedDirections:Object.keys(actions.walk), rows:rows.length, frames:all.length, clipped:false}, generatedAt:source.generatedAt});
   return {definition,warnings};
 }
 function withSource(value, source) {
@@ -102,6 +108,10 @@ function withSource(value, source) {
 function installCandidate(root, id) {
   const folder=path.join(root,'preview/pixellab',id), candidate=readJSON(path.join(folder,'candidate.json'));
   if (!candidate || candidate.id !== id) throw Error(`Falta revisão gerada para ${id}.`);
+  if(candidate.review?.status==='rejected')throw Error(`${id}: candidato rejeitado na revisão: ${candidate.review.reason}`);
+  for(const [action,poses] of Object.entries(candidate.definition.actions)){
+    if(Object.values(directions).some(d=>!poses[d] || (action!=='idle'&&poses[d].frames.length<8)))throw Error(`${id}/${action}: oito direções completas são necessárias para instalar.`);
+  }
   const bytes=fs.readFileSync(path.join(folder,'atlas.png'));
   const hash=createHash('sha256').update(bytes).digest('hex').slice(0,12);
   const source=`assets/sprites/pixellab-108/runtime/${id}-${hash}.png`;
@@ -142,7 +152,7 @@ function buildData(root) {
   if(fs.existsSync(htmlFile)){
     const version=createHash('sha256').update(script).digest('hex').slice(0,12);
     let html=fs.readFileSync(htmlFile,'utf8').replace(/pixellab-art-data\.js(?:\?v=[^"']*)?/g,'pixellab-art-data.js?v='+version);
-    const renderers=['game.js',...['character-art','wildlife-art','fox-art','goose-art','thor-art','owl-art','owl-system','scarecrow-art','scarecrow-system','menu-scene','menu-briefing','thor-cinematic'].map(n=>'systems/'+n+'.js')];
+    const renderers=['game.js',...['character-art','wildlife-art','fox-art','goose-art','thor-art','owl-art','owl-system','scarecrow-art','scarecrow-system','menu-scene','menu-briefing','thor-cinematic','folklore-system'].map(n=>'systems/'+n+'.js')];
     for(const file of renderers){const full=path.join(root,file);if(!fs.existsSync(full))continue;
       const revision=createHash('sha256').update(fs.readFileSync(full)).digest('hex').slice(0,12);
       html=html.replace(/(src="\.\/)([^"?]+)(?:\?v=[^"]*)?(")/g,
@@ -155,14 +165,14 @@ function buildData(root) {
   }
   const report=[
     '# Produção PixelLab','',
-    'Sprites produzidos pela API oficial https://api.pixellab.ai/v2. Criação v3/Pixen e animação v3; nenhum outro gerador foi usado nesta produção.','',
+    'Sprites produzidos pela API oficial https://api.pixellab.ai/v2. Criação v3/Pixen, animação v3 e correções Pro pela mesma API; nenhum outro gerador foi usado nesta produção.','',
     `${Object.keys(data).length} personagens/aparências instalados. Esta tabela é atualizada a partir dos atlas que o jogo realmente carrega.`,'',
-    '| Personagem | Direções por ação | Ações instaladas | Quadros |',
+    '| Personagem | Direções de caminhada | Ações instaladas | Quadros |',
     '| --- | --- | --- | --- |',
-    ...Object.entries(data).map(([id,d])=>`| ${id} | 8 | ${Object.keys(d.actions).join(', ')} | ${Object.values(d.actions).flatMap(p=>Object.values(p)).reduce((n,p)=>n+p.frames.length,0)} |`),'',
+    ...Object.entries(data).map(([id,d])=>`| ${id} | ${Object.keys(d.actions.walk).length}/8 | ${Object.keys(d.actions).join(', ')} | ${Object.values(d.actions).flatMap(p=>Object.values(p)).reduce((n,p)=>n+p.frames.length,0)} |`),'',
     'Cada direção usa imagens próprias da PixelLab. O importador não espelha nem inventa quadros. Ajustes de rótulos direcionais estão registrados em `viewRotation` nos metadados e preservam os pixels originais.','',
     'Caminhadas são sincronizadas à distância percorrida. O importador mantém uma escala comum, margens transparentes e o movimento vertical dos quadros. Nas asas abertas, conserva o apoio da vista em repouso.','',
-    'Os atlas locais em `runtime` são usados no jogo e no menu. A chave fica fora da distribuição; jogar não consulta a API. Créditos adicionais foram autorizados pelo usuário em 20/09/2026. O saldo atual é consultado pelo comando de produção, não por este documento.','',
+    'Os atlas locais em `runtime` são usados no jogo e no menu. A chave fica fora da distribuição; jogar não consulta a API. Créditos adicionais foram autorizados pelo usuário em 20/09/2026 e 05/10/2026. O saldo atual é consultado pelo comando de produção, não por este documento.','',
     'A revisão inclui quadros, recortes, animação em diferentes velocidades e integração no navegador. Testes técnicos não substituem a avaliação artística. Candidatos ainda em produção ficam separados em `preview/pixellab`.',''
   ].join('\n');
   fs.writeFileSync(path.join(root,'assets/sprites/pixellab-108/README.md'),report);

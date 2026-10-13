@@ -2,16 +2,45 @@
 
 ## Sobrevivência no navegador (30/09/2026)
 
+### Revisão de 08/10/2026
+
+A sobrevivência agora tem dez arenas com percursos próprios: pomar, milharal,
+pedreira, bosque, campo, colheita, bebedouro, pomar ao entardecer, penumbra e
+última luz. Cada arena mantém três variantes conectadas e um chefe obrigatório.
+A vitória exige os dez chefes; o elenco do folclore continua opcional e secreto.
+
+A primeira horda passa de cinco para sete inimigos; os reforços chegam mais
+cedo e continuam durante os chefes. Resistência cresce entre fases, enquanto
+chefes feridos ampliam as rajadas e o lobo chama mais aliados. Os avisos mantêm
+a duração e a mira travada. O limite continua em 48 inimigos. Entre fases,
+recupera-se um coração; há menos leite disponível. O bônus de dano por nível
+passa a 8%, limitado a 24 aumentos; cartas e fusões mantêm suas melhorias.
+
+As telas de resultado carregam as poses PixelLab dedicadas, antes instaladas mas
+ignoradas pelo renderizador. Sophis, Corvo e Coruja completam o elenco: 19 bichos,
+38 poses de vitória/derrota. Falas durante a luta continuam usando o atlas animado.
+
+O catálogo `assets/shuffle/power-catalog.png` contém 40 desenhos PixelLab:
+30 habilidades, oito fusões, leite e XP. Cada carta, receita e ícone no HUD usa
+sua própria arte; itens no chão também usam o catálogo. Os projéteis básicos
+preservam a identidade de cada bicho. Gerar com
+`node scripts/generate-chaos-art.cjs --catalog`; após conferir as cinco folhas,
+instalar com `node scripts/generate-chaos-art.cjs --catalog --install`.
+Recibos e referências ficam fora da distribuição. Não há compra automática de créditos.
+
+As verificações de progressão usam fixtures e não substituem partidas humanas
+para o ajuste final da dificuldade.
+
 O botão **Revoada do Caos** no `index.html` principal abre
 `shuffle/index.html#survival` e inicia a partida após carregar os sprites.
 Funciona por `file://` ou HTTP, sem Python no computador do jogador. A versão
 nativa permanece em `python_game/`; as mecânicas foram adaptadas para JavaScript
 e Canvas em `shuffle/survival.js`, reutilizando mapas, colisão e navegação web.
 
-Sobreviva cinco minutos, com dez ondas e até 48 inimigos simultâneos: raposas
+Atravesse dez arenas com chefes, com até 48 inimigos simultâneos: raposas
 rápidas, lobos resistentes e gansos. Colete cristais para encher a barra de XP:
 cada nível pausa a partida para escolher um poder entre três cartas. Habilidades
-podem evoluir até 3/3; XP excedente e níveis seguem entre fases. Leite cura. Os ataques são
+podem evoluir até 5/5 (armas) ou 3/3 (apoios); XP excedente e níveis seguem entre fases. Leite cura. Os ataques são
 automáticos. WASD/setas ou joystick touch movem; Espaço/botão esquiva; Esc pausa.
 Minimapa mostra inimigos e itens; HUD mostra tempo, poderes, nível e experiência.
 Repetir semente reproduz o mapa e os itens iniciais. As sementes web não
@@ -113,9 +142,20 @@ inválidos são recusados. Ausência de armazenamento não impede uma tentativa 
 
 ### Poderes e personagens na sobrevivência
 
-Os itens coletáveis são **Milho Kombat**, **Resident Ovo**, **Foice May Cry** e
-**Super Bota Bros.**, com três níveis cada. **Leite Up** recupera até dois corações.
-Os nomes e níveis aparecem numa faixa fora da arena; só entram os poderes coletados.
+Cristais concedem XP; **Leite Up** recupera até dois corações. As 30 habilidades
+são escolhidas nas cartas de nível: armas chegam a 5/5, apoios a 3/3. As cartas
+comparam os efeitos antes/depois; o sorteio reserva opções para evoluir armas
+equipadas e completar fusões. Há seis espaços de arma e seis de apoio. Fusões
+exigem os ingredientes no nível 3, substituem seus ataques e liberam espaço.
+Os nomes e níveis aparecem numa faixa fora da arena.
+
+A preparação permite **Colheita** (chefe em 60 s), **Correria** (45 s, inimigos
+10% mais rápidos, XP +30%) e **Cerco** (75 s, intervalo dos reforços ×0,65,
+XP +20%). O tipo persiste pelas dez fases. Cada cenário tem três variantes
+conectadas de rotas, sem modificar a campanha de resgate. Os novos sprites de
+poderes, milho, pedras e lanternas foram gerados e corrigidos na PixelLab;
+`generate-chaos-art.cjs` guarda recibos, `install-chaos-art.cjs` instala o material
+conferido. A base dos objetos de cenário fica alinhada ao pixel 88 do quadro.
 
 Cada aparência jogável mantém seu sprite e recebe uma habilidade própria:
 
@@ -211,3 +251,27 @@ menu, pausa, recarga, isolamento dos saves e abertura `file://`. Os encontros do
 chefes começam por checkpoints explícitos e depois usam somente entradas reais
 de teclado e botões para desviar/contra-atacar. Balanceamento final ainda requer
 playtests humanos.
+
+## Apoio e combate — 13/10/2026
+
+A Revoada posiciona os personagens terrestres pela última linha opaca das patas,
+usando os limites já gravados nos atlas. O cálculo considera o tamanho final do
+quadro, inclusive nos chefes; aves voando mantêm sua referência de altura.
+Na aventura principal, as projeções solares ficaram mais curtas e contrastadas,
+sem acrescentar sombras circulares ou ovais.
+
+Raposas, Sophis e fuinhas antecipam o deslocamento do jogador e se aproximam por
+lados opostos da fuga. Ganso e Cuca recuam durante a aproximação, respeitando
+obstáculos, avisos e recuperação. Chefes lobo, raposa e Sophis alternam seu golpe
+próprio com um bote. Os ataques corporais têm preparação curta, acompanham e
+antecipam a fuga visível, travando a direção nos últimos 0,12 s antes do salto.
+O bote é mais rápido e não desenha sua rota no chão; som, pose e texto indicam a
+preparação. Uma mudança tardia de direção permite esquivar e aproveitar a
+recuperação. O aviso aparece acima das copas e personagens; projéteis e perigos
+de área mantêm suas marcações no chão.
+
+As regressões ficam em `tests/shuffle-survival-ai.test.cjs`,
+`tests/shuffle-boss-patterns.test.cjs` e `tests/sunlight.test.cjs`. Os testes de
+navegador de animação conferem o apoio efetivamente desenhado; os de chefes
+incluem os novos botes e esquivas por teclado. Esses cenários controlados não
+substituem uma partida humana para avaliar diversão e balanceamento.

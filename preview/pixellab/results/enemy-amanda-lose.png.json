@@ -1,0 +1,12 @@
+{
+  "provider": "Hand-drawn pixel art",
+  "nativeSize": 64,
+  "pixelScale": 2,
+  "source": "scripts/draw-shuffle-result-corrections.cjs",
+  "limbs": [
+    "front-far",
+    "rear-far",
+    "rear-near",
+    "front-near"
+  ]
+}

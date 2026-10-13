@@ -1,9 +1,9 @@
 """Five-minute farm survival, sharing campaign movement, maps and collision rules."""
 from dataclasses import dataclass
-from math import cos, sin, pi, isfinite
+from math import cos, sin, pi, atan2, isfinite
 import random
 
-from engine import Actor, Run
+from engine import Enemy, Run
 from world import distance, point_segment
 
 DURATION = 300
@@ -17,12 +17,6 @@ POWERS = {
 COLORS = {'cornshot': (255, 211, 85), 'egg': (255, 242, 215),
           'sickle': (159, 222, 215), 'boots': (215, 167, 113),
           'milk': (255, 173, 181), 'xp': (124, 232, 162)}
-
-
-@dataclass
-class Enemy(Actor):
-    health: float = 2
-    speed: float = 110
 
 
 @dataclass
@@ -93,21 +87,35 @@ class Survival(Run):
         if candidates:
             self.pickups.append(Pickup(kind, *self.dice.choice(candidates)))
 
-    def steer(self, actor, target, speed, dt):
-        super().steer(actor, target, actor.speed if isinstance(actor, Enemy) else speed, dt)
+    @property
+    def attack_limit(self): return 2+int(self.wave>=6)
+
+    @property
+    def enemy_warning_time(self): return max(.56,.86-self.wave*.03)
+
+    def enemy_target(self, enemy, dt):
+        # The horde follows the player's trail across the arena, including behind cover.
+        return self.decoy[:2] if self.decoy else self.player.pos
 
     def spawn_wave(self):
+        # Keep each wave's reinforcements on one side so its other side offers an escape.
+        sector=(self.seed+self.wave)%4
         candidates = [p for p in self.locations if distance(p, self.player.pos) > 520
-                      and all(distance(p, e.pos) > 42 for e in self.enemies)]
+                      and self.layout.clear(p,19)]
+        entry = [p for p in candidates
+                 if int((atan2(p[1]-self.player.y,p[0]-self.player.x)+pi)/(pi/2))%4 in (sector,(sector+1)%4)]
+        # At a map edge the preferred side may be outside the farm; keep safe alternatives.
+        candidates = [p for p in (entry or candidates) if all(distance(p,e.pos)>60 for e in self.enemies)]
         self.dice.shuffle(candidates)
-        for _ in range(min(2 + self.wave, MAX_ENEMIES-len(self.enemies))):
+        cap=min(MAX_ENEMIES,10+self.wave*3)
+        for _ in range(max(0,min(2+self.wave//2,cap-len(self.enemies)))):
             if not candidates: break
             pos = candidates.pop()
             species = self.dice.choice(('fox', 'wolf', 'goose'))
             hp, speed = {'fox': (1.5, 142), 'wolf': (3.5, 94), 'goose': (2, 116)}[species]
             self.enemies.append(Enemy(species, *pos, radius=19, health=hp+self.wave*.3,
-                                      speed=speed+min(32, self.wave*3), route_timer=self.dice.random()*.65))
-            candidates = [p for p in candidates if distance(p, pos) > 42]
+                                      speed=speed+min(32, self.wave*3),cooldown=.4+self.dice.random()*.8))
+            candidates = [p for p in candidates if distance(p, pos) > 60]
 
     def damage(self, enemy, amount):
         enemy.health -= amount
@@ -115,7 +123,7 @@ class Survival(Run):
         if enemy.health > 0: return
         self.enemies.remove(enemy)
         self.kills += 1
-        # ponytail: cap loose XP at 160; merge into the nearest pickup beyond that.
+        # shortcut: cap loose XP at 160 and merge overflow; use spatial pooling if the arena grows.
         gems = [p for p in self.pickups if p.kind == 'xp']
         if len(gems) >= 160:
             min(gems, key=lambda p: distance(p.pos, enemy.pos)).value += 1
@@ -201,9 +209,9 @@ class Survival(Run):
             self.player.moving = False
             return
         self.spawn_timer -= dt
-        if self.spawn_timer <= 0:
+        if self.spawn_timer <= 0 and self.elapsed%30<26:
             self.spawn_wave()
-            self.spawn_timer = max(1.5, 4.2-self.wave*.25)
+            self.spawn_timer = max(2.5, 5-self.wave*.23)
         self.item_timer -= dt
         if self.item_timer <= 0:
             if sum(p.kind != 'xp' for p in self.pickups) < 12:

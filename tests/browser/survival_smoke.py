@@ -16,6 +16,13 @@ READY = "window.ShuffleDemo?.ready && ShuffleDemo.run?.mode==='survival'"
 class QuietHandler(SimpleHTTPRequestHandler):
     def log_message(self, *args): pass
 
+    def copyfile(self, source, outputfile):
+        try:
+            super().copyfile(source, outputfile)
+        except (ConnectionResetError, ConnectionAbortedError, BrokenPipeError):
+            # Switching modes or closing a browser context cancels in-flight images.
+            pass
+
 
 def folklore_check(page):
     # Secret bosses have their own interaction/rendering checks in secret_bosses_smoke.py.
@@ -36,8 +43,9 @@ def folklore_check(page):
             }return original.call(this,image,...args);
         };
     }''')
-    page.wait_for_function('ids=>ids.every(id=>enemyArtDrawn.has(id))',arg=['fuinha','fox','wolf','goose'])
-    assert page.evaluate('ShuffleDemo.run.enemies.every(e=>["fuinha","fox","wolf","goose"].includes(e.species))')
+    roster=page.evaluate('ShuffleSurvival.STAGES[0].roster')
+    page.wait_for_function('ids=>ids.every(id=>enemyArtDrawn.has(id))',arg=roster)
+    assert page.evaluate('ShuffleDemo.run.enemies.every(e=>ShuffleSurvival.STAGES[0].roster.includes(e.species))')
     page.screenshot(path=str(OUT/'ordinary-cast.png'))
 
 
@@ -45,7 +53,7 @@ def heroes_check(page, url):
     page.goto(url, wait_until='networkidle')
     page.wait_for_function(READY)
     page.locator('#pause').click()
-    page.get_by_role('button', name='Trocar bicho · reiniciar').click()
+    page.get_by_role('button', name='Bicho e tipo de partida · reiniciar').click()
     assert page.locator('#survivalSkin option:disabled').count() == 5
     profile = page.evaluate('''()=>{const profile=JSON.stringify({version:2,best:6,selected:'silkie',unlocked:Object.keys(ShuffleSurvival.HEROES)});
         localStorage.setItem('galinha-guardia-wardrobe-v1',profile);return profile;}''')
@@ -56,7 +64,7 @@ def heroes_check(page, url):
             if(this.canvas.id==='game')heroArtDrawn.add(image.src);return draw.call(this,image,...args);};}''')
     for skin in ['classic','silkie','blue','punk','astronaut','robocop','priest','goose']:
         page.locator('#pause').click()
-        page.get_by_role('button', name='Trocar bicho · reiniciar').click()
+        page.get_by_role('button', name='Bicho e tipo de partida · reiniciar').click()
         page.locator('#survivalSkin').select_option(skin)
         assert page.locator('#heroDescription').inner_text()
         page.locator('#startSurvival').click()
@@ -85,6 +93,8 @@ def heroes_check(page, url):
             assert page.locator(f'.result-quips [data-pose="hero-{skin}-{"win" if won else "lose"}"]').count() == 1
             assert page.locator('.result-quips canvas').evaluate_all('''canvases=>canvases.every(c=>
                 c.getContext('2d').getImageData(0,0,c.width,c.height).data.some((v,i)=>i%4===3&&v>0))''')
+            assert page.locator('.result-quips canvas').evaluate_all('''cs=>cs.every(c=>
+                c.dataset.source.startsWith('assets/shuffle/results/'))'''), 'Result cards must use their dedicated PixelLab poses'
             if skin == 'silkie':
                 page.screenshot(path=str(OUT/f'banter-{skin}-{won}.png'))
         page.locator('#again').click()
@@ -95,17 +105,31 @@ def heroes_check(page, url):
                 r.defeatedBoss=r.defeatedBy={species,name:ShuffleSurvival.ENEMIES[species].name};
                 r.phase=won?'won':'lost';}''', {'species':species,'won':won})
             page.locator(f'.result-quips [data-pose="{pose}"]').wait_for(state='visible')
+            assert page.locator(f'.result-quips [data-pose="{pose}"]').get_attribute('data-source') == page.evaluate(
+                '({species,won})=>ShuffleResultArt["enemy-"+species][won?"lose":"win"]', {'species':species,'won':won})
             assert page.locator('.result-quips canvas').evaluate_all('''cs=>cs.every(c=>c.getContext('2d')
                 .getImageData(0,0,c.width,c.height).data.some((v,i)=>i%4===3&&v>0))''')
     return {'case':'eight-heroes','equippedSkin':True,'correctAtlases':True,'selection':True,'wardrobePreserved':True}
 
 
 def check(page, url, name, touch=False):
-    errors = []
+    print(f'Checking {name}', flush=True)
+    errors, failed_requests = [], []
     page.on('pageerror', lambda error: errors.append(str(error)))
+    page.on('requestfailed', lambda request: failed_requests.append({'url':request.url,'failure':request.failure}))
     page.goto(url, wait_until='networkidle')
-    page.locator('#shuffleModeLink').click()
-    page.wait_for_function(READY)
+    try:
+        page.locator('#shuffleModeLink').click()
+        page.wait_for_function(READY)
+    except Exception:
+        page.screenshot(path=str(OUT / f'entry-failure-{name}.png'))
+        print(json.dumps({'case': name, 'errors': errors, 'failed_requests': failed_requests, 'entry': page.evaluate('''()=>({
+            url:location.href,menuHidden:document.querySelector('#menuScreen')?.hidden,
+            phase:typeof state==='undefined'?null:state.phase,shuffleReady:window.ShuffleDemo?.ready,
+            body:document.body.innerText.slice(0,600),
+            character:typeof CharacterArt==='undefined'?null:{ready:CharacterArt.ready,errors:CharacterArt.errors},
+            farm:typeof FarmSprites==='undefined'?null:{ready:FarmSprites.ready}})''')}, ensure_ascii=True), flush=True)
+        raise
     # Movement has its own fixture; nearby XP is tested explicitly below.
     page.evaluate('ShuffleDemo.run.pickups=[]')
     assert page.evaluate('FarmSprites.cohesiveReady')
@@ -116,7 +140,8 @@ def check(page, url, name, touch=False):
     page.screenshot(path=str(OUT / f'scenery-{name}.png'))
     assert page.locator('#overlay').is_hidden()
     assert page.locator('#corn').is_hidden() and page.locator('#interact').is_hidden()
-    assert 'FASE 1 / 5' in page.locator('#stageLabel').inner_text()
+    stage_count = page.evaluate('ShuffleSurvival.STAGES.length')
+    assert f'FASE 1 / {stage_count}' in page.locator('#stageLabel').inner_text()
     # Preserve a valid campaign checkpoint through every survival lifecycle action.
     saved = page.evaluate('''()=>{const data=JSON.stringify(ShuffleRun.checkpoint(ShuffleRun.newRun(42)));
         localStorage.setItem(ShuffleDemo.saveKey,data);return data;}''')
@@ -216,7 +241,7 @@ def check(page, url, name, touch=False):
     assert page.evaluate('ShuffleDemo.run.seed') == seed
     assert page.evaluate('ShuffleDemo.run.powers') == {'cornshot':1}
     # Accelerate wave clocks, but require actual weapon hits to clear every boss.
-    for stage in range(5):
+    for stage in range(stage_count):
         page.evaluate('''()=>{const r=ShuffleDemo.run;r.player.invulnerable=100;
             r.stageElapsed=59.99;r.pickups=[];r.spawnTimer=999;}''')
         page.wait_for_function('ShuffleDemo.run.enemies.some(e=>e.isBoss)')
@@ -230,7 +255,7 @@ def check(page, url, name, touch=False):
         page.wait_for_function(f'ShuffleDemo.run.bossesDefeated==={stage+1}')
         while page.evaluate("ShuffleDemo.run.phase==='power-draft'"):
             page.locator('[data-skill]').first.click()
-        if stage < 4:
+        if stage < stage_count - 1:
             page.locator('.result-quips').wait_for(state='visible')
             assert page.locator('.result-quips .speech-bubble').count() == 2
             if stage == 0:
@@ -255,7 +280,7 @@ def check(page, url, name, touch=False):
     if name == 'http-1280' and os.environ.get('CHECK_FOLKLORE') == '1':
         folklore_check(page)
     assert not errors, errors
-    return {'case':name,'entry':True,'sceneryAtlas':True,'runAnimation':True,'movement':True,'pause':True,'collect':True,'cards':True,'fiveBosses':True,'retry':True,'savePreserved':True}
+    return {'case':name,'entry':True,'sceneryAtlas':True,'runAnimation':True,'movement':True,'pause':True,'collect':True,'cards':True,'bosses':stage_count,'retry':True,'savePreserved':True}
 
 
 server = ThreadingHTTPServer(('127.0.0.1', 0), partial(QuietHandler, directory=str(ROOT)))

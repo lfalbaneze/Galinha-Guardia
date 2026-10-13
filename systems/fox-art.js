@@ -14,17 +14,17 @@ const FoxArt = (() => {
     }
     const rows = { down: 0, right: 1, up: 2, left: 3, downright: 4, upright: 5, downleft: 6, upleft: 7 };
     function frameFor(fox) {
-        const count = fox.name === 'Amanda' ? amanda.columns : columns;
+        const count = fox.name === 'Sophis' ? amanda.columns : columns;
         return { row: rows[CharacterArt.heading(fox)] ?? 0, column: fox.moving && !InterfaceMotion.reduced ?
                 Math.floor(Math.abs(fox.anim) * count / 4) % count : 0 };
     }
     function draw(c, fox, view) {
         // Waiting in cover is a behavior, not invisibility.
-        const active = fox.name === 'Amanda' ? amandaSheet : sheet;
+        const active = fox.name === 'Sophis' ? amandaSheet : sheet;
         if (!active.ready)
             return false;
         const x = fox.x - view.x + (view.shakeX || 0), y = fox.y - view.y + (view.shakeY || 0), frame = frameFor(fox);
-        const sprite = fox.name === 'Amanda' ? 'amanda' : 'fox';
+        const sprite = fox.name === 'Sophis' ? 'amanda' : 'fox';
         if (CharacterArt.frameFor?.(sprite)?.definition?.provider === 'pixellab' && CharacterArt.ready)
             return CharacterArt.draw(c, sprite, x, y, { direction: CharacterArt.heading(fox), anim: fox.anim,
                 moving: fox.moving && !InterfaceMotion.reduced, sprinting: fox.mode === 'dash' || fox.mode === 'flee',

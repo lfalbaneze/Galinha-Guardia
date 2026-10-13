@@ -1,0 +1,12 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/generate-image-v2",
+  "image_size": {
+    "width": 256,
+    "height": 128
+  },
+  "seed": 100526,
+  "no_background": true,
+  "description": "A polished charming cartoon farm game pixel art inventory sheet, EXACTLY FOUR columns and TWO rows of 64x64 cells, total transparent canvas 256x128. Each object centered in its own cell, occupies ONLY 40x40 pixels, at least 12 transparent pixels on every side of every cell. TOP ROW left to right: ONE curved soft ivory feather with lavender shading; ONE chunky bright cyan lightning bolt; ONE turquoise water droplet with white highlight; ONE orange carrot with leafy green top. BOTTOM ROW left to right: THREE curved pale purple cat claw slashes together; ONE golden dog paw print surrounded by two small sound arcs; ONE pale lime goose beak with two small sound arcs; ONE thick ivory eggshell shield with gold edging and a small blue center gem. Eight DISTINCT COMPLETE icons, readable silhouettes, rounded cute proportions, clean dark colored pixel outlines, bright flat colors with deliberate 3 tone pixel clusters. Native crisp square pixels, no antialiasing, no blurry glow, no realism. No text, no panels, no background, no ground shadows, no oval shadows. No overlapping cells, no clipped outlines. Keep ALL eight objects inside their padded cells.",
+  "jobId": "cdd5a655-a48b-4a74-837a-0b57e41c685e"
+}

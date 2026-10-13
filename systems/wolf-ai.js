@@ -1,5 +1,4 @@
 "use strict";
-/* One persistent wolf crosses the farm using remembered observations and safe paths. */
 const WolfAI = (() => {
     const levels = [
         { speedScale: 1.12, range: 340, fov: 92, closeRange: 48, noiseRange: 120, awarenessTime: 0.62, searchDuration: 4, searchRadius: 90, searchPoints: 0 },
@@ -91,6 +90,7 @@ const WolfAI = (() => {
         const rescuedChicks = Number.isFinite(game.rescuedChicks) ? clamp(Math.floor(game.rescuedChicks), 0, 6) : 0;
         const chickMultiplier = 1 + 0.5 * rescuedChicks / 6;
         const difficulty = game.difficultyKey || "normal";
+        const reaction = difficulty === 'easy' ? 1.18 : difficulty === 'hard' ? .93 : difficulty === 'hardcore' ? .88 : 1;
         const hunger = appetite(game).value;
         const capSetting = game.settings.wolfSprintCap;
         const sprintCap = Number.isFinite(capSetting) ? clamp(capSetting, 0.75, 0.96) : difficulty === "easy" ? 0.90 : 0.96;
@@ -105,17 +105,22 @@ const WolfAI = (() => {
             searchPoints: config.searchPoints + Math.floor(hunger * 3),
             fov: Math.min(165, config.fov + rescuedChicks * 2.5) * Math.PI / 180,
             range: Math.min(840 * ceilingProgress, config.range * chickMultiplier),
-            awarenessTime: Math.max(0.18, config.awarenessTime / chickMultiplier),
+            awarenessTime: Math.max(0.18, config.awarenessTime * reaction / chickMultiplier),
             searchDuration: Math.min(24, config.searchDuration * chickMultiplier) * (1 + hunger * .6),
             searchRadius: Math.min(310, config.searchRadius * (1 + rescuedChicks / 24)) * (1 + hunger * .15),
             hideWitnessRange: difficulty === "easy" ? 180 : ['hard', 'hardcore'].includes(difficulty) ? 260 : 220,
             hideMemoryDuration: (8 + rescuedFriends * .6) * (1 + hunger * .3),
-            patrolSpeed: speed * (level === 3 ? 0.80 : 0.70), awarenessDecay: 0.9 * (1 - hunger * .35),
+            patrolSpeed: speed * (level === 3 ? 0.80 : 0.70), awarenessDecay: 0.9 * reaction * (1 - hunger * .35),
+            interceptWarning: difficulty === 'easy' ? .6 : difficulty === 'normal' ? .5 : .4,
+            interceptDuration: .9,
+            pursuitDuration: (difficulty === 'easy' ? 5.5 : difficulty === 'normal' ? 7 : 8) * (1 + hunger * .2),
+            pursuitRecovery: difficulty === 'easy' ? 2.2 : difficulty === 'normal' ? 1.8 : 1.5,
             contactRange: 28, soundInterval: 0.65, investigateDuration: (2.6 + level * 0.3) * (1 + hunger * .5) };
     }
     function initialize(game) {
         trails.delete(game);
         SunflowerSystem.reset(game);
+        resetPursuit(game.entities.wolf);
         Object.assign(game.entities.wolf, {
             mode: "patrol", heading: Math.PI, lastKnown: null, searchTime: 0,
             searchPoints: [], searchIndex: 0, searchOrigin: null, searchApproached: false, scanTime: 0,
@@ -139,6 +144,7 @@ const WolfAI = (() => {
         wolf.exposedCover = { spotId: spot.id, x: chicken.x, y: chicken.y,
             remaining: config.hideMemoryDuration, inspectTime: 0.8, revealIn: 5 };
         SunflowerSystem.cancel(game);
+        cancelIntercept(wolf);
         wolf.lastKnown = { x: chicken.x, y: chicken.y };
         wolf.mode = "inspect";
         wolf.awareness = 1;
@@ -328,16 +334,17 @@ const WolfAI = (() => {
             if (config.level === 3)
                 points.push({ x: area.x + area.w * 0.78, y: area.y + area.h * 0.78 });
         }
-        if (config.level === 3)
-            points.push({ x: WORLD.safeZone.x + WORLD.safeZone.r + 55, y: WORLD.safeZone.y + 70 });
         // Outlying meadows are public landmarks too; the wolf no longer ignores the
         // empty edges of the map. Keep a short circuit at the introductory level.
         points.push(...(WORLD.layout.habitats || []).filter((_, i) => i % (config.level >= 2 ? 2 : 4) === 0).map(p => ({ x: p.x, y: p.y })));
         // Each farm has a stable patrol circuit, with order chosen from its public seed.
         // Neither player movement nor undiscovered animals affect this route.
+        const refuge = refugeBounds();
+        // The gate is an escape route, not a patrol stop that invites spawn camping.
+        const circuit = points.filter(p => !refuge || Math.hypot(p.x - clamp(p.x, refuge.x, refuge.x + refuge.w), p.y - clamp(p.y, refuge.y, refuge.y + refuge.h)) >= 120);
         const seed = WORLD.layout?.seed || 0;
-        const offset = seed % points.length;
-        const ordered = [...points.slice(offset), ...points.slice(0, offset)];
+        const offset = seed % circuit.length;
+        const ordered = [...circuit.slice(offset), ...circuit.slice(0, offset)];
         return seed % 2 ? ordered.reverse() : ordered;
     }
     function makeSearch(wolf, config) {
@@ -345,27 +352,48 @@ const WolfAI = (() => {
         if (!origin)
             return [];
         const points = [{ x: origin.x, y: origin.y }];
+        const nav = navigation(wolf), velocity = wolf.seenVelocity || { x: 0, y: 0 };
+        const heading = Math.hypot(velocity.x, velocity.y) > 20 ? Math.atan2(velocity.y, velocity.x) : wolf.heading;
+        const branches = [];
+        // Inspect nearby exits of public paths in the observed escape direction before open ground.
+        if (config.searchPoints > 0)
+            for (const road of WORLD.paths || []) {
+                const near = { x: clamp(origin.x, road.x, road.x + road.w), y: clamp(origin.y, road.y, road.y + road.h) };
+                if (distance(origin, near) > 55)
+                    continue;
+                for (const side of [-1, 1]) {
+                    const p = road.w >= road.h ? { x: clamp(origin.x + side * config.searchRadius, road.x, road.x + road.w), y: road.y + road.h / 2 } :
+                        { x: road.x + road.w / 2, y: clamp(origin.y + side * config.searchRadius, road.y, road.y + road.h) };
+                    if (distance(p, origin) < 40 || distance(p, origin) > config.searchRadius + 55 ||
+                        !freePoint({ x: p.x + wolf.hitbox.ox, y: p.y + wolf.hitbox.oy }, nav) || branches.some(other => distance(other, p) < 35))
+                        continue;
+                    branches.push(p);
+                }
+            }
+        const branchCost = (p) => distance(p, origin) * .35 - (p.x - origin.x) * Math.cos(heading) - (p.y - origin.y) * Math.sin(heading);
+        branches.sort((a, b) => branchCost(a) - branchCost(b));
+        points.push(...branches.slice(0, Math.min(3, config.searchPoints)));
         if (config.level === 3 && typeof HidingSpots !== "undefined") {
             const spots = HidingSpots.getSpots().map(spot => ({ x: spot.x + spot.w / 2, y: spot.y + spot.h / 2 }))
                 .filter(point => distance(point, origin) <= config.searchRadius)
                 .sort((a, b) => distance(a, origin) - distance(b, origin));
             points.push(...spots.slice(0, 3));
         }
-        const nav = navigation(wolf);
         for (let i = 0; i < config.searchPoints; i += 1) {
-            const velocity = wolf.seenVelocity || { x: 0, y: 0 };
-            const heading = Math.hypot(velocity.x, velocity.y) > 20 ? Math.atan2(velocity.y, velocity.x) : wolf.heading;
             // Check the remembered escape direction and its branches before doubling
             // back. Every branch is an inference from the last sighting, never a peek.
             const angle = heading + [0, -.65, .65, -1.5, 1.5, Math.PI][i % 6];
             const radius = config.searchRadius * (i % 2 ? 0.65 : 1);
             const raw = { x: origin.x + Math.cos(angle) * radius, y: origin.y + Math.sin(angle) * radius };
             const safe = openPoint({ x: raw.x + wolf.hitbox.ox, y: raw.y + wolf.hitbox.oy }, nav);
-            points.push({ x: safe.x - wolf.hitbox.ox, y: safe.y - wolf.hitbox.oy });
+            const next = { x: safe.x - wolf.hitbox.ox, y: safe.y - wolf.hitbox.oy };
+            if (points.every(p => distance(p, next) > 28))
+                points.push(next);
         }
         return points;
     }
     function beginSearch(wolf, config) {
+        cancelIntercept(wolf);
         wolf.mode = "search";
         wolf.searchTime = config.searchDuration;
         wolf.searchOrigin = wolf.lastKnown ? { ...wolf.lastKnown } : null;
@@ -387,6 +415,7 @@ const WolfAI = (() => {
         wolf.heading = Math.atan2(Math.sin(wolf.heading), Math.cos(wolf.heading));
     }
     function resumePatrol(wolf) {
+        cancelIntercept(wolf);
         wolf.mode = "patrol";
         wolf.exposedCover = null;
         wolf.searchPoints = [];
@@ -421,6 +450,112 @@ const WolfAI = (() => {
         const from = { x: observed.x + offset.ox, y: observed.y + offset.oy };
         const to = { x: proposed.x + offset.ox, y: proposed.y + offset.oy };
         return freePoint(to, nav) && clearSegment(from, to, nav) ? proposed : observed;
+    }
+    function cancelIntercept(wolf) {
+        if (wolf.interceptPhase) {
+            wolf.route = [];
+            wolf.routeTarget = null;
+            wolf.routeTimer = 0;
+            wolf.interceptCooldown = Math.max(2.4, wolf.interceptCooldown || 0);
+            if (wolf.speech === 'Vou cortar seu caminho!') {
+                wolf.speechTime = 0;
+                wolf.speechPriority = 0;
+            }
+        }
+        wolf.interceptPhase = null;
+        wolf.interceptTarget = null;
+        wolf.interceptTime = 0;
+    }
+    function resetPursuit(wolf) {
+        cancelIntercept(wolf);
+        wolf.interceptCooldown = 2;
+        wolf.pursuitEffort = 0;
+        wolf.pursuitRest = 0;
+    }
+    function recoverPursuit(wolf, seconds) {
+        cancelIntercept(wolf);
+        wolf.pursuitRest = seconds;
+        wolf.pursuitEffort = 0;
+        wolf.interceptCooldown = 4 + seconds;
+        wolf.speech = 'Ufa... minhas patas!';
+        wolf.speechTime = seconds;
+        wolf.speechPriority = seconds;
+        wolf.speechMode = wolf.mode;
+        wolf.speechCooldown = Math.max(wolf.speechCooldown || 0, seconds);
+        stop(wolf, 0);
+    }
+    function pursuitTactic(game, config, dt) {
+        const wolf = game.entities.wolf;
+        if (wolf.interceptPhase && wolf.interceptTarget) {
+            const remaining = wolf.interceptTime || 0;
+            wolf.interceptTime = Math.max(0, remaining - dt);
+            if (wolf.interceptPhase === 'warning') {
+                stop(wolf, dt);
+                if (wolf.interceptTime > .12 && wolf.lastKnown) {
+                    const observed = wolf.lastKnown, velocity = wolf.seenVelocity;
+                    const lead = Math.min(.6, distance(wolf, observed) / Math.max(1, config.speed) * .45);
+                    const target = { x: observed.x + velocity.x * lead, y: observed.y + velocity.y * lead };
+                    const nav = navigation(wolf), end = { x: target.x + wolf.hitbox.ox, y: target.y + wolf.hitbox.oy };
+                    const from = { x: observed.x + wolf.hitbox.ox, y: observed.y + wolf.hitbox.oy };
+                    if (freePoint(end, nav) && clearSegment(center(wolf), end, nav) && clearSegment(from, end, nav))
+                        wolf.interceptTarget = target;
+                }
+                turnToward(wolf, Math.atan2(wolf.interceptTarget.y - wolf.y, wolf.interceptTarget.x - wolf.x), dt);
+                if (wolf.interceptTime <= 0) {
+                    wolf.interceptPhase = 'charge';
+                    wolf.interceptTime = config.interceptDuration;
+                }
+            }
+            else {
+                if (Player.checkCatch(game)) {
+                    resetPursuit(wolf);
+                    return true;
+                }
+                const target = wolf.interceptTarget, nav = navigation(wolf);
+                const end = { x: target.x + wolf.hitbox.ox, y: target.y + wolf.hitbox.oy };
+                // A new blocker ends the committed line instead of steering the charge around it.
+                const blocked = !freePoint(end, nav) || !clearSegment(center(wolf), end, nav);
+                const arrived = !blocked && remaining > 0 && moveToward(wolf, target, config.speed, Math.min(dt, remaining));
+                if (Player.checkCatch(game)) {
+                    resetPursuit(wolf);
+                    return true;
+                }
+                if (blocked || arrived || wolf.interceptTime <= 0)
+                    recoverPursuit(wolf, config.pursuitRecovery * .6);
+            }
+            return true;
+        }
+        if ((wolf.pursuitEffort || 0) >= config.pursuitDuration) {
+            recoverPursuit(wolf, config.pursuitRecovery);
+            return true;
+        }
+        const observed = wolf.lastKnown, velocity = wolf.seenVelocity;
+        if (!observed || (wolf.interceptCooldown || 0) > 0 || (wolf.pursuitEffort || 0) < 1.8)
+            return false;
+        const gap = distance(wolf, observed), motion = Math.hypot(velocity.x, velocity.y);
+        const crossing = Math.abs((observed.x - wolf.x) * velocity.y - (observed.y - wolf.y) * velocity.x) / Math.max(1, gap * motion);
+        if (gap < 100 || gap > 320 || motion < 65 || crossing < .45)
+            return false;
+        const lead = Math.min(1.1, config.interceptWarning + gap / Math.max(1, config.speed) * .45);
+        const target = { x: observed.x + velocity.x * lead, y: observed.y + velocity.y * lead };
+        const nav = navigation(wolf), end = { x: target.x + wolf.hitbox.ox, y: target.y + wolf.hitbox.oy };
+        const from = { x: observed.x + wolf.hitbox.ox, y: observed.y + wolf.hitbox.oy };
+        if (!freePoint(end, nav) || !clearSegment(center(wolf), end, nav) || !clearSegment(from, end, nav))
+            return false;
+        wolf.interceptPhase = 'warning';
+        wolf.interceptTarget = target;
+        wolf.interceptTime = config.interceptWarning;
+        wolf.route = [];
+        wolf.routeTarget = null;
+        wolf.routeTimer = 0;
+        wolf.speech = 'Vou cortar seu caminho!';
+        wolf.speechTime = config.interceptWarning;
+        wolf.speechPriority = config.interceptWarning;
+        wolf.speechMode = wolf.mode;
+        wolf.speechCooldown = 3;
+        stop(wolf, dt);
+        setStatus('O lobo acompanha sua fuga! Mude de direção quando ele lançar a investida.');
+        return true;
     }
     function finishInvestigation(wolf) {
         if (wolf.investigateReturnMode === 'search' && wolf.lastKnown && wolf.searchTime > 0) {
@@ -523,6 +658,7 @@ const WolfAI = (() => {
             return;
         SunflowerSystem.cancel(game);
         const wolf = game.entities.wolf;
+        resetPursuit(wolf);
         resumePatrol(wolf);
         wolf.mode = 'frightened';
         wolf.fearTime = clamp(seconds, 0, 6);
@@ -582,6 +718,10 @@ const WolfAI = (() => {
         wolf.hearingCooldown = Math.max(0, (wolf.hearingCooldown || 0) - dt);
         wolf.awareness = clamp(Number.isFinite(wolf.awareness) ? wolf.awareness : 0, 0, 1);
         wolf.sightAge = (wolf.sightAge ?? Infinity) + dt;
+        wolf.interceptCooldown = Math.max(0, (wolf.interceptCooldown || 0) - dt);
+        wolf.pursuitRest = Math.max(0, (wolf.pursuitRest || 0) - dt);
+        if (wolf.mode !== 'chase')
+            wolf.pursuitEffort = Math.max(0, (wolf.pursuitEffort || 0) - dt);
         if (wolf.mode === 'frightened') {
             wolf.fearTime = Math.max(0, (wolf.fearTime || 0) - dt);
             wolf.awareness = 0;
@@ -613,17 +753,22 @@ const WolfAI = (() => {
                     beginSearch(wolf, config);
             }
         }
-        if (SunflowerSystem.updateWolf(game, dt, config)) {
+        if ((wolf.pursuitRest || 0) > 0 || wolf.interceptPhase)
+            SunflowerSystem.cancel(game);
+        else if (SunflowerSystem.updateWolf(game, dt, config)) {
+            cancelIntercept(wolf);
             wolf.areaId = getAreaAt(wolf.x, wolf.y).id;
             return;
         }
         if (wolf.pauseTimer > 0) {
+            resetPursuit(wolf);
             wolf.detected = false;
             stop(wolf, dt);
             return;
         }
         const refugeSafe = refugeContains(game.entities.chicken);
         if (refugeSafe) {
+            resetPursuit(wolf);
             // Crossing the gate breaks pursuit immediately. The wolf forgets player-specific
             // evidence and returns to its public patrol, while navigation keeps it outside.
             const retreating = ['chase', 'alert', 'inspect', 'search', 'investigate'].includes(wolf.mode);
@@ -640,6 +785,9 @@ const WolfAI = (() => {
             wolf.scanTime = 0;
             if (retreating) {
                 resumePatrol(wolf);
+                const circuit = patrolPoints(config);
+                wolf.patrolIndex = circuit.reduce((best, p, i) => distance(wolf, p) < distance(wolf, circuit[best]) ? i : best, 0);
+                wolf.patrolPause = 0;
                 wolf.speech = WolfDialogue.refugeLine(game);
                 wolf.speechTime = 2.6;
                 wolf.speechPriority = 2.6;
@@ -683,6 +831,10 @@ const WolfAI = (() => {
             if (!memory)
                 beginSearch(wolf, config);
             else {
+                if ((wolf.pursuitRest || 0) > 0) {
+                    stop(wolf, dt);
+                    return;
+                }
                 wolf.awareness = 1;
                 const arrived = moveToward(wolf, { x: memory.x, y: memory.y }, config.speed, dt);
                 // At the remembered entrance, physical contact can expose the chicken. A wall cannot.
@@ -696,9 +848,15 @@ const WolfAI = (() => {
                 return;
             }
         }
-        if (!perception.visible && wolf.mode === "chase") {
+        if (!perception.visible && wolf.mode === "chase" && wolf.interceptPhase !== 'charge') {
             beginSearch(wolf, config);
         }
+        if ((wolf.pursuitRest || 0) > 0) {
+            stop(wolf, dt);
+            return;
+        }
+        if (wolf.mode === 'chase' && pursuitTactic(game, config, dt))
+            return;
         if (wolf.mode === "alert") {
             if (wolf.awareness > 0) {
                 stop(wolf, dt);
@@ -778,7 +936,10 @@ const WolfAI = (() => {
         }
         if (target) {
             const speed = wolf.mode === "patrol" ? config.patrolSpeed : wolf.mode === "investigate" ? config.speed * 0.82 : config.speed;
+            const before = { x: wolf.x, y: wolf.y };
             const arrived = moveToward(wolf, target, speed, dt);
+            if (wolf.mode === 'chase')
+                wolf.pursuitEffort = (wolf.pursuitEffort || 0) + distance(before, wolf) / Math.max(1, config.speed);
             if (arrived || (!wolf.route.length && wolf.routeTimer > 0)) {
                 if (wolf.mode === "patrol") {
                     wolf.patrolIndex += 1;
@@ -830,5 +991,5 @@ const WolfAI = (() => {
         return true;
     }
     return { initialize, update, getConfig, appetite, findPath, patrolPoints, witnessHide, isExposed, canCatchHidden, restoreCoverMemory, investigateSound, frighten, drawTracks,
-        moveTo: moveToward, clearTracks: (game) => { trails.delete(game); SunflowerSystem.reset(game); } };
+        moveTo: moveToward, clearTracks: (game) => { trails.delete(game); SunflowerSystem.reset(game); resetPursuit(game.entities.wolf); } };
 })();

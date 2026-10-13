@@ -129,6 +129,10 @@ const RescueSystem = {
         dog: "Lobo! Thor, atende esse au!", cat: "Lobo! Cadê meus seguranças?",
         donkey: "Lobo! Retiro meu protesto!", lamb: "Lobo! Sou só uma amostrinha!", chick: "Lobo! Sou pequeno até pro susto!"
     },
+    dangerLines: {
+        fox: 'Raposa! Meu almoço não sou eu!', goose: 'Panto! Bico longe das minhas penas!',
+        folklore: 'Tem assombração na trilha! Corram!', hazard: 'Cuidado com o chão! Por aqui!'
+    },
     thanks: {
         horse: "Tem vaga pra quatro patas?", turkey: "Glu-glu! Eu exijo um poleiro VIP!",
         sheep: "Salvou até meu penteado!", pig: "Aqui aceita lama no tapete?", goat: "Essa cerca é comestível?",
@@ -153,7 +157,8 @@ const RescueSystem = {
         if (game.entities.chicken.sneaking && !startled && animal.fleeFrom?.kind !== 'wolf')
             return;
         const lines = startled ? RescueSystem.stealthLines : RescueSystem.taunts[animal.species] || RescueSystem.taunts.chick;
-        animal.speech = animal.fleeFrom?.kind === 'wolf' ? RescueSystem.alarmLines[animal.species] :
+        animal.speech = animal.fleeFrom?.kind === 'wolf' ?
+            (animal.dangerSource && animal.dangerSource !== 'wolf' ? RescueSystem.dangerLines[animal.dangerSource] : RescueSystem.alarmLines[animal.species]) :
             tired ? (startled ? RescueSystem.stealthTiredLine : RescueSystem.tiredLines[animal.species]) :
                 lines[Math.floor(Math.random() * lines.length)];
         animal.speechTime = 2.4;
@@ -167,47 +172,114 @@ const RescueSystem = {
         const facing = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[animal.direction] || [0, 1];
         const toward = (chicken.x - animal.x) * facing[0] + (chicken.y - animal.y) * facing[1];
         const gap = distance(chicken, animal);
-        // Stealth reduces perception; it is neither invisibility nor a friendly call.
-        // Within a 100-degree viewing cone an animal can still spot the quiet player.
+        // Quiet steps avoid notice outside the viewing cone, never weaken sight.
+        // A fleeing or resting animal keeps watching a player it already noticed.
         const inView = gap < .001 || toward / gap >= Math.cos(50 * Math.PI / 180);
-        const alertRange = (chicken.sneaking ? 90 : chicken.sprinting ? 240 : toward > 0 ? 170 : 105) * profile.nerve;
-        const friendly = !chicken.sneaking && SkinSystem.power(chicken).friendSpecies === animal.species;
+        const recognized = animal.fleeFrom?.kind === 'player' && (animal.fleeTime > 0 || animal.restTime > 0);
+        const alertRange = (chicken.sprinting ? 240 : toward > 0 || recognized ? 170 : 105) * profile.nerve;
+        const patient = (animal.calmWindow || 0) > 0 && !chicken.sprinting && Math.hypot(chicken.vx, chicken.vy) < 70;
+        const friendly = !chicken.sneaking && (SkinSystem.power(chicken).friendSpecies === animal.species || patient);
         const threats = [];
-        if (!friendly && !chicken.hidden && visible && gap < alertRange && (!chicken.sneaking || inView) &&
+        if (!friendly && !chicken.hidden && visible && gap < alertRange && (!chicken.sneaking || inView || recognized) &&
             DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(chicken)))
             threats.push({ x: chicken.x, y: chicken.y, kind: 'player', urgency: 1 - gap / alertRange });
         const wolfRange = 190 * profile.nerve;
         if (!SunflowerSystem.concealed(game) && wolf.mode !== 'frightened' && wolf.huntUnlockTimer <= 0 && wolf.pauseTimer <= 0 && distance(wolf, animal) < wolfRange &&
             DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(wolf)))
-            threats.push({ x: wolf.x, y: wolf.y, kind: 'wolf', urgency: 1.15 - distance(wolf, animal) / wolfRange });
-        if (threats.length)
-            animal.sharedAlarm = false;
-        if (!threats.length && wolf.mode !== 'frightened' && wolf.huntUnlockTimer <= 0 && wolf.pauseTimer <= 0) {
-            const neighbour = game.entities.animals.find(a => a !== animal && !a.rescued && !a.sharedAlarm && a.fleeFrom?.kind === 'wolf' && a.fleeTime > .5 &&
-                distance(a, animal) < 110 && DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(a)));
-            if (neighbour?.fleeFrom) {
-                threats.push({ ...neighbour.fleeFrom, urgency: .35 });
-                animal.sharedAlarm = true;
-            }
+            threats.push({ x: wolf.x, y: wolf.y, kind: 'wolf', source: 'wolf', urgency: 1.3 - distance(wolf, animal) / wolfRange });
+        const notice = (body, source, range, urgency) => {
+            const gap = distance(body, animal);
+            if (gap < range * profile.nerve && DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(body)))
+                threats.push({ x: body.x, y: body.y, kind: 'wolf', source, urgency: urgency - gap / (range * profile.nerve) });
+        };
+        for (const fox of game.entities.foxes || []) {
+            if (['stalk', 'warning', 'dash'].includes(fox.mode) && (fox.scaredTime || 0) <= 0)
+                notice(fox, 'fox', fox.mode === 'dash' ? 250 : 195, fox.mode === 'dash' ? 1.8 : 1.35);
         }
-        return threats.sort((a, b) => b.urgency - a.urgency)[0] || null;
+        const goose = game.entities.goose;
+        if (goose && ['warning', 'feint', 'charge'].includes(goose.mode))
+            notice(goose, 'goose', 180, 1.4);
+        for (const enemy of game.entities.folklore || []) {
+            if (enemy.active && !enemy.defeated && ['hunt', 'warning', 'attack'].includes(enemy.mode))
+                notice(enemy, 'folklore', 220, enemy.mode === 'attack' ? 1.8 : 1.4);
+        }
+        for (const hazard of game.folkloreThreats || []) {
+            if (hazard.life > 0 && hazard.arm <= .9 && distance(hazard, animal) < hazard.r + 115 &&
+                DetectionSystem.hasLineOfSight(getHitbox(animal), hazard))
+                threats.push({ x: hazard.x, y: hazard.y, kind: 'wolf', source: 'hazard',
+                    urgency: 2 - distance(hazard, animal) / (hazard.r + 115) });
+        }
+        animal.seenDangers = threats.sort((a, b) => b.urgency - a.urgency).slice(0, 4);
+        return animal.seenDangers[0] || null;
     },
-    flee(game, animal, home, area, dt) {
+    herdThreat(animal, sightings) {
+        let best = null;
+        const range = ['sheep', 'lamb', 'cow', 'donkey'].includes(animal.species) ? 155 : 105;
+        for (const [neighbour, threat] of sightings) {
+            if (neighbour === animal || !threat || threat.kind !== 'wolf' || distance(neighbour, animal) > range ||
+                !DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(neighbour)))
+                continue;
+            const alarm = { ...threat, urgency: Math.min(.6, threat.urgency), shared: true };
+            if (!best || alarm.urgency > best.urgency)
+                best = alarm;
+        }
+        return best;
+    },
+    withinHome(point, home, area, from = home) {
+        // A legacy position outside its area may move back in, never farther out.
+        return point.x >= Math.min(area.x + 32, from.x) && point.x <= Math.max(area.x + area.w - 32, from.x) &&
+            point.y >= Math.min(area.y + 32, from.y) && point.y <= Math.max(area.y + area.h - 32, from.y) &&
+            distance(point, home) <= Math.max(360, distance(from, home));
+    },
+    walk(animal, target, speed, dt, home, area) {
+        if (dt <= 0)
+            return;
+        animal.friendRouteTimer = Math.max(0, (animal.friendRouteTimer || 0) - dt);
+        const clear = typeof WildlifeRules === 'undefined' ? DetectionSystem.hasLineOfSight(getHitbox(animal), target) : WildlifeRules.clear(animal, target, animal.hitbox);
+        if (clear)
+            animal.friendRoute = [];
+        else if (animal.friendRouteTimer <= 0 && typeof WolfAI.findPath === 'function') {
+            const route = WolfAI.findPath(animal, target);
+            animal.friendRoute = route.every(p => RescueSystem.withinHome(p, home, area, animal)) ? route : [];
+            animal.friendRouteGoal = { ...target };
+            animal.friendRouteTimer = .8;
+        }
+        if (animal.friendRouteGoal && distance(animal.friendRouteGoal, target) > 50) {
+            animal.friendRoute = [];
+            animal.friendRouteTimer = 0;
+        }
+        while (animal.friendRoute?.length && distance(animal, animal.friendRoute[0]) < 8)
+            animal.friendRoute.shift();
+        const goal = animal.friendRoute?.[0] || target, dx = goal.x - animal.x, dy = goal.y - animal.y, len = Math.hypot(dx, dy);
+        if (len < .01)
+            return;
+        const before = { x: animal.x, y: animal.y }, step = Math.min(len, speed * dt);
+        Player.move(animal, dx / len * step, dy / len * step);
+        if (!RescueSystem.withinHome(animal, home, area, before)) {
+            animal.x = before.x;
+            animal.y = before.y;
+            animal.friendRoute = [];
+        }
+    },
+    flee(game, animal, home, area, dt, effort = 1) {
         // Only the last actually perceived threat can influence a fleeing animal.
         const threat = animal.fleeFrom;
         if (!threat)
             return;
         const dx = animal.x - threat.x, dy = animal.y - threat.y;
         const angle = Math.atan2(dy || .001, dx || .001);
-        const speed = game.entities.chicken.speed * (game.difficultyKey === "easy" ? .97 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 1.15 : 1.08) * RescueSystem.personality(animal).pace;
-        const neighbours = RescueSystem.all(game).filter(a => a !== animal && !a.rescued && !RescueSystem.isSecret(a) && distance(a, animal) < 140);
+        const endurance = (game.difficultyKey === 'easy' ? 2.8 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 6 : 4.4) * RescueSystem.personality(animal).endurance;
+        const speed = game.entities.chicken.speed * (game.difficultyKey === "easy" ? .97 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 1.15 : 1.08) *
+            RescueSystem.personality(animal).pace * effort * (1 - .16 * clamp((animal.fatigue || 0) / endurance, 0, 1));
+        const neighbours = RescueSystem.all(game).filter(a => a !== animal && !a.rescued && !RescueSystem.isSecret(a) && distance(a, animal) < 140 &&
+            DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(a)));
         let best = null, score = -Infinity;
         // Look ahead around fences and tree trunks, then take a collision-safe small step.
-        for (const turn of [0, .45, -.45, .9, -.9, 1.4, -1.4, 2.1, -2.1]) {
+        for (const turn of [0, .45, -.45, .9, -.9, 1.4, -1.4, 2.1, -2.1, 2.65, -2.65, Math.PI]) {
             const ax = Math.cos(angle + turn), ay = Math.sin(angle + turn);
             const probe = { ...animal, x: animal.x, y: animal.y };
             Player.move(probe, ax * 65, ay * 65);
-            if (probe.x < area.x + 32 || probe.x > area.x + area.w - 32 || probe.y < area.y + 32 || probe.y > area.y + area.h - 32)
+            if (!RescueSystem.withinHome(probe, home, area, animal))
                 continue;
             const travel = distance(probe, animal);
             if (travel < 15)
@@ -215,13 +287,14 @@ const RescueSystem = {
             const heading = Math.atan2(probe.y - animal.y, probe.x - animal.x);
             const continuity = Number.isFinite(animal.fleeHeading) ? Math.cos(heading - animal.fleeHeading) * 18 : 0;
             const crowd = neighbours.reduce((sum, a) => sum + Math.max(0, 56 - distance(a, probe)), 0);
+            const danger = (animal.seenDangers || []).reduce((sum, a) => sum + Math.max(0, 145 - distance(a, probe)) * (a.source === 'hazard' ? 3 : 1.8), 0);
             const shelter = threat.kind === 'wolf' && !DetectionSystem.hasLineOfSight(threat, getHitbox(probe)) ? 32 : 0;
             const herd = ['sheep', 'lamb', 'cow', 'donkey'].includes(animal.species) ? neighbours.reduce((best, a) => Math.max(best, distance(a, threat) > distance(animal, threat) ? Math.max(0, 18 - Math.abs(distance(a, probe) - 75) * .15) : 0), 0) : 0;
             // Nimble animals jink; herd animals seek a safe neighbour; all still use
             // the same finite stamina and contact window for a fair rescue.
-            const jink = ['rabbit', 'cat'].includes(animal.species) ? Math.cos(heading - angle - Math.sin(animal.fatigue * 5) * .65) * 12 : 0;
+            const jink = ['rabbit', 'cat'].includes(animal.species) ? Math.cos(heading - angle - Math.sin((animal.fatigue || 0) * 5) * .65) * 12 : 0;
             const value = distance(probe, threat) + travel * .8 + continuity - crowd * 1.4 -
-                Math.max(0, distance(probe, home) - 230) * 1.4 - Math.abs(turn) * 8 + shelter + herd + jink;
+                Math.max(0, distance(probe, home) - 230) * 1.4 - Math.abs(turn) * 8 + shelter + herd + jink - danger;
             if (value > score) {
                 score = value;
                 best = { x: (probe.x - animal.x) / travel, y: (probe.y - animal.y) / travel, heading };
@@ -232,9 +305,15 @@ const RescueSystem = {
             Player.move(animal, best.x * speed * dt, best.y * speed * dt);
             animal.fleeHeading = best.heading;
         }
+        if (!RescueSystem.withinHome(animal, home, area, before)) {
+            animal.x = before.x;
+            animal.y = before.y;
+        }
         animal.stuckTime = distance(before, animal) < speed * dt * .1 ? (animal.stuckTime || 0) + dt : 0;
-        if (animal.stuckTime > .45) {
-            animal.restTime = 1.2;
+        if (animal.stuckTime > .25 && distance(animal, home) > 65 && distance(home, threat) > Math.max(110, distance(animal, threat) * .8))
+            RescueSystem.walk(animal, home, speed * .65, dt, home, area);
+        if (animal.stuckTime > .8) {
+            animal.restTime = 3.1;
             animal.stuckTime = 0;
             animal.fleeHeading = null;
         }
@@ -299,7 +378,19 @@ const RescueSystem = {
             game.skinNotice.time = Math.max(0, game.skinNotice.time - dt);
         if (game.secretNotice)
             game.secretNotice.time = Math.max(0, game.secretNotice.time - dt);
-        for (const animal of RescueSystem.all(game)) {
+        const animals = RescueSystem.all(game), sightings = new Map();
+        // Take observations before movement: flock response cannot depend on array order or relay hearsay.
+        for (const animal of animals)
+            if (!animal.rescued && !RescueSystem.isSecret(animal))
+                sightings.set(animal, RescueSystem.observeThreat(game, animal, RescueSystem.visible(game, animal)));
+        const observations = new Map();
+        for (const [animal, direct] of sightings) {
+            const heard = RescueSystem.herdThreat(animal, sightings);
+            if (heard)
+                animal.seenDangers.push(heard);
+            observations.set(animal, direct && (!heard || direct.urgency >= heard.urgency) ? direct : heard);
+        }
+        for (const animal of animals) {
             const chick = animal.type === "chick";
             const index = chick ? game.entities.chicks.indexOf(animal) : game.entities.animals.indexOf(animal);
             const safePosition = chick ? RescueSystem.chickPosition : RescueSystem.safePosition;
@@ -326,30 +417,51 @@ const RescueSystem = {
                     animal.discovered = true;
                     animal.lastSeen = { x: animal.x, y: animal.y };
                 }
-                const threat = RescueSystem.observeThreat(game, animal, visible);
+                let threat = observations.get(animal) || null;
+                animal.sharedAlarm = !!threat?.shared;
+                animal.calmWindow = Math.max(0, (animal.calmWindow || 0) - dt);
+                if (chicken.sneaking || chicken.sprinting || Math.hypot(chicken.vx, chicken.vy) >= 70)
+                    animal.calmWindow = 0;
+                const patient = animal.restTime > 0 && animal.fleeFrom?.kind === 'player' && (!threat || threat.kind === 'player') && visible &&
+                    !chicken.hidden && !chicken.sneaking && !chicken.sprinting && Math.hypot(chicken.vx, chicken.vy) < 25;
+                animal.patientTime = patient ? (animal.patientTime || 0) + dt : 0;
+                if (animal.patientTime >= 1.1) {
+                    animal.calmWindow = 3.1;
+                    animal.patientTime = 0;
+                    if (threat?.kind === 'player')
+                        threat = null;
+                }
                 const friendly = !chicken.sneaking && SkinSystem.power(chicken).friendSpecies === animal.species;
-                const calm = !chick && !threat && visible && !chicken.hidden && friendly && distance(chicken, animal) <= 140;
+                const calm = !chick && !threat && visible && !chicken.hidden && !chicken.sneaking &&
+                    (friendly || (animal.calmWindow || 0) > 0) && distance(chicken, animal) <= 140;
                 const wolf = game.entities.wolf;
-                const relieved = animal.fleeFrom?.kind === 'wolf' && wolf.mode === 'frightened' && distance(animal, wolf) < 190 &&
+                const relieved = animal.fleeFrom?.kind === 'wolf' && (!animal.dangerSource || animal.dangerSource === 'wolf') && wolf.mode === 'frightened' && distance(animal, wolf) < 190 &&
                     DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(wolf));
                 if (calm || (relieved && !threat)) {
                     animal.fleeFrom = null;
                     animal.fleeTime = 0;
                     animal.fleeHeading = null;
                 }
-                if (threat)
+                if (threat) {
+                    if (!animal.fleeFrom || distance(animal.fleeFrom, threat) > 80) {
+                        animal.friendRoute = [];
+                        animal.friendRouteTimer = 0;
+                    }
                     animal.fleeFrom = { x: threat.x, y: threat.y, kind: threat.kind };
+                    animal.dangerSource = threat.source;
+                }
                 animal.restTime = Math.max(0, (animal.restTime || 0) - dt);
                 animal.fleeTime = threat ? .9 : Math.max(0, (animal.fleeTime || 0) - dt);
                 if (!animal.fleeFrom)
                     animal.fleeTime = 0;
                 const fleeing = animal.fleeTime > 0 && animal.restTime <= 0;
+                const urgent = animal.restTime > 0 && threat?.kind === 'wolf' && !threat.shared && distance(animal, threat) < 95;
                 animal.temper = calm ? "calm" : animal.restTime > 0 ? "tired" : fleeing ? "fleeing" : "idle";
                 const dx = animal.targetX - animal.x, dy = animal.targetY - animal.y;
                 const len = Math.hypot(dx, dy);
-                if (fleeing) {
-                    RescueSystem.flee(game, animal, home, area, dt);
-                    animal.fatigue = (animal.fatigue || 0) + dt;
+                if (fleeing || urgent) {
+                    RescueSystem.flee(game, animal, home, area, dt, urgent ? .3 : 1);
+                    animal.fatigue = (animal.fatigue || 0) + (urgent ? 0 : dt);
                     if (dt > 0)
                         RescueSystem.talk(game, animal);
                     const endurance = (game.difficultyKey === "easy" ? 2.8 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 6 : 4.4) * RescueSystem.personality(animal).endurance;
@@ -363,15 +475,17 @@ const RescueSystem = {
                     }
                 }
                 else if (calm) {
-                    // Only a matching appearance invites this short approach, never stealth.
+                    // A matching appearance or a visibly patient rescuer invites this approach, never stealth.
                     // Use the same collision model, so a friend never walks through a fence.
-                    const dx = chicken.x - animal.x, dy = chicken.y - animal.y, gap = Math.hypot(dx, dy);
-                    const step = Math.min(gap, 44 * RescueSystem.personality(animal).pace * dt);
-                    if (gap > 1)
-                        Player.move(animal, dx / gap * step, dy / gap * step);
+                    RescueSystem.walk(animal, chicken, 44 * RescueSystem.personality(animal).pace, dt, home, area);
                     animal.targetX = animal.x;
                     animal.targetY = animal.y;
                     animal.speechTime = 0;
+                }
+                else if (animal.restTime <= 0 && animal.fleeTime <= 0 && (distance(animal, home) > 90 || !RescueSystem.withinHome(animal, home, area))) {
+                    RescueSystem.walk(animal, home, 48 * RescueSystem.personality(animal).pace, dt, home, area);
+                    animal.targetX = home.x;
+                    animal.targetY = home.y;
                 }
                 else if (animal.restTime <= 0 && len > 5) {
                     const cruise = (chick ? 27 : 35) * RescueSystem.personality(animal).pace;
@@ -382,7 +496,7 @@ const RescueSystem = {
                 if (!fleeing)
                     animal.fatigue = Math.max(0, (animal.fatigue || 0) - dt * .25);
                 animal.wanderTime = Math.max(0, (animal.wanderTime ?? (1 + index * .17)) - dt);
-                if (!fleeing && !calm && animal.restTime <= 0 && animal.wanderTime <= 0 && dt > 0) {
+                if (!fleeing && !calm && animal.restTime <= 0 && distance(animal, home) <= 90 && animal.wanderTime <= 0 && dt > 0) {
                     RescueSystem.wander(animal, home, area);
                 }
                 resolveEnvironment(animal);

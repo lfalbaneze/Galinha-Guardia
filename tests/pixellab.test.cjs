@@ -106,6 +106,24 @@ test('a completed animation split across API groups is reused even with a differ
   const client={request:async()=>({animations:[{display_name:'farm-walk',directions:all.slice(0,3)},{display_name:'farm-walk',directions:all.slice(3)}]}),job:()=>assert.fail('must not buy the same animation twice')};
   await generateAnimation(client,cast[0],'id','walk','walk','v3',12);
 });
+test('synchronous paid image results are reused without another submission or polling',async t=>{
+  let calls=0;
+  const result={image:{base64:createCanvas(8,8).toBuffer('image/png').toString('base64')}};
+  const client=new PixelLabClient({key:'private',directory:temporary(t),fetchImpl:async(url,options)=>{
+    calls++;assert.equal(options.method,'POST');return json(result);
+  }});
+  assert.deepEqual(await client.job('feet','/inpaint',{description:'feet'}),result);
+  assert.deepEqual(await client.job('feet','/inpaint',{description:'feet'}),result);
+  assert.equal(calls,1);
+});
+test('resume never submits previously completed directions again',async()=>{
+  const completed=Object.keys(directions).slice(0,3).map(direction=>({direction,frame_count:8,frames:Array(8).fill('sprite.png')}));
+  const submitted=[];
+  const client={request:async()=>({animations:[{display_name:'farm-walk',directions:completed}]}),
+    job:async(label,endpoint,body)=>{submitted.push(...body.directions);return {directions:body.directions};}};
+  await generateAnimation(client,cast[0],'id','walk','walk','v3');
+  assert.deepEqual(submitted,Object.keys(directions).slice(3));
+});
 test('download refuses an incomplete API character before writing frame files',async()=>{
   const client={request:async()=>({status:'completed',directions:4}),download:()=>assert.fail('must not download')};
   await assert.rejects(downloadFrames(client,cast[0],'id',{walk:'walk'}),/oito direções/);
@@ -150,6 +168,48 @@ test('import rejects missing diagonals and sprites already clipped by the provid
   const missing=await fixture(t,{missing:true});await assert.rejects(packCharacter(missing.item,missing.input,missing.destination),/falta direção north-east/);
   const clipped=await fixture(t,{clipped:true});await assert.rejects(packCharacter(clipped.item,clipped.input,clipped.destination),/encosta na borda/);
 });
+test('native skeleton viewports normalize to the reference scale without changing source files',async t=>{
+  const f=await fixture(t),baseline=await packCharacter(f.item,f.input,f.destination);
+  const source=readJSON(path.join(f.input,'frames.json'));
+  for(const [action,poses]of Object.entries(source.actions))for(const files of Object.values(poses))for(const file of files){
+    const size=action==='idle'?96:action==='walk'?128:144,canvas=createCanvas(size,size),c=canvas.getContext('2d');
+    c.imageSmoothingEnabled=false;c.drawImage(await loadImage(path.join(f.input,file)),0,0,size,size);
+    fs.writeFileSync(path.join(f.input,file),canvas.toBuffer('image/png'));
+  }
+  const normalized=await packCharacter({...f.item,frameSize:96},f.input,f.destination);
+  const a=baseline.definition.actions.walk.down.frames[0],b=normalized.definition.actions.walk.down.frames[0];
+  assert.ok(Math.abs(a.w-b.w)<=2&&Math.abs(a.h-b.h)<=2);
+  assert.equal((await loadImage(path.join(f.input,source.actions.walk.south[0]))).width,128);
+  assert.equal((await loadImage(path.join(f.input,source.actions.run.south[0]))).width,144);
+  await assert.rejects(packCharacter({...f.item,frameSize:64},f.input,f.destination),/Unexpected skeleton viewport/);
+});
+test('temporary server errors retry read-only polling without another paid submission',async()=>{
+  for(const status of [500,502,503,504]){
+    let requests=0;
+    const client=new PixelLabClient({key:'private',pause:async()=>{},fetchImpl:async(url,options)=>{
+      assert.equal(options.method,'GET');return ++requests===1?json({},status):json({status:'completed'});
+    }});
+    assert.equal((await client.request('/background-jobs/existing')).status,'completed');assert.equal(requests,2);
+  }
+});
+test('image-based sprite repair validates provider frames before packing',t=>{
+  const {saveImages}=require('../scripts/repair-shuffle-identities.cjs'),folder=temporary(t);
+  const png=createCanvas(8,8).toBuffer('image/png'),file=path.join(folder,'frame.png');
+  saveImages({images:[{base64:png.toString('base64')}]},[file]);
+  assert.deepEqual(fs.readFileSync(file),png);
+  assert.throws(()=>saveImages({images:[]},[file]),/frame count/);
+  assert.throws(()=>saveImages({images:[{base64:Buffer.from('invalid').toString('base64')}]},[file]),/Expected PNG/);
+});
+test('installation refuses incomplete or visually rejected candidates',async t=>{
+  const f=await fixture(t);
+  await packCharacter(f.item,f.input,f.destination);
+  const file=path.join(f.destination,'candidate.json'),candidate=readJSON(file);
+  candidate.definition.actions.walk={down:candidate.definition.actions.walk.down};
+  writeJSON(file,candidate);
+  await assert.rejects(async()=>installCandidate(f.root,'dog'),/oito direções completas/);
+  writeJSON(file,{...readJSON(file),review:{status:'rejected',reason:'incorrect anatomy'}});
+  await assert.rejects(async()=>installCandidate(f.root,'dog'),/candidato rejeitado/);
+});
 
 test('lower wing tips do not move the body anchor when switching from perched to flying',async t=>{
   const f=await fixture(t),source=readJSON(path.join(f.input,'frames.json'));source.actions.fly={};
@@ -164,6 +224,21 @@ test('lower wing tips do not move the body anchor when switching from perched to
   const bodyTop=frame=>{const pixels=c.getImageData(frame.x,frame.y,frame.w,frame.h).data;
     for(let y=0;y<frame.h;y++)for(let x=0;x<frame.w;x++){const at=(y*frame.w+x)*4;if(pixels[at]===173&&pixels[at+1]===115&&pixels[at+2]===64&&pixels[at+3]===255)return y;}throw Error('Missing body');};
   for(const direction of Object.values(directions))assert.equal(bodyTop(d.actions.idle[direction].frames[0]),bodyTop(d.actions.fly[direction].frames[0]));
+});
+test('Curupira skeleton viewport padding does not shrink his body in motion',async t=>{
+  const f=await fixture(t),source=readJSON(path.join(f.input,'frames.json'));
+  for(const action of ['walk','run'])for(const files of Object.values(source.actions[action]))for(const file of files){
+    const original=await loadImage(path.join(f.input,file)),padded=createCanvas(128,128),c=padded.getContext('2d');
+    c.drawImage(original,40,40);fs.writeFileSync(path.join(f.input,file),padded.toBuffer('image/png'));
+  }
+  source.id='curupira';writeJSON(path.join(f.input,'frames.json'),source);
+  const curupira=require('../scripts/lib/pixellab-shuffle-cast.cjs').cast.find(c=>c.id==='curupira');
+  const {definition:d}=await packCharacter({...curupira,height:f.item.height},f.input,f.destination);
+  const atlas=await loadImage(path.join(f.destination,'atlas.png'));
+  const ink=frame=>{const canvas=createCanvas(frame.w,frame.h),ctx=canvas.getContext('2d');ctx.drawImage(atlas,frame.x,frame.y,frame.w,frame.h,0,0,frame.w,frame.h);
+    const pixels=ctx.getImageData(0,0,frame.w,frame.h).data,rows=[];for(let y=0;y<frame.h;y++)for(let x=0;x<frame.w;x++)if(pixels[(y*frame.w+x)*4+3]>127){rows.push(y);break;}return Math.max(...rows)-Math.min(...rows)+1;};
+  for(const direction of Object.values(directions))for(const action of ['walk','run'])for(const frame of d.actions[action][direction].frames)
+    assert.equal(ink(frame),ink(d.actions.idle[direction].frames[0]));
 });
 test('real game renderer selects emotions, rest, running and directions from the imported character',async t=>{
   const f=await fixture(t),{definition}=await packCharacter(f.item,f.input,f.destination);

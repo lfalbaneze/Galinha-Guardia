@@ -8,8 +8,8 @@ function renderer() {
     vm.runInContext(fs.readFileSync(path.join(root, 'systems', file), 'utf8'), context);
   return vm.runInContext('CharacterArt', context);
 }
-test('all 29 characters have eight complete directions from one coherent atlas each', () => {
-  const art=renderer();assert.equal(art.species.length,29);
+test('all 34 characters have eight complete directions from one coherent atlas each', () => {
+  const art=renderer();assert.equal(art.species.length,34);
   for(const species of art.species){const sources=new Set(),rows=new Set();
     for(const direction of directions){const {pose,frame,direction:resolved,definition}=art.frameFor(species,{direction,moving:true});
       assert.equal(definition.edition,108);assert.equal(definition.provider,'pixellab');assert.equal(resolved,direction);assert.ok(pose.frames.length>=8);assert.equal(pose.flip,false);rows.add(frame.y);
@@ -47,7 +47,7 @@ test('all runtime atlases have transparent gutters and distinct crisp pixel phas
       assert.ok(new Set(hashes).size>=Math.min(5,pose.frames.length),species+'/'+action+'/'+direction+' has distinct drawn phases');
     }
   }
-  assert.ok(bytes<16000000,'29 complete pixel atlases stay within 16 MB');
+  assert.ok(bytes<16000000,'34 complete pixel atlases stay within 16 MB');
 });
 test('livestock stays larger than the hen in every direction and small pets stay smaller', () => {
   const art=renderer();

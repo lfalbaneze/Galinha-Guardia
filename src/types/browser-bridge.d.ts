@@ -2,7 +2,6 @@
  * These declarations emit no code. Keep them aligned with the corresponding JavaScript APIs.
  */
 declare const WORLD: Farm.World;
-declare const ShuffleResultArt:Record<string,{win:string;lose:string}>;
 declare const ThorArtData: {
   src:string; width:number; height:number; columns:number;
   frames:readonly {x:number;y:number;w:number;h:number}[];
@@ -68,6 +67,7 @@ declare const AudioSystem: {
   play(name: string, options?: { volume?: number }): void;
   playAnimal(species: Farm.Species, options?: { volume?: number; ambient?: boolean }): void;
   playPlayerHurt(game: Farm.GameState): boolean;
+  playFolklore(species: Farm.FolkloreSpecies, event: 'warn' | 'attack' | 'defeat', position: Farm.Point): boolean;
 };
 declare const FarmRefuge: {
   readonly bounds: Readonly<Farm.Rect>;
@@ -96,12 +96,14 @@ declare const SpriteStyle: {
 declare const Sunlight: {
   ground(c:CanvasRenderingContext2D,paint:(out:CanvasRenderingContext2D)=>void):boolean;
   readonly active:boolean;
-  cast(c:CanvasRenderingContext2D,image:CanvasImageSource,x:number,y:number,w:number,h:number,ground:number,rect?:number[]):boolean;
+  cast(c:CanvasRenderingContext2D,image:CanvasImageSource,x:number,y:number,w:number,h:number,ground:number,rect?:number[],support?:{bottom:number}):boolean;
   native(c:CanvasRenderingContext2D,key:string,box:Farm.Rect,ground:number,paint:(c:CanvasRenderingContext2D)=>void):void;
 };
 
 /** Read-only rendering API used by the live HUD portraits. */
 declare const CharacterArt: {
+  markerOffset(name: string): number;
+  load():Promise<boolean>;
   directionFor(previous: Farm.ArtDirection, x:number, y:number): Farm.ArtDirection;
   heading(entity: {direction: Farm.Direction;vx:number;vy:number}): Farm.ArtDirection;
     advance(anim: number, name: string, traveled: number, options?: {skin?: string;speed?:number}): number;

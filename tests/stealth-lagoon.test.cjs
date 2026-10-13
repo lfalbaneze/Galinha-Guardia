@@ -68,9 +68,9 @@ test('turning toward a nearby stealth player starts a real escape and startled s
   assert.doesNotMatch(h.friend.speech,/acompan|guia|vou com/i);
 });
 
-test('stealth detection is shorter, directional, and still blocked by line of sight',()=>{
+test('quiet steps do not reduce front-facing sight; an unseen rear approach and solid cover still work',()=>{
   const h=fixture();assert.equal(h.run('RescueSystem.observeThreat(state,friend,true).kind'),'player');
-  h.chicken.sneaking=true;assert.equal(h.run('RescueSystem.observeThreat(state,friend,true)'),null);
+  h.chicken.sneaking=true;assert.equal(h.run('RescueSystem.observeThreat(state,friend,true).kind'),'player');
   h.chicken.x=430;assert.equal(h.run('RescueSystem.observeThreat(state,friend,true).kind'),'player');
   h.context.lineOfSight=false;assert.equal(h.run('RescueSystem.observeThreat(state,friend,true)'),null);
   h.context.lineOfSight=true;h.friend.direction='right';
@@ -84,8 +84,19 @@ test('enabling stealth does not erase the last observed threat or rescue automat
   assert.ok(h.friend.x>before);assert.equal(h.state.rescuedCount,0);
 });
 
+test('sneaking after being seen keeps the animal aware until sight is genuinely broken',()=>{
+  const h=fixture();h.run('RescueSystem.update(state,.05)');
+  h.run("chicken.sneaking=true;chicken.x=420;friend.direction='right';friend.restTime=3;for(let i=0;i<25;i++)RescueSystem.update(state,.05)");
+  assert.equal(h.friend.fleeTime,.9);assert.equal(h.friend.fleeFrom.x,420);
+  assert.equal(h.friend.temper,'tired');assert.equal(h.friend.rescued,false);
+  h.context.lineOfSight=false;h.run('chicken.x=390;for(let i=0;i<25;i++)RescueSystem.update(state,.05)');
+  assert.equal(h.friend.fleeTime,0);assert.equal(h.friend.fleeFrom.x,420);
+  h.context.lineOfSight=true;h.friend.restTime=0;h.friend.direction='right';
+  assert.equal(h.run('RescueSystem.observeThreat(state,friend,true)'),null);
+});
+
 test('old following dialogue is cleared and an unnoticed animal stays silent',()=>{
-  const h=fixture();h.run("chicken.sneaking=true;friend.speech='Tá, você guia!';friend.speechTime=2;RescueSystem.update(state,.05);RescueSystem.talk(state,friend)");
+  const h=fixture();h.run("chicken.sneaking=true;friend.direction='right';friend.speech='Tá, você guia!';friend.speechTime=2;RescueSystem.update(state,.05);RescueSystem.talk(state,friend)");
   assert.equal(h.friend.speechTime,0);
 });
 

@@ -1,6 +1,14 @@
 # Sprites PixelLab
 
-**Escopo atual:** o usuário interrompeu o tratamento adicional dos outros personagens em 20/09/2026. As filas gerais `extras`, `extras-rest` e `extras-wild` foram paradas e marcadas como canceladas. Continuam apenas as correções de identidade da Midori (sedosa japonesa) e do Thor (golden retriever), além da remoção das sombras ovais. Os exemplos de produção abaixo são documentação, não autorização para retomar os outros personagens.
+**Correção de 05/10/2026:** o usuário repôs os créditos da PixelLab e autorizou concluir as animações dos cinco novos inimigos: fuinha, mula sem cabeça, Curupira, Boitatá e Cuca. Reutilizar os trabalhos concluídos e gerar somente as lacunas ou sequências rejeitadas. Os retratos de resultado usam expressões ou repouso do próprio atlas do personagem. A partida só admite inimigos com caminhada animada nas oito direções; imagens de vitória não substituem ciclos de movimento. As filas gerais permanecem canceladas.
+
+A importação e a instalação exigem oito direções completas em cada ação. `scripts/repair-shuffle-identities.cjs` permite conferir referências, vistas e ciclos em etapas. O Curupira usa um personagem nativo corrigido; o Boitatá usa animação por imagem, sem esqueleto humano. Correções específicas de clipes ficam em `scripts/lib/pixellab-clip-selections.json`, vinculadas ao ID imutável do personagem.
+
+Os cinco inimigos têm repouso, caminhada e corrida nas oito direções. Fuinha, mula, Boitatá e Cuca usam 12 quadros por ciclo (200 imagens por personagem). O Curupira usa templates de oito quadros (136 imagens): os ciclos de texto que giravam o corpo foram descartados. As telas de 128/144 pixels desses templates são calibradas para a referência de 96 pixels antes da redução para o jogo. A orientação invertida dos pés do Curupira ainda não ficou correta nas tentativas da API; essas correções localizadas foram rejeitadas e não entraram no atlas.
+
+A correção de paleta do Boitatá usa `palette-walk` e `palette-run`, em lotes de quatro quadros. Cada ação salva seu próprio manifesto; `pack` reúne os dois depois da conclusão, evitando que filas simultâneas sobrescrevam referências. Quatro quadros de corrida nordeste foram corrigidos para retirar uma chama cortada. Os originais e recibos permanecem em `.cache/pixellab`. A instalação reconstrói os metadados de apoio no chão junto com os atlas.
+
+**Escopo geral:** o usuário interrompeu o tratamento adicional dos outros personagens em 20/09/2026. As filas gerais `extras`, `extras-rest` e `extras-wild` foram paradas e marcadas como canceladas. As correções da Midori (sedosa japonesa), do Thor (golden retriever) e das sombras ovais continuam autorizadas, assim como os cinco inimigos pedidos em 05/10/2026. Os exemplos de produção abaixo são documentação, não autorização para retomar os outros personagens.
 
 O usuário autorizou pixel art fofinho em 20/09/2026. A integração usa a API oficial PixelLab apenas durante a produção. O jogo recebe PNGs locais e funciona sem chave ou conexão com a PixelLab.
 
@@ -58,6 +66,8 @@ Execute o mesmo comando de geração para retomar. O registro de trabalhos em `.
 - `systems/pixellab-art-data.js`: mapa gerado dos sprites instalados.
 
 O importador exige oito direções, pelo menos oito quadros por animação, transparência nas bordas e quatro quadros distintos no mínimo. Não fabrica diagonais por espelhamento. Usa um recorte comum para todo o personagem e posicionamento fixo, conservando os movimentos verticais originais. Reduz uma única vez com vizinho mais próximo para o tamanho do jogo; não mistura cores nem quantiza a paleta novamente.
+
+No Curupira, as animações por esqueleto acrescentam margens transparentes ao quadro de referência; os pixels do corpo mantêm a mesma escala. Não reduzir a imagem só porque o quadro passa de 96 para 128/144 pixels: isso encolhe o personagem durante o movimento. A revisão de 05/10/2026 usa o desenho arredondado, os ciclos por esqueleto com câmera fixa e correções dos pés por máscara na própria PixelLab, preservando os pixels fora das máscaras.
 
 Se o desenho original tocar a borda, a importação para para revisão. Duas vistas estáticas da nova Midori têm apenas um pixel preto da ponta fechada dos dedos na borda; foram conferidas ampliadas e registradas por SHA-256 em `scripts/lib/pixellab-border-reviews.json`. Os registros de três imagens anteriores permanecem como histórico. O atlas acrescenta a margem transparente sem cortar ou redesenhar esses pixels. Essa exceção vale somente para os arquivos exatos revisados. Quadros diferentes continuam sujeitos ao bloqueio de borda.
 

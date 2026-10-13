@@ -45,6 +45,58 @@ function audioHarness(options = {}) {
 const microtasks = async () => { await Promise.resolve(); await Promise.resolve(); };
 const mixFor=(h,seconds)=>{for(let i=0;i<seconds*20;i++)h.audio.update(h.game,.05);};
 
+test('all six revised scores are installed, bounded in volume, varied and continuous at the loop splice',()=>{
+  const h=audioHarness(),clips=h.audio.catalog.filter(c=>c.kind==='music');assert.equal(clips.length,6);
+  const {validate}=require('../scripts/generate-audio.cjs'),{createHash}=require('node:crypto');
+  const metadata=JSON.parse(fs.readFileSync(path.join(__dirname,'../assets/audio/music/v2/manifest.json'),'utf8'));
+  for(const clip of clips){
+    assert.ok(clip.src.includes('/music/v2/'));
+    const bytes=fs.readFileSync(path.resolve(__dirname,'..',clip.src)),analysis=validate(bytes,true);
+    const meta=metadata.clips.find(c=>c.file===path.basename(clip.src));assert.ok(meta);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'),meta.sha256);
+    assert.ok(analysis.durationSeconds>55&&analysis.durationSeconds<100);
+    assert.ok(analysis.rms>.06&&analysis.rms<=.109&&analysis.peak<=.601);
+    assert.ok(analysis.loopBoundaryDelta<.009);
+    const pcm=bytes.subarray(44),quarter=Math.floor(pcm.length/16)*4;
+    const sections=Array.from({length:4},(_,i)=>createHash('sha256').update(pcm.subarray(i*quarter,(i+1)*quarter)).digest('hex'));
+    assert.equal(new Set(sections).size,4,'arrangement sections differ');
+    assert.ok(!bytes.equals(fs.readFileSync(path.join(__dirname,'../assets/audio',meta.file))),'actual replacement music');
+  }
+});
+
+test('folklore cues use proximity, cooldown and normal mute/pause/gesture rules',()=>{
+  const h=audioHarness();h.game.entities={chicken:{x:0,y:0}};
+  assert.equal(h.audio.playFolklore('cuca','warn',{x:0,y:0}),false);h.start();
+  for(const species of ['fuinha','mula-sem-cabeca','curupira','boitata','cuca'])for(const event of ['warn','attack','defeat']){
+    assert.equal(h.audio.playFolklore(species,event,{x:20,y:0}),true);
+    assert.ok(h.plays.at(-1).src.endsWith(`/effects/folklore-v1/folklore-${species}-${event}.wav`));
+    for(const a of h.instances.filter(a=>!a.loop))a.end();
+    assert.equal(h.audio.playFolklore(species,event,{x:20,y:0}),false);
+  }
+  mixFor(h,1);
+  for(const [species,event,position] of [['cuca','attack',{x:521,y:0}],['cuca','attack',{x:NaN,y:0}],['wolf','attack',{x:0,y:0}],['cuca','unknown',{x:0,y:0}]])assert.equal(h.audio.playFolklore(species,event,position),false);
+  h.audio.toggleMute();assert.equal(h.audio.playFolklore('cuca','attack',{x:0,y:0}),false);
+  h.audio.toggleMute();h.game.phase='paused';h.audio.update(h.game,.1);
+  assert.equal(h.audio.playFolklore('cuca','attack',{x:0,y:0}),false);
+  h.game.phase='playing';h.audio.update(h.game,.1);assert.equal(h.audio.playFolklore('cuca','attack',{x:0,y:0}),true);
+  const near=h.plays.at(-1).volume;h.instances.filter(a=>!a.loop).forEach(a=>a.end());mixFor(h,1);
+  assert.equal(h.audio.playFolklore('cuca','attack',{x:400,y:0}),true);assert.ok(h.plays.at(-1).volume<near);
+  h.document.hidden=true;assert.equal(h.audio.playFolklore('fuinha','attack',{x:0,y:0}),false);
+});
+
+test('Sophis, crow and owl warning, attack and defeat cues use existing clips through the spatial playback path',()=>{
+  const h=audioHarness();h.game.entities={chicken:{x:0,y:0}};h.start();
+  const cues={amanda:['fox-rustle','panto-dodge','runaway'],crow:['fox-rustle','panto-dodge','squeak'],owl:['owl-hoot','owl-siren','dizzy']};
+  for(const [species,names]of Object.entries(cues))for(const [i,event]of ['warn','attack','defeat'].entries()){
+    mixFor(h,1);assert.ok(h.audio.playEnemy(species,event,{x:20,y:0}));
+    assert.equal(path.basename(h.plays.at(-1).src,'.wav').replace(/-2$/,''),names[i]);
+    assert.equal(h.audio.playEnemy(species,event,{x:20,y:0}),false);
+    h.instances.filter(a=>!a.loop).forEach(a=>a.end());
+  }
+  mixFor(h,1);assert.equal(h.audio.playEnemy('owl','attack',{x:530,y:0}),false);
+  h.audio.toggleMute();assert.equal(h.audio.playEnemy('owl','attack',{x:20,y:0}),false);
+});
+
 test('an animal voice interrupts only a hidden chick hint, never a chick rescue',()=>{
   for(const species of ['duck','rabbit'])for(const ambient of [true,false]){
     const h=audioHarness();h.start();assert.ok(h.audio.playAnimal('chick',{ambient}));
@@ -58,7 +110,7 @@ test('an animal voice interrupts only a hidden chick hint, never a chick rescue'
 
 test('the complete runtime sound catalog contains every take and only existing decodable files',()=>{
   const h=audioHarness(),catalog=h.audio.catalog;
-  assert.equal(catalog.length,47);assert.ok(Object.isFrozen(catalog));
+  assert.equal(catalog.length,62);assert.ok(Object.isFrozen(catalog));
   assert.equal(new Set(catalog.map(c=>c.src)).size,catalog.length);
   for(const clip of catalog){
     assert.ok(Object.isFrozen(clip));
@@ -433,7 +485,7 @@ test('music uses one looping element through track switches and clamps independe
   music.currentTime = 12;
   assert.equal(h.audio.setTrack('whistle'), true);
   assert.equal(music.currentTime, 0);
-  assert.equal(music.src, './assets/audio/whistle.wav');
+  assert.equal(music.src, './assets/audio/music/v2/whistle.wav');
   assert.equal(h.instances.filter(a => a.loop).length, 1);
   assert.equal(h.audio.setTrack('unknown'), false);
   h.audio.setMusicVolume(99); h.audio.setEffectsVolume(-4);

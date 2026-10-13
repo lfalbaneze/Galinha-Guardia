@@ -9,6 +9,41 @@ function arena(species){
     state.entities.thor=null;state.lake.active=false;state.lives=3;`);return h;
 }
 const step=(h,seconds)=>h.run(`for(let i=0;i<${Math.ceil(seconds/.05)};i++)FolkloreSystem.update(state,.05)`);
+test('Fuinha speaks on real encounters, rotates lines, distinguishes a hit from a miss and keeps bubbles local',()=>{
+  const h=arena('fuinha');h.run("camera.x=650;camera.y=550;c.x=1230;e.timer=99;e.grace=1;FolkloreSystem.update(state,.05)");
+  assert.ok(h.run('FolkloreSystem.fuinhaLines.appear.includes(e.speech)'));
+  h.run("e.grace=0;c.x=1150;e.timer=0;FolkloreSystem.update(state,.05)");
+  assert.ok(h.run('FolkloreSystem.fuinhaLines.warning.includes(e.speech)'));
+  const first=h.run('e.speech');h.run('e.mode="patrol";e.timer=0;FolkloreSystem.update(state,.05)');
+  assert.notEqual(h.run('e.speech'),first);
+  h.run('c.y=940');step(h,2);
+  assert.ok(h.run('FolkloreSystem.fuinhaLines.miss.includes(e.speech)'));assert.equal(h.run('state.lives'),3);
+  h.run("Object.assign(e,{x:1000,y:800,mode:'patrol',timer:0,grace:0});Object.assign(c,{x:1120,y:800,invulnerable:0})");step(h,2);
+  assert.ok(h.run('FolkloreSystem.fuinhaLines.hit.includes(e.speech)'));assert.equal(h.run('state.lives'),2);
+  h.run("var text=[];ctx.fillText=t=>text.push(t);ctx.measureText=t=>({width:t.length*7});FolkloreSystem.drawLabels(state)");
+  assert.ok(h.run('text.includes(e.speech)&&text.includes("TIH")'));
+  h.run('text=[];OBSTACLES=[{x:e.x+5,y:700,w:8,h:250}];FolkloreSystem.drawLabels(state)');
+  assert.equal(h.run('text.includes(e.speech)'),false);
+  h.run('OBSTACLES=[];camera.x=2200;text=[];FolkloreSystem.drawLabels(state)');assert.equal(h.run('text.includes(e.speech)'),false);
+  h.run('state.phase="paused"');const frozen=h.run('JSON.stringify(e)');step(h,1);assert.equal(h.run('JSON.stringify(e)'),frozen);
+  h.run('FolkloreSystem.restore(state,FolkloreSystem.snapshot(state))');assert.equal(h.run('state.entities.folklore.every(e=>!e.speech&&e.speechTime===0)'),true);
+});
+
+test('audio follows warned attacks, pursuit, awakening and defeat without per-frame calls',()=>{
+  for(const species of ['fuinha','mula-sem-cabeca','curupira','boitata','cuca']){
+    const h=arena(species);h.run('var sounds=[];AudioSystem.playFolklore=(species,event)=>sounds.push(event)');
+    step(h,.05);assert.equal(h.run('sounds.join()'),'warn');
+    step(h,1.25);
+    assert.equal(h.run('sounds.filter(s=>s==="attack").length'),1,species);
+    if(species!=='fuinha'){
+      h.run("e.active=false;c.x=e.home.x+60;c.y=e.home.y;FolkloreSystem.interact(state)");
+      assert.equal(h.run('sounds.at(-1)'),'warn');
+      h.run("e.courage=1;e.mode='rest';FolkloreSystem.interact(state)");
+      assert.equal(h.run('sounds.at(-1)'),'defeat');
+    }
+  }
+});
+
 test('safe homes are deterministic; only the common marten activates automatically',()=>{
   const h=createGame();
   for(const seed of [1,7,42,614,1099,2147483648]){
@@ -18,9 +53,9 @@ test('safe homes are deterministic; only the common marten activates automatical
     const homes=h.run('JSON.stringify(state.entities.folklore.map(e=>e.home))');
     h.run('FolkloreSystem.initialize(state)');assert.equal(h.run('JSON.stringify(state.entities.folklore.map(e=>e.home))'),homes);
   }
-  h.run('state.rescuedCount=11;FolkloreSystem.update(state,.05)');
+  h.run('var savedArt={};for(const id of Object.keys(FolkloreSystem.cast)){savedArt[id]=SpriteData[id];delete SpriteData[id];}state.rescuedCount=11;FolkloreSystem.update(state,.05)');
   assert.equal(h.run('state.entities.folklore.some(e=>e.active)'),false,'Missing art cannot produce invisible threats');
-  h.run('FolkloreSystem.load(true);state.rescuedCount=0;FolkloreSystem.update(state,.05)');
+  h.run('Object.assign(SpriteData,savedArt);state.rescuedCount=0;FolkloreSystem.update(state,.05)');
   assert.equal(h.run('state.entities.folklore.some(e=>e.active)'),false);
   h.run('state.rescuedCount=1;FolkloreSystem.update(state,.05)');
   assert.equal(h.run('state.entities.folklore.filter(e=>e.active).map(e=>e.species).join()'),'fuinha');
@@ -67,10 +102,11 @@ test('fuinha and mule commit to a warned line, allow dodging, stop at walls and 
   }
 });
 test('roots warn, fire expires and Cuca spells collide with walls; hiding and refuge prevent damage',()=>{
-  const roots=arena('curupira');step(roots,.8);assert.equal(roots.run('state.folkloreThreats[0].kind'),'roots');
+  const roots=arena('curupira');step(roots,.9);assert.equal(roots.run('state.folkloreThreats[0].kind'),'roots');
   assert.equal(roots.run('state.lives'),3);step(roots,1);assert.equal(roots.run('state.lives'),2);
   const hidden=arena('curupira');step(hidden,.8);hidden.run('c.hidden=true');step(hidden,2);assert.equal(hidden.run('state.lives'),3);
-  const fire=arena('boitata');step(fire,.1);assert.equal(fire.run('state.folkloreThreats[0].kind'),'fire');
+  const fire=arena('boitata');step(fire,.1);assert.equal(fire.run('e.mode'),'warning');
+  assert.equal(fire.run('state.folkloreThreats.length'),0);step(fire,1.3);assert.equal(fire.run('state.folkloreThreats[0].kind'),'fire');
   fire.run('state.entities.folklore=[]');step(fire,3.2);assert.equal(fire.run('state.folkloreThreats.length'),0);
   const witch=arena('cuca');step(witch,1.2);assert.equal(witch.run('state.folkloreThreats.length'),3);
   witch.run('OBSTACLES=[{x:1060,y:600,w:20,h:400}];state.entities.folklore=[]');step(witch,1);
@@ -91,4 +127,11 @@ test('pause, lake and Thor freeze encounters; save/restore removes armed attacks
   assert.equal(h.run('state.folkloreThreats.length'),0);
   h.run('FolkloreSystem.restore(state,[{id:"folklore-cuca",x:NaN,y:Infinity,active:true}])');
   assert.equal(h.run('state.entities.folklore.every(e=>WildlifeRules.validPoint(e)&&!e.active)'),true);
+});
+test('base encounters select authored running frames for an attack and keep rest still',()=>{
+  const h=arena('mula-sem-cabeca');
+  h.run("var drawn;ctx.drawImage=(image,...args)=>{drawn=args.slice(0,4).join()};e.moving=true;e.mode='attack';e.direction='downleft';e.vx=-100;e.vy=100;e.anim=1;FolkloreSystem.drawEntity(e)");
+  assert.equal(h.run('drawn'),h.run("(()=>{const f=CharacterArt.frameFor(e.species,{moving:true,sprinting:true,direction:'downleft',anim:1}).frame;return [f.x,f.y,f.w,f.h].join()})()"));
+  h.run("e.mode='rest';e.moving=false;FolkloreSystem.drawEntity(e)");
+  assert.equal(h.run('drawn'),h.run("(()=>{const f=CharacterArt.frameFor(e.species,{direction:'downleft'}).frame;return [f.x,f.y,f.w,f.h].join()})()"));
 });

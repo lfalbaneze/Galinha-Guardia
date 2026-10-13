@@ -1,0 +1,12 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/create-image-pixen",
+  "image_size": {
+    "width": 256,
+    "height": 128
+  },
+  "seed": 100827,
+  "no_background": true,
+  "enhance_prompt": false,
+  "description": "Premium cartoon FARM GAME inventory sprite sheet. EXACTLY FOUR columns, TWO rows of 64x64 cells. Eight separate complete objects, ONE in each cell, each centered within 48x48, surrounded by 8 transparent pixels. Cell 1 (TOP row, column 1): An orange carrot telescope rifle, green leafy stock, brass sight, short dark muzzle. Cell 2 (TOP row, column 2): An ivory egg with tiny green leaf fins and a brass compass strapped around its middle. Cell 3 (TOP row, column 3): A double-curved silver sickle boomerang with dark green wooden center grip. Cell 4 (TOP row, column 4): A popped corn kernel in a spring-loaded red wooden slingshot, two curled springs. Cell 5 (BOTTOM row, column 1): An ivory fried egg firebomb in a tiny red skillet, orange flame-shaped yolk. Cell 6 (BOTTOM row, column 2): A blue-white feather enclosed in a jagged translucent ice crystal, two frost spikes. Cell 7 (BOTTOM row, column 3): A crooked purple witch ladle holding bright green bubbling soup, dark wooden handle. Cell 8 (BOTTOM row, column 4): Two rustic wooden fence posts joined by a zigzag blue electric wire and brass insulators. Playful handmade farm equipment, strong unique silhouettes, charming rounded shapes, clean dark outline, rich flat colors with three crisp pixel shade clusters. Native pixel art, no blur, realism, plastic shine, text, frames, floor or shadows. All objects fit their own cells; no overlap."
+}

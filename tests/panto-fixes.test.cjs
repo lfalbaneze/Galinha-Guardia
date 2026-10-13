@@ -135,9 +135,10 @@ test('three counters can be earned on real farm layouts with their original coll
     assert.equal(h.run('state.lake.completed'),true,`complete ${seed}`);
     assert.equal(h.run('state.lake.misses'),3);assert.equal(h.run('state.lives'),3);
     // A defeated Panto joins the rescued herd, including when the final dash left his leash.
+    assert.ok(h.run('distance(g,FarmRefuge.gooseHome())')<1,`arrival after completion ${seed}`);
     h.run('for(let i=0;i<500;i++)GooseSystem.update(state,.05)');
     assert.equal(h.run('g.rescued'),true);
-    assert.ok(h.run('distance(g,FarmRefuge.gooseHome())')<1,`refuge after completion ${seed}`);
+    assert.equal(h.run('FarmRefuge.contains(g,g.hitbox.r+2)'),true,`walk remains in refuge ${seed}`);
     assert.equal(h.run('WildlifeRules.clear(g,g,g.hitbox)'),true,`collision ${seed}`);
   }
 });

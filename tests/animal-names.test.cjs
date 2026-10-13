@@ -51,7 +51,7 @@ test('existing named characters stay unchanged; both owls and all crows get iden
  const h=createGame();
  assert.equal(h.run('RescueSystem.nameOf(state.entities.goose,state)'),'Panto');
  assert.equal(h.run('RescueSystem.nameOf({type:"thor"})'),'Thor');
- assert.deepEqual(plain(h.run('state.entities.foxes.map(a=>RescueSystem.nameOf(a,state))')),['Lorenzo','Amanda']);
+ assert.deepEqual(plain(h.run('state.entities.foxes.map(a=>RescueSystem.nameOf(a,state))')),['Lorenzo','Sophis']);
  assert.deepEqual(plain(h.run('state.entities.owls.map(a=>RescueSystem.nameOf(a,state))')),['Aurora','Olívia']);
  assert.deepEqual(plain(h.run('state.scarecrow.birds.map((_,i)=>RescueSystem.nameOf({type:"crow",id:`crow_${i}`}))')),['Tico','Teco','Cacá']);
  assert.equal(h.run('RescueSystem.nameOf(state.entities.wolf,state)'),'Baltazar');

@@ -65,7 +65,7 @@ test('pressing E while the wolf watches records that entrance immediately, befor
   run(`const witnessText = []; ctx.fillText = text => witnessText.push(text);
     camera.x = wolf.x - 450; camera.y = wolf.y - 250; renderGame();`);
   assert.equal(run('witnessText.includes("Ele viu você! Saia daí!")'), true);
-  assert.equal(run('witnessText.includes("! TE VI ENTRAR")'), true);
+  assert.equal(run('witnessText.includes(WolfDialogue.witnessLine(state))'), true);
 });
 
 test('witness range has an inclusive boundary for each difficulty', () => {

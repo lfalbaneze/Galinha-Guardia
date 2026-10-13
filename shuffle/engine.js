@@ -66,8 +66,8 @@
     if(actor.moving){actor.dx=actor.x-before.x;actor.dy=actor.y-before.y;}
     return traveled;
   }
-  function beginStage(run) {
-    const config=STAGES[run.stage],layout=Maps.generate(run.seed,run.stage);
+  function beginStage(run,layout=Maps.generate(run.seed,run.stage)) {
+    const config=STAGES[run.stage];
     run.phase='playing';run.paused=false;run.rescued=0;run.decoy=null;run.effects=[];
     run.layout=layout;run.exit={...layout.exit};run.obstacles=layout.obstacles;
     const heading={x:layout.hub.x-layout.spawn.x,y:layout.hub.y-layout.spawn.y};
@@ -76,9 +76,10 @@
       cornCooldown:0,invulnerable:1.6,shield:!!run.skills.shield});
     run.friends=layout.friends.map(f=>Object.assign(entity(f.species,f.x,f.y,f.species==='rabbit'?13:16),{name:f.name,rescued:false}));
     run.enemies=layout.enemies.map((e,i)=>Object.assign(entity(e.species,e.x,e.y,18),{
-      speed:103+run.stage*3.5+(i%2)*6,route:[],routeTimer:0,routeTarget:null}));
+      speed:103+run.stage*3.5+(i%2)*6,route:[],routeTimer:0,routeTarget:null,
+      home:{x:e.x,y:e.y},mode:'patrol',memory:0,side:i%2?-1:1,patrolIndex:i}));
     run.boss=null;
-    if(config.boss){
+    if(config.boss&&run.mode!=='survival'){
       const panto=config.bossId==='panto',hp=panto?3:5;
       run.boss=Object.assign(entity(layout.boss.species,layout.boss.x,layout.boss.y,22),{
         id:config.bossId,name:panto?'Panto':'Baltazar',maxCourage:hp,courage:hp,
@@ -133,14 +134,57 @@
   }
   function chase(run,e,target,dt) {
     e.routeTimer=Math.max(0,e.routeTimer-dt);
+    // A smaller player can hug a wall that the pursuer's body cannot occupy.
+    if(!clearCircle(run,target,e.r)){
+      const approaches=Array.from({length:8},(_,i)=>({x:target.x+Math.cos(i*Math.PI/4)*(e.r+2),
+        y:target.y+Math.sin(i*Math.PI/4)*(e.r+2)}))
+        .filter(p=>clearCircle(run,p,e.r)&&clearContact(run,p,target));
+      target=approaches.sort((a,b)=>gap(a,e)-gap(b,e))[0]||target;
+    }
     if(clearContact(run,e,target,e.r)){e.route=[];e.routeTarget=null;}
-    else if(!e.routeTarget||gap(e.routeTarget,target)>52||e.routeTimer<=0||!e.route.length){
+    else if(!e.routeTarget||gap(e.routeTarget,target)>52||e.routeTimer<=0){
       e.route=Maps.route(run.layout,e,target,e.r);e.routeTarget={x:target.x,y:target.y};e.routeTimer=.5;
     }
     while(e.route.length&&gap(e,e.route[0])<4)e.route.shift();
     const waypoint=e.route[0]||target,dx=waypoint.x-e.x,dy=waypoint.y-e.y,len=Math.hypot(dx,dy);
     const amount=Math.min(len,e.speed*dt);
     if(len>.01)move(run,e,dx/len*amount,dy/len*amount);else e.moving=false;
+  }
+  function campaignEnemy(run,e,target,dt){
+    // Legacy actors used by the survival mode still use the shared navigator.
+    if(!e.home){chase(run,e,target,dt);return;}
+    const before={x:e.x,y:e.y,traveled:e.traveled};
+    const seen=gap(e,target)<330+run.stage*12&&clearContact(run,e,target);
+    e.memory=Math.max(0,e.memory-dt);
+    if(seen){e.lastSeen={x:target.x,y:target.y};e.memory=2.2+run.stage*.12;e.mode='hunt';}
+    if(e.memory>0&&e.lastSeen){
+      let goal=e.lastSeen;
+      if(seen&&target===run.player&&gap(e,target)>75){
+        const lead=e.species==='wolf'?.22+run.stage*.015:.12;
+        const dx=target.x-e.x,dy=target.y-e.y,len=Math.hypot(dx,dy)||1;
+        const flank=e.species==='fox'?Math.min(85,gap(e,target)*.3)*e.side:0;
+        const aim={x:target.x+(target.vx||0)*lead-dy/len*flank,
+          y:target.y+(target.vy||0)*lead+dx/len*flank};
+        if(clearCircle(run,aim,e.r)&&clearContact(run,target,aim))goal=aim;
+      }
+      if(!seen)e.mode='search';
+      chase(run,e,goal,dt);
+    }else{
+      e.mode='patrol';
+      const points=[e.home,...run.layout.roads.map(road=>road.a).filter(p=>gap(p,e.home)<260)];
+      const goal=points[e.patrolIndex%points.length];
+      if(gap(e,goal)<10)e.patrolIndex++;
+      const speed=e.speed;e.speed*=.6;chase(run,e,goal,dt);e.speed=speed;
+    }
+    for(const other of run.enemies){
+      const d=gap(e,other),spacing=e.r+other.r+5;
+      if(other===e||d>=spacing||!clearContact(run,e,other))continue;
+      const amount=Math.min(spacing-d,35*dt);
+      const side=run.enemies.indexOf(e)<run.enemies.indexOf(other)?-1:1;
+      move(run,e,d>.01?(e.x-other.x)/d*amount:side*amount,d>.01?(e.y-other.y)/d*amount:0);
+    }
+    e.traveled=before.traveled+gap(before,e);e.moving=gap(before,e)>.01;
+    if(e.moving){e.dx=e.x-before.x;e.dy=e.y-before.y;}
   }
   function warnBoss(run,second=false){
     const b=run.boss,target=run.decoy||run.player,dx=target.x-b.x,dy=target.y-b.y,len=Math.hypot(dx,dy)||1;
@@ -173,7 +217,7 @@
     run.stage++;run.phase='draft';run.hp=Math.min(stats(run).maxHp,run.hp+stats(run).stageHealing);run.rerolls=1;
     run.choices=offer(run);run.paused=false;run.player.moving=false;return true;
   }
-  function tick(run,dt,input={},enemyStep=chase) {
+  function tick(run,dt,input={},enemyStep=campaignEnemy) {
     if(run.phase!=='playing'||run.paused||!Number.isFinite(dt)||dt<=0)return;
     dt=Math.min(.05,dt);run.elapsed+=dt;run.noticeTime=Math.max(0,run.noticeTime-dt);
     run.effects=run.effects.filter(e=>(e.time-=dt)>0);
@@ -182,8 +226,10 @@
     if(run.decoy&&(run.decoy.time-=dt)<=0)run.decoy=null;
     let x=Number.isFinite(input.x)?input.x:0,y=Number.isFinite(input.y)?input.y:0,len=Math.hypot(x,y);
     if(len>1){x/=len;y/=len;}
+    const before={x:p.x,y:p.y};
     if(p.dashTime>0){move(run,p,p.dashX*525*dt,p.dashY*525*dt);p.dashTime=Math.max(0,p.dashTime-dt);}
     else move(run,p,x*stats(run).speed*dt,y*stats(run).speed*dt);
+    p.vx=(p.x-before.x)/dt;p.vy=(p.y-before.y)/dt;
     for(const f of run.friends)if(!f.rescued&&gap(p,f)<stats(run).reach+f.r&&clearContact(run,p,f)){
       f.rescued=true;run.rescued++;run.totalRescued++;
       if(run.skills.medicine&&run.totalRescued%(4-run.skills.medicine)===0)run.hp=Math.min(stats(run).maxHp,run.hp+1);
@@ -193,7 +239,7 @@
     for(const e of run.enemies){
       enemyStep(run,e,run.decoy||p,dt);
       if(run.decoy&&gap(e,run.decoy)<28){e.moving=false;}
-      if(gap(e,p)<p.r+e.r&&clearContact(run,p,e))hurt(run,e);
+      if(e.contactDamage!==false&&gap(e,p)<p.r+e.r&&clearContact(run,p,e))hurt(run,e);
       if(run.phase!=='playing')break;
     }
     if(run.phase==='playing')updateBoss(run,dt);

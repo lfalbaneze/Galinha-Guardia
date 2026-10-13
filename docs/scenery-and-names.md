@@ -21,7 +21,7 @@ Os nomes são apenas de apresentação. Espécies, identificadores dos saves, po
 
 Pintinhos, na ordem dos identificadores: Pingo, Fubá, Quindim, Cacau, Farofa, Dengo, Biscoito, Mel, Tutu e Jujuba. Os quatro últimos aparecem quando a dificuldade usa dez pintinhos.
 
-O lobo se chama Baltazar; as corujas, Aurora e Olívia; os corvos, Tico, Teco e Cacá. Permanecem Panto, Thor, Lorenzo e Amanda. As aparências jogáveis mantêm seus nomes: o coelho Pipoca não foi renomeado para Jay Jay.
+O lobo se chama Baltazar; as corujas, Aurora e Olívia; os corvos, Tico, Teco e Cacá. Permanecem Panto, Thor, Lorenzo e Sophis. As aparências jogáveis mantêm seus nomes: o coelho Pipoca não foi renomeado para Jay Jay.
 
 ## Verificações reproduzíveis
 

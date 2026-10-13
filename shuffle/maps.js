@@ -107,6 +107,95 @@
     }
     return layout;
   }
+  function survival(seed,encounter){
+    if(!Number.isInteger(encounter)||encounter<0||encounter>9)throw new RangeError('Fase de sobrevivência inválida');
+    const rnd=stream(seedFor(seed,encounter+20)),jitter=()=>Math.round((rnd()-.5)*24);
+    const theme=['orchard','corn','quarry','grove','field','harvest','pond','sunset','dusk','night'][encounter],mirror=rnd()<.5,variant=Math.floor(rnd()*3);
+    const flip=p=>({x:mirror?WIDTH-p.x:p.x,y:variant===1?HEIGHT-p.y:p.y});
+    const layout={version:VERSION,seed:seedFor(seed,encounter+20),id:`survival-v4:${seed}:${encounter}`,theme,variant,
+      spawn:flip({x:100,y:360}),exit:{...flip({x:1020,y:360}),side:mirror?0:2},hub:{x:560,y:360},
+      roads:[],obstacles:[],friends:[],enemies:[],boss:null};
+    const line=(points,width=66)=>{for(let i=1;i<points.length;i++)layout.roads.push({a:flip(points[i-1]),b:flip(points[i]),width});};
+    const p=(x,y)=>({x,y});
+    if(encounter===0){
+      line([p(100,360),p(320,320),p(560,360),p(790,400),p(1020,360)],60);
+      line([p(240,190),p(440,130),p(710,160),p(880,285),p(845,490),p(675,575),p(415,555),p(210,425),p(240,190)],56);
+      line([p(240,190),p(410,280),p(560,360),p(710,445),p(845,490)],54);
+    }else if(encounter===1){
+      for(const y of [180,360,540])line([p(100,y),p(1020,y)],62);
+      for(const x of [130,560,990])line([p(x,180),p(x,540)],62);
+    }else if(encounter===2){
+      line([p(100,360),p(160,360),p(160,150),p(450,150),p(450,540),p(740,540),p(740,180),p(980,180),p(980,360),p(1020,360)],76);
+      line([p(160,360),p(980,360)],68);
+    }else if(encounter===3){
+      const ring=[p(310,180),p(810,180),p(940,360),p(810,540),p(310,540),p(180,360),p(310,180)];
+      line(ring,72);line([p(100,360),p(1020,360)]);
+      for(const q of ring.slice(0,6))line([q,p(560,360)],56);
+    }else if(encounter===4){
+      line([p(100,360),p(1020,360)],90);
+      line([p(560,100),p(560,620)],90);
+      line([p(240,160),p(880,160),p(1000,360),p(880,560),p(240,560),p(120,360),p(240,160)],82);
+    }else if(encounter===5){
+      line([p(100,360),p(260,360),p(260,140),p(560,140),p(560,580),p(860,580),p(860,360),p(1020,360)],62);
+      line([p(260,360),p(860,360)],68);
+      line([p(260,580),p(260,360),p(560,360),p(860,140),p(860,360)],62);
+    }else if(encounter===6){
+      line([p(100,360),p(210,150),p(910,150),p(1020,360),p(910,570),p(210,570),p(100,360)],68);
+      line([p(210,150),p(380,360),p(210,570)],62);
+      line([p(910,150),p(740,360),p(910,570)],62);
+      line([p(380,360),p(740,360)],68);
+    }else if(encounter===7){
+      line([p(100,360),p(560,130),p(1020,360),p(560,590),p(100,360)],64);
+      line([p(100,360),p(1020,360)],72);
+      line([p(560,130),p(560,590)],64);
+      line([p(330,245),p(790,475),p(790,245),p(330,475),p(330,245)],58);
+    }else if(encounter===8){
+      for(const x of [180,460,740])line([p(x,220),p(x+200,220),p(x+200,500),p(x,500),p(x,220)],62);
+      line([p(100,360),p(180,360),p(660,360),p(940,360),p(1020,360)],68);
+      line([p(380,220),p(460,220)],58);line([p(660,500),p(740,500)],58);
+    }else{
+      const ring=[p(280,150),p(840,150),p(970,360),p(840,570),p(280,570),p(150,360),p(280,150)];
+      line(ring,82);line([p(100,360),p(1020,360)],88);
+      for(const q of ring.slice(0,6))line([q,p(560,360)],68);
+    }
+    // Branches vary with the map seed; every new branch joins the existing network.
+    if(variant===1){
+      if(encounter===0)line([p(710,160),p(655,255),p(560,360),p(485,460),p(415,555)],54);
+      else if(encounter===1)line([p(345,180),p(345,540)],62);
+      else if(encounter===2)line([p(450,150),p(740,180)],68);
+      else if(encounter===3)line([p(310,180),p(310,540)],60);
+      else line([p(240,160),p(560,360),p(880,560)],74);
+    }else if(variant===2){
+      if(encounter===0)line([p(440,130),p(560,225),p(675,575)],54);
+      else if(encounter===1)line([p(780,180),p(780,540)],62);
+      else if(encounter===2)line([p(160,360),p(290,570),p(450,540)],66);
+      else if(encounter===3)line([p(810,180),p(810,540)],60);
+      else line([p(880,160),p(560,360),p(240,560)],74);
+    }
+    const blocked=o=>[layout.spawn,layout.exit,layout.hub].some(q=>pointRect(q,o)<90)||
+      layout.roads.some(r=>hits(r.a,r.b,o,r.width/2+(encounter===0?8:20)))||
+      layout.obstacles.some(a=>o.x<a.x+a.w+32&&o.x+o.w>a.x-32&&o.y<a.y+a.h+32&&o.y+o.h>a.y-32);
+    for(let y=95;y<650;y+=95)for(let x=210;x<950;x+=110){
+      if([4,9].includes(encounter)&&Math.hypot(x-560,y-360)<220)continue;
+      const kind=[1,5].includes(encounter)?'hay':encounter===2?'rock':'tree';
+      const o={x:x+jitter()-28,y:y+jitter()-20,w:kind==='hay'?70:56,h:42,kind};
+      if(!blocked(o))layout.obstacles.push(o);
+    }
+    if([4,9].includes(encounter))for(const x of [65,995])for(const y of [90,205,505,610]){
+      const o={x,y,w:56,h:42,kind:'tree'};if(!blocked(o))layout.obstacles.push(o);
+    }
+    // One recognizable farm landmark occupies a real footprint, away from paths.
+    for(const [x,y] of [[240,70],[810,590],[70,540],[970,70]]){
+      const o={x,y,w:84,h:54,kind:'landmark',art:['coop','silo','trough','shelter','barn','silo','trough','coop','shelter','barn'][encounter]};
+      if(!blocked(o)){layout.obstacles.push(o);break;}
+    }
+    const minimum=encounter===0?9:5;
+    for(let y=70;y<650&&layout.obstacles.length<minimum;y+=70)for(let x=80;x<1040&&layout.obstacles.length<minimum;x+=80){
+      const o={x:x+jitter(),y:y+jitter(),w:40,h:26,kind:encounter===1?'hay':encounter===2?'rock':'tree'};
+      if(!blocked(o))layout.obstacles.push(o);
+    }
+    return layout;
+  }
   const navigation=new WeakMap();
   function graph(layout,r){
     let memo=navigation.get(layout);if(!memo){memo=new Map();navigation.set(layout,memo);}
@@ -132,5 +221,5 @@
     const path=[];for(let n=end;n!==start;n=parents[n])path.push({...g.nodes[n]});path.push({...g.nodes[start]});path.reverse();path.push({x:to.x,y:to.y});
     return path;
   }
-  return Object.freeze({VERSION,WIDTH,HEIGHT,STAGES,generate,clearCircle,clearSegment,route,seedFor});
+  return Object.freeze({VERSION,WIDTH,HEIGHT,STAGES,generate,survival,clearCircle,clearSegment,route,seedFor});
 });

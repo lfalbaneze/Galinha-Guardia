@@ -12,6 +12,9 @@ const AudioSystem = (() => {
     ["skin-robocop", "Stella · Passo Furtivo"], ["skin-priest", "Paçoca · Companheiro da Roça"],
   ]);
   const ANIMAL_SPECIES = new Set(["sheep", "pig", "goat", "cow", "duck", "rabbit", "dog", "cat", "donkey", "lamb", "chicken", "horse", "turkey", "goose"]);
+  const FOLKLORE = new Set(['fuinha','mula-sem-cabeca','curupira','boitata','cuca']);
+  const ENEMY_CUES = {amanda:{warn:'fox-rustle',attack:'panto-dodge',defeat:'runaway'},
+    crow:{warn:'fox-rustle',attack:'panto-dodge',defeat:'squeak'},owl:{warn:'owl-hoot',attack:'owl-siren',defeat:'dizzy'}};
   const voiceSpecies = species => ['hen-silkie', 'hen-blue'].includes(species) ? 'chicken' : species;
   const animalName = species => {
     species = voiceSpecies(species);
@@ -19,7 +22,8 @@ const AudioSystem = (() => {
       ANIMAL_SPECIES.has(species) ? `animal-${species}` : 'rescue';
   };
   const EFFECTS = new Set(["boing", "pop", "bonk", "squeak", "dizzy", "sob", "runaway", "rescue", "chick", "victory", "goose-honk", "panto-dodge", "panto-victory", "owl-hoot", "fox-rustle",
-    "owl-siren", "step-water", "step-mud", "step-leaves", "thor-hero", ...Array.from(ANIMAL_SPECIES, animalName)]);
+    "owl-siren", "step-water", "step-mud", "step-leaves", "thor-hero", ...Array.from(ANIMAL_SPECIES, animalName),
+    ...Array.from(FOLKLORE).flatMap(id=>['warn','attack','defeat'].map(event=>`folklore-${id}-${event}`))]);
   const defaults = { musicVolume: 0.25, effectsVolume: 0.55, track: "forest", muted: false, skinThemes: true };
   const settings = { ...defaults };
   const status = { unlocked: false, unsupported: typeof Audio !== "function", blocked: false };
@@ -42,10 +46,13 @@ const AudioSystem = (() => {
   let currentGame = null, currentPhase = null, active = false, serial = 0;
   const voices = [];
   const failedClips = new Set();
+  let cueTime = 0;
+  const folkloreHeard = new Map();
   // A leaf step or pickup must never evict a warning, rescue or victory cue.
   const priorityFor = (name, options = {}) => options.playerHurt ? 5 :
     ['thor-hero','victory','panto-victory'].includes(name) ? 6 :
     options.ambient || name.startsWith('step-') ? 0 :
+    name.startsWith('folklore-') ? name.endsWith('-defeat') ? 3 : 4 :
     ['goose-honk','owl-hoot','owl-siren','fox-rustle','panto-dodge'].includes(name) ? 4 :
     isVoice(name) || name === 'rescue' ? 3 : 1;
   let menuVoice = null;
@@ -53,12 +60,14 @@ const AudioSystem = (() => {
   const oneShots = new Set();
   const isAnimal = name => name === 'chick' || name === 'goose-honk' || name.startsWith('animal-');
   const isVoice = name => isAnimal(name) || name === 'owl-hoot' || name === 'owl-siren' || name === 'sob';
-  const blocksChatter = name => isVoice(name) || ['owl-siren','fox-rustle','squeak','rescue','victory','panto-dodge','panto-victory','thor-hero'].includes(name);
+  const blocksChatter = name => isVoice(name) || name.startsWith('folklore-') || ['owl-siren','fox-rustle','squeak','rescue','victory','panto-dodge','panto-victory','thor-hero'].includes(name);
   const VARIANTS = new Map([['animal-pig',2],['animal-chicken',3],['goose-honk',2],['chick',2],['owl-hoot',2],['owl-siren',2],['sob',2]]);
   const takes = new Map();
   const variantFor = name => (takes.get(name) || 0) % (VARIANTS.get(name) || 1) + 1;
   // A versioned directory also replaces clips cached by an older copy of the game.
-  const path = (name, variant = 1) => `./assets/audio/${['animal-duck','animal-rabbit'].includes(name) ? 'voices/v7/' : name === 'owl-siren' ? 'effects/v1/' : name === 'owl-hoot' ? 'voices/v6/' : isVoice(name) || ['fox-rustle','squeak'].includes(name) ? 'voices/v5/' : ''}${name}${variant > 1 ? `-${variant}` : ''}.wav`;
+  const audioRoot = typeof document !== 'undefined' && document.currentScript?.src
+    ? new URL('../assets/audio/', document.currentScript.src).href : './assets/audio/';
+  const path = (name, variant = 1) => `${audioRoot}${TRACKS.has(name)||[...SKIN_TRACKS.values()].includes(name) ? 'music/v2/' : name.startsWith('folklore-') ? 'effects/folklore-v1/' : ['animal-duck','animal-rabbit'].includes(name) ? 'voices/v7/' : name === 'owl-siren' ? 'effects/v1/' : name === 'owl-hoot' ? 'voices/v6/' : isVoice(name) || ['fox-rustle','squeak'].includes(name) ? 'voices/v5/' : ''}${name}${variant > 1 ? `-${variant}` : ''}.wav`;
   // Shared with the complete media review: one list of the files actually played.
   const catalog = Object.freeze([...TRACKS,...SKIN_TRACKS.values(),...EFFECTS].flatMap(name =>
     Array.from({length:VARIANTS.get(name)||1},(_,i)=>Object.freeze({name,variant:i+1,src:path(name,i+1),
@@ -189,7 +198,7 @@ const AudioSystem = (() => {
       voices.some(v => v.active && ['panto-dodge','panto-victory','thor-hero','victory','rescue'].includes(v.name)) ||
       voices.filter(v => v.active).length >= 6)) return false;
     // Hits and challenge feedback take precedence over incidental farm chatter.
-    if ((options.playerHurt || ['goose-honk','owl-hoot','owl-siren','fox-rustle', 'panto-dodge', 'panto-victory','thor-hero'].includes(name)) && !options.ambient) {
+    if ((options.playerHurt || name.startsWith('folklore-') || ['goose-honk','owl-hoot','owl-siren','fox-rustle', 'panto-dodge', 'panto-victory','thor-hero'].includes(name)) && !options.ambient) {
       for (const item of voices) if (item.active && item.ambient) release(item);
     }
     if (isVoice(name)) {
@@ -233,6 +242,16 @@ const AudioSystem = (() => {
     }, () => { if ((voice.token === token || !voice.active) && (!active || !voice.active || settings.muted || hidden())) voice.audio.pause(); });
     if (VARIANTS.has(name)) takes.set(name, (takes.get(name) || 0) + 1);
     return true;
+  }
+  function playEnemy(species, event, position) {
+    const name = FOLKLORE.has(species) ? `folklore-${species}-${event}` : Object.hasOwn(ENEMY_CUES,species) ? ENEMY_CUES[species][event] : null;
+    const player = currentGame?.entities?.chicken;
+    if (!EFFECTS.has(name) || !player || !position) return false;
+    const distance = Math.hypot(position.x-player.x, position.y-player.y);
+    if (!Number.isFinite(distance) || distance >= 520 || cueTime-(folkloreHeard.get(name) ?? -10) < .8) return false;
+    const played = play(name, {volume:.18+.5*(1-distance/520)});
+    if (played) folkloreHeard.set(name, cueTime);
+    return played;
   }
   function playAnimal(species, options = {}) {
     const played = play(animalName(species), options);
@@ -378,7 +397,7 @@ const AudioSystem = (() => {
     sync(game);
     if (active && game.phase === "win_cutscene" && Number.isFinite(dt) && dt > 0) observeScene(game, true);
     if (active && game.phase === "playing" && Number.isFinite(dt) && dt > 0) farmVoices(game, dt);
-    if (active && Number.isFinite(dt) && dt > 0) advanceMix(dt);
+    if (active && Number.isFinite(dt) && dt > 0) { cueTime += Math.min(dt,.25); advanceMix(dt); }
   }
   function reset() {
     pauseMusic();
@@ -386,6 +405,7 @@ const AudioSystem = (() => {
     stopEffects(); stopMenuAnimal(); clearScene();
     currentGame = null; currentPhase = null; active = false; duck = 1; musicMix = 1;
     flock = null; heard.clear(); takes.clear(); farmTime = 0; nextCall = 1.8; playerCall = 24;
+    cueTime = 0; folkloreHeard.clear();
     volumes();
   }
   function pause() {
@@ -423,7 +443,7 @@ const AudioSystem = (() => {
   if (typeof document !== "undefined" && document.addEventListener) {
     document.addEventListener("visibilitychange", () => { if (currentGame) sync(currentGame); });
   }
-  return { catalog, unlock, update, sync, reset, pause, play, playAnimal, playPlayerHurt, playMenuAnimal, stopMenuAnimal, setMusicVolume, setEffectsVolume, setTrack, setSkinThemes, toggleMute,
+  return { catalog, unlock, update, sync, reset, pause, play, playAnimal, playEnemy, playFolklore:playEnemy, playPlayerHurt, playMenuAnimal, stopMenuAnimal, setMusicVolume, setEffectsVolume, setTrack, setSkinThemes, toggleMute,
     get settings() { return Object.freeze({ ...settings }); },
     get status() { return Object.freeze({ ...status, failedClips: Object.freeze([...failedClips]), track: selectedTrack(), trackTitle: TRACK_TITLES.get(selectedTrack()),
       skinTheme: !!skinTheme(), music: status.unsupported ? "unsupported" :

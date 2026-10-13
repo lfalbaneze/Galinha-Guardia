@@ -33,10 +33,11 @@ test('dog appearance calms a panicking dog even at a sprint, but a visible wolf 
 
 test('canine friendship respects walls, pause and the usual one-time rescue',()=>{
   const h=fixture();
+  // Keep the rescuer inside the dog's home area; friendship still respects its leash.
   h.run(`OBSTACLES=[];SkinSystem.equip(state,'priest');var dog=state.entities.animals.find(a=>a.species==='dog');
-    Object.assign(w,{x:50,y:50,huntUnlockTimer:100});Object.assign(c,{x:dog.x-110,y:dog.y,sprinting:true});
+    Object.assign(w,{x:50,y:50,huntUnlockTimer:100});Object.assign(c,{x:dog.x+110,y:dog.y,sprinting:true});
     Object.assign(dog,{targetX:dog.x,targetY:dog.y,wanderTime:100});
-    OBSTACLES=[{x:dog.x-60,y:dog.y-100,w:15,h:200,type:'barn'}];
+    OBSTACLES=[{x:dog.x+45,y:dog.y-100,w:15,h:200,type:'barn'}];
     var before={x:dog.x,y:dog.y};RescueSystem.update(state,.1);`);
   assert.equal(h.run('distance(dog,before)'),0);assert.notEqual(h.run('dog.temper'),'calm');
   h.run('OBSTACLES=[];state.phase="menu";RescueSystem.update(state,1);');

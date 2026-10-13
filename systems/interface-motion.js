@@ -199,6 +199,9 @@ const InterfaceMotion = (() => {
     if(hunger.tier&&wolf.mode==='patrol')label=hunger.tier===2?'Voraz: rápido e persistente':'Faminto: ele vai insistir mais';
     if(hunger.tier===2&&wolf.mode==='chase')label='Lobo voraz! Quebre a visão!';
     if(hunger.tier&&['search','investigate'].includes(wolf.mode))label='Faminto: a busca dura mais';
+    if(wolf.interceptPhase==='warning'){level='danger';label='Vai cortar caminho! Mude de direção!';amount=1;}
+    if(wolf.interceptPhase==='charge'){level='danger';label='Investida! Saia da faixa!';amount=1;}
+    if(wolf.pursuitRest>0){level='search';label='O lobo cansou! Hora de despistar';amount=.25;}
     if (chicken.hidden && !exposed) { level = 'safe'; label = 'Quietinha no esconderijo'; amount = 0; }
     if (wolf.mode === 'frightened') { level = 'safe'; label = 'Thor espantou o lobo!'; amount = 0; }
     if (game.lake?.active) { level = 'safe'; label = 'O lobo espera fora do lago'; amount = 0; }

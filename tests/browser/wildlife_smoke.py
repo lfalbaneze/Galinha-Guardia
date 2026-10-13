@@ -2,14 +2,30 @@
 from playwright.sync_api import sync_playwright
 from pathlib import Path
 from game_ui import READY, start_adventure
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from threading import Thread
+import atexit
 import json
 import os
 ROOT=Path(__file__).resolve().parents[2]
 OUT=Path(os.environ.get('WILDLIFE_SCREENSHOTS',ROOT/'.cache/wildlife-review'));OUT.mkdir(parents=True,exist_ok=True)
-BASE=os.environ.get('GAME_BASE_URL','http://127.0.0.1:8765')
+BASE=os.environ.get('GAME_BASE_URL')
+if not BASE:
+ class Quiet(SimpleHTTPRequestHandler):
+  def log_message(self,*args):pass
+  def copyfile(self,source,outputfile):
+   # The missing-image cases intentionally abort requests while the server writes.
+   try:super().copyfile(source,outputfile)
+   except (ConnectionResetError,BrokenPipeError):pass
+ server=ThreadingHTTPServer(('127.0.0.1',0),partial(Quiet,directory=str(ROOT)))
+ Thread(target=server.serve_forever,daemon=True).start()
+ atexit.register(server.server_close)
+ atexit.register(server.shutdown)
+ BASE=f'http://127.0.0.1:{server.server_port}'
 report={'checks':[],'page_errors':[],'http_errors':[]}
 with sync_playwright() as p:
- browser=p.chromium.launch(headless=True)
+ browser=p.chromium.launch(headless=True,channel=os.environ.get('BROWSER_CHANNEL') or None)
  page=browser.new_page(viewport={'width':1280,'height':1000})
  page.on('pageerror',lambda e:report['page_errors'].append(str(e)))
  page.on('response',lambda r:report['http_errors'].append([r.url,r.status]) if r.status>=400 else None)
@@ -47,16 +63,21 @@ with sync_playwright() as p:
   dodge=page.evaluate('foxApproach()');page.locator('#gameCanvas').focus()
   page.screenshot(path=str(OUT/'fox-warning.png'))
   target=page.evaluate('JSON.stringify(state.entities.foxes[0].target)')
-  page.keyboard.down(dodge);page.evaluate('for(let i=0;i<7;i++)updateGame(.05)');page.keyboard.up(dodge)
-  assert page.evaluate('JSON.stringify(state.entities.foxes[0].target)')==target
+  page.keyboard.down(dodge);page.evaluate('for(let i=0;i<2;i++)updateGame(.05)');page.keyboard.up(dodge)
+  assert page.evaluate('JSON.stringify(state.entities.foxes[0].target)')!=target
+  page.evaluate("while(state.entities.foxes[0].mode==='warning'&&state.entities.foxes[0].timer>.11)updateGame(.01)")
+  target=page.evaluate('JSON.stringify(state.entities.foxes[0].target)')
+  page.keyboard.down({'w':'s','s':'w','a':'d','d':'a'}[dodge])
   page.evaluate("for(let i=0;i<30&&state.entities.foxes[0].mode==='warning';i++)updateGame(.05)")
   assert page.evaluate('state.entities.foxes[0].mode')=='dash'
   page.evaluate("for(let i=0;i<20&&state.entities.foxes[0].mode==='dash';i++)updateGame(.05);renderGame()")
+  page.keyboard.up({'w':'s','s':'w','a':'d','d':'a'}[dodge])
+  assert page.evaluate('JSON.stringify(state.entities.foxes[0].target)')==target
   assert page.evaluate('!state.entities.foxes[0].hit && state.entities.foxes[0].mode==="rest"')
   assert page.evaluate('state.lives')==3
   assert page.evaluate('state.entities.foxes[0].relocateIn')==0
   page.screenshot(path=str(OUT/'fox-after-dodge.png'))
-  report['checks'].append('Fox warning, fixed target, real keyboard sidestep, completed miss and scheduled relocation')
+  report['checks'].append('Fox tracks preparation, commits before launch, late keyboard dodge misses and schedules relocation')
   # Independent contact scenario. A recovered fox now changes dens, so reusing
   # the partially reset actor from the dodge scenario would trigger relocation.
   page.evaluate("resetGame(2147483648);state.phase='playing';foxApproach()")
@@ -117,12 +138,14 @@ with sync_playwright() as p:
   report['checks'].append('Pause freezes encounters; reload restores identities with grace; four viewport widths')
   for name in ['fox','owl']:
    # Use the installed art source, not a filename from the retired sprite set.
-   asset=page.evaluate(f'{name.capitalize()}Art.source')
+   asset=page.evaluate(f'PremiumWildlifeData.{name}.src')
+   assert isinstance(asset,str) and asset.endswith('.png'), asset
    failure=browser.new_page();failure.add_init_script('window.requestAnimationFrame=()=>0')
    pattern=f'**/{asset}*'
    failure.route(pattern,lambda route:route.abort())
    failure.goto(BASE,wait_until='networkidle');failure.wait_for_function(f'{name.capitalize()}Art.errors.length>0',polling=50)
-   assert failure.locator('#startBtn').is_disabled();assert failure.locator('#retrySprites').is_visible()
+   assert failure.locator('#startBtn').is_disabled()
+   failure.locator('#retrySprites').wait_for(state='visible')
    failure.unroute(pattern);failure.locator('#retrySprites').click()
    # Gameplay RAF is intentionally stopped in this test; readiness uses a separate poll.
    failure.wait_for_function(READY,polling=50)

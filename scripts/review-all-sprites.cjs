@@ -37,10 +37,10 @@ function cell(c,row,index,label,draw){
   fs.writeFileSync(path.join(out,'cast-'+String(start/4+1).padStart(2,'0')+'.png'),canvas.toBuffer('image/png'));
  }
  const {canvas,c}=board('Personagens especiais · todos os estados',5);
- for(const[row,name]of ['Lorenzo','Amanda','Thor','Panto','Coruja'].entries()){
+ for(const[row,name]of ['Lorenzo','Sophis','Thor','Panto','Coruja'].entries()){
   c.fillStyle='#f3e5c0';c.font='bold 14px sans-serif';c.fillText(name,12,65+row*240);
   for(const[d,direction]of directions.entries())for(let frame=0;frame<4;frame++)cell(c,row,d*4+frame,labels[direction]+' '+(frame+1),ctx=>{
-   if(name==='Lorenzo'||name==='Amanda')game.run('FoxArt').draw(ctx,{x:0,y:0,direction,anim:frame,moving:true,name},{x:0,y:0});
+   if(name==='Lorenzo'||name==='Sophis')game.run('FoxArt').draw(ctx,{x:0,y:0,direction,anim:frame,moving:true,name},{x:0,y:0});
    if(name==='Thor')game.run('ThorArt').draw(ctx,{x:0,y:0,direction,anim:frame,moving:true,age:1,mode:'follow',timer:1},{x:0,y:0});
    if(name==='Panto')game.run('GooseArt').draw(ctx,{x:0,y:0,direction,anim:frame,moving:true,mode:frame>1?'warning':'patrol'},{x:0,y:0});
    if(name==='Coruja')game.run('OwlArt').draw(ctx,{perch:{x:0,y:56},direction,mode:['idle','cooldown','alert','idle'][frame]},{x:0,y:0});

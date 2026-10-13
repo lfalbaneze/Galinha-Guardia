@@ -1,23 +1,59 @@
 {
   "checked": [
     {
-      "id": "thor",
+      "id": "fuinha",
       "actions": [
         "idle",
         "walk",
-        "happy",
-        "scared",
-        "angry",
-        "sad",
+        "run"
+      ],
+      "directions": 8,
+      "walkFrames": 12
+    },
+    {
+      "id": "mula-sem-cabeca",
+      "actions": [
+        "idle",
+        "walk",
+        "run"
+      ],
+      "directions": 8,
+      "walkFrames": 12
+    },
+    {
+      "id": "curupira",
+      "actions": [
+        "idle",
+        "walk",
         "run"
       ],
       "directions": 8,
       "walkFrames": 8
+    },
+    {
+      "id": "boitata",
+      "actions": [
+        "idle",
+        "walk",
+        "run"
+      ],
+      "directions": 8,
+      "walkFrames": 12
+    },
+    {
+      "id": "cuca",
+      "actions": [
+        "idle",
+        "walk",
+        "run"
+      ],
+      "directions": 8,
+      "walkFrames": 12
     }
   ],
   "game": {
-    "characters": 29,
-    "newCharacters": 29,
+    "characters": 34,
+    "newCharacters": 34,
     "owl": true,
     "goose": true,
     "fox": true

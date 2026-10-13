@@ -1,4 +1,11 @@
 /* Territorial state machine: attention, readable feints, fixed dashes and a peaceful defeat. */
+declare namespace Farm {
+  interface Goose {
+    maneuver?: 'guard' | 'flank' | 'search';
+    dodgeStreak?: number;
+    followupUsed?: boolean;
+  }
+}
 const GooseSystem = (() => {
   const RADIUS = 17;
   const OFFSET_Y = 8;
@@ -85,6 +92,7 @@ const GooseSystem = (() => {
   function canNotice(game: Farm.GameState, goose: Farm.Goose, config: Farm.GooseConfig): boolean {
     const chicken = game.entities.chicken;
     return !chicken.hidden && chicken.invulnerable <= 0 && goose.grace <= 0 &&
+      !WildlifeRules.overlapsRefuge(chicken,chicken.hitbox.r)&&
       distance(chicken, goose.home) <= config.territory && distance(chicken, goose) <= config.alertRange &&
       DetectionSystem.hasLineOfSight(getHitbox(goose), getHitbox(chicken));
   }
@@ -94,12 +102,14 @@ const GooseSystem = (() => {
     // Acquisition range is not a dodge boundary. Once warned, the marked line
     // remains fixed while the player moves aside anywhere inside the encounter.
     return !chicken.hidden && chicken.invulnerable<=0 &&
+      !WildlifeRules.overlapsRefuge(chicken,chicken.hitbox.r)&&
       distance(chicken,goose.home)<=config.territory;
   }
 
   function canApproach(game: Farm.GameState, goose: Farm.Goose, config: Farm.GooseConfig): boolean {
     const chicken=game.entities.chicken;
     return !chicken.hidden && chicken.invulnerable<=0 && goose.grace<=0 &&
+      !WildlifeRules.overlapsRefuge(chicken,chicken.hitbox.r)&&
       distance(chicken,goose.home)<=config.territory &&
       DetectionSystem.hasLineOfSight(getHitbox(goose),getHitbox(chicken));
   }
@@ -109,13 +119,39 @@ const GooseSystem = (() => {
     // Try the side the visitor used last time. Space and line of sight decide
     // whether the manoeuvre is possible; the warning still locks afterwards.
     const side=goose.dodgeSide||((goose.attempts||0)%4===1?1:-1);
-    for(const sign of [side,-side]) {
-      const target={x:goose.x+Math.cos(angle+sign*Math.PI/2)*58,
-        y:goose.y+Math.sin(angle+sign*Math.PI/2)*58};
-      if(distance(target,goose.home)>config.territory-20||!clearLeg(goose,target))continue;
-      goose.mode='circle';goose.tactic='flank';goose.target=target;goose.timer=1.2;return true;
+    const candidates: Farm.Point[]=[];
+    for(const radius of [58,86])for(const sign of [side,-side])for(const turn of [Math.PI/2,Math.PI/3]) {
+      const target={x:goose.x+Math.cos(angle+sign*turn)*radius,y:goose.y+Math.sin(angle+sign*turn)*radius};
+      if(distance(target,goose.home)>config.territory-20||!clearLeg(goose,target)||
+        !DetectionSystem.hasLineOfSight(center(target),center(observed))||
+        distance(target,chargeTarget(goose,target,observed,config))<60)continue;
+      candidates.push(target);
     }
-    return false;
+    const target=candidates.sort((a,b)=>(distance(a,goose.home)*.35+distance(a,observed))-
+      (distance(b,goose.home)*.35+distance(b,observed)))[0];
+    if(!target)return false;
+    goose.mode='circle';goose.tactic='flank';goose.maneuver='flank';goose.target=target;goose.timer=1.4;return true;
+  }
+
+  function defendHome(goose: Farm.Goose, observed: Farm.Point, config: Farm.GooseConfig): boolean {
+    if(distance(goose,goose.home)<95||distance(observed,goose.home)>distance(goose,goose.home)-30)return false;
+    const dx=observed.x-goose.home.x,dy=observed.y-goose.home.y,len=Math.hypot(dx,dy)||1;
+    const guard={x:goose.home.x+dx/len*Math.min(65,len*.5),y:goose.home.y+dy/len*Math.min(65,len*.5)};
+    const target=[guard,goose.home].find(p=>distance(p,goose)>35&&clearLeg(goose,p)&&distance(p,goose.home)<config.territory);
+    if(!target)return false;
+    goose.mode='reposition';goose.maneuver='guard';goose.target=point(target);goose.timer=2.2;goose.notice=1;
+    return true;
+  }
+
+  function searchLastSeen(goose: Farm.Goose): boolean {
+    const observed=goose.lastObserved;
+    if(!observed||(goose.observationAge??99)>1.8)return false;
+    // Search only the last visible footprint; hiding never supplies a new position.
+    const target=[observed,...[1,-1].map(side=>({x:observed.x+side*28,y:observed.y}))]
+      .find(p=>clearLeg(goose,p)&&distance(p,goose.home)<TERRITORY-12);
+    if(!target)return false;
+    goose.mode='reposition';goose.maneuver='search';goose.target=point(target);goose.timer=1.8-(goose.observationAge||0);
+    return true;
   }
 
   function honk(game: Farm.GameState, goose: Farm.Goose): void {
@@ -129,12 +165,13 @@ const GooseSystem = (() => {
 
   function recover(goose: Farm.Goose, config: Farm.GooseConfig): void {
     goose.mode = 'recover'; goose.timer = .65; goose.cooldown = config.cooldown;
-    goose.moving = false; goose.vx = 0; goose.vy = 0;
+    goose.moving = false; goose.vx = 0; goose.vy = 0;goose.maneuver=undefined;goose.comboFollowup=false;
   }
 
   function peck(game: Farm.GameState, goose: Farm.Goose, config: Farm.GooseConfig): boolean {
     const chicken = game.entities.chicken;
     if (game.phase !== 'playing' || goose.mode !== 'charge' || chicken.hidden || chicken.invulnerable > 0 ||
+      WildlifeRules.overlapsRefuge(chicken,chicken.hitbox.r)||
       !circleVsCircle(goose, chicken) || !DetectionSystem.hasLineOfSight(getHitbox(goose), getHitbox(chicken))) return false;
     goose.chargeHit = true;
     const dx = chicken.x - goose.x, dy = chicken.y - goose.y, length = Math.hypot(dx, dy);
@@ -195,6 +232,7 @@ const GooseSystem = (() => {
   function warn(game: Farm.GameState, goose: Farm.Goose, config: Farm.GooseConfig): void {
     const chicken=game.entities.chicken,round=game.lake?.active?game.lake.misses:-1;
     const followup=goose.comboFollowup===true;
+    goose.maneuver=undefined;
     const velocity=goose.observedVelocity||{x:0,y:0};
     // Lead only the last visible movement before the warning. Once shown, every lane stays fixed.
     const observed=round===2?{x:chicken.x+velocity.x*.22,y:chicken.y+velocity.y*.22}:point(chicken);
@@ -205,13 +243,14 @@ const GooseSystem = (() => {
       return;
     }
     goose.attempts = (goose.attempts || 0) + 1;
-    const feint = round===2 ? !goose.challengeFeinted : round>=0 ? false : game.difficultyKey !== 'easy' && goose.attempts>1 &&
-      (goose.earlyDodge===true || (goose.attempts%3===0 && !!goose.dodgeSide));
+    const feint = !followup&&(round===2 ? !goose.challengeFeinted : round>=0 ? false : game.difficultyKey !== 'easy' && goose.attempts>1 &&
+      (goose.earlyDodge===true || (goose.attempts%3===0 && !!goose.dodgeSide)));
     if(round===2&&feint)goose.challengeFeinted=true;
     if(round===1&&!followup)goose.comboRemaining=1;
+    if(!followup)goose.followupUsed=false;
     goose.comboFollowup=false;
-    goose.earlyDodge=false;goose.tactic=feint?'bluff':round===2?'rush':round===1?'double':goose.tactic==='flank'?'flank':'direct';
-    goose.mode = feint ? 'feint' : 'warning'; goose.timer = feint ? .6 : followup?Math.max(.72,config.warning*.78):config.warning; goose.anchor = point(goose);
+    goose.earlyDodge=false;goose.tactic=feint?'bluff':round===2?'rush':round===1||followup?'double':goose.tactic==='flank'?'flank':'direct';
+    goose.mode = feint ? 'feint' : 'warning'; goose.timer = feint ? .6 : followup&&round>=0?Math.max(.72,config.warning*.78):config.warning; goose.anchor = point(goose);
     goose.warningDuration=goose.timer;
     goose.chargeHit = false; goose.chargeCounted = false;
     const dx = chicken.x - goose.x, dy = chicken.y - goose.y;
@@ -262,7 +301,8 @@ const GooseSystem = (() => {
     const config = getConfig(game), before = point(goose);
     const chicken=game.entities.chicken;
     goose.observationAge=(goose.observationAge??99)+dt;
-    if(canApproach(game,goose,config)) {
+    const observedNow=canApproach(game,goose,config);
+    if(observedNow) {
       const old=goose.lastObserved,age=goose.observationAge;
       const velocity=old&&age<=.2?{x:(chicken.x-old.x)/age,y:(chicken.y-old.y)/age}:{x:0,y:0};
       goose.observedVelocity=Math.hypot(velocity.x,velocity.y)<game.settings.chickenSpeed*1.6?velocity:{x:0,y:0};
@@ -277,6 +317,10 @@ const GooseSystem = (() => {
     goose.honkCooldown = Math.max(0, goose.honkCooldown - dt);
     goose.notice = Math.max(0, goose.notice - dt);
     goose.timer = Math.max(0, goose.timer - dt);
+    if(!game.lake?.active&&['patrol','approach','circle'].includes(goose.mode)) {
+      if(observedNow&&goose.cooldown<=0)defendHome(goose,chicken,config);
+      else if(!observedNow&&['approach','circle'].includes(goose.mode))searchLastSeen(goose);
+    }
     if (goose.mode === 'patrol') {
       if (goose.cooldown <= 0 && canNotice(game, goose, config)) {
         goose.mode = 'notice'; goose.timer = .35; goose.noticedPoint = point(game.entities.chicken);
@@ -305,7 +349,7 @@ const GooseSystem = (() => {
         if(distance(before,goose)<.01&&!makeRoom(goose,point(chicken),config))recover(goose,config);
       }
     } else if (goose.mode === 'notice') {
-      if(goose.comboFollowup&&game.lake?.active){
+      if(goose.comboFollowup){
         if(!canApproach(game,goose,config)){goose.comboFollowup=false;recover(goose,config);}
         else if(goose.timer<=0)warn(game,goose,config);
       }else if (!canNotice(game, goose, config)) recover(goose, config);
@@ -320,9 +364,12 @@ const GooseSystem = (() => {
       if(!canApproach(game,goose,config))recover(goose,config);
       else if(advance(game,goose,goose.target,75*dt,config)||goose.timer<=0||distance(before,goose)<.01)warn(game,goose,config);
     } else if (goose.mode === 'reposition') {
-      if(game.entities.chicken.hidden || distance(game.entities.chicken,goose.home)>config.territory)recover(goose,config);
+      if(goose.maneuver==='search') {
+        if(observedNow){goose.mode='approach';goose.timer=2.5;goose.maneuver=undefined;}
+        else if(goose.timer<=0||advance(game,goose,goose.target,60*dt,config)||distance(before,goose)<.01)recover(goose,config);
+      }else if(game.entities.chicken.hidden || distance(game.entities.chicken,goose.home)>config.territory)recover(goose,config);
       else {
-        const arrived=advance(game,goose,goose.target,70*dt,config);
+        const arrived=advance(game,goose,goose.target,(goose.maneuver==='guard'?105:70)*dt,config);
         if(arrived){goose.mode=canNotice(game,goose,config)?'notice':'approach';goose.timer=goose.mode==='notice'?.35:2.5;}
         else if(goose.timer<=0||distance(before,goose)<.01)recover(goose,config);
       }
@@ -341,7 +388,9 @@ const GooseSystem = (() => {
           if(canApproach(game,goose,config)&&!goose.chargeHit) {
             const dx=goose.target.x-goose.anchor.x,dy=goose.target.y-goose.anchor.y;
             const cross=dx*(chicken.y-goose.anchor.y)-dy*(chicken.x-goose.anchor.x);
-            if(Math.abs(cross)>800)goose.dodgeSide=Math.sign(cross);
+            if(Math.abs(cross)>800){
+              const side=Math.sign(cross);goose.dodgeStreak=side===goose.dodgeSide?(goose.dodgeStreak||0)+1:1;goose.dodgeSide=side;
+            }
           }
           // A completed dash can stop at its time budget or against an obstacle.
           // The challenge validates real travel and contact, not exact endpoint equality.
@@ -349,6 +398,10 @@ const GooseSystem = (() => {
             goose.comboRemaining=Math.max(0,(goose.comboRemaining||0)-1);goose.comboFollowup=true;goose.mode='notice';goose.timer=.25;
             game.lake.feedback='combo';game.lake.notice=1.4;
             // The follow-up starts from this endpoint, with its own full readable warning.
+          }else if(!game.lake?.active&&['hard','hardcore'].includes(game.difficultyKey)&&
+            !goose.followupUsed&&(goose.dodgeStreak||0)>=2&&!goose.chargeHit&&distance(goose,goose.anchor)>=36&&canApproach(game,goose,config)){
+            goose.followupUsed=true;goose.comboFollowup=true;goose.mode='notice';goose.timer=.65;
+            setStatus('PANTO percebeu sua esquiva repetida! Ele vai preparar outra faixa; troque de lado.');
           }else{
           const counted = LakeChallenge.recordMiss(game,goose);
           if (!game.lake?.completed) {
@@ -440,7 +493,8 @@ const GooseSystem = (() => {
     if (goose.mode === 'defeated' && (game.skinNotice?.time || 0) > 0) return;
     const p = worldToScreen(goose);
     if (p.x < 0 || p.x > canvas.width || p.y < 0 || p.y > canvas.height) return;
-    const speaking = !goose.rescued && (['approach','circle','notice','warning','feint','charge','stunned','defeated'].includes(goose.mode) || goose.notice > 0);
+    const speaking = !goose.rescued && (['approach','circle','notice','warning','feint','charge','stunned','defeated'].includes(goose.mode) ||
+      goose.maneuver==='guard'||goose.maneuver==='search'||goose.notice > 0);
     ctx.save();ctx.font = 'bold 11px Trebuchet MS, sans-serif'; ctx.textAlign = 'center';
     if (!speaking) {
       const x=clamp(p.x,35,canvas.width-35),y=Math.max(24,p.y-69);
@@ -448,7 +502,8 @@ const GooseSystem = (() => {
       ctx.strokeStyle='#243c2ddd';ctx.lineWidth=3;ctx.lineJoin='round';ctx.strokeText(label,x,y);
       ctx.fillStyle='#fff0bd';ctx.fillText(label,x,y);
     } else {
-      const line=goose.mode === 'approach' ? 'Lago tem dono!' : goose.mode === 'circle' ? 'Licença… ou não.' :
+      const line=goose.maneuver==='guard'?'Daqui não passa!':goose.maneuver==='search'?'Cadê o intruso?':
+        goose.mode === 'approach' ? 'Lago tem dono!' : goose.mode === 'circle' ? 'Licença… ou não.' :
         goose.mode === 'defeated' ? 'Tá. Mas sem farra!' : goose.mode === 'stunned' ?
         (game.lake?.counterWindow||0)>0?`${GameInput.label('interact')} · Pegar carimbo`:'Culpa do vento!' :
         goose.mode === 'notice' ? 'Cadê seu crachá?' : goose.mode === 'feint' ? 'Era só teatro!' :

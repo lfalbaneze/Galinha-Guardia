@@ -142,7 +142,7 @@ const CharacterArt = (() => {
     const top=14-Math.round(support?.bottom??((frame.bottom ?? pose.bottom)*scale));
     if(options.shadow!==false&&typeof Sunlight!=='undefined') {
       c.save();if(flipped)c.scale(-1,1);
-      Sunlight.cast(c,tile||image,left,top-lift,width,height,14,rect,support);c.restore();
+      Sunlight.cast(c,tile||image,left,top-lift,width,height,14,rect,lift?undefined:support);c.restore();
     }
     if (lift) c.translate(0, -lift);
     c.save();

@@ -1,12 +1,12 @@
 """Native Python campaign simulation. No browser, JavaScript or webview is executed."""
 from __future__ import annotations
 from dataclasses import dataclass, field
-from math import hypot, isfinite
+from math import cos, sin, hypot, isfinite
 from pathlib import Path
 import json
 import os
 import tempfile
-from world import Layout, Point, STAGES, VERSION as MAP_VERSION, distance, generate
+from world import Layout, Point, STAGES, VERSION as MAP_VERSION, distance, point_segment, generate
 
 SAVE_VERSION = 1
 @dataclass(frozen=True)
@@ -60,6 +60,20 @@ class Player(Actor):
     shield: bool = False
 
 @dataclass
+class Enemy(Actor):
+    health: float = 2.
+    speed: float = 110.
+    mode: str = 'patrol'
+    aim: Point = (0., 1.)
+    alert: float = 0.
+    cooldown: float = 0.
+
+    @property
+    def strike_speed(self) -> float: return 290. if self.species == 'goose' else 260.
+    @property
+    def strike_time(self) -> float: return .48 if self.species == 'goose' else .30
+
+@dataclass
 class Boss(Actor):
     id: str = ''
     health: int = 3
@@ -88,7 +102,7 @@ class Run:
     player: Player | None = None
     layout: Layout | None = None
     friends: list[Actor] = field(default_factory=list)
-    enemies: list[Actor] = field(default_factory=list)
+    enemies: list[Enemy] = field(default_factory=list)
     boss: Boss | None = None
     decoy: tuple[float,float,float] | None = None
     notice: str = ''
@@ -139,7 +153,8 @@ class Run:
         self.player.dx = self.layout.exit[0]-self.player.x
         self.player.dy = self.layout.exit[1]-self.player.y
         self.friends = [Actor(s,*p,name=n,home=p,timer=i*.7) for i,(s,n,p) in enumerate(self.layout.friends)]
-        self.enemies = [Actor(s,*p,radius=19,home=p) for s,p in self.layout.enemies]
+        self.enemies = [Enemy(s,*p,radius=19,home=p,speed=119+self.stage*3.1+(i%2)*5,
+                              cooldown=.4+i*.3) for i,(s,p) in enumerate(self.layout.enemies)]
         cfg = STAGES[self.stage]
         self.boss = None
         if cfg.boss:
@@ -212,15 +227,106 @@ class Run:
     def steer(self, a: Actor, target: Point, speed: float, dt: float) -> None:
         a.route_timer -= dt
         if self.layout.line_clear(a.pos,target,a.radius): a.route=[]
-        elif a.route_timer<=0 or not a.route:
+        elif a.route_timer<=0:
             a.route=self.layout.route(a.pos,target,a.radius);a.route_timer=.65
         while a.route and distance(a.pos,a.route[0])<5: a.route.pop(0)
+        while len(a.route)>1 and self.layout.line_clear(a.pos,a.route[1],a.radius): a.route.pop(0)
         dest = a.route[0] if a.route else target
         dx,dy = dest[0]-a.x,dest[1]-a.y
         length = hypot(dx,dy)
         if length>.01:
             step=min(length,speed*dt);self.move(a,dx/length*step,dy/length*step)
         else: a.moving=False
+
+    @property
+    def attack_limit(self) -> int: return 1+int(self.stage>=5)
+
+    @property
+    def enemy_warning_time(self) -> float: return max(.55,.82-self.stage*.025)
+
+    def enemy_target(self, e: Enemy, dt: float) -> Point | None:
+        target=self.player.pos
+        if self.decoy and distance(e.pos,self.decoy[:2])<380 and self.layout.line_clear(e.pos,self.decoy[:2],0):
+            target=self.decoy[:2]
+        if distance(e.pos,target)<430+self.stage*12 and self.layout.line_clear(e.pos,target,0):
+            e.target=target;e.alert=3.
+        else:e.alert=max(0.,e.alert-dt)
+        return e.target if e.alert>0 else None
+
+    def update_enemies(self, dt: float) -> None:
+        p=self.player
+        attacking=sum(e.mode in ('warning','strike') for e in self.enemies)
+        for i,e in enumerate(self.enemies):
+            e.cooldown=max(0.,e.cooldown-dt);e.timer-=dt;e.moving=False
+            target=self.enemy_target(e,dt)
+            if e.mode=='warning':
+                if e.timer<=0:e.mode='strike';e.timer=e.strike_time
+                continue
+            if e.mode=='strike':
+                old=e.pos
+                step=min(dt,max(0.,e.timer+dt))
+                moved=self.move(e,e.aim[0]*e.strike_speed*step,e.aim[1]*e.strike_speed*step)
+                hit=point_segment(p.pos,old,e.pos)<p.radius+e.radius and self.layout.line_clear(e.pos,p.pos,0)
+                if hit:self.hurt()
+                bait=self.decoy and point_segment(self.decoy[:2],old,e.pos)<e.radius+12
+                if bait:self.decoy=None
+                if hit or bait or e.timer<=0 or moved<e.strike_speed*step*.6:
+                    e.mode='recover';e.timer=.8;e.cooldown=1.4;attacking-=1
+                if self.phase!='playing':return
+                continue
+            if e.mode=='recover':
+                if e.timer<=0:e.mode='chase'
+                continue
+            if target is None:
+                e.mode='patrol'
+                home=e.home or e.pos
+                patrol=[q for road in self.layout.roads for q in road if 35<distance(q,home)<220]
+                target=patrol[(int(self.elapsed/4)+i)%len(patrol)] if patrol else home
+                self.steer(e,target,e.speed*.4,dt)
+                continue
+            e.mode='chase'
+            gap=distance(e.pos,target)
+            reach=175 if e.species=='goose' else 90
+            if gap<reach and e.cooldown<=0 and attacking<self.attack_limit and self.layout.line_clear(e.pos,target,0):
+                dx,dy=(target[0]-e.x,target[1]-e.y) if gap else (e.dx,e.dy)
+                length=hypot(dx,dy) or 1.
+                e.aim=(dx/length,dy/length)
+                e.dx,e.dy=e.aim;e.mode='warning';e.timer=self.enemy_warning_time
+                e.route=[];attacking+=1
+                continue
+            if gap<75 and (e.cooldown>0 or attacking>=self.attack_limit):
+                dx,dy=(e.x-target[0],e.y-target[1]) if gap else (cos(i*2.4),sin(i*2.4))
+                length=hypot(dx,dy) or 1.
+                wait=(target[0]+dx/length*85,target[1]+dy/length*85)
+                if self.layout.clear(wait,e.radius):target=wait
+            # Predators pick different approach lanes; the windup then locks the actual strike.
+            if target==p.pos and gap>65:
+                dx,dy=(target[0]-e.x)/(gap or 1.),(target[1]-e.y)/(gap or 1.)
+                if e.species=='fox':
+                    side=1 if i%2 else -1
+                    flank=(target[0]-dy*side*min(95,gap*.35),target[1]+dx*side*min(95,gap*.35))
+                    if self.layout.clear(flank,e.radius):target=flank
+                elif e.species=='wolf' and p.moving:
+                    length=hypot(p.dx,p.dy) or 1.
+                    lead=min(70,gap*.25)
+                    intercept=(target[0]+p.dx/length*lead,target[1]+p.dy/length*lead)
+                    if self.layout.clear(intercept,e.radius):target=intercept
+            # Nearby attackers keep distinct lanes without pushing through scenery.
+            sx=sy=0.
+            for j,other in enumerate(self.enemies):
+                if other is e:continue
+                dx,dy=e.x-other.x,e.y-other.y;gap=hypot(dx,dy)
+                if gap<e.radius+other.radius+14:
+                    if gap<.01:dx,dy,gap=cos((i-j)*2.4),sin((i-j)*2.4),1.
+                    force=(e.radius+other.radius+14-gap)/52
+                    sx+=dx/gap*force;sy+=dy/gap*force
+            length=max(1.,hypot(sx,sy))
+            old,travel=e.pos,e.travel
+            self.move(e,sx/length*e.speed*.35*dt,sy/length*e.speed*.35*dt)
+            self.steer(e,target,e.speed*max(.65,1-min(1.,hypot(sx,sy))*.35),dt)
+            moved=distance(old,e.pos)
+            e.travel=travel+moved;e.moving=moved>.01
+            if e.moving:e.dx,e.dy=e.x-old[0],e.y-old[1]
 
     def warn(self, second: bool = False) -> None:
         b = self.boss
@@ -240,8 +346,9 @@ class Run:
         elif b.mode=='warning' and b.timer<=0: b.mode='charge';b.timer=1.15
         elif b.mode=='charge':
             speed=340 if b.id=='panto' else (390 if b.health>2 else 420)
+            old=b.pos
             moved=self.move(b,b.aim[0]*speed*dt,b.aim[1]*speed*dt)
-            if distance(p.pos,b.pos)<p.radius+b.radius and self.layout.line_clear(p.pos,b.pos,0): self.hurt()
+            if point_segment(p.pos,old,b.pos)<p.radius+b.radius and self.layout.line_clear(p.pos,b.pos,0): self.hurt()
             if self.decoy and distance(b.pos,self.decoy[:2])<30: self.decoy=None;b.timer=0
             if b.timer<=0 or moved<speed*dt*.65:
                 if b.combo: b.combo-=1;self.warn(True)
@@ -287,14 +394,10 @@ class Run:
                 f.timer-=dt
                 if f.timer<=0:
                     angle=(i+1)*2.4+self.elapsed*.35
-                    from math import cos,sin
                     f.target=(f.home[0]+cos(angle)*20,f.home[1]+sin(angle)*16);f.timer=3.5+i*.2
                 if f.target and distance(f.pos,f.target)>2:self.steer(f,f.target,18,dt)
                 else:f.moving=False
-        for i,e in enumerate(self.enemies):
-            target=self.decoy[:2] if self.decoy else p.pos
-            self.steer(e,target,119+self.stage*3.1+(i%2)*5,dt)
-            if distance(e.pos,p.pos)<e.radius+p.radius and self.layout.line_clear(e.pos,p.pos,0):self.hurt()
+        self.update_enemies(dt)
         if self.phase!='playing':return
         self.update_boss(dt)
         if self.exit_ready and distance(p.pos,self.layout.exit)<44 and self.stage<9:

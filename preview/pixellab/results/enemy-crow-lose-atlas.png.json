@@ -1,0 +1,22 @@
+{
+  "provider": "PixelLab",
+  "method": "installed-atlas-frame",
+  "source": "assets/sprites/pixellab-108/runtime/crow-e3d25c6fc304.png",
+  "sourceSha256": "e3d25c6fc304389e9c264960fa25a7fd10a7c11b9a623940191ef295d32dae1a",
+  "action": "walk",
+  "direction": "down",
+  "index": 3,
+  "crop": {
+    "x": 135,
+    "y": 640,
+    "w": 21,
+    "h": 25
+  },
+  "destination": {
+    "x": 22,
+    "y": 16,
+    "w": 84,
+    "h": 100
+  },
+  "scale": 4
+}

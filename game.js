@@ -819,7 +819,7 @@ function renderGame() {
   const ending = EndGameSequence.active(state);
   Sunlight.begin(state.elapsed||0,!ending,InterfaceMotion.reduced);
   if (ending) { ctx.save(); EndGameSequence.frame(state); EndGameSequence.drawBackdrop(state); }
-  else { drawWorld(); LakeChallenge.drawGround(state); OwlSystem.drawGround(state); GooseSystem.drawTerritory(state); FolkloreSystem.drawGround(state); }
+  else { drawWorld(); LakeChallenge.drawGround(state); OwlSystem.drawGround(state); GooseSystem.drawTerritory(state); FolkloreSystem.drawGround(state); GameplayHud.drawTactics(state); }
   if (!ending) for (const chick of state.entities.chicks) {
     if (RescueSystem.isSecret(chick) && !chick.coverId) FarmArt.drawSecretCover(ctx,chick,camera,state.elapsed || 0);
   }
@@ -838,11 +838,9 @@ function renderGame() {
   if (!ending && state.scarecrow) layers.push({depth:state.scarecrow.y+5,scarecrow:true});
   layers.sort((a, b) => a.depth - b.depth);
   for (const layer of layers) {
-    Sunlight.actor(null);
     if (layer.scarecrow) { ScarecrowSystem.drawPost(state); continue; }
     if (layer.prop) { FarmArt.drawProp(ctx, layer.prop, camera, state); continue; }
     const entity = layer.entity;
-    Sunlight.actor(entity.type);
     if (ending && state.cutscene.cloud && entity.type !== "chicken") continue;
     if (entity.type === "wolf") {
       if(!ending&&SunflowerSystem.concealed(state))continue;
@@ -860,7 +858,6 @@ function renderGame() {
     else if (entity.type === 'folklore') FolkloreSystem.drawEntity(entity);
     else drawAnimal(entity);
   }
-  Sunlight.actor(null);
   if (ending) { EndGameSequence.draw(state); ctx.restore(); EndGameSequence.drawCaption(state); }
   else {
     ScarecrowSystem.drawFlying(state);
@@ -870,7 +867,7 @@ function renderGame() {
     OwlSystem.drawIndicators(state);
     // Keep a peeking silhouette legible above the prop, then cover its lower body.
     if (state.entities.chicken.hidden || (state.entities.chicken.hideBlend || 0)>0.02) {
-      Sunlight.actor('chicken'); drawChicken(state.entities.chicken); Sunlight.actor(null);
+      drawChicken(state.entities.chicken);
     }
     HidingSpots.drawForeground(state);
     EnvironmentSystem.drawAir(state);
@@ -957,7 +954,7 @@ if (savedGame) {
 state.hasSave = Boolean(savedGame);
 GameUI.showMenu(state);
 GameUI.update(state);
-Promise.all([CharacterArt.load(), GooseArt.load(), FoxArt.load(), OwlArt.load(), ThorArt.load(), ScarecrowArt.load(), FolkloreSystem.load(true)]).then(() => GameUI.update(state));
+Promise.all([CharacterArt.load(), GooseArt.load(), FoxArt.load(), OwlArt.load(), ThorArt.load(), ScarecrowArt.load(), FenceArt.load()]).then(() => GameUI.update(state));
 GameUI.update(state);
 FarmSprites.loadCohesive().then(ready=>{
   if(ready)return;

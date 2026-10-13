@@ -62,5 +62,17 @@
   "enemy-curupira": {
     "win": "assets/shuffle/results/enemy-curupira-win-9e64e05a132b.png",
     "lose": "assets/shuffle/results/enemy-curupira-lose-1e5979622ec7.png"
+  },
+  "enemy-amanda": {
+    "win": "assets/shuffle/results/enemy-amanda-win-1fac46a912b1.png",
+    "lose": "assets/shuffle/results/enemy-amanda-lose-296261b5aeef.png"
+  },
+  "enemy-crow": {
+    "win": "assets/shuffle/results/enemy-crow-win-d62a34fed434.png",
+    "lose": "assets/shuffle/results/enemy-crow-lose-8991b3d55e2d.png"
+  },
+  "enemy-owl": {
+    "win": "assets/shuffle/results/enemy-owl-win-b667d60ba094.png",
+    "lose": "assets/shuffle/results/enemy-owl-lose-2b4f4d2ec78f.png"
   }
 }

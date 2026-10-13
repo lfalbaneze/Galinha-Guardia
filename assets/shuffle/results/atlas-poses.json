@@ -1,0 +1,140 @@
+{
+  "enemy-amanda": {
+    "win": {
+      "provider": "PixelLab",
+      "method": "installed-atlas-frame",
+      "source": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+      "sourceSha256": "aa9309de99bab9e5a74102c1d456c2ca1ae849b45d78b17d6cc9a400565670b4",
+      "action": "idle",
+      "direction": "down",
+      "index": 0,
+      "crop": {
+        "x": 7,
+        "y": 7,
+        "w": 44,
+        "h": 48
+      },
+      "destination": {
+        "x": 20,
+        "y": 20,
+        "w": 88,
+        "h": 96
+      },
+      "scale": 2
+    },
+    "lose": {
+      "provider": "PixelLab",
+      "method": "installed-atlas-frame",
+      "source": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+      "sourceSha256": "aa9309de99bab9e5a74102c1d456c2ca1ae849b45d78b17d6cc9a400565670b4",
+      "action": "walk",
+      "direction": "left",
+      "index": 5,
+      "crop": {
+        "x": 311,
+        "y": 600,
+        "w": 50,
+        "h": 45
+      },
+      "destination": {
+        "x": 14,
+        "y": 26,
+        "w": 100,
+        "h": 90
+      },
+      "scale": 2
+    }
+  },
+  "enemy-crow": {
+    "win": {
+      "provider": "PixelLab",
+      "method": "installed-atlas-frame",
+      "source": "assets/sprites/pixellab-108/runtime/crow-e3d25c6fc304.png",
+      "sourceSha256": "e3d25c6fc304389e9c264960fa25a7fd10a7c11b9a623940191ef295d32dae1a",
+      "action": "walk",
+      "direction": "down",
+      "index": 2,
+      "crop": {
+        "x": 91,
+        "y": 639,
+        "w": 26,
+        "h": 25
+      },
+      "destination": {
+        "x": 12,
+        "y": 16,
+        "w": 104,
+        "h": 100
+      },
+      "scale": 4
+    },
+    "lose": {
+      "provider": "PixelLab",
+      "method": "installed-atlas-frame",
+      "source": "assets/sprites/pixellab-108/runtime/crow-e3d25c6fc304.png",
+      "sourceSha256": "e3d25c6fc304389e9c264960fa25a7fd10a7c11b9a623940191ef295d32dae1a",
+      "action": "walk",
+      "direction": "down",
+      "index": 3,
+      "crop": {
+        "x": 135,
+        "y": 640,
+        "w": 21,
+        "h": 25
+      },
+      "destination": {
+        "x": 22,
+        "y": 16,
+        "w": 84,
+        "h": 100
+      },
+      "scale": 4
+    }
+  },
+  "enemy-owl": {
+    "win": {
+      "provider": "PixelLab",
+      "method": "installed-atlas-frame",
+      "source": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+      "sourceSha256": "5dc5723a46db1d0085ea532c226a2624431bfa14468587c5ed0ccda104020733",
+      "action": "alert",
+      "direction": "down",
+      "index": 9,
+      "crop": {
+        "x": 591,
+        "y": 1015,
+        "w": 51,
+        "h": 48
+      },
+      "destination": {
+        "x": 13,
+        "y": 20,
+        "w": 102,
+        "h": 96
+      },
+      "scale": 2
+    },
+    "lose": {
+      "provider": "PixelLab",
+      "method": "installed-atlas-frame",
+      "source": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+      "sourceSha256": "5dc5723a46db1d0085ea532c226a2624431bfa14468587c5ed0ccda104020733",
+      "action": "walk",
+      "direction": "down",
+      "index": 7,
+      "crop": {
+        "x": 469,
+        "y": 512,
+        "w": 38,
+        "h": 47
+      },
+      "destination": {
+        "x": 26,
+        "y": 22,
+        "w": 76,
+        "h": 94
+      },
+      "scale": 2
+    }
+  }
+}

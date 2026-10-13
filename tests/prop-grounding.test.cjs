@@ -80,10 +80,11 @@ test('production prop rendering uses contact masks and does not mutate world geo
 
 test('horizontal and vertical paddock posts meet the same ground line',async()=>{
   const game=createGame(()=>.5),art=game.run('FarmSprites');await art.loadCohesive(loadImage,createCanvas);
+  assert.equal(await game.run('FenceArt').load(loadImage),true);
   for(const p of [{type:'paddock-fence',x:30,y:80,w:70,h:8},{type:'paddock-fence',x:30,y:48,w:8,h:32}]) {
     const c=createCanvas(140,130).getContext('2d');game.run('FarmArt').drawProp(c,p,{x:0,y:0,shakeX:0,shakeY:0});
     const data=c.getImageData(0,0,140,130).data;let base=-1;
     for(let y=0;y<130;y++)for(let x=0;x<140;x++)if(data[(y*140+x)*4+3]===255)base=Math.max(base,y);
-    assert.equal(base,83,'both kinds of post end at y + 4');
+    assert.equal(base,87,'the shared 32px post starts at y - 24 and ends at y + 8');
   }
 });

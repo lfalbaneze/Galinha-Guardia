@@ -41,7 +41,7 @@ const GameplayHud = (() => {
             el.fieldBriefing.hidden = game.phase !== 'playing' || game.elapsed >= 14 ||
                 game.rescuedCount > 0 || game.entities.wolf.mode !== 'patrol' || !!game.lake?.active || !!game.thorRescue;
         if (el.fieldBriefingText) {
-            const text = 'Aproxime-se de mansinho e encoste para resgatar. Despiste o lobo antes de entrar nas moitas.';
+            const text = 'Chegue de mansinho por trás e encoste para resgatar. Se o bicho viu você, despiste-o primeiro.';
             if (el.fieldBriefingText.textContent !== text)
                 el.fieldBriefingText.textContent = text;
         }
@@ -63,5 +63,28 @@ const GameplayHud = (() => {
         portrait('hudWolf', 'wolf', 'left');
         portraitSignature = skin;
     }
-    return { update };
+    function drawTactics(game) {
+        const wolf = game.entities.wolf, target = wolf.interceptTarget;
+        if (game.phase !== 'playing' || game.lake?.active || !wolf.interceptPhase || !target || SunflowerSystem.concealed(game))
+            return;
+        const from = worldToScreen(getHitbox(wolf));
+        ctx.save();
+        ctx.fillStyle = '#fff0c5';
+        ctx.strokeStyle = '#422c24';
+        ctx.lineWidth = 3;
+        ctx.font = 'bold 12px Trebuchet MS, sans-serif';
+        ctx.textAlign = 'center';
+        const text = wolf.interceptPhase === 'warning' ? 'VAI CORTAR CAMINHO!' : 'INVESTIDA';
+        ctx.strokeText(text, from.x, from.y - 66);
+        ctx.fillText(text, from.x, from.y - 66);
+        if (wolf.interceptPhase === 'warning') {
+            const progress = clamp(1 - (wolf.interceptTime || 0) / WolfAI.getConfig(game).interceptWarning, 0, 1);
+            ctx.fillStyle = '#422c24';
+            ctx.fillRect(from.x - 26, from.y - 58, 52, 7);
+            ctx.fillStyle = '#ffbd85';
+            ctx.fillRect(from.x - 24, from.y - 56, 48 * progress, 3);
+        }
+        ctx.restore();
+    }
+    return { update, drawTactics };
 })();

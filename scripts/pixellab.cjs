@@ -39,7 +39,7 @@ async function generateAnimation(client,item,characterId,action,description,mode
     .filter(g=>g.display_name===body.animation_name||g.animation_type===body.animation_name)
     .flatMap(g=>g.directions.filter(d=>d.frames.length>=8&&d.frames.length===d.frame_count).map(d=>d.direction)));
   if(body.directions.every(d=>completed.has(d)))return;
-  let remaining=body.directions;
+  let remaining=body.directions.filter(d=>!completed.has(d));
   let busy=0;
   while(remaining.length){
     // The service can accept only some directions when its job slots are full.
@@ -97,7 +97,7 @@ async function downloadFrames(client,item,characterId,actions) {
 function updateReview() {
   const folder=path.join(root,'preview/pixellab');fs.mkdirSync(folder,{recursive:true});
   const candidates={};
-  for (const item of [...new Map([...originalCast,...cast].map(item=>[item.id,item])).values()]) {
+  for (const item of [...new Map([...originalCast,...require('./lib/pixellab-shuffle-cast.cjs').cast].map(item=>[item.id,item])).values()]) {
     const candidate=readJSON(path.join(folder,item.id,'candidate.json'));
     if(candidate)candidates[item.id]=candidate;
   }
@@ -133,6 +133,7 @@ async function main() {
     return;
   }
   if(command==='generate'&&!key)throw Error('Falta PIXELLAB_API_KEY em .env.local. Nenhuma geração foi enviada.');
+  if(command==='generate'&&selected.some(item=>item.gait==='snake'))throw Error('Boitatá sem patas: use scripts/repair-shuffle-identities.cjs para animação por imagem, sem esqueleto humano.');
   for (const {item,actions} of plans) {
     if(command==='install') {
       const candidate=readJSON(path.join(root,'preview/pixellab',item.id,'candidate.json'));
@@ -148,6 +149,7 @@ async function main() {
       if(styleSource&&styleSource!==item.id&&!styleId)throw Error('Gere o personagem de referência antes de usá-lo.');
       const characterFile=path.join(cache,'characters',item.id+'.json');
       const existingCharacter=readJSON(characterFile);
+      if(existingCharacter?.id&&!existingCharacter.character_id)existingCharacter.character_id=existingCharacter.id;
       const character=existingCharacter?.character_id?existingCharacter:await client.job(item.id,'/create-character-'+creation,characterRequest(item,styleId,creation,size));
       writeJSON(characterFile,character);
       for (const [action,description] of Object.entries(actions)) {
@@ -161,7 +163,10 @@ async function main() {
     for(const warning of result.warnings)console.log('  '+warning);
     updateReview();
   }
-  if(command==='install')console.log(`Atlas ativos: ${buildData(root)}. Execute npm run build para atualizar dist.`);
+  if(command==='install'){
+    const count=buildData(root);await require('./bake-sprite-grounding.cjs').bakeGrounding(root);
+    console.log(`Atlas ativos: ${count}. Execute npm run build para atualizar dist.`);
+  }
   else console.log('Revisão animada: preview/pixellab/index.html. A instalação é um passo separado da geração.');
 }
 if(require.main===module)main().catch(error=>{console.error(error.message);process.exitCode=1;});

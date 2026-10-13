@@ -68,6 +68,16 @@ class InterfaceTests(unittest.TestCase):
             self.assertNotIn('import subprocess',code)
             self.assertNotIn('webview',code.replace('JavaScript or webview',''))
 
+    def test_regular_enemy_attack_lanes_render(self):
+        a=self.app;a.start(614);a.choose(a.run.choices[0])
+        enemy=a.run.enemies[0]
+        enemy.x,enemy.y=a.run.player.x+85,a.run.player.y
+        enemy.aim=(-1.,0.)
+        enemy.mode='patrol';a.draw();before=pg.image.tobytes(a.surface,'RGB')
+        enemy.mode='warning';a.draw()
+        self.assertNotEqual(pg.image.tobytes(a.surface,'RGB'),before)
+        enemy.mode='strike';a.draw()
+
     def test_survival_menu_events_render_retry_and_campaign_save_isolation(self):
         a=self.app;a.start(614)
         saved=a.save_file.read_bytes()

@@ -5,5 +5,9 @@
     "12f88b3eea26b89a971e035b46bd6f898d8c7c1d21b5b89d53c687f2249bb12c": "Idle south-west: one black toe-outline pixel at y=63. Complete toe and closed outline checked at 6x; add atlas gutter without cropping.",
     "840b951289a99ccef9b6450ee999329f5ece5ba72095e48261af3cf734142621": "Idle east: one black toe-outline pixel at y=63. Complete toe and closed outline checked at 6x; add atlas gutter without cropping.",
     "e034ef23f8e0a3c77d9bbc14eeaef8e179def14bdcfd89b23184ffe5f0c3457a": "Idle south-east: three dark pixels close the rounded crest tip at y=0. Complete contour checked at 6x; add atlas gutter without cropping."
+  },
+  "boitata": {
+    "0efdb55ddd0014ea305501bdbb22273bb280d134358b1acef072a22d7559b08d": "Palette-cleaned walk east frame 7: one brown tongue-tip pixel at (95,37). Complete forked tongue and closed head/body contours inspected at 7x; only the tip touches the edge. Preserve all pixels and add atlas gutter.",
+    "636781297fc3cc8fc5afaa9dbfacbe523dec7e8a642d9a41ff78badecdbe721e": "Walk east frame 7: one orange forked tongue-tip pixel at (95,37). Head and body contours remain wholly inside; complete tongue tip inspected at 7x. Preserve all pixels and add atlas gutter."
   }
 }

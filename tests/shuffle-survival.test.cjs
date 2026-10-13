@@ -23,7 +23,7 @@ test('every hero and enemy has individual victory and defeat lines, without cons
       r.kills++;assert.notEqual(S.quip(r,actor,won).text,line.text);
     }
   }
-  assert.equal(new Set(texts).size,64);
+  assert.equal(new Set(texts).size,4*(Object.keys(S.HEROES).length+Object.keys(S.ENEMIES).length));
   assert.equal(S.quip(arena(),{species:'__proto__'},true),null);
 });
 
@@ -113,9 +113,9 @@ test('signature powers respect walls, pause and fresh-run resets',()=>{
 });
 
 test('survival seeds reproduce connected items, themes and safe moving waves',()=>{
-  const themes=new Set();
+  const layouts=new Set();
   for(let seed=1;seed<=100;seed++){
-    const r=S.newRun(seed),copy=S.newRun(seed);themes.add(r.stage);
+    const r=S.newRun(seed),copy=S.newRun(seed);layouts.add(JSON.stringify(r.layout.obstacles));
     assert.deepEqual(r.layout,copy.layout);assert.deepEqual(r.pickups,copy.pickups);
     assert.ok(r.pickups.some(p=>gap(p,r.player)<155));
     for(const p of r.pickups){assert.ok(M.clearCircle(r.layout,p,22));assert.ok(r.layout.roads.some(road=>M.clearSegment(r.layout,p,road.a,22)));}
@@ -124,7 +124,7 @@ test('survival seeds reproduce connected items, themes and safe moving waves',()
     for(let i=0;i<30;i++)S.tick(r,1/60);
     assert.ok(r.enemies.some(e=>e.traveled>10));
   }
-  assert.ok(themes.size>4);
+  assert.ok(layouts.size>90);assert.equal(S.newRun(614).layout.theme,'orchard');
 });
 test('XP unlocks one chosen power per level; ground loot cannot bypass leveling',()=>{
   const r=arena(),initial={...r.powers};r.hp=1;
@@ -181,6 +181,51 @@ test('extended fixture keeps hordes and loose XP bounded while drafts require an
   assert.ok(['playing','power-draft','stage-clear','won'].includes(r.phase));assert.ok(peak>8);assert.ok(r.kills>10);
 });
 
+test('equipped builds evolve to five, drafts retain upgrades, slot caps apply and fusions free space',()=>{
+  const r=arena();r.pickups=[{kind:'xp',x:560,y:360,value:80}];S.tick(r,.01);
+  assert.ok(r.choices.includes('cornshot'),'the equipped starter gets an upgrade option');
+  assert.ok(r.choices.some(id=>!r.powers[id]));
+  const take=id=>{r.phase='power-draft';r.pendingChoices=1;r.choices=[id];return S.choose(r,id);};
+  for(let i=2;i<=5;i++){assert.ok(take('cornshot'));assert.equal(r.powers.cornshot,i);}
+  assert.equal(take('cornshot'),false);
+  for(const id of ['egg','sickle','cross','spiral','sniper'])assert.ok(take(id));
+  assert.equal(S.slots(r,'Arma'),6);assert.equal(take('venom'),false);assert.ok(take('egg'));
+  for(const id of ['heart','dash','magnet','might','shield','reach'])assert.ok(take(id));
+  assert.equal(S.slots(r,'Apoio'),6);assert.equal(take('haste'),false);
+  for(const [id,p]of Object.entries(S.POWERS))for(let n=1;n<=S.maxRank(id);n++)assert.ok(S.powerText(id,n),p.name);
+  r.phase='playing';r.powers={cornshot:3,ricochet:3,egg:1,sickle:1,cross:1,spiral:1};
+  assert.equal(S.slots(r,'Arma'),6);assert.ok(S.fuse(r,'popcorn'));assert.equal(S.slots(r,'Arma'),5);
+  assert.equal(take('cornshot'),false,'consumed ingredients cannot reappear');assert.ok(take('venom'));
+});
+
+test('weapon milestones change actual volleys and control effects at ranks three and five',()=>{
+  for(const [id,counts]of Object.entries({cornshot:[1,3,3],egg:[8,12,16],cross:[4,8,8],sniper:[1,2,2],frost:[3,5,7],boomerang:[1,1,3],fireball:[1,3,3]})){
+    for(const [i,n]of [1,3,5].entries()){
+      const r=arena();r.powers={[id]:n};r.enemies=[enemy(680,360,1000)];S.tick(r,.01);
+      assert.equal(r.shots.length,counts[i],id+'/'+n);
+      if(n===5&&['cornshot','egg','sniper','boomerang'].includes(id))assert.ok(r.shots.every(s=>s.piercing));
+      if(n===5&&['egg','sniper','fireball'].includes(id))assert.ok(r.shots.every(s=>s.blast>0));
+    }
+  }
+  const r=arena();r.powers={sickle:5};r.enemies=[enemy(620,360,1000)];S.tick(r,.01);
+  assert.equal(r.enemies[0].slow,2);assert.ok(r.enemies[0].x>620);
+});
+
+test('three run styles change boss timing, XP and pressure while preserving pause and seeded replay',()=>{
+  for(const id of Object.keys(S.STYLES)){
+    const r=S.newRun(614,undefined,'classic',0,id),copy=S.newRun(614,undefined,'classic',0,id);
+    assert.deepEqual(r,copy);r.player.invulnerable=999;r.powers={};r.pickups=[];r.heroCooldown=999;
+    r.stageElapsed=S.style(r).seconds-.02;S.tick(r,.01);assert.equal(r.bossSpawned,false);
+    S.tick(r,.02);assert.equal(r.bossSpawned,true);
+    r.enemies=[];r.spawnTimer=999;r.pickups=[{x:r.player.x,y:r.player.y,kind:'xp',value:10}];S.tick(r,.01);
+    assert.equal(r.level,2);assert.equal(r.xp,Math.floor(10*S.style(r).xp)-8);assert.equal(r.score,10);
+    while(r.phase==='power-draft')S.choose(r,r.choices[0]);
+    r.paused=true;const frozen=JSON.stringify(r);S.tick(r,.05);assert.equal(JSON.stringify(r),frozen);
+    r.phase='stage-clear';S.nextStage(r);assert.equal(r.style,id);
+  }
+  assert.equal(S.newRun(1,undefined,'classic',0,'__proto__').style,'colheita');
+});
+
 test('thirty cards: seeded shuffle, queued points, caps, reroll and frozen combat',()=>{
   assert.equal(Object.keys(S.POWERS).length,30);
   assert.equal(new Set(Object.values(S.POWERS).map(p=>p.name)).size,30);
@@ -199,7 +244,7 @@ test('thirty cards: seeded shuffle, queued points, caps, reroll and frozen comba
   for(let i=0;i<3;i++){const id=r.choices[0],n=r.powers[id]||0;assert.equal(S.choose(r,id),true);assert.equal(r.powers[id],n+1);}
   assert.equal(r.phase,'playing');assert.equal(r.pendingChoices,0);
   assert.equal(S.choose(r,'cornshot'),false);assert.equal(S.newRun(614).score,0);
-  const capped=arena();capped.powers=Object.fromEntries(Object.keys(S.POWERS).map(id=>[id,3]));capped.powers.venom=2;
+  const capped=arena();capped.powers=Object.fromEntries(Object.keys(S.POWERS).map(id=>[id,S.maxRank(id)]));capped.powers.venom=4;
   capped.pickups=[{kind:'xp',x:560,y:360,value:40}];S.tick(capped,.01);
   assert.deepEqual(capped.choices,['venom']);assert.equal(S.reroll(capped),false);
   S.choose(capped,'venom');assert.equal(capped.phase,'playing');assert.equal(capped.pendingChoices,0);
@@ -255,9 +300,19 @@ test('ricochet switches targets, boomerangs hit on return, homing turns and pois
   assert.ok(r.enemies[0].health<health-1,'Poison keeps ticking after the projectile disappears');
 });
 
-test('five bosses gate distinct maps, preserve the build and only the last defeat wins',()=>{
+test('survival limits free healing and increases initial pressure without an unbounded level damage multiplier',()=>{
+  const r=S.newRun(614,['fox']);r.powers={};r.heroCooldown=999;r.pickups=[];
+  S.tick(r,.01);assert.equal(r.enemies.length,7);assert.ok(r.enemies.every(e=>e.health>=3.15));assert.ok(r.spawnTimer<=3);
+  const fresh=S.newRun(614);assert.equal(fresh.pickups.filter(p=>p.kind==='milk').length,1);
+  fresh.phase='stage-clear';fresh.hp=1;S.nextStage(fresh);assert.equal(fresh.hp,2);
+  const shotDamage=level=>{const run=arena();run.level=level;run.powers={cornshot:1};run.enemies=[enemy(670,360,10000)];S.tick(run,.01);return run.shots[0].damage;};
+  assert.equal(shotDamage(25),shotDamage(100));
+});
+
+test('ten bosses gate distinct maps, preserve the build and only the last defeat wins',()=>{
   const r=S.newRun(21);const maps=new Set([r.layout.id]);r.powers={sickle:3,heart:2};r.skills.heart=2;r.hp=7;
-  for(let stage=0;stage<5;stage++){
+  assert.equal(S.STAGES.length,10);
+  for(let stage=0;stage<S.STAGES.length;stage++){
     r.player.invulnerable=999;r.pickups=[];r.stageElapsed=59.99;S.tick(r,.02);
     const boss=r.enemies.find(e=>e.isBoss);assert.ok(boss);assert.equal(boss.species,S.STAGES[stage].boss);
     assert.ok(gap(boss,r.player)>300);assert.ok(M.clearCircle(r,boss,boss.r));assert.ok(r.enemies.length<=S.MAX_ENEMIES);
@@ -266,15 +321,15 @@ test('five bosses gate distinct maps, preserve the build and only the last defea
     r.obstacles=[];r.layout.obstacles=r.obstacles;r.enemies=[boss];
     Object.assign(boss,{x:r.player.x+35,y:r.player.y,health:1,baseSpeed:0,timer:999});r.cooldowns.sickle=0;
     S.tick(r,.01);assert.equal(r.bossesDefeated,stage+1);
-    if(stage===4){assert.equal(r.phase,'won');assert.equal(S.nextStage(r),false);break;}
+    if(stage===S.STAGES.length-1){assert.equal(r.phase,'won');assert.equal(S.nextStage(r),false);break;}
     while(r.phase==='power-draft')assert.ok(S.choose(r,r.choices[0]));
     assert.equal(r.phase,'stage-clear');const frozen=JSON.stringify(r);S.tick(r,.05);assert.equal(JSON.stringify(r),frozen);
     const powers={...r.powers},score=r.score;assert.ok(S.nextStage(r));assert.equal(S.nextStage(r),false);
-    assert.deepEqual(r.powers,powers);assert.equal(r.score,score);assert.equal(r.hp,7);
+    assert.deepEqual(r.powers,powers);assert.equal(r.score,score);assert.equal(r.hp,E.stats(r).maxHp);
     assert.equal(r.player.skin,'classic');assert.equal(r.boss,null);assert.equal(r.stageElapsed,0);assert.equal(r.shots.length,0);
     maps.add(r.layout.id);
   }
-  assert.equal(maps.size,5);
+  assert.equal(maps.size,S.STAGES.length);
 });
 
 test('elapsed play time increases every wave, independent of XP and kills, and freezes on pause',()=>{
@@ -388,11 +443,11 @@ test('foxes flank and martens alternate quick bursts with a slower scurry',()=>{
   const marten=folklore('fuinha');r.enemies=[marten];S.tick(r,.05);const burst=marten.speed;
   marten.age=1;S.tick(r,.05);assert.ok(burst>marten.speed*1.5);
 });
-test('headless mule warns, locks its aim, charges and stops at solid scenery',()=>{
-  const r=arena();r.powers={};const mule=folklore('mula-sem-cabeca');r.enemies=[mule];
+test('headless mule warns for its fiery gallop, locks aim and stops at solid scenery',()=>{
+  const r=arena();r.powers={};const mule=folklore('mula-sem-cabeca',{attackStep:2});r.enemies=[mule];
   S.tick(r,.05);assert.equal(mule.mode,'warning');assert.equal(mule.x,700);
   const aim=[mule.aimX,mule.aimY];r.player.y=490;
-  for(let i=0;i<19;i++)S.tick(r,.05);
+  for(let i=0;i<23;i++)S.tick(r,.05);
   assert.deepEqual([mule.aimX,mule.aimY],aim);assert.equal(mule.mode,'charge');
   r.obstacles.push({x:610,y:320,w:30,h:80});
   for(let i=0;i<16;i++)S.tick(r,.05);

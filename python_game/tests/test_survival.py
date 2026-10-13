@@ -46,6 +46,47 @@ class SurvivalTests(unittest.TestCase):
         run.pickups.append(Pickup('xp', *run.player.pos, value=run.xp_needed)); run.tick(.01)
         self.assertEqual((run.level, run.xp, run.hp), (2, 0, 4))
 
+    def test_reinforcement_lanes_spacing_and_edge_fallback(self):
+        run = self.arena()
+        run.locations = [(200, 300), (200, 700), (1400, 300), (1400, 700)]
+        run.spawn_wave()
+        self.assertTrue(run.enemies)
+        self.assertTrue(all(e.x < 800 for e in run.enemies))  # Seed 614: western entry in wave 1.
+        for i, enemy in enumerate(run.enemies):
+            self.assertTrue(all(distance(enemy.pos, other.pos)>60 for other in run.enemies[i+1:]))
+        run.enemies = []
+        run.locations = [(1400, 300), (1400, 700)]
+        run.spawn_wave()
+        self.assertTrue(run.enemies)  # Preferred half absent, safe roads still available.
+
+    def test_pressure_caps_grow_with_waves_and_allow_a_breather(self):
+        run = self.arena()
+        run.locations = [(x,y) for x in range(80,1521,80) for y in range(80,977,80)]
+        for _ in range(20):run.spawn_wave()
+        early = len(run.enemies)
+        self.assertEqual(early, 13)
+        run.elapsed = 240
+        for _ in range(20):run.spawn_wave()
+        self.assertGreater(len(run.enemies), early)
+        self.assertLessEqual(len(run.enemies), 37)
+        run.enemies = [];run.powers = {};run.elapsed = 26;run.spawn_timer = 0
+        run.tick(.05)
+        self.assertFalse(run.enemies)
+        run.elapsed = 29.99
+        run.tick(.05)
+        self.assertTrue(run.enemies)
+
+    def test_attack_difficulty_uses_wave_not_random_map(self):
+        run = self.arena()
+        first = run.enemy_warning_time
+        slots = run.attack_limit
+        run.stage = 8
+        self.assertEqual((run.enemy_warning_time, run.attack_limit), (first, slots))
+        run.elapsed = 270
+        self.assertLess(run.enemy_warning_time, first)
+        self.assertGreaterEqual(run.enemy_warning_time, .55)
+        self.assertEqual(run.attack_limit, 3)
+
     def test_auto_weapons_damage_and_drop_xp(self):
         for kind in ('cornshot', 'egg', 'sickle'):
             run = self.arena(); run.powers = {kind: 1}

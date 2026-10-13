@@ -30,7 +30,7 @@ Object.assign(cast,{chicken:'Erina',duck:'Pato',chick:'Pintinho',turkey:'Peru',g
  }
  for(const name of ['fox','amanda','thor']) {
   const canvas=createCanvas(1600,920),c=canvas.getContext('2d');c.fillStyle='#203c2e';c.fillRect(0,0,1600,920);
-  c.fillStyle='#f1e4bf';c.font='bold 26px sans-serif';c.fillText({fox:'Lorenzo',amanda:'Amanda',thor:'Thor'}[name]+' · 1× / 3×',24,38);
+  c.fillStyle='#f1e4bf';c.font='bold 26px sans-serif';c.fillText({fox:'Lorenzo',amanda:'Sophis',thor:'Thor'}[name]+' · 1× / 3×',24,38);
   for(const [row,direction] of ['right','left'].entries())for(let anim=0;anim<4;anim++) {
    const x=200+anim*400,y=332+row*450;c.fillStyle='#becbab';c.font='18px sans-serif';c.textAlign='center';
    c.fillText((row?'Esquerda':'Direita')+' · passo '+(anim+1),x,y-265);
@@ -39,7 +39,7 @@ Object.assign(cast,{chicken:'Erina',duck:'Pato',chick:'Pintinho',turkey:'Peru',g
     if(name==='thor') {
      const a=game.run('ThorArt'),f=a.frameFor({direction,anim,moving:true});
      a.drawHero(c,0,14,Math.max(...a.frames.slice(f.row*a.columns,(f.row+1)*a.columns).map(p=>p.h)),direction,anim);
-    } else game.run('FoxArt').draw(c,{x:0,y:0,direction,anim,moving:true,name:name==='amanda'?'Amanda':'Lorenzo'},{x:0,y:0});
+    } else game.run('FoxArt').draw(c,{x:0,y:0,direction,anim,moving:true,name:name==='amanda'?'Sophis':'Lorenzo'},{x:0,y:0});
     c.restore();
    }
   }

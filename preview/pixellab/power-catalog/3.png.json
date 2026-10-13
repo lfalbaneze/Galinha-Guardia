@@ -1,0 +1,12 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/create-image-pixen",
+  "image_size": {
+    "width": 256,
+    "height": 128
+  },
+  "seed": 100829,
+  "no_background": true,
+  "enhance_prompt": false,
+  "description": "Premium cartoon FARM GAME inventory sprite sheet. EXACTLY FOUR columns, TWO rows of 64x64 cells. Eight separate complete objects, ONE in each cell, each centered within 48x48, surrounded by 8 transparent pixels. Cell 1 (TOP row, column 1): A brown enamel coffee mug with a tiny red rooster crest lid, curled cream steam. Cell 2 (TOP row, column 2): A telescoping wooden pitchfork with a brass sliding collar and three bright teal tines. Cell 3 (TOP row, column 3): An ivory milk bottle wearing a tiny red nurse cap, tied green healing herb sprig. Cell 4 (TOP row, column 4): A thick cracked eggshell shield with brass rim, red leather straps and blue center stud. Cell 5 (BOTTOM row, column 1): A small woven harvest basket overflowing with mint XP crystals and two golden corn kernels. Cell 6 (BOTTOM row, column 2): A prickly green bramble bracelet, tan leather clasp, three curved ivory thorns. Cell 7 (BOTTOM row, column 3): A round cream farm milk jug, blue handle, red checkered neck ribbon, ivory stopper. Cell 8 (BOTTOM row, column 4): A mint green faceted seed crystal held by two tiny golden husk leaves. Playful handmade farm equipment, strong unique silhouettes, charming rounded shapes, clean dark outline, rich flat colors with three crisp pixel shade clusters. Native pixel art, no blur, realism, plastic shine, text, frames, floor or shadows. All objects fit their own cells; no overlap."
+}

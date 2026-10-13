@@ -1,0 +1,12 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/create-image-pixen",
+  "image_size": {
+    "width": 256,
+    "height": 128
+  },
+  "seed": 100826,
+  "no_background": true,
+  "enhance_prompt": false,
+  "description": "Premium cartoon FARM GAME inventory sprite sheet. EXACTLY FOUR columns, TWO rows of 64x64 cells. Eight separate complete objects, ONE in each cell, each centered within 48x48, surrounded by 8 transparent pixels. Cell 1 (TOP row, column 1): A chunky corn cob martial-arts glove, red wrist wrap, golden kernels, green husk cuff. Cell 2 (TOP row, column 2): A cracked ivory egg wearing a red survival bandana, tiny wooden barricade behind it. Cell 3 (TOP row, column 3): A curved teal steel farm sickle with red wrapped wooden handle and tiny devil horn on the pommel. Cell 4 (TOP row, column 4): A pair of round muddy red farm boots with golden wing-shaped buckles and thick soles. Cell 5 (BOTTOM row, column 1): Three corn cobs fanned from a green ammunition pouch, red woven strap. Cell 6 (BOTTOM row, column 2): A lavender feather mounted on a wooden rear-view arrow with a brass hinge. Cell 7 (BOTTOM row, column 3): A four-spout copper sprinkler spraying four turquoise water jets in a cross. Cell 8 (BOTTOM row, column 4): A curled lavender feather galaxy with three tiny gold stars and a deep blue central bead. Playful handmade farm equipment, strong unique silhouettes, charming rounded shapes, clean dark outline, rich flat colors with three crisp pixel shade clusters. Native pixel art, no blur, realism, plastic shine, text, frames, floor or shadows. All objects fit their own cells; no overlap."
+}

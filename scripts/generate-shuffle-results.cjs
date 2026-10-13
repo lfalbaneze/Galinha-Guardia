@@ -16,6 +16,38 @@ const poses={
   win:'Redraw a fighting-game VICTORY pose: proud broad grin, chin up, chest out, raised feathered wings or forepaws as appropriate, feet planted. Exuberant champion, big readable expression.',
   lose:'Redraw a fighting-game DEFEAT pose: sitting slumped, dazed lopsided face, messy feathers or fur, small cheek bandage, one puffy purple eyelid, drooping wings or ears. Comically battered but lovable, alive. No blood, gore or missing limbs.'
 };
+// These reviewed atlas frames preserve the installed identities without buying new art.
+const atlasSelections={
+  amanda:{win:['idle','down',0],lose:['walk','left',5]},
+  crow:{win:['walk','down',2],lose:['walk','down',3]},
+  owl:{win:['alert','down',9],lose:['walk','down',7]}
+};
+async function extractAtlasPoses(items){
+  if(items.some(item=>!atlasSelections[item.sprite]))throw Error('Atlas extraction supports enemy-amanda, enemy-crow and enemy-owl only');
+  const {bounds}=require('./lib/pixellab-import.cjs');
+  for(const item of items){
+    const meta=readJSON(path.join(root,'assets/sprites/pixellab-108/meta',item.sprite+'.json')),d=meta?.definition;
+    if(d?.provider!=='pixellab'||meta.id!==item.sprite)throw Error('Expected an installed PixelLab identity');
+    const image=await loadImage(path.join(root,d.source)),frames={};
+    for(const [outcome,[action,direction,index]]of Object.entries(atlasSelections[item.sprite])){
+      const f=d.actions[action][direction].frames[index],crop=createCanvas(f.w,f.h);
+      crop.getContext('2d').drawImage(image,f.x,f.y,f.w,f.h,0,0,f.w,f.h);
+      frames[outcome]={f,ink:bounds(crop,item.id+'/'+outcome),action,direction,index};
+    }
+    const scale=Math.max(1,Math.floor(112/Math.max(...Object.values(frames).flatMap(({ink})=>[ink.width,ink.height]))));
+    for(const [outcome,{f,ink,action,direction,index}]of Object.entries(frames)){
+      const c=createCanvas(128,128),g=c.getContext('2d');g.imageSmoothingEnabled=false;
+      const crop={x:f.x+ink.left,y:f.y+ink.top,w:ink.width,h:ink.height};
+      const destination={x:Math.floor((128-crop.w*scale)/2),y:116-crop.h*scale,w:crop.w*scale,h:crop.h*scale};
+      g.drawImage(image,crop.x,crop.y,crop.w,crop.h,destination.x,destination.y,destination.w,destination.h);
+      const file=path.join(out,`${item.id}-${outcome}-atlas.png`);
+      fs.writeFileSync(file,c.toBuffer('image/png'));
+      writeJSON(file+'.json',{provider:'PixelLab',method:'installed-atlas-frame',source:d.source,
+        sourceSha256:createHash('sha256').update(fs.readFileSync(path.join(root,d.source))).digest('hex'),
+        action,direction,index,crop,destination,scale});
+    }
+  }
+}
 async function reference(item){
   const file=path.join(out,item.id+'-reference.png');if(fs.existsSync(file))return file;
   const special=path.join(root,'assets/sprites/pixellab-108/meta/references',item.sprite+'-front.png');
@@ -37,13 +69,21 @@ async function main(){
   fs.mkdirSync(out,{recursive:true});const args=process.argv.slice(2),selected=args.filter(a=>!a.startsWith('--'));
   if(selected.some(id=>!cast.some(c=>c.id===id)))throw Error('Unknown result actor');
   const items=selected.length?cast.filter(c=>selected.includes(c.id)):cast;
+  const fromAtlas=args.includes('--from-atlas');
+  if(fromAtlas){
+    await extractAtlasPoses(items);
+    if(!args.includes('--install')){console.log('Extracted atlas poses for local review; no API used.');return;}
+  }
   if(args.includes('--install')){
     const manifestFile=path.join(root,'assets/shuffle/results/manifest.json'),manifest=readJSON(manifestFile,{});
     fs.mkdirSync(path.dirname(manifestFile),{recursive:true});
     for(const item of items){
       const pair={};
       for(const outcome of ['win','lose']){
-        const bytes=fs.readFileSync(path.join(out,`${item.id}-${outcome}.png`)),img=await loadImage(bytes);
+        const file=path.join(out,`${item.id}-${outcome}${fromAtlas?'-atlas':''}.png`);
+        const receipt=readJSON(file+'.json');
+        if(receipt?.provider!=='PixelLab')throw Error('Result pose is not from PixelLab: '+item.id+'/'+outcome);
+        const bytes=fs.readFileSync(file),img=await loadImage(bytes);
         if(img.width!==128||img.height!==128)throw Error('Invalid result pose');
         const hash=createHash('sha256').update(bytes).digest('hex').slice(0,12),source=`assets/shuffle/results/${item.id}-${outcome}-${hash}.png`;
         fs.writeFileSync(path.join(root,source),bytes);pair[outcome]=source;
@@ -51,6 +91,11 @@ async function main(){
       manifest[item.id]=pair;
     }
     writeJSON(manifestFile,manifest);
+    if(fromAtlas){
+      const provenanceFile=path.join(root,'assets/shuffle/results/atlas-poses.json'),provenance=readJSON(provenanceFile,{});
+      for(const item of items)provenance[item.id]=Object.fromEntries(['win','lose'].map(outcome=>[outcome,readJSON(path.join(out,`${item.id}-${outcome}-atlas.png.json`))]));
+      writeJSON(provenanceFile,provenance);
+    }
     fs.writeFileSync(path.join(root,'shuffle/result-art.js'),'/* Reviewed PixelLab result poses. */\nconst ShuffleResultArt = '+JSON.stringify(manifest)+';\n');
     console.log('Installed result poses: '+Object.keys(manifest).length+' characters');return;
   }
@@ -62,23 +107,33 @@ async function main(){
       const file=path.join(out,`${item.id}-${outcome}.png`);if(fs.existsSync(file)){console.log(item.id+'/'+outcome+': already downloaded');continue;}
       const source=ref||(outcome==='lose'?path.join(out,item.id+'-win.png'):null);
       const identity=item.sprite==='hen-silkie'?'Japanese SILKIE hen: fluffy round white crest, silky white plumage, feathered feet. No red comb. ':item.sprite==='chicken'?'White HEN, red comb, TWO feathered wings, TWO orange feet, short feather fan tail. NO long tail or snake. ':'';
-      const mammal=['fox','fuinha','wolf','skin-pipoca','skin-amora','skin-pacoca'].includes(item.sprite);
-      const action=mammal?(outcome==='win'?'VICTORY: proud grinning mammal raises TWO furry forepaws, standing on TWO hind paws. Exactly FOUR paws total, ONE furry tail. No feathers, wings, extra limbs, floor or ground shadow.':
-        'DEFEAT: slumped sitting furry mammal, dazed lopsided face, messy fur, cheek bandage, puffy purple eyelid, drooping ears. Exactly FOUR paws, ONE furry tail. Comically battered, alive. No feathers, wings, blood or ground shadow.'):
+      const mammal=['fox','amanda','fuinha','wolf','skin-pipoca','skin-amora','skin-pacoca'].includes(item.sprite);
+      const action=mammal?(outcome==='win'?'VICTORY: natural QUADRUPED standing on ALL FOUR paws. Horizontal furry torso, TWO front legs under shoulders, TWO rear legs under hips, ONE tail. Proud lifted head and grin. NO human arms, upright body, extra legs or wings.':
+        'DEFEAT: tired QUADRUPED sitting low on its haunches. Horizontal furry torso, TWO front paws planted, TWO rear paws beside hips, ONE tail. Lowered ears and sad eyes. NO human arms, extra legs, wings or injuries.'):
         ['curupira','cuca'].includes(item.sprite)?(outcome==='win'?'VICTORY: triumphant grin, chest out, TWO raised fists, standing on TWO legs. Preserve all species features. No wings or extra limbs.':
         'DEFEAT: sitting slumped, dazed lopsided face, messy hair, cheek bandage, puffy purple eyelid. TWO arms and TWO legs. Comically battered, alive. No feathers, wings, blood or extra limbs.'):
         item.sprite==='boitata'?(outcome==='win'?'Triumphant S-coiled fire SNAKE victory pose, proud raised head and grin, one continuous legless body. No arms, legs or wings.':
         'DEFEAT: exhausted FIRE SNAKE in a loose drooping coil, dazed eyes, cheek bandage, one puffy purple eyelid. One continuous legless body. No arms, legs, feathers, wings or blood.'):
         item.sprite==='mula-sem-cabeca'?(outcome==='win'?'Triumphant HEADLESS mule rearing with four complete equine legs, joyful neck flames. NO head, face or eyes.':'Defeated HEADLESS mule sitting exhausted, four complete equine legs, drooping dim neck flames, scuffed coat and leg bandage. NO head, face, eyes or blood.'):poses[outcome];
       const correction=item.sprite==='fuinha'?'FUINHA marten: short round ears, slim body, cream bib, plain brown tail, NO stripes. Remove ALL ground pixels. ':'';
-      const description=identity+correction+action+' '+direction;
+      let description=identity+correction+action+' '+direction;
+      if(item.sprite==='amanda')description=(outcome==='win'?
+        'Sophis fox VICTORY: natural QUADRUPED, horizontal body, all FOUR paws on ground. TWO front legs below shoulders, TWO rear legs below hips. Proud lifted head, smile, lifted cream-tipped tail.':
+        'Sophis fox DEFEAT: natural QUADRUPED sitting low on rear haunches. TWO front paws planted, TWO rear paws beside hips, ONE cream-tipped tail curled beside her. Tired sad eyes, lowered ears.')+
+        ' Golden russet fur, cream cheeks and belly, pink neck bow, emerald eyes, dark sock paws. Exactly FOUR legs TOTAL, NO human arms or torso. Rounded cute cartoon pixel art, clean outline, flat colors. Full body, transparent, no text, floor, shadows or injuries.';
+      if(['crow','owl'].includes(item.sprite))description=(item.sprite==='crow'?
+        'A round charcoal CROW BIRD, navy feather highlights, dark broad BIRD BEAK, two pearl eyes, short flat feather tail.':
+        'A round tawny OWL BIRD, cream heart facial disk, two amber eyes, small gold beak, short ear tufts, chocolate wings, short tail.')+(outcome==='win'?
+        ' VICTORY: upright proud bird chest, cheerful wide eyes, closed beak, TWO wings folded at sides, TWO talon feet planted.':
+        ' DEFEAT: slouched tired bird, head lowered, two sad open eyes, closed beak, TWO wings folded at sides, TWO talon feet visible.')+
+        ' ONLY TWO wings and TWO legs. NO arms, hands, teeth, fur, extra eyes or limbs. Cute rounded cartoon pixel art. Full body, transparent, no text, floor, shadows or injuries.';
       if(description.length>500)throw Error('Pose prompt exceeds edit limit');
       const seed=641000+cast.indexOf(item)*2+(outcome==='lose'?1:0);
       if(source){
         const body={image:{base64:fs.readFileSync(source).toString('base64')},description,width:128,height:128,seed,no_background:true};
         const job=await client.job(item.id+'/'+outcome,'/edit-image-pixen',body);
-        const result=await client.request('/background-jobs/'+job.background_job_id);
-        await saveImage(result.last_response,file);
+        const payload=job.image?.base64||job.images?.length?job:(await client.request('/background-jobs/'+job.background_job_id)).last_response;
+        await saveImage(payload,file);
         writeJSON(file+'.json',{provider:'PixelLab',endpoint:'/edit-image-pixen',seed,description,jobId:job.background_job_id});
       }else{
         // This endpoint is synchronous. Persist an in-flight receipt before charging once.

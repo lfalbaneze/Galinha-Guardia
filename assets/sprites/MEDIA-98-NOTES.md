@@ -5,7 +5,7 @@ Revisão em 20/09/2026, abrangendo os recursos em uso. O acervo de versões anti
 ## Conferência visual
 
 - 360 quadros do `CharacterArt`: 23 entradas, incluindo as oito aparências jogáveis, animais resgatáveis, lobo e pintinho.
-- Lorenzo, Amanda e seu laço, Thor, Panto, coruja, corvos e espantalho: renderizados com seus próprios módulos e poses.
+- Lorenzo, Sophis e seu laço, Thor, Panto, coruja, corvos e espantalho: renderizados com seus próprios módulos e poses.
 - As 16 silhuetas do cenário, contornos, transparência, proporção e apoio no chão.
 - Boia e nado livre: conferidos com o renderizador da partida, incluindo galinhas, pato e ganso.
 - A página `preview/media-review.html` reúne 30 opções de personagens/objetos animados, avanço de quadro, quatro direções e todos os sons. Sua pasta é material de revisão local, fora do pacote de publicação.

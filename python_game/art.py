@@ -157,10 +157,13 @@ class Art:
         if run.exit_ready:
             pg.draw.line(surface,(255,225,139),(gx-21,gy+14),(gx+20,gy+14),3)
             pg.draw.lines(surface,(255,225,139),False,[(gx+12,gy+6),(gx+20,gy+14),(gx+12,gy+22)],3)
-        if run.boss and run.boss.mode in ('warning','charge'):
-            b=run.boss;layer=pg.Surface(SIZE,pg.SRCALPHA)
-            start=(b.x-cx,b.y-cy);end=(start[0]+b.aim[0]*460,start[1]+b.aim[1]*460)
-            pg.draw.line(layer,(255,176,65,74),start,end,54)
+        attackers=[e for e in run.enemies if e.mode in ('warning','strike')]
+        if run.boss and run.boss.mode in ('warning','charge'):attackers.append(run.boss)
+        for b in attackers:
+            layer=pg.Surface(SIZE,pg.SRCALPHA)
+            reach=460 if b is run.boss else b.strike_speed*b.strike_time
+            start=(b.x-cx,b.y-cy);end=(start[0]+b.aim[0]*reach,start[1]+b.aim[1]*reach)
+            pg.draw.line(layer,(255,176,65,112),start,end,round(b.radius*2))
             pg.draw.line(layer,(255,211,112,200),start,end,2)
             angle=atan2(b.aim[1],b.aim[0])
             tip1=(end[0]-cos(angle-.55)*18,end[1]-sin(angle-.55)*18)
@@ -194,6 +197,7 @@ class Art:
                 surface.blit(image,rect)
             else:
                 self.actor(surface,a,camera,145 if a is run.player and a.invulnerable>0 and int(run.elapsed*12)%2 else 255)
+                if a in attackers and a.mode=='warning':self.tag(surface,'!',(a.x-cx,a.y-cy-90))
         for f in run.friends:
             if not f.rescued and distance2(f.pos,run.player.pos)<180:
                 self.tag(surface,f.name,(f.x-cx,f.y-cy-80))

@@ -51,7 +51,7 @@ function createFarm() {
     GameUI: { update() {} }, SkinSystem: { initialize() {}, record() {}, power: () =>
       ({landSpeed:1,swimSpeed:1,sneakSpeed:.4,noiseScale:1,sprintDuration:1,friendSpecies:null}) },
     AudioSystem: { play() {}, playAnimal() {}, playPlayerHurt() { return false; } },
-    FarmRefuge: { home: (index, chick) => ({ x: 100 + index * 25, y: chick ? 180 : 140 }), ensureClear() {}, drawGround() {} },
+    FarmRefuge: { home: (index, chick) => ({ x: 100 + index * 25, y: chick ? 180 : 140 }), contains: () => false, ensureClear() {}, drawGround() {} },
     FarmArt: { drawCoverForeground() {}, getProps() { return []; } }, FarmDetails: {shape:p=>p}, InterfaceMotion: { reduced: true },
 
     WorldGenerator: { generate: () => layout }, areaTextEl: { textContent: '' },
@@ -61,7 +61,7 @@ function createFarm() {
   });
   vm.runInContext('const SpriteData={};'+fs.readFileSync(path.join(__dirname,'../systems/character-art.js'),'utf8'),context);
   const sourceDirectory = process.env.GAMEPLAY_SOURCE_DIRECTORY || path.join(__dirname, '..', 'systems');
-  for (const file of ['game-manager', 'rescue-system', 'detection-system', 'hiding-spots', 'wolf-ai', 'map-manager', 'player', 'lake-challenge', 'goose-system', 'wildlife-rules', 'fox-system', 'owl-system', 'thor-system', 'scarecrow-system', 'swimming-system', 'environment-system', 'sunflower-system']) {
+  for (const file of ['game-manager', 'rescue-system', 'detection-system', 'hiding-spots', 'wolf-ai', 'map-manager', 'player', 'lake-challenge', 'goose-system', 'wildlife-rules', 'fox-system', 'owl-system', 'thor-system', 'scarecrow-system', 'swimming-system', 'environment-system', 'sunflower-system', 'folklore-system']) {
     vm.runInContext(fs.readFileSync(path.join(sourceDirectory, `${file}.js`), 'utf8'), context, { filename: `${file}.js` });
   }
   vm.runInContext(fs.readFileSync(path.join(__dirname,'../systems/wolf-dialogue.js'),'utf8'),context);

@@ -3,7 +3,7 @@
 'use strict';
 const fs = require('node:fs');
 const path = require('node:path');
-require('./generate-goose-audio.cjs');
+if(require.main===module)require('./generate-goose-audio.cjs');
 const SR = 22050, TAU = Math.PI * 2;
 const output = path.resolve(__dirname, '..', 'assets', 'audio');
 fs.mkdirSync(output, { recursive: true });
@@ -40,7 +40,8 @@ function voice(song, type, at, duration, pitch, volume = .15, pan = 0, extra = {
     if (type === 'squeak') frequency = 780 + 460 * Math.sin(Math.min(1, progress) * Math.PI) + 45 * Math.sin(TAU * 16 * t);
     if (type === 'sob') frequency = f * (1 - .22 * progress + .055 * Math.sin(TAU * 7 * t)) * (1 + .035 * Math.sin(TAU * 17 * t));
     if (type === 'chirp') frequency = f * (1.16 - .47 * Math.min(1, progress)) * (1 + .012 * Math.sin(TAU * 19 * t));
-    if (type === 'slide') frequency = f * 2 ** (extra.semitones * Math.min(1, progress) / 12);
+    if (type === 'slide') frequency = f * 2 ** ((extra.semitones ?? 0) * Math.min(1, progress) / 12);
+    if (Number.isFinite(extra.endFrequency)) frequency *= (extra.endFrequency / f) ** Math.min(1, progress);
     phase += TAU * frequency / SR;
     const white = noise(); filteredNoise += (white - filteredNoise) * .16;
     if (type === 'flute' || type === 'whistle') {
@@ -62,7 +63,7 @@ function voice(song, type, at, duration, pitch, volume = .15, pan = 0, extra = {
     } else if (type === 'shaker') {
       value = (white - previousNoise * .8) * Math.exp(-t * 50) * envelope(t, duration, .003, .02);
     } else if (type === 'brush') {
-      value = filteredNoise * Math.exp(-t * 22) * envelope(t, duration, .006, .035);
+      value = filteredNoise * Math.exp(-t * (extra.decay ?? 22)) * envelope(t, duration, .006, .035);
     } else if (type === 'kick') {
       value = Math.sin(TAU * (62 * t + 2.3 * (1 - Math.exp(-t * 22)))) * Math.exp(-t * 25) * envelope(t, duration, .004, .03);
     } else if (type === 'boing') {
@@ -160,6 +161,73 @@ function validate(buffer, loop) {
   if(loop&&edgeDelta>Math.max(.012,maxDelta*1.1))throw new Error('Discontinuous loop boundary');
   return {durationSeconds:length/SR,bytes:buffer.length,peak:+peak.toFixed(5),rms:+rms.toFixed(5),dcOffset:+dc.toFixed(8),loopBoundaryDelta:+edgeDelta.toFixed(6),maxSampleDelta:+maxDelta.toFixed(6),clippedSamples:0};
 }
+function costumeVoice(song, type, at, duration, pitch, volume = .12, pan = 0, options = {}) {
+  const frequency = note(pitch), release = options.release ?? .16;
+  const count = Math.ceil((duration + release) * SR), start = Math.round(at * SR);
+  const left = Math.cos((pan + 1) * Math.PI / 4) * volume;
+  const right = Math.sin((pan + 1) * Math.PI / 4) * volume;
+  let phase = 0, filteredNoise = 0, previousNoise = 0;
+  for (let i = 0; i < count; i++) {
+    const t = i / SR, white = noise();
+    filteredNoise += (white - filteredNoise) * .21;
+    phase += TAU * frequency / SR;
+    let value = 0;
+    if (type === 'piano' || type === 'acousticGuitar') {
+      // Inharmonic string partials lose their upper harmonics before the body resonance.
+      for(let h=1;h<=7&&frequency*h<SR*.43;h++){
+        const stretch=type==='piano'?1+.00013*h*h:1;
+        value+=Math.sin(phase*h*stretch+(h===1?0:.18)) * Math.exp(-t*(1.5+h*(type==='piano'?.42:.8))) / h**1.7;
+      }
+      value=(value+filteredNoise*Math.exp(-t*90)*.17)*envelope(t,duration,.007,release);
+    } else if (type === 'accordion') {
+      const swell=.88+.12*Math.sin(TAU*1.6*t);
+      for(let h=1;h<=6&&frequency*h<SR*.43;h++)value+=(Math.sin(phase*h)+.38*Math.sin(phase*h*1.003))*Math.exp(-h*.36)/h;
+      value*=swell*envelope(t,duration,.048,release);
+    } else if (type === 'clarinet') {
+      const bend=phase+.005*Math.sin(TAU*4.8*t)*Math.min(t*3,1);
+      value=(Math.sin(bend)+.23*Math.sin(bend*3)+.075*Math.sin(bend*5)+filteredNoise*.025)*envelope(t,duration,.045,release);
+    } else if (type === 'guitar') {
+      // A band-limited plucked source, mildly overdriven after its attack.
+      const string = Math.sin(phase) + .44 * Math.sin(phase * 2) * Math.exp(-t * 3)
+        + .27 * Math.sin(phase * 3) + .11 * Math.sin(phase * 5) * Math.exp(-t * 5);
+      value = Math.tanh(string * 2.1) * (.48 + .52 * Math.exp(-t * 5.5))
+        * envelope(t, duration, .004, release);
+    } else if (type === 'electricBass') {
+      value = Math.tanh((Math.sin(phase) + .26 * Math.sin(phase * 2) + .12 * Math.sin(phase * 3)) * 1.7)
+        * (.65 + .35 * Math.exp(-t * 7)) * envelope(t, duration, .008, release);
+    } else if (type === 'snare') {
+      value = ((white - filteredNoise * .6) * Math.exp(-t * 19)
+        + Math.sin(TAU * 175 * t) * Math.exp(-t * 34) * .65) * envelope(t, duration, .003, release);
+    } else if (type === 'hat') {
+      value = (white - previousNoise * .86) * Math.exp(-t * (options.open ? 13 : 65))
+        * envelope(t, duration, .002, release);
+    } else if (type === 'spacePad') {
+      value = (Math.sin(phase) * .60 + Math.sin(phase * 1.003 + .3) * .25
+        + Math.sin(phase * 2) * .10 + Math.sin(phase * 3.997) * .035)
+        * (.88 + .12 * Math.sin(TAU * .7 * t)) * envelope(t, duration, .40, release);
+    } else if (type === 'spaceKey') {
+      value = Math.sin(phase + Math.sin(phase * 2) * 1.4 * Math.exp(-t * 5))
+        * (.25 + .75 * Math.exp(-t * 4)) * envelope(t, duration, .015, release);
+    } else if (type === 'robotBass') {
+      const roundedPulse = Math.sin(phase) + .30 * Math.sin(phase * 3) + .11 * Math.sin(phase * 5);
+      value = Math.tanh(roundedPulse * 1.7 + Math.sin(phase * 2) * .45 * Math.exp(-t * 17))
+        * (.4 + .6 * Math.exp(-t * 7)) * envelope(t, duration, .008, release);
+    } else if (type === 'robotKey') {
+      value = (Math.sin(phase + Math.sin(phase * 2) * .58) + Math.sin(phase * 3) * .13)
+        * Math.exp(-t * 3.2) * envelope(t, duration, .005, release);
+    } else if (type === 'organ') {
+      value = (Math.sin(phase) * .65 + Math.sin(phase * 2) * .24
+        + Math.sin(phase * 3) * .12 + Math.sin(phase * 4) * .08)
+        * (.96 + .04 * Math.sin(TAU * 4.2 * t)) * envelope(t, duration, .055, release);
+    }
+    previousNoise = white;
+    const index = ((start + i) % song.length + song.length) % song.length;
+    song.left[index] += value * left;
+    song.right[index] += value * right;
+  }
+}
+
+if(require.main===module){
 const files=[];
 function save(name,song,description,meta={}) {
   finish(song,!!meta.music);const buffer=wav(song);const file=path.join(output,name);fs.writeFileSync(file,buffer);
@@ -396,58 +464,6 @@ effect('animal-lamb',.80,'Baby lamb: two tiny airy baa syllables, delicate and h
 // Secret costume scores are composed independently, after every existing asset.
 // Keep their random stream separate so rebuilding preserves the original WAVs.
 randomState = 0x3478ab2d;
-function costumeVoice(song, type, at, duration, pitch, volume = .12, pan = 0, options = {}) {
-  const frequency = note(pitch), release = options.release ?? .16;
-  const count = Math.ceil((duration + release) * SR), start = Math.round(at * SR);
-  const left = Math.cos((pan + 1) * Math.PI / 4) * volume;
-  const right = Math.sin((pan + 1) * Math.PI / 4) * volume;
-  let phase = 0, filteredNoise = 0, previousNoise = 0;
-  for (let i = 0; i < count; i++) {
-    const t = i / SR, white = noise();
-    filteredNoise += (white - filteredNoise) * .21;
-    phase += TAU * frequency / SR;
-    let value = 0;
-    if (type === 'guitar') {
-      // A band-limited plucked source, mildly overdriven after its attack.
-      const string = Math.sin(phase) + .44 * Math.sin(phase * 2) * Math.exp(-t * 3)
-        + .27 * Math.sin(phase * 3) + .11 * Math.sin(phase * 5) * Math.exp(-t * 5);
-      value = Math.tanh(string * 2.1) * (.48 + .52 * Math.exp(-t * 5.5))
-        * envelope(t, duration, .004, release);
-    } else if (type === 'electricBass') {
-      value = Math.tanh((Math.sin(phase) + .26 * Math.sin(phase * 2) + .12 * Math.sin(phase * 3)) * 1.7)
-        * (.65 + .35 * Math.exp(-t * 7)) * envelope(t, duration, .008, release);
-    } else if (type === 'snare') {
-      value = ((white - filteredNoise * .6) * Math.exp(-t * 19)
-        + Math.sin(TAU * 175 * t) * Math.exp(-t * 34) * .65) * envelope(t, duration, .003, release);
-    } else if (type === 'hat') {
-      value = (white - previousNoise * .86) * Math.exp(-t * (options.open ? 13 : 65))
-        * envelope(t, duration, .002, release);
-    } else if (type === 'spacePad') {
-      value = (Math.sin(phase) * .60 + Math.sin(phase * 1.003 + .3) * .25
-        + Math.sin(phase * 2) * .10 + Math.sin(phase * 3.997) * .035)
-        * (.88 + .12 * Math.sin(TAU * .7 * t)) * envelope(t, duration, .40, release);
-    } else if (type === 'spaceKey') {
-      value = Math.sin(phase + Math.sin(phase * 2) * 1.4 * Math.exp(-t * 5))
-        * (.25 + .75 * Math.exp(-t * 4)) * envelope(t, duration, .015, release);
-    } else if (type === 'robotBass') {
-      const roundedPulse = Math.sin(phase) + .30 * Math.sin(phase * 3) + .11 * Math.sin(phase * 5);
-      value = Math.tanh(roundedPulse * 1.7 + Math.sin(phase * 2) * .45 * Math.exp(-t * 17))
-        * (.4 + .6 * Math.exp(-t * 7)) * envelope(t, duration, .008, release);
-    } else if (type === 'robotKey') {
-      value = (Math.sin(phase + Math.sin(phase * 2) * .58) + Math.sin(phase * 3) * .13)
-        * Math.exp(-t * 3.2) * envelope(t, duration, .005, release);
-    } else if (type === 'organ') {
-      value = (Math.sin(phase) * .65 + Math.sin(phase * 2) * .24
-        + Math.sin(phase * 3) * .12 + Math.sin(phase * 4) * .08)
-        * (.96 + .04 * Math.sin(TAU * 4.2 * t)) * envelope(t, duration, .055, release);
-    }
-    previousNoise = white;
-    const index = ((start + i) % song.length + song.length) % song.length;
-    song.left[index] += value * left;
-    song.right[index] += value * right;
-  }
-}
-
 // Passos no Terreiro: a playful original garage-rock riff in E minor, 140 BPM.
 // Two choruses keep the same hook, then vary its answer and drum fills.
 const punkBeat = 60 / 140, punkBar = punkBeat * 4, punk = track(punkBar * 16, true);
@@ -575,3 +591,5 @@ const manifest={
 };
 fs.writeFileSync(path.join(output,'manifest.json'),JSON.stringify(manifest,null,2)+'\n');
 console.log(`Validated ${files.length} original assets, ${(totalBytes/1000000).toFixed(2)} MB total.`);
+}
+module.exports={SR,track,voice,costumeVoice,note,finish,wav,validate};

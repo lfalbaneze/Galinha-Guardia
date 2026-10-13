@@ -1,6 +1,10 @@
 # Integration checks with the real browser DOM and game scripts.
-# Install tests/browser/requirements.txt and Chromium; serve the repo at 127.0.0.1:8765.
+# Install tests/browser/requirements.txt and Chromium (or set BROWSER_CHANNEL).
 # Controlled starting positions keep encounters reproducible; counters are earned by actual dashes.
+from contextlib import contextmanager
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from threading import Thread
 from playwright.sync_api import sync_playwright
 from pathlib import Path
 from game_ui import READY, start_adventure, equip_from_pause
@@ -9,12 +13,28 @@ import os
 ROOT=Path(__file__).resolve().parents[2]
 OUT=Path(os.environ.get('LAKE_SCREENSHOTS', ROOT/'.cache/lake-review')); OUT.mkdir(parents=True,exist_ok=True)
 result={'checks':[],'errors':[],'failed_requests':[]}
-with sync_playwright() as p:
- browser=p.chromium.launch(headless=True)
+
+
+class QuietHandler(SimpleHTTPRequestHandler):
+ def log_message(self,*args): pass
+
+
+@contextmanager
+def serve():
+ with ThreadingHTTPServer(('127.0.0.1',0),partial(QuietHandler,directory=str(ROOT))) as server:
+  Thread(target=server.serve_forever,daemon=True).start()
+  try:
+   yield f'http://127.0.0.1:{server.server_port}'
+  finally:
+   server.shutdown()
+
+
+with serve() as base, sync_playwright() as p:
+ browser=p.chromium.launch(headless=True,channel=os.environ.get('BROWSER_CHANNEL') or None)
  page=browser.new_page(viewport={'width':1280,'height':1000})
  page.on('pageerror',lambda e:result['errors'].append(str(e)))
  page.on('response',lambda r:result['failed_requests'].append({'url':r.url,'status':r.status}) if r.status>=400 else None)
- page.goto('http://127.0.0.1:8765',wait_until='networkidle')
+ page.goto(base,wait_until='networkidle')
  page.wait_for_function(READY,polling=50)
  assert page.locator('.game-author').inner_text()=='Feito por Luis Albaneze'
  start_adventure(page);page.wait_for_timeout(300)
@@ -32,7 +52,7 @@ with sync_playwright() as p:
  page.add_init_script('window.requestAnimationFrame=()=>0')
  page.on('pageerror',lambda e:result['errors'].append(str(e)))
  page.on('response',lambda r:result['failed_requests'].append({'url':r.url,'status':r.status}) if r.status>=400 else None)
- page.goto('http://127.0.0.1:8765',wait_until='networkidle');start_adventure(page)
+ page.goto(base,wait_until='networkidle');start_adventure(page)
  page.evaluate("""() => {
    resetGame(814237);state.phase='playing';
    window.setupGooseApproach=()=>{

@@ -9,7 +9,7 @@ function checkGroundShadowLayer(createCanvas, Sunlight) {
   floor();Sunlight.begin(0);requireValue(Sunlight.beginLayer(c),'ground layer did not start');
   // A later shadow must never tint an earlier character or a foreground prop.
   c.fillStyle='#0000ff';c.fillRect(45,45,10,10);
-  Sunlight.contact(c,50,50,20,10,.4);Sunlight.end();
+  Sunlight.ground(c,out=>{out.fillStyle='#25352b';out.globalAlpha=.4;out.fillRect(30,40,40,20);});Sunlight.end();
   requireValue(pixel(50,50).join(',')==='0,0,255,255','shadow painted over the body');
   requireValue(pixel(1,1).join(',')==='255,255,255,255','floor was erased');
   const shaded=pixel(35,50);
@@ -19,7 +19,7 @@ function checkGroundShadowLayer(createCanvas, Sunlight) {
   requireValue(allocations===firstAllocations,'same-size frame reallocated layer canvases');
   requireValue(pixel(35,50).join(',')==='255,255,255,255','old shadows left trails');
   canvas.width=140;canvas.height=80;floor();Sunlight.begin(20);Sunlight.beginLayer(c);
-  c.translate(10,5);Sunlight.contact(c,110,60,8,4,.5);Sunlight.end();
+  c.translate(10,5);Sunlight.ground(c,out=>{out.fillStyle='#25352b';out.globalAlpha=.5;out.fillRect(102,56,16,8);});Sunlight.end();
   requireValue(pixel(120,65)[0]<240,'resized layer lost the current drawing transform');
   requireValue(pixel(139,79)[3]===255,'resized floor was clipped');
   requireValue(c.getTransform().e===10&&c.getTransform().f===5,'composition changed the actor transform');

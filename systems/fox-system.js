@@ -1,19 +1,19 @@
 "use strict";
-/* The fox commits to the direction shown by its warning, never to a hidden player. */
+/* The fox follows visible movement while preparing, then commits before the dash. */
 const FoxSystem = (() => {
     const HITBOX = { ox: 0, oy: 8, r: 14 };
     const LEASH = 170;
     const point = WildlifeRules.point;
     const lines = {
         Lorenzo: {
-            idle: ['Sou moita. Moita com fome.', 'Camuflagem: dez. Discrição: zero.', 'Amanda, meu rabo tá aparecendo?'],
+            idle: ['Sou moita. Moita com fome.', 'Camuflagem: dez. Discrição: zero.', 'Sophis, meu rabo tá aparecendo?'],
             warning: ['Delivery de susto!', 'Licença, que eu tô sem freio!', 'Agora vai! Eu acho.'],
-            miss: ['Era teste de suspensão.', 'O chão desviou de mim!', 'Amanda, essa não conta!'],
+            miss: ['Era teste de suspensão.', 'O chão desviou de mim!', 'Sophis, essa não conta!'],
             hit: ['Taxa de passagem: um susto!', 'Peguei! Cadê meu troféu?', 'Foi mal! Freio vendido à parte.'],
             move: ['Mudei. O aluguel era alto!', 'Essa moita não tem Wi-Fi.', 'Vou ali trocar de endereço.'],
-            scared: ['Calma, chefe! Sou estagiário!', 'Eu só tava regando a moita!', 'Amanda, distrai o grandão!']
+            scared: ['Calma, chefe! Sou estagiário!', 'Eu só tava regando a moita!', 'Sophis, distrai o grandão!']
         },
-        Amanda: {
+        Sophis: {
             idle: ['Lacinho fofo. Planos nem tanto.', 'Lorenzo, esconde esse rabão!', 'Essa moita precisa de um laço.'],
             warning: ['Desfila pro lado, querida!', 'Lacinho preso. Bote liberado!', 'Fofura não dá imunidade!'],
             miss: ['Errei? Foi coreografia!', 'Meu laço pegou vento!', 'Lorenzo, apaga essa filmagem!'],
@@ -23,7 +23,7 @@ const FoxSystem = (() => {
         }
     };
     function denLabel(fox) {
-        return fox?.name === 'Amanda' ? 'Moita da Amanda' : fox ? 'Moita do Lorenzo' : 'Moita da raposa';
+        return fox?.name === 'Sophis' ? 'Moita da Sophis' : fox ? 'Moita do Lorenzo' : 'Moita da raposa';
     }
     function say(fox, event) {
         const choices = lines[fox.name || 'Lorenzo'][event], index = fox.speechCounts[event] || 0;
@@ -34,8 +34,10 @@ const FoxSystem = (() => {
     }
     function getConfig(game) {
         const hard = game.difficultyKey === 'hard' || game.difficultyKey === 'hardcore';
-        return { warning: game.difficultyKey === 'easy' ? 1.25 : hard ? .9 : 1.1,
-            speed: game.settings.chickenSpeed * 1.15, rest: 1.05, cooldown: 3.2,
+        const easy = game.difficultyKey === 'easy', extreme = game.difficultyKey === 'hardcore';
+        return { warning: easy ? .8 : extreme ? .4 : hard ? .5 : .6,
+            speed: game.settings.chickenSpeed * (easy ? 1.05 : extreme ? 1.28 : hard ? 1.22 : 1.15),
+            rest: easy ? 1.35 : extreme ? .85 : hard ? .95 : 1.05, cooldown: easy ? 4 : extreme ? 2.6 : hard ? 2.9 : 3.2,
             relocateEvery: game.difficultyKey === 'hardcore' ? 6 : hard ? 10 : game.difficultyKey === 'easy' ? 18 : 14,
             travelSpeed: game.difficultyKey === 'hardcore' ? 165 : 140 };
     }
@@ -56,7 +58,7 @@ const FoxSystem = (() => {
                 break;
         }
         game.entities.foxes = chosen.map(({ spot, home }, i) => ({ id: `fox-${spot.id}`, type: 'fox', ...home,
-            name: i === 0 ? 'Lorenzo' : 'Amanda', speech: '', speechTime: 0, speechCooldown: 3 + i * 3, speechCounts: {},
+            name: i === 0 ? 'Lorenzo' : 'Sophis', speech: '', speechTime: 0, speechCooldown: 3 + i * 3, speechCounts: {},
             radius: 23, hitbox: { ...HITBOX }, vx: 0, vy: 0, facing: 1, direction: 'right', moving: false, anim: 0,
             areaId: getAreaAt(home.x, home.y).id, state: 'idle', mode: 'hidden', home: point(home), anchor: point(home),
             target: point(home), bushId: spot.id, timer: 0, cooldown: 1 + i * .5, grace: 2, notice: 0, attempts: 0, hit: false, route: [], scaredTime: 0,
@@ -83,11 +85,19 @@ const FoxSystem = (() => {
             // Passing near a bush does not occupy it; travel cannot deal contact damage.
             c.spot.id !== chicken.hidingSpotId && !HidingSpots.contains(c.spot, chicken) &&
             distance(c.home, fox) > 100)
-            .sort((a, b) => distance(a.home, fox) - distance(b.home, fox));
+            .sort((a, b) => Number(a.spot.id === fox.previousBushId) - Number(b.spot.id === fox.previousBushId) ||
+            denCost(a.home) - denCost(b.home));
+        function denCost(home) {
+            // A recent, visible escape can change the next ambush; hidden coordinates cannot.
+            const ambush = fox.sighting && (fox.sightingAge || 0) < 8 ? Math.abs(distance(home, fox.sighting) - 180) * .7 : 0;
+            return distance(home, fox) + ambush + (game.entities.foxes || []).filter(f => f !== fox)
+                .reduce((cost, f) => cost + Math.max(0, 390 - distance(home, f.home)) * 2, 0);
+        }
         for (const { spot, home } of candidates) {
             const route = routeTo(fox, home);
             if (!route.length)
                 continue;
+            fox.previousBushId = fox.bushId;
             fox.bushId = spot.id;
             fox.home = point(home);
             fox.route = route;
@@ -111,11 +121,47 @@ const FoxSystem = (() => {
             return end;
         for (let s = 5; s <= LEASH; s += 5) {
             const next = { x: fox.x + dx / length * s, y: fox.y + dy / length * s };
-            if (!WildlifeRules.clear(end, next, fox.hitbox) || distance(fox.home, next) > LEASH)
+            if (!WildlifeRules.clear(end, next, fox.hitbox) || FarmRefuge.contains(next) || distance(fox.home, next) > LEASH)
                 break;
             end = next;
         }
         return end;
+    }
+    function aim(game, fox) {
+        const chicken = game.entities.chicken;
+        const speed = Math.hypot(chicken.vx, chicken.vy), lead = Math.min(fox.name === 'Sophis' ? 42 : 28, speed * (fox.name === 'Sophis' ? .18 : .12));
+        const observed = { x: chicken.x + (speed ? chicken.vx / speed * lead : 0), y: chicken.y + (speed ? chicken.vy / speed * lead : 0) };
+        return plan(fox, DetectionSystem.hasLineOfSight(getHitbox(fox), observed) ? observed : chicken);
+    }
+    function warn(game, fox) {
+        const config = getConfig(game), target = aim(game, fox);
+        if (distance(fox, target) < 40) {
+            fox.mode = 'return';
+            fox.cooldown = 1;
+            return;
+        }
+        fox.mode = 'warning';
+        fox.anchor = point(fox);
+        fox.target = target;
+        fox.timer = config.warning;
+        fox.hit = false;
+        Player.face(fox, target.x - fox.x, target.y - fox.y);
+        AudioSystem.play('fox-rustle', { volume: .36 });
+        say(fox, 'warning');
+        setStatus(`Essa moita tem rabo! ${fox.name} acompanha sua fuga. Mude de direção quando ela saltar.`);
+    }
+    function flank(fox, player) {
+        const angle = Math.atan2(player.y - fox.y, player.x - fox.x), side = fox.attempts % 2 ? 1 : -1;
+        // Sophis comes out of cover first. Both sides must leave room for a real, warned dash.
+        for (const offset of [side, -side])
+            for (const length of [95, 65]) {
+                const target = { x: fox.x + Math.cos(angle) * 55 - Math.sin(angle) * length * offset,
+                    y: fox.y + Math.sin(angle) * 55 + Math.cos(angle) * length * offset };
+                if (distance(target, fox.home) <= LEASH && !FarmRefuge.contains(target) &&
+                    WildlifeRules.clear(fox, target, fox.hitbox) && WildlifeRules.clear(target, player, fox.hitbox))
+                    return target;
+            }
+        return undefined;
     }
     function rest(fox, config) {
         fox.mode = 'rest';
@@ -140,6 +186,7 @@ const FoxSystem = (() => {
     function bump(game, fox) {
         const c = game.entities.chicken;
         if (game.phase !== 'playing' || game.lake?.active || fox.mode !== 'dash' || fox.hit || c.hidden || c.invulnerable > 0 ||
+            (typeof FarmRefuge !== 'undefined' && FarmRefuge.contains(c)) ||
             !circleVsCircle(fox, c) || !DetectionSystem.hasLineOfSight(getHitbox(fox), getHitbox(c)))
             return false;
         const dx = c.x - fox.x, dy = c.y - fox.y, len = Math.hypot(dx, dy), a = Math.atan2(fox.target.y - fox.anchor.y, fox.target.x - fox.anchor.x);
@@ -206,6 +253,7 @@ const FoxSystem = (() => {
         dt = Math.min(dt, .1);
         const config = getConfig(game);
         const wolf = game.entities.wolf;
+        const safe = typeof FarmRefuge !== 'undefined' && FarmRefuge.contains(game.entities.chicken);
         wolf.foxScoldCooldown = Math.max(0, (wolf.foxScoldCooldown || 0) - dt);
         for (const fox of game.entities.foxes || []) {
             const before = point(fox);
@@ -213,6 +261,12 @@ const FoxSystem = (() => {
             fox.grace = Math.max(0, fox.grace - dt);
             fox.timer = Math.max(0, fox.timer - dt);
             fox.scaredTime = Math.max(0, (fox.scaredTime || 0) - dt);
+            fox.sightingAge = (fox.sightingAge || 0) + dt;
+            const seen = !safe && WildlifeRules.observe(game, getHitbox(fox), LEASH + 70);
+            if (seen) {
+                fox.sighting = point(game.entities.chicken);
+                fox.sightingAge = 0;
+            }
             fox.speechTime = Math.max(0, fox.speechTime - dt);
             fox.speechCooldown = Math.max(0, fox.speechCooldown - dt);
             scareFromWolf(game, fox);
@@ -220,36 +274,64 @@ const FoxSystem = (() => {
                 if (config.relocateEvery)
                     fox.relocateIn = Math.max(0, fox.relocateIn - dt);
                 const relocated = config.relocateEvery && fox.relocateIn <= 0 && fox.grace <= 0 && relocate(game, fox);
-                if (!relocated && fox.cooldown <= 0 && fox.grace <= 0 && visible(game, fox) && WildlifeRules.observe(game, getHitbox(fox), 135)) {
+                // Nearby ambushers take turns, leaving a short recovery before the next warning.
+                const busy = (game.entities.foxes || []).some(other => other !== fox && distance(other, fox) < LEASH * 2 + 80 &&
+                    (other.mode === 'stalk' || other.mode === 'warning' || other.mode === 'dash' || (other.mode === 'rest' && other.timer > config.rest - .45)));
+                if (!relocated && !busy && seen && fox.cooldown <= 0 && fox.grace <= 0 && visible(game, fox)) {
                     const chicken = game.entities.chicken;
-                    // Lead a visible runner a little, then commit to that one announced line.
-                    const speed = Math.hypot(chicken.vx, chicken.vy), lead = chicken.sprinting ? Math.min(28, speed * .12) : 0;
-                    const observed = { x: chicken.x + (speed ? chicken.vx / speed * lead : 0), y: chicken.y + (speed ? chicken.vy / speed * lead : 0) };
-                    const target = plan(fox, DetectionSystem.hasLineOfSight(getHitbox(fox), observed) ? observed : chicken);
-                    if (distance(fox, target) < 40) {
-                        fox.cooldown = 1;
-                        continue;
+                    if (WildlifeRules.observe(game, getHitbox(fox), 135))
+                        warn(game, fox);
+                    else if (fox.name === 'Sophis') {
+                        const target = flank(fox, chicken);
+                        if (target) {
+                            fox.mode = 'stalk';
+                            fox.target = target;
+                            fox.timer = 1.3;
+                            fox.hit = false;
+                            AudioSystem.play('fox-rustle', { volume: .28 });
+                            setStatus('Sophis saiu da moita e está tentando cercar você. A investida ainda será anunciada.');
+                        }
+                        else
+                            fox.cooldown = 1;
                     }
-                    fox.mode = 'warning';
-                    fox.anchor = point(fox);
-                    fox.target = target;
-                    fox.timer = config.warning;
-                    fox.hit = false;
-                    Player.face(fox, target.x - fox.x, target.y - fox.y);
-                    AudioSystem.play('fox-rustle', { volume: .36 });
-                    say(fox, 'warning');
-                    setStatus(`Essa moita tem rabo! ${fox.name} vai dar o bote. Saia para o lado da faixa marcada.`);
+                }
+            }
+            else if (fox.mode === 'stalk') {
+                if (!seen) {
+                    fox.mode = 'return';
+                    fox.route = [];
+                    fox.timer = 0;
+                    fox.cooldown = 2;
+                }
+                else {
+                    const moved = WildlifeRules.move(fox, fox.target, config.travelSpeed * .85 * dt);
+                    if (moved !== 'moving' || fox.timer <= 0) {
+                        if (WildlifeRules.observe(game, getHitbox(fox), LEASH + 45))
+                            warn(game, fox);
+                        else {
+                            fox.mode = 'return';
+                            fox.route = [];
+                            fox.timer = 0;
+                            fox.cooldown = 2;
+                        }
+                    }
                 }
             }
             else if (fox.mode === 'warning') {
-                if (!WildlifeRules.observe(game, getHitbox(fox), LEASH + 45)) {
-                    fox.mode = 'hidden';
+                if (safe || !WildlifeRules.observe(game, getHitbox(fox), LEASH + 45)) {
+                    fox.mode = distance(fox, fox.home) > 1 ? 'return' : 'hidden';
+                    fox.route = [];
                     fox.cooldown = 1.5;
+                    fox.timer = 0;
                 }
                 else if (fox.timer <= 0) {
                     fox.mode = 'dash';
                     fox.timer = LEASH / config.speed + .1;
                     fox.attempts++;
+                }
+                else if (fox.timer > .12) {
+                    fox.target = aim(game, fox);
+                    Player.face(fox, fox.target.x - fox.x, fox.target.y - fox.y);
                 }
             }
             else if (fox.mode === 'dash') {
@@ -275,8 +357,13 @@ const FoxSystem = (() => {
                         fox.route = routeTo(fox, fox.home);
                         fox.timer = 1;
                     }
-                    if (!fox.route.length)
+                    if (!fox.route.length) {
+                        fox.vx = 0;
+                        fox.vy = 0;
+                        fox.moving = false;
+                        fox.state = 'idle';
                         continue;
+                    }
                     target = fox.route[0];
                 }
                 const moved = WildlifeRules.move(fox, target, ((fox.scaredTime || 0) > 0 ? config.speed : fox.mode === 'relocate' ? config.travelSpeed : 100) * dt);
@@ -320,9 +407,20 @@ const FoxSystem = (() => {
                 ctx.lineWidth = 3;
                 ctx.lineJoin = 'round';
                 ctx.strokeText(fox.name, x, y);
-                ctx.fillStyle = fox.name === 'Amanda' ? '#ffc5df' : '#fff0bd';
+                ctx.fillStyle = fox.name === 'Sophis' ? '#ffc5df' : '#fff0bd';
                 ctx.fillText(fox.name, x, y);
                 ctx.restore();
+                if (fox.mode === 'stalk') {
+                    ctx.save();
+                    ctx.font = 'bold 11px Trebuchet MS, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#ffd2e5';
+                    ctx.strokeStyle = '#493322';
+                    ctx.lineWidth = 3;
+                    ctx.strokeText('CERCANDO…', x, y - 16);
+                    ctx.fillText('CERCANDO…', x, y - 16);
+                    ctx.restore();
+                }
             }
             if (fox.speechTime > 0 && fox.speech && visible(game, fox)) {
                 ctx.save();
@@ -331,11 +429,31 @@ const FoxSystem = (() => {
                 const width = Math.min(canvas.width - 24, Math.max(110, ctx.measureText(fox.speech).width + 20));
                 const x = clamp(worldX(fox.x), width / 2 + 8, canvas.width - width / 2 - 8), fy = worldY(fox.y);
                 const y = clamp(fy < 120 ? fy + 45 : fy - 96, 24, canvas.height - 16);
-                ctx.fillStyle = fox.name === 'Amanda' ? '#ffe0eefa' : '#fff0cefa';
+                ctx.fillStyle = fox.name === 'Sophis' ? '#ffe0eefa' : '#fff0cefa';
                 ctx.strokeStyle = '#523c35';
                 ctx.lineWidth = 1.5;
+                const left = x - width / 2, right = x + width / 2, top = y - 18, bottom = y + 11, tip = clamp(worldX(fox.x), left + 14, right - 14), above = fy >= 120;
                 ctx.beginPath();
-                ctx.roundRect(x - width / 2, y - 18, width, 29, 7);
+                ctx.moveTo(left + 7, top);
+                if (!above) {
+                    ctx.lineTo(tip - 5, top);
+                    ctx.lineTo(tip, top - 7);
+                    ctx.lineTo(tip + 5, top);
+                }
+                ctx.lineTo(right - 7, top);
+                ctx.quadraticCurveTo(right, top, right, top + 7);
+                ctx.lineTo(right, bottom - 7);
+                ctx.quadraticCurveTo(right, bottom, right - 7, bottom);
+                if (above) {
+                    ctx.lineTo(tip + 5, bottom);
+                    ctx.lineTo(tip, bottom + 7);
+                    ctx.lineTo(tip - 5, bottom);
+                }
+                ctx.lineTo(left + 7, bottom);
+                ctx.quadraticCurveTo(left, bottom, left, bottom - 7);
+                ctx.lineTo(left, top + 7);
+                ctx.quadraticCurveTo(left, top, left + 7, top);
+                ctx.closePath();
                 ctx.fill();
                 ctx.stroke();
                 ctx.fillStyle = '#50382f';
@@ -344,23 +462,8 @@ const FoxSystem = (() => {
             }
             if (fox.mode !== 'warning' || !visible(game, fox))
                 continue;
-            const x = worldX(fox.x), y = worldY(fox.y), to = worldToScreen(fox.target);
+            const x = worldX(fox.x), y = worldY(fox.y);
             ctx.save();
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = '#efb47d30';
-            ctx.lineWidth = 2 * (fox.hitbox.r + game.entities.chicken.hitbox.r);
-            ctx.beginPath();
-            ctx.moveTo(x, y + 8);
-            ctx.lineTo(to.x, to.y + 8);
-            ctx.stroke();
-            ctx.strokeStyle = '#efb47d';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([5, 6]);
-            ctx.beginPath();
-            ctx.moveTo(x, y + 8);
-            ctx.lineTo(to.x, to.y + 8);
-            ctx.stroke();
-            ctx.setLineDash([]);
             const shake = InterfaceMotion.reduced ? 0 : Math.sin(fox.anim * 15) * 2;
             ctx.fillStyle = '#493322';
             ctx.fillRect(Math.round(x - 5 + shake), y - 34, 10, 19);
@@ -375,7 +478,8 @@ const FoxSystem = (() => {
         }
     }
     function snapshot(game) {
-        return (game.entities.foxes || []).map(f => ({ id: f.id, ...point(f), cooldown: f.cooldown, bushId: f.bushId, relocateIn: f.relocateIn }));
+        return (game.entities.foxes || []).map(f => ({ id: f.id, ...point(f), cooldown: f.cooldown, bushId: f.bushId,
+            previousBushId: f.previousBushId, relocateIn: f.relocateIn }));
     }
     function restore(game, saved) {
         initialize(game);
@@ -420,6 +524,7 @@ const FoxSystem = (() => {
             fox.y = s.y;
             fox.mode = distance(fox, fox.home) > 1 ? 'rest' : 'hidden';
             fox.timer = 1.1;
+            fox.previousBushId = candidates.some(c => c.spot.id === record.previousBushId && c.spot.id !== fox.bushId) ? record.previousBushId : null;
             fox.relocateIn = typeof record.relocateIn === 'number' && Number.isFinite(record.relocateIn) ?
                 clamp(record.relocateIn, 0, 20) : getConfig(game).relocateEvery;
             const cooldown = s.cooldown;

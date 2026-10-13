@@ -1,0 +1,168 @@
+{
+  "provider": "PixelLab",
+  "source": "assets/shuffle/power-catalog.png",
+  "width": 256,
+  "height": 640,
+  "cells": {
+    "cornshot": [
+      0,
+      0
+    ],
+    "egg": [
+      64,
+      0
+    ],
+    "sickle": [
+      128,
+      0
+    ],
+    "boots": [
+      192,
+      0
+    ],
+    "volley": [
+      0,
+      64
+    ],
+    "rear": [
+      64,
+      64
+    ],
+    "cross": [
+      128,
+      64
+    ],
+    "spiral": [
+      192,
+      64
+    ],
+    "sniper": [
+      0,
+      128
+    ],
+    "homing": [
+      64,
+      128
+    ],
+    "boomerang": [
+      128,
+      128
+    ],
+    "ricochet": [
+      192,
+      128
+    ],
+    "fireball": [
+      0,
+      192
+    ],
+    "frost": [
+      64,
+      192
+    ],
+    "venom": [
+      128,
+      192
+    ],
+    "thunder": [
+      192,
+      192
+    ],
+    "mines": [
+      0,
+      256
+    ],
+    "orbit": [
+      64,
+      256
+    ],
+    "quake": [
+      128,
+      256
+    ],
+    "heart": [
+      192,
+      256
+    ],
+    "dash": [
+      0,
+      320
+    ],
+    "feather": [
+      64,
+      320
+    ],
+    "magnet": [
+      128,
+      320
+    ],
+    "might": [
+      192,
+      320
+    ],
+    "haste": [
+      0,
+      384
+    ],
+    "reach": [
+      64,
+      384
+    ],
+    "regen": [
+      128,
+      384
+    ],
+    "shield": [
+      192,
+      384
+    ],
+    "harvest": [
+      0,
+      448
+    ],
+    "thorns": [
+      64,
+      448
+    ],
+    "milk": [
+      128,
+      448
+    ],
+    "xp": [
+      192,
+      448
+    ],
+    "fusion-solar": [
+      0,
+      512
+    ],
+    "fusion-reaper": [
+      64,
+      512
+    ],
+    "fusion-storm": [
+      128,
+      512
+    ],
+    "fusion-blizzard": [
+      192,
+      512
+    ],
+    "fusion-meteor": [
+      0,
+      576
+    ],
+    "fusion-cauldron": [
+      64,
+      576
+    ],
+    "fusion-fortress": [
+      128,
+      576
+    ],
+    "fusion-popcorn": [
+      192,
+      576
+    ]
+  }
+}

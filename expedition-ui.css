@@ -150,6 +150,7 @@ button { touch-action:manipulation; }
  #expeditionBar .life-heart svg { width:15px; height:16px; }
  #expeditionBar .play-region { top:76px; left:14px; }
  #expeditionBar .wolf-counter { top:86px; width:177px; right:0; padding:8px; }
+ .game-shell:not([data-phase='menu']) .region-notice { max-width:calc(100% - 213px); overflow-wrap:anywhere; }
  #expeditionBar .threat-title { font-size:10px; }
  #expeditionBar #chickCombo { top:106px; left:0; min-width:0; gap:5px; padding:8px; font-size:11px; }
  #expeditionBar #comboMeter { width:32px; }

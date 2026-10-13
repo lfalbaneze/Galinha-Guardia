@@ -60,39 +60,36 @@ test('donkey, wolf and the entire terrestrial cast keep feet grounded when brows
   assert.ok(checked >= 4500);
 });
 
-test('terrestrial actors cast one attached footprint, never a second projected silhouette', async () => {
+test('actors cast one solar silhouette without a generic circular or oval shadow', async () => {
   const { sun, art, data } = await fixture();
   const c = createCanvas(240, 240).getContext('2d');
   const ellipse = c.ellipse.bind(c), drawImage = c.drawImage.bind(c);
   let footprints = 0, images = 0;
   c.ellipse = (...args) => { footprints++; return ellipse(...args); };
   c.drawImage = (...args) => { images++; return drawImage(...args); };
-  for (const name of Object.keys(data).filter(n => !['owl', 'crow'].includes(n))) {
+  for (const name of Object.keys(data)) {
     for (const direction of art.directions) for (const moving of [false, true]) {
       for (const lightTime of [0, 42, 102]) {
         c.clearRect(0, 0, 240, 240); footprints = images = 0;
-        sun.begin(lightTime); sun.actor('animal');
+        sun.begin(lightTime);
         art.draw(c, name, 120, 186, { direction, moving, anim: 1, mood: 'scared' });
-        assert.equal(footprints, 1, `${name}/${direction}: duplicate footprint`);
-        assert.equal(images, 1, `${name}/${direction}: an extra projected image was drawn`);
+        assert.equal(footprints, 0, `${name}/${direction}: forbidden oval shadow`);
+        assert.equal(images, 2, `${name}/${direction}: one projected silhouette and one body`);
         assert.equal(sun.inspect().casts, 1);
-        const below = c.getImageData(0, 205, 240, 35).data;
-        assert.equal(below.some((v, i) => i % 4 === 3 && v), false, `${name}: detached shadow below the feet`);
         sun.end();
       }
     }
   }
 });
 
-test('footprints stay in the ground layer and explicit jumps keep their elevation', async () => {
+test('solar projections stay below bodies and follow explicit jump elevation', async () => {
   const { sun, art } = await fixture();
   for (const lifted of [0, 16]) {
     const c = createCanvas(240, 240).getContext('2d');
     c.fillStyle = '#ffffff'; c.fillRect(0, 0, 240, 240);
-    sun.begin(12); assert.equal(sun.beginLayer(c), true); sun.actor('animal');
+    sun.begin(12); assert.equal(sun.beginLayer(c), true);
     art.draw(c, 'donkey', 120, 186, { direction: 'downright', lift: lifted });
     sun.end();
-    assert.equal(c.getImageData(120, 225, 1, 1).data[0], 255, 'No detached long silhouette');
-    assert.ok(c.getImageData(0, 198, 240, 4).data.some((v, i) => i % 4 !== 3 && v < 250), 'Footprint stays on the ground');
+    assert.ok(c.getImageData(0, 198, 240, 42).data.some((v, i) => i % 4 !== 3 && v < 250), 'Projection remains on the floor');
   }
 });

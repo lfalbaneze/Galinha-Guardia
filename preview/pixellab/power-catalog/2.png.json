@@ -1,0 +1,12 @@
+{
+  "provider": "PixelLab",
+  "endpoint": "/create-image-pixen",
+  "image_size": {
+    "width": 256,
+    "height": 128
+  },
+  "seed": 100828,
+  "no_background": true,
+  "enhance_prompt": false,
+  "description": "Premium cartoon FARM GAME inventory sprite sheet. EXACTLY FOUR columns, TWO rows of 64x64 cells. Eight separate complete objects, ONE in each cell, each centered within 48x48, surrounded by 8 transparent pixels. Cell 1 (TOP row, column 1): A half-buried carrot with a tiny red detonator plunger and a brown soil clod. Cell 2 (TOP row, column 2): Three ivory cat claws circling a violet cat-paw-shaped central gem in a bronze ring. Cell 3 (TOP row, column 3): A tiny red rooster-shaped wooden mallet smashing a cracked brown earth tile. Cell 4 (TOP row, column 4): A red heart sewn into a golden hay nest, tiny green sprout and ivory stitches. Cell 5 (BOTTOM row, column 1): A golden wing strapped to a red leather ankle cuff, one short ivory speed streak. Cell 6 (BOTTOM row, column 2): A soft ivory feather wrapped around a tiny blue padded elbow guard with lavender straps. Cell 7 (BOTTOM row, column 3): A chunky red horseshoe magnet holding three mint-green farm XP crystals. Cell 8 (BOTTOM row, column 4): A muscular corn cob dumbbell with two golden kernel weights and green husk grips. Playful handmade farm equipment, strong unique silhouettes, charming rounded shapes, clean dark outline, rich flat colors with three crisp pixel shade clusters. Native pixel art, no blur, realism, plastic shine, text, frames, floor or shadows. All objects fit their own cells; no overlap."
+}

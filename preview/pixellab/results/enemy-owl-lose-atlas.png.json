@@ -1,0 +1,22 @@
+{
+  "provider": "PixelLab",
+  "method": "installed-atlas-frame",
+  "source": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+  "sourceSha256": "5dc5723a46db1d0085ea532c226a2624431bfa14468587c5ed0ccda104020733",
+  "action": "walk",
+  "direction": "down",
+  "index": 7,
+  "crop": {
+    "x": 469,
+    "y": 512,
+    "w": 38,
+    "h": 47
+  },
+  "destination": {
+    "x": 26,
+    "y": 22,
+    "w": 76,
+    "h": 94
+  },
+  "scale": 2
+}

@@ -9,14 +9,16 @@ const dirs=['down','downleft','left','upleft','up','upright','right','downright'
  for(const [row,action]of actions.entries()){
   c.fillStyle='#19382e';c.fillText(id+' / '+action,8,row*180+24);
   for(const [col,direction]of dirs.entries()){
-   const p=d.actions[action][direction],f=p.frames[Math.floor(p.frames.length/2)],scale=Math.min(2*d.scale,138/f.w,132/f.h),x=90+col*180,y=row*180+154;
+   const p=d.actions[action][direction],x=90+col*180,y=row*180+154;
+   if(!p){c.fillText(direction+': pendente',x-65,y+22);continue;}
+   const f=p.frames[Math.floor(p.frames.length/2)],scale=Math.min(2*d.scale,138/f.w,132/f.h);
    c.drawImage(atlas,f.x,f.y,f.w,f.h,x-f.cx*scale,y-f.bottom*scale,f.w*scale,f.h*scale);c.fillStyle='#19382e';c.fillText(direction,x-32,y+22);
   }
  }
  fs.writeFileSync(path.join(folder,id,'actions-review.png'),canvas.toBuffer('image/png'));
  for(const action of actions.filter(a=>a!=='idle')){
  const film=createCanvas(1280,dirs.length*155+35),fc=film.getContext('2d');fc.fillStyle='#204534';fc.fillRect(0,0,film.width,film.height);fc.imageSmoothingEnabled=false;fc.font='13px sans-serif';
- for(const [row,direction]of dirs.entries()){const p=d.actions[action][direction];fc.fillStyle='#fff4ce';fc.fillText(id+' / '+action+' / '+direction,8,row*155+17);
+ for(const [row,direction]of dirs.entries()){const p=d.actions[action][direction];fc.fillStyle='#fff4ce';fc.fillText(id+' / '+action+' / '+direction+(p?'':' / PENDENTE'),8,row*155+17);if(!p)continue;
  for(let col=0;col<8;col++){const f=p.frames[Math.floor(col*p.frames.length/8)],scale=Math.min(2*d.scale,148/f.w,116/f.h),x=80+col*160,y=row*155+142;
  fc.drawImage(atlas,f.x,f.y,f.w,f.h,x-f.cx*scale,y-f.bottom*scale,f.w*scale,f.h*scale);}}
  fs.writeFileSync(path.join(folder,id,action+'-review.png'),film.toBuffer('image/png'));

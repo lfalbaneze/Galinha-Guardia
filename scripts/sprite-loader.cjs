@@ -22,6 +22,8 @@ async function loadGameSprites(game) {
   await game.run('ThorArt').load(src => loadImage(path.join(root, src)));
   await game.run('ThorCinematic').load(src => loadImage(path.join(root, src)));
   await game.run('ScarecrowArt').load(src => loadImage(path.join(root, src)));
+  const fence = game.run('FenceArt');
+  if (!await fence.load(src => loadImage(path.join(root, src)))) throw Error('Fence preview failed: ' + fence.errors.join(', '));
   await game.run('FarmSprites').load(loadImage, createCanvas);
   await game.run('FarmSprites').loadNursery(loadImage, createCanvas);
   await game.run('FarmSprites').loadHabitats(loadImage, createCanvas);

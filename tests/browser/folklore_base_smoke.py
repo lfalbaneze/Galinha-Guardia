@@ -48,9 +48,17 @@ try:
                 page.evaluate('''()=>{const e=state.entities.folklore[0];e.grace=0;e.timer=0;
                     state.entities.chicken.invulnerable=0;state.entities.chicken.x=1150;
                     FolkloreSystem.update(state,.05);GameUI.update(state);renderGame();}''')
-            if species!='boitata':assert page.evaluate('state.entities.folklore[0].mode')=='warning'
+            assert page.evaluate('state.entities.folklore[0].mode')=='warning'
+            if species=='fuinha':
+                assert page.evaluate('FolkloreSystem.fuinhaLines.warning.includes(state.entities.folklore[0].speech)')
+                assert page.evaluate('''()=>{const text=[],fill=ctx.fillText.bind(ctx);
+                    ctx.fillText=(value,...args)=>{text.push(value);fill(value,...args);};
+                    FolkloreSystem.drawLabels(state);ctx.fillText=fill;
+                    return text.includes(FolkloreSystem.cast.fuinha.name)&&text.includes(state.entities.folklore[0].speech);}''')
             page.screenshot(path=str(OUT/f'{species}-warning.png'))
             page.evaluate('for(let i=0;i<30;i++)FolkloreSystem.update(state,.05);renderGame()')
+            if species=='fuinha':
+                assert page.evaluate('FolkloreSystem.fuinhaLines.hit.includes(state.entities.folklore[0].speech)')
             page.screenshot(path=str(OUT/f'{species}-attack.png'))
             if species!='fuinha':
                 before=page.evaluate('state.score')
@@ -80,6 +88,14 @@ try:
         mobile.add_init_script('window.requestAnimationFrame=()=>0')
         mobile.goto(url,wait_until='networkidle');start_adventure(mobile)
         mobile.wait_for_function('FolkloreSystem.ready',polling=50)
+        mobile.evaluate('''()=>{state.phase='playing';OBSTACLES=[];
+            const e=state.entities.folklore.find(e=>e.species==='fuinha');state.entities.folklore=[e];
+            Object.assign(e,{x:1000,y:800,home:{x:1000,y:800},active:true,mode:'patrol',timer:0,grace:0});
+            Object.assign(state.entities.chicken,{x:1150,y:800,hidden:false,invulnerable:0});camera.x=880;camera.y=500;
+            FolkloreSystem.update(state,.05);GameUI.update(state);renderGame();}''')
+        assert mobile.evaluate('FolkloreSystem.fuinhaLines.warning.includes(state.entities.folklore[0].speech)')
+        mobile.screenshot(path=str(OUT/'fuinha-mobile-speech.png'))
+        mobile.evaluate("resetGame(42)")
         mobile.evaluate('''()=>{state.phase='playing';OBSTACLES=[];state.rescuedCount=9;
             const e=state.entities.folklore.find(e=>e.species==='cuca');state.entities.folklore=[e];
             Object.assign(e,{x:1000,y:800,home:{x:1000,y:800},active:false});

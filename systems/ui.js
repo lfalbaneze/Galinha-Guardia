@@ -64,7 +64,7 @@ const GameUI = (() => {
     elements.newAdventureBtn = document.getElementById('newAdventureBtn');
     for (const skin of SkinSystem.catalog) elements[`menu-skin-${skin.id}`] = document.getElementById(`menu-skin-${skin.id}`);
     document.getElementById('retrySprites').addEventListener('click', async () => {
-      const loading=Promise.all([CharacterArt.load(),GooseArt.load(),FoxArt.load(),OwlArt.load(),ThorArt.load(),ScarecrowArt.load()]);
+      const loading=Promise.all([CharacterArt.load(),GooseArt.load(),FoxArt.load(),OwlArt.load(),ThorArt.load(),ScarecrowArt.load(),FenceArt.load()]);
       update(state); await loading; update(state);
     });
     elements.startBtn.addEventListener("click", newGame);
@@ -228,6 +228,8 @@ const GameUI = (() => {
     put("hiddenText", swim.swimming ? (swim.native ? "Nadando" : "De boia") : exposed ? "Ele viu você!" : hidden ? "Escondida" : chicken.sneaking ? "De mansinho" : sprinting ? "Correndo" : "À vista");
     elements.hiddenText.dataset.state = exposed ? "exposed" : hidden ? "hidden" : sprinting ? "sprinting" : "visible";
     const folkloreHint=playing?FolkloreSystem.hint(game):null;
+    const tiredFriend=playing&&!hidden&&!chicken.sneaking&&game.entities.animals.some(a=>!a.rescued&&
+      a.restTime>0&&a.fleeFrom?.kind==='player'&&distance(a,chicken)<150&&RescueSystem.visible(game,a));
     const hint = !playing ? (game.phase === 'lose' || game.resumePhase === 'lose' ? 'Fim da tentativa. A próxima começa do zero.' : game.phase === "menu" ? "A porteira tá aberta. O juízo saiu por ela." : "Poleiro cheio. Lobo sem almoço. Belo dia!") :
       game.lake?.active ? (LakeChallenge.canCounter(game) ? `${interact} para pegar o carimbo!` :
         (game.lake.counterWindow||0)>0 ? 'PANTO ficou tonto! Chegue perto antes que a barra acabe.' : 'Desvie da sequência. Quando PANTO ficar tonto, chegue perto para pegar o carimbo.') :
@@ -237,15 +239,18 @@ const GameUI = (() => {
       wolf.mode === "frightened" ? "Thor latiu e o valentão afinou! Aproveite para seguir seu caminho." :
       hidden ? `Finja que é salada. Deixe o lobo passar; ${exitKey} ou movimento para sair.` :
       SunflowerSystem.mode(game)==='warning' ? 'Bote nos girassóis! Saia para o lado da faixa marcada!' :
+      wolf.pursuitRest>0 ? 'O lobo está sem fôlego. Aproveite para quebrar a visão!' :
+      wolf.interceptPhase==='warning' ? 'Ele vai cortar caminho! Mude de direção antes da investida.' :
       wolf.mode === "chase" ? "Corra e saia da vista do lobo antes de se esconder!" :
       wolf.mode === "alert" ? "Ele percebeu alguma coisa. Saia da vista!" :
       secret ? `Siga o piado! Chegue perto até aparecer ${interact} para chamar o pintinho.` :
       HidingSpots.occupied(game,HidingSpots.candidate(chicken)) ? `${FoxSystem.denLabel(HidingSpots.occupant(game,HidingSpots.candidate(chicken)))}: já tem dono! Procure outro esconderijo.` :
       candidate ? `${hideKey} para se esconder. Espere o lobo olhar para outro lado.` :
       chicken.exhausted ? "O tanque de có-có secou. Pare de correr e respire um pouquinho." :
+      tiredFriend ? 'Seu amigo cansou. Pare um instante à vista dele para acalmar; depois chegue devagar.' :
       EnvironmentSystem.hint(game) || (
       sprinting ? "Menos sapateado! Correr assusta o bando e deixa pegadas por alguns segundos." :
-      `Para chegar de mansinho, ${GameInput.label('sneak')}. Encoste nos amigos para salvá-los.`);
+      `Chegue por trás sem ser vista: ${GameInput.label('sneak')} para andar de mansinho. Encoste para resgatar.`);
     put("contextHint",hint);
     // Nearby actions already have one cue in the world. Keep the footer for unmet needs.
     const worldCue = !swim.swimming && (exposed || callableChick || hidden || candidate || secret || HidingSpots.candidate(chicken));
@@ -255,7 +260,7 @@ const GameUI = (() => {
     elements.staminaMeter.parentElement.dataset.full = String(chicken.stamina >= .995 && !sprinting && !chicken.exhausted);
     put("staminaText", chicken.exhausted ? "Recuperando" : "Fôlego");
     put("wolfLevelText", wolfLevels[game.wolfLevel] || wolfLevels[0]);
-    put("wolfStateText", game.lake?.active ? "esperando fora do lago" : game.phase === "won" || game.phase === "win_cutscene" ? "surpreendido!" : SunflowerSystem.mode(game)==='warning' ? "preparando o bote" : SunflowerSystem.concealed(game) ? "à espreita" : wolfModes[wolf.mode] || "patrulhando");
+    put("wolfStateText", game.lake?.active ? "esperando fora do lago" : game.phase === "won" || game.phase === "win_cutscene" ? "surpreendido!" : SunflowerSystem.mode(game)==='warning' ? "preparando o bote" : SunflowerSystem.concealed(game) ? "à espreita" : wolf.pursuitRest>0 ? "recuperando o fôlego" : wolf.interceptPhase==='warning' ? "preparando interceptação" : wolf.interceptPhase==='charge' ? "cortando caminho" : wolfModes[wolf.mode] || "patrulhando");
     elements.wolfStateText.parentElement.dataset.mode = wolf.mode || "patrol";
     const saved = GameManager.storageAvailable;
     put("saveText", saved ? "Anotado na caderneta" : "Progresso mantido nesta partida");

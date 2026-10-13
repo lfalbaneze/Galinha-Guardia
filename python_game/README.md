@@ -46,8 +46,16 @@ Mova-se com WASD/setas e use Espaço para esquivar. Os ataques são automáticos
 - **Cristais verdes:** experiência deixada pelos inimigos. Subir de nível aumenta
   o dano e recupera um coração. Cristais próximos são atraídos sem atravessar obstáculos.
 
-Raposas rápidas, lobos resistentes e gansos perseguem a galinha pelas rotas.
-A cada 30 segundos, as ondas ganham força; há no máximo 48 inimigos simultâneos.
+Raposas procuram os lados, lobos tentam interceptar a direção da corrida e
+gansos fazem investidas mais longas. O **!** e a faixa no chão anunciam cada
+ataque: a direção fica travada durante o aviso, permitindo escapar para o lado.
+Depois do bote há recuperação; o simples contato antes do ataque não causa dano.
+
+A cada 30 segundos, as ondas ganham força, com limite gradual de 13 a 40 inimigos.
+Os reforços surgem longe da galinha, preferindo um lado do mapa, e os últimos
+quatro segundos de cada onda ficam sem novos reforços. Até dois inimigos atacam
+ao mesmo tempo nas primeiras ondas; a partir da sexta, até três. O tempo do aviso
+diminui com a onda, sempre preservando mais de meio segundo para reagir.
 Novos itens aparecem durante a partida e a cada 12 inimigos afastados. O minimapa
 mostra os itens e a horda; o HUD mostra os poderes, vida, XP e tempo restante.
 
@@ -77,6 +85,11 @@ A semente muda entrada, saída, caminhos, objetivos, inimigos e a distribuição
 os obstáculos. Os inimigos usam um grid de navegação para contorná-los. Os chefes
 anunciam a direção do ataque antes de investir; Baltazar faz dois botes a partir
 de três pontos de resistência. Cada bote tem seu próprio aviso.
+
+Os inimigos comuns patrulham perto de seu posto e só perseguem quando enxergam
+a galinha ou uma isca. Perder a visão faz com que procurem a última posição vista
+por até três segundos antes de retomar a patrulha. Também usam os avisos e botes
+da sobrevivência: um atacante por vez no começo, dois a partir da sexta fase.
 
 Há uma escolha entre três habilidades antes de cada fase e um embaralhamento
 extra. As nove habilidades incluem velocidade, vida, escudo, recarga de esquiva,

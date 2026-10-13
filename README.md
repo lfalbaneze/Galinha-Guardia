@@ -26,7 +26,8 @@ Pelo caminho, piados revelam **seis pintinhos escondidos, ou dez no Hardcore**. 
 
 - **Uma fazenda diferente a cada aventura.** Explore regiões conectadas, com caminhos, construções e esconderijos que mudam a cada nova partida.
 - **Um lobo que não larga do seu pé.** Ele patrulha também os pastos afastados, investiga barulhos e procura na direção em que viu você fugir. A corrida deixa pegadas por oito segundos: ele só as encontra se passar perto, com visão livre. Andar de mansinho não cria novas pegadas.
-- **Resgates que dão trabalho.** Os bichos também se assustam e fogem da galinha. Chegue de mansinho ou aproveite quando eles pararem para descansar.
+- **Inimigos com decisões próprias.** Baltazar anuncia interceptações e precisa recuperar o fôlego. Sophis tenta flanquear; Lorenzo espera sua emboscada. Panto defende o território e aprende esquivas repetidas; corujas varrem os caminhos e mudam de posto. Os chefes alternam formações, rajadas e percursos avisados. A dificuldade altera reação, persistência, descanso e repertório. Veja as [regras da IA da aventura](docs/gameplay-refinements.md).
+- **Resgates que dão trabalho.** Os bichos fogem da galinha e dos predadores, avisam vizinhos e procuram saídas entre os perigos. Chegue de mansinho por trás ou espere à vista de um amigo cansado para acalmá-lo. Passos silenciosos não reduzem a visão nem enganam quem já viu você.
 - **Espantalho de folga.** Três corvos descansam no chapéu e nos braços perto do milharal. Aproximar a galinha espanta o bando; correr assusta de mais longe. Eles voltam após sete segundos de sossego e podem ser espantados novamente.
 - **Segredos e aparências.** Procure os pintinhos para liberar Zeca, o pato; Pipoca, o coelho; Stella, a gata; e Paçoca, o caramelo, cada um com seu tema musical. O desafio do lago libera também Gumercindo, o ganso cinzento. Todos têm sprites próprios e acessórios da roça.
 - **Quatro dificuldades.** Explorador (Fácil) e Aventura (Médio) não têm limite de tempo. Contra o tempo (Difícil) começa com 60 segundos e Última luz (Hardcore) com 45; resgates acrescentam tempo ao relógio. O movimento básico é igual nos quatro modos. O progresso e as preferências ficam salvos no navegador quando o armazenamento local está disponível.
@@ -36,35 +37,66 @@ Pelo caminho, piados revelam **seis pintinhos escondidos, ou dez no Hardcore**. 
 Baixe ou clone o repositório e abra `index.html` no navegador. Não é necessário instalar dependências para jogar; os scripts compilados acompanham o projeto.
 
 No menu, **Revoada do Caos** inicia diretamente uma partida com mapas
-procedurais, 30 habilidades combináveis e cinco fases com chefes. WASD/setas
+procedurais, 30 habilidades combináveis e dez arenas diferentes com chefes. WASD/setas
 movem, Espaço esquiva e os ataques são automáticos. Você começa no nível 1,
 com o ataque do personagem. Colete cristais dos inimigos ou da fazenda para
 encher a barra de XP: 8 XP levam ao nível 2; os próximos níveis exigem 11, 14,
 17 XP e assim por diante. Cada nível pausa o combate e libera uma escolha
 entre três poderes, com um embaralhamento por oferta. Uma carta concede uma
-habilidade nova ou melhora uma existente até 3/3. XP excedente é preservado,
+habilidade nova ou melhora uma existente: armas até 5/5, apoios até 3/3.
+As cartas comparam o efeito atual com o próximo; armas equipadas e parceiros
+de fusão têm espaço nas ofertas. Cabem seis armas e seis apoios; fundir libera
+espaço. Mais projéteis, perfuração, explosões e controle de grupo acompanham
+as evoluções. XP excedente é preservado,
 com uma escolha para cada nível conquistado. Os poderes são ganhos pelas
 cartas; os itens no chão são cristais e leite para recuperar vida.
-Nível, XP e poderes acompanham as cinco fases e reiniciam na próxima partida.
-O botão **Fusões** abre a **Cozinha do caos** e pausa a ação. Cada receita exige
-dois poderes em 3/3; **Fundir** substitui seus ataques por uma arma mais forte,
+Nível, XP e poderes acompanham as dez fases e reiniciam na próxima partida.
+O botão **Fusões** abre as **Receitas da Bagunça** e pausa a ação. Cada receita exige
+dois poderes no nível 3 ou acima; **Fundir** substitui seus ataques por uma arma mais forte,
 sem custo extra. As cartas mostram o ingrediente parceiro e seu nível atual.
-São oito fusões: Sol de Omelete (ovos + fogo), Ceifadora de Mundos (foice +
-bumerangue), Tempestade do Poleiro (raios + jatos cruzados), Nevasca da Midori
-(gelo + espiral), Cenoura Orbital (tiro de elite + minas), Caldeirão Cataclísmico
-(veneno + onda sísmica), Fortaleza de Garras (órbitas + escudo) e Milhopocalipse
-(tiro básico + ricochete). Elas acompanham a tentativa pelas cinco fases e
+São oito fusões: **Ovo de Mau Humor** gruda pavios nos inimigos; **Capina de Ré**
+recolhe XP na volta; **Bebedouro em Curto** deixa quatro poças elétricas;
+**Varal de Arrepiar** monta uma barreira de penas atrás do personagem;
+**Desaforo de Raiz** reúne inimigos antes de brotar; **Caldo Malcriado** envenena
+e empurra; **Aqui Não, Querida** responde à quebra do escudo; e **Fofoca Estourada**
+divide grãos em pipocas que ricocheteiam. Elas acompanham a tentativa pelas dez fases e
 reiniciam numa nova partida. Explosões, rastros, impactos e campos têm efeitos
 próprios; a preferência de movimento reduzido diminui partículas e animações.
-Cada fase tem 60 segundos de hordas antes do chefe: Panto, Baltazar, Lorenzo,
-Fuinha e a última investida de Baltazar. É preciso derrotá-lo para avançar; o relógio sozinho
-nunca dá vitória. Você leva seus poderes para o próximo mapa e recupera até
-dois corações. A vitória vem depois do quinto chefe.
+Escolha o tipo de partida na preparação ou ao reiniciar pelo menu de pausa:
+**Colheita** tem chefes em 60 segundos; **Correria**, em 45 segundos, com
+inimigos 10% mais rápidos e 30% mais XP; **Cerco**, em 75 segundos, com reforços
+mais frequentes e 20% mais XP. O tipo acompanha as dez fases.
+Os chefes incluem Panto, Baltazar, Lorenzo, TIH, Sophis, Coruja e Corvo.
+É preciso derrotar o chefe para avançar; o relógio sozinho nunca dá vitória.
+Você leva seus poderes para o próximo mapa e recupera um coração. A vitória
+vem depois do décimo chefe. Hordas e reforços têm mais resistência; chefes
+feridos aumentam suas rajadas e chamam mais aliados, preservando os avisos.
+Os dez mapas têm percursos e hordas próprios: pomar, milharal, pedreira, bosque,
+campo, colheita, bebedouro, pomar ao entardecer, penumbra e arena ao anoitecer.
+Cada mapa tem três variantes de caminhos
+conectados, sorteadas pela semente. Espigas, pedras e postes de lanterna têm
+sprites próprios da PixelLab; os ataques especiais também usam novos sprites.
+As 30 habilidades e oito fusões têm arte própria no catálogo, além dos itens
+de leite e XP. Os 19 personagens têm poses PixelLab de vitória e derrota
+carregadas nos cards de resultado, com falas individuais.
+Vegetação fica transparente quando encobre o jogador; dano deixa um sinal breve
+e barras pequenas mostram a resistência dos feridos. Sophis finge recuar e prepara uma emboscada;
+corvos anunciam rasantes em linha reta; corujas avisam com uma sirene que
+acelera os inimigos próximos por três segundos, voam para outro ponto e retomam
+a vigilância. Derrotar a coruja antes da sirene impede esse reforço. Os avisos
+e movimentos usam os sprites e sons já instalados.
 Mula sem Cabeça, Curupira, Boitatá e Cuca são **chefes secretos opcionais**,
 fora das hordas e da sequência obrigatória. Nas quatro primeiras fases há
 um selo escondido em um caminho distante: explore antes do chefe de fase,
 aproxime-se e use **E / Despertar**. Durante o desafio, o relógio da fase pausa;
 a vitória rende pontos extras e até dois corações, sem pular a fase.
+Cada chefe tem seu padrão: Panto empurra com ondas de som, Baltazar chama dois
+lobos, Lorenzo dá garradas e Fuinha arremessa terra. A Mula alterna rajadas de
+fogo, uma roda de ferraduras em chamas e um galope que deixa pegadas quentes.
+As pegadas acompanham a distância percorrida, esquentam antes de causar dano
+e apagam depois. Curupira marca uma trilha de raízes, Boitatá alterna um cerco
+de fogo com rajadas e Cuca alterna feitiços com poças de veneno. Os ataques
+têm avisos, pausas e colisão com obstáculos.
 A cada fase vencida, a horda ganha resistência, velocidade e reforços mais
 frequentes; eles continuam chegando durante os chefes. A quinta fase tem
 inimigos com três vezes a vida da primeira na mesma onda. Uma vitória completa
@@ -83,6 +115,16 @@ Funciona também abrindo o `index.html` por duplo clique, com teclado ou control
 de toque. Não precisa de Python, servidor ou instalação para jogar.
 Esta modalidade não tem checkpoint e preserva os saves da aventura e da campanha.
 Para abrir a seleção entre sobrevivência e campanha, use `shuffle/index.html`.
+
+Na Revoada, lobos tentam interceptar seu deslocamento, raposas procuram os flancos
+e gansos lançam rajadas de som. Lobos, raposas e fuinhas anunciam seus botes,
+travam a direção e descansam depois; durante o aviso e a recuperação, encostar
+neles não causa dano. As primeiras ondas permitem até dois ataques comuns
+simultâneos nas proximidades; ondas avançadas permitem três. Os chefes mantêm
+seus padrões próprios. Novos inimigos surgem longe do jogador, com espaço para
+seus corpos e acesso à área da luta. Na campanha, a perseguição depende de
+visão: perder o alvo inicia uma busca curta na última posição vista antes de
+voltar à patrulha.
 
 Para servir os arquivos em um endereço local fixo, execute na pasta do projeto, com Python instalado:
 
@@ -147,15 +189,15 @@ Durante a ronda, o lobo pode caminhar até o campo, esconder-se e esperar. Seu c
 
 Thor interrompe a emboscada. Pausar congela o ataque; carregar uma partida interrompida devolve o lobo à rotina com um intervalo seguro antes de outra tentativa. O desafio do Panto suspende essa mecânica.
 
-## Lorenzo, Amanda e a coruja
+## Lorenzo, Sophis e a coruja
 
-No **Difícil e Hardcore**, as raposas procuram outro arbusto depois de cada bote, acertando ou errando, assim que termina a pausa de recuperação. Sem atacar, também trocam de moita após cerca de 10 segundos no Difícil ou 6 segundos no Hardcore, onde caminham mais rápido. Respeitam as colisões, sem ocupar moitas com pintinhos ou a moita da personagem escondida. A moita de destino fica reservada enquanto a raposa se desloca. Passar perto de uma moita livre não impede a mudança: o deslocamento não causa dano. Se não houver outro arbusto livre com caminho seguro, voltam ao atual e voltam a procurar após um segundo, sem reiniciar a espera completa da ronda. O bote continua tendo aviso e direção fixa. Fácil e Médio mantêm as tocas fixas.
+As raposas procuram outro arbusto depois de cada bote, acertando ou errando, assim que termina a recuperação. Sem atacar, também trocam de moita após cerca de 18 segundos no Fácil, 14 no Médio, 10 no Difícil ou 6 no Hardcore. Lorenzo espera a aproximação curta; Sophis pode sair antes e contornar por um lado livre, preparando depois um bote com o aviso completo. As duas respeitam colisões e não ocupam moitas com pintinhos ou com a personagem escondida. O destino fica reservado durante o deslocamento, que não causa dano. Se não houver outro arbusto livre com caminho seguro, voltam ao atual e tentam novamente após um segundo. A mira acompanha a fuga durante a preparação e trava nos últimos 0,12 segundo antes do bote; uma fuga vista recentemente pode orientar a escolha da próxima toca.
 
-Raposas e corujas usam as folhas de sprites fornecidas pelo usuário, com 12 poses e quatro direções. As imagens originais são preservadas; recortes individuais evitam cortar orelhas, caudas e patas. Amanda usa um lacinho rosa que acompanha todas as poses. Consulte as [notas da arte](assets/sprites/USER-WILDLIFE-NOTES.md).
+Raposas e corujas usam as folhas de sprites fornecidas pelo usuário, com 12 poses e quatro direções. As imagens originais são preservadas; recortes individuais evitam cortar orelhas, caudas e patas. Sophis usa um lacinho rosa que acompanha todas as poses. Consulte as [notas da arte](assets/sprites/USER-WILDLIFE-NOTES.md).
 
-Nas moitas junto aos caminhos, **Lorenzo e Amanda ficam visíveis na borda da vegetação**, mesmo enquanto esperam, com o nome sobre cada personagem. Cada raposa mantém sua identidade ao trocar de moita e carregar a partida. Antes do bote, as folhas farfalham, e uma faixa mostra a direção e a largura da investida. Desvie para o lado: as raposas não corrigem a direção no meio do ataque. Uma investida que acerta **tira um coração**, empurra a personagem e dá 1,2 segundo de proteção contra outro acerto. A última vida encerra a tentativa. Pontos e resgates não sofrem desconto pelo acerto.
+Nas moitas junto aos caminhos, **Lorenzo e Sophis ficam visíveis na borda da vegetação**, mesmo enquanto esperam, com o nome sobre cada personagem. Cada raposa mantém sua identidade ao trocar de moita e carregar a partida. Antes do bote, as folhas farfalham, a raposa assume uma pose de ataque e surge um aviso curto, sem desenhar a rota no chão. A preparação dura 0,8 segundo no Fácil, 0,6 no Médio, 0,5 no Difícil e 0,4 no Hardcore. A mira acompanha sua fuga até os últimos 0,12 segundo antes do salto. Mude de direção perto do salto: as raposas não corrigem a direção no meio do ataque. Uma investida que acerta **tira um coração**, empurra a personagem e dá 1,2 segundo de proteção contra outro acerto. A última vida encerra a tentativa. Pontos e resgates não sofrem desconto pelo acerto.
 
-Os dois têm falas próprias enquanto esperam, preparam o bote, acertam ou erram, mudam de moita e levam bronca do lobo. Lorenzo disfarça com “Era teste de suspensão”; Amanda responde com “Errei? Foi coreografia!”. As falas alternam, aparecem em balões por três segundos e ficam pausadas junto com o jogo.
+Os dois têm falas próprias enquanto esperam, preparam o bote, acertam ou erram, mudam de moita e levam bronca do lobo. Lorenzo disfarça com “Era teste de suspensão”; Sophis responde com “Errei? Foi coreografia!”. As falas alternam, aparecem em balões por três segundos e ficam pausadas junto com o jogo.
 
 A moita que abriga uma raposa fica marcada como **ocupada** e não pode ser usada como esconderijo, mesmo durante o bote. Ao escolher outro arbusto, ela libera o anterior e reserva o destino. Depois do bote, a raposa descansa antes de procurar sua próxima toca. Se o lobo a vir exposta nesse intervalo, respeitando sua visão e os obstáculos, ele dispara **“Quem manda nesta fazenda sou eu!”**. A raposa corre para longe dele e demora mais para atacar outra vez; no Difícil e Hardcore, ainda procura outro arbusto depois de fugir. O lobo mantém a perseguição que já estiver fazendo; assustado pelo Thor, ele não banca o valentão.
 
@@ -168,6 +210,9 @@ Os encontros aproveitam árvores e moitas existentes, longe do início, dos pint
 ### Novos encontros do jogo base
 
 `FolkloreSystem` mantém a Fuinha como inimigo comum após um resgate.
+Ela tem 15 falas próprias ao aparecer, perseguir, avisar uma arrancada, acertar
+ou errar. As frases alternam sem interferir nos sorteios da partida, aparecem
+em um balão com pontinha curta e pausam junto com o jogo.
 Mula sem Cabeça, Curupira, Boitatá e Cuca são chefes secretos: seus selos ficam
 disponíveis após 3, 5, 7 e 9 resgates no Médio/Difícil; no Fácil, um resgate
 depois; no Hardcore, um antes. O selo é revelado apenas de perto. Use **E /
@@ -205,7 +250,7 @@ Uma fanfarra original acompanha a cena, com um acorde na entrega dos corações,
 
 A missão tem **um amigo de cada tipo**: ovelha, porquinho, pato, cordeirinho, vaca, cabra, coelho, gato, burrinho, cachorro, cavalo e peru. Cavalo e peru contam no objetivo, rendem a mesma pontuação dos outros amigos e têm lugares próprios no refúgio. Todos os amigos são identificados por corações; a população de bichos decorativos foi removida.
 
-Os amigos procuram abrigo e companheiros seguros na fuga. O cavalo tem mais fôlego; o peru se assusta e cansa mais depressa. Uma aproximação de mansinho acalma os dois. Coelhos e gatos mudam de direção mais rápido. A vegetação, os pequenos pastos, as flores e as poças continuam preenchendo os espaços entre as áreas, preservando estradas e portões.
+Os amigos procuram abrigo e companheiros seguros na fuga. O cavalo tem mais fôlego; o peru se assusta e cansa mais depressa. Andar de mansinho permite surpreendê-los por trás enquanto não perceberam você; pela frente, eles enxergam e fogem normalmente. Coelhos e gatos mudam de direção mais rápido. A vegetação, os pequenos pastos, as flores e as poças continuam preenchendo os espaços entre as áreas, preservando estradas e portões.
 
 A atualização para o mapa 7 mantém o progresso e a ponte conquistada; mapas 5 e 6 também mantêm a geografia e a posição válida da galinha. Partidas em andamento recebem cavalo e peru para resgatar; partidas já concluídas continuam concluídas, sem repetir o bônus. Há uma cópia do save anterior no armazenamento local. Os sprites de cavalo e peru têm [arte e prompts documentados](assets/sprites/FARM-RESIDENTS-ART-NOTES.md).
 

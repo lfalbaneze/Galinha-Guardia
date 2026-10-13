@@ -40,3 +40,5 @@
 @media(max-width:620px){.result-quips{gap:10px}.result-quips .banter-row{padding:12px 8px;gap:8px}.result-quips .banter-portrait{width:128px;height:128px}.result-stamp{font-size:19px}.result-quips .speech-bubble{font-size:11px;padding:10px}.result-quips .speech-bubble strong{font-size:10px}}
 @media(max-width:620px){.result-quips{margin:12px auto;gap:8px}.banter-portrait{width:48px;height:48px}.speech-bubble{font-size:12px;padding:10px 12px}#combatQuip{bottom:94px}}
 @media(max-width:620px){.campaign{gap:3px}.campaign>span{font-size:10px;min-width:0;padding:5px 0}.campaign small{font-size:6px}}
+.build-slots{font-size:12px;color:#c9ddbd;margin:12px 0}.power-before{font-size:11px;color:#71816a;line-height:1.5;border-bottom:1px solid #78936a44;padding:7px 0}.rank-pips{display:flex;gap:5px;margin-top:6px}.rank-pips i{width:25px;height:6px;border:1px solid #879b76;border-radius:2px}.rank-pips .filled{background:#aace8d}.rank-pips .next{background:#efb849;border-color:#efb849}
+@media(max-width:620px){.power-before,.rank-pips{grid-column:2}.power-card>.power-icon{grid-row:1 / 7}}

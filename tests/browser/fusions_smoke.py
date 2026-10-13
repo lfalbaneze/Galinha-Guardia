@@ -41,7 +41,7 @@ try:
             for id in page.evaluate('Object.keys(ShuffleSurvival.FUSIONS)'):
                 page.evaluate('''id=>{const r=ShuffleDemo.run;Object.assign(r,ShuffleSurvival.newRun(614));
                     r.obstacles=[];r.layout.obstacles=[];r.pickups=[];r.spawnTimer=999;r.heroCooldown=999;r.powers={};
-                    Object.assign(r.player,{x:560,y:360,invulnerable:999});
+                    Object.assign(r.player,{x:560,y:360,invulnerable:0});
                     for(const item of ShuffleSurvival.FUSIONS[id].items)r.powers[item]=3;
                     r.enemies=Array.from({length:8},(_,i)=>({species:'fox',x:560+Math.cos(i*Math.PI/4)*130,
                         y:360+Math.sin(i*Math.PI/4)*130,r:18,speed:0,health:9999,traveled:0,moving:false,
@@ -49,6 +49,9 @@ try:
                 page.wait_for_function('document.querySelector("#fusionBook").textContent.includes("(1)")')
                 page.locator('#fusionBook').click()
                 assert page.locator('[data-craft]:enabled').count() == 1
+                assert page.locator(f'.fusion-recipe[data-fusion="{id}"] h3').inner_text()==page.evaluate('id=>ShuffleSurvival.FUSIONS[id].name',id)
+                # Review the crafted attack without still-flying ingredient volleys.
+                page.evaluate('''()=>{const r=ShuffleDemo.run;r.shots=[];r.effects=[];r.fusionFields=[];}''')
                 button = page.locator(f'[data-craft="{id}"]')
                 button.scroll_into_view_if_needed()
                 if id == 'solar': page.screenshot(path=str(OUT/f'ready-{width}.png'))

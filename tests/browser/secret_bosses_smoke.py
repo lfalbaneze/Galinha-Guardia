@@ -33,22 +33,23 @@ try:
                 species=page.evaluate('''stage=>{const r=ShuffleDemo.run;Object.assign(r,ShuffleSurvival.newRun(614,r.enemyTypes));
                     for(let i=0;i<stage;i++){r.phase='stage-clear';ShuffleSurvival.nextStage(r);}
                     r.enemies=[];r.pickups=[];r.spawnTimer=999;r.powers={};r.heroCooldown=999;
-                    Object.assign(r.player,{x:r.secretAltar.x,y:r.secretAltar.y,invulnerable:999});
+                    Object.assign(r.player,{x:r.secretAltar.x+(r.secretAltar.x>700?-68:68),y:r.secretAltar.y,invulnerable:0});
                     return r.secretAltar.species;}''',stage)
                 page.locator('#interact').wait_for(state='visible')
                 assert page.evaluate('ShuffleDemo.run.enemies.every(e=>!e.isSecretBoss)')
                 page.screenshot(path=str(OUT/f'{species}-{width}-seal.png'))
+                page.evaluate('ShuffleDemo.run.player.invulnerable=999;bossArtDrawn.clear()')
                 if width==390:page.locator('#interact').click()
                 else:page.keyboard.press('e')
                 page.wait_for_function('ShuffleDemo.run.enemies.some(e=>e.isSecretBoss)')
                 page.wait_for_function('species=>bossArtDrawn.has(species)',arg=species)
-                page.evaluate('ShuffleDemo.run.player.x+=65')
                 clock=page.evaluate('ShuffleDemo.run.stageElapsed');page.wait_for_timeout(400)
                 assert page.evaluate('ShuffleDemo.run.stageElapsed')==clock
                 assert 'SECRETO' in page.locator('#objective').inner_text()
                 page.screenshot(path=str(OUT/f'{species}-{width}-boss.png'))
                 page.evaluate('''()=>{const r=ShuffleDemo.run,boss=r.enemies.find(e=>e.isSecretBoss);
-                    r.obstacles=[];r.layout.obstacles=[];boss.x=r.player.x+40;boss.y=r.player.y;boss.health=.1;
+                    r.obstacles=[];r.layout.obstacles=[];r.player.x=560;r.player.y=360;
+                    boss.x=r.player.x+40;boss.y=r.player.y;boss.health=.1;
                     r.powers={sickle:3};r.cooldowns.sickle=0;}''')
                 page.wait_for_function('ShuffleDemo.run.secretsDefeated.length===1')
                 while page.evaluate('ShuffleDemo.run.phase')=='power-draft':page.locator('[data-skill]').first.click()
