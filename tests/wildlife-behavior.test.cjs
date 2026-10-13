@@ -123,17 +123,20 @@ test('breaking sight cancels even a nearly complete owl alarm',()=>{
 test('the fox anticipates a visible runner but never changes the announced dash',()=>{
   const h=arena();h.run('c.sprinting=true;c.vy=250;FoxSystem.update(state,.05)');
   assert.equal(h.run('f.mode'),'warning');assert.ok(h.run('f.target.y')>800);
+  h.run("for(let i=0;i<30&&f.mode==='warning';i++)FoxSystem.update(state,.05)");
+  assert.equal(h.run('f.mode'),'dash');
   const aim=h.run('JSON.stringify(f.target)');
-  h.run('c.vy=-250;c.y=730');step(h,'FoxSystem',1.15);
+  h.run('c.vy=-250;c.y=730');step(h,'FoxSystem',.05);
   assert.equal(h.run('f.mode'),'dash');assert.equal(h.run('JSON.stringify(f.target)'),aim);
 });
 
-test('wildlife warning corridors show the full contact width, even with sound muted',()=>{
-  const h=arena();h.run(`var widths=[];ctx.stroke=()=>widths.push(ctx.lineWidth);
+test('wildlife keeps visible warnings without attack corridors, even with sound muted',()=>{
+  const h=arena();h.run(`var widths=[],labels=[];ctx.stroke=()=>widths.push(ctx.lineWidth);ctx.fillText=t=>labels.push(t);
     g.mode='warning';g.target={x:1120,y:800};f.mode='warning';f.target={x:1140,y:800};
-    GooseSystem.drawTerritory(state);FoxSystem.drawWarnings(state);`);
-  assert.ok(h.run('widths.includes(2*(g.hitbox.r+c.hitbox.r))'));
-  assert.ok(h.run('widths.includes(2*(f.hitbox.r+c.hitbox.r))'));
+    GooseSystem.drawTerritory(state);GooseSystem.drawIndicator(state);FoxSystem.drawWarnings(state);`);
+  assert.equal(h.run('widths.includes(2*(g.hitbox.r+c.hitbox.r))'),false);
+  assert.equal(h.run('widths.includes(2*(f.hitbox.r+c.hitbox.r))'),false);
+  assert.ok(h.run('labels.some(t=>t.includes("Desvie"))'));
 });
 
 test('direct updates cannot move or rescue other animals during the lake challenge',()=>{
@@ -144,7 +147,7 @@ test('direct updates cannot move or rescue other animals during the lake challen
 test('the lake panel explains provoking, dodging, feints and the close counter',()=>{
   const h=arena();h.run('state.lake.active=true;LakeChallenge.updateUI(state)');
   assert.match(h.elements.get('lakeHelp').textContent,/provoque o bote/i);
-  h.run("g.mode='warning';LakeChallenge.updateUI(state)");assert.match(h.elements.get('lakeHelp').textContent,/saia da faixa/i);
+  h.run("g.mode='warning';LakeChallenge.updateUI(state)");assert.match(h.elements.get('lakeHelp').textContent,/desvie para o lado/i);
   h.run("g.mode='feint';LakeChallenge.updateUI(state)");assert.match(h.elements.get('lakeHelp').textContent,/blefe/i);
   h.run("g.mode='stunned';g.chargeCounted=true;state.lake.counterWindow=3;LakeChallenge.updateUI(state)");
   assert.match(h.elements.get('lakeHelp').textContent,/chegue perto.*carimbo/i);

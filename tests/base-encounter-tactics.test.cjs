@@ -12,6 +12,29 @@ function arena(species='fuinha'){
 }
 const step=(h,system,seconds)=>h.run(`for(let i=0;i<${Math.ceil(seconds/.05)};i++)${system}.update(state,.05);`);
 
+test('every folklore enemy warns without drawing its attack range or changing its plan',()=>{
+  for(const species of ['fuinha','mula-sem-cabeca','curupira','boitata','cuca']){
+    const h=arena(species);h.run(`FolkloreSystem.update(state,.05);
+      var geometry=0,bars=0;ctx.stroke=()=>geometry++;ctx.fillRect=()=>bars++;
+      var before=JSON.stringify([e,state.folkloreThreats]);FolkloreSystem.drawGround(state);`);
+    assert.equal(h.run('e.mode'),'warning',species);
+    assert.equal(h.run('geometry'),0,species);
+    assert.equal(h.run('bars'),2,species+' retains its preparation bar');
+    assert.equal(h.run('JSON.stringify([e,state.folkloreThreats])'),h.run('before'));
+  }
+});
+
+test('pending roots and fire show a local cue; active hazards remain visible',()=>{
+  const h=arena();h.run(`state.entities.folklore=[];var geometry=0,labels=[];
+    ctx.arc=()=>geometry++;ctx.fillText=t=>labels.push(t);
+    state.folkloreThreats=['roots','fire'].map(kind=>({x:1150,y:800,kind,species:'curupira',arm:.5,life:3,vx:0,vy:0,r:30}));
+    var before=JSON.stringify(state.folkloreThreats);FolkloreSystem.drawGround(state);`);
+  assert.equal(h.run('geometry'),0);assert.equal(h.run('labels.join()'),'!,!');
+  assert.equal(h.run('JSON.stringify(state.folkloreThreats)'),h.run('before'));
+  h.run('for(const h of state.folkloreThreats)h.arm=0;FolkloreSystem.drawGround(state)');
+  assert.equal(h.run('geometry'),2);
+});
+
 test('Sophis flanks a distant visible runner before a fully announced committed dash',()=>{
   const h=arena();h.run('c.x=1220;FoxSystem.update(state,.05)');
   assert.equal(h.run('f.mode'),'stalk');assert.equal(h.run('state.lives'),3);
@@ -56,13 +79,13 @@ test('root placement checks the entire radius and refuses the refuge rim',()=>{
   assert.equal(h.run('WildlifeRules.overlapsRefuge({x:390,y:400},30)'),false);
 });
 
-test('Cuca alternates a fan and an open-center volley, with a line for every projectile',()=>{
+test('Cuca alternates a fan and an open-center volley without drawing projectile guides',()=>{
   const h=arena('cuca');h.run('FolkloreSystem.update(state,.05)');
   assert.equal(h.run('e.attackPoints.length'),3);
   h.run("e.mode='patrol';e.timer=0;FolkloreSystem.update(state,.05);var planned=JSON.stringify(e.attackPoints);c.y=860;");
   assert.equal(h.run('e.attackPoints.length'),4);
   h.run('var strokes=[];ctx.lineTo=(x,y)=>strokes.push([x,y]);var before=JSON.stringify(e);FolkloreSystem.drawGround(state)');
-  assert.equal(h.run('strokes.length'),8);assert.equal(h.run('JSON.stringify(e)===before'),true);
+  assert.equal(h.run('strokes.length'),0);assert.equal(h.run('JSON.stringify(e)===before'),true);
   step(h,'FolkloreSystem',1.25);
   assert.equal(h.run('JSON.stringify(e.attackPoints)===planned'),true);
   assert.equal(h.run('state.folkloreThreats.length'),4);
@@ -102,12 +125,12 @@ test('wolf intercept warning and breath recovery appear in the live HUD without 
   assert.match(h.elements.get('threatText').textContent,/cansou/);
 });
 
-test('a narrow viewport keeps danger lanes visible even with the attacker outside its left edge',()=>{
+test('a narrow viewport keeps warnings without floor geometry from offscreen attackers',()=>{
   for(const species of ['cuca','curupira']){
     const h=arena(species);h.run(`canvas.width=400;camera.x=1070;camera.y=540;c.x=1270;
       FolkloreSystem.update(state,.05);var strokes=0;ctx.stroke=()=>strokes++;FolkloreSystem.drawGround(state);`);
     assert.equal(h.run('WildlifeRules.onScreen(e,60)'),false);assert.equal(h.run('e.mode'),'warning');
-    assert.ok(h.run('strokes>0'),species+' warns the visible target');
+    assert.equal(h.run('strokes'),0,species+' does not reveal its attack area');
     h.run(`Object.assign(state.entities.wolf,{x:970,y:800,interceptPhase:'warning',interceptTime:.4,
       interceptTarget:{x:1280,y:800}});strokes=0;GameplayHud.drawTactics(state);`);
     assert.equal(h.run('strokes'),0,'body lunges no longer reveal a floor trajectory');

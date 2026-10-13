@@ -395,8 +395,8 @@ const LakeChallenge = (() => {
         const counter = (lake?.counterWindow || 0) > 0;
         const action = typeof GameInput === 'undefined' ? 'E' : GameInput.label('interact');
         const cue = counter ? (canCounter(game) ? `${action} · Pegar carimbo!` : 'PANTO tonto! Chegue perto para pegar o carimbo.') :
-            goose?.mode === 'feint' ? 'É blefe! Espere a faixa de verdade.' :
-                goose?.mode === 'warning' || goose?.mode === 'charge' ? (goose.tactic === 'double' ? ((goose.comboRemaining || 0) > 0 ? 'Bote duplo! Ainda vem outra faixa.' : 'Segundo bote! Desvie e pegue o carimbo.') : 'Saia da faixa marcada!') :
+            goose?.mode === 'feint' ? 'É blefe! Espere o bote de verdade.' :
+                goose?.mode === 'warning' || goose?.mode === 'charge' ? (goose.tactic === 'double' ? ((goose.comboRemaining || 0) > 0 ? 'Bote duplo! Ainda vem outro bote.' : 'Segundo bote! Desvie e pegue o carimbo.') : 'Desvie para o lado!') :
                     lake?.feedback === 'expired' && lake.notice > 0 ? 'A abertura fechou. Desvie de outra sequência.' :
                         lake?.feedback === 'hit' && lake.notice > 0 ? `Pegou! Restam ${3 - lake.attempts} chances.` :
                             lake?.feedback === 'combo' && lake.notice > 0 ? 'Não pare! PANTO prepara o segundo bote.' : 'Provoque o bote. Depois pegue o carimbo com ' + action + '.';

@@ -307,26 +307,14 @@
     for(const h of run.hazards)ShuffleFX.hazard(ctx,h,run.elapsed,reduced);
     for(const e of run.enemies)if(e.mode==='warning'){
       if(e.species==='owl'){
-        ctx.strokeStyle='#ffe5a9';ctx.setLineDash([7,6]);ctx.lineWidth=2;ctx.beginPath();ctx.arc(e.x,e.y,240,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
         warnings.push(['SIRENE · HORDA ACELERA!',e.x,e.y-65]);continue;
       }
       if(e.attack){
         const names={'fire-fan':'RAJADA DE FOGO!','hoof-ring':'FERRADURAS EM CHAMAS!','fire-gallop':'GALOPE · CUIDADO COM AS PEGADAS!',
           'fire-coil':'CERCO DE FOGO!','spell-fan':'FEITIÇO!','roots':'TRILHA DE RAÍZES!','brew':'POÇÃO NO CHÃO!',gust:'BUZINAÇO!',howl:'UIVO · REFORÇOS!',claw:'GARRADA!',dirt:'TERRA À VISTA!',pounce:'BOTE · SAIA PARA O LADO!'};
-        if(e.attack==='fire-fan'||e.attack==='spell-fan'||e.attack==='fire-gallop'||['gust','claw','dirt'].includes(e.attack)){
-          const spread=e.angles||[0],length=e.attack==='claw'?210:300;
-          ctx.strokeStyle=S.ENEMIES[e.species].color+'60';ctx.lineWidth=e.attack==='fire-gallop'?e.r*2:3;
-          for(const a of spread){const dx=e.aimX*Math.cos(a)-e.aimY*Math.sin(a),dy=e.aimX*Math.sin(a)+e.aimY*Math.cos(a);
-            ctx.beginPath();ctx.moveTo(e.x,e.y);ctx.lineTo(e.x+dx*length,e.y+dy*length);ctx.stroke();}
-        }
         warnings.push([names[e.attack]||'CUIDADO!',e.x,e.y-S.ENEMIES[e.species].height*(e.isSecretBoss?1.8:e.isBoss?1.45:1)-18]);continue;
       }
-      const witch=e.species==='cuca'||e.isBoss&&e.species==='boitata',length=witch?260:255,color=S.ENEMIES[e.species].color;
-      ctx.strokeStyle=color+'55';ctx.lineWidth=12;
-      for(const angle of witch?(e.isBoss?[-.6,-.3,0,.3,.6]:[-.22,0,.22]):[]){
-        const dx=e.aimX*Math.cos(angle)-e.aimY*Math.sin(angle),dy=e.aimX*Math.sin(angle)+e.aimY*Math.cos(angle);
-        ctx.beginPath();ctx.moveTo(e.x,e.y);ctx.lineTo(e.x+dx*length,e.y+dy*length);ctx.stroke();
-      }
+      const witch=e.species==='cuca'||e.isBoss&&e.species==='boitata';
       warnings.push([witch?'FEITIÇO!':e.species==='crow'?'RASANTE!':e.species==='amanda'?'EMBOSCADA!':'INVESTIDA!',e.x,e.y-(S.ENEMIES[e.species].height+12)]);
     }
     ctx.restore();
@@ -468,7 +456,6 @@
     ctx.imageSmoothingEnabled=false;ctx.fillStyle='#294330';ctx.fillRect(0,0,view.width,view.height);ctx.save();ctx.scale(scale,scale);ctx.translate(-view.x,-view.y);ctx.drawImage(background(run?.layout||previewMap),0,0);
     if(!run?.player){for(const prop of [...sceneryProps].sort((a,b)=>a.y-b.y))obstacle(prop);ctx.restore();return;}
     if(run.stage<9&&!isSurvival()){const gate=run.exit,open=E.exitReady(run);ctx.save();ctx.translate(gate.x,gate.y);if(gate.side%2)ctx.rotate(Math.PI/2);ctx.fillStyle=open?'#e3c77f':'#314f3b';ctx.fillRect(-17,-36,34,72);ctx.strokeStyle='#e9dab0';ctx.lineWidth=2;ctx.strokeRect(-20,-39,40,78);ctx.restore();label(open?'SAÍDA':run.boss?'VENÇA PANTO':`${run.friends.length} RESGATES`,gate.x,gate.y-51);}
-    if(run.boss?.mode==='warning'||run.boss?.mode==='charge'){const b=run.boss;ctx.save();ctx.strokeStyle=b.mode==='warning'?'#ffce6288':'#f6835777';ctx.lineWidth=44;ctx.setLineDash(b.mode==='warning'?[12,10]:[]);ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(b.x+b.aimX*(b.chargeSpeed+(b.id==='baltazar'&&b.courage<=2?30:0))*b.chargeSeconds,b.y+b.aimY*(b.chargeSpeed+(b.id==='baltazar'&&b.courage<=2?30:0))*b.chargeSeconds);ctx.stroke();ctx.restore();}
     if(run.decoy){ctx.fillStyle='#f1cf58';for(let i=0;i<9;i++)ctx.fillRect(run.decoy.x+(i%3)*6-8,run.decoy.y+Math.floor(i/3)*4-4,4,3);}
     if(isSurvival())for(const item of run.pickups){pickup(item);if(item.kind!=='xp'&&Math.hypot(item.x-p.x,item.y-p.y)<90)label(S.POWERS[item.kind]?.name||'Leite · +2 vidas',item.x,item.y-24);}
     const warnings=isSurvival()?danger():[];

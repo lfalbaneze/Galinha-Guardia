@@ -112,7 +112,9 @@ test('sunflower stalks react to the player and reduced motion still draws a visi
   h.run('EnvironmentSystem.transform(checkCanvas,plant,state);');
   assert.notEqual(ctx.getTransform().c,0);
   ctx.resetTransform();ctx.clearRect(0,0,900,520);
+  let strokes=0;const stroke=ctx.stroke.bind(ctx);ctx.stroke=(...args)=>{strokes++;return stroke(...args);};
   warn(h);h.run('camera.x=w.x-450;camera.y=w.y-280;SunflowerSystem.drawWarning(state);GameUI.update(state);InterfaceMotion.update(state,0);');
+  assert.equal(strokes,0,'the ambush warns without a floor trajectory');
   assert.ok(ctx.getImageData(0,0,900,520).data.some((value,i)=>i%4===3&&value));
   assert.match(h.elements.get('contextHint').textContent,/girassóis/);
 });

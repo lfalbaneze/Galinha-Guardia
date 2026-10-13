@@ -158,7 +158,7 @@ const SunflowerSystem = (() => {
                 Player.face(wolf, dx, dy);
                 AudioSystem.play('fox-rustle', { volume: .6 });
                 if (WildlifeRules.onScreen(wolf, 90))
-                    setStatus('Tem focinho nos girassóis! Saia para o lado da faixa antes do bote!');
+                    setStatus('Tem focinho nos girassóis! Desvie para o lado antes do bote!');
             }
             else if (a.timer === 0)
                 cancel(game);
@@ -283,19 +283,8 @@ const SunflowerSystem = (() => {
         const a = ambushes.get(game);
         if (mode(game) !== 'warning' || !a)
             return;
-        const from = worldToScreen(a.origin), to = worldToScreen(a.target);
+        const from = worldToScreen(a.origin);
         ctx.save();
-        ctx.strokeStyle = '#d17a4c55';
-        ctx.lineWidth = 2 * (game.entities.wolf.hitbox.r + game.entities.chicken.hitbox.r);
-        ctx.beginPath();
-        ctx.moveTo(from.x, from.y + 10);
-        ctx.lineTo(to.x, to.y + 10);
-        ctx.stroke();
-        ctx.strokeStyle = '#ffb35e';
-        ctx.lineWidth = 3;
-        ctx.setLineDash([8, 6]);
-        ctx.stroke();
-        ctx.setLineDash([]);
         ctx.fillStyle = '#4a3827';
         ctx.fillRect(from.x - 9, from.y - 92, 18, 29);
         ctx.fillStyle = '#ffe593';

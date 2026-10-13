@@ -105,7 +105,7 @@ const SunflowerSystem = (() => {
         a.mode='warning';a.timer=game.difficultyKey==='easy'?1.4:['hard', 'hardcore'].includes(game.difficultyKey)?.95:1.15;
         wolf.lastKnown={x:chicken.x,y:chicken.y};wolf.heading=Math.atan2(dy,dx);Player.face(wolf,dx,dy);
         AudioSystem.play('fox-rustle',{volume:.6});
-        if(WildlifeRules.onScreen(wolf,90))setStatus('Tem focinho nos girassóis! Saia para o lado da faixa antes do bote!');
+        if(WildlifeRules.onScreen(wolf,90))setStatus('Tem focinho nos girassóis! Desvie para o lado antes do bote!');
       }else if(a.timer===0)cancel(game);
       return true;
     }
@@ -168,10 +168,8 @@ const SunflowerSystem = (() => {
   }
   function drawWarning(game:Farm.GameState):void {
     const a=ambushes.get(game);if(mode(game)!=='warning'||!a)return;
-    const from=worldToScreen(a.origin),to=worldToScreen(a.target);
-    ctx.save();ctx.strokeStyle='#d17a4c55';ctx.lineWidth=2*(game.entities.wolf.hitbox.r+game.entities.chicken.hitbox.r);
-    ctx.beginPath();ctx.moveTo(from.x,from.y+10);ctx.lineTo(to.x,to.y+10);ctx.stroke();
-    ctx.strokeStyle='#ffb35e';ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.stroke();ctx.setLineDash([]);
+    const from=worldToScreen(a.origin);
+    ctx.save();
     ctx.fillStyle='#4a3827';ctx.fillRect(from.x-9,from.y-92,18,29);ctx.fillStyle='#ffe593';
     ctx.fillRect(from.x-3,from.y-87,6,13);ctx.fillRect(from.x-3,from.y-70,6,4);
     // Two eyes are visible through the moving flowers; the body stays concealed until the leap.

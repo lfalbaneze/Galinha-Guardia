@@ -259,8 +259,8 @@ const GooseSystem = (() => {
     Player.face(goose, dx, dy);
     honk(game, goose);
     setStatus(feint ? 'Asa aberta, bico fechado: é blefe! A investida vem depois.' :
-      followup?'SEGUNDO BOTE! PANTO virou. Desvie da nova faixa!':round===1?'BOTE DUPLO! Desvie e prepare-se para a segunda faixa.':
-      round===2?'AGORA VALE! PANTO mirou sua rota. Saia da faixa comprida!':'HÓÓÓNK! Saia para o lado da faixa e aproveite quando ele ficar tonto!');
+      followup?'SEGUNDO BOTE! PANTO virou. Desvie de novo!':round===1?'BOTE DUPLO! Desvie e prepare-se para o segundo bote.':
+      round===2?'AGORA VALE! PANTO mirou sua rota. Desvie para o lado!':'HÓÓÓNK! Desvie para o lado e aproveite quando ele ficar tonto!');
   }
 
   function patrolTarget(goose: Farm.Goose): Farm.Point {
@@ -401,7 +401,7 @@ const GooseSystem = (() => {
           }else if(!game.lake?.active&&['hard','hardcore'].includes(game.difficultyKey)&&
             !goose.followupUsed&&(goose.dodgeStreak||0)>=2&&!goose.chargeHit&&distance(goose,goose.anchor)>=36&&canApproach(game,goose,config)){
             goose.followupUsed=true;goose.comboFollowup=true;goose.mode='notice';goose.timer=.65;
-            setStatus('PANTO percebeu sua esquiva repetida! Ele vai preparar outra faixa; troque de lado.');
+            setStatus('PANTO percebeu sua esquiva repetida! Ele vai preparar outro bote; troque de lado.');
           }else{
           const counted = LakeChallenge.recordMiss(game,goose);
           if (!game.lake?.completed) {
@@ -473,15 +473,6 @@ const GooseSystem = (() => {
       const at=worldToScreen(goose),ratio=game.lake!.counterWindow!/(game.lake!.counterDuration||3);
       ctx.setLineDash([]);ctx.fillStyle='#7bd78c25';ctx.beginPath();ctx.ellipse(at.x,at.y+OFFSET_Y,40,23,0,0,Math.PI*2);ctx.fill();
       ctx.lineWidth=4;ctx.strokeStyle='#daf6a0';ctx.beginPath();ctx.ellipse(at.x,at.y+OFFSET_Y,40,23,0,-Math.PI/2,-Math.PI/2+Math.PI*2*ratio);ctx.stroke();
-    }
-    if (goose.mode === 'warning' && visible(game, goose)) {
-      const from = worldToScreen(goose), to = worldToScreen(goose.target);
-      const contact=(goose.hitbox.r+game.entities.chicken.hitbox.r)*2;
-      ctx.setLineDash([]);ctx.lineCap='round';ctx.strokeStyle='#f4bf5730';ctx.lineWidth=contact;
-      ctx.beginPath();ctx.moveTo(from.x,from.y+OFFSET_Y);ctx.lineTo(to.x,to.y+OFFSET_Y);ctx.stroke();
-      ctx.strokeStyle = goose.tactic==='double'?'#f69362':goose.tactic==='rush'?'#f07862':'#f4bf57'; ctx.lineWidth = 4; ctx.setLineDash([8, 6]);
-      ctx.beginPath(); ctx.moveTo(from.x, from.y + OFFSET_Y); ctx.lineTo(to.x, to.y + OFFSET_Y); ctx.stroke();
-      ctx.setLineDash([]); ctx.beginPath(); ctx.arc(to.x, to.y + OFFSET_Y, 6, 0, Math.PI * 2); ctx.stroke();
     }
     ctx.restore();
   }

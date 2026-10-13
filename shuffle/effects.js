@@ -107,9 +107,11 @@ const ShuffleFX=(() => {
       c.restore();return;
     }
     const fire=h.kind==='fire',poison=h.kind==='poison';
-    c.fillStyle=waiting?'#efc46125':fire?'#d4542555':poison?'#976db566':'#63894866';
-    c.strokeStyle=waiting?'#ffe6a3':fire?'#ffbd59':poison?'#ddb2ef':'#c5e19a';c.lineWidth=2;
-    c.setLineDash(waiting?[4,5]:[]);c.beginPath();c.arc(0,0,h.r,0,TAU);c.fill();c.stroke();c.setLineDash([]);
+    if(!waiting){
+      c.fillStyle=fire?'#d4542555':poison?'#976db566':'#63894866';
+      c.strokeStyle=fire?'#ffbd59':poison?'#ddb2ef':'#c5e19a';c.lineWidth=2;
+      c.beginPath();c.arc(0,0,h.r,0,TAU);c.fill();c.stroke();
+    }
     if(waiting){c.fillStyle='#fff1bd';c.font='bold 16px sans-serif';c.textAlign='center';c.fillText('!',0,5);}
     else if(poison){icon(c,'water',0,-4,25);for(let i=0;i<3;i++)oval(c,(i-1)*10,Math.sin(time*2+i)*4,3,3,'#ccb0ec',0,null);}
     else for(let i=0;i<3;i++){

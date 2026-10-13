@@ -191,7 +191,7 @@
     b.aimX=dx/len;b.aimY=dy/len;b.dx=dx;b.dy=dy;
     b.mode='warning';b.timer=second?.85:b.warningSeconds;
     // A fresh visible warning locks EVERY charge, including the second charge.
-    notice(run,second?'SEGUNDO BOTE! Saia da nova faixa!':`${b.name} vai investir! Saia para o lado.`,1.5);
+    notice(run,second?'SEGUNDO BOTE! Desvie de novo!':`${b.name} vai investir! Saia para o lado.`,1.5);
   }
   function updateBoss(run,dt) {
     const b=run.boss,p=run.player;if(!b||b.mode==='defeated')return;

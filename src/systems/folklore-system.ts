@@ -17,10 +17,10 @@ declare namespace Farm {
 const FolkloreSystem=(()=>{
   const cast={
     fuinha:{name:'TIH',after:1,speed:110,size:62,color:'#e6bf8b',hint:'Arrancada à vista! Saia da frente.'},
-    'mula-sem-cabeca':{name:'Mula sem Cabeça',after:3,speed:85,size:88,color:'#ffb347',hint:'Tropel de fogo! Desvie para o lado da faixa.'},
-    curupira:{name:'Curupira',after:5,speed:95,size:68,color:'#b6dd75',hint:'As raízes vão brotar! Saia do círculo.'},
-    boitata:{name:'Boitatá',after:7,speed:100,size:88,color:'#ffd16b',hint:'A serpente vai cruzar a faixa! Passe pela abertura e evite o rastro.'},
-    cuca:{name:'Cuca',after:9,speed:70,size:82,color:'#d7a6ed',hint:'Olhe as linhas do feitiço! Encontre uma abertura ou use as cercas.'}
+    'mula-sem-cabeca':{name:'Mula sem Cabeça',after:3,speed:85,size:88,color:'#ffb347',hint:'Tropel de fogo! Desvie para o lado.'},
+    curupira:{name:'Curupira',after:5,speed:95,size:68,color:'#b6dd75',hint:'As raízes vão brotar! Mantenha-se em movimento.'},
+    boitata:{name:'Boitatá',after:7,speed:100,size:88,color:'#ffd16b',hint:'A serpente vai avançar! Passe pela abertura e evite o rastro.'},
+    cuca:{name:'Cuca',after:9,speed:70,size:82,color:'#d7a6ed',hint:'Vem feitiço! Encontre uma abertura ou use as cercas.'}
   } as const;
   const ids=Object.keys(cast) as Farm.FolkloreSpecies[];
   const secret=(e:Farm.FolkloreEnemy)=>e.species!=='fuinha';
@@ -307,31 +307,16 @@ const FolkloreSystem=(()=>{
     }
     for(const h of game.folkloreThreats||[]){
       if(!WildlifeRules.onScreen(h,50))continue;
+      if(h.arm>0){
+        ctx.fillStyle=cast[h.species].color;ctx.font='bold 18px Trebuchet MS';ctx.textAlign='center';
+        ctx.fillText('!',worldX(h.x),worldY(h.y)-8);continue;
+      }
       ctx.fillStyle=h.kind==='roots'?'#7fbb5760':h.kind==='fire'?'#ff933777':'#c18cff';
-      ctx.strokeStyle=cast[h.species].color;ctx.setLineDash(h.arm>0?[4,4]:[]);
+      ctx.strokeStyle=cast[h.species].color;
       ctx.beginPath();ctx.arc(worldX(h.x),worldY(h.y),h.r,0,Math.PI*2);ctx.fill();ctx.stroke();
     }
-    ctx.setLineDash([]);
     for(const e of game.entities.folklore||[]){
-      // The origin may be outside a narrow screen while the warned area is on the player.
       if(!e.active||e.mode!=='warning')continue;
-      ctx.strokeStyle=cast[e.species].color;ctx.fillStyle=cast[e.species].color+'44';
-      if(e.species==='curupira'){
-        for(const p of e.attackPoints||[e.target]){
-          ctx.beginPath();ctx.arc(worldX(p.x),worldY(p.y),30,0,Math.PI*2);ctx.fill();ctx.stroke();
-        }
-      }else{
-        const points=e.species==='cuca'||e.species==='boitata'?e.attackPoints||[e.target]:[e.target];
-        let from:Farm.Point=e;
-        for(const p of points){
-          ctx.lineWidth=e.species==='cuca'?14:2*(e.hitbox.r+game.entities.chicken.hitbox.r);ctx.globalAlpha=.28;
-          ctx.beginPath();ctx.moveTo(worldX(from.x),worldY(from.y));ctx.lineTo(worldX(p.x),worldY(p.y));ctx.stroke();
-          ctx.globalAlpha=.95;ctx.lineWidth=2;ctx.setLineDash([6,5]);
-          ctx.beginPath();ctx.moveTo(worldX(from.x),worldY(from.y));ctx.lineTo(worldX(p.x),worldY(p.y));ctx.stroke();ctx.setLineDash([]);
-          if(e.species==='boitata')from=p;
-        }
-        ctx.globalAlpha=1;
-      }
       const x=worldX(e.x),y=worldY(e.y)-cast[e.species].size*(secret(e)?1.2:.65)-12;
       ctx.fillStyle='#243528';ctx.fillRect(x-25,y,50,6);ctx.fillStyle=cast[e.species].color;
       ctx.fillRect(x-24,y+1,48*clamp(1-e.timer/(e.warningDuration||1),0,1),4);
