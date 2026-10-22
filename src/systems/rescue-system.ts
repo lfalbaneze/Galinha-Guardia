@@ -170,7 +170,7 @@ const RescueSystem = {
     // A fleeing or resting animal keeps watching a player it already noticed.
     const inView = gap < .001 || toward / gap >= Math.cos(50 * Math.PI / 180);
     const recognized = animal.fleeFrom?.kind === 'player' && (animal.fleeTime > 0 || animal.restTime > 0);
-    const alertRange = (chicken.sprinting ? 240 : toward > 0 || recognized ? 170 : 105) * profile.nerve;
+    const alertRange = (chicken.sprinting ? 240 : toward > 0 || recognized ? 170 : 105) * profile.nerve * (game.difficultyKey === 'easy' ? .7 : 1);
     const patient = (animal.calmWindow||0)>0 && !chicken.sprinting && Math.hypot(chicken.vx,chicken.vy)<70;
     const friendly = !chicken.sneaking && (SkinSystem.power(chicken).friendSpecies === animal.species || patient);
     const threats: Farm.AnimalDanger[] = [];
@@ -246,8 +246,8 @@ const RescueSystem = {
     if (!threat) return;
     const dx = animal.x - threat.x, dy = animal.y - threat.y;
     const angle = Math.atan2(dy || .001, dx || .001);
-    const endurance=(game.difficultyKey==='easy'?2.8:['hard','hardcore'].includes(game.difficultyKey)?6:4.4)*RescueSystem.personality(animal).endurance;
-    const speed = game.entities.chicken.speed * (game.difficultyKey === "easy" ? .97 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 1.15 : 1.08) *
+    const endurance=(game.difficultyKey==='easy'?1.6:['hard','hardcore'].includes(game.difficultyKey)?6:4.4)*RescueSystem.personality(animal).endurance;
+    const speed = game.entities.chicken.speed * (game.difficultyKey === "easy" ? .72 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 1.15 : 1.08) *
       RescueSystem.personality(animal).pace*effort*(1-.16*clamp((animal.fatigue||0)/endurance,0,1));
     const neighbours = RescueSystem.all(game).filter(a => a !== animal && !a.rescued && !RescueSystem.isSecret(a) && distance(a, animal) < 140&&
       DetectionSystem.hasLineOfSight(getHitbox(animal),getHitbox(a)));
@@ -280,7 +280,7 @@ const RescueSystem = {
     animal.stuckTime = distance(before, animal) < speed * dt * .1 ? (animal.stuckTime || 0) + dt : 0;
     if(animal.stuckTime>.25&&distance(animal,home)>65&&distance(home,threat)>Math.max(110,distance(animal,threat)*.8))
       RescueSystem.walk(animal,home,speed*.65,dt,home,area);
-    if (animal.stuckTime > .8) { animal.restTime = 3.1; animal.stuckTime = 0; animal.fleeHeading = null; }
+    if (animal.stuckTime > .8) { animal.restTime = game.difficultyKey === 'easy' ? 4.5 : 3.1; animal.stuckTime = 0; animal.fleeHeading = null; }
     animal.targetX = animal.x; animal.targetY = animal.y;
   },
   wander(animal: Farm.Animal, home: Farm.Point, area: Farm.Area): void {
@@ -394,9 +394,9 @@ const RescueSystem = {
           RescueSystem.flee(game, animal, home, area, dt,urgent ? .3 : 1);
           animal.fatigue = (animal.fatigue || 0) + (urgent?0:dt);
           if (dt > 0) RescueSystem.talk(game, animal);
-          const endurance = (game.difficultyKey === "easy" ? 2.8 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 6 : 4.4) * RescueSystem.personality(animal).endurance;
+          const endurance = (game.difficultyKey === "easy" ? 1.6 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 6 : 4.4) * RescueSystem.personality(animal).endurance;
           if (animal.fatigue >= endurance) {
-            animal.restTime = 3.1; animal.fatigue = 0; animal.temper = "tired";
+            animal.restTime = game.difficultyKey === 'easy' ? 4.5 : 3.1; animal.fatigue = 0; animal.temper = "tired";
             animal.speechTime = 0; if (dt > 0) RescueSystem.talk(game, animal, true);
           }
         } else if (calm) {
