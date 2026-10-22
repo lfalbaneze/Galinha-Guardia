@@ -81,7 +81,7 @@ const WolfAI = (() => {
     const rescuedChicks = Number.isFinite(game.rescuedChicks) ? clamp(Math.floor(game.rescuedChicks), 0, 6) : 0;
     const chickMultiplier = 1 + 0.5 * rescuedChicks / 6;
     const difficulty = game.difficultyKey || "normal";
-    const reaction = difficulty === 'easy' ? 1.18 : difficulty === 'hard' ? .93 : difficulty === 'hardcore' ? .88 : 1;
+    const reaction = difficulty === 'easy' ? 1.8 : difficulty === 'hard' ? .93 : difficulty === 'hardcore' ? .88 : 1;
     const hunger=appetite(game).value;
     const capSetting = game.settings.wolfSprintCap;
     const sprintCap = Number.isFinite(capSetting) ? clamp(capSetting!, 0.75, 0.96) : difficulty === "easy" ? 0.90 : 0.96;
@@ -90,22 +90,22 @@ const WolfAI = (() => {
     // Chicks sharpen pursuit, but full sprint always opens a gap even at the final tier.
     const totalProgress = (rescuedFriends + rescuedChicks * .5) / 13;
     const ceilingProgress = .88 + .12 * totalProgress + .04*hunger*(1-totalProgress);
-    const speed = Math.min(nominalSpeed, game.settings.chickenSpeed * sprintMultiplier * sprintCap * ceilingProgress);
+    const speed = Math.min(nominalSpeed, difficulty === 'easy' ? game.settings.chickenSpeed * .82 : game.settings.chickenSpeed * sprintMultiplier * sprintCap * ceilingProgress);
     return { ...config, level, rescuedFriends, rescuedChicks, chickMultiplier, nominalSpeed, sprintCap, speed, hunger,
       pressure: config.speedScale / levels[0].speedScale * chickMultiplier * (1+hunger*hungerRules[difficulty].boost),
-      searchPoints: config.searchPoints + Math.floor(hunger*3),
+      searchPoints: difficulty === 'easy' ? Math.min(2, config.searchPoints) : config.searchPoints + Math.floor(hunger * 3),
       fov: Math.min(165, config.fov + rescuedChicks * 2.5) * Math.PI / 180,
-      range: Math.min(840 * ceilingProgress, config.range * chickMultiplier),
-      awarenessTime: Math.max(0.18, config.awarenessTime * reaction / chickMultiplier),
-      searchDuration: Math.min(24, config.searchDuration * chickMultiplier) * (1+hunger*.6),
+      range: Math.min(difficulty === 'easy' ? 400 : 840 * ceilingProgress, config.range * chickMultiplier),
+      awarenessTime: Math.max(difficulty === 'easy' ? .8 : .18, config.awarenessTime * reaction / chickMultiplier),
+      searchDuration: Math.min(difficulty === 'easy' ? 5 : 24, config.searchDuration * chickMultiplier) * (difficulty === 'easy' ? 1 : 1+hunger*.6),
       searchRadius: Math.min(310, config.searchRadius * (1 + rescuedChicks / 24)) * (1+hunger*.15),
       hideWitnessRange: difficulty === "easy" ? 180 : ['hard', 'hardcore'].includes(difficulty) ? 260 : 220,
       hideMemoryDuration: (8 + rescuedFriends * .6) * (1+hunger*.3),
       patrolSpeed: speed * (level === 3 ? 0.80 : 0.70), awarenessDecay: 0.9 * reaction * (1-hunger*.35),
       interceptWarning: difficulty === 'easy' ? .6 : difficulty === 'normal' ? .5 : .4,
       interceptDuration: .9,
-      pursuitDuration: (difficulty === 'easy' ? 5.5 : difficulty === 'normal' ? 7 : 8) * (1+hunger*.2),
-      pursuitRecovery: difficulty === 'easy' ? 2.2 : difficulty === 'normal' ? 1.8 : 1.5,
+      pursuitDuration: (difficulty === 'easy' ? 3.5 : difficulty === 'normal' ? 7 : 8) * (1+hunger*.2),
+      pursuitRecovery: difficulty === 'easy' ? 3.2 : difficulty === 'normal' ? 1.8 : 1.5,
       contactRange: 28, soundInterval: 0.65, investigateDuration: (2.6 + level * 0.3) * (1+hunger*.5) };
   }
 
@@ -426,7 +426,7 @@ const WolfAI = (() => {
 
   function pursuitTarget(wolf: Farm.Wolf, game: Farm.GameState, config: Farm.WolfConfig): Farm.Point | null {
     const observed = wolf.lastKnown;
-    if (!observed || !wolf.detected) return observed;
+    if (!observed || !wolf.detected || game.difficultyKey === 'easy') return observed;
     const velocity = wolf.seenVelocity || { x: 0, y: 0 };
     const lead = Math.min(game.difficultyKey === 'easy' ? .18 : ['hard', 'hardcore'].includes(game.difficultyKey) ? .42 : .32,
       distance(wolf, observed) / Math.max(1, config.speed) * .3);
@@ -489,7 +489,7 @@ const WolfAI = (() => {
     }
     if((wolf.pursuitEffort||0)>=config.pursuitDuration){recoverPursuit(wolf,config.pursuitRecovery);return true;}
     const observed=wolf.lastKnown,velocity=wolf.seenVelocity;
-    if(!observed||(wolf.interceptCooldown||0)>0||(wolf.pursuitEffort||0)<1.8)return false;
+    if(game.difficultyKey === 'easy'||!observed||(wolf.interceptCooldown||0)>0||(wolf.pursuitEffort||0)<1.8)return false;
     const gap=distance(wolf,observed),motion=Math.hypot(velocity.x,velocity.y);
     const crossing=Math.abs((observed.x-wolf.x)*velocity.y-(observed.y-wolf.y)*velocity.x)/Math.max(1,gap*motion);
     if(gap<100||gap>320||motion<65||crossing<.45)return false;
