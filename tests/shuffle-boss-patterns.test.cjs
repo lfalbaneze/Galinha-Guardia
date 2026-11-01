@@ -60,7 +60,9 @@ test('mule alternates a locked fire fan, warned hoof ring and a gallop with burn
 test('hoofprints follow distance traveled, expire, damage only after heating and respect dash immunity',()=>{
   const {r,e}=arena('mula-sem-cabeca',{timer:99});advance(r,.2);assert.equal(r.hazards.length,0);
   advance(r,.15);assert.equal(r.hazards.length,1);
-  const h=r.hazards[0];r.enemies=[];Object.assign(r.player,{x:h.x,y:h.y,invulnerable:0});
+  const h=r.hazards[0],forward={x:Math.cos(h.angle),y:Math.sin(h.angle)};
+  assert.ok((h.x-e.x)*forward.x+(h.y-e.y)*forward.y<0,'the trail is left behind the moving mule');
+  r.enemies=[];Object.assign(r.player,{x:h.x,y:h.y,invulnerable:0});
   S.tick(r,.01);assert.equal(r.hp,5);r.player.dashTime=.18;h.arm=0;S.tick(r,.01);assert.equal(r.hp,5);
   r.player.dashTime=0;S.tick(r,.01);assert.equal(r.hp,4);
   r.player.invulnerable=999;advance(r,3.4);assert.equal(r.hazards.length,0);
@@ -113,6 +115,21 @@ test('a defeated secret mule clears its fire and hoofprints without completing t
   assert.ok(r.hazards.length);e.x=r.player.x+40;r.powers={sickle:3};r.cooldowns.sickle=0;
   S.tick(r,.01);assert.equal(r.hazards.length,0);assert.equal(r.hexes.length,0);
   assert.equal(r.bossesDefeated,0);assert.equal(r.stageCleared,false);assert.ok(r.secretsDefeated.includes('mula-sem-cabeca'));
+});
+
+test('hoofprints stay low on the ground and use crisp pixels in all eight directions',()=>{
+  const fs=require('node:fs'),vm=require('node:vm'),{createCanvas}=require('@napi-rs/canvas');
+  const fx=vm.runInNewContext(fs.readFileSync('shuffle/effects.js','utf8')+';ShuffleFX');
+  for(let i=0;i<8;i++){
+    const c=createCanvas(64,64).getContext('2d');
+    fx.hazard(c,{x:32.3,y:32.7,kind:'hoof',angle:i*Math.PI/4,arm:0,life:2,r:16},1,true);
+    const pixels=c.getImageData(0,0,64,64).data;let minY=64,maxY=0,visible=0;
+    for(let y=0;y<64;y++)for(let x=0;x<64;x++){
+      const alpha=pixels[(y*64+x)*4+3];if(!alpha)continue;
+      assert.equal(alpha,255,'no smoothed triangle edges');visible++;minY=Math.min(minY,y);maxY=Math.max(maxY,y);
+    }
+    assert.ok(visible>100);assert.ok(maxY-minY<24,'the mark lies on the ground');
+  }
 });
 
 test('new enemy effects keep their silhouettes and restore Canvas state with reduced motion',()=>{

@@ -402,7 +402,7 @@
     e.hoofStride=(e.hoofStride||0)+moved;
     if(e.hoofStride>=28){
       e.hoofStride%=28;e.hoofSide=-(e.hoofSide||1);
-      hazard(r,{x:e.x-dy*10*e.hoofSide,y:e.y+dx*10*e.hoofSide},'hoof',e,{angle:Math.atan2(dy,dx),arm:.35,life:3.3});
+      hazard(r,{x:e.x-dx*12-dy*8*e.hoofSide,y:e.y-dy*12+dx*8*e.hoofSide},'hoof',e,{angle:Math.atan2(dy,dx),arm:.35,life:3.3});
     }
   }
   function aimLunge(r,e,target,speed){
