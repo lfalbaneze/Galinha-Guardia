@@ -78,16 +78,31 @@ body:has(.game-shell[data-phase='menu']) { padding:0; background:#244433; }
 #menuScreen #menuPlayHint { display:block; margin:9px 0 0; color:#fff2cf; font:700 12px/1.4 var(--menu-text); text-shadow:0 1px 4px #173c2b; }
 /* In very crowded layouts keep the keyboard/touch button in normal flow. */
 #menuScreen #menuMischief[data-placement='flow'] { position:relative; left:auto; right:auto; top:auto; bottom:auto; transform:none; grid-column:1 / -1; grid-row:4; order:3; justify-self:center; align-self:start; margin:12px auto 36px; }
+#gameShell #menuScreen[data-view='home']:has(#menuMischief[data-placement='flow']) { overflow-y:auto; }
+#menuScreen[data-view='home']:has(#menuMischief[data-placement='flow']) .menu-footer { position:relative; grid-column:1 / -1; grid-row:5; left:auto; bottom:auto; margin-top:8px; }
 #menuScreen #menuBanter { position:absolute; z-index:4; width:236px; max-width:calc(100% - 24px); margin:0; padding:11px 15px; transform:translate(-50%,-100%); border:2px solid #695137; border-radius:24px; background:#fff4d8; color:#535034; font:700 13px/1.4 var(--menu-text); white-space:pre-line; text-align:center; box-shadow:0 4px 12px #173a3040; pointer-events:none; }
 #menuScreen #menuBanter::first-line { color:#96703e; font-weight:900; }
 .menu-banter-link { position:absolute; inset:0; z-index:5; width:100%; height:100%; overflow:visible; pointer-events:none; }
 .menu-banter-link path { fill:#fff4d8; stroke:#695137; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 #menuScreen #spriteStatus { color:#f2e3bd; font:700 12px/1.4 var(--menu-text); }
-@media (min-width:981px) and (max-height:760px) {
-  #gameShell #menuScreen { padding-top:26px; padding-bottom:34px; row-gap:14px; }
-  #menuScreen .farm-title { font-size:100px; }
-  #menuScreen .farm-kicker { margin-bottom:17px; }
-  #menuScreen .farm-tagline { margin-top:23px; }
+@media (min-width:981px) and (max-height:820px) {
+  #gameShell #menuScreen { padding-top:24px; padding-bottom:58px; row-gap:12px; }
+  #menuScreen .farm-title { font-size:clamp(72px,min(7vw,12vh),94px); }
+  #menuScreen .farm-kicker { min-height:32px; margin-bottom:14px; }
+  #menuScreen .farm-tagline { font-size:14px; margin-top:16px; }
+  #menuScreen #menuCard { width:340px; }
+  #menuScreen #menuHome { gap:10px; }
+  #menuScreen button.menu-primary { min-height:62px; font-size:23px; }
+  #menuScreen .home-actions { gap:6px; padding-bottom:10px; }
+}
+@media (min-width:981px) and (max-width:1440px) {
+  #menuScreen .menu-mischief { width:360px; }
+  #menuScreen .menu-mischief-actions { gap:10px; }
+  #menuScreen #menuScatter, #menuScreen #menuFeed { min-height:64px; padding:10px 12px; gap:7px; }
+  #menuScreen .menu-scene-action b { font-size:18px; }
+  #menuScreen .menu-scene-action small { font-size:9px; }
+  #menuScreen .menu-scene-action svg { width:24px; height:24px; }
+  #menuScreen #menuPlayHint { margin-top:6px; font-size:11px; }
 }
 @media (max-width:980px) {
   #gameShell #menuScreen { grid-template-columns:minmax(0,1fr); grid-template-rows:1fr auto auto 1fr; padding:38px 28px 52px; row-gap:25px; }
@@ -133,6 +148,16 @@ body:has(.game-shell[data-phase='menu']) { padding:0; background:#244433; }
   #menuScreen .home-links button { font-size:12px; }
   #menuScreen .menu-footer { bottom:16px; }
   #menuScreen .menu-mischief { bottom:32px; }
+}
+@media (min-width:981px) and (max-height:640px) {
+  #gameShell #menuScreen { padding-top:18px; padding-bottom:48px; row-gap:8px; overflow-y:auto; }
+  #menuScreen .farm-title { font-size:68px; }
+  #menuScreen .farm-kicker { min-height:30px; margin-bottom:10px; }
+  #menuScreen .farm-tagline { font-size:13px; margin-top:12px; }
+  #menuScreen #menuCard { width:320px; }
+  #menuScreen #menuHome { gap:8px; }
+  #menuScreen button.menu-primary { min-height:54px; font-size:21px; }
+  #menuScreen .menu-footer { bottom:20px; }
 }
 @media (prefers-reduced-motion:reduce) {
   #menuScreen .menu-world { will-change:auto; }

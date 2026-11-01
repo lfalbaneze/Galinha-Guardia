@@ -6,7 +6,7 @@ OUT=Path('.cache/menu-hint-review'); OUT.mkdir(parents=True,exist_ok=True)
 report=[]
 with sync_playwright() as p:
     browser=p.chromium.launch(headless=True)
-    for width,height,touch in [(1440,900,False),(1920,1080,False),(1280,720,False),(900,1000,False),(900,1000,True),(390,844,True),(844,390,True)]:
+    for width,height,touch in [(1440,900,False),(1920,1080,False),(1920,800,False),(1280,720,False),(1278,708,False),(1366,657,False),(1100,650,False),(1024,600,False),(900,1000,False),(900,1000,True),(390,844,True),(844,390,True)]:
         context=browser.new_context(viewport={'width':width,'height':height},is_mobile=touch,has_touch=touch)
         page=context.new_page(); errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
@@ -34,6 +34,11 @@ with sync_playwright() as p:
         if placement=='herd':
             invitation=hint.bounding_box(); card=page.locator('#menuCard').bounding_box()
             assert not (invitation['x']<card['x']+card['width'] and invitation['x']+invitation['width']>card['x'] and invitation['y']<card['y']+card['height'] and invitation['y']+invitation['height']>card['y']), 'Hint covers main controls'
+            if width>980 and height>=600:
+                if width<=1440:
+                    assert invitation['y']>=height-180, 'Play boards float above the herd in a window'
+                footer=page.locator('.menu-footer').bounding_box()
+                assert footer['y']>=card['y']+card['height']+10, 'Author credit overlaps the menu'
         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
         button.click()
         page.evaluate('MenuScene.frame(state,.1,true)')

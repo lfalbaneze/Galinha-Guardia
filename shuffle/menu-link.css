@@ -7,4 +7,6 @@
 #gameShell #menuScreen #shuffleModeLink:hover{color:#fff9e6;filter:brightness(1.12) drop-shadow(0 5px 3px #142c2659);transform:translateY(-2px)}
 #gameShell #menuScreen #shuffleModeLink:active{transform:translateY(2px);filter:brightness(.98)}
 #gameShell #menuScreen #shuffleModeLink:focus-visible{outline:3px solid #f4c55e;outline-offset:3px}
+@media(min-width:981px) and (max-height:820px){#gameShell #menuScreen #shuffleModeLink{min-height:68px;padding-block:12px;font-size:22px}}
+@media(min-width:981px) and (max-height:640px){#gameShell #menuScreen #shuffleModeLink{min-height:60px;font-size:21px}}
 @media(prefers-reduced-motion:reduce){#gameShell #menuScreen #shuffleModeLink{transition:none}#gameShell #menuScreen #shuffleModeLink:hover,#gameShell #menuScreen #shuffleModeLink:active{transform:none}}

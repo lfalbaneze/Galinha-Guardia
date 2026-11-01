@@ -371,10 +371,12 @@ const MenuScene = (() => {
       top:r.top-(area.top||0),bottom:r.top+r.height-(area.top||0)}));
     blockers.push(...group);
     const half=boxWidth/2, center=(herdBox.left+herdBox.right)/2;
-    const candidates=[{x:center,y:herdBox.bottom+18},{x:center,y:herdBox.top-boxHeight-18},
-      {x:herdBox.right+half+18,y:herdBox.bottom-boxHeight},{x:herdBox.left-half-18,y:herdBox.bottom-boxHeight}];
-    for (const y of [rootHeight-boxHeight-16,herdBox.bottom+18,herdBox.top-boxHeight-18])
+    const candidates=[{x:center,y:herdBox.bottom+18}];
+    for (const y of [rootHeight-boxHeight-16,herdBox.bottom+18])
       for (const x of [center,rootWidth/2,rootWidth-half-16,half+16]) candidates.push({x,y});
+    candidates.push({x:herdBox.right+half+18,y:herdBox.bottom-boxHeight},
+      {x:herdBox.left-half-18,y:herdBox.bottom-boxHeight});
+    if(rootHeight>540)candidates.push({x:center,y:herdBox.top-boxHeight-18});
     const fits=p=>p.x-half>=12&&p.x+half<=rootWidth-12&&p.y>=12&&p.y+boxHeight<=rootHeight-12&&
       !blockers.some(r=>p.x+half>r.left-10&&p.x-half<r.right+10&&p.y+boxHeight>r.top-10&&p.y<r.bottom+10);
     const chosen=candidates.map(p=>({...p,x:Math.max(half+16,Math.min(rootWidth-half-16,p.x))})).find(fits);
