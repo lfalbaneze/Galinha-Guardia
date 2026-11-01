@@ -1,0 +1,39 @@
+{
+  "provider": "comfyui",
+  "source": "assets/shuffle/chaos-111/projectiles-19fe38958973.png",
+  "cells": {
+    "eggshot": [
+      0,
+      0
+    ],
+    "fire": [
+      64,
+      0
+    ],
+    "dirt": [
+      128,
+      0
+    ],
+    "hex": [
+      192,
+      0
+    ],
+    "popcorn": [
+      0,
+      64
+    ],
+    "frost": [
+      64,
+      64
+    ],
+    "venom": [
+      128,
+      64
+    ],
+    "fire-egg": [
+      192,
+      64
+    ]
+  },
+  "generator": "scripts/generate-comfyui-chaos.py"
+}

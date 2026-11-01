@@ -21,12 +21,14 @@ try:
             page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
             url=(ROOT/folder/'shuffle/index.html').as_uri() if os.environ.get('SECRET_FILE') else f'http://127.0.0.1:{server.server_port}/{folder}shuffle/index.html'
             page.goto(url+'#survival',wait_until='networkidle')
+            page.wait_for_function('ShuffleDemo.ready')
+            page.locator('#startSurvival').click()
             page.wait_for_function('ShuffleDemo.ready && ShuffleDemo.run?.mode==="survival"')
             assert page.evaluate('ShuffleSurvival.SECRET_BOSSES.every(b=>ShuffleDemo.run.enemyTypes.includes(b.species))')
             page.evaluate('''()=>{window.bossArtDrawn=new Set();const draw=CanvasRenderingContext2D.prototype.drawImage;
                 CanvasRenderingContext2D.prototype.drawImage=function(image,...args){
                     if(this.canvas.id==='game')for(const id of Object.keys(ShuffleSurvival.ENEMIES)){
-                        const source=PixelLabArtData[id]?.source||ShuffleResultArt['enemy-'+id]?.win;
+                        const source=SpriteData[id]?.source||ShuffleResultArt['enemy-'+id]?.win;
                         if(source&&image.src?.endsWith(source))bossArtDrawn.add(id);
                     }return draw.call(this,image,...args);};}''')
             for stage in range(4):

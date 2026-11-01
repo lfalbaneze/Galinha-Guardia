@@ -26,6 +26,8 @@ try:
             errors=[]
             page.on('pageerror',lambda error:errors.append(str(error)))
             page.goto(url,wait_until='networkidle')
+            page.wait_for_function('ShuffleDemo.ready')
+            page.locator('#startSurvival').click()
             page.wait_for_function('ShuffleDemo.ready && ShuffleDemo.run?.mode==="survival"')
             layouts=[]
             stage_count=page.evaluate('ShuffleSurvival.STAGES.length')
@@ -52,12 +54,12 @@ try:
                 r.obstacles=[];r.layout.obstacles=[];r.spawnTimer=999;r.heroCooldown=999;r.powers={};
                 window.clips={};const lookup=new Map();
                 for(const id of ['amanda','crow','owl'])for(const [direction,pose]of Object.entries(
-                    PixelLabArtData[id].actions[id==='owl'?'fly':'walk']))pose.frames.forEach((f,i)=>
+                    SpriteData[id].actions[id==='owl'?'fly':'walk']))pose.frames.forEach((f,i)=>
                         lookup.set(id+'/'+[f.x,f.y,f.w,f.h].join(','),{key:id+'/'+direction,index:i}));
                 const draw=CanvasRenderingContext2D.prototype.drawImage;
                 CanvasRenderingContext2D.prototype.drawImage=function(image,...args){
                     if(this.canvas.id==='game'&&args.length===8){
-                        const id=['amanda','crow','owl'].find(id=>image.src?.endsWith(PixelLabArtData[id].source));
+                        const id=['amanda','crow','owl'].find(id=>image.src?.endsWith(SpriteData[id].source));
                         const clip=lookup.get(id+'/'+args.slice(0,4).join(','));
                         if(clip)(clips[clip.key]||=new Set()).add(clip.index);
                     }return draw.call(this,image,...args);};}''')

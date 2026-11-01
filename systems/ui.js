@@ -212,7 +212,7 @@ const GameUI = (() => {
     elements.skinPowerBadge.title = power.description;
     const availableSkins = SkinSystem.catalog.filter(s => s.id !== "classic" && SkinSystem.unlocked(s.id)).length;
     put("skinUnlockText", `${availableSkins} / ${SkinSystem.catalog.length - 1} aparências no baú${SkinSystem.storageAvailable ? "" : " · nesta sessão"}`);
-    put("wardrobeNote", `${game.entities.chicks.length} pintinhos se escondem no feno, nas árvores e nos arbustos. Siga o piado, chegue perto e aperte ${interact} uma vez para chamar. São bônus opcionais: procure antes de salvar o último amigo e ganhe novas aparências.`);
+    put("wardrobeNote", `${game.entities.chicks.length} pintinhos se escondem no feno, nas árvores e nos arbustos. São resgates opcionais: siga o piado, chegue perto e aperte ${interact} uma vez para chamar. Procure antes de salvar o último amigo. Vença no Difícil para liberar Serrano ou no Hardcore para liberar Luar; resgatando pelo menos 6 pintinhos, ganhe também Valente no Difícil e Trovão no Hardcore. As aparências e seus poderes ficam disponíveis em qualquer dificuldade da campanha.`);
     const swim = SwimmingSystem.profile(game);
     const supply=document.getElementById('thorSupply'),bones=ThorSystem.boneCount(game),required=ThorSystem.cost(game),free=required===0;
     if(supply) {
@@ -232,7 +232,7 @@ const GameUI = (() => {
       a.restTime>0&&a.fleeFrom?.kind==='player'&&distance(a,chicken)<150&&RescueSystem.visible(game,a));
     const hint = !playing ? (game.phase === 'lose' || game.resumePhase === 'lose' ? 'Fim da tentativa. A próxima começa do zero.' : game.phase === "menu" ? "A porteira tá aberta. O juízo saiu por ela." : "Poleiro cheio. Lobo sem almoço. Belo dia!") :
       game.lake?.active ? (LakeChallenge.canCounter(game) ? `${interact} para pegar o carimbo!` :
-        (game.lake.counterWindow||0)>0 ? 'PANTO ficou tonto! Chegue perto antes que a barra acabe.' : 'Desvie da sequência. Quando PANTO ficar tonto, chegue perto para pegar o carimbo.') :
+        (game.lake.counterWindow||0)>0 ? 'PANTO ficou tonto! Chegue perto antes que ele se recupere.' : 'Desvie da sequência. Quando PANTO ficar tonto, chegue perto para pegar o carimbo.') :
       folkloreHint ? folkloreHint : swim.swimming ? SwimmingSystem.hint(game) :
       exposed ? `Ele viu você! Saia com ${exitKey} e procure outro esconderijo.` :
       callableChick ? `Piu-piu! Aperte ${interact} uma vez para chamar o pintinho ao ninho.` :
@@ -275,7 +275,7 @@ const GameUI = (() => {
     elements.timeReward.hidden = !timed || !(game.timeRewardNotice?.time > 0);
     put('timeReward', game.timeRewardNotice?.time > 0 ? `+${game.timeRewardNotice.seconds}s` : '');
     elements.runTimer.title = game.settings.chickCombo ?
-      `Pintinho: +5s até +50s com combo. Cada 2 amigos: +15s. Bônus final: segundos × 1.500 × ${game.rescuedChicks} pintinhos.` :
+      `Pintinho: +5s até +50s com combo. Cada 2 amigos: +15s. Na vitória: cada segundo inteiro restante vale ${GameManager.timeScoreRate(game).toLocaleString('pt-BR')} pontos.` :
       `Pintinho: +${game.settings.chickTime || 0}s. Amigo: +${game.settings.friendTime || 0}s. Na vitória: cada segundo inteiro restante vale ${GameManager.timeScoreRate(game).toLocaleString('pt-BR')} pontos.`;
     elements.gameShell.dataset.phase = game.phase;
     elements.menuScreen.hidden = !menu;
@@ -318,7 +318,8 @@ const GameUI = (() => {
       elements.endLives.title = `${lives} de ${MAX_LIVES} vidas restantes`;
       elements.endPanto.hidden = !game.entities.goose?.rescued;
       put("endTitle", won ? "RESGATE TOTAL!" : "GAME OVER");
-      put("endMessage", won ? "Turma salva. Lobo sem jantar." : timeout ? "O relógio zerou. A próxima é sua!" : "O lobo levou essa. Bora pra revanche?");
+      const reward = won && game.skinNotice?.time > 0 ? ` Aparências liberadas: ${game.skinNotice.text}. Escolha no baú!` : '';
+      put("endMessage", (won ? "Turma salva. Lobo sem jantar." : timeout ? "O relógio zerou. A próxima é sua!" : "O lobo levou essa. Bora pra revanche?")+reward);
       put('endRetryNote', `${won ? 'Nova' : 'Mesma'} fazenda. Placar zerado. Personagens mantidos.`);
       const minutes = Math.floor(game.elapsed / 60), seconds = Math.floor(game.elapsed % 60).toString().padStart(2, '0');
       put('endDuration', `${minutes}:${seconds}`);
@@ -462,9 +463,9 @@ const GameUI = (() => {
       detail:game.secretNotice?.time>0?'Pintinho salvo, figurino novo! Confira o baú.':'Roupa nova pra aprontar. Confira o baú!'};
     if(game.secretNotice?.time>0)return {time:game.secretNotice.time,
       title:game.secretNotice.bonus?(game.secretNotice.name?`${game.secretNotice.name} no ninho!`:'Pintinho no ninho!'):'Esse piado tem perninhas!',
-      detail:game.secretNotice.bonus?`+100 pontos · ${game.rescuedChicks} de ${game.entities.chicks.length} pintinhos`:'Chegue perto para levar o pequeno ao poleiro.'};
+      detail:game.secretNotice.bonus?`+${game.settings.rescueScore || SCORE_PER_RESCUE} pontos · ${game.rescuedChicks} de ${game.entities.chicks.length} pintinhos`:'Chegue perto para levar o pequeno ao poleiro.'};
     if(game.rescueNotice?.time>0)return {time:game.rescueNotice.time,title:`${game.rescueNotice.name} a salvo!`,
-      detail:`+100 pontos · ${game.rescueNotice.count} de ${game.rescueNotice.total} no poleiro`};
+      detail:`+${game.settings.rescueScore || SCORE_PER_RESCUE} pontos · ${game.rescueNotice.count} de ${game.rescueNotice.total} no poleiro`};
     return null;
   }
 

@@ -164,6 +164,7 @@ const OwlSystem = (() => {
         owl.direction=direction(owl.callHeading);
         owl.alertProgress=Math.min(1,owl.alertProgress+dt/owl.alertTime);
         if(owl.alertProgress>=1){
+          WildlifeRules.report(game,owl,'alarm',owl.target);
           const heard=WolfAI.investigateSound(game,point(owl.perch),360,point(owl.target),obstacles(owl));
           owl.callTime=.72;
           AudioSystem.play('owl-siren',{volume:.72});
@@ -218,15 +219,6 @@ const OwlSystem = (() => {
     ctx.strokeStyle='#ad875b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-12,y+8);ctx.lineTo(x+21,y+12);ctx.stroke();ctx.restore();
     OwlArt.draw(ctx,owl,camera);
   }
-  function drawIndicators(game: Farm.GameState): void {
-    if(game.phase!=='playing'||game.lake?.active)return;
-    for(const owl of game.entities.owls||[]){
-      if(owl.mode!=='alert'||!visible(game,owl))continue;
-      const x=worldX(owl.x),y=worldY(owl.y)-112;
-      ctx.save();ctx.fillStyle='#29392ee6';ctx.fillRect(x-27,y,54,9);
-      ctx.fillStyle='#f4d16a';ctx.fillRect(x-25,y+2,50*owl.alertProgress,5);ctx.restore();
-    }
-  }
   function snapshot(game: Farm.GameState): Farm.OwlSnapshot[] {
     return (game.entities.owls||[]).map(o=>({id:o.id,cooldown:o.cooldown,treeId:o.flight?.treeId||o.treeId,
       previousTreeId:o.flight?o.treeId:o.previousTreeId,relocations:(o.relocations||0)+(o.flight?1:0),movePending:!!o.movePending}));
@@ -247,5 +239,5 @@ const OwlSystem = (() => {
       owl.relocateRetry=owl.movePending?1:0;
     }
   }
-  return {initialize,update,canSee,visible,drawGround,drawEntity,drawIndicators,snapshot,restore};
+  return {initialize,update,canSee,visible,drawGround,drawEntity,snapshot,restore};
 })();

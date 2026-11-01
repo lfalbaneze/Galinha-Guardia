@@ -29,6 +29,8 @@ try:
             page.on('pageerror', lambda error: errors.append(str(error)))
             url = (ROOT/'dist/shuffle/index.html').as_uri() if os.environ.get('FUSIONS_FILE') else f'http://127.0.0.1:{server.server_port}/{folder}shuffle/index.html'
             page.goto(url+'#survival',wait_until='networkidle')
+            page.wait_for_function('ShuffleDemo.ready')
+            page.locator('#startSurvival').click()
             page.wait_for_function('ShuffleDemo.ready && ShuffleDemo.run?.mode==="survival"')
             page.locator('#fusionBook').click()
             assert page.locator('[data-craft]:disabled').count() == 8

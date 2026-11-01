@@ -27,10 +27,13 @@ sistemas de combate e progressão.
   trocam de posto após a sirene ou uma vigília longa. Árvores menos favoráveis
   continuam sendo alternativas quando não existe um destino ideal.
 - TIH alterna os lados da aproximação e antecipa um pouco uma corrida visível.
-  A Mula atravessa uma faixa mais longa. Curupira muda a formação das raízes após
-  contra-ataques; Cuca mantém distância e alterna leques com uma abertura central;
+  A Mula alterna investidas com rajadas, deixa fogo que demora a aquecer e anuncia
+  uma segunda investida após perder coragem. Curupira alterna formações e cercos
+  com saída; as raízes brotam em ondas nos pontos marcados durante a preparação.
+  Cuca mantém distância e alterna leques com uma abertura central;
   Boitatá anuncia um percurso em curvas e deixa fogo que demora a armar. Os chefes
-  continuam opcionais, com três contra-ataques e o mesmo progresso salvo.
+  se reposicionam depois da abertura, sem uma volta obrigatória ao selo. Continuam
+  opcionais, com três contra-ataques e o mesmo progresso salvo.
 - Os amigos percebem também raposas, Panto agressivo, lendas e perigos no chão.
   O alarme se propaga por uma vizinhança, sem corrente infinita. A fuga considera
   mais de uma ameaça e respeita os limites de sua região; os animais cansados

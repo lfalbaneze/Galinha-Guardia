@@ -48,8 +48,8 @@ function createFarm() {
     circleVsCircle: (a, b) => { a = hitbox(a); b = hitbox(b); return Math.hypot(a.x-b.x,a.y-b.y) <= a.r+b.r; },
     resolveEnvironment: e => { e.x = clamp(e.x, e.radius, world.width-e.radius); e.y = clamp(e.y, e.radius, world.height-e.radius); return true; },
     getAreaAt: (x, y) => areas.find(a => x >= a.x && x <= a.x+a.w && y >= a.y && y <= a.y+a.h) || areas[0],
-    GameUI: { update() {} }, SkinSystem: { initialize() {}, record() {}, power: () =>
-      ({landSpeed:1,swimSpeed:1,sneakSpeed:.4,noiseScale:1,sprintDuration:1,friendSpecies:null}) },
+    GameUI: { update() {} }, SkinSystem: { initialize() {}, record() {}, recordVictory() {}, power: () =>
+      ({landSpeed:1,swimSpeed:1,sneakSpeed:.4,noiseScale:1,sprintDuration:1,friendSpecies:null,terrainResistance:0,hurtRecovery:1}) },
     AudioSystem: { play() {}, playAnimal() {}, playPlayerHurt() { return false; } },
     FarmRefuge: { home: (index, chick) => ({ x: 100 + index * 25, y: chick ? 180 : 140 }), contains: () => false, ensureClear() {}, drawGround() {} },
     FarmArt: { drawCoverForeground() {}, getProps() { return []; } }, FarmDetails: {shape:p=>p}, InterfaceMotion: { reduced: true },

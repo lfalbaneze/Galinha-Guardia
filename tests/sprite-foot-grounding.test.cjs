@@ -4,7 +4,7 @@ const {createCanvas,loadImage}=require('@napi-rs/canvas');
 const ROOT=path.resolve(__dirname,'..');
 async function fixture(){
   const context=vm.createContext({SpriteData:{},PremiumWildlifeData:{}});
-  for(const file of ['sunlight','pixellab-art-data','character-art'])
+  for(const file of ['sunlight','pixellab-art-data','comfyui-art-data','character-art'])
     vm.runInContext(fs.readFileSync(path.join(ROOT,'systems',file+'.js'),'utf8'),context);
   const sun=vm.runInContext('Sunlight',context),art=vm.runInContext('CharacterArt',context);
   sun.install(createCanvas);

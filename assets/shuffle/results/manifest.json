@@ -1,78 +1,118 @@
 {
   "hero-classic": {
-    "win": "assets/shuffle/results/hero-classic-win-35fa059dc850.png",
-    "lose": "assets/shuffle/results/hero-classic-lose-2f04a30cdb52.png"
+    "win": "assets/shuffle/chaos-111/hero-classic-win-3a5ecec96e06.png",
+    "lose": "assets/shuffle/chaos-111/hero-classic-lose-06a75a5dead9.png"
   },
   "hero-silkie": {
-    "win": "assets/shuffle/results/hero-silkie-win-feb1611e8ea3.png",
-    "lose": "assets/shuffle/results/hero-silkie-lose-1b6db2abcac5.png"
+    "win": "assets/shuffle/chaos-111/hero-silkie-win-e0a30242ac59.png",
+    "lose": "assets/shuffle/chaos-111/hero-silkie-lose-5f37b223f573.png"
   },
   "hero-blue": {
-    "win": "assets/shuffle/results/hero-blue-win-99c68911ea9c.png",
-    "lose": "assets/shuffle/results/hero-blue-lose-4f66624f9f1b.png"
+    "win": "assets/shuffle/chaos-111/hero-blue-win-14df3aecdc9b.png",
+    "lose": "assets/shuffle/chaos-111/hero-blue-lose-1f07a9e660bd.png"
   },
   "hero-punk": {
-    "win": "assets/shuffle/results/hero-punk-win-7d2fc42b5be5.png",
-    "lose": "assets/shuffle/results/hero-punk-lose-2816881cded0.png"
+    "win": "assets/shuffle/chaos-111/hero-punk-win-b27c9db610d7.png",
+    "lose": "assets/shuffle/chaos-111/hero-punk-lose-f547c682f9e2.png"
   },
   "enemy-fox": {
-    "win": "assets/shuffle/results/enemy-fox-win-bc68e9b870b6.png",
-    "lose": "assets/shuffle/results/enemy-fox-lose-46cb163e9f92.png"
+    "win": "assets/shuffle/chaos-111/enemy-fox-win-9a2d02977982.png",
+    "lose": "assets/shuffle/chaos-111/enemy-fox-lose-f0edcb390143.png"
   },
   "hero-astronaut": {
-    "win": "assets/shuffle/results/hero-astronaut-win-31be49416e85.png",
-    "lose": "assets/shuffle/results/hero-astronaut-lose-e2cbbe4104dc.png"
+    "win": "assets/shuffle/chaos-111/hero-astronaut-win-7c4a3062792a.png",
+    "lose": "assets/shuffle/chaos-111/hero-astronaut-lose-30b5da91d9df.png"
   },
   "enemy-wolf": {
-    "win": "assets/shuffle/results/enemy-wolf-win-963710861b6b.png",
-    "lose": "assets/shuffle/results/enemy-wolf-lose-244fcd81a403.png"
+    "win": "assets/shuffle/chaos-111/enemy-wolf-win-3b08a140eb12.png",
+    "lose": "assets/shuffle/chaos-111/enemy-wolf-lose-ce29a67a3bb4.png"
   },
   "hero-robocop": {
-    "win": "assets/shuffle/results/hero-robocop-win-7218e783be89.png",
-    "lose": "assets/shuffle/results/hero-robocop-lose-711a1fa325a4.png"
+    "win": "assets/shuffle/chaos-111/hero-robocop-win-da9cf8f0d561.png",
+    "lose": "assets/shuffle/chaos-111/hero-robocop-lose-b4502f8643c1.png"
   },
   "hero-priest": {
-    "win": "assets/shuffle/results/hero-priest-win-f04c3823e8f4.png",
-    "lose": "assets/shuffle/results/hero-priest-lose-df1f44a8afd5.png"
+    "win": "assets/shuffle/chaos-111/hero-priest-win-a7c824bab9d0.png",
+    "lose": "assets/shuffle/chaos-111/hero-priest-lose-b6161dc6db65.png"
   },
   "enemy-goose": {
-    "win": "assets/shuffle/results/enemy-goose-win-ae6fffe3d55f.png",
-    "lose": "assets/shuffle/results/enemy-goose-lose-17a600fb80f5.png"
+    "win": "assets/shuffle/chaos-111/enemy-goose-win-8f805a74aa06.png",
+    "lose": "assets/shuffle/chaos-111/enemy-goose-lose-f787d3f5a0fb.png"
   },
   "hero-goose": {
-    "win": "assets/shuffle/results/hero-goose-win-41e4bdbb2e01.png",
-    "lose": "assets/shuffle/results/hero-goose-lose-79949d2aaf5e.png"
+    "win": "assets/shuffle/chaos-111/hero-goose-win-8b86f00edb29.png",
+    "lose": "assets/shuffle/chaos-111/hero-goose-lose-2d94dba2327d.png"
   },
   "enemy-boitata": {
-    "win": "assets/shuffle/results/enemy-boitata-win-2f01554e0b78.png",
-    "lose": "assets/shuffle/results/enemy-boitata-lose-a9c9874599ce.png"
+    "win": "assets/shuffle/chaos-111/enemy-boitata-win-26321c612056.png",
+    "lose": "assets/shuffle/chaos-111/enemy-boitata-lose-2e0de3fafa8b.png"
   },
   "enemy-fuinha": {
-    "win": "assets/shuffle/results/enemy-fuinha-win-daaff2cff40b.png",
-    "lose": "assets/shuffle/results/enemy-fuinha-lose-10bdf7351891.png"
+    "win": "assets/shuffle/chaos-111/enemy-fuinha-win-7f9fd6ab27d8.png",
+    "lose": "assets/shuffle/chaos-111/enemy-fuinha-lose-9990676a60e5.png"
   },
   "enemy-mula-sem-cabeca": {
-    "win": "assets/shuffle/results/enemy-mula-sem-cabeca-win-86ca6cf42d2c.png",
-    "lose": "assets/shuffle/results/enemy-mula-sem-cabeca-lose-d19b39b91f7e.png"
+    "win": "assets/shuffle/chaos-111/enemy-mula-sem-cabeca-win-358dc18a1692.png",
+    "lose": "assets/shuffle/chaos-111/enemy-mula-sem-cabeca-lose-b93cb7fdfd7e.png"
   },
   "enemy-cuca": {
-    "win": "assets/shuffle/results/enemy-cuca-win-f57a62a6ffa2.png",
-    "lose": "assets/shuffle/results/enemy-cuca-lose-b9bc8c97ebef.png"
+    "win": "assets/shuffle/chaos-111/enemy-cuca-win-7428a90d2d36.png",
+    "lose": "assets/shuffle/chaos-111/enemy-cuca-lose-aea42235a3e3.png"
   },
   "enemy-curupira": {
-    "win": "assets/shuffle/results/enemy-curupira-win-9e64e05a132b.png",
-    "lose": "assets/shuffle/results/enemy-curupira-lose-1e5979622ec7.png"
+    "win": "assets/shuffle/chaos-111/enemy-curupira-win-bd944770cc06.png",
+    "lose": "assets/shuffle/chaos-111/enemy-curupira-lose-75e5beca5a37.png"
   },
   "enemy-amanda": {
-    "win": "assets/shuffle/results/enemy-amanda-win-1fac46a912b1.png",
-    "lose": "assets/shuffle/results/enemy-amanda-lose-296261b5aeef.png"
+    "win": "assets/shuffle/chaos-111/enemy-amanda-win-03faf9e8e2ee.png",
+    "lose": "assets/shuffle/chaos-111/enemy-amanda-lose-710e45e496e0.png"
   },
   "enemy-crow": {
-    "win": "assets/shuffle/results/enemy-crow-win-d62a34fed434.png",
-    "lose": "assets/shuffle/results/enemy-crow-lose-8991b3d55e2d.png"
+    "win": "assets/shuffle/chaos-111/enemy-crow-win-476ef474c8f9.png",
+    "lose": "assets/shuffle/chaos-111/enemy-crow-lose-3879e7721208.png"
   },
   "enemy-owl": {
-    "win": "assets/shuffle/results/enemy-owl-win-b667d60ba094.png",
-    "lose": "assets/shuffle/results/enemy-owl-lose-2b4f4d2ec78f.png"
+    "win": "assets/shuffle/chaos-111/enemy-owl-win-c84d895356e2.png",
+    "lose": "assets/shuffle/chaos-111/enemy-owl-lose-fbde06ab9436.png"
+  },
+  "enemy-chick": {
+    "win": "assets/shuffle/chaos-111/enemy-chick-win-14ed8abd45c5.png",
+    "lose": "assets/shuffle/chaos-111/enemy-chick-lose-00fcc87913c1.png"
+  },
+  "enemy-duck": {
+    "win": "assets/shuffle/chaos-111/enemy-duck-win-02e4d20c3cfc.png",
+    "lose": "assets/shuffle/chaos-111/enemy-duck-lose-cde1e911cae0.png"
+  },
+  "enemy-pig": {
+    "win": "assets/shuffle/chaos-111/enemy-pig-win-30b0d6aa2f46.png",
+    "lose": "assets/shuffle/chaos-111/enemy-pig-lose-1e324c32c0c4.png"
+  },
+  "enemy-turkey": {
+    "win": "assets/shuffle/chaos-111/enemy-turkey-win-e19ec8e1c345.png",
+    "lose": "assets/shuffle/chaos-111/enemy-turkey-lose-c52fa2323f2f.png"
+  },
+  "enemy-lamb": {
+    "win": "assets/shuffle/chaos-111/enemy-lamb-win-a0c16358f54d.png",
+    "lose": "assets/shuffle/chaos-111/enemy-lamb-lose-6dd274b5b9aa.png"
+  },
+  "enemy-goat": {
+    "win": "assets/shuffle/chaos-111/enemy-goat-win-0b48fbebdf3b.png",
+    "lose": "assets/shuffle/chaos-111/enemy-goat-lose-ac641d30cb39.png"
+  },
+  "enemy-donkey": {
+    "win": "assets/shuffle/chaos-111/enemy-donkey-win-5cf3ac6e0e1c.png",
+    "lose": "assets/shuffle/chaos-111/enemy-donkey-lose-1dbbb960a5a5.png"
+  },
+  "enemy-sheep": {
+    "win": "assets/shuffle/chaos-111/enemy-sheep-win-9d83a012ea8c.png",
+    "lose": "assets/shuffle/chaos-111/enemy-sheep-lose-c0c8ab49a6cf.png"
+  },
+  "enemy-horse": {
+    "win": "assets/shuffle/chaos-111/enemy-horse-win-e890ea6b18ba.png",
+    "lose": "assets/shuffle/chaos-111/enemy-horse-lose-35889cd107c0.png"
+  },
+  "enemy-cow": {
+    "win": "assets/shuffle/chaos-111/enemy-cow-win-dc33c7bb25ff.png",
+    "lose": "assets/shuffle/chaos-111/enemy-cow-lose-838896deaa35.png"
   }
 }

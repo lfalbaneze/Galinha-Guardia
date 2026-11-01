@@ -90,7 +90,7 @@ const RescueSystem = {
         const safe = RescueSystem.chickPosition(game.entities.chicks.indexOf(chick));
         Object.assign(chick, { x: safe.x, y: safe.y, targetX: safe.x, targetY: safe.y,
             moving: false, direction: 'down', temper: 'safe', speechTime: 0 });
-        setStatus(`${RescueSystem.nameOf(chick, game)}: Piu! Fim da expedição de dois passos. ${game.rescuedChicks} de ${game.entities.chicks.length} pintinhos no ninho. +100 pontos!`, 'win');
+        setStatus(`${RescueSystem.nameOf(chick, game)}: Piu! Fim da expedição de dois passos. ${game.rescuedChicks} de ${game.entities.chicks.length} pintinhos no ninho. +${game.settings.rescueScore || SCORE_PER_RESCUE} pontos!`, 'win');
         GameManager.save(game);
         GameUI.update(game);
         return true;
@@ -231,26 +231,26 @@ const RescueSystem = {
             point.y >= Math.min(area.y + 32, from.y) && point.y <= Math.max(area.y + area.h - 32, from.y) &&
             distance(point, home) <= Math.max(360, distance(from, home));
     },
-    walk(animal, target, speed, dt, home, area) {
+    walk(animal, target, speed, dt, home, area, crowd = []) {
         if (dt <= 0)
             return;
-        animal.friendRouteTimer = Math.max(0, (animal.friendRouteTimer || 0) - dt);
-        const clear = typeof WildlifeRules === 'undefined' ? DetectionSystem.hasLineOfSight(getHitbox(animal), target) : WildlifeRules.clear(animal, target, animal.hitbox);
-        if (clear)
-            animal.friendRoute = [];
-        else if (animal.friendRouteTimer <= 0 && typeof WolfAI.findPath === 'function') {
-            const route = WolfAI.findPath(animal, target);
-            animal.friendRoute = route.every(p => RescueSystem.withinHome(p, home, area, animal)) ? route : [];
-            animal.friendRouteGoal = { ...target };
-            animal.friendRouteTimer = .8;
+        if (typeof WildlifeRules !== 'undefined') {
+            const destination = { x: clamp(target.x, Math.min(area.x + 32, animal.x), Math.max(area.x + area.w - 32, animal.x)),
+                y: clamp(target.y, Math.min(area.y + 32, animal.y), Math.max(area.y + area.h - 32, animal.y)) };
+            const gap = distance(destination, home), leash = Math.max(360, distance(animal, home));
+            if (gap > leash) {
+                destination.x = home.x + (destination.x - home.x) * leash / gap;
+                destination.y = home.y + (destination.y - home.y) * leash / gap;
+            }
+            const result = WildlifeRules.navigate(animal, destination, speed, dt, p => RescueSystem.withinHome(p, home, area, animal), crowd);
+            if (result === 'unreachable') {
+                animal.targetX = animal.x;
+                animal.targetY = animal.y;
+                animal.wanderTime = 0;
+            }
+            return;
         }
-        if (animal.friendRouteGoal && distance(animal.friendRouteGoal, target) > 50) {
-            animal.friendRoute = [];
-            animal.friendRouteTimer = 0;
-        }
-        while (animal.friendRoute?.length && distance(animal, animal.friendRoute[0]) < 8)
-            animal.friendRoute.shift();
-        const goal = animal.friendRoute?.[0] || target, dx = goal.x - animal.x, dy = goal.y - animal.y, len = Math.hypot(dx, dy);
+        const dx = target.x - animal.x, dy = target.y - animal.y, len = Math.hypot(dx, dy);
         if (len < .01)
             return;
         const before = { x: animal.x, y: animal.y }, step = Math.min(len, speed * dt);
@@ -258,7 +258,6 @@ const RescueSystem = {
         if (!RescueSystem.withinHome(animal, home, area, before)) {
             animal.x = before.x;
             animal.y = before.y;
-            animal.friendRoute = [];
         }
     },
     flee(game, animal, home, area, dt, effort = 1) {
@@ -269,7 +268,7 @@ const RescueSystem = {
         const dx = animal.x - threat.x, dy = animal.y - threat.y;
         const angle = Math.atan2(dy || .001, dx || .001);
         const endurance = (game.difficultyKey === 'easy' ? 2.8 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 6 : 4.4) * RescueSystem.personality(animal).endurance;
-        const speed = game.entities.chicken.speed * (game.difficultyKey === "easy" ? .97 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 1.15 : 1.08) *
+        const speed = game.entities.chicken.speed * (game.difficultyKey === "easy" ? .7 : ['hard', 'hardcore'].includes(game.difficultyKey) ? 1.15 : 1.08) *
             RescueSystem.personality(animal).pace * effort * (1 - .16 * clamp((animal.fatigue || 0) / endurance, 0, 1));
         const neighbours = RescueSystem.all(game).filter(a => a !== animal && !a.rescued && !RescueSystem.isSecret(a) && distance(a, animal) < 140 &&
             DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(a)));
@@ -283,6 +282,9 @@ const RescueSystem = {
                 continue;
             const travel = distance(probe, animal);
             if (travel < 15)
+                continue;
+            // A trapped animal must not retreat one frame and undo that step the next.
+            if ((probe.x - animal.x) * dx + (probe.y - animal.y) * dy <= 0)
                 continue;
             const heading = Math.atan2(probe.y - animal.y, probe.x - animal.x);
             const continuity = Number.isFinite(animal.fleeHeading) ? Math.cos(heading - animal.fleeHeading) * 18 : 0;
@@ -310,38 +312,67 @@ const RescueSystem = {
             animal.y = before.y;
         }
         animal.stuckTime = distance(before, animal) < speed * dt * .1 ? (animal.stuckTime || 0) + dt : 0;
-        if (animal.stuckTime > .25 && distance(animal, home) > 65 && distance(home, threat) > Math.max(110, distance(animal, threat) * .8))
-            RescueSystem.walk(animal, home, speed * .65, dt, home, area);
         if (animal.stuckTime > .8) {
-            animal.restTime = 3.1;
-            animal.stuckTime = 0;
-            animal.fleeHeading = null;
+            if (typeof WildlifeRules !== 'undefined')
+                WildlifeRules.decide(animal, 'blocked', 'encurralado: aguardar passagem ou recuperar o fôlego');
         }
         animal.targetX = animal.x;
         animal.targetY = animal.y;
     },
-    wander(animal, home, area) {
+    wander(animal, home, area, game) {
+        animal.activity = ['cow', 'goat', 'horse'].includes(animal.species) ? 'graze' : animal.species === 'dog' ? 'sniff' :
+            animal.species === 'rabbit' ? 'shelter' : ['sheep', 'lamb'].includes(animal.species) ? 'herd' : 'wander';
+        const neighbours = game.entities.animals.filter(a => a !== animal && !a.rescued && (a.species === animal.species ||
+            ['sheep', 'lamb'].includes(animal.species) && ['sheep', 'lamb'].includes(a.species)) && distance(a, animal) < 120 &&
+            DetectionSystem.hasLineOfSight(getHitbox(animal), getHitbox(a)));
+        const clue = animal.activity === 'sniff' && typeof WildlifeRules !== 'undefined' ? WildlifeRules.hear(game, animal) : null;
+        const shelter = animal.activity === 'shelter' && typeof HidingSpots !== 'undefined' ? HidingSpots.getSpots()
+            .map(s => ({ x: s.x + s.w / 2, y: s.y + s.h + animal.hitbox.r + 3 })).find(p => distance(p, home) < 85) : null;
         for (let attempt = 0; attempt < 6; attempt++) {
             const chick = animal.type === 'chick';
-            const target = { x: clamp(home.x + (chick ? rand(-18, 18) : rand(-48, 48)), area.x + 55, area.x + area.w - 55),
-                y: clamp(home.y + (chick ? rand(-14, 14) : rand(-40, 40)), area.y + 55, area.y + area.h - 55) };
+            const target = { x: clamp(home.x + (chick ? rand(-18, 18) : animal.activity === 'graze' ? rand(-80, 80) : rand(-48, 48)), area.x + 55, area.x + area.w - 55),
+                y: clamp(home.y + (chick ? rand(-14, 14) : animal.activity === 'graze' ? rand(-65, 65) : rand(-40, 40)), area.y + 55, area.y + area.h - 55) };
+            const preferred = animal.activity === 'herd' ? neighbours[0] : clue?.origin || shelter;
+            if (attempt === 0 && preferred && distance(preferred, home) < 90) {
+                target.x = preferred.x + (animal.activity === 'herd' ? 38 : 0);
+                target.y = preferred.y;
+            }
+            const radius = distance(target, home);
+            if (radius > 85) {
+                target.x = home.x + (target.x - home.x) * 85 / radius;
+                target.y = home.y + (target.y - home.y) * 85 / radius;
+            }
+            if (animal.activity === 'graze' && EnvironmentSystem.surfaceAt(game, target) !== 'grass')
+                continue;
             const probe = { ...animal };
             Player.move(probe, target.x - animal.x, target.y - animal.y);
             if (distance(probe, target) > 2)
                 continue;
+            if (typeof WildlifeRules !== 'undefined')
+                WildlifeRules.reset(animal);
             animal.targetX = target.x;
             animal.targetY = target.y;
             break;
         }
         animal.wanderTime = 1.8 + Math.random() * 2.4;
     },
-    refugeWander(animal, home, index) {
+    refugeSpace(animal, point, other, position = other) {
+        // The broad bodies of livestock need more room than their small foot hitboxes.
+        const width = { horse: 38, cow: 34, donkey: 30 };
+        const horizontal = (width[animal.species] || 18) + (width[other.species || ''] || 18) + 4;
+        const vertical = animal.hitbox.r + other.hitbox.r + 6;
+        return ((point.x - position.x) / horizontal) ** 2 + ((point.y - position.y) / vertical) ** 2;
+    },
+    refugeWander(animal, home, index, game) {
+        WildlifeRules.reset(animal);
         const yard = FarmRefuge.bounds;
         const active = ['rabbit', 'dog', 'cat', 'duck'].includes(animal.species);
         const heavy = ['cow', 'donkey', 'horse'].includes(animal.species);
-        const rx = active ? 54 : heavy ? 34 : 44, ry = active ? 36 : heavy ? 24 : 30;
+        const rx = active ? 24 : heavy ? 14 : 20, ry = active ? 16 : heavy ? 10 : 14;
         const minX = yard.x + 28, maxX = yard.x + yard.w - 28;
         const minY = Math.max(yard.y + 146, 320), maxY = yard.y + yard.h - 28;
+        const company = game.entities.animals.filter(a => a !== animal && a.rescued);
+        animal.activity = ['cow', 'goat', 'horse'].includes(animal.species) ? 'graze' : 'wander';
         // Each rescued friend roams near its own home. This keeps the yard lively
         // without turning the refuge into another chase or letting residents cross a rail.
         for (let attempt = 0; attempt < 8; attempt++) {
@@ -356,12 +387,16 @@ const RescueSystem = {
             resolveEnvironment(probe);
             if (distance(probe, target) > 2)
                 continue;
+            if (company.some(a => RescueSystem.refugeSpace(animal, target, a) < 1 ||
+                RescueSystem.refugeSpace(animal, target, a, { x: a.targetX, y: a.targetY }) < 1))
+                continue;
             animal.targetX = target.x;
             animal.targetY = target.y;
             return;
         }
-        animal.targetX = home.x;
-        animal.targetY = home.y;
+        animal.targetX = animal.x;
+        animal.targetY = animal.y;
+        animal.activity = 'rest';
         animal.restTime = .8 + (index % 4) * .18;
     },
     update(game, dt) {
@@ -443,10 +478,6 @@ const RescueSystem = {
                     animal.fleeHeading = null;
                 }
                 if (threat) {
-                    if (!animal.fleeFrom || distance(animal.fleeFrom, threat) > 80) {
-                        animal.friendRoute = [];
-                        animal.friendRouteTimer = 0;
-                    }
                     animal.fleeFrom = { x: threat.x, y: threat.y, kind: threat.kind };
                     animal.dangerSource = threat.source;
                 }
@@ -477,30 +508,29 @@ const RescueSystem = {
                 else if (calm) {
                     // A matching appearance or a visibly patient rescuer invites this approach, never stealth.
                     // Use the same collision model, so a friend never walks through a fence.
-                    RescueSystem.walk(animal, chicken, 44 * RescueSystem.personality(animal).pace, dt, home, area);
+                    RescueSystem.walk(animal, chicken, 44 * RescueSystem.personality(animal).pace, dt, home, area, animals.filter(a => a !== animal && !a.rescued));
                     animal.targetX = animal.x;
                     animal.targetY = animal.y;
                     animal.speechTime = 0;
                 }
                 else if (animal.restTime <= 0 && animal.fleeTime <= 0 && (distance(animal, home) > 90 || !RescueSystem.withinHome(animal, home, area))) {
-                    RescueSystem.walk(animal, home, 48 * RescueSystem.personality(animal).pace, dt, home, area);
+                    RescueSystem.walk(animal, home, 48 * RescueSystem.personality(animal).pace, dt, home, area, animals.filter(a => a !== animal && !a.rescued));
                     animal.targetX = home.x;
                     animal.targetY = home.y;
                 }
                 else if (animal.restTime <= 0 && len > 5) {
                     const cruise = (chick ? 27 : 35) * RescueSystem.personality(animal).pace;
                     const speed = Math.min(cruise, Math.hypot(animal.vx, animal.vy) + 90 * dt, Math.sqrt(2 * 90 * Math.max(0, len - 4)));
-                    const step = Math.min(len, speed * dt);
-                    Player.move(animal, dx / len * step, dy / len * step);
+                    RescueSystem.walk(animal, { x: animal.targetX, y: animal.targetY }, speed, dt, home, area, animals.filter(a => a !== animal && !a.rescued));
                 }
                 if (!fleeing)
                     animal.fatigue = Math.max(0, (animal.fatigue || 0) - dt * .25);
                 animal.wanderTime = Math.max(0, (animal.wanderTime ?? (1 + index * .17)) - dt);
                 if (!fleeing && !calm && animal.restTime <= 0 && distance(animal, home) <= 90 && animal.wanderTime <= 0 && dt > 0) {
-                    RescueSystem.wander(animal, home, area);
+                    RescueSystem.wander(animal, home, area, game);
                 }
                 resolveEnvironment(animal);
-                animal.moving = dt > 0 && Math.hypot(animal.x - oldX, animal.y - oldY) > 0.02;
+                animal.moving = dt > 0 && Math.hypot(animal.x - oldX, animal.y - oldY) > 0.001;
                 if (animal.moving)
                     Player.face(animal, animal.x - oldX, animal.y - oldY);
                 else if (!chicken.hidden && visible && (!chicken.sneaking || threat?.kind === 'player') && distance(chicken, animal) < 150)
@@ -554,7 +584,7 @@ const RescueSystem = {
                 animal.restTime = Math.max(0, (animal.restTime || 0) - dt);
                 let dx = animal.targetX - animal.x, dy = animal.targetY - animal.y, len = Math.hypot(dx, dy);
                 if (len <= 4 && animal.restTime <= 0 && dt > 0) {
-                    RescueSystem.refugeWander(animal, safe, index);
+                    RescueSystem.refugeWander(animal, safe, index, game);
                     dx = animal.targetX - animal.x;
                     dy = animal.targetY - animal.y;
                     len = Math.hypot(dx, dy);
@@ -563,16 +593,24 @@ const RescueSystem = {
                     const active = ['rabbit', 'dog', 'cat', 'duck'].includes(animal.species);
                     const heavy = ['cow', 'donkey', 'horse'].includes(animal.species);
                     const cruise = (active ? 29 : heavy ? 18 : 22) * RescueSystem.personality(animal).pace;
-                    const step = Math.min(len, cruise * dt);
-                    Player.move(animal, dx / len * step, dy / len * step);
-                    resolveEnvironment(animal);
-                    animal.moving = Math.hypot(animal.x - oldX, animal.y - oldY) > .02;
+                    const speed = Math.min(cruise, Math.hypot(animal.vx, animal.vy) + 90 * dt, Math.sqrt(2 * 90 * Math.max(0, len - 3)));
+                    const step = Math.min(len, speed * dt);
+                    const crowd = [...game.entities.animals.filter(a => a.rescued), chicken];
+                    if (game.entities.goose?.rescued)
+                        crowd.push(game.entities.goose);
+                    const destination = { x: clamp(animal.targetX, yard.x + margin, yard.x + yard.w - margin),
+                        y: clamp(animal.targetY, Math.max(yard.y + 138, 312), yard.y + yard.h - margin) };
+                    WildlifeRules.navigate(animal, destination, step / dt, dt, p => p.x >= yard.x + margin && p.x <= yard.x + yard.w - margin &&
+                        p.y >= Math.max(yard.y + 138, 312) && p.y <= yard.y + yard.h - margin && crowd.every(a => a === animal ||
+                        RescueSystem.refugeSpace(animal, p, a) >= Math.min(1, RescueSystem.refugeSpace(animal, animal, a)) - 1e-8), crowd);
+                    animal.moving = Math.hypot(animal.x - oldX, animal.y - oldY) > .001;
                     if (animal.moving)
                         Player.face(animal, animal.x - oldX, animal.y - oldY);
                     if (distance(animal, { x: animal.targetX, y: animal.targetY }) <= 4) {
                         animal.targetX = animal.x;
                         animal.targetY = animal.y;
                         animal.restTime = active ? rand(.7, 1.8) : heavy ? rand(2.3, 4.2) : rand(1.4, 3.1);
+                        animal.activity = 'rest';
                     }
                     else if (!animal.moving) {
                         animal.targetX = animal.x;

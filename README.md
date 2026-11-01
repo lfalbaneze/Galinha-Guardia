@@ -10,7 +10,9 @@ O lobo está à solta, os bichos se espalharam pela fazenda e sobrou para uma ga
 
 **Penas pro Ar!** é uma aventura 2D de exploração e furtividade na **Fazenda do tio Clau**, para jogar direto no navegador. Encontre os **12 amigos**, use o feno e a vegetação para se esconder e escolha a hora certa de correr. A cada resgate, o lobo fica mais atento — salvar a turma vai exigir mais do que sair correndo pela fazenda.
 
-O elenco tem **29 personagens e aparências em pixel art produzidos pela PixelLab**, com oito direções próprias e ciclos de caminhada completos. As diagonais acompanham o movimento real e a passada acompanha a distância. A coruja dá uma sirene curta, chama o lobo, voa para outra árvore e volta a vigiar. Veja a [prévia animada](preview/pixellab/index.html) e os [personagens e animações instalados](assets/sprites/pixellab-108/README.md).
+O elenco usa personagens e aparências em pixel art da PixelLab, com oito direções próprias e ciclos de caminhada completos. Curupira e lobo receberam [repinturas locais pelo ComfyUI](assets/sprites/comfyui-110/README.md), com uma variante sombria exclusiva do Hardcore. As diagonais acompanham o movimento real e a passada acompanha a distância. A coruja dá uma sirene curta, chama o lobo, voa para outra árvore e volta a vigiar. Veja os [personagens e animações da base PixelLab](assets/sprites/pixellab-108/README.md).
+
+Os quatro finais têm cenários próprios, legendas com quebra de linha e composição adaptada para retrato. Os chefes secretos recebem uma trilha original durante o confronto, com retorno ao tema escolhido quando a luta termina.
 
 Cada dificuldade tem uma [ilustração própria](preview/menu-difficulties.html): o campo tranquilo de Explorador, o encontro no pomar de Aventura, a corrida de Contra o tempo e a lanterna ao anoitecer de Última luz. A [capa do jogo](assets/menu/cover-9dd81acab19e.png) e essas cenas também foram criadas pela PixelLab. [Arquivos e prompts](assets/menu/ART-NOTES.md).
 
@@ -18,9 +20,9 @@ A tela inicial sorteia cinco convidados, suas posições e orientações a cada 
 
 A edição 94 acrescenta **fome progressiva ao lobo**: tempo de caça e resgates o deixam mais rápido e persistente, com indicação de Faminto e Voraz. A corrida ainda abre distância e a cobertura quebra a perseguição. Vaca, cachorro, cabra e cavalo receberam flancos próprios e passadas revisadas. Veja a [prévia animada](preview/animal-walks.html) e a [proveniência dos sprites](assets/sprites/ARCADE-94-NOTES.md).
 
-A protagonista é **Erina**, a carijó, com duas opções também liberadas desde o começo: **Midori**, a sedosa japonesa de topete e patas plumadas, e **Alzira**, a galinha azul inspirada na mascote da Maggi. Escolha na aba **Bichos**; todas têm oito direções e passos alternados, com as mesmas regras de movimento. Veja a [prévia das três](preview/chickens.png) e os [sprites e prompts](assets/sprites/HEN-ART-NOTES.md).
+A protagonista é **Erina**, a carijó, com duas opções também liberadas desde o começo: **Midori**, a sedosa japonesa de topete e patas plumadas, e **Alzira**, a galinha azul inspirada na mascote da Maggi. Escolha na aba **Bichos**; todas têm oito direções e passos alternados, com as mesmas regras de movimento. Veja os [sprites e prompts](assets/sprites/HEN-ART-NOTES.md).
 
-Pelo caminho, piados revelam **seis pintinhos escondidos, ou dez no Hardcore**. Encontrá-los é opcional, mas rende pontos e ajuda a desbloquear outros personagens. Quando os 12 amigos estão seguros, chega a vez de a turma acertar as contas com o lobo, numa confusão de desenho animado.
+Pelo caminho, piados revelam **seis pintinhos escondidos, ou dez no Hardcore**. Encontrá-los é opcional, mas rende pontos e ajuda a desbloquear outros personagens. Cada dificuldade encerra a aventura com sua própria sequência: um convite desconfiado para o piquenique no Explorador, uma aula de dança que vira baile em Aventura, uma faxina fiscalizada pelos pequenos em Contra o tempo e o acerto de contas da turma em Última luz. Os personagens conversam, reagem e se movimentam durante as cenas; a aparência equipada acompanha a protagonista.
 
 ## Pela Fazenda do tio Clau
 
@@ -34,9 +36,21 @@ Pelo caminho, piados revelam **seis pintinhos escondidos, ou dez no Hardcore**. 
 
 ## Como jogar
 
+O lobo agora pontua destinos de patrulha e busca com base nas rotas que viu você repetir e nas entradas em esconderijos que presenciou. As lembranças de rota enfraquecem com o tempo, e regiões recém-verificadas perdem prioridade. Cada tentativa varia um pouco a preferência por investigar, sem alterar a velocidade, a visão ou os avisos dos ataques. Essa aprendizagem fica na memória da sessão e não modifica o formato dos saves; recarregar a página começa uma nova aprendizagem.
+
+A IA 2.0 compartilha navegação entre os deslocamentos normais dos personagens terrestres: caminhos ao redor de cercas, desvio de vizinhos, detecção de falta de progresso e abandono de destinos inacessíveis. Investidas continuam seguindo a direção anunciada. Ao perder uma pista perto de uma cerca, Baltazar também verifica suas extremidades; Difícil e Hardcore ampliam as alternativas de busca. A fome e as velocidades anteriores continuam com suas regras existentes.
+
+Corujas, lobo e raposas compartilham pistas reais por até quatro segundos, com alcance e atenuação por paredes. Uma raposa pode mudar de posição após ouvir o alarme, mas precisa confirmar visualmente a galinha para atacar. Panto pode guardar seu território quando vê um predador. Vacas, cabras e cavalos procuram capim, cães investigam a origem de ruídos, coelhos buscam abrigo e ovelhas procuram companhia. Moradores do curral podem comentar uma sirene ou uma raposa fugindo que tenham presenciado.
+
+No curral, os amigos podem se aproximar de vizinhos, olhar para eles durante as pausas e ceder passagem aos outros animais, a Panto e à protagonista. A fuga em grupo e os alertas de predadores usam a percepção que já existia no jogo. Esses comportamentos usam a estrutura atual, sem dependências ou serviços externos.
+
+Pressione **F3** durante a aventura para ligar ou desligar a depuração da IA: campo de visão do lobo, rotas, pontos de busca, pontuações dos destinos avaliados, alcance de percepção do Panto e estados dos animais. O painel também mostra alvo, motivo da decisão, falta de progresso e última mudança do personagem mais próximo. A visualização começa desligada e não altera a simulação nem os saves. Os testes incluem obstáculos adicionados durante o trajeto, vizinhos parados, destinos impossíveis, pistas expiradas, posições ocultas diferentes e partidas simuladas em três fazendas.
+
 Baixe ou clone o repositório e abra `index.html` no navegador. Não é necessário instalar dependências para jogar; os scripts compilados acompanham o projeto.
 
-No menu, **Revoada do Caos** inicia diretamente uma partida com mapas
+No menu, **Revoada do Caos** abre a preparação: escolha o bicho e o tipo de partida,
+depois clique em **Nova Revoada**. A pausa também oferece **Novo jogo** para voltar
+à preparação; a tentativa de sobrevivência atual termina. São mapas
 procedurais, 30 habilidades combináveis e dez arenas diferentes com chefes. WASD/setas
 movem, Espaço esquiva e os ataques são automáticos. Você começa no nível 1,
 com o ataque do personagem. Colete cristais dos inimigos ou da fazenda para
@@ -75,10 +89,14 @@ Os dez mapas têm percursos e hordas próprios: pomar, milharal, pedreira, bosqu
 campo, colheita, bebedouro, pomar ao entardecer, penumbra e arena ao anoitecer.
 Cada mapa tem três variantes de caminhos
 conectados, sorteadas pela semente. Espigas, pedras e postes de lanterna têm
-sprites próprios da PixelLab; os ataques especiais também usam novos sprites.
+sprites próprios repintados no ComfyUI local; os ataques especiais também usam novos sprites.
 As 30 habilidades e oito fusões têm arte própria no catálogo, além dos itens
-de leite e XP. Os 19 personagens têm poses PixelLab de vitória e derrota
-carregadas nos cards de resultado, com falas individuais.
+de leite e XP. Os 29 personagens têm 58 imagens de vitória e derrota baseadas
+nos próprios atlas, carregadas nos cards de resultado com falas individuais.
+Os 31 modelos usados na partida, incluindo os amigos resgatados, usam uma
+edição de arte exclusiva do modo, com as oito direções e as passadas preservadas.
+Poderes, itens, projéteis e objetos somam 65 sprites revisados. As proporções
+acompanham o elenco principal; a gata fica menor que a galinha, o lobo e a vaca.
 Vegetação fica transparente quando encobre o jogador; dano deixa um sinal breve
 e barras pequenas mostram a resistência dos feridos. Sophis finge recuar e prepara uma emboscada;
 corvos anunciam rasantes em linha reta; corujas avisam com uma sirene que
@@ -94,9 +112,13 @@ Cada chefe tem seu padrão: Panto empurra com ondas de som, Baltazar chama dois
 lobos, Lorenzo dá garradas e Fuinha arremessa terra. A Mula alterna rajadas de
 fogo, uma roda de ferraduras em chamas e um galope que deixa pegadas quentes.
 As pegadas acompanham a distância percorrida, esquentam antes de causar dano
-e apagam depois. Curupira marca uma trilha de raízes, Boitatá alterna um cerco
-de fogo com rajadas e Cuca alterna feitiços com poças de veneno. Os ataques
-têm avisos, pausas e colisão com obstáculos.
+e apagam depois. Enfraquecida, a Mula pode emendar um segundo galope, com novo
+aviso antes de mudar a direção. Curupira alterna raízes em ondas, cerco com saída
+e arrancada. Boitatá alterna cerco de fogo com rajadas; Cuca alterna feitiços com
+poças de veneno e deixa o centro do leque aberto quando enfraquecida. Entre os
+ataques, as lendas mudam de posição. Durante a recuperação, os chefes recebem
+35% mais dano, com a abertura indicada sobre o personagem. Os ataques têm
+avisos, pausas e colisão com obstáculos.
 A cada fase vencida, a horda ganha resistência, velocidade e reforços mais
 frequentes; eles continuam chegando durante os chefes. A quinta fase tem
 inimigos com três vezes a vida da primeira na mesma onda. Uma vitória completa
@@ -221,6 +243,10 @@ Interagir** para despertar uma lenda, desvie e contra-ataque durante a
 um coração, uma vez por lenda e tentativa. Só uma lenda pode estar ativa.
 Sair da região permite recuar; descoberta, contra-ataques e vitórias ficam
 salvos. Nenhuma lenda é necessária para concluir os resgates.
+Na aventura, as lendas retomam a pressão perto de onde terminaram o ataque,
+sem voltar ao selo a cada abertura. Curupira também prepara cercos de raízes
+com saída; a Mula alterna investidas com rajadas de fogo, deixa um rastro que
+demora a aquecer e pode anunciar uma segunda investida após perder coragem.
 As investidas têm aviso e direção fixa; raízes e fogo expiram, e feitiços
 param nos obstáculos. Refúgio, esconderijos, pausa, lago e ajuda do Thor
 são respeitados. Carregar a partida limpa ataques em andamento e concede
@@ -262,7 +288,7 @@ O cenário reage ao contato: milho, trigo, flores, taboas e arbustos cedem à pa
 
 Os três sons curtos de contato são originais e podem ser regenerados com `node scripts/generate-environment-audio.cjs`, sem alterar as gravações dos animais.
 
-Na parte funda da lagoa, a galinha e as aparências de coelho, gato e cachorro usam uma boia automaticamente. Pato e ganso nadam sem boia: na água funda, o ganso nada a 94% da velocidade básica de caminhada; o poder do pato aumenta esse nado em 25%. Na boia, a velocidade é 56%. Na margem rasa, começa em 78% e muda gradualmente ao entrar. O comando de correr acelera as remadas e usa fôlego; sair pela margem recolhe a boia. Há balanço suave, corpo parcialmente submerso, ondas e respingos. As poças menores continuam rasas, e a ponte conquistada oferece uma travessia seca e rápida. Entrar para nadar durante o desafio do PANTO encerra a tentativa, sem conceder carimbos. A aparência e a posição salva determinam o nado ao retomar, sem salvar efeitos transitórios. Prévia: [nado e boias](preview/swimming.png).
+Na parte funda da lagoa, a galinha e as aparências de coelho, gato e cachorro usam uma boia automaticamente. Pato e ganso nadam sem boia: na água funda, o ganso nada a 94% da velocidade básica de caminhada; o poder do pato aumenta esse nado em 25%. Na boia, a velocidade é 56%. Na margem rasa, começa em 78% e muda gradualmente ao entrar. O comando de correr acelera as remadas e usa fôlego; sair pela margem recolhe a boia. Há balanço suave, corpo parcialmente submerso, ondas e respingos. As poças menores continuam rasas, e a ponte conquistada oferece uma travessia seca e rápida. Entrar para nadar durante o desafio do PANTO encerra a tentativa, sem conceder carimbos. A aparência e a posição salva determinam o nado ao retomar, sem salvar efeitos transitórios.
 
 As novas fazendas reservam terrenos completos para cada atividade. A **horta** tem canteiros retangulares, fileiras contínuas e corredores; o **milharal** tem pés de milho, um galinheiro e um silo; o **curral** tem vaca, cabra, bebedouro, estábulo e cercas com dois portões abertos. Os galinheiros ficam apenas no poleiro e no milharal, e o pomar concentra as árvores frutíferas. Copas e construções não invadem os canteiros.
 
@@ -294,7 +320,7 @@ As aparências são escolhidas no **Baú dos bichos**. Cada aparência secreta t
 | Zeca | Pato a jato | Nado 25% mais rápido que o ganso na água funda, com transição suave na margem. |
 | Gumercindo | Fôlego de ganso | A carga completa de fôlego sustenta 4,5 segundos de corrida ou nado acelerado, em vez de 3. |
 
-Zeca usa chapéu de palha e lenço cor de telha; Pipoca tem lenço verde e uma orelha dobrada; Stella tem patinhas claras, laço lilás e guizo; Gumercindo usa lenço azul xadrez; Paçoca tem pelo caramelo, orelhas castanhas e lenço vermelho. As folhas próprias têm quatro direções e dois passos, usadas na partida, no menu, no baú e nos retratos. Os desbloqueios antigos continuam válidos. Veja a [prévia dos cinco personagens](preview/skin-characters.png) e as [notas de arte e prompts](assets/sprites/SKIN-ART-NOTES.md).
+Zeca usa chapéu de palha e lenço cor de telha; Pipoca tem lenço verde e uma orelha dobrada; Stella tem patinhas claras, laço lilás e guizo; Gumercindo usa lenço azul xadrez; Paçoca tem pelo caramelo, orelhas castanhas e lenço vermelho. As folhas próprias têm oito direções e ciclos de caminhada e corrida, usadas na partida, no menu, no baú e nos retratos. Os desbloqueios antigos continuam válidos. Veja as [notas de arte e prompts](assets/sprites/SKIN-ART-NOTES.md).
 
 Erina, Midori e Alzira mantêm os atributos básicos. Só o poder equipado vale, e a troca preserva o fôlego atual, as vidas e as colisões. Os desbloqueios permanecem entre aventuras, e aparências ganhas em saves anteriores já recebem seus poderes. Para conquistar todos na mesma partida, encontre os pintinhos **antes de resgatar o último amigo**.
 
@@ -327,13 +353,13 @@ O progresso pertence ao navegador e ao endereço usado para jogar. Abrir por `fi
 
 ## Interface da partida
 
-A partida ocupa a janela inteira. Uma faixa compacta reúne personagem, corações, resgates, pintinhos, pontos e pausa; localização e alerta do lobo ficam em pequenos avisos sobre o mapa. O fôlego aparece quando usado, e a ajuda do Thor fica junto aos controles. Ações próximas usam um único aviso pequeno no cenário; o rodapé não repete a chamada. O minimapa destaca caminhos e pontos de interesse. O campo se adapta ao computador e ao celular sem esticar sprites nem exigir rolagem. A câmera mantém a personagem visível nas bordas, acima dos controles. Som, aparências, poderes e dificuldade continuam nas abas do menu de pausa. As animações respeitam a preferência por movimento reduzido. [Partida no computador](preview/farm-play-desktop.png) · [No celular](preview/farm-play-mobile.png).
+A partida ocupa a janela inteira. Uma faixa compacta reúne personagem, corações, resgates, pintinhos, pontos e pausa; localização e alerta do lobo ficam em pequenos avisos sobre o mapa. O fôlego aparece quando usado, e a ajuda do Thor fica junto aos controles. Ações próximas usam um único aviso pequeno no cenário; o rodapé não repete a chamada. O minimapa destaca caminhos e pontos de interesse. O campo se adapta ao computador e ao celular sem esticar sprites nem exigir rolagem. A câmera mantém a personagem visível nas bordas, acima dos controles. Som, aparências, poderes e dificuldade continuam nas abas do menu de pausa. As animações respeitam a preferência por movimento reduzido.
 
-O terreno usa verdes próximos, pouca textura e sulcos suaves nos caminhos. Pequenos grupos de flores ficam junto ao galinheiro, pomar e pastos floridos. Há uma única bancada de colheita na horta, inclusive nas fazendas antigas com vários canteiros. A horta tem fileiras elevadas de madeira, terra e passagens entre elas: alfaces de folhas enroladas, cenouras semienterradas, abóboras arredondadas e tomates apoiados em estacas. As plantas são desenhadas em pixels pelo renderer e continuam reagindo ao contato. A decoração é determinística e calculada uma vez por fazenda, sem mover obstáculos, resgates ou esconderijos dos saves existentes. [Horta](preview/farm-garden-desktop.png) · [Arte e prompt dos pequenos enfeites](assets/farm/MEADOW-ART-NOTES.md).
+O terreno usa verdes próximos, pouca textura e sulcos suaves nos caminhos. Pequenos grupos de flores ficam junto ao galinheiro, pomar e pastos floridos. Há uma única bancada de colheita na horta, inclusive nas fazendas antigas com vários canteiros. A horta tem fileiras elevadas de madeira, terra e passagens entre elas: alfaces de folhas enroladas, cenouras semienterradas, abóboras arredondadas e tomates apoiados em estacas. As plantas são desenhadas em pixels pelo renderer e continuam reagindo ao contato. A decoração é determinística e calculada uma vez por fazenda, sem mover obstáculos, resgates ou esconderijos dos saves existentes. [Arte e prompt dos pequenos enfeites](assets/farm/MEADOW-ART-NOTES.md).
 
 A abertura usa a paisagem da fazenda, título arcade e uma turma animada no pátio. A preparação tem um painel escuro com os personagens da partida e quatro desafios. A HUD usa pequenos grupos de informação nos cantos, com aviso do lobo apenas quando relevante. A orientação inicial some após o primeiro resgate, catorze segundos ou uma ameaça. O resultado mostra o placar arcade, a aparência equipada e os corações restantes. `expedition-ui.css`, `menu.css` e `results.css` concentram essa apresentação. [Regras e direção da edição](docs/game-direction.md).
 
-**Brincar com a turma:** clique no botão ou toque em um bicho no terreiro. Eles alternam cambalhotas, dancinhas, desafios de pulo e giros, com piadas próprias e respostas de um colega. A turma também faz pequenas apresentações espontâneas, sem iniciar áudio; um toque toca a voz do animal escolhido. As falas respeitam a aparência equipada. No celular, há espaço reservado para as brincadeiras, e os balões procuram um lugar livre do título e dos controles. Movimento reduzido mantém as frases acionadas pelo usuário, sem giros, saltos ou apresentações automáticas. Tudo para ao sair do menu ou abrir a ajuda, preservando a partida. [Cambalhota no computador](preview/menu-play-desktop-tumble.png) · [No celular](preview/menu-play-mobile-tumble.png).
+**Brincar com a turma:** clique no botão ou toque em um bicho no terreiro. Eles alternam cambalhotas, dancinhas, desafios de pulo e giros, com piadas próprias e respostas de um colega. A turma também faz pequenas apresentações espontâneas, sem iniciar áudio; um toque toca a voz do animal escolhido. As falas respeitam a aparência equipada. No celular, há espaço reservado para as brincadeiras, e os balões procuram um lugar livre do título e dos controles. Movimento reduzido mantém as frases acionadas pelo usuário, sem giros, saltos ou apresentações automáticas. Tudo para ao sair do menu ou abrir a ajuda, preservando a partida.
 
 A ajuda abre em uma janela com rolagem própria, sem aumentar o cenário do menu. As dicas da partida acompanham o dispositivo usado. As escolhas de controles, alternativas a segurar teclas e preservação de progresso foram orientadas por práticas descritas no [suporte de Untitled Goose Game](https://untitled.goose.game/support/) e nas [Game Accessibility Guidelines](https://gameaccessibilityguidelines.com/full-list/).
 

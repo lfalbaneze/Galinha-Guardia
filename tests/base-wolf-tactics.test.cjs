@@ -16,6 +16,14 @@ function warning(){
   return h;
 }
 
+test('wolf intercept keeps its warning text without an attack loading bar',()=>{
+  const h=warning();
+  h.run(`var bars=0,labels=[];ctx.fillRect=()=>bars++;ctx.fillText=t=>labels.push(t);
+    var before=JSON.stringify(w);GameplayHud.drawTactics(state);`);
+  assert.equal(h.run('bars'),0);assert.ok(h.run('labels.includes("VAI CORTAR CAMINHO!")'));
+  assert.equal(h.run('JSON.stringify(w)'),h.run('before'));
+});
+
 test('a lateral runner provokes a full warning, a committed intercept and a recovery window',()=>{
   const h=warning();
   h.run(`var announced=JSON.stringify(w.interceptTarget),start={x:w.x,y:w.y},aim={...w.interceptTarget};

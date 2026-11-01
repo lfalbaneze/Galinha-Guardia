@@ -1,6 +1,6 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const {createGame}=require('./helpers.cjs');
-const ids=['classic','silkie','blue','punk','astronaut','robocop','priest','goose'];
+const ids=['classic','silkie','blue','punk','astronaut','robocop','priest','goose','goat','turkey','owl','pony'];
 function fixture(){
   const storage=new Map([['galinha-guardia-wardrobe-v1',JSON.stringify({version:2,best:6,selected:'classic',unlocked:ids})]]);
   const h=createGame(()=>.5,{storage});

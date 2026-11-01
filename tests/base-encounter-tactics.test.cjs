@@ -19,7 +19,7 @@ test('every folklore enemy warns without drawing its attack range or changing it
       var before=JSON.stringify([e,state.folkloreThreats]);FolkloreSystem.drawGround(state);`);
     assert.equal(h.run('e.mode'),'warning',species);
     assert.equal(h.run('geometry'),0,species);
-    assert.equal(h.run('bars'),2,species+' retains its preparation bar');
+    assert.equal(h.run('bars'),0,species+' has no attack loading bar');
     assert.equal(h.run('JSON.stringify([e,state.folkloreThreats])'),h.run('before'));
   }
 });

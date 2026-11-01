@@ -1,0 +1,3127 @@
+{
+  "id": "goat",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+    "width": 536,
+    "height": 1088,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 0,
+            "y": 544,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.835820895522388,
+              "top": 0.08823529411764706,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.373134328358209,
+              "footRight": 0.6119402985074627
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 67,
+            "y": 544,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.835820895522388,
+              "top": 0.07352941176470588,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.373134328358209,
+              "footRight": 0.6119402985074627
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 134,
+            "y": 544,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.835820895522388,
+              "top": 0.07352941176470588,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.373134328358209,
+              "footRight": 0.6119402985074627
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 201,
+            "y": 544,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.835820895522388,
+              "top": 0.07352941176470588,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.3582089552238806,
+              "footRight": 0.6119402985074627
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 268,
+            "y": 544,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.8208955223880597,
+              "top": 0.07352941176470588,
+              "bottom": 0.8676470588235294,
+              "footLeft": 0.34328358208955223,
+              "footRight": 0.6417910447761194
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 335,
+            "y": 544,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.8208955223880597,
+              "top": 0.058823529411764705,
+              "bottom": 0.8676470588235294,
+              "footLeft": 0.34328358208955223,
+              "footRight": 0.6417910447761194
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 402,
+            "y": 544,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.835820895522388,
+              "top": 0.07352941176470588,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.34328358208955223,
+              "footRight": 0.6417910447761194
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 469,
+            "y": 544,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.835820895522388,
+              "top": 0.08823529411764706,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.34328358208955223,
+              "footRight": 0.6417910447761194
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 64,
+        "top": 4,
+        "width": 47,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 0,
+            "y": 612,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1044776119402985,
+              "right": 0.8507462686567164,
+              "top": 0.07352941176470588,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.3880597014925373,
+              "footRight": 0.4925373134328358
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 67,
+            "y": 612,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1044776119402985,
+              "right": 0.8656716417910447,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.417910447761194,
+              "footRight": 0.5223880597014925
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 134,
+            "y": 612,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.8656716417910447,
+              "top": 0.10294117647058823,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.44776119402985076,
+              "footRight": 0.5522388059701493
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 201,
+            "y": 612,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.8507462686567164,
+              "top": 0.08823529411764706,
+              "bottom": 0.9117647058823529,
+              "footLeft": 0.47761194029850745,
+              "footRight": 0.5671641791044776
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 268,
+            "y": 612,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1044776119402985,
+              "right": 0.835820895522388,
+              "top": 0.07352941176470588,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.2835820895522388,
+              "footRight": 0.5970149253731343
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 335,
+            "y": 612,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1044776119402985,
+              "right": 0.835820895522388,
+              "top": 0.08823529411764706,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.23880597014925373,
+              "footRight": 0.6119402985074627
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 402,
+            "y": 612,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1044776119402985,
+              "right": 0.835820895522388,
+              "top": 0.08823529411764706,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.2537313432835821,
+              "footRight": 0.6119402985074627
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 469,
+            "y": 612,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.835820895522388,
+              "top": 0.10294117647058823,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.2835820895522388,
+              "footRight": 0.5970149253731343
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 64,
+        "top": 5,
+        "width": 52,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 0,
+            "y": 680,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.8656716417910447,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.373134328358209,
+              "footRight": 0.8208955223880597
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 67,
+            "y": 680,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.8656716417910447,
+              "top": 0.11764705882352941,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.3880597014925373,
+              "footRight": 0.835820895522388
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 134,
+            "y": 680,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.05970149253731343,
+              "right": 0.8955223880597015,
+              "top": 0.1323529411764706,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.44776119402985076,
+              "footRight": 0.8656716417910447
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 201,
+            "y": 680,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.05970149253731343,
+              "right": 0.8955223880597015,
+              "top": 0.11764705882352941,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.3880597014925373,
+              "footRight": 0.8955223880597015
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 268,
+            "y": 680,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07462686567164178,
+              "right": 0.8955223880597015,
+              "top": 0.10294117647058823,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.3582089552238806,
+              "footRight": 0.835820895522388
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 335,
+            "y": 680,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.8656716417910447,
+              "top": 0.10294117647058823,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.2835820895522388,
+              "footRight": 0.7611940298507462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 402,
+            "y": 680,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.8656716417910447,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.29850746268656714,
+              "footRight": 0.7313432835820896
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 469,
+            "y": 680,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07462686567164178,
+              "right": 0.8656716417910447,
+              "top": 0.1323529411764706,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.34328358208955223,
+              "footRight": 0.7313432835820896
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 64,
+        "top": 6,
+        "width": 57,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 0,
+            "y": 748,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.8208955223880597,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.5373134328358209,
+              "footRight": 0.6567164179104478
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 67,
+            "y": 748,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.8208955223880597,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.5671641791044776,
+              "footRight": 0.6865671641791045
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 134,
+            "y": 748,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.8208955223880597,
+              "top": 0.08823529411764706,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.5970149253731343,
+              "footRight": 0.6716417910447762
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 201,
+            "y": 748,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.8208955223880597,
+              "top": 0.07352941176470588,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.5671641791044776,
+              "footRight": 0.6716417910447762
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 268,
+            "y": 748,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1791044776119403,
+              "right": 0.8208955223880597,
+              "top": 0.07352941176470588,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.5373134328358209,
+              "footRight": 0.6268656716417911
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 335,
+            "y": 748,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1791044776119403,
+              "right": 0.8208955223880597,
+              "top": 0.07352941176470588,
+              "bottom": 0.9117647058823529,
+              "footLeft": 0.5074626865671642,
+              "footRight": 0.7761194029850746
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 402,
+            "y": 748,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1791044776119403,
+              "right": 0.8208955223880597,
+              "top": 0.07352941176470588,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.4626865671641791,
+              "footRight": 0.8059701492537313
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 469,
+            "y": 748,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1791044776119403,
+              "right": 0.835820895522388,
+              "top": 0.08823529411764706,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.47761194029850745,
+              "footRight": 0.8208955223880597
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 64,
+        "top": 4,
+        "width": 45,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 0,
+            "y": 816,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19402985074626866,
+              "right": 0.7761194029850746,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.34328358208955223,
+              "footRight": 0.6417910447761194
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 67,
+            "y": 816,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19402985074626866,
+              "right": 0.7761194029850746,
+              "top": 0.10294117647058823,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.34328358208955223,
+              "footRight": 0.6417910447761194
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 134,
+            "y": 816,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19402985074626866,
+              "right": 0.7761194029850746,
+              "top": 0.08823529411764706,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.3582089552238806,
+              "footRight": 0.44776119402985076
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 201,
+            "y": 816,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.22388059701492538,
+              "right": 0.7611940298507462,
+              "top": 0.07352941176470588,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.3582089552238806,
+              "footRight": 0.6119402985074627
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 268,
+            "y": 816,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.22388059701492538,
+              "right": 0.7313432835820896,
+              "top": 0.07352941176470588,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.3582089552238806,
+              "footRight": 0.6417910447761194
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 335,
+            "y": 816,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.22388059701492538,
+              "right": 0.7611940298507462,
+              "top": 0.07352941176470588,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.3582089552238806,
+              "footRight": 0.6417910447761194
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 402,
+            "y": 816,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19402985074626866,
+              "right": 0.7761194029850746,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.5373134328358209,
+              "footRight": 0.6417910447761194
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 469,
+            "y": 816,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19402985074626866,
+              "right": 0.7761194029850746,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.5373134328358209,
+              "footRight": 0.6417910447761194
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 64,
+        "top": 4,
+        "width": 39,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 0,
+            "y": 884,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.8507462686567164,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.34328358208955223,
+              "footRight": 0.44776119402985076
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 67,
+            "y": 884,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.8507462686567164,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.31343283582089554,
+              "footRight": 0.417910447761194
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 134,
+            "y": 884,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.8656716417910447,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.31343283582089554,
+              "footRight": 0.40298507462686567
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 201,
+            "y": 884,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.835820895522388,
+              "top": 0.10294117647058823,
+              "bottom": 0.9117647058823529,
+              "footLeft": 0.22388059701492538,
+              "footRight": 0.417910447761194
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 268,
+            "y": 884,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.8208955223880597,
+              "top": 0.08823529411764706,
+              "bottom": 0.9117647058823529,
+              "footLeft": 0.208955223880597,
+              "footRight": 0.44776119402985076
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 335,
+            "y": 884,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.8059701492537313,
+              "top": 0.07352941176470588,
+              "bottom": 0.9117647058823529,
+              "footLeft": 0.19402985074626866,
+              "footRight": 0.5074626865671642
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 402,
+            "y": 884,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.835820895522388,
+              "top": 0.08823529411764706,
+              "bottom": 0.9117647058823529,
+              "footLeft": 0.16417910447761194,
+              "footRight": 0.5074626865671642
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 469,
+            "y": 884,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16417910447761194,
+              "right": 0.8656716417910447,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.22388059701492538,
+              "footRight": 0.4925373134328358
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 64,
+        "top": 5,
+        "width": 47,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 0,
+            "y": 952,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11940298507462686,
+              "right": 0.8955223880597015,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.2835820895522388,
+              "footRight": 0.6119402985074627
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 67,
+            "y": 952,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11940298507462686,
+              "right": 0.8955223880597015,
+              "top": 0.11764705882352941,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.26865671641791045,
+              "footRight": 0.582089552238806
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 134,
+            "y": 952,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1044776119402985,
+              "right": 0.8955223880597015,
+              "top": 0.11764705882352941,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.23880597014925373,
+              "footRight": 0.5671641791044776
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 201,
+            "y": 952,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.8955223880597015,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.208955223880597,
+              "footRight": 0.5373134328358209
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 268,
+            "y": 952,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07462686567164178,
+              "right": 0.8955223880597015,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.1791044776119403,
+              "footRight": 0.2835820895522388
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 335,
+            "y": 952,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.9104477611940298,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.14925373134328357,
+              "footRight": 0.2537313432835821
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 402,
+            "y": 952,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.9253731343283582,
+              "top": 0.10294117647058823,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.11940298507462686,
+              "footRight": 0.6716417910447762
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 469,
+            "y": 952,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08955223880597014,
+              "right": 0.9253731343283582,
+              "top": 0.1323529411764706,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.1044776119402985,
+              "footRight": 0.7313432835820896
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 64,
+        "top": 6,
+        "width": 57,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 0,
+            "y": 1020,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.8955223880597015,
+              "top": 0.07352941176470588,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.44776119402985076,
+              "footRight": 0.5671641791044776
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 67,
+            "y": 1020,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11940298507462686,
+              "right": 0.8955223880597015,
+              "top": 0.07352941176470588,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.43283582089552236,
+              "footRight": 0.5373134328358209
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 134,
+            "y": 1020,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11940298507462686,
+              "right": 0.8955223880597015,
+              "top": 0.07352941176470588,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.417910447761194,
+              "footRight": 0.5223880597014925
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 201,
+            "y": 1020,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11940298507462686,
+              "right": 0.8955223880597015,
+              "top": 0.10294117647058823,
+              "bottom": 0.9264705882352942,
+              "footLeft": 0.3880597014925373,
+              "footRight": 0.7611940298507462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 268,
+            "y": 1020,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.8955223880597015,
+              "top": 0.08823529411764706,
+              "bottom": 0.9117647058823529,
+              "footLeft": 0.40298507462686567,
+              "footRight": 0.7313432835820896
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 335,
+            "y": 1020,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.8955223880597015,
+              "top": 0.07352941176470588,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.40298507462686567,
+              "footRight": 0.7164179104477612
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 402,
+            "y": 1020,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.8955223880597015,
+              "top": 0.058823529411764705,
+              "bottom": 0.8970588235294118,
+              "footLeft": 0.4626865671641791,
+              "footRight": 0.6865671641791045
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+            "x": 469,
+            "y": 1020,
+            "w": 67,
+            "h": 68,
+            "cx": 33,
+            "bottom": 64,
+            "top": 4,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14925373134328357,
+              "right": 0.8955223880597015,
+              "top": 0.07352941176470588,
+              "bottom": 0.9411764705882353,
+              "footLeft": 0.5074626865671642,
+              "footRight": 0.5970149253731343
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 64,
+        "top": 4,
+        "width": 53,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 0,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.8208955223880597,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.3582089552238806,
+                "footRight": 0.6268656716417911
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 6,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 68,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.835820895522388,
+                "top": 0.08823529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.417910447761194,
+                "footRight": 0.5373134328358209
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 6,
+          "width": 51,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 136,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 7,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.8656716417910447,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.34328358208955223,
+                "footRight": 0.7910447761194029
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 7,
+          "width": 53,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 204,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.8208955223880597,
+                "top": 0.08823529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.5223880597014925,
+                "footRight": 0.6417910447761194
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 6,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 272,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 7,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.22388059701492538,
+                "right": 0.7611940298507462,
+                "top": 0.11764705882352941,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.34328358208955223,
+                "footRight": 0.6417910447761194
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 7,
+          "width": 36,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 340,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.835820895522388,
+                "top": 0.08823529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.3582089552238806,
+                "footRight": 0.47761194029850745
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 6,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 408,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 7,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11940298507462686,
+                "right": 0.8955223880597015,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.19402985074626866,
+                "footRight": 0.6417910447761194
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 7,
+          "width": 53,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 476,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.8955223880597015,
+                "top": 0.08823529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.4626865671641791,
+                "footRight": 0.5671641791044776
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 6,
+          "width": 51,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 544,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.835820895522388,
+                "top": 0.08823529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.373134328358209,
+                "footRight": 0.6119402985074627
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 67,
+              "y": 544,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.835820895522388,
+                "top": 0.07352941176470588,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.373134328358209,
+                "footRight": 0.6119402985074627
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 134,
+              "y": 544,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.835820895522388,
+                "top": 0.07352941176470588,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.373134328358209,
+                "footRight": 0.6119402985074627
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 201,
+              "y": 544,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.835820895522388,
+                "top": 0.07352941176470588,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.3582089552238806,
+                "footRight": 0.6119402985074627
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 268,
+              "y": 544,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.8208955223880597,
+                "top": 0.07352941176470588,
+                "bottom": 0.8676470588235294,
+                "footLeft": 0.34328358208955223,
+                "footRight": 0.6417910447761194
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 335,
+              "y": 544,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.8208955223880597,
+                "top": 0.058823529411764705,
+                "bottom": 0.8676470588235294,
+                "footLeft": 0.34328358208955223,
+                "footRight": 0.6417910447761194
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 402,
+              "y": 544,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.835820895522388,
+                "top": 0.07352941176470588,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.34328358208955223,
+                "footRight": 0.6417910447761194
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 469,
+              "y": 544,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.835820895522388,
+                "top": 0.08823529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.34328358208955223,
+                "footRight": 0.6417910447761194
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 4,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 612,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1044776119402985,
+                "right": 0.8507462686567164,
+                "top": 0.07352941176470588,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.3880597014925373,
+                "footRight": 0.4925373134328358
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 67,
+              "y": 612,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1044776119402985,
+                "right": 0.8656716417910447,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.417910447761194,
+                "footRight": 0.5223880597014925
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 134,
+              "y": 612,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.8656716417910447,
+                "top": 0.10294117647058823,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.44776119402985076,
+                "footRight": 0.5522388059701493
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 201,
+              "y": 612,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.8507462686567164,
+                "top": 0.08823529411764706,
+                "bottom": 0.9117647058823529,
+                "footLeft": 0.47761194029850745,
+                "footRight": 0.5671641791044776
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 268,
+              "y": 612,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1044776119402985,
+                "right": 0.835820895522388,
+                "top": 0.07352941176470588,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.2835820895522388,
+                "footRight": 0.5970149253731343
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 335,
+              "y": 612,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1044776119402985,
+                "right": 0.835820895522388,
+                "top": 0.08823529411764706,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.23880597014925373,
+                "footRight": 0.6119402985074627
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 402,
+              "y": 612,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1044776119402985,
+                "right": 0.835820895522388,
+                "top": 0.08823529411764706,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.2537313432835821,
+                "footRight": 0.6119402985074627
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 469,
+              "y": 612,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.835820895522388,
+                "top": 0.10294117647058823,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.2835820895522388,
+                "footRight": 0.5970149253731343
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 5,
+          "width": 52,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 680,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.8656716417910447,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.373134328358209,
+                "footRight": 0.8208955223880597
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 67,
+              "y": 680,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.8656716417910447,
+                "top": 0.11764705882352941,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.3880597014925373,
+                "footRight": 0.835820895522388
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 134,
+              "y": 680,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.05970149253731343,
+                "right": 0.8955223880597015,
+                "top": 0.1323529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.44776119402985076,
+                "footRight": 0.8656716417910447
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 201,
+              "y": 680,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.05970149253731343,
+                "right": 0.8955223880597015,
+                "top": 0.11764705882352941,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.3880597014925373,
+                "footRight": 0.8955223880597015
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 268,
+              "y": 680,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07462686567164178,
+                "right": 0.8955223880597015,
+                "top": 0.10294117647058823,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.3582089552238806,
+                "footRight": 0.835820895522388
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 335,
+              "y": 680,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.8656716417910447,
+                "top": 0.10294117647058823,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.2835820895522388,
+                "footRight": 0.7611940298507462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 402,
+              "y": 680,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.8656716417910447,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.29850746268656714,
+                "footRight": 0.7313432835820896
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 469,
+              "y": 680,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07462686567164178,
+                "right": 0.8656716417910447,
+                "top": 0.1323529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.34328358208955223,
+                "footRight": 0.7313432835820896
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 6,
+          "width": 57,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 748,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.8208955223880597,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.5373134328358209,
+                "footRight": 0.6567164179104478
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 67,
+              "y": 748,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.8208955223880597,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.5671641791044776,
+                "footRight": 0.6865671641791045
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 134,
+              "y": 748,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.8208955223880597,
+                "top": 0.08823529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.5970149253731343,
+                "footRight": 0.6716417910447762
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 201,
+              "y": 748,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.8208955223880597,
+                "top": 0.07352941176470588,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.5671641791044776,
+                "footRight": 0.6716417910447762
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 268,
+              "y": 748,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1791044776119403,
+                "right": 0.8208955223880597,
+                "top": 0.07352941176470588,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.5373134328358209,
+                "footRight": 0.6268656716417911
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 335,
+              "y": 748,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1791044776119403,
+                "right": 0.8208955223880597,
+                "top": 0.07352941176470588,
+                "bottom": 0.9117647058823529,
+                "footLeft": 0.5074626865671642,
+                "footRight": 0.7761194029850746
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 402,
+              "y": 748,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1791044776119403,
+                "right": 0.8208955223880597,
+                "top": 0.07352941176470588,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.4626865671641791,
+                "footRight": 0.8059701492537313
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 469,
+              "y": 748,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1791044776119403,
+                "right": 0.835820895522388,
+                "top": 0.08823529411764706,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.47761194029850745,
+                "footRight": 0.8208955223880597
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 4,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 816,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19402985074626866,
+                "right": 0.7761194029850746,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.34328358208955223,
+                "footRight": 0.6417910447761194
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 67,
+              "y": 816,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19402985074626866,
+                "right": 0.7761194029850746,
+                "top": 0.10294117647058823,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.34328358208955223,
+                "footRight": 0.6417910447761194
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 134,
+              "y": 816,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19402985074626866,
+                "right": 0.7761194029850746,
+                "top": 0.08823529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.3582089552238806,
+                "footRight": 0.44776119402985076
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 201,
+              "y": 816,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.22388059701492538,
+                "right": 0.7611940298507462,
+                "top": 0.07352941176470588,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.3582089552238806,
+                "footRight": 0.6119402985074627
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 268,
+              "y": 816,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.22388059701492538,
+                "right": 0.7313432835820896,
+                "top": 0.07352941176470588,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.3582089552238806,
+                "footRight": 0.6417910447761194
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 335,
+              "y": 816,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.22388059701492538,
+                "right": 0.7611940298507462,
+                "top": 0.07352941176470588,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.3582089552238806,
+                "footRight": 0.6417910447761194
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 402,
+              "y": 816,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19402985074626866,
+                "right": 0.7761194029850746,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.5373134328358209,
+                "footRight": 0.6417910447761194
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 469,
+              "y": 816,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19402985074626866,
+                "right": 0.7761194029850746,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.5373134328358209,
+                "footRight": 0.6417910447761194
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 4,
+          "width": 39,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 884,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.8507462686567164,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.34328358208955223,
+                "footRight": 0.44776119402985076
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 67,
+              "y": 884,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.8507462686567164,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.31343283582089554,
+                "footRight": 0.417910447761194
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 134,
+              "y": 884,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.8656716417910447,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.31343283582089554,
+                "footRight": 0.40298507462686567
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 201,
+              "y": 884,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.835820895522388,
+                "top": 0.10294117647058823,
+                "bottom": 0.9117647058823529,
+                "footLeft": 0.22388059701492538,
+                "footRight": 0.417910447761194
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 268,
+              "y": 884,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.8208955223880597,
+                "top": 0.08823529411764706,
+                "bottom": 0.9117647058823529,
+                "footLeft": 0.208955223880597,
+                "footRight": 0.44776119402985076
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 335,
+              "y": 884,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.8059701492537313,
+                "top": 0.07352941176470588,
+                "bottom": 0.9117647058823529,
+                "footLeft": 0.19402985074626866,
+                "footRight": 0.5074626865671642
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 402,
+              "y": 884,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.835820895522388,
+                "top": 0.08823529411764706,
+                "bottom": 0.9117647058823529,
+                "footLeft": 0.16417910447761194,
+                "footRight": 0.5074626865671642
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 469,
+              "y": 884,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16417910447761194,
+                "right": 0.8656716417910447,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.22388059701492538,
+                "footRight": 0.4925373134328358
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 5,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 952,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11940298507462686,
+                "right": 0.8955223880597015,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.2835820895522388,
+                "footRight": 0.6119402985074627
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 67,
+              "y": 952,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11940298507462686,
+                "right": 0.8955223880597015,
+                "top": 0.11764705882352941,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.26865671641791045,
+                "footRight": 0.582089552238806
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 134,
+              "y": 952,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1044776119402985,
+                "right": 0.8955223880597015,
+                "top": 0.11764705882352941,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.23880597014925373,
+                "footRight": 0.5671641791044776
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 201,
+              "y": 952,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.8955223880597015,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.208955223880597,
+                "footRight": 0.5373134328358209
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 268,
+              "y": 952,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07462686567164178,
+                "right": 0.8955223880597015,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.1791044776119403,
+                "footRight": 0.2835820895522388
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 335,
+              "y": 952,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.9104477611940298,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.14925373134328357,
+                "footRight": 0.2537313432835821
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 402,
+              "y": 952,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.9253731343283582,
+                "top": 0.10294117647058823,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.11940298507462686,
+                "footRight": 0.6716417910447762
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 469,
+              "y": 952,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08955223880597014,
+                "right": 0.9253731343283582,
+                "top": 0.1323529411764706,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.1044776119402985,
+                "footRight": 0.7313432835820896
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 6,
+          "width": 57,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 0,
+              "y": 1020,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.8955223880597015,
+                "top": 0.07352941176470588,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.44776119402985076,
+                "footRight": 0.5671641791044776
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 67,
+              "y": 1020,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11940298507462686,
+                "right": 0.8955223880597015,
+                "top": 0.07352941176470588,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.43283582089552236,
+                "footRight": 0.5373134328358209
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 134,
+              "y": 1020,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11940298507462686,
+                "right": 0.8955223880597015,
+                "top": 0.07352941176470588,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.417910447761194,
+                "footRight": 0.5223880597014925
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 201,
+              "y": 1020,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11940298507462686,
+                "right": 0.8955223880597015,
+                "top": 0.10294117647058823,
+                "bottom": 0.9264705882352942,
+                "footLeft": 0.3880597014925373,
+                "footRight": 0.7611940298507462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 268,
+              "y": 1020,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.8955223880597015,
+                "top": 0.08823529411764706,
+                "bottom": 0.9117647058823529,
+                "footLeft": 0.40298507462686567,
+                "footRight": 0.7313432835820896
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 335,
+              "y": 1020,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.8955223880597015,
+                "top": 0.07352941176470588,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.40298507462686567,
+                "footRight": 0.7164179104477612
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 402,
+              "y": 1020,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.8955223880597015,
+                "top": 0.058823529411764705,
+                "bottom": 0.8970588235294118,
+                "footLeft": 0.4626865671641791,
+                "footRight": 0.6865671641791045
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+              "x": 469,
+              "y": 1020,
+              "w": 67,
+              "h": 68,
+              "cx": 33,
+              "bottom": 64,
+              "top": 4,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14925373134328357,
+                "right": 0.8955223880597015,
+                "top": 0.07352941176470588,
+                "bottom": 0.9411764705882353,
+                "footLeft": 0.5074626865671642,
+                "footRight": 0.5970149253731343
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 64,
+          "top": 4,
+          "width": 53,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/goat-c6dd9611e527.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "goat",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

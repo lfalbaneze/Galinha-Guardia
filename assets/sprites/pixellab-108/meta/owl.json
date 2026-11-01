@@ -8,15 +8,15 @@
     "smooth": false,
     "scale": 1,
     "cycle": 4,
-    "source": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+    "source": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
     "width": 780,
-    "height": 2016,
+    "height": 2142,
     "viewRotation": 0,
     "poses": {
       "down": {
         "frames": [
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 0,
             "y": 504,
             "w": 65,
@@ -29,7 +29,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 65,
             "y": 504,
             "w": 65,
@@ -42,7 +42,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 130,
             "y": 504,
             "w": 65,
@@ -55,7 +55,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 195,
             "y": 504,
             "w": 65,
@@ -68,7 +68,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 260,
             "y": 504,
             "w": 65,
@@ -81,7 +81,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 325,
             "y": 504,
             "w": 65,
@@ -94,7 +94,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 390,
             "y": 504,
             "w": 65,
@@ -107,7 +107,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 455,
             "y": 504,
             "w": 65,
@@ -120,7 +120,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 520,
             "y": 504,
             "w": 65,
@@ -133,7 +133,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 585,
             "y": 504,
             "w": 65,
@@ -146,7 +146,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 650,
             "y": 504,
             "w": 65,
@@ -159,7 +159,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 715,
             "y": 504,
             "w": 65,
@@ -182,7 +182,7 @@
       "downleft": {
         "frames": [
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 0,
             "y": 567,
             "w": 65,
@@ -195,7 +195,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 65,
             "y": 567,
             "w": 65,
@@ -208,7 +208,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 130,
             "y": 567,
             "w": 65,
@@ -221,7 +221,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 195,
             "y": 567,
             "w": 65,
@@ -234,7 +234,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 260,
             "y": 567,
             "w": 65,
@@ -247,7 +247,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 325,
             "y": 567,
             "w": 65,
@@ -260,7 +260,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 390,
             "y": 567,
             "w": 65,
@@ -273,7 +273,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 455,
             "y": 567,
             "w": 65,
@@ -286,7 +286,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 520,
             "y": 567,
             "w": 65,
@@ -299,7 +299,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 585,
             "y": 567,
             "w": 65,
@@ -312,7 +312,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 650,
             "y": 567,
             "w": 65,
@@ -325,7 +325,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 715,
             "y": 567,
             "w": 65,
@@ -348,7 +348,7 @@
       "left": {
         "frames": [
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 0,
             "y": 630,
             "w": 65,
@@ -361,7 +361,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 65,
             "y": 630,
             "w": 65,
@@ -374,7 +374,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 130,
             "y": 630,
             "w": 65,
@@ -387,7 +387,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 195,
             "y": 630,
             "w": 65,
@@ -400,7 +400,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 260,
             "y": 630,
             "w": 65,
@@ -413,7 +413,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 325,
             "y": 630,
             "w": 65,
@@ -426,7 +426,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 390,
             "y": 630,
             "w": 65,
@@ -439,7 +439,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 455,
             "y": 630,
             "w": 65,
@@ -452,7 +452,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 520,
             "y": 630,
             "w": 65,
@@ -465,7 +465,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 585,
             "y": 630,
             "w": 65,
@@ -478,7 +478,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 650,
             "y": 630,
             "w": 65,
@@ -491,7 +491,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 715,
             "y": 630,
             "w": 65,
@@ -514,7 +514,7 @@
       "upleft": {
         "frames": [
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 0,
             "y": 693,
             "w": 65,
@@ -527,7 +527,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 65,
             "y": 693,
             "w": 65,
@@ -540,7 +540,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 130,
             "y": 693,
             "w": 65,
@@ -553,7 +553,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 195,
             "y": 693,
             "w": 65,
@@ -566,7 +566,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 260,
             "y": 693,
             "w": 65,
@@ -579,7 +579,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 325,
             "y": 693,
             "w": 65,
@@ -592,7 +592,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 390,
             "y": 693,
             "w": 65,
@@ -605,7 +605,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 455,
             "y": 693,
             "w": 65,
@@ -618,7 +618,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 520,
             "y": 693,
             "w": 65,
@@ -631,7 +631,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 585,
             "y": 693,
             "w": 65,
@@ -644,7 +644,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 650,
             "y": 693,
             "w": 65,
@@ -657,7 +657,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 715,
             "y": 693,
             "w": 65,
@@ -680,7 +680,7 @@
       "up": {
         "frames": [
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 0,
             "y": 756,
             "w": 65,
@@ -693,7 +693,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 65,
             "y": 756,
             "w": 65,
@@ -706,7 +706,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 130,
             "y": 756,
             "w": 65,
@@ -719,7 +719,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 195,
             "y": 756,
             "w": 65,
@@ -732,7 +732,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 260,
             "y": 756,
             "w": 65,
@@ -745,7 +745,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 325,
             "y": 756,
             "w": 65,
@@ -758,7 +758,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 390,
             "y": 756,
             "w": 65,
@@ -771,7 +771,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 455,
             "y": 756,
             "w": 65,
@@ -784,7 +784,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 520,
             "y": 756,
             "w": 65,
@@ -797,7 +797,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 585,
             "y": 756,
             "w": 65,
@@ -810,7 +810,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 650,
             "y": 756,
             "w": 65,
@@ -823,7 +823,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 715,
             "y": 756,
             "w": 65,
@@ -846,7 +846,7 @@
       "upright": {
         "frames": [
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 0,
             "y": 819,
             "w": 65,
@@ -859,7 +859,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 65,
             "y": 819,
             "w": 65,
@@ -872,7 +872,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 130,
             "y": 819,
             "w": 65,
@@ -885,7 +885,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 195,
             "y": 819,
             "w": 65,
@@ -898,7 +898,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 260,
             "y": 819,
             "w": 65,
@@ -911,7 +911,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 325,
             "y": 819,
             "w": 65,
@@ -924,7 +924,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 390,
             "y": 819,
             "w": 65,
@@ -937,7 +937,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 455,
             "y": 819,
             "w": 65,
@@ -950,7 +950,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 520,
             "y": 819,
             "w": 65,
@@ -963,7 +963,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 585,
             "y": 819,
             "w": 65,
@@ -976,7 +976,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 650,
             "y": 819,
             "w": 65,
@@ -989,7 +989,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 715,
             "y": 819,
             "w": 65,
@@ -1012,7 +1012,7 @@
       "right": {
         "frames": [
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 0,
             "y": 882,
             "w": 65,
@@ -1025,7 +1025,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 65,
             "y": 882,
             "w": 65,
@@ -1038,7 +1038,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 130,
             "y": 882,
             "w": 65,
@@ -1051,7 +1051,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 195,
             "y": 882,
             "w": 65,
@@ -1064,7 +1064,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 260,
             "y": 882,
             "w": 65,
@@ -1077,7 +1077,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 325,
             "y": 882,
             "w": 65,
@@ -1090,7 +1090,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 390,
             "y": 882,
             "w": 65,
@@ -1103,7 +1103,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 455,
             "y": 882,
             "w": 65,
@@ -1116,7 +1116,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 520,
             "y": 882,
             "w": 65,
@@ -1129,7 +1129,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 585,
             "y": 882,
             "w": 65,
@@ -1142,7 +1142,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 650,
             "y": 882,
             "w": 65,
@@ -1155,7 +1155,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 715,
             "y": 882,
             "w": 65,
@@ -1178,7 +1178,7 @@
       "downright": {
         "frames": [
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 0,
             "y": 945,
             "w": 65,
@@ -1191,7 +1191,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 65,
             "y": 945,
             "w": 65,
@@ -1204,7 +1204,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 130,
             "y": 945,
             "w": 65,
@@ -1217,7 +1217,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 195,
             "y": 945,
             "w": 65,
@@ -1230,7 +1230,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 260,
             "y": 945,
             "w": 65,
@@ -1243,7 +1243,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 325,
             "y": 945,
             "w": 65,
@@ -1256,7 +1256,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 390,
             "y": 945,
             "w": 65,
@@ -1269,7 +1269,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 455,
             "y": 945,
             "w": 65,
@@ -1282,7 +1282,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 520,
             "y": 945,
             "w": 65,
@@ -1295,7 +1295,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 585,
             "y": 945,
             "w": 65,
@@ -1308,7 +1308,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 650,
             "y": 945,
             "w": 65,
@@ -1321,7 +1321,7 @@
             "pixelArt": true
           },
           {
-            "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+            "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
             "x": 715,
             "y": 945,
             "w": 65,
@@ -1347,7 +1347,7 @@
         "down": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 0,
               "w": 65,
@@ -1370,7 +1370,7 @@
         "downleft": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 63,
               "w": 65,
@@ -1393,7 +1393,7 @@
         "left": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 126,
               "w": 65,
@@ -1416,7 +1416,7 @@
         "upleft": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 189,
               "w": 65,
@@ -1439,7 +1439,7 @@
         "up": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 252,
               "w": 65,
@@ -1462,7 +1462,7 @@
         "upright": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 315,
               "w": 65,
@@ -1485,7 +1485,7 @@
         "right": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 378,
               "w": 65,
@@ -1508,7 +1508,7 @@
         "downright": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 441,
               "w": 65,
@@ -1533,7 +1533,7 @@
         "down": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 504,
               "w": 65,
@@ -1546,7 +1546,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 504,
               "w": 65,
@@ -1559,7 +1559,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 504,
               "w": 65,
@@ -1572,7 +1572,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 504,
               "w": 65,
@@ -1585,7 +1585,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 504,
               "w": 65,
@@ -1598,7 +1598,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 504,
               "w": 65,
@@ -1611,7 +1611,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 504,
               "w": 65,
@@ -1624,7 +1624,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 504,
               "w": 65,
@@ -1637,7 +1637,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 504,
               "w": 65,
@@ -1650,7 +1650,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 504,
               "w": 65,
@@ -1663,7 +1663,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 504,
               "w": 65,
@@ -1676,7 +1676,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 504,
               "w": 65,
@@ -1699,7 +1699,7 @@
         "downleft": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 567,
               "w": 65,
@@ -1712,7 +1712,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 567,
               "w": 65,
@@ -1725,7 +1725,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 567,
               "w": 65,
@@ -1738,7 +1738,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 567,
               "w": 65,
@@ -1751,7 +1751,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 567,
               "w": 65,
@@ -1764,7 +1764,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 567,
               "w": 65,
@@ -1777,7 +1777,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 567,
               "w": 65,
@@ -1790,7 +1790,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 567,
               "w": 65,
@@ -1803,7 +1803,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 567,
               "w": 65,
@@ -1816,7 +1816,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 567,
               "w": 65,
@@ -1829,7 +1829,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 567,
               "w": 65,
@@ -1842,7 +1842,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 567,
               "w": 65,
@@ -1865,7 +1865,7 @@
         "left": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 630,
               "w": 65,
@@ -1878,7 +1878,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 630,
               "w": 65,
@@ -1891,7 +1891,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 630,
               "w": 65,
@@ -1904,7 +1904,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 630,
               "w": 65,
@@ -1917,7 +1917,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 630,
               "w": 65,
@@ -1930,7 +1930,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 630,
               "w": 65,
@@ -1943,7 +1943,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 630,
               "w": 65,
@@ -1956,7 +1956,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 630,
               "w": 65,
@@ -1969,7 +1969,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 630,
               "w": 65,
@@ -1982,7 +1982,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 630,
               "w": 65,
@@ -1995,7 +1995,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 630,
               "w": 65,
@@ -2008,7 +2008,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 630,
               "w": 65,
@@ -2031,7 +2031,7 @@
         "upleft": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 693,
               "w": 65,
@@ -2044,7 +2044,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 693,
               "w": 65,
@@ -2057,7 +2057,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 693,
               "w": 65,
@@ -2070,7 +2070,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 693,
               "w": 65,
@@ -2083,7 +2083,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 693,
               "w": 65,
@@ -2096,7 +2096,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 693,
               "w": 65,
@@ -2109,7 +2109,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 693,
               "w": 65,
@@ -2122,7 +2122,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 693,
               "w": 65,
@@ -2135,7 +2135,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 693,
               "w": 65,
@@ -2148,7 +2148,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 693,
               "w": 65,
@@ -2161,7 +2161,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 693,
               "w": 65,
@@ -2174,7 +2174,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 693,
               "w": 65,
@@ -2197,7 +2197,7 @@
         "up": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 756,
               "w": 65,
@@ -2210,7 +2210,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 756,
               "w": 65,
@@ -2223,7 +2223,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 756,
               "w": 65,
@@ -2236,7 +2236,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 756,
               "w": 65,
@@ -2249,7 +2249,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 756,
               "w": 65,
@@ -2262,7 +2262,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 756,
               "w": 65,
@@ -2275,7 +2275,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 756,
               "w": 65,
@@ -2288,7 +2288,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 756,
               "w": 65,
@@ -2301,7 +2301,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 756,
               "w": 65,
@@ -2314,7 +2314,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 756,
               "w": 65,
@@ -2327,7 +2327,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 756,
               "w": 65,
@@ -2340,7 +2340,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 756,
               "w": 65,
@@ -2363,7 +2363,7 @@
         "upright": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 819,
               "w": 65,
@@ -2376,7 +2376,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 819,
               "w": 65,
@@ -2389,7 +2389,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 819,
               "w": 65,
@@ -2402,7 +2402,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 819,
               "w": 65,
@@ -2415,7 +2415,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 819,
               "w": 65,
@@ -2428,7 +2428,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 819,
               "w": 65,
@@ -2441,7 +2441,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 819,
               "w": 65,
@@ -2454,7 +2454,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 819,
               "w": 65,
@@ -2467,7 +2467,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 819,
               "w": 65,
@@ -2480,7 +2480,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 819,
               "w": 65,
@@ -2493,7 +2493,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 819,
               "w": 65,
@@ -2506,7 +2506,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 819,
               "w": 65,
@@ -2529,7 +2529,7 @@
         "right": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 882,
               "w": 65,
@@ -2542,7 +2542,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 882,
               "w": 65,
@@ -2555,7 +2555,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 882,
               "w": 65,
@@ -2568,7 +2568,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 882,
               "w": 65,
@@ -2581,7 +2581,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 882,
               "w": 65,
@@ -2594,7 +2594,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 882,
               "w": 65,
@@ -2607,7 +2607,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 882,
               "w": 65,
@@ -2620,7 +2620,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 882,
               "w": 65,
@@ -2633,7 +2633,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 882,
               "w": 65,
@@ -2646,7 +2646,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 882,
               "w": 65,
@@ -2659,7 +2659,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 882,
               "w": 65,
@@ -2672,7 +2672,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 882,
               "w": 65,
@@ -2695,7 +2695,7 @@
         "downright": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 945,
               "w": 65,
@@ -2708,7 +2708,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 945,
               "w": 65,
@@ -2721,7 +2721,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 945,
               "w": 65,
@@ -2734,7 +2734,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 945,
               "w": 65,
@@ -2747,7 +2747,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 945,
               "w": 65,
@@ -2760,7 +2760,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 945,
               "w": 65,
@@ -2773,7 +2773,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 945,
               "w": 65,
@@ -2786,7 +2786,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 945,
               "w": 65,
@@ -2799,7 +2799,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 945,
               "w": 65,
@@ -2812,7 +2812,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 945,
               "w": 65,
@@ -2825,7 +2825,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 945,
               "w": 65,
@@ -2838,7 +2838,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 945,
               "w": 65,
@@ -2863,7 +2863,7 @@
         "down": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1008,
               "w": 65,
@@ -2876,7 +2876,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1008,
               "w": 65,
@@ -2889,7 +2889,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1008,
               "w": 65,
@@ -2902,7 +2902,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1008,
               "w": 65,
@@ -2915,7 +2915,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1008,
               "w": 65,
@@ -2928,7 +2928,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1008,
               "w": 65,
@@ -2941,7 +2941,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1008,
               "w": 65,
@@ -2954,7 +2954,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1008,
               "w": 65,
@@ -2967,7 +2967,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1008,
               "w": 65,
@@ -2980,7 +2980,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1008,
               "w": 65,
@@ -2993,7 +2993,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1008,
               "w": 65,
@@ -3006,7 +3006,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1008,
               "w": 65,
@@ -3029,7 +3029,7 @@
         "downleft": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1071,
               "w": 65,
@@ -3042,7 +3042,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1071,
               "w": 65,
@@ -3055,7 +3055,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1071,
               "w": 65,
@@ -3068,7 +3068,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1071,
               "w": 65,
@@ -3081,7 +3081,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1071,
               "w": 65,
@@ -3094,7 +3094,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1071,
               "w": 65,
@@ -3107,7 +3107,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1071,
               "w": 65,
@@ -3120,7 +3120,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1071,
               "w": 65,
@@ -3133,7 +3133,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1071,
               "w": 65,
@@ -3146,7 +3146,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1071,
               "w": 65,
@@ -3159,7 +3159,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1071,
               "w": 65,
@@ -3172,7 +3172,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1071,
               "w": 65,
@@ -3195,7 +3195,7 @@
         "left": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1134,
               "w": 65,
@@ -3208,7 +3208,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1134,
               "w": 65,
@@ -3221,7 +3221,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1134,
               "w": 65,
@@ -3234,7 +3234,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1134,
               "w": 65,
@@ -3247,7 +3247,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1134,
               "w": 65,
@@ -3260,7 +3260,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1134,
               "w": 65,
@@ -3273,7 +3273,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1134,
               "w": 65,
@@ -3286,7 +3286,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1134,
               "w": 65,
@@ -3299,7 +3299,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1134,
               "w": 65,
@@ -3312,7 +3312,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1134,
               "w": 65,
@@ -3325,7 +3325,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1134,
               "w": 65,
@@ -3338,7 +3338,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1134,
               "w": 65,
@@ -3361,173 +3361,173 @@
         "upleft": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
-              "y": 1197,
+              "y": 2016,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 55,
+              "top": 9,
+              "width": 44,
               "scale": 1,
               "pixelArt": true
             }
           ],
           "cx": 33,
           "bottom": 55,
-          "top": 8,
-          "width": 55,
+          "top": 9,
+          "width": 44,
           "idleIndex": 0,
           "flip": false
         },
         "up": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1260,
               "w": 65,
@@ -3540,7 +3540,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1260,
               "w": 65,
@@ -3553,7 +3553,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1260,
               "w": 65,
@@ -3566,7 +3566,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1260,
               "w": 65,
@@ -3579,7 +3579,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1260,
               "w": 65,
@@ -3592,7 +3592,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1260,
               "w": 65,
@@ -3605,7 +3605,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1260,
               "w": 65,
@@ -3618,7 +3618,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1260,
               "w": 65,
@@ -3631,7 +3631,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1260,
               "w": 65,
@@ -3644,7 +3644,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1260,
               "w": 65,
@@ -3657,7 +3657,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1260,
               "w": 65,
@@ -3670,7 +3670,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1260,
               "w": 65,
@@ -3693,173 +3693,173 @@
         "upright": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
-              "y": 1323,
+              "y": 2079,
               "w": 65,
               "h": 63,
               "cx": 33,
               "bottom": 55,
-              "top": 8,
-              "width": 52,
+              "top": 9,
+              "width": 50,
               "scale": 1,
               "pixelArt": true
             }
           ],
           "cx": 33,
           "bottom": 55,
-          "top": 8,
-          "width": 52,
+          "top": 9,
+          "width": 50,
           "idleIndex": 0,
           "flip": false
         },
         "right": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1386,
               "w": 65,
@@ -3872,7 +3872,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1386,
               "w": 65,
@@ -3885,7 +3885,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1386,
               "w": 65,
@@ -3898,7 +3898,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1386,
               "w": 65,
@@ -3911,7 +3911,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1386,
               "w": 65,
@@ -3924,7 +3924,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1386,
               "w": 65,
@@ -3937,7 +3937,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1386,
               "w": 65,
@@ -3950,7 +3950,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1386,
               "w": 65,
@@ -3963,7 +3963,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1386,
               "w": 65,
@@ -3976,7 +3976,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1386,
               "w": 65,
@@ -3989,7 +3989,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1386,
               "w": 65,
@@ -4002,7 +4002,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1386,
               "w": 65,
@@ -4025,7 +4025,7 @@
         "downright": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1449,
               "w": 65,
@@ -4038,7 +4038,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1449,
               "w": 65,
@@ -4051,7 +4051,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1449,
               "w": 65,
@@ -4064,7 +4064,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1449,
               "w": 65,
@@ -4077,7 +4077,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1449,
               "w": 65,
@@ -4090,7 +4090,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1449,
               "w": 65,
@@ -4103,7 +4103,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1449,
               "w": 65,
@@ -4116,7 +4116,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1449,
               "w": 65,
@@ -4129,7 +4129,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1449,
               "w": 65,
@@ -4142,7 +4142,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1449,
               "w": 65,
@@ -4155,7 +4155,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1449,
               "w": 65,
@@ -4168,7 +4168,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1449,
               "w": 65,
@@ -4193,7 +4193,7 @@
         "down": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1512,
               "w": 65,
@@ -4206,7 +4206,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1512,
               "w": 65,
@@ -4219,7 +4219,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1512,
               "w": 65,
@@ -4232,7 +4232,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1512,
               "w": 65,
@@ -4245,7 +4245,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1512,
               "w": 65,
@@ -4258,7 +4258,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1512,
               "w": 65,
@@ -4271,7 +4271,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1512,
               "w": 65,
@@ -4284,7 +4284,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1512,
               "w": 65,
@@ -4297,7 +4297,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1512,
               "w": 65,
@@ -4310,7 +4310,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1512,
               "w": 65,
@@ -4323,7 +4323,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1512,
               "w": 65,
@@ -4336,7 +4336,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1512,
               "w": 65,
@@ -4359,7 +4359,7 @@
         "downleft": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1575,
               "w": 65,
@@ -4372,7 +4372,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1575,
               "w": 65,
@@ -4385,7 +4385,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1575,
               "w": 65,
@@ -4398,7 +4398,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1575,
               "w": 65,
@@ -4411,7 +4411,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1575,
               "w": 65,
@@ -4424,7 +4424,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1575,
               "w": 65,
@@ -4437,7 +4437,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1575,
               "w": 65,
@@ -4450,7 +4450,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1575,
               "w": 65,
@@ -4463,7 +4463,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1575,
               "w": 65,
@@ -4476,7 +4476,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1575,
               "w": 65,
@@ -4489,7 +4489,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1575,
               "w": 65,
@@ -4502,7 +4502,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1575,
               "w": 65,
@@ -4525,7 +4525,7 @@
         "left": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1638,
               "w": 65,
@@ -4538,7 +4538,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1638,
               "w": 65,
@@ -4551,7 +4551,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1638,
               "w": 65,
@@ -4564,7 +4564,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1638,
               "w": 65,
@@ -4577,7 +4577,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1638,
               "w": 65,
@@ -4590,7 +4590,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1638,
               "w": 65,
@@ -4603,7 +4603,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1638,
               "w": 65,
@@ -4616,7 +4616,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1638,
               "w": 65,
@@ -4629,7 +4629,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1638,
               "w": 65,
@@ -4642,7 +4642,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1638,
               "w": 65,
@@ -4655,7 +4655,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1638,
               "w": 65,
@@ -4668,7 +4668,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1638,
               "w": 65,
@@ -4691,7 +4691,7 @@
         "upleft": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1701,
               "w": 65,
@@ -4704,7 +4704,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1701,
               "w": 65,
@@ -4717,7 +4717,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1701,
               "w": 65,
@@ -4730,7 +4730,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1701,
               "w": 65,
@@ -4743,7 +4743,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1701,
               "w": 65,
@@ -4756,7 +4756,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1701,
               "w": 65,
@@ -4769,7 +4769,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1701,
               "w": 65,
@@ -4782,7 +4782,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1701,
               "w": 65,
@@ -4795,7 +4795,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1701,
               "w": 65,
@@ -4808,7 +4808,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1701,
               "w": 65,
@@ -4821,7 +4821,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1701,
               "w": 65,
@@ -4834,7 +4834,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1701,
               "w": 65,
@@ -4857,7 +4857,7 @@
         "up": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1764,
               "w": 65,
@@ -4870,7 +4870,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1764,
               "w": 65,
@@ -4883,7 +4883,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1764,
               "w": 65,
@@ -4896,7 +4896,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1764,
               "w": 65,
@@ -4909,7 +4909,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1764,
               "w": 65,
@@ -4922,7 +4922,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1764,
               "w": 65,
@@ -4935,7 +4935,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1764,
               "w": 65,
@@ -4948,7 +4948,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1764,
               "w": 65,
@@ -4961,7 +4961,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1764,
               "w": 65,
@@ -4974,7 +4974,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1764,
               "w": 65,
@@ -4987,7 +4987,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1764,
               "w": 65,
@@ -5000,7 +5000,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1764,
               "w": 65,
@@ -5023,7 +5023,7 @@
         "upright": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1827,
               "w": 65,
@@ -5036,7 +5036,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1827,
               "w": 65,
@@ -5049,7 +5049,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1827,
               "w": 65,
@@ -5062,7 +5062,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1827,
               "w": 65,
@@ -5075,7 +5075,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1827,
               "w": 65,
@@ -5088,7 +5088,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1827,
               "w": 65,
@@ -5101,7 +5101,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1827,
               "w": 65,
@@ -5114,7 +5114,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1827,
               "w": 65,
@@ -5127,7 +5127,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1827,
               "w": 65,
@@ -5140,7 +5140,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1827,
               "w": 65,
@@ -5153,7 +5153,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1827,
               "w": 65,
@@ -5166,7 +5166,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1827,
               "w": 65,
@@ -5189,7 +5189,7 @@
         "right": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1890,
               "w": 65,
@@ -5202,7 +5202,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1890,
               "w": 65,
@@ -5215,7 +5215,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1890,
               "w": 65,
@@ -5228,7 +5228,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1890,
               "w": 65,
@@ -5241,7 +5241,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1890,
               "w": 65,
@@ -5254,7 +5254,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1890,
               "w": 65,
@@ -5267,7 +5267,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1890,
               "w": 65,
@@ -5280,7 +5280,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1890,
               "w": 65,
@@ -5293,7 +5293,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1890,
               "w": 65,
@@ -5306,7 +5306,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1890,
               "w": 65,
@@ -5319,7 +5319,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1890,
               "w": 65,
@@ -5332,7 +5332,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1890,
               "w": 65,
@@ -5355,7 +5355,7 @@
         "downright": {
           "frames": [
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 0,
               "y": 1953,
               "w": 65,
@@ -5368,7 +5368,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 65,
               "y": 1953,
               "w": 65,
@@ -5381,7 +5381,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 130,
               "y": 1953,
               "w": 65,
@@ -5394,7 +5394,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 195,
               "y": 1953,
               "w": 65,
@@ -5407,7 +5407,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 260,
               "y": 1953,
               "w": 65,
@@ -5420,7 +5420,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 325,
               "y": 1953,
               "w": 65,
@@ -5433,7 +5433,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 390,
               "y": 1953,
               "w": 65,
@@ -5446,7 +5446,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 455,
               "y": 1953,
               "w": 65,
@@ -5459,7 +5459,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 520,
               "y": 1953,
               "w": 65,
@@ -5472,7 +5472,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 585,
               "y": 1953,
               "w": 65,
@@ -5485,7 +5485,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 650,
               "y": 1953,
               "w": 65,
@@ -5498,7 +5498,7 @@
               "pixelArt": true
             },
             {
-              "src": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
+              "src": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
               "x": 715,
               "y": 1953,
               "w": 65,
@@ -5529,5 +5529,20 @@
     "frames": 296,
     "clipped": false
   },
-  "generatedAt": "2026-09-20T22:43:34.390Z"
+  "generatedAt": "2026-10-23T00:37:10.210Z",
+  "review": {
+    "status": "approved",
+    "reason": "Only rear-left and rear-right alarm clips replaced with visually reviewed PixelLab frames; other pixels preserved exactly.",
+    "replacements": {
+      "alert/upleft": {
+        "provider": "pixellab",
+        "endpoint": "/animate-with-text-v3",
+        "jobId": "1d69f3d5-df2d-4030-ac1d-fb17cda2fc56"
+      },
+      "alert/upright": {
+        "provider": "pixellab",
+        "animationName": "farm-alert-face-consistent-1"
+      }
+    }
+  }
 }

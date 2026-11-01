@@ -1,0 +1,3128 @@
+{
+  "id": "horse",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+    "width": 920,
+    "height": 1872,
+    "viewRotation": 1,
+    "poses": {
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 0,
+            "y": 936,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 12,
+            "width": 88,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17391304347826086,
+              "right": 0.9217391304347826,
+              "top": 0.10256410256410256,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.41739130434782606,
+              "footRight": 0.5217391304347826
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 115,
+            "y": 936,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 12,
+            "width": 88,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17391304347826086,
+              "right": 0.9391304347826087,
+              "top": 0.1111111111111111,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.43478260869565216,
+              "footRight": 0.5304347826086957
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 230,
+            "y": 936,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 12,
+            "width": 88,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17391304347826086,
+              "right": 0.9391304347826087,
+              "top": 0.1282051282051282,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.23478260869565218,
+              "footRight": 0.5565217391304348
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 345,
+            "y": 936,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 12,
+            "width": 88,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16521739130434782,
+              "right": 0.9130434782608695,
+              "top": 0.1452991452991453,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.24347826086956523,
+              "footRight": 0.3391304347826087
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 460,
+            "y": 936,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 12,
+            "width": 88,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14782608695652175,
+              "right": 0.8869565217391304,
+              "top": 0.1282051282051282,
+              "bottom": 0.9145299145299145,
+              "footLeft": 0.26956521739130435,
+              "footRight": 0.3565217391304348
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 575,
+            "y": 936,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 12,
+            "width": 88,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1391304347826087,
+              "right": 0.8782608695652174,
+              "top": 0.1282051282051282,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.2956521739130435,
+              "footRight": 0.5217391304347826
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 690,
+            "y": 936,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 12,
+            "width": 88,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13043478260869565,
+              "right": 0.8695652173913043,
+              "top": 0.13675213675213677,
+              "bottom": 0.9487179487179487,
+              "footLeft": 0.3652173913043478,
+              "footRight": 0.4434782608695652
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 805,
+            "y": 936,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 12,
+            "width": 88,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13043478260869565,
+              "right": 0.8869565217391304,
+              "top": 0.1452991452991453,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.34782608695652173,
+              "footRight": 0.4434782608695652
+            }
+          }
+        ],
+        "cx": 59,
+        "bottom": 113,
+        "top": 12,
+        "width": 88,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 0,
+            "y": 1053,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 102,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09565217391304348,
+              "right": 0.9130434782608695,
+              "top": 0.1452991452991453,
+              "bottom": 0.9487179487179487,
+              "footLeft": 0.3391304347826087,
+              "footRight": 0.43478260869565216
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 115,
+            "y": 1053,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 102,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08695652173913043,
+              "right": 0.9478260869565217,
+              "top": 0.1623931623931624,
+              "bottom": 0.9487179487179487,
+              "footLeft": 0.3739130434782609,
+              "footRight": 0.46956521739130436
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 230,
+            "y": 1053,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 102,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0782608695652174,
+              "right": 0.9565217391304348,
+              "top": 0.17094017094017094,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.19130434782608696,
+              "footRight": 0.4956521739130435
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 345,
+            "y": 1053,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 102,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.06956521739130435,
+              "right": 0.9391304347826087,
+              "top": 0.17094017094017094,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.17391304347826086,
+              "footRight": 0.5130434782608696
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 460,
+            "y": 1053,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 102,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0782608695652174,
+              "right": 0.9130434782608695,
+              "top": 0.15384615384615385,
+              "bottom": 0.9316239316239316,
+              "footLeft": 0.20869565217391303,
+              "footRight": 0.2956521739130435
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 575,
+            "y": 1053,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 102,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08695652173913043,
+              "right": 0.9130434782608695,
+              "top": 0.1452991452991453,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.24347826086956523,
+              "footRight": 0.46956521739130436
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 690,
+            "y": 1053,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 102,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08695652173913043,
+              "right": 0.9391304347826087,
+              "top": 0.15384615384615385,
+              "bottom": 0.9487179487179487,
+              "footLeft": 0.30434782608695654,
+              "footRight": 0.3826086956521739
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 805,
+            "y": 1053,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 102,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08695652173913043,
+              "right": 0.9565217391304348,
+              "top": 0.17094017094017094,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.24347826086956523,
+              "footRight": 0.3391304347826087
+            }
+          }
+        ],
+        "cx": 59,
+        "bottom": 113,
+        "top": 16,
+        "width": 102,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 0,
+            "y": 1170,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 11,
+            "width": 99,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12173913043478261,
+              "right": 0.9043478260869565,
+              "top": 0.10256410256410256,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.6434782608695652,
+              "footRight": 0.7391304347826086
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 115,
+            "y": 1170,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 11,
+            "width": 99,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12173913043478261,
+              "right": 0.8956521739130435,
+              "top": 0.11965811965811966,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.6782608695652174,
+              "footRight": 0.7652173913043478
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 230,
+            "y": 1170,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 11,
+            "width": 99,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11304347826086956,
+              "right": 0.9043478260869565,
+              "top": 0.13675213675213677,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.6695652173913044,
+              "footRight": 0.7304347826086957
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 345,
+            "y": 1170,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 11,
+            "width": 99,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09565217391304348,
+              "right": 0.8956521739130435,
+              "top": 0.13675213675213677,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.6347826086956522,
+              "footRight": 0.6782608695652174
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 460,
+            "y": 1170,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 11,
+            "width": 99,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09565217391304348,
+              "right": 0.9130434782608695,
+              "top": 0.11965811965811966,
+              "bottom": 0.9316239316239316,
+              "footLeft": 0.591304347826087,
+              "footRight": 0.8347826086956521
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 575,
+            "y": 1170,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 11,
+            "width": 99,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09565217391304348,
+              "right": 0.9391304347826087,
+              "top": 0.10256410256410256,
+              "bottom": 0.9316239316239316,
+              "footLeft": 0.5217391304347826,
+              "footRight": 0.8869565217391304
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 690,
+            "y": 1170,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 11,
+            "width": 99,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08695652173913043,
+              "right": 0.9391304347826087,
+              "top": 0.1282051282051282,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.5391304347826087,
+              "footRight": 0.6347826086956522
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 805,
+            "y": 1170,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 11,
+            "width": 99,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08695652173913043,
+              "right": 0.9391304347826087,
+              "top": 0.1452991452991453,
+              "bottom": 0.9487179487179487,
+              "footLeft": 0.5826086956521739,
+              "footRight": 0.6695652173913044
+            }
+          }
+        ],
+        "cx": 59,
+        "bottom": 113,
+        "top": 11,
+        "width": 99,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 0,
+            "y": 1287,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 4,
+            "width": 59,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.28695652173913044,
+              "right": 0.7565217391304347,
+              "top": 0.042735042735042736,
+              "bottom": 0.8888888888888888,
+              "footLeft": 0.48695652173913045,
+              "footRight": 0.6608695652173913
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 115,
+            "y": 1287,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 4,
+            "width": 59,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.28695652173913044,
+              "right": 0.7565217391304347,
+              "top": 0.07692307692307693,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.591304347826087,
+              "footRight": 0.6782608695652174
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 230,
+            "y": 1287,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 4,
+            "width": 59,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2956521739130435,
+              "right": 0.7565217391304347,
+              "top": 0.10256410256410256,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.6173913043478261,
+              "footRight": 0.7130434782608696
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 345,
+            "y": 1287,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 4,
+            "width": 59,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.28695652173913044,
+              "right": 0.7565217391304347,
+              "top": 0.10256410256410256,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.6521739130434783,
+              "footRight": 0.7391304347826086
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 460,
+            "y": 1287,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 4,
+            "width": 59,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.28695652173913044,
+              "right": 0.7652173913043478,
+              "top": 0.07692307692307693,
+              "bottom": 0.8974358974358975,
+              "footLeft": 0.6869565217391305,
+              "footRight": 0.7652173913043478
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 575,
+            "y": 1287,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 4,
+            "width": 59,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2956521739130435,
+              "right": 0.7913043478260869,
+              "top": 0.042735042735042736,
+              "bottom": 0.8888888888888888,
+              "footLeft": 0.3652173913043478,
+              "footRight": 0.7913043478260869
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 690,
+            "y": 1287,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 4,
+            "width": 59,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.28695652173913044,
+              "right": 0.7913043478260869,
+              "top": 0.06837606837606838,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.3826086956521739,
+              "footRight": 0.46956521739130436
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 805,
+            "y": 1287,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 4,
+            "width": 59,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.28695652173913044,
+              "right": 0.7913043478260869,
+              "top": 0.10256410256410256,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.41739130434782606,
+              "footRight": 0.5130434782608696
+            }
+          }
+        ],
+        "cx": 59,
+        "bottom": 113,
+        "top": 4,
+        "width": 59,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 0,
+            "y": 1404,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 10,
+            "width": 70,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23478260869565218,
+              "right": 0.782608695652174,
+              "top": 0.09401709401709402,
+              "bottom": 0.9572649572649573,
+              "footLeft": 0.4260869565217391,
+              "footRight": 0.5217391304347826
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 115,
+            "y": 1404,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 10,
+            "width": 70,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23478260869565218,
+              "right": 0.782608695652174,
+              "top": 0.1111111111111111,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.40869565217391307,
+              "footRight": 0.5043478260869565
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 230,
+            "y": 1404,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 10,
+            "width": 70,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23478260869565218,
+              "right": 0.7739130434782608,
+              "top": 0.1282051282051282,
+              "bottom": 0.9572649572649573,
+              "footLeft": 0.41739130434782606,
+              "footRight": 0.5043478260869565
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 345,
+            "y": 1404,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 10,
+            "width": 70,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23478260869565218,
+              "right": 0.7652173913043478,
+              "top": 0.11965811965811966,
+              "bottom": 0.9487179487179487,
+              "footLeft": 0.4434782608695652,
+              "footRight": 0.5304347826086957
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 460,
+            "y": 1404,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 10,
+            "width": 70,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23478260869565218,
+              "right": 0.7652173913043478,
+              "top": 0.10256410256410256,
+              "bottom": 0.9316239316239316,
+              "footLeft": 0.28695652173913044,
+              "footRight": 0.5478260869565217
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 575,
+            "y": 1404,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 10,
+            "width": 70,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21739130434782608,
+              "right": 0.7739130434782608,
+              "top": 0.09401709401709402,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.26956521739130435,
+              "footRight": 0.3565217391304348
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 690,
+            "y": 1404,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 10,
+            "width": 70,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19130434782608696,
+              "right": 0.782608695652174,
+              "top": 0.10256410256410256,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.24347826086956523,
+              "footRight": 0.5739130434782609
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 805,
+            "y": 1404,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 10,
+            "width": 70,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19130434782608696,
+              "right": 0.7913043478260869,
+              "top": 0.11965811965811966,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.25217391304347825,
+              "footRight": 0.5739130434782609
+            }
+          }
+        ],
+        "cx": 59,
+        "bottom": 113,
+        "top": 10,
+        "width": 70,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 0,
+            "y": 1521,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 105,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11304347826086956,
+              "right": 0.9391304347826087,
+              "top": 0.15384615384615385,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.40869565217391307,
+              "footRight": 0.7913043478260869
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 115,
+            "y": 1521,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 105,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09565217391304348,
+              "right": 0.9391304347826087,
+              "top": 0.18803418803418803,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.3826086956521739,
+              "footRight": 0.8434782608695652
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 230,
+            "y": 1521,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 105,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08695652173913043,
+              "right": 0.9478260869565217,
+              "top": 0.20512820512820512,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.7217391304347827,
+              "footRight": 0.8173913043478261
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 345,
+            "y": 1521,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 105,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.034782608695652174,
+              "right": 0.9478260869565217,
+              "top": 0.1794871794871795,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.6782608695652174,
+              "footRight": 0.7739130434782608
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 460,
+            "y": 1521,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 105,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.043478260869565216,
+              "right": 0.9478260869565217,
+              "top": 0.15384615384615385,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.6347826086956522,
+              "footRight": 0.7391304347826086
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 575,
+            "y": 1521,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 105,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.05217391304347826,
+              "right": 0.9391304347826087,
+              "top": 0.1452991452991453,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.591304347826087,
+              "footRight": 0.6869565217391305
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 690,
+            "y": 1521,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 105,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.06956521739130435,
+              "right": 0.9391304347826087,
+              "top": 0.15384615384615385,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.5478260869565217,
+              "footRight": 0.6434782608695652
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 805,
+            "y": 1521,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 16,
+            "width": 105,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08695652173913043,
+              "right": 0.9391304347826087,
+              "top": 0.18803418803418803,
+              "bottom": 0.9572649572649573,
+              "footLeft": 0.48695652173913045,
+              "footRight": 0.5826086956521739
+            }
+          }
+        ],
+        "cx": 59,
+        "bottom": 113,
+        "top": 16,
+        "width": 105,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 0,
+            "y": 1638,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 9,
+            "width": 84,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1826086956521739,
+              "right": 0.8173913043478261,
+              "top": 0.11965811965811966,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.4608695652173913,
+              "footRight": 0.5565217391304348
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 115,
+            "y": 1638,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 9,
+            "width": 84,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17391304347826086,
+              "right": 0.8173913043478261,
+              "top": 0.10256410256410256,
+              "bottom": 0.9145299145299145,
+              "footLeft": 0.43478260869565216,
+              "footRight": 0.5217391304347826
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 230,
+            "y": 1638,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 9,
+            "width": 84,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14782608695652175,
+              "right": 0.8260869565217391,
+              "top": 0.10256410256410256,
+              "bottom": 0.8888888888888888,
+              "footLeft": 0.3391304347826087,
+              "footRight": 0.4956521739130435
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 345,
+            "y": 1638,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 9,
+            "width": 84,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12173913043478261,
+              "right": 0.8347826086956521,
+              "top": 0.11965811965811966,
+              "bottom": 0.8803418803418803,
+              "footLeft": 0.30434782608695654,
+              "footRight": 0.5217391304347826
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 460,
+            "y": 1638,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 9,
+            "width": 84,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11304347826086956,
+              "right": 0.8347826086956521,
+              "top": 0.1111111111111111,
+              "bottom": 0.8803418803418803,
+              "footLeft": 0.48695652173913045,
+              "footRight": 0.7130434782608696
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 575,
+            "y": 1638,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 9,
+            "width": 84,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10434782608695652,
+              "right": 0.8347826086956521,
+              "top": 0.09401709401709402,
+              "bottom": 0.8888888888888888,
+              "footLeft": 0.5304347826086957,
+              "footRight": 0.7652173913043478
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 690,
+            "y": 1638,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 9,
+            "width": 84,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13043478260869565,
+              "right": 0.8347826086956521,
+              "top": 0.08547008547008547,
+              "bottom": 0.9316239316239316,
+              "footLeft": 0.5652173913043478,
+              "footRight": 0.8
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 805,
+            "y": 1638,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 9,
+            "width": 84,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1565217391304348,
+              "right": 0.8347826086956521,
+              "top": 0.10256410256410256,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.5739130434782609,
+              "footRight": 0.6695652173913044
+            }
+          }
+        ],
+        "cx": 59,
+        "bottom": 113,
+        "top": 9,
+        "width": 84,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 0,
+            "y": 1755,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 15,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.30434782608695654,
+              "right": 0.6956521739130435,
+              "top": 0.15384615384615385,
+              "bottom": 0.9487179487179487,
+              "footLeft": 0.3652173913043478,
+              "footRight": 0.6086956521739131
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 115,
+            "y": 1755,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 15,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.30434782608695654,
+              "right": 0.6956521739130435,
+              "top": 0.15384615384615385,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.3652173913043478,
+              "footRight": 0.6260869565217392
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 230,
+            "y": 1755,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 15,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.30434782608695654,
+              "right": 0.6956521739130435,
+              "top": 0.15384615384615385,
+              "bottom": 0.9316239316239316,
+              "footLeft": 0.3739130434782609,
+              "footRight": 0.6260869565217392
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 345,
+            "y": 1755,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 15,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.3130434782608696,
+              "right": 0.7043478260869566,
+              "top": 0.15384615384615385,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.5391304347826087,
+              "footRight": 0.6260869565217392
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 460,
+            "y": 1755,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 15,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.3130434782608696,
+              "right": 0.7043478260869566,
+              "top": 0.1452991452991453,
+              "bottom": 0.9658119658119658,
+              "footLeft": 0.5391304347826087,
+              "footRight": 0.6260869565217392
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 575,
+            "y": 1755,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 15,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.3130434782608696,
+              "right": 0.6956521739130435,
+              "top": 0.13675213675213677,
+              "bottom": 0.9572649572649573,
+              "footLeft": 0.5391304347826087,
+              "footRight": 0.6347826086956522
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 690,
+            "y": 1755,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 15,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.30434782608695654,
+              "right": 0.6956521739130435,
+              "top": 0.13675213675213677,
+              "bottom": 0.9401709401709402,
+              "footLeft": 0.5391304347826087,
+              "footRight": 0.6347826086956522
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+            "x": 805,
+            "y": 1755,
+            "w": 115,
+            "h": 117,
+            "cx": 59,
+            "bottom": 113,
+            "top": 15,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.30434782608695654,
+              "right": 0.6956521739130435,
+              "top": 0.13675213675213677,
+              "bottom": 0.9487179487179487,
+              "footLeft": 0.3565217391304348,
+              "footRight": 0.6086956521739131
+            }
+          }
+        ],
+        "cx": 59,
+        "bottom": 113,
+        "top": 15,
+        "width": 46,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 0,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 15,
+              "width": 85,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16521739130434782,
+                "right": 0.8956521739130435,
+                "top": 0.1282051282051282,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.40869565217391307,
+                "footRight": 0.4956521739130435
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 15,
+          "width": 85,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 117,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 18,
+              "width": 97,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08695652173913043,
+                "right": 0.9217391304347826,
+                "top": 0.15384615384615385,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.3130434782608696,
+                "footRight": 0.40869565217391307
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 18,
+          "width": 97,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 234,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 14,
+              "width": 92,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12173913043478261,
+                "right": 0.9130434782608695,
+                "top": 0.11965811965811966,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.6,
+                "footRight": 0.6869565217391305
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 14,
+          "width": 92,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 351,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 13,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.30434782608695654,
+                "right": 0.7565217391304347,
+                "top": 0.1111111111111111,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.43478260869565216,
+                "footRight": 0.5304347826086957
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 13,
+          "width": 52,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 468,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 13,
+              "width": 67,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.782608695652174,
+                "top": 0.1111111111111111,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.4434782608695652,
+                "footRight": 0.5391304347826087
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 13,
+          "width": 67,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 585,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 21,
+              "width": 96,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10434782608695652,
+                "right": 0.9391304347826087,
+                "top": 0.18803418803418803,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.2956521739130435,
+                "footRight": 0.7304347826086957
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 21,
+          "width": 96,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 702,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 74,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1826086956521739,
+                "right": 0.8173913043478261,
+                "top": 0.1452991452991453,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.48695652173913045,
+                "footRight": 0.591304347826087
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 16,
+          "width": 74,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 819,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 20,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.30434782608695654,
+                "right": 0.7043478260869566,
+                "top": 0.1794871794871795,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.3652173913043478,
+                "footRight": 0.6347826086956522
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 20,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 936,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 12,
+              "width": 88,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17391304347826086,
+                "right": 0.9217391304347826,
+                "top": 0.10256410256410256,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.41739130434782606,
+                "footRight": 0.5217391304347826
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 115,
+              "y": 936,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 12,
+              "width": 88,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17391304347826086,
+                "right": 0.9391304347826087,
+                "top": 0.1111111111111111,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.43478260869565216,
+                "footRight": 0.5304347826086957
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 230,
+              "y": 936,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 12,
+              "width": 88,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17391304347826086,
+                "right": 0.9391304347826087,
+                "top": 0.1282051282051282,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.23478260869565218,
+                "footRight": 0.5565217391304348
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 345,
+              "y": 936,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 12,
+              "width": 88,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16521739130434782,
+                "right": 0.9130434782608695,
+                "top": 0.1452991452991453,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.24347826086956523,
+                "footRight": 0.3391304347826087
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 460,
+              "y": 936,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 12,
+              "width": 88,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14782608695652175,
+                "right": 0.8869565217391304,
+                "top": 0.1282051282051282,
+                "bottom": 0.9145299145299145,
+                "footLeft": 0.26956521739130435,
+                "footRight": 0.3565217391304348
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 575,
+              "y": 936,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 12,
+              "width": 88,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1391304347826087,
+                "right": 0.8782608695652174,
+                "top": 0.1282051282051282,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.2956521739130435,
+                "footRight": 0.5217391304347826
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 690,
+              "y": 936,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 12,
+              "width": 88,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13043478260869565,
+                "right": 0.8695652173913043,
+                "top": 0.13675213675213677,
+                "bottom": 0.9487179487179487,
+                "footLeft": 0.3652173913043478,
+                "footRight": 0.4434782608695652
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 805,
+              "y": 936,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 12,
+              "width": 88,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13043478260869565,
+                "right": 0.8869565217391304,
+                "top": 0.1452991452991453,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.34782608695652173,
+                "footRight": 0.4434782608695652
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 12,
+          "width": 88,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 1053,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 102,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09565217391304348,
+                "right": 0.9130434782608695,
+                "top": 0.1452991452991453,
+                "bottom": 0.9487179487179487,
+                "footLeft": 0.3391304347826087,
+                "footRight": 0.43478260869565216
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 115,
+              "y": 1053,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 102,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08695652173913043,
+                "right": 0.9478260869565217,
+                "top": 0.1623931623931624,
+                "bottom": 0.9487179487179487,
+                "footLeft": 0.3739130434782609,
+                "footRight": 0.46956521739130436
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 230,
+              "y": 1053,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 102,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0782608695652174,
+                "right": 0.9565217391304348,
+                "top": 0.17094017094017094,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.19130434782608696,
+                "footRight": 0.4956521739130435
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 345,
+              "y": 1053,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 102,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.06956521739130435,
+                "right": 0.9391304347826087,
+                "top": 0.17094017094017094,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.17391304347826086,
+                "footRight": 0.5130434782608696
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 460,
+              "y": 1053,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 102,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0782608695652174,
+                "right": 0.9130434782608695,
+                "top": 0.15384615384615385,
+                "bottom": 0.9316239316239316,
+                "footLeft": 0.20869565217391303,
+                "footRight": 0.2956521739130435
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 575,
+              "y": 1053,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 102,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08695652173913043,
+                "right": 0.9130434782608695,
+                "top": 0.1452991452991453,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.24347826086956523,
+                "footRight": 0.46956521739130436
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 690,
+              "y": 1053,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 102,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08695652173913043,
+                "right": 0.9391304347826087,
+                "top": 0.15384615384615385,
+                "bottom": 0.9487179487179487,
+                "footLeft": 0.30434782608695654,
+                "footRight": 0.3826086956521739
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 805,
+              "y": 1053,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 102,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08695652173913043,
+                "right": 0.9565217391304348,
+                "top": 0.17094017094017094,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.24347826086956523,
+                "footRight": 0.3391304347826087
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 16,
+          "width": 102,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 1170,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 11,
+              "width": 99,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12173913043478261,
+                "right": 0.9043478260869565,
+                "top": 0.10256410256410256,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.6434782608695652,
+                "footRight": 0.7391304347826086
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 115,
+              "y": 1170,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 11,
+              "width": 99,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12173913043478261,
+                "right": 0.8956521739130435,
+                "top": 0.11965811965811966,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.6782608695652174,
+                "footRight": 0.7652173913043478
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 230,
+              "y": 1170,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 11,
+              "width": 99,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11304347826086956,
+                "right": 0.9043478260869565,
+                "top": 0.13675213675213677,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.6695652173913044,
+                "footRight": 0.7304347826086957
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 345,
+              "y": 1170,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 11,
+              "width": 99,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09565217391304348,
+                "right": 0.8956521739130435,
+                "top": 0.13675213675213677,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.6347826086956522,
+                "footRight": 0.6782608695652174
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 460,
+              "y": 1170,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 11,
+              "width": 99,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09565217391304348,
+                "right": 0.9130434782608695,
+                "top": 0.11965811965811966,
+                "bottom": 0.9316239316239316,
+                "footLeft": 0.591304347826087,
+                "footRight": 0.8347826086956521
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 575,
+              "y": 1170,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 11,
+              "width": 99,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09565217391304348,
+                "right": 0.9391304347826087,
+                "top": 0.10256410256410256,
+                "bottom": 0.9316239316239316,
+                "footLeft": 0.5217391304347826,
+                "footRight": 0.8869565217391304
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 690,
+              "y": 1170,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 11,
+              "width": 99,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08695652173913043,
+                "right": 0.9391304347826087,
+                "top": 0.1282051282051282,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.5391304347826087,
+                "footRight": 0.6347826086956522
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 805,
+              "y": 1170,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 11,
+              "width": 99,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08695652173913043,
+                "right": 0.9391304347826087,
+                "top": 0.1452991452991453,
+                "bottom": 0.9487179487179487,
+                "footLeft": 0.5826086956521739,
+                "footRight": 0.6695652173913044
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 11,
+          "width": 99,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 1287,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 4,
+              "width": 59,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.28695652173913044,
+                "right": 0.7565217391304347,
+                "top": 0.042735042735042736,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.48695652173913045,
+                "footRight": 0.6608695652173913
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 115,
+              "y": 1287,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 4,
+              "width": 59,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.28695652173913044,
+                "right": 0.7565217391304347,
+                "top": 0.07692307692307693,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.591304347826087,
+                "footRight": 0.6782608695652174
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 230,
+              "y": 1287,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 4,
+              "width": 59,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2956521739130435,
+                "right": 0.7565217391304347,
+                "top": 0.10256410256410256,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.6173913043478261,
+                "footRight": 0.7130434782608696
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 345,
+              "y": 1287,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 4,
+              "width": 59,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.28695652173913044,
+                "right": 0.7565217391304347,
+                "top": 0.10256410256410256,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.6521739130434783,
+                "footRight": 0.7391304347826086
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 460,
+              "y": 1287,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 4,
+              "width": 59,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.28695652173913044,
+                "right": 0.7652173913043478,
+                "top": 0.07692307692307693,
+                "bottom": 0.8974358974358975,
+                "footLeft": 0.6869565217391305,
+                "footRight": 0.7652173913043478
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 575,
+              "y": 1287,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 4,
+              "width": 59,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2956521739130435,
+                "right": 0.7913043478260869,
+                "top": 0.042735042735042736,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.3652173913043478,
+                "footRight": 0.7913043478260869
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 690,
+              "y": 1287,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 4,
+              "width": 59,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.28695652173913044,
+                "right": 0.7913043478260869,
+                "top": 0.06837606837606838,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.3826086956521739,
+                "footRight": 0.46956521739130436
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 805,
+              "y": 1287,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 4,
+              "width": 59,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.28695652173913044,
+                "right": 0.7913043478260869,
+                "top": 0.10256410256410256,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.41739130434782606,
+                "footRight": 0.5130434782608696
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 4,
+          "width": 59,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 1404,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 10,
+              "width": 70,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23478260869565218,
+                "right": 0.782608695652174,
+                "top": 0.09401709401709402,
+                "bottom": 0.9572649572649573,
+                "footLeft": 0.4260869565217391,
+                "footRight": 0.5217391304347826
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 115,
+              "y": 1404,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 10,
+              "width": 70,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23478260869565218,
+                "right": 0.782608695652174,
+                "top": 0.1111111111111111,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.40869565217391307,
+                "footRight": 0.5043478260869565
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 230,
+              "y": 1404,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 10,
+              "width": 70,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23478260869565218,
+                "right": 0.7739130434782608,
+                "top": 0.1282051282051282,
+                "bottom": 0.9572649572649573,
+                "footLeft": 0.41739130434782606,
+                "footRight": 0.5043478260869565
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 345,
+              "y": 1404,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 10,
+              "width": 70,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23478260869565218,
+                "right": 0.7652173913043478,
+                "top": 0.11965811965811966,
+                "bottom": 0.9487179487179487,
+                "footLeft": 0.4434782608695652,
+                "footRight": 0.5304347826086957
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 460,
+              "y": 1404,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 10,
+              "width": 70,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23478260869565218,
+                "right": 0.7652173913043478,
+                "top": 0.10256410256410256,
+                "bottom": 0.9316239316239316,
+                "footLeft": 0.28695652173913044,
+                "footRight": 0.5478260869565217
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 575,
+              "y": 1404,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 10,
+              "width": 70,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21739130434782608,
+                "right": 0.7739130434782608,
+                "top": 0.09401709401709402,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.26956521739130435,
+                "footRight": 0.3565217391304348
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 690,
+              "y": 1404,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 10,
+              "width": 70,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19130434782608696,
+                "right": 0.782608695652174,
+                "top": 0.10256410256410256,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.24347826086956523,
+                "footRight": 0.5739130434782609
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 805,
+              "y": 1404,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 10,
+              "width": 70,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19130434782608696,
+                "right": 0.7913043478260869,
+                "top": 0.11965811965811966,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.25217391304347825,
+                "footRight": 0.5739130434782609
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 10,
+          "width": 70,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 1521,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 105,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11304347826086956,
+                "right": 0.9391304347826087,
+                "top": 0.15384615384615385,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.40869565217391307,
+                "footRight": 0.7913043478260869
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 115,
+              "y": 1521,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 105,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09565217391304348,
+                "right": 0.9391304347826087,
+                "top": 0.18803418803418803,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.3826086956521739,
+                "footRight": 0.8434782608695652
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 230,
+              "y": 1521,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 105,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08695652173913043,
+                "right": 0.9478260869565217,
+                "top": 0.20512820512820512,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.7217391304347827,
+                "footRight": 0.8173913043478261
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 345,
+              "y": 1521,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 105,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.034782608695652174,
+                "right": 0.9478260869565217,
+                "top": 0.1794871794871795,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.6782608695652174,
+                "footRight": 0.7739130434782608
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 460,
+              "y": 1521,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 105,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.043478260869565216,
+                "right": 0.9478260869565217,
+                "top": 0.15384615384615385,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.6347826086956522,
+                "footRight": 0.7391304347826086
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 575,
+              "y": 1521,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 105,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.05217391304347826,
+                "right": 0.9391304347826087,
+                "top": 0.1452991452991453,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.591304347826087,
+                "footRight": 0.6869565217391305
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 690,
+              "y": 1521,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 105,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.06956521739130435,
+                "right": 0.9391304347826087,
+                "top": 0.15384615384615385,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.5478260869565217,
+                "footRight": 0.6434782608695652
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 805,
+              "y": 1521,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 16,
+              "width": 105,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08695652173913043,
+                "right": 0.9391304347826087,
+                "top": 0.18803418803418803,
+                "bottom": 0.9572649572649573,
+                "footLeft": 0.48695652173913045,
+                "footRight": 0.5826086956521739
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 16,
+          "width": 105,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 1638,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 9,
+              "width": 84,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1826086956521739,
+                "right": 0.8173913043478261,
+                "top": 0.11965811965811966,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.4608695652173913,
+                "footRight": 0.5565217391304348
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 115,
+              "y": 1638,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 9,
+              "width": 84,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17391304347826086,
+                "right": 0.8173913043478261,
+                "top": 0.10256410256410256,
+                "bottom": 0.9145299145299145,
+                "footLeft": 0.43478260869565216,
+                "footRight": 0.5217391304347826
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 230,
+              "y": 1638,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 9,
+              "width": 84,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14782608695652175,
+                "right": 0.8260869565217391,
+                "top": 0.10256410256410256,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.3391304347826087,
+                "footRight": 0.4956521739130435
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 345,
+              "y": 1638,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 9,
+              "width": 84,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12173913043478261,
+                "right": 0.8347826086956521,
+                "top": 0.11965811965811966,
+                "bottom": 0.8803418803418803,
+                "footLeft": 0.30434782608695654,
+                "footRight": 0.5217391304347826
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 460,
+              "y": 1638,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 9,
+              "width": 84,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11304347826086956,
+                "right": 0.8347826086956521,
+                "top": 0.1111111111111111,
+                "bottom": 0.8803418803418803,
+                "footLeft": 0.48695652173913045,
+                "footRight": 0.7130434782608696
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 575,
+              "y": 1638,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 9,
+              "width": 84,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10434782608695652,
+                "right": 0.8347826086956521,
+                "top": 0.09401709401709402,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.5304347826086957,
+                "footRight": 0.7652173913043478
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 690,
+              "y": 1638,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 9,
+              "width": 84,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13043478260869565,
+                "right": 0.8347826086956521,
+                "top": 0.08547008547008547,
+                "bottom": 0.9316239316239316,
+                "footLeft": 0.5652173913043478,
+                "footRight": 0.8
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 805,
+              "y": 1638,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 9,
+              "width": 84,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1565217391304348,
+                "right": 0.8347826086956521,
+                "top": 0.10256410256410256,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.5739130434782609,
+                "footRight": 0.6695652173913044
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 9,
+          "width": 84,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 0,
+              "y": 1755,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 15,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.30434782608695654,
+                "right": 0.6956521739130435,
+                "top": 0.15384615384615385,
+                "bottom": 0.9487179487179487,
+                "footLeft": 0.3652173913043478,
+                "footRight": 0.6086956521739131
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 115,
+              "y": 1755,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 15,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.30434782608695654,
+                "right": 0.6956521739130435,
+                "top": 0.15384615384615385,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.3652173913043478,
+                "footRight": 0.6260869565217392
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 230,
+              "y": 1755,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 15,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.30434782608695654,
+                "right": 0.6956521739130435,
+                "top": 0.15384615384615385,
+                "bottom": 0.9316239316239316,
+                "footLeft": 0.3739130434782609,
+                "footRight": 0.6260869565217392
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 345,
+              "y": 1755,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 15,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.3130434782608696,
+                "right": 0.7043478260869566,
+                "top": 0.15384615384615385,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.5391304347826087,
+                "footRight": 0.6260869565217392
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 460,
+              "y": 1755,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 15,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.3130434782608696,
+                "right": 0.7043478260869566,
+                "top": 0.1452991452991453,
+                "bottom": 0.9658119658119658,
+                "footLeft": 0.5391304347826087,
+                "footRight": 0.6260869565217392
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 575,
+              "y": 1755,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 15,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.3130434782608696,
+                "right": 0.6956521739130435,
+                "top": 0.13675213675213677,
+                "bottom": 0.9572649572649573,
+                "footLeft": 0.5391304347826087,
+                "footRight": 0.6347826086956522
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 690,
+              "y": 1755,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 15,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.30434782608695654,
+                "right": 0.6956521739130435,
+                "top": 0.13675213675213677,
+                "bottom": 0.9401709401709402,
+                "footLeft": 0.5391304347826087,
+                "footRight": 0.6347826086956522
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+              "x": 805,
+              "y": 1755,
+              "w": 115,
+              "h": 117,
+              "cx": 59,
+              "bottom": 113,
+              "top": 15,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.30434782608695654,
+                "right": 0.6956521739130435,
+                "top": 0.13675213675213677,
+                "bottom": 0.9487179487179487,
+                "footLeft": 0.3565217391304348,
+                "footRight": 0.6086956521739131
+              }
+            }
+          ],
+          "cx": 59,
+          "bottom": 113,
+          "top": 15,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/horse-935b8ea1237a.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "horse",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

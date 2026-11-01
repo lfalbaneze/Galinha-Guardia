@@ -4,6 +4,7 @@ const {createGame}=require('./helpers.cjs');
 test('the dog and every selected menu animal keep walking after many endpoint pauses',()=>{
   const source=fs.readFileSync('systems/menu-scene.js','utf8').replace('return { initialize, frame };','return { initialize, frame, herd, walk };');
   const ctx=vm.createContext({Player:{directionFor:()=> 'right'},CharacterArt:createGame().run('CharacterArt')});
+  vm.runInContext(fs.readFileSync('systems/menu-character-data.js','utf8'),ctx);
   vm.runInContext(source,ctx);
   // Guests are randomized. Keep the original dog regression explicit, without
   // assuming that this particular page load happened to include a dog.

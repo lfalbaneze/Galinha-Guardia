@@ -1,0 +1,4570 @@
+{
+  "id": "hen-silkie",
+  "definition": {
+    "edition": 112,
+    "provider": "comfyui",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+    "width": 512,
+    "height": 3696,
+    "viewRotation": 0,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 0,
+            "y": 528,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 54,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.859375,
+              "top": 0.15151515151515152,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.296875,
+              "footRight": 0.734375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 64,
+            "y": 528,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 54,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.890625,
+              "top": 0.15151515151515152,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.296875,
+              "footRight": 0.71875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 128,
+            "y": 528,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 54,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.078125,
+              "right": 0.921875,
+              "top": 0.13636363636363635,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.296875,
+              "footRight": 0.71875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 192,
+            "y": 528,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 54,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09375,
+              "right": 0.890625,
+              "top": 0.10606060606060606,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.34375,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 256,
+            "y": 528,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 54,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.875,
+              "top": 0.10606060606060606,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.34375,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 320,
+            "y": 528,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 54,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.859375,
+              "top": 0.12121212121212122,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.28125,
+              "footRight": 0.71875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 384,
+            "y": 528,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 54,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.875,
+              "top": 0.13636363636363635,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.28125,
+              "footRight": 0.71875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 448,
+            "y": 528,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 54,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.875,
+              "top": 0.15151515151515152,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.28125,
+              "footRight": 0.71875
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 62,
+        "top": 7,
+        "width": 54,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 0,
+            "y": 594,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.890625,
+              "top": 0.13636363636363635,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.28125,
+              "footRight": 0.671875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 64,
+            "y": 594,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.875,
+              "top": 0.15151515151515152,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.296875,
+              "footRight": 0.671875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 128,
+            "y": 594,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.875,
+              "top": 0.13636363636363635,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.265625,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 192,
+            "y": 594,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.859375,
+              "top": 0.13636363636363635,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.28125,
+              "footRight": 0.609375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 256,
+            "y": 594,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.109375,
+              "right": 0.859375,
+              "top": 0.12121212121212122,
+              "bottom": 0.8939393939393939,
+              "footLeft": 0.296875,
+              "footRight": 0.640625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 320,
+            "y": 594,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.875,
+              "top": 0.12121212121212122,
+              "bottom": 0.8939393939393939,
+              "footLeft": 0.359375,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 384,
+            "y": 594,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.875,
+              "top": 0.13636363636363635,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.4375,
+              "footRight": 0.578125
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 448,
+            "y": 594,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 7,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.875,
+              "top": 0.13636363636363635,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.421875,
+              "footRight": 0.578125
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 62,
+        "top": 7,
+        "width": 49,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 0,
+            "y": 660,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 43,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.890625,
+              "top": 0.13636363636363635,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.421875,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 64,
+            "y": 660,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 43,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.890625,
+              "top": 0.12121212121212122,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.453125,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 128,
+            "y": 660,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 43,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.890625,
+              "top": 0.12121212121212122,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.46875,
+              "footRight": 0.640625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 192,
+            "y": 660,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 43,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.890625,
+              "top": 0.13636363636363635,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.5,
+              "footRight": 0.578125
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 256,
+            "y": 660,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 43,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.234375,
+              "right": 0.890625,
+              "top": 0.15151515151515152,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.53125,
+              "footRight": 0.609375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 320,
+            "y": 660,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 43,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.890625,
+              "top": 0.15151515151515152,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.390625,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 384,
+            "y": 660,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 43,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.890625,
+              "top": 0.15151515151515152,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.40625,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 448,
+            "y": 660,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 43,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.890625,
+              "top": 0.13636363636363635,
+              "bottom": 0.8939393939393939,
+              "footLeft": 0.421875,
+              "footRight": 0.59375
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 62,
+        "top": 8,
+        "width": 43,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 0,
+            "y": 726,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.171875,
+              "right": 0.890625,
+              "top": 0.16666666666666666,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.375,
+              "footRight": 0.5625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 64,
+            "y": 726,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.171875,
+              "right": 0.90625,
+              "top": 0.16666666666666666,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.390625,
+              "footRight": 0.578125
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 128,
+            "y": 726,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.90625,
+              "top": 0.15151515151515152,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.40625,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 192,
+            "y": 726,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.890625,
+              "top": 0.15151515151515152,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.453125,
+              "footRight": 0.5625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 256,
+            "y": 726,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.875,
+              "top": 0.15151515151515152,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.421875,
+              "footRight": 0.578125
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 320,
+            "y": 726,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.875,
+              "top": 0.13636363636363635,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.390625,
+              "footRight": 0.640625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 384,
+            "y": 726,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.890625,
+              "top": 0.15151515151515152,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.40625,
+              "footRight": 0.6875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 448,
+            "y": 726,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.90625,
+              "top": 0.16666666666666666,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.328125,
+              "footRight": 0.71875
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 62,
+        "top": 9,
+        "width": 49,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 0,
+            "y": 792,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.859375,
+              "top": 0.16666666666666666,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.3125,
+              "footRight": 0.6875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 64,
+            "y": 792,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.890625,
+              "top": 0.18181818181818182,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.3125,
+              "footRight": 0.671875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 128,
+            "y": 792,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09375,
+              "right": 0.90625,
+              "top": 0.16666666666666666,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.328125,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 192,
+            "y": 792,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09375,
+              "right": 0.90625,
+              "top": 0.15151515151515152,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.328125,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 256,
+            "y": 792,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.109375,
+              "right": 0.890625,
+              "top": 0.13636363636363635,
+              "bottom": 0.8939393939393939,
+              "footLeft": 0.328125,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 320,
+            "y": 792,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.109375,
+              "right": 0.890625,
+              "top": 0.12121212121212122,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.328125,
+              "footRight": 0.640625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 384,
+            "y": 792,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09375,
+              "right": 0.890625,
+              "top": 0.13636363636363635,
+              "bottom": 0.8939393939393939,
+              "footLeft": 0.34375,
+              "footRight": 0.640625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 448,
+            "y": 792,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 8,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09375,
+              "right": 0.90625,
+              "top": 0.16666666666666666,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.359375,
+              "footRight": 0.640625
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 62,
+        "top": 8,
+        "width": 52,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 0,
+            "y": 858,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.828125,
+              "top": 0.15151515151515152,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.390625,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 64,
+            "y": 858,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.828125,
+              "top": 0.16666666666666666,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.453125,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 128,
+            "y": 858,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.84375,
+              "top": 0.18181818181818182,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.5,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 192,
+            "y": 858,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.859375,
+              "top": 0.16666666666666666,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.4375,
+              "footRight": 0.5625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 256,
+            "y": 858,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.859375,
+              "top": 0.15151515151515152,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.40625,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 320,
+            "y": 858,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.875,
+              "top": 0.15151515151515152,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.390625,
+              "footRight": 0.53125
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 384,
+            "y": 858,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.875,
+              "top": 0.16666666666666666,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.34375,
+              "footRight": 0.640625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 448,
+            "y": 858,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.859375,
+              "top": 0.18181818181818182,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.3125,
+              "footRight": 0.671875
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 62,
+        "top": 10,
+        "width": 47,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 0,
+            "y": 924,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.8125,
+              "top": 0.15151515151515152,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.421875,
+              "footRight": 0.53125
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 64,
+            "y": 924,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.8125,
+              "top": 0.15151515151515152,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.453125,
+              "footRight": 0.515625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 128,
+            "y": 924,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.8125,
+              "top": 0.16666666666666666,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.5,
+              "footRight": 0.5625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 192,
+            "y": 924,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.8125,
+              "top": 0.15151515151515152,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.5625,
+              "footRight": 0.640625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 256,
+            "y": 924,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.8125,
+              "top": 0.15151515151515152,
+              "bottom": 0.8939393939393939,
+              "footLeft": 0.390625,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 320,
+            "y": 924,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.8125,
+              "top": 0.15151515151515152,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.546875,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 384,
+            "y": 924,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.8125,
+              "top": 0.15151515151515152,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.5,
+              "footRight": 0.6875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 448,
+            "y": 924,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 10,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.8125,
+              "top": 0.16666666666666666,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.46875,
+              "footRight": 0.640625
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 62,
+        "top": 10,
+        "width": 44,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 0,
+            "y": 990,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 6,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.828125,
+              "top": 0.12121212121212122,
+              "bottom": 0.9242424242424242,
+              "footLeft": 0.3125,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 64,
+            "y": 990,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 6,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.828125,
+              "top": 0.10606060606060606,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.28125,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 128,
+            "y": 990,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 6,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.859375,
+              "top": 0.12121212121212122,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.34375,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 192,
+            "y": 990,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 6,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.859375,
+              "top": 0.13636363636363635,
+              "bottom": 0.8939393939393939,
+              "footLeft": 0.34375,
+              "footRight": 0.671875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 256,
+            "y": 990,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 6,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.859375,
+              "top": 0.12121212121212122,
+              "bottom": 0.8939393939393939,
+              "footLeft": 0.390625,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 320,
+            "y": 990,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 6,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.140625,
+              "right": 0.84375,
+              "top": 0.10606060606060606,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.4375,
+              "footRight": 0.609375
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 384,
+            "y": 990,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 6,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.828125,
+              "top": 0.12121212121212122,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.421875,
+              "footRight": 0.546875
+            }
+          },
+          {
+            "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+            "x": 448,
+            "y": 990,
+            "w": 64,
+            "h": 66,
+            "cx": 33,
+            "bottom": 62,
+            "top": 6,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.8125,
+              "top": 0.13636363636363635,
+              "bottom": 0.9393939393939394,
+              "footLeft": 0.40625,
+              "footRight": 0.546875
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 62,
+        "top": 6,
+        "width": 46,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 0,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.84375,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.28125,
+                "footRight": 0.734375
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 10,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 66,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 9,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.46875,
+                "footRight": 0.65625
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 9,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 132,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.40625,
+                "footRight": 0.578125
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 10,
+          "width": 43,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 198,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.890625,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.34375,
+                "footRight": 0.625
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 10,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 264,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 11,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.859375,
+                "top": 0.18181818181818182,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.3125,
+                "footRight": 0.703125
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 11,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 330,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.84375,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.390625,
+                "footRight": 0.671875
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 10,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 396,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.796875,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.421875,
+                "footRight": 0.59375
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 10,
+          "width": 43,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 462,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 9,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.84375,
+                "top": 0.13636363636363635,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.34375,
+                "footRight": 0.46875
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 9,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 528,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.859375,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.296875,
+                "footRight": 0.734375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 528,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.296875,
+                "footRight": 0.71875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 528,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.078125,
+                "right": 0.921875,
+                "top": 0.13636363636363635,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.296875,
+                "footRight": 0.71875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 528,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09375,
+                "right": 0.890625,
+                "top": 0.10606060606060606,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.34375,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 528,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.875,
+                "top": 0.10606060606060606,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.34375,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 528,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.859375,
+                "top": 0.12121212121212122,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.28125,
+                "footRight": 0.71875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 528,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.875,
+                "top": 0.13636363636363635,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.28125,
+                "footRight": 0.71875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 528,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.875,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.28125,
+                "footRight": 0.71875
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 7,
+          "width": 54,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 594,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.28125,
+                "footRight": 0.671875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 594,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.875,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.296875,
+                "footRight": 0.671875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 594,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.875,
+                "top": 0.13636363636363635,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.265625,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 594,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.859375,
+                "top": 0.13636363636363635,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.28125,
+                "footRight": 0.609375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 594,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.859375,
+                "top": 0.12121212121212122,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.296875,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 594,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.875,
+                "top": 0.12121212121212122,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.359375,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 594,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.875,
+                "top": 0.13636363636363635,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.4375,
+                "footRight": 0.578125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 594,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.875,
+                "top": 0.13636363636363635,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.421875,
+                "footRight": 0.578125
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 7,
+          "width": 49,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 660,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.421875,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 660,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.890625,
+                "top": 0.12121212121212122,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.453125,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 660,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.890625,
+                "top": 0.12121212121212122,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.46875,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 660,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.5,
+                "footRight": 0.578125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 660,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.234375,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.53125,
+                "footRight": 0.609375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 660,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.390625,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 660,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.40625,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 660,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.421875,
+                "footRight": 0.59375
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 8,
+          "width": 43,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 726,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.890625,
+                "top": 0.16666666666666666,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.375,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 726,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.90625,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.390625,
+                "footRight": 0.578125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 726,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.90625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.40625,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 726,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.453125,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 726,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.875,
+                "top": 0.15151515151515152,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.421875,
+                "footRight": 0.578125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 726,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.875,
+                "top": 0.13636363636363635,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.390625,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 726,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.40625,
+                "footRight": 0.6875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 726,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.90625,
+                "top": 0.16666666666666666,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.328125,
+                "footRight": 0.71875
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 9,
+          "width": 49,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 792,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.859375,
+                "top": 0.16666666666666666,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.3125,
+                "footRight": 0.6875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 792,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.890625,
+                "top": 0.18181818181818182,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.3125,
+                "footRight": 0.671875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 792,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09375,
+                "right": 0.90625,
+                "top": 0.16666666666666666,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.328125,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 792,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09375,
+                "right": 0.90625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.328125,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 792,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.328125,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 792,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.890625,
+                "top": 0.12121212121212122,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.328125,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 792,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09375,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.34375,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 792,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09375,
+                "right": 0.90625,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.359375,
+                "footRight": 0.640625
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 8,
+          "width": 52,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 858,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.828125,
+                "top": 0.15151515151515152,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.390625,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 858,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.828125,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.453125,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 858,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.84375,
+                "top": 0.18181818181818182,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.5,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 858,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.859375,
+                "top": 0.16666666666666666,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.4375,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 858,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.859375,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.40625,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 858,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.875,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.390625,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 858,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.875,
+                "top": 0.16666666666666666,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.34375,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 858,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.859375,
+                "top": 0.18181818181818182,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.3125,
+                "footRight": 0.671875
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 10,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 924,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.8125,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.421875,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 924,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.8125,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.453125,
+                "footRight": 0.515625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 924,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.8125,
+                "top": 0.16666666666666666,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.5,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 924,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.8125,
+                "top": 0.15151515151515152,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.5625,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 924,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.8125,
+                "top": 0.15151515151515152,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.390625,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 924,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.8125,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.546875,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 924,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.8125,
+                "top": 0.15151515151515152,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.5,
+                "footRight": 0.6875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 924,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.8125,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.46875,
+                "footRight": 0.640625
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 10,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 990,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.828125,
+                "top": 0.12121212121212122,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.3125,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 990,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.828125,
+                "top": 0.10606060606060606,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.28125,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 990,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.859375,
+                "top": 0.12121212121212122,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.34375,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 990,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.859375,
+                "top": 0.13636363636363635,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.34375,
+                "footRight": 0.671875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 990,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.859375,
+                "top": 0.12121212121212122,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.390625,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 990,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.84375,
+                "top": 0.10606060606060606,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.4375,
+                "footRight": 0.609375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 990,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.828125,
+                "top": 0.12121212121212122,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.421875,
+                "footRight": 0.546875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 990,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.8125,
+                "top": 0.13636363636363635,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.40625,
+                "footRight": 0.546875
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 6,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "run": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 3168,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 4,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.828125,
+                "top": 0.12121212121212122,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.296875,
+                "footRight": 0.703125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 3168,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 4,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.8125,
+                "top": 0.09090909090909091,
+                "bottom": 0.8636363636363636,
+                "footLeft": 0.359375,
+                "footRight": 0.671875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 3168,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 4,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.84375,
+                "top": 0.07575757575757576,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.5,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 3168,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 4,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.875,
+                "top": 0.10606060606060606,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.484375,
+                "footRight": 0.609375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 3168,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 4,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.859375,
+                "top": 0.10606060606060606,
+                "bottom": 0.8636363636363636,
+                "footLeft": 0.390625,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 3168,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 4,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.859375,
+                "top": 0.07575757575757576,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.328125,
+                "footRight": 0.484375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 3168,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 4,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.875,
+                "top": 0.10606060606060606,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.390625,
+                "footRight": 0.453125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 3168,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 4,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.828125,
+                "top": 0.13636363636363635,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.3125,
+                "footRight": 0.484375
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 4,
+          "width": 48,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 3234,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.875,
+                "top": 0.12121212121212122,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.265625,
+                "footRight": 0.671875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 3234,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.859375,
+                "top": 0.10606060606060606,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.265625,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 3234,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.828125,
+                "top": 0.10606060606060606,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.265625,
+                "footRight": 0.421875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 3234,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.84375,
+                "top": 0.13636363636363635,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.34375,
+                "footRight": 0.46875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 3234,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.875,
+                "top": 0.13636363636363635,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.375,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 3234,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.890625,
+                "top": 0.12121212121212122,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.453125,
+                "footRight": 0.546875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 3234,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.875,
+                "top": 0.10606060606060606,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.390625,
+                "footRight": 0.515625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 3234,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 6,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.84375,
+                "top": 0.10606060606060606,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.375,
+                "footRight": 0.5
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 6,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 3300,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.234375,
+                "right": 0.921875,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.4375,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 3300,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.921875,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.46875,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 3300,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.234375,
+                "right": 0.90625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.515625,
+                "footRight": 0.6875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 3300,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.5625,
+                "footRight": 0.671875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 3300,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.234375,
+                "right": 0.90625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.5625,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 3300,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.921875,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.546875,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 3300,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.234375,
+                "right": 0.90625,
+                "top": 0.15151515151515152,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.46875,
+                "footRight": 0.546875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 3300,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.421875,
+                "footRight": 0.484375
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 10,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 3366,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.90625,
+                "top": 0.16666666666666666,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.390625,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 3366,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.90625,
+                "top": 0.13636363636363635,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.421875,
+                "footRight": 0.609375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 3366,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.890625,
+                "top": 0.12121212121212122,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.46875,
+                "footRight": 0.578125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 3366,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09375,
+                "right": 0.875,
+                "top": 0.13636363636363635,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.40625,
+                "footRight": 0.609375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 3366,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.4375,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 3366,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.90625,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.5,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 3366,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.546875,
+                "footRight": 0.703125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 3366,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.890625,
+                "top": 0.12121212121212122,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.609375,
+                "footRight": 0.734375
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 8,
+          "width": 50,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 3432,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.890625,
+                "top": 0.18181818181818182,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.265625,
+                "footRight": 0.671875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 3432,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.890625,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.296875,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 3432,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.28125,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 3432,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.359375,
+                "footRight": 0.609375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 3432,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.875,
+                "top": 0.13636363636363635,
+                "bottom": 0.8636363636363636,
+                "footLeft": 0.359375,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 3432,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.875,
+                "top": 0.13636363636363635,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.390625,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 3432,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.3125,
+                "footRight": 0.703125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 3432,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09375,
+                "right": 0.90625,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.328125,
+                "footRight": 0.71875
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 8,
+          "width": 52,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 3498,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.859375,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.46875,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 3498,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.484375,
+                "footRight": 0.609375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 3498,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.890625,
+                "top": 0.12121212121212122,
+                "bottom": 0.8636363636363636,
+                "footLeft": 0.390625,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 3498,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.859375,
+                "top": 0.12121212121212122,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.46875,
+                "footRight": 0.609375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 3498,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.859375,
+                "top": 0.13636363636363635,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.453125,
+                "footRight": 0.609375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 3498,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.203125,
+                "right": 0.890625,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.390625,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 3498,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.203125,
+                "right": 0.890625,
+                "top": 0.13636363636363635,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.359375,
+                "footRight": 0.484375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 3498,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.875,
+                "top": 0.12121212121212122,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.390625,
+                "footRight": 0.46875
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 8,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 3564,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.8125,
+                "top": 0.15151515151515152,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.421875,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 3564,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.8125,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.3125,
+                "footRight": 0.40625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 3564,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.8125,
+                "top": 0.16666666666666666,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.640625,
+                "footRight": 0.703125
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 3564,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.796875,
+                "top": 0.15151515151515152,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.53125,
+                "footRight": 0.671875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 3564,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.796875,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.46875,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 3564,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.796875,
+                "top": 0.15151515151515152,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.34375,
+                "footRight": 0.484375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 3564,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.796875,
+                "top": 0.15151515151515152,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.328125,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 3564,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.8125,
+                "top": 0.16666666666666666,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.515625,
+                "footRight": 0.71875
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 10,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 0,
+              "y": 3630,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.828125,
+                "top": 0.12121212121212122,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.3125,
+                "footRight": 0.71875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 64,
+              "y": 3630,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.859375,
+                "top": 0.12121212121212122,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.359375,
+                "footRight": 0.71875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 128,
+              "y": 3630,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.828125,
+                "top": 0.13636363636363635,
+                "bottom": 0.9242424242424242,
+                "footLeft": 0.5625,
+                "footRight": 0.6875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 192,
+              "y": 3630,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.109375,
+                "right": 0.796875,
+                "top": 0.13636363636363635,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.359375,
+                "footRight": 0.640625
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 256,
+              "y": 3630,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.8125,
+                "top": 0.12121212121212122,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.40625,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 320,
+              "y": 3630,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.84375,
+                "top": 0.12121212121212122,
+                "bottom": 0.8939393939393939,
+                "footLeft": 0.40625,
+                "footRight": 0.546875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 384,
+              "y": 3630,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.171875,
+                "right": 0.84375,
+                "top": 0.12121212121212122,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.421875,
+                "footRight": 0.546875
+              }
+            },
+            {
+              "src": "assets/sprites/chaos-112/runtime/hen-silkie-5e39b23a3088.png",
+              "x": 448,
+              "y": 3630,
+              "w": 64,
+              "h": 66,
+              "cx": 33,
+              "bottom": 62,
+              "top": 7,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.140625,
+                "right": 0.84375,
+                "top": 0.13636363636363635,
+                "bottom": 0.9393939393939394,
+                "footLeft": 0.421875,
+                "footRight": 0.59375
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 62,
+          "top": 7,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/hen-silkie-82ec36cae1e7.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "hen-silkie",
+    "prefix": "chaos-",
+    "edition": 112,
+    "canvas": 256,
+    "batch": 12,
+    "steps": 12,
+    "denoise": 0.38,
+    "weight": 0.8,
+    "boundaryOnly": true,
+    "silkieIdentity": true,
+    "actions": [
+      "idle",
+      "walk",
+      "run",
+      "alert",
+      "fly"
+    ],
+    "negative": "photo, realistic, 3d, glossy, plastic, fine fur texture, blur, scenery, shadow, floor, text, watermark, extra limbs, missing legs, extra heads, cropped, gore, angry face, angry eyebrows, red comb, red wattles, human face, human nose, human skin",
+    "prompt": "Midori, a cute WHITE SILKIE BANTAM HEN, the Japanese silky chicken in this farm cast. Distinctive large ROUND POMPOM FEATHER CREST on her head, rounded cotton-ball body of soft ivory SILKY PLUMAGE, fluffy cheeks and beard. Small charcoal face with two visible bright black eyes, short dark slate beak and tiny turquoise earlobes. NO red comb, NO large red wattles, NO smooth ordinary hen neck. TWO separate short legs wearing fluffy white FEATHER BOOTS down to the toes, small dark toes visible below each foot. Two rounded folded fluffy wings and a short round fluffy tail, NOT an upright fan of long smooth feathers. Sweet alert personality, compact chubby silhouette. Crest, body fluff and feathered feet stay unmistakable in every view. Cute hand drawn farm cartoon pixel art, bold clean dark outlines, rounded simple volumes, expressive oval eyes, flat colors, minimal shading. Gentle cheerful face, kind large eyes, relaxed soft eyebrows.  Same pose as input, white background."
+  },
+  "frames": 136,
+  "silhouettePreserved": true
+}

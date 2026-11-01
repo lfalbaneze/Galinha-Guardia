@@ -1,0 +1,3127 @@
+{
+  "id": "lamb",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+    "width": 392,
+    "height": 832,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 0,
+            "y": 416,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 8,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.8163265306122449,
+              "top": 0.19230769230769232,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.6122448979591837
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 49,
+            "y": 416,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 8,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.8163265306122449,
+              "top": 0.19230769230769232,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.5714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 98,
+            "y": 416,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 8,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.7959183673469388,
+              "top": 0.17307692307692307,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.5102040816326531,
+              "footRight": 0.6122448979591837
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 147,
+            "y": 416,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 8,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.46938775510204084,
+              "footRight": 0.5918367346938775
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 196,
+            "y": 416,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 8,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.5102040816326531,
+              "footRight": 0.6122448979591837
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 245,
+            "y": 416,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 8,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.5102040816326531,
+              "footRight": 0.6122448979591837
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 294,
+            "y": 416,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 8,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.8163265306122449,
+              "top": 0.17307692307692307,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.6122448979591837
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 343,
+            "y": 416,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 8,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.7959183673469388,
+              "top": 0.19230769230769232,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.42857142857142855
+            }
+          }
+        ],
+        "cx": 24,
+        "bottom": 48,
+        "top": 8,
+        "width": 35,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 0,
+            "y": 468,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8571428571428571,
+              "top": 0.15384615384615385,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.5510204081632653
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 49,
+            "y": 468,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.8571428571428571,
+              "top": 0.15384615384615385,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.46938775510204084,
+              "footRight": 0.5714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 98,
+            "y": 468,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.8571428571428571,
+              "top": 0.15384615384615385,
+              "bottom": 0.8846153846153846,
+              "footLeft": 0.4897959183673469,
+              "footRight": 0.6122448979591837
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 147,
+            "y": 468,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.8979591836734694,
+              "top": 0.17307692307692307,
+              "bottom": 0.8653846153846154,
+              "footLeft": 0.22448979591836735,
+              "footRight": 0.6122448979591837
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 196,
+            "y": 468,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.8979591836734694,
+              "top": 0.17307692307692307,
+              "bottom": 0.8846153846153846,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.5714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 245,
+            "y": 468,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.8979591836734694,
+              "top": 0.15384615384615385,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.5306122448979592
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 294,
+            "y": 468,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.8979591836734694,
+              "top": 0.15384615384615385,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.3877551020408163,
+              "footRight": 0.5102040816326531
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 343,
+            "y": 468,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12244897959183673,
+              "right": 0.9183673469387755,
+              "top": 0.15384615384615385,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.3673469387755102,
+              "footRight": 0.46938775510204084
+            }
+          }
+        ],
+        "cx": 24,
+        "bottom": 48,
+        "top": 7,
+        "width": 39,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 0,
+            "y": 520,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 10,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8979591836734694,
+              "top": 0.21153846153846154,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.7551020408163265
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 49,
+            "y": 520,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 10,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08163265306122448,
+              "right": 0.8979591836734694,
+              "top": 0.23076923076923078,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.3673469387755102,
+              "footRight": 0.7755102040816326
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 98,
+            "y": 520,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 10,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08163265306122448,
+              "right": 0.9183673469387755,
+              "top": 0.21153846153846154,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.3877551020408163,
+              "footRight": 0.7959183673469388
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 147,
+            "y": 520,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 10,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08163265306122448,
+              "right": 0.9183673469387755,
+              "top": 0.19230769230769232,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.3673469387755102,
+              "footRight": 0.7755102040816326
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 196,
+            "y": 520,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 10,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8979591836734694,
+              "top": 0.19230769230769232,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.7346938775510204
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 245,
+            "y": 520,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 10,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8979591836734694,
+              "top": 0.19230769230769232,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.24489795918367346,
+              "footRight": 0.6938775510204082
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 294,
+            "y": 520,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 10,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08163265306122448,
+              "right": 0.8979591836734694,
+              "top": 0.23076923076923078,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.24489795918367346,
+              "footRight": 0.6530612244897959
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 343,
+            "y": 520,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 10,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08163265306122448,
+              "right": 0.9183673469387755,
+              "top": 0.23076923076923078,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.6938775510204082
+            }
+          }
+        ],
+        "cx": 24,
+        "bottom": 48,
+        "top": 10,
+        "width": 41,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 0,
+            "y": 572,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 4,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1836734693877551,
+              "right": 0.7959183673469388,
+              "top": 0.11538461538461539,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.46938775510204084,
+              "footRight": 0.5918367346938775
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 49,
+            "y": 572,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 4,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.7755102040816326,
+              "top": 0.09615384615384616,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.5102040816326531,
+              "footRight": 0.6326530612244898
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 98,
+            "y": 572,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 4,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.7755102040816326,
+              "top": 0.1346153846153846,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.5510204081632653,
+              "footRight": 0.6530612244897959
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 147,
+            "y": 572,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 4,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.7755102040816326,
+              "top": 0.15384615384615385,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.5510204081632653,
+              "footRight": 0.6530612244897959
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 196,
+            "y": 572,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 4,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.7755102040816326,
+              "top": 0.1346153846153846,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.5102040816326531,
+              "footRight": 0.5918367346938775
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 245,
+            "y": 572,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 4,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1836734693877551,
+              "right": 0.7959183673469388,
+              "top": 0.1346153846153846,
+              "bottom": 0.8846153846153846,
+              "footLeft": 0.46938775510204084,
+              "footRight": 0.5714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 294,
+            "y": 572,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 4,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.7959183673469388,
+              "top": 0.11538461538461539,
+              "bottom": 0.8653846153846154,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.7142857142857143
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 343,
+            "y": 572,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 4,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.7755102040816326,
+              "top": 0.11538461538461539,
+              "bottom": 0.8653846153846154,
+              "footLeft": 0.40816326530612246,
+              "footRight": 0.7346938775510204
+            }
+          }
+        ],
+        "cx": 24,
+        "bottom": 48,
+        "top": 4,
+        "width": 31,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 0,
+            "y": 624,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 9,
+            "width": 32,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.8163265306122449,
+              "top": 0.19230769230769232,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.6122448979591837
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 49,
+            "y": 624,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 9,
+            "width": 32,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1836734693877551,
+              "right": 0.8163265306122449,
+              "top": 0.19230769230769232,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.6326530612244898
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 98,
+            "y": 624,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 9,
+            "width": 32,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20408163265306123,
+              "right": 0.7755102040816326,
+              "top": 0.19230769230769232,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.42857142857142855
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 147,
+            "y": 624,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 9,
+            "width": 32,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.22448979591836735,
+              "right": 0.7755102040816326,
+              "top": 0.17307692307692307,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.3469387755102041,
+              "footRight": 0.6530612244897959
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 196,
+            "y": 624,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 9,
+            "width": 32,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24489795918367346,
+              "right": 0.7551020408163265,
+              "top": 0.17307692307692307,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.5306122448979592,
+              "footRight": 0.6530612244897959
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 245,
+            "y": 624,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 9,
+            "width": 32,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20408163265306123,
+              "right": 0.7755102040816326,
+              "top": 0.19230769230769232,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.5306122448979592,
+              "footRight": 0.6530612244897959
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 294,
+            "y": 624,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 9,
+            "width": 32,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20408163265306123,
+              "right": 0.7755102040816326,
+              "top": 0.19230769230769232,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.30612244897959184,
+              "footRight": 0.6122448979591837
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 343,
+            "y": 624,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 9,
+            "width": 32,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20408163265306123,
+              "right": 0.7755102040816326,
+              "top": 0.19230769230769232,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.30612244897959184,
+              "footRight": 0.6122448979591837
+            }
+          }
+        ],
+        "cx": 24,
+        "bottom": 48,
+        "top": 9,
+        "width": 32,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 0,
+            "y": 676,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 6,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8163265306122449,
+              "top": 0.1346153846153846,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.46938775510204084
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 49,
+            "y": 676,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 6,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.42857142857142855
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 98,
+            "y": 676,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 6,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.40816326530612246
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 147,
+            "y": 676,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 6,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.3877551020408163
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 196,
+            "y": 676,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 6,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8163265306122449,
+              "top": 0.1346153846153846,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.40816326530612246
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 245,
+            "y": 676,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 6,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8163265306122449,
+              "top": 0.1346153846153846,
+              "bottom": 0.8846153846153846,
+              "footLeft": 0.32653061224489793,
+              "footRight": 0.42857142857142855
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 294,
+            "y": 676,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 6,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.8653846153846154,
+              "footLeft": 0.3673469387755102,
+              "footRight": 0.46938775510204084
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 343,
+            "y": 676,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 6,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.8653846153846154,
+              "footLeft": 0.20408163265306123,
+              "footRight": 0.5102040816326531
+            }
+          }
+        ],
+        "cx": 24,
+        "bottom": 48,
+        "top": 6,
+        "width": 36,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 0,
+            "y": 728,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 11,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8775510204081632,
+              "top": 0.21153846153846154,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.5102040816326531,
+              "footRight": 0.6326530612244898
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 49,
+            "y": 728,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 11,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8775510204081632,
+              "top": 0.23076923076923078,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.46938775510204084,
+              "footRight": 0.5918367346938775
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 98,
+            "y": 728,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 11,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08163265306122448,
+              "right": 0.8775510204081632,
+              "top": 0.23076923076923078,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.4489795918367347,
+              "footRight": 0.5714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 147,
+            "y": 728,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 11,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08163265306122448,
+              "right": 0.8775510204081632,
+              "top": 0.23076923076923078,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.4489795918367347,
+              "footRight": 0.5510204081632653
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 196,
+            "y": 728,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 11,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08163265306122448,
+              "right": 0.8571428571428571,
+              "top": 0.23076923076923078,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.4897959183673469,
+              "footRight": 0.5918367346938775
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 245,
+            "y": 728,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 11,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08163265306122448,
+              "right": 0.8571428571428571,
+              "top": 0.21153846153846154,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.6326530612244898
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 294,
+            "y": 728,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 11,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8775510204081632,
+              "top": 0.21153846153846154,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.2653061224489796,
+              "footRight": 0.673469387755102
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 343,
+            "y": 728,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 11,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.10204081632653061,
+              "right": 0.8775510204081632,
+              "top": 0.23076923076923078,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.24489795918367346,
+              "footRight": 0.6938775510204082
+            }
+          }
+        ],
+        "cx": 24,
+        "bottom": 48,
+        "top": 11,
+        "width": 39,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 0,
+            "y": 780,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1836734693877551,
+              "right": 0.8367346938775511,
+              "top": 0.1346153846153846,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.40816326530612246,
+              "footRight": 0.5102040816326531
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 49,
+            "y": 780,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1836734693877551,
+              "right": 0.8163265306122449,
+              "top": 0.11538461538461539,
+              "bottom": 0.8846153846153846,
+              "footLeft": 0.3877551020408163,
+              "footRight": 0.7142857142857143
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 98,
+            "y": 780,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1836734693877551,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.5918367346938775,
+              "footRight": 0.6938775510204082
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 147,
+            "y": 780,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.673469387755102
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 196,
+            "y": 780,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.8163265306122449,
+              "top": 0.15384615384615385,
+              "bottom": 0.8846153846153846,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.6530612244897959
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 245,
+            "y": 780,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.8163265306122449,
+              "top": 0.11538461538461539,
+              "bottom": 0.8846153846153846,
+              "footLeft": 0.4489795918367347,
+              "footRight": 0.6326530612244898
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 294,
+            "y": 780,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16326530612244897,
+              "right": 0.8367346938775511,
+              "top": 0.11538461538461539,
+              "bottom": 0.9038461538461539,
+              "footLeft": 0.46938775510204084,
+              "footRight": 0.5918367346938775
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+            "x": 343,
+            "y": 780,
+            "w": 49,
+            "h": 52,
+            "cx": 24,
+            "bottom": 48,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1836734693877551,
+              "right": 0.8571428571428571,
+              "top": 0.1346153846153846,
+              "bottom": 0.9230769230769231,
+              "footLeft": 0.46938775510204084,
+              "footRight": 0.5918367346938775
+            }
+          }
+        ],
+        "cx": 24,
+        "bottom": 48,
+        "top": 5,
+        "width": 33,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 0,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.8163265306122449,
+                "top": 0.17307692307692307,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.6326530612244898
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 9,
+          "width": 34,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 52,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8775510204081632,
+                "top": 0.17307692307692307,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.40816326530612246,
+                "footRight": 0.5306122448979592
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 9,
+          "width": 39,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 104,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 10,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8979591836734694,
+                "top": 0.19230769230769232,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.7346938775510204
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 10,
+          "width": 39,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 156,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 7,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1836734693877551,
+                "right": 0.7755102040816326,
+                "top": 0.15384615384615385,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.4489795918367347,
+                "footRight": 0.5918367346938775
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 7,
+          "width": 30,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 208,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 8,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1836734693877551,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.6122448979591837
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 8,
+          "width": 31,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 260,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 8,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.46938775510204084
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 8,
+          "width": 36,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 312,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 11,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08163265306122448,
+                "right": 0.8571428571428571,
+                "top": 0.21153846153846154,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.22448979591836735,
+                "footRight": 0.6530612244897959
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 11,
+          "width": 39,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 364,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.8367346938775511,
+                "top": 0.17307692307692307,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5510204081632653
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 9,
+          "width": 33,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 416,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 8,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.8163265306122449,
+                "top": 0.19230769230769232,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.6122448979591837
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 49,
+              "y": 416,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 8,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.8163265306122449,
+                "top": 0.19230769230769232,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.5714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 98,
+              "y": 416,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 8,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.7959183673469388,
+                "top": 0.17307692307692307,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.5102040816326531,
+                "footRight": 0.6122448979591837
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 147,
+              "y": 416,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 8,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.46938775510204084,
+                "footRight": 0.5918367346938775
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 196,
+              "y": 416,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 8,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.5102040816326531,
+                "footRight": 0.6122448979591837
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 245,
+              "y": 416,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 8,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.5102040816326531,
+                "footRight": 0.6122448979591837
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 294,
+              "y": 416,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 8,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.8163265306122449,
+                "top": 0.17307692307692307,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.6122448979591837
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 343,
+              "y": 416,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 8,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.7959183673469388,
+                "top": 0.19230769230769232,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.42857142857142855
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 8,
+          "width": 35,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 468,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8571428571428571,
+                "top": 0.15384615384615385,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5510204081632653
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 49,
+              "y": 468,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.8571428571428571,
+                "top": 0.15384615384615385,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.46938775510204084,
+                "footRight": 0.5714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 98,
+              "y": 468,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.8571428571428571,
+                "top": 0.15384615384615385,
+                "bottom": 0.8846153846153846,
+                "footLeft": 0.4897959183673469,
+                "footRight": 0.6122448979591837
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 147,
+              "y": 468,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.8979591836734694,
+                "top": 0.17307692307692307,
+                "bottom": 0.8653846153846154,
+                "footLeft": 0.22448979591836735,
+                "footRight": 0.6122448979591837
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 196,
+              "y": 468,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.8979591836734694,
+                "top": 0.17307692307692307,
+                "bottom": 0.8846153846153846,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.5714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 245,
+              "y": 468,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.8979591836734694,
+                "top": 0.15384615384615385,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5306122448979592
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 294,
+              "y": 468,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.8979591836734694,
+                "top": 0.15384615384615385,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.3877551020408163,
+                "footRight": 0.5102040816326531
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 343,
+              "y": 468,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12244897959183673,
+                "right": 0.9183673469387755,
+                "top": 0.15384615384615385,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.3673469387755102,
+                "footRight": 0.46938775510204084
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 7,
+          "width": 39,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 520,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 10,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8979591836734694,
+                "top": 0.21153846153846154,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.7551020408163265
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 49,
+              "y": 520,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 10,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08163265306122448,
+                "right": 0.8979591836734694,
+                "top": 0.23076923076923078,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.3673469387755102,
+                "footRight": 0.7755102040816326
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 98,
+              "y": 520,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 10,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08163265306122448,
+                "right": 0.9183673469387755,
+                "top": 0.21153846153846154,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.3877551020408163,
+                "footRight": 0.7959183673469388
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 147,
+              "y": 520,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 10,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08163265306122448,
+                "right": 0.9183673469387755,
+                "top": 0.19230769230769232,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.3673469387755102,
+                "footRight": 0.7755102040816326
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 196,
+              "y": 520,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 10,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8979591836734694,
+                "top": 0.19230769230769232,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.7346938775510204
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 245,
+              "y": 520,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 10,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8979591836734694,
+                "top": 0.19230769230769232,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.24489795918367346,
+                "footRight": 0.6938775510204082
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 294,
+              "y": 520,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 10,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08163265306122448,
+                "right": 0.8979591836734694,
+                "top": 0.23076923076923078,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.24489795918367346,
+                "footRight": 0.6530612244897959
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 343,
+              "y": 520,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 10,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08163265306122448,
+                "right": 0.9183673469387755,
+                "top": 0.23076923076923078,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.6938775510204082
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 10,
+          "width": 41,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 572,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 4,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1836734693877551,
+                "right": 0.7959183673469388,
+                "top": 0.11538461538461539,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.46938775510204084,
+                "footRight": 0.5918367346938775
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 49,
+              "y": 572,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 4,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.7755102040816326,
+                "top": 0.09615384615384616,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.5102040816326531,
+                "footRight": 0.6326530612244898
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 98,
+              "y": 572,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 4,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.7755102040816326,
+                "top": 0.1346153846153846,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.5510204081632653,
+                "footRight": 0.6530612244897959
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 147,
+              "y": 572,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 4,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.7755102040816326,
+                "top": 0.15384615384615385,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.5510204081632653,
+                "footRight": 0.6530612244897959
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 196,
+              "y": 572,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 4,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.7755102040816326,
+                "top": 0.1346153846153846,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.5102040816326531,
+                "footRight": 0.5918367346938775
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 245,
+              "y": 572,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 4,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1836734693877551,
+                "right": 0.7959183673469388,
+                "top": 0.1346153846153846,
+                "bottom": 0.8846153846153846,
+                "footLeft": 0.46938775510204084,
+                "footRight": 0.5714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 294,
+              "y": 572,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 4,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.7959183673469388,
+                "top": 0.11538461538461539,
+                "bottom": 0.8653846153846154,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.7142857142857143
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 343,
+              "y": 572,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 4,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.7755102040816326,
+                "top": 0.11538461538461539,
+                "bottom": 0.8653846153846154,
+                "footLeft": 0.40816326530612246,
+                "footRight": 0.7346938775510204
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 4,
+          "width": 31,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 624,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 32,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.8163265306122449,
+                "top": 0.19230769230769232,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.6122448979591837
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 49,
+              "y": 624,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 32,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1836734693877551,
+                "right": 0.8163265306122449,
+                "top": 0.19230769230769232,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.6326530612244898
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 98,
+              "y": 624,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 32,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20408163265306123,
+                "right": 0.7755102040816326,
+                "top": 0.19230769230769232,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.42857142857142855
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 147,
+              "y": 624,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 32,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.22448979591836735,
+                "right": 0.7755102040816326,
+                "top": 0.17307692307692307,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.3469387755102041,
+                "footRight": 0.6530612244897959
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 196,
+              "y": 624,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 32,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24489795918367346,
+                "right": 0.7551020408163265,
+                "top": 0.17307692307692307,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.5306122448979592,
+                "footRight": 0.6530612244897959
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 245,
+              "y": 624,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 32,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20408163265306123,
+                "right": 0.7755102040816326,
+                "top": 0.19230769230769232,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.5306122448979592,
+                "footRight": 0.6530612244897959
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 294,
+              "y": 624,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 32,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20408163265306123,
+                "right": 0.7755102040816326,
+                "top": 0.19230769230769232,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.30612244897959184,
+                "footRight": 0.6122448979591837
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 343,
+              "y": 624,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 9,
+              "width": 32,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20408163265306123,
+                "right": 0.7755102040816326,
+                "top": 0.19230769230769232,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.30612244897959184,
+                "footRight": 0.6122448979591837
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 9,
+          "width": 32,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 676,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8163265306122449,
+                "top": 0.1346153846153846,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.46938775510204084
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 49,
+              "y": 676,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.42857142857142855
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 98,
+              "y": 676,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.40816326530612246
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 147,
+              "y": 676,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.3877551020408163
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 196,
+              "y": 676,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8163265306122449,
+                "top": 0.1346153846153846,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.40816326530612246
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 245,
+              "y": 676,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8163265306122449,
+                "top": 0.1346153846153846,
+                "bottom": 0.8846153846153846,
+                "footLeft": 0.32653061224489793,
+                "footRight": 0.42857142857142855
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 294,
+              "y": 676,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.8653846153846154,
+                "footLeft": 0.3673469387755102,
+                "footRight": 0.46938775510204084
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 343,
+              "y": 676,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.8653846153846154,
+                "footLeft": 0.20408163265306123,
+                "footRight": 0.5102040816326531
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 6,
+          "width": 36,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 728,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 11,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8775510204081632,
+                "top": 0.21153846153846154,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.5102040816326531,
+                "footRight": 0.6326530612244898
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 49,
+              "y": 728,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 11,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8775510204081632,
+                "top": 0.23076923076923078,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.46938775510204084,
+                "footRight": 0.5918367346938775
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 98,
+              "y": 728,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 11,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08163265306122448,
+                "right": 0.8775510204081632,
+                "top": 0.23076923076923078,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.4489795918367347,
+                "footRight": 0.5714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 147,
+              "y": 728,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 11,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08163265306122448,
+                "right": 0.8775510204081632,
+                "top": 0.23076923076923078,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.4489795918367347,
+                "footRight": 0.5510204081632653
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 196,
+              "y": 728,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 11,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08163265306122448,
+                "right": 0.8571428571428571,
+                "top": 0.23076923076923078,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.4897959183673469,
+                "footRight": 0.5918367346938775
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 245,
+              "y": 728,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 11,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08163265306122448,
+                "right": 0.8571428571428571,
+                "top": 0.21153846153846154,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.6326530612244898
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 294,
+              "y": 728,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 11,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8775510204081632,
+                "top": 0.21153846153846154,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.2653061224489796,
+                "footRight": 0.673469387755102
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 343,
+              "y": 728,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 11,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.10204081632653061,
+                "right": 0.8775510204081632,
+                "top": 0.23076923076923078,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.24489795918367346,
+                "footRight": 0.6938775510204082
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 11,
+          "width": 39,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 0,
+              "y": 780,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1836734693877551,
+                "right": 0.8367346938775511,
+                "top": 0.1346153846153846,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.40816326530612246,
+                "footRight": 0.5102040816326531
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 49,
+              "y": 780,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1836734693877551,
+                "right": 0.8163265306122449,
+                "top": 0.11538461538461539,
+                "bottom": 0.8846153846153846,
+                "footLeft": 0.3877551020408163,
+                "footRight": 0.7142857142857143
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 98,
+              "y": 780,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1836734693877551,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.5918367346938775,
+                "footRight": 0.6938775510204082
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 147,
+              "y": 780,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.673469387755102
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 196,
+              "y": 780,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.8163265306122449,
+                "top": 0.15384615384615385,
+                "bottom": 0.8846153846153846,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.6530612244897959
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 245,
+              "y": 780,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.8163265306122449,
+                "top": 0.11538461538461539,
+                "bottom": 0.8846153846153846,
+                "footLeft": 0.4489795918367347,
+                "footRight": 0.6326530612244898
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 294,
+              "y": 780,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16326530612244897,
+                "right": 0.8367346938775511,
+                "top": 0.11538461538461539,
+                "bottom": 0.9038461538461539,
+                "footLeft": 0.46938775510204084,
+                "footRight": 0.5918367346938775
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+              "x": 343,
+              "y": 780,
+              "w": 49,
+              "h": 52,
+              "cx": 24,
+              "bottom": 48,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1836734693877551,
+                "right": 0.8571428571428571,
+                "top": 0.1346153846153846,
+                "bottom": 0.9230769230769231,
+                "footLeft": 0.46938775510204084,
+                "footRight": 0.5918367346938775
+              }
+            }
+          ],
+          "cx": 24,
+          "bottom": 48,
+          "top": 5,
+          "width": 33,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/lamb-f9a67ea1fa98.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "lamb",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

@@ -36,39 +36,22 @@ const MenuScene = (() => {
     }
     const lengths = route.slice(1).map((point, i) => Math.hypot(point[0] - route[i][0], point[1] - route[i][1]));
     const length = lengths.reduce((sum, value) => sum + value, 0);
-    return { ...animal, species, phase, route, lengths, length, line: 0, travel: phase / (Math.PI * 2) * length * 2,
+    return { ...animal, species, phase, route, lengths, length, speech: {}, travel: phase / (Math.PI * 2) * length * 2,
       speed:0, pause:.15+Math.random()*.6, stride:phase, moving:false, direction:headings[Math.floor(Math.random()*headings.length)] };
   });
-  const calls = { sheep: 'Mééé!', lamb:'Méé!', goat:'Bééé!', cow:'Muuu!', horse:'Hiii!', donkey:'Ió-ió!', turkey:'Glu-glu!', pig: 'Oinc!', duck: 'Quá-quá!', rabbit: 'Croc-croc!', chicken: 'Có-có-có!', dog: 'Au-au!', cat: 'Miau!', goose: 'Honk-honk!' };
-  const jokes = {
-    chicken: ['Se eu cair, chama de ovo mexido!', 'Meu voo está em manutenção.', 'Tô treinando pra fugir do almoço.'],
-    duck: ['Quáse que eu consigo!', 'Sou pato. Pago mico nas horas vagas.', 'Minha aterrissagem pede um lago.'],
-    rabbit: ['Minhas orelhas não vieram com freio!', 'Pulo alto. Planejamento, nem tanto.', 'Cenoura dá asa? É pra um amigo.'],
-    pig: ['Isso não é tombo. É carinho no chão.', 'Vim pelo lanche. Fiquei pelo show.', 'Eu rolo, mas não enrolo!'],
-    sheep: ['Se eu rolar, viro novelo!', 'Penteei a lã pra esse momento.', 'Eu conto ovelhas e me perco em mim.'],
-    dog: ['Quem jogou? Eu busco até elogio!', 'Isso vale biscoito?', 'Tentei pegar o rabo. Ele fugiu.'],
-    cat: ['Eu planejei esse tombo.', 'Caí de pé. A dignidade vem depois.', 'Miau… viu? Não viu? Ótimo.'],
-    goose: ['Elegância de ganso. Freio de chinelo.', 'Buzina eu tenho. Carteira, não.', 'Meu pescoço chegou antes de mim.'],
-    cow: ['Se eu girar, sai manteiga?', 'O pasto aplaudiu. Eu ouvi!', 'Muuuuita calma nessa hora!'],
-    horse: ['Troquei o galope por um passinho.', 'A crina tá pronta pro vento!', 'Freio? Achei que era recreio.'],
-    donkey: ['Esse passo eu inventei agora.', 'Minhas orelhas aplaudem sozinhas!', 'Devagar também chega bonito.'],
-    goat: ['A cerca tá me chamando pra pular.', 'Subir eu sei. Descer é surpresa!', 'Hoje eu mastigo os aplausos.'],
-    lamb: ['Pequeno no tamanho. Grande no salto!', 'Minha lã amortece o vexame.', 'Ainda tô aprendendo a contar ovelhas.'],
-    turkey: ['Abri a cauda. Podem aplaudir!', 'Glu-glu… perdi o compasso.', 'Meu desfile inclui tropeço.']
-  };
-  const replies = {
-    tumble: ['Dez na coragem. Dois no pouso!', 'O chão também queria um abraço.', 'De novo! Pisquei na melhor parte.'],
-    dance: ['É dança ou espanta-mosquito?', 'A porteira range mais afinada!', 'O milho pediu bis.'],
-    jump: ['Já pode colher nuvem!', 'O céu não é esconderijo!', 'Meu joelho mandou lembranças.'],
-    spin: ['A fazenda ainda tá girando!', 'Agora gira pro outro lado!', 'Vai bater manteiga assim?']
-  };
+  const calls = { sheep: 'Mééé!', lamb:'Méé!', goat:'Bééé!', cow:'Muuu!', horse:'Hiii!', donkey:'Ió-ió!', turkey:'Glu-glu!', pig: 'Oinc!', duck: 'Quá-quá!', rabbit: 'Croc-croc!', chicken: 'Có-có-có!', dog: 'Au-au!', cat: 'Miau!', goose: 'Honk-honk!', owl:'Huu-huu!', wolf:'Auu!', chick:'Piu-piu!' };
+  const { voices, diets, foods, palette } = MenuCharacterData;
+  const stunts = ['tumble','dance','jump','spin'];
   const order = ['chicken', ...herd.filter(a=>a.species!=='chicken').map(a=>a.species)];
-  const tricks = ['tumble', 'dance', 'jump', 'spin'];
-  let canvas, world, button, caption, captionLink, screen, context, playHint, invitation;
+  const sketches = new Set(['sneeze','race','gossip','parade','snack','secret']);
+  const tricks = ['tumble', 'sneeze', 'race', 'gossip', 'dance', 'parade', 'jump', 'spin'];
+  let canvas, world, button, foodButton, secretButton, caption, captionLink, screen, context, playHint, invitation;
   let captionSpot = null;
   let turn = 0, sequence = 0, routine = null, speaker = null, currentGame = null;
   let signature = '', active = false, reduced = false, idle = 0, nextShow = 5.5, equipped = '', pointer = null;
   let width = 0, height = 0, pixelRatio = 1, resizeDirty = true;
+  let secretTaps = 0;
+  function cast() { return routine?.extras ? [...herd,...routine.extras] : herd; }
 
   // Feet stay on paths painted in farm-title.png; cover/crop matches the backdrop.
   function projection(w, h) {
@@ -77,6 +60,24 @@ const MenuScene = (() => {
   }
   function actorScale(y, view) { return view.scale * (.8 + (y - 640) / 600) * 1.22; }
   function walk(animal, dt) {
+    if (routine?.kind==='snack') {
+      const before=position(animal), total=animal.length*2, meal=routine.meals.get(animal);
+      let traveled=0;
+      for(let remaining=dt;remaining>0;){
+        const step=Math.min(1/120,remaining);remaining-=step;
+        const delta=(meal.travel-animal.travel%total+total*1.5)%total-total/2;
+        const target=animal.pace*1.8*Math.min(1,Math.abs(delta)/18);
+        animal.speed+=(target-animal.speed)*(1-Math.exp(-6*step));
+        const distance=Math.min(Math.abs(delta),animal.speed*step);traveled+=distance;
+        animal.travel=(animal.travel+Math.sign(delta)*distance+total)%total;
+        animal.stride=CharacterArt.advance(animal.stride,animal.species,distance,{...appearance(animal),speed:animal.speed});
+      }
+      animal.moving=traveled>.01;
+      const after=position(animal);
+      animal.direction=CharacterArt.directionFor(animal.direction,animal.moving?after.x-before.x:meal.point.x+28-after.x,animal.moving?after.y-before.y:meal.point.y+18-after.y);
+      if(routine.age>.7 && Math.hypot(after.x-meal.point.x,after.y-meal.point.y)<6)meal.eaten=Math.min(1,meal.eaten+dt/2.1);
+      return;
+    }
     // Small steps keep acceleration and endpoint pauses consistent at 30–144 Hz.
     for(let remaining=dt;remaining>0;) {
       const step=Math.min(1/120,remaining);remaining-=step;
@@ -84,13 +85,17 @@ const MenuScene = (() => {
       // Ignore rounding dust at an endpoint, otherwise the pause restarts forever.
       const nextEnd=(Math.floor((animal.travel+1e-7)/animal.length)+1)*animal.length;
       const distance=nextEnd-animal.travel;
-      const target=speaker===animal||participating(animal)||animal.pause>0 ? 0 : animal.pace*Math.min(1,.16+distance/24);
+      const racing=routine?.kind==='race' && routine.age>=.7 && routine.age<3.3 && (routine.lead===animal||routine.partner===animal);
+      const secretRun=routine?.kind==='secret'&&animal.cameo&&routine.age>=(animal.cameo==='wolf'?1.4:2.1);
+      const target=animal.pause>0 || !(racing||secretRun)&&(speaker===animal||participating(animal)) ? 0 : animal.pace*(racing?2.1:1)*Math.min(1,.16+distance/24);
       animal.speed+=(target-animal.speed)*(1-Math.exp(-6*step));
       const advance=animal.speed*step;
       if(advance>=distance) {
-        animal.travel+=distance;animal.stride=CharacterArt.advance(animal.stride,animal.species,distance,{skin:currentGame?.entities.chicken.skin,speed:animal.speed});
+        animal.travel+=distance;animal.stride=CharacterArt.advance(animal.stride,animal.species,distance,{...appearance(animal),speed:animal.speed});
+        if(racing)routine.distances.set(animal,(routine.distances.get(animal)||0)+distance);
         animal.speed=0;animal.pause=.65+animal.phase*.12;
-      } else { animal.travel+=advance;animal.stride=CharacterArt.advance(animal.stride,animal.species,advance,{skin:currentGame?.entities.chicken.skin,speed:animal.speed}); }
+      } else { animal.travel+=advance;animal.stride=CharacterArt.advance(animal.stride,animal.species,advance,{...appearance(animal),speed:animal.speed});
+        if(racing)routine.distances.set(animal,(routine.distances.get(animal)||0)+advance); }
     }
     animal.moving=animal.speed>1;
     if(animal.moving)animal.direction=position(animal).direction;
@@ -105,12 +110,28 @@ const MenuScene = (() => {
       direction: CharacterArt.directionFor(animal.direction,dx,dy) };
   }
   function resetParallax() { if (world) world.style.transform = 'scale(1.025)'; }
-  function appearance(animal) { return animal.species === 'chicken' ? { skin: currentGame.entities.chicken.skin } : {}; }
+  function appearance(animal) { return animal.species === 'chicken' ? { skin: currentGame?.entities.chicken.skin || 'classic' } : {}; }
   function identity(animal) {
-    const selected = animal.species === 'chicken' ? CharacterArt.appearances[currentGame.entities.chicken.skin] || CharacterArt.appearances.classic : null;
+    if(animal.cameo)return {species:animal.species,voice:'secret-'+animal.cameo,name:animal.name};
+    const skin=CharacterArt.appearances[currentGame?.entities.chicken.skin]?currentGame.entities.chicken.skin:'classic';
+    const selected = animal.species === 'chicken' ? CharacterArt.appearances[skin] : null;
     const original = selected?.species || animal.species;
     const species = ['hen-silkie', 'hen-blue'].includes(original) ? 'chicken' : original;
-    return { species, name: selected?.name || RescueSystem.names[species] || 'Amigo da fazenda' };
+    return { species, voice:selected?'skin-'+skin:animal.species, name: selected?.name || RescueSystem.names[species] || 'Amigo da fazenda' };
+  }
+  function dialogueFor(animal, stage) {
+    const who=identity(animal), profile=voices[who.voice], kind=routine.kind;
+    if(kind==='secret'){
+      const text=MenuCharacterData.secret[animal.cameo][stage];
+      return {key:who.voice+':'+stage,raw:text,text};
+    }
+    const stunt=stunts.indexOf(kind), opening=stunt>=0&&stage===0;
+    const key=who.voice+':'+(opening?'stunts':kind+':'+stage);
+    const pool=opening?profile.stunts:stunt>=0?[profile.heckles[stunt]]:kind==='snack'?profile.snack:[profile[kind][stage]];
+    let index=((animal.speech[key]||0)+(kind==='snack'?stage:0))%pool.length;
+    if(pool.length>1 && pool[index]===animal.lastLine)index=(index+1)%pool.length;
+    const other=animal===routine.lead?routine.partner:routine.lead;
+    return {key,raw:pool[index],text:pool[index].replaceAll('{other}',other?identity(other).name:'turma')};
   }
   function projected(animal, actualPose = false) {
     const point = position(animal), view = projection(width, height);
@@ -120,19 +141,23 @@ const MenuScene = (() => {
       direction: actualPose ? animal.direction : 'down', ...action };
     const art = CharacterArt.frameFor(animal.species, options);
     const f=art.frame, s=art.scale, flipped=!!art.pose.flip!==!!f.flip;
-    const left=Math.round(-(f.cx??art.pose.cx)*s), top=14-Math.round((f.bottom??art.pose.bottom)*s);
     const fw=Math.round(f.w*s),fh=Math.round(f.h*s),pivot=14-f.h*s*.48;
+    const ink=f.grounding||{left:0,right:1,top:0,bottom:1};
+    const grounded=f.grounding&&!['owl','crow'].includes(art.spriteName)&&!['fly','alert'].includes(art.action);
+    const left=Math.round(-(f.cx??art.pose.cx)*s),top=14-Math.round(grounded?ink.bottom*fh:(f.bottom??art.pose.bottom)*s);
     const squash=Math.max(.75,Math.min(1.25,action.squash||1)),angle=action.rotation||0;
-    const hop=['rabbit','skin-pipoca'].includes(art.spriteName)&&options.moving?Math.max(0,Math.sin(((options.anim||0)%4-1.5)*Math.PI/2))*4:0;
+    const hop=['rabbit','skin-pipoca'].includes(art.spriteName)&&options.moving&&(!art.definition.pixelArt||art.definition.hop)?
+      Math.max(0,Math.sin(((options.anim||0)%4-1.5)*Math.PI/2))*(art.definition.hop||4):0;
     const lift=Math.max(0,Math.min(64,(action.lift||0)+hop));
-    const corners=[[left,top],[left+fw,top],[left,top+fh],[left+fw,top+fh]].map(([x,y])=>{
+    const corners=[[ink.left,ink.top],[ink.right,ink.top],[ink.left,ink.bottom],[ink.right,ink.bottom]].map(([ix,iy])=>{
+      let x=left+ix*fw,y=top+iy*fh;
       x=(flipped?-x:x)/squash;y=(y-pivot)*squash;
       return {x:(x*Math.cos(angle)-y*Math.sin(angle))*scale,y:(x*Math.sin(angle)+y*Math.cos(angle)+pivot-14-lift)*scale};
     });
     const box={left:Math.min(...corners.map(p=>p.x)),right:Math.max(...corners.map(p=>p.x)),
       top:Math.min(...corners.map(p=>p.y)),bottom:Math.max(...corners.map(p=>p.y))};
     return { x: view.x + point.x * view.scale, y: view.y + point.y * view.scale, scale,
-      w: art.pose.width * art.scale * scale, h: (art.pose.bottom - art.pose.top) * art.scale * scale, box };
+      w: box.right-box.left, h: box.bottom-box.top, box };
   }
   function visibleAnimal(animal, partial = false) {
     if (!width || !height) return false;
@@ -162,32 +187,69 @@ const MenuScene = (() => {
     return null;
   }
   function clearReaction() {
+    if(routine?.kind==='snack'||routine?.kind==='secret')signature='';
     routine = null; speaker = null; idle = 0; captionSpot = null;
     if (caption) caption.hidden = true;
     if (captionLink) captionLink.setAttribute('d','');
   }
-  function say(animal, line) {
-    const { name, species } = identity(animal);
-    speaker = animal; animal.speed = 0; animal.moving = false; captionSpot = null;
-    caption.setAttribute('aria-live', routine.manual ? 'polite' : 'off');
-    caption.textContent = `${name} · ${calls[species] || 'Opa!'}\n${line}`;
-    caption.dataset.trick = routine.kind; caption.dataset.speaker = species;
-    caption.hidden = false;
+  function say(animal, stage) {
+    // A crowded meal lets another guest deliver the line from a clear spot.
+    const candidates=routine.kind==='snack'?[animal,...routine.audience.filter(other=>other!==animal)]:[animal];
+    for(const candidate of candidates){
+      const { name, species } = identity(candidate);
+      const line=dialogueFor(candidate,stage);
+      speaker = candidate; candidate.speed = 0; candidate.moving = false; captionSpot = null;
+      caption.style.visibility='hidden';captionLink.setAttribute('d','');
+      caption.setAttribute('aria-live', routine.manual ? 'polite' : 'off');
+      caption.textContent = `${name} · ${calls[species] || 'Opa!'}\n${line.text}`;
+      caption.dataset.trick = routine.kind; caption.dataset.speaker = species;
+      caption.dataset.voice=identity(candidate).voice;
+      caption.dataset.food=routine.kind==='snack'?diets[species]:'';
+      caption.hidden = false;
+      if(routine.kind!=='snack')break;
+      placeCaption();
+      if(caption.style.visibility==='visible')break;
+    }
+    const spoken=dialogueFor(speaker,stage);
+    speaker.speech[spoken.key]=(speaker.speech[spoken.key]||0)+1;speaker.lastLine=spoken.raw;
   }
-  function startShow(animal, manual) {
+  function startShow(animal, manual, requestedKind) {
     if (!animal) return;
     const p = position(animal);
     const partner = herd.filter(other => other !== animal && visibleAnimal(other))
       .sort((a,b) => Math.hypot(position(a).x-p.x,position(a).y-p.y)-Math.hypot(position(b).x-p.x,position(b).y-p.y))[0] || null;
-    const kind = tricks[sequence++ % tricks.length], lines = jokes[identity(animal).species] || jokes.chicken;
-    routine = { lead: animal, partner, kind, manual, age: 0, replied: false, duration: partner ? 6.4 : 4.1, reply: replies[kind][Math.floor((sequence-1)/4)%3] };
+    const kind = requestedKind || tricks[sequence++ % tricks.length];
+    routine = { lead: animal, partner, kind, manual, age: 0, replied: false, finished: false,
+      duration: sketches.has(kind) ? 8.2 : partner ? 6.4 : 4.1,
+      audience: herd.filter(other=>visibleAnimal(other)), distances:new Map() };
+    if(kind==='snack'){
+      routine.meals=new Map();
+      for(const guest of herd){
+        const travel=(guest.travel+(reduced?0:Math.min(40,guest.length*.45)))%(guest.length*2);
+        routine.meals.set(guest,{travel,point:position({...guest,travel}),food:diets[identity(guest).species],eaten:0});
+      }
+    }
     idle = 0; nextShow = 7 + sequence % 4;
-    say(animal, lines[animal.line++ % lines.length]); signature = ''; placeCaption();
+    say(animal, 0); signature = ''; placeCaption();
     // Ambient pantomime stays silent; only a deliberate interaction plays a call.
-    if (manual) { AudioSystem.playMenuAnimal(currentGame, identity(animal).species); AudioControls.update(currentGame); }
+    if (manual) { AudioSystem.playMenuAnimal(currentGame, identity(speaker).species); AudioControls.update(currentGame); }
   }
   function canInteract() {
-    return active && currentGame?.phase === 'menu' && !document.hidden && CharacterArt.ready && !document.getElementById('howToPlayDialog').open;
+    return active && currentGame?.phase === 'menu' && !document.hidden && CharacterArt.ready && !MenuThor.busy && !document.getElementById('howToPlayDialog').open;
+  }
+  function startSecret() {
+    if(!canInteract()||routine?.kind==='secret')return false;
+    const base=herd[0],route=base.route.map(([x,y])=>[x-120,y-140]);
+    const start=base.length*.95;
+    const cameo=(species,travel,name)=>({...base,route,species,name,cameo:species,speech:{},lastLine:'',
+      travel:Math.max(0,travel),pace:species==='wolf'?70:74,speed:0,pause:0,phase:.8,moving:false,direction:'downright'});
+    const wolf=cameo('wolf',start,'Baltazar');
+    if(!visibleAnimal(wolf))return false;
+    const chicks=[0,1,2].map((i)=>cameo('chick',start-54-i*18,RescueSystem.chickNames[i]));
+    routine={kind:'secret',lead:wolf,partner:chicks[0],extras:[wolf,...chicks],audience:herd.filter(animal=>visibleAnimal(animal)),
+      manual:true,age:0,duration:10.5,replied:false,finished:false};
+    AudioSystem.stopMenuAnimal();idle=0;nextShow=9;signature='';
+    say(wolf,0);placeCaption();return true;
   }
   function hitAnimal(event) {
     if (!canInteract() || event.target?.closest?.('button,a,input,select,label,#menuCard,dialog')) return null;
@@ -203,10 +265,19 @@ const MenuScene = (() => {
     if (canvas) return;
     canvas = document.getElementById('menuScene'); world = document.getElementById('menuWorld');
     button = document.getElementById('menuScatter'); caption = document.getElementById('menuBanter');
+    foodButton = document.getElementById('menuFeed');
+    secretButton = document.getElementById('menuSecret');
     captionLink = document.getElementById('menuBanterLink');
     playHint = document.getElementById('menuPlayHint'); invitation = document.getElementById('menuMischief');
     screen = document.getElementById('menuScreen'); context = canvas.getContext('2d');
+    MenuThor.initialize(()=>{if(!canInteract())return false;clearReaction();idle=0;nextShow=10;return true;});
     button.addEventListener('click', () => { if (canInteract()) startShow(chooseAnimal(), true); });
+    foodButton.addEventListener('click', () => { if (canInteract()) startShow(chooseAnimal(), true, 'snack'); });
+    secretButton.addEventListener('click', () => {
+      if(!canInteract()||routine?.kind==='secret')return;
+      secretTaps=Math.min(3,secretTaps+1);secretButton.dataset.taps=String(secretTaps);
+      if(secretTaps===3&&startSecret()){secretTaps=0;secretButton.dataset.taps='0';}
+    });
     screen.addEventListener('pointerdown', event => {
       if (active && !currentGame.hasSave && !AudioSystem.status.unlocked) {
         AudioSystem.sync(currentGame); AudioSystem.unlock(); AudioControls.update(currentGame);
@@ -232,12 +303,36 @@ const MenuScene = (() => {
     document.fonts?.ready.then(() => { resizeDirty = true; });
     if (typeof ResizeObserver !== 'undefined') new ResizeObserver(() => { resizeDirty = true; }).observe(world);
   }
-  function participating(animal) { return routine && (routine.lead === animal && routine.age<1.9 || routine.partner === animal && routine.age>=2.8 && routine.age<4.3); }
+  function participating(animal) {
+    if(!routine)return false;
+    if(routine.kind==='secret')return !!animal.cameo||routine.audience.includes(animal);
+    if(routine.kind==='snack' || routine.kind==='parade' || routine.kind==='sneeze')return routine.audience.includes(animal);
+    if(routine.kind==='race' || routine.kind==='gossip')return routine.lead===animal||routine.partner===animal;
+    return routine.lead === animal && routine.age<1.9 || routine.partner === animal && routine.age>=2.8 && routine.age<4.3;
+  }
   function motion(animal) {
     if (!participating(animal)) return {};
     const partner = routine.lead === animal ? routine.partner : routine.lead;
-    const direction = partner ? (position(partner).x > position(animal).x ? 'right' : 'left') : 'down';
+    const from=position(animal), to=partner?position(partner):from;
+    const direction = CharacterArt.directionFor(animal.direction,to.x-from.x,to.y-from.y);
     if (reduced) return { direction: 'down' };
+    if(routine.kind==='secret'){
+      if(animal.cameo)return {sprinting:animal.moving,mood:animal.cameo==='wolf'?'scared':'happy'};
+      const beat=routine.age>3&&routine.age<4.5?Math.sin((routine.age-3)*Math.PI*3):0;
+      return {direction,mood:'happy',lift:Math.max(0,beat)*8};
+    }
+    if(routine.kind==='race')return animal.moving?{sprinting:true}:{direction,mood:routine.age>3.3?'happy':'normal'};
+    if(routine.kind==='snack')return animal.moving?{}:{direction:animal.direction,rotation:routine.age<4.9?Math.sin(routine.age*13)*.06:0};
+    if(routine.kind==='gossip')return {direction,rotation:routine.age<2.5?Math.sin(routine.age*3)*.06:0};
+    if(routine.kind==='sneeze'){
+      const index=routine.audience.indexOf(animal), delay=animal===routine.lead ? 0 : 1.1+index*.12;
+      const age=routine.age-delay, wave=age>0&&age<.7?Math.sin(age/.7*Math.PI):0;
+      return {direction,mood:wave?'scared':'normal',lift:wave*(animal===routine.lead?8:24),rotation:wave*.12*(index%2?1:-1)};
+    }
+    if(routine.kind==='parade'){
+      const age=routine.age-.4, beat=age>0&&age<4.5?Math.sin(age*Math.PI*4):0;
+      return {direction:animal===routine.lead?'down':direction,moving:!!beat,anim:routine.age*3,lift:Math.max(0,beat)*9,rotation:beat*.08};
+    }
     const lead = routine.lead === animal, age = routine.age - (lead ? .12 : 2.95), duration = lead ? 1.55 : 1.1;
     if (age <= 0 || age >= duration) return { direction };
     const p = age/duration, wave = Math.sin(Math.PI*p), kind = lead ? routine.kind : routine.kind === 'jump' ? 'jump' : 'cheer';
@@ -254,7 +349,7 @@ const MenuScene = (() => {
     if (!rootWidth || !rootHeight || !bounds.width || !bounds.height) return;
     invitation.dataset.placement='herd';
     const size=invitation.getBoundingClientRect();
-    const boxWidth=Math.min(size.width || 250,rootWidth-32), boxHeight=size.height || 68;
+    const boxWidth=Math.min(size.width || 420,rootWidth-32), boxHeight=size.height || 108;
     const view=projection(width,height), sx=bounds.width/width, sy=bounds.height/height;
     const offsetX=(bounds.left || 0)-(area.left || 0), offsetY=(bounds.top || 0)-(area.top || 0);
     const group=[];
@@ -298,11 +393,15 @@ const MenuScene = (() => {
   function placeCaption() {
     if (!speaker || caption.hidden) return;
     const bounds = canvas.getBoundingClientRect(), area = screen.getBoundingClientRect();
+    if(!width||!height||!bounds.width||!bounds.height){
+      caption.style.visibility='hidden';captionLink.setAttribute('d','');captionSpot=null;return;
+    }
     const sx = bounds.width/width, sy = bounds.height/height, rootWidth = area.width || width;
-    const half = Math.min(rootWidth/2-8,(caption.offsetWidth || 236)/2), h = caption.offsetHeight || 76;
+    const size=caption.getBoundingClientRect();
+    const half = Math.min(rootWidth/2-8,(size.width || caption.offsetWidth || 236)/2), h = size.height || caption.offsetHeight || 76;
     const minY = Math.max(h+10,h-(area.top || 0)+10);
     const maxY = Math.min(area.height || height,(window.innerHeight || Infinity)-(area.top || 0))-10;
-    const actors = herd.map(animal => {
+    const actors = cast().map(animal => {
       const p=projected(animal,true),b=p.box;
       const x=(bounds.left||0)-(area.left||0)+(p.x+b.left)*sx;
       const y=(bounds.top||0)-(area.top||0)+(p.y+b.top)*sy;
@@ -316,6 +415,12 @@ const MenuScene = (() => {
       {x:body.left-half-16,y:body.top+body.height/2+h/2,placement:'left'},
       {x:body.left+body.width+half+16,y:body.top+body.height/2+h/2,placement:'right'}
     ];
+    // Side bubbles can slide up or down between neighbours without a long tail.
+    for(const gap of [12,20,28])for(const shift of [-h/2,-h/3,0,h/3,h/2]){
+      const y=body.top+body.height/2+h/2+shift;
+      candidates.push({x:body.left-half-gap,y,placement:'left'},
+        {x:body.left+body.width+half+gap,y,placement:'right'});
+    }
     for(const offset of [-half,half])candidates.push(
       {x:x+offset,y:body.top-16,placement:'above'},
       {x:x+offset,y:body.top+body.height+h+16,placement:'below'});
@@ -324,7 +429,7 @@ const MenuScene = (() => {
       return {left:r.left-(area.left || 0),top:r.top-(area.top || 0),width:r.width,height:r.height};
     }).filter(r=>r.width>0&&r.height>0);
     blockers.push(...actors);
-    const overlaps = (point,r) => point.x+half>r.left-8 && point.x-half<r.left+r.width+8 && point.y>r.top-8 && point.y-h<r.top+r.height+8;
+    const overlaps = (point,r,margin) => point.x+half>r.left-margin && point.x-half<r.left+r.width+margin && point.y>r.top-margin && point.y-h<r.top+r.height+margin;
     for (const r of blockers) {
       candidates.push({x,y:r.top-16,placement:'above'}, {x,y:r.top+r.height+h+16,placement:'below'});
       candidates.push({x:r.left-half-16,y:body.top+body.height/2+h/2,placement:'left'},
@@ -346,20 +451,26 @@ const MenuScene = (() => {
     }
     const lineClear=point=>{
       const {start,bend,target}=connection(point);
-      if(Math.hypot(target.x-start.x,target.y-start.y)>48)return false;
+      if(Math.hypot(target.x-start.x,target.y-start.y)>32)return false;
       for(let i=1;i<=24;i++) {
         const t=i/24,u=1-t,x=u*u*start.x+2*u*t*bend.x+t*t*target.x,y=u*u*start.y+2*u*t*bend.y+t*t*target.y;
         if(blockers.some(r=>r.animal!==speaker&&x>r.left-4&&x<r.left+r.width+4&&y>r.top-4&&y<r.top+r.height+4))return false;
       }
       return true;
     };
-    const clear=point=>point.x-half>=8&&point.x+half<=rootWidth-8&&point.y>=minY&&point.y<=maxY&&!blockers.some(r=>overlaps(point,r))&&lineClear(point);
+    const clear=(point,margin=10)=>point.x-half>=8&&point.x+half<=rootWidth-8&&point.y>=minY&&point.y<=maxY&&!blockers.some(r=>overlaps(point,r,margin))&&lineClear(point);
     const distance=point=>Math.hypot(Math.max(0,Math.abs(point.x-px)-half),Math.max(0,point.y-h-py,py-point.y));
-    const chosen=candidates.filter(clear).sort((a,b)=>distance(a)-distance(b))[0];
+    const anchor=placement=>({x:placement==='left'?body.left:placement==='right'?body.left+body.width:px,
+      y:placement==='above'?body.top:placement==='below'?body.top+body.height:body.top+body.height/2});
+    const previousAnchor=captionSpot?anchor(captionSpot.placement):null;
+    const previous=captionSpot?{...captionSpot,x:captionSpot.x+previousAnchor.x-captionSpot.anchorX,y:captionSpot.y+previousAnchor.y-captionSpot.anchorY}:null;
+    // Keep the current side until it actually runs out of space, including while jumping.
+    const chosen=previous&&clear(previous,6)?previous:candidates.filter(point=>clear(point)).sort((a,b)=>distance(a)-distance(b))[0];
     // Never fall back to painting text across another animal's face.
     caption.style.visibility=chosen?'visible':'hidden';
     if(!chosen){captionSpot=null;captionLink.setAttribute('d','');return;}
-    captionSpot=chosen;
+    const currentAnchor=anchor(chosen.placement);
+    captionSpot={...chosen,anchorX:currentAnchor.x,anchorY:currentAnchor.y};
     caption.style.left = `${chosen.x}px`; caption.style.top = `${chosen.y}px`;
     caption.dataset.placement = chosen.placement;
     const {start,target,vertical}=connection(chosen);
@@ -381,6 +492,19 @@ const MenuScene = (() => {
     }
     context.globalAlpha = 1;
   }
+  function drawFood(meal, view) {
+    if(meal.eaten>=1)return;
+    const art=foods[meal.food],unit=Math.max(1,Math.round(view.scale*2));
+    const fall=reduced?0:Math.max(0,1-routine.age*2)*24;
+    const x=Math.round(view.x+(meal.point.x+28)*view.scale)-8*unit;
+    const y=Math.round(view.y+(meal.point.y+18-fall)*view.scale)-art.pixels.length*unit;
+    context.save();context.globalAlpha=1-meal.eaten;
+    art.pixels.forEach((row,dy)=>[...row].forEach((pixel,dx)=>{
+      if(pixel==='.')return;
+      context.fillStyle=palette[pixel];context.fillRect(x+dx*unit,y+dy*unit,unit,unit);
+    }));
+    context.restore();
+  }
   function frame(game, dt, reduceMotion) {
     initialize(); currentGame = game;
     if (reduced !== reduceMotion) { reduced = reduceMotion; signature = ''; clearReaction(); resetParallax(); }
@@ -388,30 +512,40 @@ const MenuScene = (() => {
     if (active !== visible || equipped !== game.entities.chicken.skin) {
       active = visible; equipped = game.entities.chicken.skin; signature = ''; resizeDirty = true;
       clearReaction(); resetParallax(); pointer = null;
-      if (!active) AudioSystem.stopMenuAnimal();
+      if (!active) { AudioSystem.stopMenuAnimal();secretTaps=0;secretButton.dataset.taps='0'; }
     }
-    if (!active || !context || !CharacterArt.ready) return;
+    if (!active || !context || !CharacterArt.ready) { MenuThor.frame(game,0,false,reduced);return; }
     const hintChanged=updatePlayHint();
     const placeHint=resizeDirty || hintChanged;
     if (resizeDirty) {
       const bounds = canvas.getBoundingClientRect();
       width = Math.round(canvas.clientWidth || bounds.width); height = Math.round(canvas.clientHeight || bounds.height);
-      if (width <= 0 || height <= 0) { clearReaction(); return; }
+      if (width <= 0 || height <= 0) { clearReaction(); MenuThor.frame(game,0,false,reduced);return; }
       pixelRatio = Math.min(2, window.devicePixelRatio || 1);
       canvas.width = Math.round(width*pixelRatio); canvas.height = Math.round(height*pixelRatio);
       resizeDirty = false; signature = ''; captionSpot = null;
     }
     if (placeHint) placePlayHint();
     dt = Math.max(0,Math.min(.1,dt));
+    const view = projection(width,height);
+    MenuThor.frame(game,dt,true,reduced,{view,width,height,pixelRatio});
     if (routine) {
       routine.age += dt;
-      if (!visibleAnimal(routine.lead,routine.manual)) clearReaction();
-      else if (routine.partner && !routine.replied && routine.age>=2.9) {
+      if (routine.kind!=='secret'&&!visibleAnimal(routine.lead,routine.manual)) clearReaction();
+      else if (routine.partner && !routine.replied && routine.age>=(routine.kind==='race'?3.35:2.9)) {
         routine.replied = true;
-        if (visibleAnimal(routine.partner)) say(routine.partner,routine.reply);
+        if(routine.kind==='race')routine.winner=(routine.distances.get(routine.lead)||0)>=(routine.distances.get(routine.partner)||0)?routine.lead:routine.partner;
+        const answer=routine.winner||routine.partner;
+        if (visibleAnimal(answer)) say(answer,1);
+      }
+      if(routine && sketches.has(routine.kind) && !routine.finished && routine.age>=5.4){
+        routine.finished=true;
+        const last=routine.kind==='race'&&routine.winner===routine.lead?routine.partner:routine.lead;
+        if(last && visibleAnimal(last,routine.manual))say(last,2);
       }
       if (routine && routine.age>=routine.duration) clearReaction();
-    } else if (!reduced) {
+      if(routine?.kind==='secret'&&routine.age>=routine.duration-.8){caption.hidden=true;captionLink.setAttribute('d','');}
+    } else if (!reduced && !MenuThor.busy) {
       idle += dt;
       if (idle>=nextShow) { idle = 0; startShow(chooseAnimal(),false); }
     }
@@ -419,19 +553,24 @@ const MenuScene = (() => {
     if (signature === next && reduced) { placeCaption(); return; }
     signature = next;
     context.setTransform(pixelRatio,0,0,pixelRatio,0,0); context.clearRect(0,0,width,height); context.imageSmoothingEnabled = false;
-    const view = projection(width,height);
-    const walkers = herd.map(animal => {
+    if(routine?.kind==='snack')for(const meal of routine.meals.values())drawFood(meal,view);
+    const walkers = cast().map(animal => {
       if (!reduced) walk(animal,dt);
       return { animal, moving:!reduced&&animal.moving, ...position(animal) };
     }).sort((a,b)=>a.y-b.y);
+    let thorDrawn=false;
     for (const {animal,moving,x,y} of walkers) {
+      if(!thorDrawn&&MenuThor.depth<=y){MenuThor.drawWorld(context);thorDrawn=true;}
       const scale = actorScale(y,view), action = motion(animal);
       const px = view.x+x*view.scale, py = view.y+y*view.scale;
+      if(animal.cameo){context.save();context.globalAlpha=reduced?1:Math.min(1,Math.max(0,(routine.duration-routine.age)/.8));}
       CharacterArt.draw(context,animal.species,px,py-14*scale,{
         scale, direction: animal.direction, mood:participating(animal)?'happy':'normal', moving, anim: animal.stride, subpixel:true, ...appearance(animal), ...action
       });
+      if(animal.cameo)context.restore();
       if (!reduced) sparkles(px,py,scale,action.progress);
     }
+    if(!thorDrawn)MenuThor.drawWorld(context);
     placeCaption();
   }
   return { initialize, frame };

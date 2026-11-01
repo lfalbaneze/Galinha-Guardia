@@ -1,6 +1,10 @@
 /* Opt-in prototype entry. No selectors or styles leak into classic gameplay. */
-#gameShell #menuScreen #shuffleModeLink{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;padding:10px 20px;border:1px solid #b5bea144;border-radius:2px;background:#17322980;color:#ede6cc;font:800 15px/1.3 var(--menu-text);text-align:left;text-decoration:none}
-#gameShell #menuScreen #shuffleModeLink small{display:block;margin-top:3px;font-size:11px;font-weight:600;color:#b8c7a4}
-#gameShell #menuScreen #shuffleModeLink > [aria-hidden]{flex:none;font-size:20px;font-weight:400}
-#gameShell #menuScreen #shuffleModeLink:hover{background:#d3d4b923;color:#fff4d3}
+#gameShell #menuScreen #shuffleModeLink{position:relative;display:flex;align-items:center;min-height:82px;padding:15px 42px 15px 60px;border:0;border-radius:0;background:transparent url('../assets/ui/farm-sign.png?v=timber-fit-3') center/100% 100% no-repeat;color:#fff1cb;box-shadow:none;filter:drop-shadow(0 4px 3px #142c2659);font:400 24px/1.1 var(--menu-display);text-shadow:0 2px 1px #593b27;text-align:left;text-decoration:none;transition:transform .15s,filter .15s}
+#gameShell #menuScreen #shuffleModeLink::before{content:'';position:absolute;left:23px;top:calc(50% - 14px);width:28px;height:28px;background:url('../assets/ui/farm-hen.svg') center/contain no-repeat}
+#gameShell #menuScreen #shuffleModeLink::after{content:'';position:absolute;right:27px;top:calc(50% - 5px);width:9px;height:9px;border-top:3px solid #ffe2a3;border-right:3px solid #ffe2a3;transform:rotate(45deg)}
+#gameShell #menuScreen #shuffleModeLink small{display:block;margin-top:5px;font:800 11px/1.2 var(--menu-text);color:#ffe2a7}
+#gameShell #menuScreen #shuffleModeLink > [aria-hidden]{display:none}
+#gameShell #menuScreen #shuffleModeLink:hover{color:#fff9e6;filter:brightness(1.12) drop-shadow(0 5px 3px #142c2659);transform:translateY(-2px)}
+#gameShell #menuScreen #shuffleModeLink:active{transform:translateY(2px);filter:brightness(.98)}
 #gameShell #menuScreen #shuffleModeLink:focus-visible{outline:3px solid #f4c55e;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){#gameShell #menuScreen #shuffleModeLink{transition:none}#gameShell #menuScreen #shuffleModeLink:hover,#gameShell #menuScreen #shuffleModeLink:active{transform:none}}

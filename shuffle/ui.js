@@ -1,17 +1,16 @@
-/* Browser adapter for the isolated prototype. Uses only existing reviewed atlases. */
+/* Browser adapter for the isolated prototype and its shared sprite registry. */
 (() => {
   'use strict';
   const E=ShuffleRun, S=ShuffleSurvival, SAVE_KEY='penas-pro-ar.shuffle.v2';
   const DIFFICULTY_KEY='penas-pro-ar.shuffle-victories.v1';
   function savedVictories(){try{return S.victories(JSON.parse(localStorage.getItem(DIFFICULTY_KEY)));}catch{return 0;}}
   let victories=savedVictories();
-  let autoSurvival=location.hash==='#survival';
   const isSurvival=()=>run?.mode==='survival';
   const $=id=>document.getElementById(id),canvas=$('game'),ctx=canvas.getContext('2d');
   const panel=$('panel'),overlay=$('overlay'),keys=new Set(),images=new Map();
-  const data=typeof PixelLabArtData==='undefined'?{}:PixelLabArtData;
+  const data=typeof SpriteData==='undefined'?{}:SpriteData;
   const equipped={entities:{chicken:{}}};SkinSystem.initialize(equipped);
-  let selectedSkin=equipped.entities.chicken.skin,selectedStyle='colheita',powerKey='';
+  let selectedSkin=Object.hasOwn(S.HEROES,equipped.entities.chicken.skin)?equipped.entities.chicken.skin:'classic',selectedStyle='colheita',powerKey='';
   let run=null,ready=false,view={width:1,height:1,scale:1,x:0,y:0},screenKey='',last=0,accumulator=0;
   let checkpoint=null,saveAvailable=true,joystick={x:0,y:0,id:null},pending={};
   let audioRun=null,heardEffects=new WeakSet(),audioHp=0,audioSuspended=false;
@@ -26,7 +25,7 @@
   function syncAudio(dt=0){
     if(audioRun!==run){AudioSystem.reset();audioRun=run;heardEffects=new WeakSet();audioHp=run?.hp||0;}
     const choosing=run&&(['draft','power-draft','stage-clear'].includes(run.phase)||(run.paused&&!overlay.hidden&&!!$('closeFusions')));
-    const game={phase:audioSuspended?'paused':choosing?'playing':run?.paused?'paused':run?.phase||'menu',entities:{chicken:run?.player}};
+    const game={secretBossActive:!!run?.enemies?.some(enemy=>enemy.isSecretBoss&&enemy.health>0),phase:audioSuspended?'paused':choosing?'playing':run?.paused?'paused':run?.phase||'menu',entities:{chicken:run?.player}};
     AudioSystem.update(game,dt);
     if(run){
       if(run.hp<audioHp)AudioSystem.playPlayerHurt(game);
@@ -112,14 +111,14 @@
     for(const row of group.children)row.prepend(element('span',row.dataset.outcome==='win'?'VENCEU!':'REVANCHE?','result-stamp'));
     panel.querySelector('.route').before(group);
   }
-  const heroDescription=id=>`Tiro: ${S.SHOTS[id].name}. ${S.HEROES[id].text}`;
+  const heroDescription=id=>`Tiro automático — ${S.SHOTS[id].name}: ${S.SHOTS[id].text}\nEspecial — ${S.HEROES[id].name}: ${S.HEROES[id].text}`;
   function startSurvival(seed=crypto.getRandomValues(new Uint32Array(1))[0]){
     if(!ready)return;victories=Math.max(victories,savedVictories());run=S.newRun(seed,Object.keys(S.ENEMIES).filter(id=>images.has(id)&&Object.keys(data[id].actions.walk).length===8&&Object.values(data[id].actions.walk).every(p=>p.frames.length>1)),selectedSkin,victories,selectedStyle);screenKey='';accumulator=0;clearInput();sync();canvas.focus();
   }
   function wardrobe(){
     const box=element('div','','survival-wardrobe'),label=element('label','Quem vai defender a fazenda?'),select=document.createElement('select'),description=element('p','','subtle');
     select.id='survivalSkin';label.htmlFor=select.id;description.id='heroDescription';select.setAttribute('aria-describedby',description.id);
-    for(const skin of SkinSystem.catalog){const option=element('option',`${skin.name} · ${S.HEROES[skin.id].name}${SkinSystem.unlocked(skin.id)?'':' · bloqueado'}`);option.value=skin.id;option.disabled=!SkinSystem.unlocked(skin.id);select.append(option);}
+    for(const skin of SkinSystem.catalog.filter(skin=>Object.hasOwn(S.HEROES,skin.id))){const option=element('option',`${skin.name} · ${S.HEROES[skin.id].name}${SkinSystem.unlocked(skin.id)?'':' · bloqueado'}`);option.value=skin.id;option.disabled=!SkinSystem.unlocked(skin.id);select.append(option);}
     select.value=selectedSkin;
     select.onchange=()=>{selectedSkin=select.value;description.textContent=heroDescription(selectedSkin);};select.onchange();
     const modeLabel=element('label','Tipo de Revoada'),mode=document.createElement('select'),modeText=element('p','','subtle');
@@ -128,21 +127,31 @@
     mode.value=selectedStyle;mode.onchange=()=>{selectedStyle=mode.value;modeText.textContent=S.STYLES[selectedStyle].text;};mode.onchange();
     box.append(label,select,description,modeLabel,mode,modeText);panel.querySelector('.panel-actions').before(box);
   }
-  function intro(){screenKey='intro';modal(`<span class="eyebrow">UMA CORRIDA. UM BARALHO DIFERENTE.</span><h1 id="panelTitle">As penas mudam.<br>A coragem fica.</h1><p>10 fases procedurais: oito resgates, Panto na 5ª e Baltazar na 10ª. Antes de cada etapa, escolha uma entre três habilidades sorteadas.</p><div class="route"><span><b>01–04</b>Explorar</span><span><b>05</b>Panto</span><span><b>06–09</b>Avançar</span><span><b>10</b>Baltazar</span></div><p class="subtle">Este é um protótipo separado: não altera sua aventura, personagens desbloqueados ou progresso do jogo original.</p><div class="panel-actions"><button id="startRun" class="primary" disabled>Carregando os bichos…</button>${checkpoint?'<button id="continueRun" disabled>Continuar campanha</button>':''}</div><p id="loading" class="subtle" role="status">Preparando os sprites já usados no jogo.</p><a class="back" href="../index.html">Voltar à aventura original</a>`);
-    const survivalButton=element('button','Sobrevivência · hordas e poderes','primary');survivalButton.id='startSurvival';survivalButton.disabled=!ready;
+  function intro(){screenKey='intro';modal(`<div class="chaos-intro">
+    <aside class="intro-scene" aria-label="A turma da fazenda">
+      <img src="../assets/menu/cover-9dd81acab19e.png" width="624" height="416" alt="A galinha e seus amigos no terreiro, com o lobo espiando atrás da cerca." />
+      <h2>O terreiro virou arena.</h2><p>30 habilidades. ${S.STAGES.length} fases.<br>E uns segredinhos no mato.</p>
+    </aside>
+    <div class="intro-copy"><span class="eyebrow">REVOADA DO CAOS</span><h1 id="panelTitle">Segura essa<br>revoada!</h1>
+      <p>Escolha seu bicho, enfrente as hordas e recolha XP. A cada nível, escolha um de três poderes. Combine armas e encare os chefes da fazenda.</p>
+      <div class="panel-actions"></div>
+      <p id="loading" class="subtle" role="status">Chamando a turma da fazenda…</p>
+      <details class="intro-rescue"><summary>Resgate por fases${checkpoint?' · partida salva':''}</summary>
+        <p>Explore os mapas, encontre os amigos e alcance a porteira. ${saveAvailable?'O progresso é salvo no início de cada fase.':'O salvamento está indisponível nesta aba.'}</p>
+        <div class="panel-actions"><button id="startRun" disabled>Novo resgate</button>${checkpoint?'<button id="continueRun" disabled>Continuar resgate</button>':''}</div>
+      </details>
+      <a class="back" href="../index.html">Voltar ao menu principal</a>
+    </div></div>`);
+    const survivalButton=element('button','Nova Revoada','primary');survivalButton.id='startSurvival';survivalButton.disabled=!ready;
     panel.querySelector('.panel-actions').prepend(survivalButton);survivalButton.onclick=()=>startSurvival();
-    panel.querySelector('.eyebrow').textContent=`30 HABILIDADES. ${S.STAGES.length} FASES. SEGREDOS NA FAZENDA.`;
-    panel.querySelector('p').textContent=`Derrote inimigos e colete cristais de XP. A cada nível, escolha um entre três poderes; evolua suas habilidades e combine armas. São ${S.STAGES.length} arenas diferentes com chefes, hordas crescentes e selos de lendas secretas. Ou jogue a campanha de resgate.`;
-    $('startRun').classList.remove('primary');
     $('startRun').onclick=()=>{if(!ready)return;run=E.newRun(crypto.getRandomValues(new Uint32Array(1))[0]);store(E.checkpoint(run));screenKey='';sync();};
     if($('continueRun'))$('continueRun').onclick=()=>{if(!ready)return;run=checkpoint;screenKey='';sync();};
     wardrobe();if(ready)loaded();
   }
-  function loaded(){if(!$('startRun'))return;$('startRun').disabled=false;$('startRun').textContent='Campanha de resgate';
+  function loaded(){if(!$('startRun'))return;$('startRun').disabled=false;$('startRun').textContent='Novo resgate';
     $('startSurvival').disabled=false;
     if($('continueRun'))$('continueRun').disabled=false;
-    $('loading').textContent=`Sobrevivência: ${S.STAGES.length} fases e chefes, sem checkpoint. `+(saveAvailable?'Campanha: salva no início de cada fase.':'Campanha sem acesso ao salvamento nesta aba.');
-    if(autoSurvival){autoSurvival=false;startSurvival();}
+    $('loading').textContent=`Sobreviva a ${S.STAGES.length} fases e chefes. Esta partida não tem checkpoint.`;
   }
   function draft(){const stage=E.STAGES[run.stage];modal(`<span class="eyebrow">ETAPA ${run.stage+1} DE ${E.STAGES.length} · ESCOLHA 1 HABILIDADE</span><h2 id="panelTitle">${stage.name}</h2><p>${stage.subtitle} As habilidades escolhidas continuam nas próximas fases.</p><nav class="campaign" aria-label="Progresso das 10 fases">${E.STAGES.map((s,i)=>`<span class="${i<run.stage?'done':i===run.stage?'current':''} ${s.boss?'boss':''}" title="${s.name}" ${i===run.stage?'aria-current="step"':''}>${String(i+1).padStart(2,'0')}${s.boss?'<small>CHEFE</small>':''}</span>`).join('')}</nav><div id="cards" class="cards"></div><div class="panel-actions"><button id="reroll" ${run.rerolls?'':'disabled'}>${run.rerolls?'Embaralhar uma vez':'Embaralhamento usado'}</button></div><p class="subtle">O jogo fica pausado enquanto você escolhe. Entre fases, recupera ${E.stats(run).stageHealing} ${E.stats(run).stageHealing>1?'corações':'coração'}. Semente: ${run.seed}.</p>`);
     for(const id of run.choices){const card=E.SKILLS.find(s=>s.id===id),rank=(run.skills[id]||0)+1;
@@ -155,7 +164,7 @@
   }
   function powerDraft(){
     const rewardLevel=run.level-run.pendingChoices+1;
-    modal(`<span class="eyebrow">SUBIU DE NÍVEL · ${S.style(run).name.toUpperCase()}</span><h2 id="panelTitle">Nível ${rewardLevel}!</h2><p>Armas até 5: novas formas de atacar nos níveis 3 e 5. Apoios até 3. Escolha uma carta.</p><div class="build-slots">${S.slots(run,'Arma')} / 6 armas · ${S.slots(run,'Apoio')} / 6 apoios · fusões liberam espaço</div><div id="cards" class="cards"></div><div class="panel-actions"><button id="reroll" ${run.rerolls?'':'disabled'}>${run.rerolls?'Embaralhar uma vez':'Embaralhamento usado'}</button></div><p class="subtle">Combate pausado. ${run.pendingChoices>1?`Você ganhou mais ${run.pendingChoices-1} nível(is): escolha uma carta para cada um. `:''}Nível e poderes continuam nas próximas fases desta partida.</p>`);
+    modal(`<span class="eyebrow">SUBIU DE NÍVEL · ${S.style(run).name.toUpperCase()}</span><h2 id="panelTitle">Nível ${rewardLevel}!</h2><p>Armas evoluem até o nível 5; apoios, até o nível 3. Escolha uma carta. Os valores abaixo são a base, antes dos bônus da sua partida.</p><div class="build-slots">${S.slots(run,'Arma')} / 6 armas · ${S.slots(run,'Apoio')} / 6 apoios · fusões liberam espaço</div><div id="cards" class="cards"></div><div class="panel-actions"><button id="reroll" ${run.rerolls?'':'disabled'}>${run.rerolls?'Embaralhar uma vez':'Embaralhamento usado'}</button></div><p class="subtle">Combate pausado. ${run.pendingChoices>1?`Você ganhou mais ${run.pendingChoices-1} ${run.pendingChoices===2?'nível':'níveis'}: escolha uma carta para cada um. `:''}Nível e poderes continuam nas próximas fases desta partida.</p>`);
     for(const id of run.choices){
       const card=S.POWERS[id],rank=(run.powers[id]||0)+1,button=element('button','','card power-card');
       button.type='button';button.dataset.skill=id;button.style.borderColor=card.color;
@@ -175,7 +184,7 @@
     resultQuips(true);
     $('nextStage').onclick=()=>{if(S.nextStage(run)){screenKey='';clearInput();sync();canvas.focus();}};
   }
-  function end(){if(isSurvival()){survivalEnd();return;}const won=run.phase==='won';modal(`<span class="eyebrow">${won?'VALENTÃO SEM ALMOÇO':'A TURMA ESPERA A REVANCHE'}</span><h2 id="panelTitle">${won?'Deu galinha!':'Essa foi por pouco.'}</h2><p>${won?'Dez fases vencidas! Panto liberou a passagem e Baltazar ficou sem almoço.':'Teste outra combinação de habilidades e tente de novo.'}</p><div class="route"><span>${run.totalRescued} amigos resgatados</span><span>${run.bossesDefeated} / 2 chefes</span><span>Fase ${run.stage+1} / 10 · Nível ${run.level}</span><span>${Math.floor(run.elapsed/60)}min ${Math.floor(run.elapsed%60)}s</span></div><p id="endBuild"></p><div class="panel-actions"><button id="again" class="primary">Novo baralho</button><button id="same">Repetir mapas e cartas</button></div><a class="back" href="../index.html">Voltar à aventura original</a>`);
+  function end(){if(isSurvival()){survivalEnd();return;}const won=run.phase==='won';modal(`<span class="eyebrow">${won?'VALENTÃO SEM ALMOÇO':'A TURMA ESPERA A REVANCHE'}</span><h2 id="panelTitle">${won?'Deu galinha!':'Essa foi por pouco.'}</h2><p>${won?'Dez fases vencidas! Panto liberou a passagem e Baltazar ficou sem almoço.':'Teste outra combinação de habilidades e tente de novo.'}</p><div class="route"><span>${run.totalRescued} amigos resgatados</span><span>${run.bossesDefeated} / 2 chefes</span><span>Fase ${run.stage+1} / 10 · Nível ${run.level}</span><span>${Math.floor(run.elapsed/60)}min ${Math.floor(run.elapsed%60)}s</span></div><p id="endBuild"></p><div class="panel-actions"><button id="again" class="primary">Novo baralho</button><button id="same">Repetir mapas e cartas</button></div><a class="back" href="../index.html">Voltar ao menu principal</a>`);
     resultQuips(won);
     $('endBuild').textContent=E.SKILLS.filter(s=>run.skills[s.id]).map(s=>`${s.name} ${run.skills[s.id]}`).join(' · ');
     const restart=seed=>{run=E.newRun(seed);store(E.checkpoint(run));screenKey='';sync();};
@@ -188,7 +197,7 @@
       run.victoryRecorded=true;victories=Math.max(victories,savedVictories(),S.victories(run.victories+1));
       try{localStorage.setItem(DIFFICULTY_KEY,JSON.stringify(victories));}catch{saveAvailable=false;}
     }
-    modal(`<span class="eyebrow">REVOADA DO CAOS</span><h2 id="panelTitle">${won?'A fazenda resistiu!':'Essa foi por pouco.'}</h2><p>${won?`${S.STAGES.length} chefes vencidos! A fazenda inteira pode respirar.`:'Embaralhe as cartas e tente uma nova combinação.'}</p><div class="route"><span>${run.score} pontos</span><span>${run.kills} inimigos afastados</span><span>${run.bossesDefeated} / ${S.STAGES.length} chefes · Nível ${run.level}</span><span>${Math.floor(run.elapsed/60)}min ${Math.floor(run.elapsed%60)}s</span></div><p id="endBuild"></p><div class="panel-actions"><button id="again" class="primary">Nova fazenda</button><button id="same">Repetir semente</button></div><p class="subtle">Semente ${run.seed} · Sem checkpoint nesta modalidade.</p><a class="back" href="../index.html">Voltar ao menu principal</a>`);
+    modal(`<span class="eyebrow">REVOADA DO CAOS</span><h2 id="panelTitle">${won?'A fazenda resistiu!':'Essa foi por pouco.'}</h2><p>${won?`${S.STAGES.length} chefes vencidos! A fazenda inteira pode respirar.`:'Embaralhe as cartas e tente uma nova combinação.'}</p><div class="route"><span>${run.score} pontos</span><span>${run.kills} inimigos afastados</span><span>${run.bossesDefeated} / ${S.STAGES.length} chefes · Nível ${run.level}</span><span>${Math.floor(run.elapsed/60)}min ${Math.floor(run.elapsed%60)}s</span></div><p id="endBuild"></p><div class="panel-actions"><button id="again" class="primary">Novo jogo</button><button id="same">Repetir semente</button></div><p class="subtle">Semente ${run.seed} · Sem checkpoint nesta modalidade.</p><a class="back" href="../index.html">Voltar ao menu principal</a>`);
     resultQuips(won);
     panel.querySelector('.route').append(element('span',`${run.secretsDefeated.length} lendas secretas vencidas`));
     const escalation=element('p',won?`Revanche ${victories}: a próxima tentativa terá hordas mais resistentes, mais reforços e chefes mais agressivos.`:
@@ -206,11 +215,11 @@
     const state=run.phase+(run.paused?'-paused':'')+(run.phase.includes('draft')?run.choices.join()+':'+run.pendingChoices:'');
     if(state!==screenKey){screenKey=state;
       if(run.phase==='draft')draft();else if(run.phase==='power-draft')powerDraft();else if(run.phase==='stage-clear')stageClear();else if(['won','lost'].includes(run.phase))end();
-      else if(run.paused){modal('<span class="eyebrow">UMA PAUSA PARA AS PENAS</span><h2 id="panelTitle">Respira, galinha.</h2><p>'+(isSurvival()?'A tentativa continua enquanto esta aba estiver aberta. Voltar ao menu ou recarregar encerra esta sobrevivência; não há checkpoint.':'Esta fase continua de onde você parou enquanto a aba estiver aberta. Ao recarregar, o checkpoint volta ao início da fase.')+'</p><div class="panel-actions"><button id="resume" class="primary">Continuar</button></div><a class="back" href="../index.html">Voltar à aventura original</a>');$('resume').onclick=pause;}
+      else if(run.paused){modal('<span class="eyebrow">UMA PAUSA PARA AS PENAS</span><h2 id="panelTitle">Uma pausa na roça.</h2><p>'+(isSurvival()?'A tentativa continua enquanto esta aba estiver aberta. Novo jogo, voltar ao menu ou recarregar encerram esta tentativa; não há checkpoint.':'Esta fase continua de onde você parou enquanto a aba estiver aberta. Ao recarregar, o checkpoint volta ao início da fase.')+'</p><div class="panel-actions"><button id="resume" class="primary">Continuar</button></div><a class="back" href="../index.html">Voltar ao menu principal</a>');$('resume').onclick=pause;}
       else {overlay.hidden=true;$('pause').disabled=false;}
-      if(run.paused&&isSurvival()){
-        const detail=element('p',heroDescription(run.player.skin));panel.querySelector('.panel-actions').before(detail);
-        const change=element('button','Bicho e tipo de partida · reiniciar');change.onclick=()=>{run=null;$('powerHud').hidden=true;$('fusionBook').hidden=true;intro();};panel.querySelector('.panel-actions').append(change);
+      if(run.paused){
+        if(isSurvival())panel.querySelector('.panel-actions').before(element('p',heroDescription(run.player.skin),'hero-description'));
+        const change=element('button','Novo jogo');change.id='newGame';change.onclick=()=>{if(!isSurvival())checkpoint=E.restore(E.checkpoint(run));run=null;$('powerHud').hidden=true;$('fusionBook').hidden=true;intro();};panel.querySelector('.panel-actions').append(change);
       }
     }
     const s=E.STAGES[run.stage],p=run.player,stat=E.stats(run);
@@ -263,6 +272,8 @@
     canvas.setAttribute('aria-label',isSurvival()?'Sobrevivência: WASD ou setas para mover, espaço para esquivar. Colete XP e escolha um poder por nível; ataques automáticos.':'Use WASD ou setas para mover, espaço para esquivar, Q para isca e E para interagir.');
   }
   const animations=new WeakMap();
+  const referenceHen=CharacterArt.frameFor('chicken',{direction:'down'});
+  const worldArtScale=51/((referenceHen.frame.bottom-referenceHen.frame.top)*referenceHen.scale);
   function animation(actor){
     if(!animations.has(actor))animations.set(actor,{anim:0,traveled:actor.traveled,direction:'down',speed:0});
     return animations.get(actor);
@@ -275,30 +286,37 @@
       a.direction=CharacterArt.directionFor(a.direction,actor.dx,actor.dy);
     }
   }
+  function actorFrame(actor){
+    const a=animation(actor),preparing=actor.mode==='warning',alarming=['owl','goose'].includes(actor.species)&&preparing;
+    return CharacterArt.frameFor(actor.species,{direction:a.direction,action:alarming?'alert':actor.species==='owl'&&actor.moving?'fly':undefined,
+      mood:preparing&&!alarming?'angry':undefined,skin:actor.skin,anim:alarming?actor.age*7:a.anim,moving:actor.moving||alarming,sprinting:actor.dashTime>0||actor.mode==='charge'||a.speed>175});
+  }
+  function actorHeight(actor){
+    const current=actorFrame(actor);
+    return (current.pose.bottom-current.pose.top)*current.scale*worldArtScale*(actor.isSecretBoss?1.8:actor.isBoss?1.45:1);
+  }
   function sprite(actor,alpha=1){const appearance=actor.skin&&CharacterArt.appearances[actor.skin],id=appearance?.sprite||appearance?.species||actor.species,d=data[id],img=images.get(id);
     const bossScale=actor.isSecretBoss?1.8:actor.isBoss?1.45:1;
     if(!d||!img)return;
     // Locomotion shows direction and speed; reduced motion only suppresses decorative effects.
-    const a=animation(actor),preparing=actor.mode==='warning',alarming=actor.species==='owl'&&preparing;
-    const current=CharacterArt.frameFor(actor.species,{direction:a.direction,action:alarming?'alert':actor.species==='owl'&&actor.moving?'fly':undefined,
-      mood:preparing&&!alarming?'angry':undefined,skin:actor.skin,anim:alarming?actor.age*7:a.anim,moving:actor.moving||alarming,sprinting:actor.dashTime>0||actor.mode==='charge'||a.speed>175});
+    const current=actorFrame(actor);
     const f=current.frame;
-    const idle=(d.actions.idle?.down||d.poses.down).frames[0],heights={chicken:51,rabbit:35,sheep:44,pig:46,cow:66,duck:40,dog:45};
-    const scale=bossScale*(appearance?(heights[appearance.species]||51):(S.ENEMIES[actor.species]?.height||heights[actor.species]||46))/(idle.bottom-idle.top||64);
+    const scale=bossScale*current.scale*worldArtScale;
     ctx.save();ctx.globalAlpha=alpha;ctx.imageSmoothingEnabled=false;
     if(actor.hitFlash>0&&!reduced)ctx.filter='brightness(1.5)';
     const w=Math.round(f.w*scale),h=Math.round(f.h*scale);
-    const flying=['owl','crow'].includes(id)||['fly','alert'].includes(current.action);
+    const lift=actor.species==='lamb'&&actor.mode==='charge'?Math.sin(Math.PI*Math.max(0,Math.min(1,1-actor.timer/(actor.chargeTime||1))))*11:0;
+    const flying=['owl','crow'].includes(id);
     const bottom=!flying&&f.grounding?f.grounding.bottom*h:f.bottom*scale;
-    ctx.drawImage(img,f.x,f.y,f.w,f.h,Math.round(actor.x-f.cx*scale),Math.round(actor.y-bottom),w,h);ctx.restore();
+    ctx.drawImage(img,f.x,f.y,f.w,f.h,Math.round(actor.x-f.cx*scale),Math.round(actor.y-bottom-lift),w,h);ctx.restore();
     if(isSurvival()&&!actor.isBoss&&actor.species!=='cuca'&&actor.health>0&&actor.health<actor.maxHealth){
-      const top=actor.y-(S.ENEMIES[actor.species]?.height||46)-9;ctx.fillStyle='#263c31';ctx.fillRect(actor.x-14,top,28,4);ctx.fillStyle='#edca84';ctx.fillRect(actor.x-13,top+1,26*actor.health/actor.maxHealth,2);
+      const top=actor.y-actorHeight(actor)-9;ctx.fillStyle='#263c31';ctx.fillRect(actor.x-14,top,28,4);ctx.fillStyle='#edca84';ctx.fillRect(actor.x-13,top+1,26*actor.health/actor.maxHealth,2);
     }
     if((actor.isBoss||actor.species==='cuca')&&actor.maxHealth){
-      const top=actor.y-S.ENEMIES[actor.species].height*(actor.isSecretBoss?1.8:actor.isBoss?1.45:1)-14;
+      const top=actor.y-actorHeight(actor)-14;
       ctx.fillStyle='#263c31';ctx.fillRect(actor.x-27,top,54,6);
       ctx.fillStyle=S.ENEMIES[actor.species].color;ctx.fillRect(actor.x-26,top+1,52*Math.max(0,actor.health/actor.maxHealth),4);
-      if(actor.mode!=='warning')label(actor.isSecretBoss?'LENDA SECRETA':actor.isBoss?'CHEFE':'CUCA',actor.x,top-9);
+      if(actor.mode!=='warning')label(actor.isBoss&&actor.mode==='recover'?'ABERTURA · DANO +35%':actor.isSecretBoss?'LENDA SECRETA':actor.isBoss?'CHEFE':'CUCA',actor.x,top-9);
     }
   }
   function danger(){
@@ -307,15 +325,16 @@
     for(const h of run.hazards)ShuffleFX.hazard(ctx,h,run.elapsed,reduced);
     for(const e of run.enemies)if(e.mode==='warning'){
       if(e.species==='owl'){
-        warnings.push(['SIRENE · HORDA ACELERA!',e.x,e.y-65]);continue;
+        warnings.push(['SIRENE · HORDA ACELERA!',e.x,e.y-actorHeight(e)-12]);continue;
       }
       if(e.attack){
         const names={'fire-fan':'RAJADA DE FOGO!','hoof-ring':'FERRADURAS EM CHAMAS!','fire-gallop':'GALOPE · CUIDADO COM AS PEGADAS!',
-          'fire-coil':'CERCO DE FOGO!','spell-fan':'FEITIÇO!','roots':'TRILHA DE RAÍZES!','brew':'POÇÃO NO CHÃO!',gust:'BUZINAÇO!',howl:'UIVO · REFORÇOS!',claw:'GARRADA!',dirt:'TERRA À VISTA!',pounce:'BOTE · SAIA PARA O LADO!'};
-        warnings.push([names[e.attack]||'CUIDADO!',e.x,e.y-S.ENEMIES[e.species].height*(e.isSecretBoss?1.8:e.isBoss?1.45:1)-18]);continue;
+          'fire-coil':'CERCO DE FOGO!','spell-fan':'FEITIÇO!','roots':'RAÍZES EM ONDAS!','root-ring':'CERCO DE RAÍZES · ACHE A SAÍDA!',
+          'root-dash':'ARRANCADA · DESVIE PARA O LADO!','brew':'POÇÃO NO CHÃO!',gust:'BUZINAÇO!',howl:'UIVO · REFORÇOS!',claw:'GARRADA!',dirt:'TERRA À VISTA!',pounce:'BOTE · SAIA PARA O LADO!'};
+        warnings.push([e.followUp?'SEGUNDO GALOPE · DESVIE!':names[e.attack]||'CUIDADO!',e.x,e.y-actorHeight(e)-18]);continue;
       }
       const witch=e.species==='cuca'||e.isBoss&&e.species==='boitata';
-      warnings.push([witch?'FEITIÇO!':e.species==='crow'?'RASANTE!':e.species==='amanda'?'EMBOSCADA!':'INVESTIDA!',e.x,e.y-(S.ENEMIES[e.species].height+12)]);
+      warnings.push([witch?'FEITIÇO!':e.species==='crow'?'RASANTE!':e.species==='amanda'?'EMBOSCADA!':'INVESTIDA!',e.x,e.y-actorHeight(e)-12]);
     }
     ctx.restore();
     return warnings;
@@ -535,11 +554,11 @@
       if(before==='playing'&&run.phase==='draft')store(E.checkpoint(run));sync(elapsed);
     }else {accumulator=0;syncAudio();}render();requestAnimationFrame(frame);}
   intro();resize();requestAnimationFrame(frame);
-  const required=[...new Set(['chicken','wolf','goose','fox','sheep','pig','rabbit','cow','duck','dog',...Object.values(CharacterArt.appearances).map(a=>a.sprite||a.species),...Object.keys(S.ENEMIES).filter(id=>data[id])])];
+  const required=[...new Set(['chicken','wolf','goose','fox','sheep','pig','rabbit','cow','duck','dog',...Object.keys(S.HEROES).map(id=>CharacterArt.appearances[id]).map(a=>a.sprite||a.species),...Object.keys(S.ENEMIES).filter(id=>data[id])])];
   const poses=Object.values(ShuffleResultArt).flatMap(pair=>Object.values(pair));
-  const sources=[['shuffleItems','assets/shuffle/items-pixel.png?v=1'],['chaosPowers','assets/shuffle/chaos-powers.png?v=1'],['chaosCatalog','assets/shuffle/power-catalog.png?v=1'],['chaosScenery','assets/shuffle/chaos-scenery.png?v=1'],...poses.map(source=>[source,source]),...required.map(id=>[id,data[id]?.source]),['fencePost','assets/farm/fence-post.png'],['fenceHorizontal','assets/farm/fence-rail-h.png'],['fenceVertical','assets/farm/fence-rail-v.png']];
+  const sources=[['chaosProjectiles',ChaosArtData.projectiles.source],['shuffleItems',ChaosArtData.items.source],['chaosPowers',ChaosArtData.powers.source],['chaosCatalog',ChaosArtData.catalog.source],['chaosScenery',ChaosArtData.scenery.source],...poses.map(source=>[source,source]),...required.map(id=>[id,data[id]?.source]),['fencePost','assets/farm/fence-post.png'],['fenceHorizontal','assets/farm/fence-rail-h.png'],['fenceVertical','assets/farm/fence-rail-v.png']];
   Promise.all([FarmSprites.loadCohesive().then(ok=>{if(!ok)throw Error('Não carregou o atlas da fazenda.');}),...sources.map(([id,source])=>new Promise((resolve,reject)=>{if(!source)return reject(Error(`Faltou o atlas de ${id}.`));const img=new Image(),timer=setTimeout(()=>reject(Error('O carregamento demorou demais.')),20000);img.onload=()=>{clearTimeout(timer);images.set(id,img);resolve();};img.onerror=()=>{clearTimeout(timer);reject(Error(`Não carregou: ${id}.`));};img.src='../'+source.replace(/^\.\//,'');}))])
-    .then(()=>{ShuffleFX.setItemSheet(images.get('shuffleItems'));ShuffleFX.setPowerSheet(images.get('chaosPowers'));ShuffleFX.setCatalogSheet(images.get('chaosCatalog'),[...Object.keys(S.POWERS),'milk','xp',...Object.keys(S.FUSIONS).map(id=>'fusion-'+id)]);ready=true;loaded();}).catch(error=>{if($('loading'))$('loading').textContent=`${error.message} Recarregue a página ou volte ao jogo original.`;console.error(error);});
+    .then(()=>{ShuffleFX.setProjectileSheet(images.get('chaosProjectiles'));ShuffleFX.setItemSheet(images.get('shuffleItems'));ShuffleFX.setPowerSheet(images.get('chaosPowers'));ShuffleFX.setCatalogSheet(images.get('chaosCatalog'),[...Object.keys(S.POWERS),'milk','xp',...Object.keys(S.FUSIONS).map(id=>'fusion-'+id)]);ready=true;loaded();}).catch(error=>{if($('loading'))$('loading').textContent=`${error.message} Recarregue a página ou volte ao jogo original.`;console.error(error);});
   // Debug handles for deterministic browser tests; isolated from classic state.
   window.ShuffleDemo=Object.freeze({get run(){return run;},get ready(){return ready;},get saveKey(){return SAVE_KEY;}});
 })();

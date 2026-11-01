@@ -1,0 +1,2 @@
+/* Four original local ComfyUI stages. */
+const EndingSceneData = {"easy":{"src":"assets/cinematics/endings-110/easy-435b87528b59.png","title":"Explorador"},"normal":{"src":"assets/cinematics/endings-110/normal-e300c6060e91.png","title":"Aventura"},"hard":{"src":"assets/cinematics/endings-110/hard-d6cb9e9abebf.png","title":"Contra o tempo"},"hardcore":{"src":"assets/cinematics/endings-110/hardcore-fe517800dd9d.png","title":"Última luz"}};

@@ -265,6 +265,21 @@ test('every new weapon actually hurts, and solid scenery blocks every weapon',()
   }
 });
 
+test('poison and fire explosions apply independent damage over time only inside their visible area',()=>{
+  for(const [id,rank] of [['venom',5],['fireball',1]]){
+    const r=arena();r.powers={[id]:rank};
+    const [target,nearby,blocked,outside]=r.enemies=[enemy(650,360,100),enemy(650,410,100),enemy(650,300,100),enemy(650,465,100)];
+    for(const e of r.enemies)e.stun=99;
+    r.obstacles.push({x:625,y:323,w:50,h:10});
+    S.tick(r,.01);r.powers={};
+    for(let i=0;i<10;i++)S.tick(r,.05);
+    assert.ok(target.dot?.time>0&&nearby.dot?.time>0,id);
+    assert.notEqual(target.dot,nearby.dot,'each enemy owns its remaining poison or burn duration');
+    assert.equal(blocked.dot,undefined,'solid scenery blocks the explosion');
+    assert.equal(outside.dot,undefined,'the effect stays inside the explosion radius');
+  }
+});
+
 test('passive cards alter their advertised stats, damage, timing, pickup and defense',()=>{
   const take=(r,id)=>{r.phase='power-draft';r.choices=[id];r.pendingChoices=1;assert.ok(S.choose(r,id));};
   let r=arena();take(r,'heart');assert.equal(E.stats(r).maxHp,6);assert.equal(r.hp,6);

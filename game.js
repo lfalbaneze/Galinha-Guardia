@@ -21,7 +21,7 @@ const DIFFICULTIES = {
   easy: {
     label: "Fácil",
     chickenSpeed: 300,
-    wolfMaxSpeed: 160,
+    wolfMaxSpeed: 110,
     wolfAccel: 230,
     wolfPauseAfterCatch: 1.1,
     huntDelay: 10,
@@ -593,7 +593,11 @@ function drawWolf(entity) {
   const direction = EndGameSequence.active(state) ? entity.direction :
     CharacterArt.directionFor(CharacterArt.heading(entity),Math.cos(heading),Math.sin(heading));
   CharacterArt.draw(ctx, "wolf", p.x, p.y, { facing: entity.facing, direction, anim: entity.anim,
-    moving: Math.hypot(entity.vx, entity.vy) > 10 || state.cutscene.stage === "flee",
+    variant: state.difficultyKey === 'hardcore' ? 'hardcore' : undefined,
+    sprinting: !EndGameSequence.active(state) && Math.hypot(entity.vx, entity.vy) > 175,
+    action: !EndGameSequence.active(state) && Math.hypot(entity.vx, entity.vy) > 10 ?
+      Math.hypot(entity.vx, entity.vy) > 175 ? 'run' : 'walk' : undefined,
+    moving: EndGameSequence.active(state) ? entity.moving : Math.hypot(entity.vx, entity.vy) > 10,
     mood: EndGameSequence.active(state) ? entity.mood || "normal" : entity.mode === 'frightened' ? 'scared' : ["chase", "inspect"].includes(entity.mode) || (WolfAI.appetite(state).tier===2 && entity.mode!=='frightened') ? "furious" : entity.mode === "alert" ? "alert" :
       entity.mode === "investigate" ? "sniff" : entity.mode === "search" ? "search" : "normal", ...EndGameSequence.pose(state, entity) });
 }
@@ -844,7 +848,7 @@ function renderGame() {
     if (ending && state.cutscene.cloud && entity.type !== "chicken") continue;
     if (entity.type === "wolf") {
       if(!ending&&SunflowerSystem.concealed(state))continue;
-      if (!(ending && state.cutscene.stage === "celebrate")) drawWolf(entity);
+      if (!(ending && state.difficultyKey === 'hardcore' && state.cutscene.stage === "celebrate")) drawWolf(entity);
     } else if (entity.type === "chicken") {
       if (!ending && (entity.hidden || (entity.hideBlend || 0)>0.02)) continue;
       ctx.save();
@@ -864,7 +868,6 @@ function renderGame() {
     FoxSystem.drawWarnings(state);
     FolkloreSystem.drawLabels(state);
     SunflowerSystem.drawWarning(state);
-    OwlSystem.drawIndicators(state);
     // Keep a peeking silhouette legible above the prop, then cover its lower body.
     if (state.entities.chicken.hidden || (state.entities.chicken.hideBlend || 0)>0.02) {
       drawChicken(state.entities.chicken);

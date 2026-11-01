@@ -38,7 +38,7 @@ def folklore_check(page):
         const original=CanvasRenderingContext2D.prototype.drawImage;window.enemyArtDrawn=new Set();
         CanvasRenderingContext2D.prototype.drawImage=function(image,...args){
             if(this.canvas.id==='game')for(const id of Object.keys(ShuffleSurvival.ENEMIES)){
-                const source=PixelLabArtData[id]?.source||ShuffleResultArt['enemy-'+id]?.win;
+                const source=SpriteData[id]?.source||ShuffleResultArt['enemy-'+id]?.win;
                 if(source&&image.src?.endsWith(source))enemyArtDrawn.add(id);
             }return original.call(this,image,...args);
         };
@@ -51,26 +51,30 @@ def folklore_check(page):
 
 def heroes_check(page, url):
     page.goto(url, wait_until='networkidle')
+    page.wait_for_function('ShuffleDemo.ready')
+    assert page.evaluate('ShuffleDemo.run') is None
+    page.locator('#startSurvival').click()
     page.wait_for_function(READY)
     page.locator('#pause').click()
-    page.get_by_role('button', name='Bicho e tipo de partida · reiniciar').click()
+    page.get_by_role('button', name='Novo jogo').click()
     assert page.locator('#survivalSkin option:disabled').count() == 5
     profile = page.evaluate('''()=>{const profile=JSON.stringify({version:2,best:6,selected:'silkie',unlocked:Object.keys(ShuffleSurvival.HEROES)});
         localStorage.setItem('galinha-guardia-wardrobe-v1',profile);return profile;}''')
-    page.reload(wait_until='networkidle');page.wait_for_function(READY)
+    page.reload(wait_until='networkidle');page.wait_for_function('ShuffleDemo.ready')
+    page.locator('#startSurvival').click();page.wait_for_function(READY)
     assert page.evaluate('ShuffleDemo.run.player.skin') == 'silkie', 'Inherit equipped appearance'
     page.evaluate('''()=>{window.heroArtDrawn=new Set();const draw=CanvasRenderingContext2D.prototype.drawImage;
         CanvasRenderingContext2D.prototype.drawImage=function(image,...args){
             if(this.canvas.id==='game')heroArtDrawn.add(image.src);return draw.call(this,image,...args);};}''')
     for skin in ['classic','silkie','blue','punk','astronaut','robocop','priest','goose']:
         page.locator('#pause').click()
-        page.get_by_role('button', name='Bicho e tipo de partida · reiniciar').click()
+        page.get_by_role('button', name='Novo jogo').click()
         page.locator('#survivalSkin').select_option(skin)
         assert page.locator('#heroDescription').inner_text()
         page.locator('#startSurvival').click()
         assert page.evaluate('ShuffleDemo.run.player.skin') == skin
         page.wait_for_function('''()=>{const a=CharacterArt.appearances[ShuffleDemo.run.player.skin];
-            return [...heroArtDrawn].some(src=>src?.endsWith(PixelLabArtData[a.sprite||a.species].source));}''')
+            return [...heroArtDrawn].some(src=>src?.endsWith(SpriteData[a.sprite||a.species].source));}''')
         page.evaluate('''()=>{const r=ShuffleDemo.run;r.player.invulnerable=60;r.heroCooldown=0;
             r.layout.obstacles=[];r.obstacles=r.layout.obstacles;r.player.x=560;r.player.y=360;
             r.enemies=[{species:'fox',x:660,y:360,r:18,speed:0,health:100,traveled:0,moving:false,
@@ -94,7 +98,7 @@ def heroes_check(page, url):
             assert page.locator('.result-quips canvas').evaluate_all('''canvases=>canvases.every(c=>
                 c.getContext('2d').getImageData(0,0,c.width,c.height).data.some((v,i)=>i%4===3&&v>0))''')
             assert page.locator('.result-quips canvas').evaluate_all('''cs=>cs.every(c=>
-                c.dataset.source.startsWith('assets/shuffle/results/'))'''), 'Result cards must use their dedicated PixelLab poses'
+                Object.values(ShuffleResultArt).some(pair=>Object.values(pair).includes(c.dataset.source)))'''), 'Result cards must use their dedicated installed poses'
             if skin == 'silkie':
                 page.screenshot(path=str(OUT/f'banter-{skin}-{won}.png'))
         page.locator('#again').click()
@@ -120,6 +124,9 @@ def check(page, url, name, touch=False):
     page.goto(url, wait_until='networkidle')
     try:
         page.locator('#shuffleModeLink').click()
+        page.wait_for_function('ShuffleDemo.ready')
+        assert page.evaluate('ShuffleDemo.run') is None
+        page.locator('#startSurvival').click()
         page.wait_for_function(READY)
     except Exception:
         page.screenshot(path=str(OUT / f'entry-failure-{name}.png'))
@@ -148,7 +155,7 @@ def check(page, url, name, touch=False):
     # Observe actual atlas rectangles submitted to canvas, not just available clips.
     page.evaluate('''()=>{window.henFrames=new Set();const original=CanvasRenderingContext2D.prototype.drawImage;
         CanvasRenderingContext2D.prototype.drawImage=function(image,...args){
-            if(this.canvas.id==='game'&&image.src?.endsWith(PixelLabArtData.chicken.source))
+            if(this.canvas.id==='game'&&image.src?.endsWith(SpriteData.chicken.source))
                 henFrames.add(args.slice(0,4).join(','));
             return original.call(this,image,...args);
         };}''')
@@ -173,7 +180,7 @@ def check(page, url, name, touch=False):
     page.locator('#dash').click()
     page.wait_for_function('ShuffleDemo.run.player.dashCooldown>0')
     page.wait_for_timeout(80)
-    assert page.evaluate('''()=>Object.values(PixelLabArtData.chicken.actions.run).some(p=>
+    assert page.evaluate('''()=>Object.values(SpriteData.chicken.actions.run).some(p=>
         p.frames.some(f=>henFrames.has([f.x,f.y,f.w,f.h].join(','))))'''), 'Run clip was never drawn'
     page.locator('#pause').click()
     frozen = page.evaluate('JSON.stringify(ShuffleDemo.run)')
@@ -273,7 +280,8 @@ def check(page, url, name, touch=False):
     assert 'REVANCHE 1' in page.locator('#stageLabel').inner_text()
     assert page.evaluate('ShuffleDemo.run.mode') == 'survival'
     assert page.evaluate('localStorage.getItem(ShuffleDemo.saveKey)') == saved
-    page.reload(wait_until='networkidle'); page.wait_for_function(READY)
+    page.reload(wait_until='networkidle');page.wait_for_function('ShuffleDemo.ready')
+    page.locator('#startSurvival').click();page.wait_for_function(READY)
     assert page.evaluate('ShuffleDemo.run.elapsed') < 5
     assert page.evaluate('ShuffleDemo.run.victories') == 1, 'Winning raises future runs after reload'
     assert page.evaluate('localStorage.getItem(ShuffleDemo.saveKey)') == saved

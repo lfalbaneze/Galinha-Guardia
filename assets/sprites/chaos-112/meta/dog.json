@@ -1,0 +1,3127 @@
+{
+  "id": "dog",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+    "width": 432,
+    "height": 880,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 0,
+            "y": 440,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8333333333333334,
+              "top": 0.14545454545454545,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.4444444444444444,
+              "footRight": 0.5740740740740741
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 54,
+            "y": 440,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.12727272727272726,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.2777777777777778,
+              "footRight": 0.5925925925925926
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 108,
+            "y": 440,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.7962962962962963,
+              "top": 0.12727272727272726,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.46296296296296297,
+              "footRight": 0.5925925925925926
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 162,
+            "y": 440,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.12727272727272726,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.3148148148148148,
+              "footRight": 0.6296296296296297
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 216,
+            "y": 440,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8703703703703703,
+              "top": 0.12727272727272726,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.5185185185185185,
+              "footRight": 0.6296296296296297
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 270,
+            "y": 440,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8888888888888888,
+              "top": 0.12727272727272726,
+              "bottom": 0.8727272727272727,
+              "footLeft": 0.5,
+              "footRight": 0.5925925925925926
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 324,
+            "y": 440,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07407407407407407,
+              "right": 0.8703703703703703,
+              "top": 0.12727272727272726,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.4444444444444444,
+              "footRight": 0.5555555555555556
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 378,
+            "y": 440,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07407407407407407,
+              "right": 0.8518518518518519,
+              "top": 0.12727272727272726,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.24074074074074073,
+              "footRight": 0.5185185185185185
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 51,
+        "top": 7,
+        "width": 44,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 0,
+            "y": 495,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 8,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.16363636363636364,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.37037037037037035,
+              "footRight": 0.48148148148148145
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 54,
+            "y": 495,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 8,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.16363636363636364,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.37037037037037035,
+              "footRight": 0.5185185185185185
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 108,
+            "y": 495,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 8,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8703703703703703,
+              "top": 0.18181818181818182,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.3888888888888889,
+              "footRight": 0.5370370370370371
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 162,
+            "y": 495,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 8,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07407407407407407,
+              "right": 0.8518518518518519,
+              "top": 0.18181818181818182,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.16666666666666666,
+              "footRight": 0.5555555555555556
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 216,
+            "y": 495,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 8,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8888888888888888,
+              "top": 0.16363636363636364,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.2037037037037037,
+              "footRight": 0.5185185185185185
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 270,
+            "y": 495,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 8,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.9259259259259259,
+              "top": 0.16363636363636364,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.35185185185185186,
+              "footRight": 0.46296296296296297
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 324,
+            "y": 495,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 8,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.9074074074074074,
+              "top": 0.16363636363636364,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.2962962962962963,
+              "footRight": 0.7222222222222222
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 378,
+            "y": 495,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 8,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8703703703703703,
+              "top": 0.18181818181818182,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.2777777777777778,
+              "footRight": 0.3888888888888889
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 51,
+        "top": 8,
+        "width": 44,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 0,
+            "y": 550,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8888888888888888,
+              "top": 0.12727272727272726,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.6111111111111112,
+              "footRight": 0.7222222222222222
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 54,
+            "y": 550,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8888888888888888,
+              "top": 0.14545454545454545,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.6481481481481481,
+              "footRight": 0.7592592592592593
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 108,
+            "y": 550,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07407407407407407,
+              "right": 0.8888888888888888,
+              "top": 0.16363636363636364,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.24074074074074073,
+              "footRight": 0.7962962962962963
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 162,
+            "y": 550,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07407407407407407,
+              "right": 0.9074074074074074,
+              "top": 0.16363636363636364,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.25925925925925924,
+              "footRight": 0.7777777777777778
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 216,
+            "y": 550,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.9259259259259259,
+              "top": 0.16363636363636364,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.25925925925925924,
+              "footRight": 0.7592592592592593
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 270,
+            "y": 550,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.9259259259259259,
+              "top": 0.16363636363636364,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.2962962962962963,
+              "footRight": 0.7407407407407407
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 324,
+            "y": 550,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.9074074074074074,
+              "top": 0.16363636363636364,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.3333333333333333,
+              "footRight": 0.6666666666666666
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 378,
+            "y": 550,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07407407407407407,
+              "right": 0.8703703703703703,
+              "top": 0.16363636363636364,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.37037037037037035,
+              "footRight": 0.6296296296296297
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 51,
+        "top": 7,
+        "width": 45,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 0,
+            "y": 605,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7777777777777778,
+              "top": 0.09090909090909091,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.42592592592592593,
+              "footRight": 0.5555555555555556
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 54,
+            "y": 605,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7777777777777778,
+              "top": 0.10909090909090909,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.46296296296296297,
+              "footRight": 0.5740740740740741
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 108,
+            "y": 605,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7777777777777778,
+              "top": 0.10909090909090909,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.5185185185185185,
+              "footRight": 0.6111111111111112
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 162,
+            "y": 605,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16666666666666666,
+              "right": 0.7407407407407407,
+              "top": 0.12727272727272726,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.5185185185185185,
+              "footRight": 0.6481481481481481
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 216,
+            "y": 605,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16666666666666666,
+              "right": 0.7222222222222222,
+              "top": 0.10909090909090909,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.5,
+              "footRight": 0.5925925925925926
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 270,
+            "y": 605,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16666666666666666,
+              "right": 0.7777777777777778,
+              "top": 0.09090909090909091,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.4444444444444444,
+              "footRight": 0.5185185185185185
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 324,
+            "y": 605,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7962962962962963,
+              "top": 0.09090909090909091,
+              "bottom": 0.8545454545454545,
+              "footLeft": 0.37037037037037035,
+              "footRight": 0.6666666666666666
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 378,
+            "y": 605,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7962962962962963,
+              "top": 0.10909090909090909,
+              "bottom": 0.8727272727272727,
+              "footLeft": 0.35185185185185186,
+              "footRight": 0.7037037037037037
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 51,
+        "top": 5,
+        "width": 33,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 0,
+            "y": 660,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 4,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24074074074074073,
+              "right": 0.7962962962962963,
+              "top": 0.09090909090909091,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.48148148148148145,
+              "footRight": 0.5925925925925926
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 54,
+            "y": 660,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 4,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24074074074074073,
+              "right": 0.7962962962962963,
+              "top": 0.09090909090909091,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.3148148148148148,
+              "footRight": 0.6296296296296297
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 108,
+            "y": 660,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 4,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2222222222222222,
+              "right": 0.8148148148148148,
+              "top": 0.09090909090909091,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.5185185185185185,
+              "footRight": 0.6481481481481481
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 162,
+            "y": 660,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 4,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2222222222222222,
+              "right": 0.7962962962962963,
+              "top": 0.10909090909090909,
+              "bottom": 0.8727272727272727,
+              "footLeft": 0.3333333333333333,
+              "footRight": 0.6481481481481481
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 216,
+            "y": 660,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 4,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24074074074074073,
+              "right": 0.7962962962962963,
+              "top": 0.10909090909090909,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.3148148148148148,
+              "footRight": 0.42592592592592593
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 270,
+            "y": 660,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 4,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24074074074074073,
+              "right": 0.7962962962962963,
+              "top": 0.09090909090909091,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.2962962962962963,
+              "footRight": 0.4074074074074074
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 324,
+            "y": 660,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 4,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24074074074074073,
+              "right": 0.7777777777777778,
+              "top": 0.09090909090909091,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.2777777777777778,
+              "footRight": 0.5555555555555556
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 378,
+            "y": 660,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 4,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24074074074074073,
+              "right": 0.7962962962962963,
+              "top": 0.09090909090909091,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.25925925925925924,
+              "footRight": 0.5925925925925926
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 51,
+        "top": 4,
+        "width": 33,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 0,
+            "y": 715,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.12727272727272726,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.24074074074074073,
+              "footRight": 0.3888888888888889
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 54,
+            "y": 715,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.14545454545454545,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.2222222222222222,
+              "footRight": 0.3148148148148148
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 108,
+            "y": 715,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8518518518518519,
+              "top": 0.14545454545454545,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.24074074074074073,
+              "footRight": 0.35185185185185186
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 162,
+            "y": 715,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8518518518518519,
+              "top": 0.14545454545454545,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.2777777777777778,
+              "footRight": 0.6111111111111112
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 216,
+            "y": 715,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8518518518518519,
+              "top": 0.12727272727272726,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.3148148148148148,
+              "footRight": 0.6296296296296297
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 270,
+            "y": 715,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09259259259259259,
+              "right": 0.8518518518518519,
+              "top": 0.12727272727272726,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.3148148148148148,
+              "footRight": 0.4444444444444444
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 324,
+            "y": 715,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.14545454545454545,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.3148148148148148,
+              "footRight": 0.46296296296296297
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 378,
+            "y": 715,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.14545454545454545,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.3148148148148148,
+              "footRight": 0.4444444444444444
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 51,
+        "top": 7,
+        "width": 42,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 0,
+            "y": 770,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 9,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14814814814814814,
+              "right": 0.8148148148148148,
+              "top": 0.16363636363636364,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.42592592592592593,
+              "footRight": 0.5555555555555556
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 54,
+            "y": 770,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 9,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14814814814814814,
+              "right": 0.8333333333333334,
+              "top": 0.18181818181818182,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.3888888888888889,
+              "footRight": 0.5370370370370371
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 108,
+            "y": 770,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 9,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8333333333333334,
+              "top": 0.2,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.37037037037037035,
+              "footRight": 0.7777777777777778
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 162,
+            "y": 770,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 9,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.2,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.37037037037037035,
+              "footRight": 0.7222222222222222
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 216,
+            "y": 770,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 9,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.18181818181818182,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.4444444444444444,
+              "footRight": 0.5185185185185185
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 270,
+            "y": 770,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 9,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8518518518518519,
+              "top": 0.16363636363636364,
+              "bottom": 0.9090909090909091,
+              "footLeft": 0.4444444444444444,
+              "footRight": 0.5925925925925926
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 324,
+            "y": 770,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 9,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12962962962962962,
+              "right": 0.8333333333333334,
+              "top": 0.16363636363636364,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.5185185185185185,
+              "footRight": 0.6481481481481481
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 378,
+            "y": 770,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 9,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14814814814814814,
+              "right": 0.8333333333333334,
+              "top": 0.2,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.5185185185185185,
+              "footRight": 0.6481481481481481
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 51,
+        "top": 9,
+        "width": 41,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 0,
+            "y": 825,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 6,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7592592592592593,
+              "top": 0.12727272727272726,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.3148148148148148,
+              "footRight": 0.6296296296296297
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 54,
+            "y": 825,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 6,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7592592592592593,
+              "top": 0.10909090909090909,
+              "bottom": 0.8545454545454545,
+              "footLeft": 0.35185185185185186,
+              "footRight": 0.6296296296296297
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 108,
+            "y": 825,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 6,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7592592592592593,
+              "top": 0.10909090909090909,
+              "bottom": 0.8545454545454545,
+              "footLeft": 0.3888888888888889,
+              "footRight": 0.48148148148148145
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 162,
+            "y": 825,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 6,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7592592592592593,
+              "top": 0.14545454545454545,
+              "bottom": 0.8727272727272727,
+              "footLeft": 0.37037037037037035,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 216,
+            "y": 825,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 6,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7592592592592593,
+              "top": 0.14545454545454545,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.35185185185185186,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 270,
+            "y": 825,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 6,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7592592592592593,
+              "top": 0.14545454545454545,
+              "bottom": 0.9272727272727272,
+              "footLeft": 0.35185185185185186,
+              "footRight": 0.48148148148148145
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 324,
+            "y": 825,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 6,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7592592592592593,
+              "top": 0.12727272727272726,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.3148148148148148,
+              "footRight": 0.46296296296296297
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+            "x": 378,
+            "y": 825,
+            "w": 54,
+            "h": 55,
+            "cx": 26,
+            "bottom": 51,
+            "top": 6,
+            "width": 31,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18518518518518517,
+              "right": 0.7592592592592593,
+              "top": 0.10909090909090909,
+              "bottom": 0.8909090909090909,
+              "footLeft": 0.3148148148148148,
+              "footRight": 0.4444444444444444
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 51,
+        "top": 6,
+        "width": 31,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 0,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 40,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8148148148148148,
+                "top": 0.12727272727272726,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.42592592592592593,
+                "footRight": 0.5370370370370371
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 7,
+          "width": 40,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 55,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 8,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.16363636363636364,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.3333333333333333,
+                "footRight": 0.4444444444444444
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 8,
+          "width": 41,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 110,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8703703703703703,
+                "top": 0.12727272727272726,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.5925925925925926,
+                "footRight": 0.7037037037037037
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 7,
+          "width": 42,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 165,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7407407407407407,
+                "top": 0.10909090909090909,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.4074074074074074,
+                "footRight": 0.5185185185185185
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 6,
+          "width": 31,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 220,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 6,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24074074074074073,
+                "right": 0.7962962962962963,
+                "top": 0.10909090909090909,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.48148148148148145,
+                "footRight": 0.5925925925925926
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 6,
+          "width": 30,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 275,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 40,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.12727272727272726,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.2962962962962963,
+                "footRight": 0.4074074074074074
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 7,
+          "width": 40,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 330,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 9,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14814814814814814,
+                "right": 0.8148148148148148,
+                "top": 0.16363636363636364,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.4444444444444444,
+                "footRight": 0.5925925925925926
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 9,
+          "width": 37,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 385,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 8,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7592592592592593,
+                "top": 0.16363636363636364,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.3333333333333333,
+                "footRight": 0.46296296296296297
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 8,
+          "width": 31,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 440,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8333333333333334,
+                "top": 0.14545454545454545,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.4444444444444444,
+                "footRight": 0.5740740740740741
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 54,
+              "y": 440,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.12727272727272726,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.2777777777777778,
+                "footRight": 0.5925925925925926
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 108,
+              "y": 440,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.7962962962962963,
+                "top": 0.12727272727272726,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.46296296296296297,
+                "footRight": 0.5925925925925926
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 162,
+              "y": 440,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.12727272727272726,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.3148148148148148,
+                "footRight": 0.6296296296296297
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 216,
+              "y": 440,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8703703703703703,
+                "top": 0.12727272727272726,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.5185185185185185,
+                "footRight": 0.6296296296296297
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 270,
+              "y": 440,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8888888888888888,
+                "top": 0.12727272727272726,
+                "bottom": 0.8727272727272727,
+                "footLeft": 0.5,
+                "footRight": 0.5925925925925926
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 324,
+              "y": 440,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07407407407407407,
+                "right": 0.8703703703703703,
+                "top": 0.12727272727272726,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.4444444444444444,
+                "footRight": 0.5555555555555556
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 378,
+              "y": 440,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07407407407407407,
+                "right": 0.8518518518518519,
+                "top": 0.12727272727272726,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.24074074074074073,
+                "footRight": 0.5185185185185185
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 7,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 495,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 8,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.16363636363636364,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.37037037037037035,
+                "footRight": 0.48148148148148145
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 54,
+              "y": 495,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 8,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.16363636363636364,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.37037037037037035,
+                "footRight": 0.5185185185185185
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 108,
+              "y": 495,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 8,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8703703703703703,
+                "top": 0.18181818181818182,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.3888888888888889,
+                "footRight": 0.5370370370370371
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 162,
+              "y": 495,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 8,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07407407407407407,
+                "right": 0.8518518518518519,
+                "top": 0.18181818181818182,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.16666666666666666,
+                "footRight": 0.5555555555555556
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 216,
+              "y": 495,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 8,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8888888888888888,
+                "top": 0.16363636363636364,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.2037037037037037,
+                "footRight": 0.5185185185185185
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 270,
+              "y": 495,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 8,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.9259259259259259,
+                "top": 0.16363636363636364,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.35185185185185186,
+                "footRight": 0.46296296296296297
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 324,
+              "y": 495,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 8,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.9074074074074074,
+                "top": 0.16363636363636364,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.2962962962962963,
+                "footRight": 0.7222222222222222
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 378,
+              "y": 495,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 8,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8703703703703703,
+                "top": 0.18181818181818182,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.2777777777777778,
+                "footRight": 0.3888888888888889
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 8,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 550,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8888888888888888,
+                "top": 0.12727272727272726,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.6111111111111112,
+                "footRight": 0.7222222222222222
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 54,
+              "y": 550,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8888888888888888,
+                "top": 0.14545454545454545,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.6481481481481481,
+                "footRight": 0.7592592592592593
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 108,
+              "y": 550,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07407407407407407,
+                "right": 0.8888888888888888,
+                "top": 0.16363636363636364,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.24074074074074073,
+                "footRight": 0.7962962962962963
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 162,
+              "y": 550,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07407407407407407,
+                "right": 0.9074074074074074,
+                "top": 0.16363636363636364,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.25925925925925924,
+                "footRight": 0.7777777777777778
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 216,
+              "y": 550,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.9259259259259259,
+                "top": 0.16363636363636364,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.25925925925925924,
+                "footRight": 0.7592592592592593
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 270,
+              "y": 550,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.9259259259259259,
+                "top": 0.16363636363636364,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.2962962962962963,
+                "footRight": 0.7407407407407407
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 324,
+              "y": 550,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.9074074074074074,
+                "top": 0.16363636363636364,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.3333333333333333,
+                "footRight": 0.6666666666666666
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 378,
+              "y": 550,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07407407407407407,
+                "right": 0.8703703703703703,
+                "top": 0.16363636363636364,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.37037037037037035,
+                "footRight": 0.6296296296296297
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 7,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 605,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7777777777777778,
+                "top": 0.09090909090909091,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.42592592592592593,
+                "footRight": 0.5555555555555556
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 54,
+              "y": 605,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7777777777777778,
+                "top": 0.10909090909090909,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.46296296296296297,
+                "footRight": 0.5740740740740741
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 108,
+              "y": 605,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7777777777777778,
+                "top": 0.10909090909090909,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.5185185185185185,
+                "footRight": 0.6111111111111112
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 162,
+              "y": 605,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16666666666666666,
+                "right": 0.7407407407407407,
+                "top": 0.12727272727272726,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.5185185185185185,
+                "footRight": 0.6481481481481481
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 216,
+              "y": 605,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16666666666666666,
+                "right": 0.7222222222222222,
+                "top": 0.10909090909090909,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.5,
+                "footRight": 0.5925925925925926
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 270,
+              "y": 605,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16666666666666666,
+                "right": 0.7777777777777778,
+                "top": 0.09090909090909091,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.4444444444444444,
+                "footRight": 0.5185185185185185
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 324,
+              "y": 605,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7962962962962963,
+                "top": 0.09090909090909091,
+                "bottom": 0.8545454545454545,
+                "footLeft": 0.37037037037037035,
+                "footRight": 0.6666666666666666
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 378,
+              "y": 605,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7962962962962963,
+                "top": 0.10909090909090909,
+                "bottom": 0.8727272727272727,
+                "footLeft": 0.35185185185185186,
+                "footRight": 0.7037037037037037
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 5,
+          "width": 33,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 660,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 4,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24074074074074073,
+                "right": 0.7962962962962963,
+                "top": 0.09090909090909091,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.48148148148148145,
+                "footRight": 0.5925925925925926
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 54,
+              "y": 660,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 4,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24074074074074073,
+                "right": 0.7962962962962963,
+                "top": 0.09090909090909091,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.3148148148148148,
+                "footRight": 0.6296296296296297
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 108,
+              "y": 660,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 4,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2222222222222222,
+                "right": 0.8148148148148148,
+                "top": 0.09090909090909091,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.5185185185185185,
+                "footRight": 0.6481481481481481
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 162,
+              "y": 660,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 4,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2222222222222222,
+                "right": 0.7962962962962963,
+                "top": 0.10909090909090909,
+                "bottom": 0.8727272727272727,
+                "footLeft": 0.3333333333333333,
+                "footRight": 0.6481481481481481
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 216,
+              "y": 660,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 4,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24074074074074073,
+                "right": 0.7962962962962963,
+                "top": 0.10909090909090909,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.3148148148148148,
+                "footRight": 0.42592592592592593
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 270,
+              "y": 660,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 4,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24074074074074073,
+                "right": 0.7962962962962963,
+                "top": 0.09090909090909091,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.2962962962962963,
+                "footRight": 0.4074074074074074
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 324,
+              "y": 660,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 4,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24074074074074073,
+                "right": 0.7777777777777778,
+                "top": 0.09090909090909091,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.2777777777777778,
+                "footRight": 0.5555555555555556
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 378,
+              "y": 660,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 4,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24074074074074073,
+                "right": 0.7962962962962963,
+                "top": 0.09090909090909091,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.25925925925925924,
+                "footRight": 0.5925925925925926
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 4,
+          "width": 33,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 715,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.12727272727272726,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.24074074074074073,
+                "footRight": 0.3888888888888889
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 54,
+              "y": 715,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.14545454545454545,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.2222222222222222,
+                "footRight": 0.3148148148148148
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 108,
+              "y": 715,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8518518518518519,
+                "top": 0.14545454545454545,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.24074074074074073,
+                "footRight": 0.35185185185185186
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 162,
+              "y": 715,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8518518518518519,
+                "top": 0.14545454545454545,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.2777777777777778,
+                "footRight": 0.6111111111111112
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 216,
+              "y": 715,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8518518518518519,
+                "top": 0.12727272727272726,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.3148148148148148,
+                "footRight": 0.6296296296296297
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 270,
+              "y": 715,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09259259259259259,
+                "right": 0.8518518518518519,
+                "top": 0.12727272727272726,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.3148148148148148,
+                "footRight": 0.4444444444444444
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 324,
+              "y": 715,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.14545454545454545,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.3148148148148148,
+                "footRight": 0.46296296296296297
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 378,
+              "y": 715,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.14545454545454545,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.3148148148148148,
+                "footRight": 0.4444444444444444
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 7,
+          "width": 42,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 770,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 9,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14814814814814814,
+                "right": 0.8148148148148148,
+                "top": 0.16363636363636364,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.42592592592592593,
+                "footRight": 0.5555555555555556
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 54,
+              "y": 770,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 9,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14814814814814814,
+                "right": 0.8333333333333334,
+                "top": 0.18181818181818182,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.3888888888888889,
+                "footRight": 0.5370370370370371
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 108,
+              "y": 770,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 9,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8333333333333334,
+                "top": 0.2,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.37037037037037035,
+                "footRight": 0.7777777777777778
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 162,
+              "y": 770,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 9,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.2,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.37037037037037035,
+                "footRight": 0.7222222222222222
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 216,
+              "y": 770,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 9,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.18181818181818182,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.4444444444444444,
+                "footRight": 0.5185185185185185
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 270,
+              "y": 770,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 9,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8518518518518519,
+                "top": 0.16363636363636364,
+                "bottom": 0.9090909090909091,
+                "footLeft": 0.4444444444444444,
+                "footRight": 0.5925925925925926
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 324,
+              "y": 770,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 9,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12962962962962962,
+                "right": 0.8333333333333334,
+                "top": 0.16363636363636364,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.5185185185185185,
+                "footRight": 0.6481481481481481
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 378,
+              "y": 770,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 9,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14814814814814814,
+                "right": 0.8333333333333334,
+                "top": 0.2,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.5185185185185185,
+                "footRight": 0.6481481481481481
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 9,
+          "width": 41,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 0,
+              "y": 825,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7592592592592593,
+                "top": 0.12727272727272726,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.3148148148148148,
+                "footRight": 0.6296296296296297
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 54,
+              "y": 825,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7592592592592593,
+                "top": 0.10909090909090909,
+                "bottom": 0.8545454545454545,
+                "footLeft": 0.35185185185185186,
+                "footRight": 0.6296296296296297
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 108,
+              "y": 825,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7592592592592593,
+                "top": 0.10909090909090909,
+                "bottom": 0.8545454545454545,
+                "footLeft": 0.3888888888888889,
+                "footRight": 0.48148148148148145
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 162,
+              "y": 825,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7592592592592593,
+                "top": 0.14545454545454545,
+                "bottom": 0.8727272727272727,
+                "footLeft": 0.37037037037037035,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 216,
+              "y": 825,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7592592592592593,
+                "top": 0.14545454545454545,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.35185185185185186,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 270,
+              "y": 825,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7592592592592593,
+                "top": 0.14545454545454545,
+                "bottom": 0.9272727272727272,
+                "footLeft": 0.35185185185185186,
+                "footRight": 0.48148148148148145
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 324,
+              "y": 825,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7592592592592593,
+                "top": 0.12727272727272726,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.3148148148148148,
+                "footRight": 0.46296296296296297
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+              "x": 378,
+              "y": 825,
+              "w": 54,
+              "h": 55,
+              "cx": 26,
+              "bottom": 51,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18518518518518517,
+                "right": 0.7592592592592593,
+                "top": 0.10909090909090909,
+                "bottom": 0.8909090909090909,
+                "footLeft": 0.3148148148148148,
+                "footRight": 0.4444444444444444
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 51,
+          "top": 6,
+          "width": 31,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/dog-ef2dc7b59979.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "dog",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

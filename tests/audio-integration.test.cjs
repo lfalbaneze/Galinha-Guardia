@@ -12,6 +12,25 @@ function harness(storage, fullStartup = false) {
   return { ...createGame(() => 0.5, { Audio: MockAudio, storage, fullStartup }), players, plays };
 }
 function start(h) { h.events.elements.startBtn.click(); }
+
+test('a real secret encounter changes music, pauses with the menu and restores the chosen theme after three counters',()=>{
+  const h=harness();start(h);
+  h.run(`AudioSystem.setTrack('whistle');FolkloreSystem.load(true);OBSTACLES=[];
+    var boss=state.entities.folklore.find(e=>e.species==='curupira'),hero=state.entities.chicken;
+    Object.assign(boss,{x:1000,y:800,home:{x:1000,y:800},active:false,defeated:false,courage:3});
+    Object.assign(hero,{x:1070,y:800,hidden:false});
+    state.entities.folklore=[boss];state.entities.thor=null;state.lake.active=false;state.rescuedCount=10;`);
+  assert.equal(h.run('FolkloreSystem.interact(state)'),true);
+  h.run('updateGame(0)');assert.equal(h.run('AudioSystem.status.track'),'secret-boss');
+  h.events.elements.pauseBtn.click();assert.ok(h.players.every(a=>a.paused));
+  h.events.elements.continueBtn.click();assert.equal(h.run('AudioSystem.status.track'),'secret-boss');
+  for(let i=0;i<3;i++){
+    h.run("boss.mode='rest';boss.timer=3;hero.x=boss.x+65;hero.y=boss.y");
+    assert.equal(h.run('FolkloreSystem.interact(state)'),true);
+  }
+  h.run('updateGame(0)');assert.equal(h.run('AudioSystem.status.track'),'whistle');
+  assert.equal(h.players.filter(a=>a.loop).length,1);
+});
 test('a hidden chick waits while a visible animal flees, then gives its hint when the chase is over',()=>{
   for(const species of ['duck','rabbit']){
     const h=harness();start(h);
@@ -82,7 +101,8 @@ test('Esc, blur, hidden page and pagehide pause the finale and stop every sound'
 });
 
 test('pause inside the cloud never replays old impacts and rendering never produces sound', () => {
-  const h = harness(); start(h); finale(h, 8.35);
+  const h = harness(); h.run("difficultySelect.value='hardcore'"); start(h); finale(h, 8.35);
+  assert.equal(h.run('state.cutscene.cloud'),true,'only Hardcore has the brawl');
   h.events.elements.pauseBtn.click(); h.events.elements.continueBtn.click();
   const effects = () => h.plays.filter(p => !p.loop).length;
   const before = effects();

@@ -1,10 +1,22 @@
 const { loadImage, createCanvas } = require('@napi-rs/canvas');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
 const root = path.resolve(__dirname, '..');
-async function loadArt() {
+async function loadArt(mode) {
   const context = vm.createContext({ console, setTimeout, clearTimeout });
-  for (const file of ['sprite-style.js','sprite-data.js','arcade-art-data.js','premium-art-data.js','pixel-art-data.js','pixellab-art-data.js', 'character-art.js'])
+  const files=['sprite-style.js','sprite-data.js','arcade-art-data.js','premium-art-data.js','pixel-art-data.js','pixellab-art-data.js','comfyui-art-data.js'];
+  for (const file of files)
     vm.runInContext(fs.readFileSync(path.join(root, 'systems', file), 'utf8'), context);
+  if(mode==='chaos'){
+    vm.runInContext(fs.readFileSync(path.join(root,'shuffle/chaos-art-data.js'),'utf8'),context);
+  }
+  if(mode==='rewards')for(const [id,species]of [['goat','goat'],['turkey','turkey'],['owl','owl'],['pony','horse']]){
+    const file=path.join(root,'assets/sprites/wardrobe-117/meta',id+'.json');
+    if(fs.existsSync(file)){
+      const base=vm.runInContext(`SpriteData[${JSON.stringify(species)}]`,context);
+      base.variants={...base.variants,reward:JSON.parse(fs.readFileSync(file,'utf8')).definition};
+    }
+  }
+  vm.runInContext(fs.readFileSync(path.join(root,'systems/character-art.js'),'utf8'),context);
   vm.runInContext('SpriteStyle',context).install(createCanvas);
   const art = vm.runInContext('CharacterArt', context);
   await art.load(src => loadImage(path.join(root, src)));

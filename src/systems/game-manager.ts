@@ -86,6 +86,7 @@ const GameManager = (() => {
       game.winBonusApplied = true;
     }
     startWinCutscene();
+    SkinSystem.recordVictory(game);
     save(game);
     return true;
   }

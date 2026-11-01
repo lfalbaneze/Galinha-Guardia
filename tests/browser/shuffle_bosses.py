@@ -27,7 +27,10 @@ try:
                 reduced_motion='reduce' if reduced else 'no-preference')
             errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
             url=(ROOT/folder/'shuffle/index.html').as_uri() if transport=='file' else f'http://127.0.0.1:{server.server_port}/{folder}shuffle/index.html'
-            page.goto(url+'#survival',wait_until='networkidle');page.wait_for_function('ShuffleDemo.ready && ShuffleDemo.run?.mode==="survival"')
+            page.goto(url+'#survival',wait_until='networkidle')
+            page.wait_for_function('ShuffleDemo.ready')
+            page.locator('#startSurvival').click()
+            page.wait_for_function('ShuffleDemo.ready && ShuffleDemo.run?.mode==="survival"')
             page.evaluate('''()=>{
                 window.warningOrder=[];let bodies=0;
                 const draw=CanvasRenderingContext2D.prototype.drawImage,fill=CanvasRenderingContext2D.prototype.fillText;

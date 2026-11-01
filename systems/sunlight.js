@@ -101,13 +101,16 @@ const Sunlight = (() => {
     const tile=mask(image,Math.max(1,Math.round(w)),Math.max(1,Math.round(h)),rect);if(!tile)return false;
     const matrix=c.getTransform(),dx=light.dx*(matrix.a<0?-1:1),out=groundContext(c);
     out.save();out.globalAlpha*=light.opacity;out.imageSmoothingEnabled=false;
-    // Flattening can erase thin paws. Keep their actual ink touching the floor.
+    // Keep the feet's screen-space depth; one baseline leaves the rear hooves floating.
     if(support){
-      const bottom=Math.min(tile.height,Math.round(support.bottom)),band=Math.min(2,bottom);
-      out.drawImage(tile,0,bottom-band,tile.width,band,x,ground-1,w,band);
+      const bottom=Math.min(tile.height,Math.round(support.bottom));
+      const band=Math.min(bottom,Math.max(2,Math.ceil((bottom-support.top)*.25)));
+      out.drawImage(tile,0,bottom-band,tile.width,band,x,y+bottom-band+1,w,band);
     }
-    const projection=support ? .55 : 1;
-    out.translate(x,ground);out.transform(1,0,-dx*projection,-light.dy*projection,0,0);
+    // A readable floor projection keeps the body attached to the supporting paws.
+    const depth=support ? .24+(1-light.height)*.12 : light.dy;
+    const contact=support?(support.bottom-support.top)*depth*.6:0;
+    out.translate(x,ground-contact);out.transform(1,0,-dx,-depth,0,0);
     out.drawImage(tile,0,y-ground,w,h);out.restore();casts++;return true;
   }
   function native(c,key,box,ground,paint) {

@@ -63,7 +63,95 @@ const GameplayHud = (() => {
         portrait('hudWolf', 'wolf', 'left');
         portraitSignature = skin;
     }
+    let debug = false;
+    window.addEventListener('keydown', event => {
+        if (event.code === 'F3' && !event.repeat) {
+            event.preventDefault();
+            debug = !debug;
+        }
+    });
+    function drawDebug(game) {
+        const panel = document.getElementById('aiDebug'), visible = debug && game.phase === 'playing';
+        if (panel)
+            panel.hidden = !visible;
+        if (!visible)
+            return;
+        const wolf = game.entities.wolf, config = WolfAI.getConfig(game), memory = WolfAI.explain(wolf);
+        const path = (points, color) => {
+            if (!points.length)
+                return;
+            ctx.strokeStyle = color;
+            ctx.beginPath();
+            points.forEach((p, i) => { const s = worldToScreen(p); if (i === 0)
+                ctx.moveTo(s.x, s.y);
+            else
+                ctx.lineTo(s.x, s.y); });
+            ctx.stroke();
+        };
+        ctx.save();
+        ctx.lineWidth = 2;
+        ctx.font = '12px monospace';
+        ctx.textAlign = 'left';
+        const eye = worldToScreen(getHitbox(wolf));
+        ctx.fillStyle = '#ffbc5022';
+        ctx.strokeStyle = '#ffbc50';
+        ctx.beginPath();
+        ctx.moveTo(eye.x, eye.y);
+        ctx.arc(eye.x, eye.y, config.range, wolf.heading - config.fov / 2, wolf.heading + config.fov / 2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        path([wolf, ...wolf.route], '#ffd45b');
+        path([wolf, ...wolf.searchPoints.slice(wolf.searchIndex)], '#ff98d0');
+        if (wolf.lastKnown) {
+            const p = worldToScreen(wolf.lastKnown);
+            ctx.strokeRect(p.x - 5, p.y - 5, 10, 10);
+        }
+        for (const choice of memory.choices.slice(0, 5)) {
+            const p = worldToScreen(choice);
+            ctx.fillStyle = '#fff5c7';
+            ctx.fillText(choice.score.toFixed(1), p.x + 6, p.y - 8);
+        }
+        const goose = game.entities.goose;
+        if (goose) {
+            path([goose, goose.target], '#71ebff');
+            const p = worldToScreen(goose);
+            ctx.strokeStyle = '#71ebff';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, GooseSystem.getConfig(game).alertRange, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.fillStyle = '#71ebff';
+            ctx.fillText(`Panto: ${goose.mode} / ${goose.maneuver || goose.tactic} | esquivas: ${goose.dodgeStreak || 0}`, p.x + 20, p.y - 30);
+        }
+        for (const animal of game.entities.animals) {
+            const nav = WildlifeRules.diagnostics(animal);
+            path([animal, ...(nav?.route.length ? nav.route : [{ x: animal.targetX, y: animal.targetY }])], '#9af2a4');
+            const p = worldToScreen(animal);
+            ctx.fillStyle = '#9af2a4';
+            ctx.fillText(`${animal.temper} / ${animal.activity || 'wander'}`, p.x + 15, p.y - 20);
+        }
+        for (const fox of game.entities.foxes || []) {
+            const nav = WildlifeRules.diagnostics(fox), p = worldToScreen(fox);
+            path([fox, ...(nav?.route.length ? nav.route : [fox.target])], '#ffc28c');
+            ctx.fillStyle = '#ffc28c';
+            ctx.fillText(`${fox.name}: ${fox.mode} / ${nav?.reason || 'vigiar'}`, p.x + 15, p.y - 30, 250);
+        }
+        const actors = [...game.entities.animals, ...(game.entities.foxes || []), ...(goose ? [goose] : [])];
+        const nearest = actors.sort((a, b) => distance(a, game.entities.chicken) - distance(b, game.entities.chicken))[0];
+        const navigation = nearest && WildlifeRules.diagnostics(nearest), wolfNavigation = WildlifeRules.diagnostics(wolf);
+        const wolfTarget = wolf.interceptTarget || wolf.routeTarget || wolf.lastKnown || wolf.heardPoint;
+        if (panel)
+            panel.textContent = `F3 IA | Lobo: ${wolf.mode} / ${wolf.interceptPhase || ((wolf.pursuitRest || 0) > 0 ? 'descanso' : 'movimento')}\n` +
+                `Rotas observadas: ${memory.regions.filter(r => r.weight > 0).length} | esconderijos vistos: ${memory.hides}\n` +
+                `Lobo: ${wolfNavigation?.reason || 'patrulhar e observar'}\n` +
+                (wolfTarget ? `Alvo do lobo: ${Math.round(wolfTarget.x)}, ${Math.round(wolfTarget.y)} | rota: ${wolf.route.length}\n` : '') +
+                (navigation ? `${nearest.id}: ${navigation.action} / ${navigation.reason}\nAlvo: ${Math.round(navigation.target.x)}, ${Math.round(navigation.target.y)} | rota: ${navigation.route.length} | sem progresso: ${navigation.stalled.toFixed(1)}s\n` : '') +
+                (navigation?.changes.length ? `Última mudança: ${navigation.changes[navigation.changes.length - 1]}\n` : '') +
+                'Amarelo: rota e visão | rosa: busca | azul: Panto | verde: animais';
+        ctx.restore();
+    }
     function drawTactics(game) {
+        drawDebug(game);
         const wolf = game.entities.wolf, target = wolf.interceptTarget;
         if (game.phase !== 'playing' || game.lake?.active || !wolf.interceptPhase || !target || SunflowerSystem.concealed(game))
             return;
@@ -77,14 +165,7 @@ const GameplayHud = (() => {
         const text = wolf.interceptPhase === 'warning' ? 'VAI CORTAR CAMINHO!' : 'INVESTIDA';
         ctx.strokeText(text, from.x, from.y - 66);
         ctx.fillText(text, from.x, from.y - 66);
-        if (wolf.interceptPhase === 'warning') {
-            const progress = clamp(1 - (wolf.interceptTime || 0) / WolfAI.getConfig(game).interceptWarning, 0, 1);
-            ctx.fillStyle = '#422c24';
-            ctx.fillRect(from.x - 26, from.y - 58, 52, 7);
-            ctx.fillStyle = '#ffbd85';
-            ctx.fillRect(from.x - 24, from.y - 56, 48 * progress, 3);
-        }
         ctx.restore();
     }
-    return { update, drawTactics };
+    return { update, drawTactics, setDebug: (enabled) => { debug = enabled; } };
 })();

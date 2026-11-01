@@ -1,5 +1,99 @@
 /* Shared geometry for local encounters. Decorations never become invisible obstacles. */
 const WildlifeRules = (() => {
+  type Travel = 'arrived'|'moving'|'blocked'|'unreachable';
+  interface Motion { target:Farm.Point; progressTarget:Farm.Point; route:Farm.Point[]; retry:number; stalled:number; best:number; recoveries:number;
+    action:string; reason:string; changes:string[]; source:Farm.Obstacle[]; }
+  const motions=new WeakMap<Farm.Body,Motion>();
+  function motion(body:Farm.Body,target:Farm.Point=body):Motion {
+    let m=motions.get(body);
+    if(!m){m={target:point(target),progressTarget:point(target),route:[],retry:0,stalled:0,best:Infinity,recoveries:0,action:'idle',reason:'sem destino',changes:[],source:OBSTACLES};motions.set(body,m);}
+    return m;
+  }
+  function decide(body:Farm.Body,action:string,reason:string):void {
+    const m=motion(body);
+    if(m.action===action&&m.reason===reason)return;
+    m.action=action;m.reason=reason;m.changes.push(`${action}: ${reason}`);m.changes=m.changes.slice(-6);
+  }
+  function progress(body:Farm.Body,target:Farm.Point,dt:number):boolean {
+    const m=motion(body,target),gap=distance(body,target);
+    if(distance(m.progressTarget,target)>24){m.progressTarget=point(target);m.best=Infinity;m.stalled=0;}
+    if(gap<m.best-.4){m.best=gap;m.stalled=0;}else m.stalled+=dt;
+    return m.stalled>=1.2;
+  }
+  function navigate(body:Farm.Entity,target:Farm.Point,speed:number,dt:number,
+    within:(p:Farm.Point)=>boolean=()=>true,crowd:Farm.Body[]=[]):Travel {
+    if(!validPoint(target)||!Number.isFinite(dt)||dt<=0||!Number.isFinite(speed)||speed<0)return 'blocked';
+    const m=motion(body,target);
+    if(distance(m.target,target)>24||m.source!==OBSTACLES){
+      m.target=point(target);m.route=[];m.retry=0;m.stalled=0;m.best=Infinity;m.recoveries=0;m.source=OBSTACLES;
+    }
+    m.retry=Math.max(0,m.retry-dt);
+    if(distance(body,target)<.01){m.route=[];m.retry=0;m.recoveries=0;m.stalled=0;m.best=Infinity;decide(body,'arrived','destino alcançado');return 'arrived';}
+    if(!m.route.length){
+      if(m.retry>0)return m.action==='unreachable'?'unreachable':'blocked';
+      m.route=clear(body,target,body.hitbox)?[point(target)]:
+        typeof WolfAI!=='undefined'?WolfAI.findPath(body,target):[];
+      m.target=point(target);
+      if(!m.route.every(p=>within(p))||!m.route.length||distance(m.route[m.route.length-1],target)>.01){
+        m.route=[];m.retry=1;decide(body,'unreachable','destino sem passagem segura');return 'unreachable';
+      }
+      m.retry=.8;decide(body,'route','rota recalculada');
+    }
+    let remaining=speed*dt;
+    while(remaining>.001&&m.route.length){
+      const goal=m.route[0],gap=distance(body,goal);
+      if(gap<.01){m.route.shift();m.best=Infinity;m.stalled=0;continue;}
+      const step=Math.min(4,remaining,gap),angle=Math.atan2(goal.y-body.y,goal.x-body.x);
+      const current=getHitbox(body);
+      const next=[0,.65,-.65,1.25,-1.25,Math.PI/2,-Math.PI/2,2,-2].map(turn=>({x:body.x+Math.cos(angle+turn)*step,y:body.y+Math.sin(angle+turn)*step}))
+        .find(p=>within(p)&&walkableStep(body,p)&&crowd.every(a=>{
+          if(a===body)return true;
+          const foot={x:p.x+body.hitbox.ox,y:p.y+body.hitbox.oy},other=getHitbox(a);
+          return distance(foot,other)>=body.hitbox.r+other.r+2||distance(foot,other)>=distance(current,other)-.001;
+        }));
+      if(!next){
+        const stuck=progress(body,goal,dt);
+        m.route=[];m.retry=.25;decide(body,stuck?'unreachable':'blocked',stuck?'passagem bloqueada: escolher outro destino':'obstáculo ou vizinho na passagem');
+        return stuck?'unreachable':'blocked';
+      }
+      Player.face(body,next.x-body.x,next.y-body.y);body.x=next.x;body.y=next.y;remaining-=step;
+      if(progress(body,goal,dt*step/Math.max(.001,speed*dt))){
+        m.route=[];m.stalled=0;m.best=Infinity;m.recoveries++;
+        const result=m.recoveries>=2?'unreachable':'blocked';m.retry=result==='unreachable'?1:0;
+        decide(body,result,result==='unreachable'?'desvio repetido sem progresso: escolher outro destino':'sem progresso: tentar outra rota');return result;
+      }
+    }
+    if(distance(body,target)<.01){m.route=[];m.retry=0;m.recoveries=0;m.stalled=0;m.best=Infinity;decide(body,'arrived','destino alcançado');return 'arrived';}
+    return m.route.length?'moving':'blocked';
+  }
+  function walkableStep(body:Farm.Entity,next:Farm.Point):boolean {
+    if(clear(body,next,body.hitbox))return true;
+    if(clear(body,body,body.hitbox))return false;
+    // Rounded collision corners can start inside the conservative route padding.
+    const free=(p:Farm.Point):boolean=>OBSTACLES.every(o=>o.blocking===false||Math.hypot(
+      p.x+body.hitbox.ox-clamp(p.x+body.hitbox.ox,o.x,o.x+o.w),
+      p.y+body.hitbox.oy-clamp(p.y+body.hitbox.oy,o.y,o.y+o.h))>=body.hitbox.r-.001);
+    if(!free(body)||!free(next))return false;
+    const probe={...body};Player.move(probe,next.x-body.x,next.y-body.y);
+    return distance(probe,next)<.001;
+  }
+  type Signal={id:number;source:string;kind:'alarm'|'pursuit'|'rustle';origin:Farm.Point;point:Farm.Point;time:number};
+  const signals=new WeakMap<Farm.Body,Signal[]>();
+  let serial=0;
+  function report(game:Farm.GameState,source:Farm.Entity,kind:Signal['kind'],observed:Farm.Point):void {
+    if(game.phase!=='playing'||game.lake?.active||!validPoint(source)||!validPoint(observed))return;
+    const now=game.elapsed||0,list=(signals.get(game.entities.wolf)||[]).filter(s=>now>=s.time&&now-s.time<4);
+    if(list.some(s=>s.source===source.id&&now-s.time<1))return;
+    list.push({id:++serial,source:source.id,kind,origin:point(source),point:point(observed),time:now});
+    signals.set(game.entities.wolf,list.slice(-12));
+  }
+  function hear(game:Farm.GameState,listener:Farm.Entity,after=0):Signal|null {
+    const now=game.elapsed||0;
+    const s=[...(signals.get(game.entities.wolf)||[])].reverse().find(s=>s.id>after&&s.source!==listener.id&&now>=s.time&&now-s.time<4&&
+      distance(listener,s.origin)<=300*Math.pow(.6,OBSTACLES.filter(o=>o.opaque!==false&&o.type!=='pond'&&
+        DetectionSystem.segmentIntersectsRect(getHitbox(listener),s.origin,o)).length));
+    return s?{...s,origin:point(s.origin),point:point(s.point)}:null;
+  }
   const point = (p: Farm.Point): Farm.Point => ({ x: p.x, y: p.y });
   function validPoint(p: unknown): p is Farm.Point {
     if (!p || typeof p !== 'object') return false;
@@ -50,5 +144,8 @@ const WildlifeRules = (() => {
     Player.face(body,dx,dy);
     return length<=amount+.01?'arrived':'moving';
   }
-  return {point,validPoint,rank,pathDistance,reserved,clear,onScreen,overlapsRefuge,observe,move};
+  return {point,validPoint,rank,pathDistance,reserved,clear,onScreen,overlapsRefuge,observe,move,navigate,progress,decide,report,hear,
+    reset:(body:Farm.Body)=>{motions.delete(body);signals.delete(body);},
+    diagnostics:(body:Farm.Body)=>{const m=motions.get(body);return m?{target:point(m.target),route:m.route.map(point),
+      action:m.action,reason:m.reason,stalled:m.stalled,recoveries:m.recoveries,changes:[...m.changes]}:null;}};
 })();

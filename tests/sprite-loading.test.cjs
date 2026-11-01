@@ -4,7 +4,7 @@ const root = path.resolve(__dirname, '..');
 const directions=['up','upright','right','downright','down','downleft','left','upleft'];
 function renderer() {
   const context = vm.createContext({ setTimeout, clearTimeout });
-  for (const file of ['sprite-data.js', 'arcade-art-data.js', 'premium-art-data.js', 'pixel-art-data.js', 'pixellab-art-data.js', 'character-art.js'])
+  for (const file of ['sprite-data.js', 'arcade-art-data.js', 'premium-art-data.js', 'pixel-art-data.js', 'pixellab-art-data.js', 'comfyui-art-data.js', 'character-art.js'])
     vm.runInContext(fs.readFileSync(path.join(root, 'systems', file), 'utf8'), context);
   return vm.runInContext('CharacterArt', context);
 }
@@ -18,7 +18,7 @@ test('all 34 characters have eight complete directions from one coherent atlas e
         assert.ok(f.x>=0&&f.y>=0&&f.w>0&&f.h>0,species+'/'+direction);
       }
     }
-    assert.equal(sources.size,1);assert.equal(rows.size,8);assert.match([...sources][0],/pixellab-108\/runtime\//);
+    assert.equal(sources.size,1);assert.equal(rows.size,8);assert.match([...sources][0],/(?:pixellab-108|comfyui-110)\/runtime\//);
   }
 });
 test('idle is stable and every authored phase advances from traveled distance',()=>{

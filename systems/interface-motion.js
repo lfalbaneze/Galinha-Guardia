@@ -200,7 +200,7 @@ const InterfaceMotion = (() => {
     if(hunger.tier===2&&wolf.mode==='chase')label='Lobo voraz! Quebre a visão!';
     if(hunger.tier&&['search','investigate'].includes(wolf.mode))label='Faminto: a busca dura mais';
     if(wolf.interceptPhase==='warning'){level='danger';label='Vai cortar caminho! Mude de direção!';amount=1;}
-    if(wolf.interceptPhase==='charge'){level='danger';label='Investida! Saia da faixa!';amount=1;}
+    if(wolf.interceptPhase==='charge'){level='danger';label='Investida! Desvie para o lado!';amount=1;}
     if(wolf.pursuitRest>0){level='search';label='O lobo cansou! Hora de despistar';amount=.25;}
     if (chicken.hidden && !exposed) { level = 'safe'; label = 'Quietinha no esconderijo'; amount = 0; }
     if (wolf.mode === 'frightened') { level = 'safe'; label = 'Thor espantou o lobo!'; amount = 0; }

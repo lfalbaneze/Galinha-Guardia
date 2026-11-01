@@ -1,0 +1,542 @@
+{
+  "easy": {
+    "title": "Explorador",
+    "src": "assets/cinematics/endings-110/easy-435b87528b59.png",
+    "provider": "comfyui",
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "DreamShaper_8_pruned.safetensors"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "(pixel art:1.4), (16 bit game background:1.3), high oblique overhead camera, wide empty clearing centered in lower middle, open foreground, crisp dark outlines, flat muted colors, consistent pixel size, charming hand drawn cartoon. sunny apple orchard picnic meadow, apple trees framing both sides, little pond in the far right background, wildflowers, a picnic basket and red blanket at left edge, warm clear afternoon"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "border, frame, photograph, realistic, 3d, glossy, painting, blur, characters, people, animals, wolf, chicken, crowd, text, letters, logo, watermark, close up, side view"
+        }
+      },
+      "5": {
+        "class_type": "VAEEncode",
+        "inputs": {
+          "pixels": [
+            "10",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "6": {
+        "class_type": "IPAdapterUnifiedLoader",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "preset": "PLUS (high strength)"
+        }
+      },
+      "7": {
+        "class_type": "IPAdapterAdvanced",
+        "inputs": {
+          "model": [
+            "6",
+            0
+          ],
+          "ipadapter": [
+            "6",
+            1
+          ],
+          "image": [
+            "10",
+            0
+          ],
+          "weight": 0.65,
+          "weight_type": "linear",
+          "combine_embeds": "concat",
+          "start_at": 0.0,
+          "end_at": 1.0,
+          "embeds_scaling": "V only"
+        }
+      },
+      "10": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "ending-layout-easy.png"
+        }
+      },
+      "8": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "7",
+            0
+          ],
+          "positive": [
+            "3",
+            0
+          ],
+          "negative": [
+            "4",
+            0
+          ],
+          "latent_image": [
+            "5",
+            0
+          ],
+          "seed": 20261101,
+          "steps": 22,
+          "cfg": 6.5,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 0.42
+        }
+      },
+      "9": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "8",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "9",
+            0
+          ],
+          "filename_prefix": "endings/easy"
+        }
+      }
+    }
+  },
+  "normal": {
+    "title": "Aventura",
+    "src": "assets/cinematics/endings-110/normal-e300c6060e91.png",
+    "provider": "comfyui",
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "DreamShaper_8_pruned.safetensors"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "(pixel art:1.4), (16 bit game background:1.3), high oblique overhead camera, wide empty clearing centered in lower middle, open foreground, crisp dark outlines, flat muted colors, consistent pixel size, charming hand drawn cartoon. rustic red barn dance courtyard, wooden dance platform with empty center, colorful festival flags and warm hanging lanterns, hay bales at the far edges, late golden afternoon"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "border, frame, photograph, realistic, 3d, glossy, painting, blur, characters, people, animals, wolf, chicken, crowd, text, letters, logo, watermark, close up, side view"
+        }
+      },
+      "5": {
+        "class_type": "VAEEncode",
+        "inputs": {
+          "pixels": [
+            "10",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "6": {
+        "class_type": "IPAdapterUnifiedLoader",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "preset": "PLUS (high strength)"
+        }
+      },
+      "7": {
+        "class_type": "IPAdapterAdvanced",
+        "inputs": {
+          "model": [
+            "6",
+            0
+          ],
+          "ipadapter": [
+            "6",
+            1
+          ],
+          "image": [
+            "10",
+            0
+          ],
+          "weight": 0.65,
+          "weight_type": "linear",
+          "combine_embeds": "concat",
+          "start_at": 0.0,
+          "end_at": 1.0,
+          "embeds_scaling": "V only"
+        }
+      },
+      "10": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "ending-layout-normal.png"
+        }
+      },
+      "8": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "7",
+            0
+          ],
+          "positive": [
+            "3",
+            0
+          ],
+          "negative": [
+            "4",
+            0
+          ],
+          "latent_image": [
+            "5",
+            0
+          ],
+          "seed": 20261102,
+          "steps": 22,
+          "cfg": 6.5,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 0.42
+        }
+      },
+      "9": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "8",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "9",
+            0
+          ],
+          "filename_prefix": "endings/normal"
+        }
+      }
+    }
+  },
+  "hard": {
+    "title": "Contra o tempo",
+    "src": "assets/cinematics/endings-110/hard-d6cb9e9abebf.png",
+    "provider": "comfyui",
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "DreamShaper_8_pruned.safetensors"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "(pixel art:1.4), (16 bit game background:1.3), high oblique overhead camera, wide empty clearing centered in lower middle, open foreground, crisp dark outlines, flat muted colors, consistent pixel size, charming hand drawn cartoon. farm windmill courtyard at dawn, large timber windmill at the right edge, pumpkin cart and tools at the left edge, scattered autumn leaves around empty dirt clearing, distant rolling fields"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "border, frame, photograph, realistic, 3d, glossy, painting, blur, characters, people, animals, wolf, chicken, crowd, text, letters, logo, watermark, close up, side view"
+        }
+      },
+      "5": {
+        "class_type": "VAEEncode",
+        "inputs": {
+          "pixels": [
+            "10",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "6": {
+        "class_type": "IPAdapterUnifiedLoader",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "preset": "PLUS (high strength)"
+        }
+      },
+      "7": {
+        "class_type": "IPAdapterAdvanced",
+        "inputs": {
+          "model": [
+            "6",
+            0
+          ],
+          "ipadapter": [
+            "6",
+            1
+          ],
+          "image": [
+            "10",
+            0
+          ],
+          "weight": 0.65,
+          "weight_type": "linear",
+          "combine_embeds": "concat",
+          "start_at": 0.0,
+          "end_at": 1.0,
+          "embeds_scaling": "V only"
+        }
+      },
+      "10": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "ending-layout-hard.png"
+        }
+      },
+      "8": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "7",
+            0
+          ],
+          "positive": [
+            "3",
+            0
+          ],
+          "negative": [
+            "4",
+            0
+          ],
+          "latent_image": [
+            "5",
+            0
+          ],
+          "seed": 20261103,
+          "steps": 22,
+          "cfg": 6.5,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 0.42
+        }
+      },
+      "9": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "8",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "9",
+            0
+          ],
+          "filename_prefix": "endings/hard"
+        }
+      }
+    }
+  },
+  "hardcore": {
+    "title": "\u00daltima luz",
+    "src": "assets/cinematics/endings-110/hardcore-fe517800dd9d.png",
+    "provider": "comfyui",
+    "workflow": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "DreamShaper_8_pruned.safetensors"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "(pixel art:1.4), (16 bit game background:1.3), high oblique overhead camera, wide empty clearing centered in lower middle, open foreground, crisp dark outlines, flat muted colors, consistent pixel size, charming hand drawn cartoon. haunted forest farm clearing at midnight, twisted huge dead tree at the left edge, broken wooden fence at the right edge, distant tiny warm farmhouse windows, crescent moon behind clouds, pale ground fog lighting the empty center, ominous blue black woods"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "border, frame, photograph, realistic, 3d, glossy, painting, blur, characters, people, animals, wolf, chicken, crowd, text, letters, logo, watermark, close up, side view"
+        }
+      },
+      "5": {
+        "class_type": "VAEEncode",
+        "inputs": {
+          "pixels": [
+            "10",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "6": {
+        "class_type": "IPAdapterUnifiedLoader",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "preset": "PLUS (high strength)"
+        }
+      },
+      "7": {
+        "class_type": "IPAdapterAdvanced",
+        "inputs": {
+          "model": [
+            "6",
+            0
+          ],
+          "ipadapter": [
+            "6",
+            1
+          ],
+          "image": [
+            "10",
+            0
+          ],
+          "weight": 0.65,
+          "weight_type": "linear",
+          "combine_embeds": "concat",
+          "start_at": 0.0,
+          "end_at": 1.0,
+          "embeds_scaling": "V only"
+        }
+      },
+      "10": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "ending-layout-hardcore.png"
+        }
+      },
+      "8": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "7",
+            0
+          ],
+          "positive": [
+            "3",
+            0
+          ],
+          "negative": [
+            "4",
+            0
+          ],
+          "latent_image": [
+            "5",
+            0
+          ],
+          "seed": 20261104,
+          "steps": 22,
+          "cfg": 6.5,
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "denoise": 0.42
+        }
+      },
+      "9": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "8",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "9",
+            0
+          ],
+          "filename_prefix": "endings/hardcore"
+        }
+      }
+    }
+  }
+}

@@ -154,5 +154,13 @@
         "reason": "Fixed skeleton camera; custom walking clip turned inside the cycle."
       }
     }
+  },
+  "356c9f69-59c8-458c-a8b3-eef866077e85": {
+    "alert": {
+      "north-east": {
+        "animationName": "farm-alert-face-consistent-1",
+        "reason": "Rear-right alert preserves the original tawny rear three-quarter view; visually reviewed all twelve frames."
+      }
+    }
   }
 }

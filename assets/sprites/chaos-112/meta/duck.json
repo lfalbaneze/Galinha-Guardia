@@ -1,0 +1,3128 @@
+{
+  "id": "duck",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+    "width": 400,
+    "height": 784,
+    "viewRotation": 1,
+    "poses": {
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 0,
+            "y": 392,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 6,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16,
+              "right": 0.86,
+              "top": 0.14285714285714285,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.36,
+              "footRight": 0.68
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 50,
+            "y": 392,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 6,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16,
+              "right": 0.88,
+              "top": 0.14285714285714285,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.38,
+              "footRight": 0.7
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 100,
+            "y": 392,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 6,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16,
+              "right": 0.88,
+              "top": 0.14285714285714285,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.32,
+              "footRight": 0.68
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 150,
+            "y": 392,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 6,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16,
+              "right": 0.86,
+              "top": 0.14285714285714285,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.36,
+              "footRight": 0.64
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 200,
+            "y": 392,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 6,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14,
+              "right": 0.86,
+              "top": 0.14285714285714285,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.48,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 250,
+            "y": 392,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 6,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14,
+              "right": 0.86,
+              "top": 0.14285714285714285,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.46,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 300,
+            "y": 392,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 6,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14,
+              "right": 0.88,
+              "top": 0.16326530612244897,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.48,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 350,
+            "y": 392,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 6,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14,
+              "right": 0.86,
+              "top": 0.14285714285714285,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.5,
+              "footRight": 0.62
+            }
+          }
+        ],
+        "cx": 25,
+        "bottom": 45,
+        "top": 6,
+        "width": 37,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 0,
+            "y": 441,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.88,
+              "top": 0.10204081632653061,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.52,
+              "footRight": 0.62
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 50,
+            "y": 441,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.88,
+              "top": 0.10204081632653061,
+              "bottom": 0.8775510204081632,
+              "footLeft": 0.56,
+              "footRight": 0.64
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 100,
+            "y": 441,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.88,
+              "top": 0.10204081632653061,
+              "bottom": 0.8367346938775511,
+              "footLeft": 0.34,
+              "footRight": 0.66
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 150,
+            "y": 441,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.86,
+              "top": 0.12244897959183673,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.5,
+              "footRight": 0.58
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 200,
+            "y": 441,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.88,
+              "top": 0.12244897959183673,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.46,
+              "footRight": 0.54
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 250,
+            "y": 441,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.9,
+              "top": 0.10204081632653061,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.42,
+              "footRight": 0.56
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 300,
+            "y": 441,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.9,
+              "top": 0.10204081632653061,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.42,
+              "footRight": 0.56
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 350,
+            "y": 441,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.9,
+              "top": 0.12244897959183673,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.44,
+              "footRight": 0.56
+            }
+          }
+        ],
+        "cx": 25,
+        "bottom": 45,
+        "top": 4,
+        "width": 41,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 0,
+            "y": 490,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 38,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14,
+              "right": 0.88,
+              "top": 0.14285714285714285,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.38,
+              "footRight": 0.56
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 50,
+            "y": 490,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 38,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.86,
+              "top": 0.14285714285714285,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.44,
+              "footRight": 0.58
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 100,
+            "y": 490,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 38,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.84,
+              "top": 0.16326530612244897,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.48,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 150,
+            "y": 490,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 38,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.86,
+              "top": 0.16326530612244897,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.52,
+              "footRight": 0.62
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 200,
+            "y": 490,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 38,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14,
+              "right": 0.88,
+              "top": 0.16326530612244897,
+              "bottom": 0.8775510204081632,
+              "footLeft": 0.38,
+              "footRight": 0.56
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 250,
+            "y": 490,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 38,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.88,
+              "top": 0.14285714285714285,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.42,
+              "footRight": 0.56
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 300,
+            "y": 490,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 38,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.86,
+              "top": 0.16326530612244897,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.4,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 350,
+            "y": 490,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 38,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.84,
+              "top": 0.16326530612244897,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.28,
+              "footRight": 0.48
+            }
+          }
+        ],
+        "cx": 25,
+        "bottom": 45,
+        "top": 7,
+        "width": 38,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 0,
+            "y": 539,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 5,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.26,
+              "right": 0.76,
+              "top": 0.12244897959183673,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.28,
+              "footRight": 0.42
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 50,
+            "y": 539,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 5,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.74,
+              "top": 0.14285714285714285,
+              "bottom": 0.8775510204081632,
+              "footLeft": 0.28,
+              "footRight": 0.68
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 100,
+            "y": 539,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 5,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.72,
+              "top": 0.12244897959183673,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.3,
+              "footRight": 0.46
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 150,
+            "y": 539,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 5,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.74,
+              "top": 0.10204081632653061,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.34,
+              "footRight": 0.44
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 200,
+            "y": 539,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 5,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.78,
+              "top": 0.10204081632653061,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.38,
+              "footRight": 0.46
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 250,
+            "y": 539,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 5,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.26,
+              "right": 0.8,
+              "top": 0.12244897959183673,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.4,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 300,
+            "y": 539,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 5,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.78,
+              "top": 0.14285714285714285,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.4,
+              "footRight": 0.48
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 350,
+            "y": 539,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 5,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.76,
+              "top": 0.12244897959183673,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.38,
+              "footRight": 0.46
+            }
+          }
+        ],
+        "cx": 25,
+        "bottom": 45,
+        "top": 5,
+        "width": 27,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 0,
+            "y": 588,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.74,
+              "top": 0.16326530612244897,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.54,
+              "footRight": 0.68
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 50,
+            "y": 588,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.74,
+              "top": 0.1836734693877551,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.52,
+              "footRight": 0.66
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 100,
+            "y": 588,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.72,
+              "top": 0.16326530612244897,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.48,
+              "footRight": 0.62
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 150,
+            "y": 588,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.72,
+              "top": 0.14285714285714285,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.52,
+              "footRight": 0.58
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 200,
+            "y": 588,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.22,
+              "right": 0.74,
+              "top": 0.16326530612244897,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.5,
+              "footRight": 0.56
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 250,
+            "y": 588,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.74,
+              "top": 0.14285714285714285,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.52,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 300,
+            "y": 588,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.74,
+              "top": 0.14285714285714285,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.52,
+              "footRight": 0.66
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 350,
+            "y": 588,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 27,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.74,
+              "top": 0.16326530612244897,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.54,
+              "footRight": 0.68
+            }
+          }
+        ],
+        "cx": 25,
+        "bottom": 45,
+        "top": 7,
+        "width": 27,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 0,
+            "y": 637,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.86,
+              "top": 0.1836734693877551,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.4,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 50,
+            "y": 637,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.86,
+              "top": 0.1836734693877551,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.36,
+              "footRight": 0.56
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 100,
+            "y": 637,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.88,
+              "top": 0.1836734693877551,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.42,
+              "footRight": 0.52
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 150,
+            "y": 637,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.86,
+              "top": 0.16326530612244897,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.44,
+              "footRight": 0.52
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 200,
+            "y": 637,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.88,
+              "top": 0.14285714285714285,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.52,
+              "footRight": 0.56
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 250,
+            "y": 637,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.86,
+              "top": 0.16326530612244897,
+              "bottom": 0.8775510204081632,
+              "footLeft": 0.48,
+              "footRight": 0.62
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 300,
+            "y": 637,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.86,
+              "top": 0.16326530612244897,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.52,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 350,
+            "y": 637,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 7,
+            "width": 39,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.86,
+              "top": 0.1836734693877551,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.52,
+              "footRight": 0.72
+            }
+          }
+        ],
+        "cx": 25,
+        "bottom": 45,
+        "top": 7,
+        "width": 39,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 0,
+            "y": 686,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14,
+              "right": 0.84,
+              "top": 0.12244897959183673,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.36,
+              "footRight": 0.46
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 50,
+            "y": 686,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14,
+              "right": 0.84,
+              "top": 0.10204081632653061,
+              "bottom": 0.8775510204081632,
+              "footLeft": 0.32,
+              "footRight": 0.46
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 100,
+            "y": 686,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.84,
+              "top": 0.12244897959183673,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.34,
+              "footRight": 0.42
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 150,
+            "y": 686,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14,
+              "right": 0.84,
+              "top": 0.14285714285714285,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.38,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 200,
+            "y": 686,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14,
+              "right": 0.84,
+              "top": 0.12244897959183673,
+              "bottom": 0.8571428571428571,
+              "footLeft": 0.44,
+              "footRight": 0.52
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 250,
+            "y": 686,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.84,
+              "top": 0.10204081632653061,
+              "bottom": 0.8163265306122449,
+              "footLeft": 0.4,
+              "footRight": 0.56
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 300,
+            "y": 686,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.84,
+              "top": 0.10204081632653061,
+              "bottom": 0.8775510204081632,
+              "footLeft": 0.46,
+              "footRight": 0.56
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 350,
+            "y": 686,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12,
+              "right": 0.84,
+              "top": 0.10204081632653061,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.44,
+              "footRight": 0.56
+            }
+          }
+        ],
+        "cx": 25,
+        "bottom": 45,
+        "top": 4,
+        "width": 36,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 0,
+            "y": 735,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 8,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24,
+              "right": 0.76,
+              "top": 0.1836734693877551,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.28,
+              "footRight": 0.72
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 50,
+            "y": 735,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 8,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8,
+              "top": 0.20408163265306123,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.32,
+              "footRight": 0.7
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 100,
+            "y": 735,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 8,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8,
+              "top": 0.1836734693877551,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.52,
+              "footRight": 0.68
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 150,
+            "y": 735,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 8,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18,
+              "right": 0.84,
+              "top": 0.1836734693877551,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.34,
+              "footRight": 0.68
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 200,
+            "y": 735,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 8,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8,
+              "top": 0.1836734693877551,
+              "bottom": 0.8775510204081632,
+              "footLeft": 0.32,
+              "footRight": 0.68
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 250,
+            "y": 735,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 8,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8,
+              "top": 0.1836734693877551,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.32,
+              "footRight": 0.48
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 300,
+            "y": 735,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 8,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18,
+              "right": 0.8,
+              "top": 0.1836734693877551,
+              "bottom": 0.9183673469387755,
+              "footLeft": 0.32,
+              "footRight": 0.48
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+            "x": 350,
+            "y": 735,
+            "w": 50,
+            "h": 49,
+            "cx": 25,
+            "bottom": 45,
+            "top": 8,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.76,
+              "top": 0.1836734693877551,
+              "bottom": 0.8979591836734694,
+              "footLeft": 0.3,
+              "footRight": 0.48
+            }
+          }
+        ],
+        "cx": 25,
+        "bottom": 45,
+        "top": 8,
+        "width": 33,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 0,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16,
+                "right": 0.84,
+                "top": 0.14285714285714285,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.54,
+                "footRight": 0.66
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 7,
+          "width": 34,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 49,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 6,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.88,
+                "top": 0.14285714285714285,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.48,
+                "footRight": 0.6
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 6,
+          "width": 39,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 98,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 8,
+              "width": 38,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.88,
+                "top": 0.16326530612244897,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.36,
+                "footRight": 0.52
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 8,
+          "width": 38,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 147,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 9,
+              "width": 25,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.74,
+                "top": 0.20408163265306123,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.3,
+                "footRight": 0.64
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 9,
+          "width": 25,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 196,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 9,
+              "width": 26,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.74,
+                "top": 0.1836734693877551,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.36,
+                "footRight": 0.66
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 9,
+          "width": 26,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 245,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 8,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.86,
+                "top": 0.16326530612244897,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.44,
+                "footRight": 0.62
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 8,
+          "width": 37,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 294,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16,
+                "right": 0.84,
+                "top": 0.14285714285714285,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.38,
+                "footRight": 0.5
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 7,
+          "width": 34,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 343,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 9,
+              "width": 25,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.74,
+                "top": 0.1836734693877551,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.28,
+                "footRight": 0.46
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 9,
+          "width": 25,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 392,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 6,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16,
+                "right": 0.86,
+                "top": 0.14285714285714285,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.36,
+                "footRight": 0.68
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 50,
+              "y": 392,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 6,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16,
+                "right": 0.88,
+                "top": 0.14285714285714285,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.38,
+                "footRight": 0.7
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 100,
+              "y": 392,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 6,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16,
+                "right": 0.88,
+                "top": 0.14285714285714285,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.32,
+                "footRight": 0.68
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 150,
+              "y": 392,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 6,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16,
+                "right": 0.86,
+                "top": 0.14285714285714285,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.36,
+                "footRight": 0.64
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 200,
+              "y": 392,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 6,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.86,
+                "top": 0.14285714285714285,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.48,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 250,
+              "y": 392,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 6,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.86,
+                "top": 0.14285714285714285,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.46,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 300,
+              "y": 392,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 6,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.88,
+                "top": 0.16326530612244897,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.48,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 350,
+              "y": 392,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 6,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.86,
+                "top": 0.14285714285714285,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.5,
+                "footRight": 0.62
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 6,
+          "width": 37,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 441,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.88,
+                "top": 0.10204081632653061,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.52,
+                "footRight": 0.62
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 50,
+              "y": 441,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.88,
+                "top": 0.10204081632653061,
+                "bottom": 0.8775510204081632,
+                "footLeft": 0.56,
+                "footRight": 0.64
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 100,
+              "y": 441,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.88,
+                "top": 0.10204081632653061,
+                "bottom": 0.8367346938775511,
+                "footLeft": 0.34,
+                "footRight": 0.66
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 150,
+              "y": 441,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.86,
+                "top": 0.12244897959183673,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.5,
+                "footRight": 0.58
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 200,
+              "y": 441,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.88,
+                "top": 0.12244897959183673,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.46,
+                "footRight": 0.54
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 250,
+              "y": 441,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.9,
+                "top": 0.10204081632653061,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.42,
+                "footRight": 0.56
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 300,
+              "y": 441,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.9,
+                "top": 0.10204081632653061,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.42,
+                "footRight": 0.56
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 350,
+              "y": 441,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.9,
+                "top": 0.12244897959183673,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.44,
+                "footRight": 0.56
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 4,
+          "width": 41,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 490,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 38,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.88,
+                "top": 0.14285714285714285,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.38,
+                "footRight": 0.56
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 50,
+              "y": 490,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 38,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.86,
+                "top": 0.14285714285714285,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.44,
+                "footRight": 0.58
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 100,
+              "y": 490,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 38,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.84,
+                "top": 0.16326530612244897,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.48,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 150,
+              "y": 490,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 38,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.86,
+                "top": 0.16326530612244897,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.52,
+                "footRight": 0.62
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 200,
+              "y": 490,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 38,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.88,
+                "top": 0.16326530612244897,
+                "bottom": 0.8775510204081632,
+                "footLeft": 0.38,
+                "footRight": 0.56
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 250,
+              "y": 490,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 38,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.88,
+                "top": 0.14285714285714285,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.42,
+                "footRight": 0.56
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 300,
+              "y": 490,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 38,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.86,
+                "top": 0.16326530612244897,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.4,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 350,
+              "y": 490,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 38,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.84,
+                "top": 0.16326530612244897,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.28,
+                "footRight": 0.48
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 7,
+          "width": 38,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 539,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 5,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.26,
+                "right": 0.76,
+                "top": 0.12244897959183673,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.28,
+                "footRight": 0.42
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 50,
+              "y": 539,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 5,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.74,
+                "top": 0.14285714285714285,
+                "bottom": 0.8775510204081632,
+                "footLeft": 0.28,
+                "footRight": 0.68
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 100,
+              "y": 539,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 5,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.72,
+                "top": 0.12244897959183673,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.3,
+                "footRight": 0.46
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 150,
+              "y": 539,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 5,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.74,
+                "top": 0.10204081632653061,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.34,
+                "footRight": 0.44
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 200,
+              "y": 539,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 5,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.78,
+                "top": 0.10204081632653061,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.38,
+                "footRight": 0.46
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 250,
+              "y": 539,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 5,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.26,
+                "right": 0.8,
+                "top": 0.12244897959183673,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.4,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 300,
+              "y": 539,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 5,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.78,
+                "top": 0.14285714285714285,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.4,
+                "footRight": 0.48
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 350,
+              "y": 539,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 5,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.76,
+                "top": 0.12244897959183673,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.38,
+                "footRight": 0.46
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 5,
+          "width": 27,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 588,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.74,
+                "top": 0.16326530612244897,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.54,
+                "footRight": 0.68
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 50,
+              "y": 588,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.74,
+                "top": 0.1836734693877551,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.52,
+                "footRight": 0.66
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 100,
+              "y": 588,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.72,
+                "top": 0.16326530612244897,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.48,
+                "footRight": 0.62
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 150,
+              "y": 588,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.72,
+                "top": 0.14285714285714285,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.52,
+                "footRight": 0.58
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 200,
+              "y": 588,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.22,
+                "right": 0.74,
+                "top": 0.16326530612244897,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.5,
+                "footRight": 0.56
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 250,
+              "y": 588,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.74,
+                "top": 0.14285714285714285,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.52,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 300,
+              "y": 588,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.74,
+                "top": 0.14285714285714285,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.52,
+                "footRight": 0.66
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 350,
+              "y": 588,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 27,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.74,
+                "top": 0.16326530612244897,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.54,
+                "footRight": 0.68
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 7,
+          "width": 27,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 637,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.86,
+                "top": 0.1836734693877551,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.4,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 50,
+              "y": 637,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.86,
+                "top": 0.1836734693877551,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.36,
+                "footRight": 0.56
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 100,
+              "y": 637,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.88,
+                "top": 0.1836734693877551,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.42,
+                "footRight": 0.52
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 150,
+              "y": 637,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.86,
+                "top": 0.16326530612244897,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.44,
+                "footRight": 0.52
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 200,
+              "y": 637,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.88,
+                "top": 0.14285714285714285,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.52,
+                "footRight": 0.56
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 250,
+              "y": 637,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.86,
+                "top": 0.16326530612244897,
+                "bottom": 0.8775510204081632,
+                "footLeft": 0.48,
+                "footRight": 0.62
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 300,
+              "y": 637,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.86,
+                "top": 0.16326530612244897,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.52,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 350,
+              "y": 637,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 7,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.86,
+                "top": 0.1836734693877551,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.52,
+                "footRight": 0.72
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 7,
+          "width": 39,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 686,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.84,
+                "top": 0.12244897959183673,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.36,
+                "footRight": 0.46
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 50,
+              "y": 686,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.84,
+                "top": 0.10204081632653061,
+                "bottom": 0.8775510204081632,
+                "footLeft": 0.32,
+                "footRight": 0.46
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 100,
+              "y": 686,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.84,
+                "top": 0.12244897959183673,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.34,
+                "footRight": 0.42
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 150,
+              "y": 686,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.84,
+                "top": 0.14285714285714285,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.38,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 200,
+              "y": 686,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14,
+                "right": 0.84,
+                "top": 0.12244897959183673,
+                "bottom": 0.8571428571428571,
+                "footLeft": 0.44,
+                "footRight": 0.52
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 250,
+              "y": 686,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.84,
+                "top": 0.10204081632653061,
+                "bottom": 0.8163265306122449,
+                "footLeft": 0.4,
+                "footRight": 0.56
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 300,
+              "y": 686,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.84,
+                "top": 0.10204081632653061,
+                "bottom": 0.8775510204081632,
+                "footLeft": 0.46,
+                "footRight": 0.56
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 350,
+              "y": 686,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12,
+                "right": 0.84,
+                "top": 0.10204081632653061,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.44,
+                "footRight": 0.56
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 4,
+          "width": 36,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 0,
+              "y": 735,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 8,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24,
+                "right": 0.76,
+                "top": 0.1836734693877551,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.28,
+                "footRight": 0.72
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 50,
+              "y": 735,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 8,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8,
+                "top": 0.20408163265306123,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.32,
+                "footRight": 0.7
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 100,
+              "y": 735,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 8,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8,
+                "top": 0.1836734693877551,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.52,
+                "footRight": 0.68
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 150,
+              "y": 735,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 8,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18,
+                "right": 0.84,
+                "top": 0.1836734693877551,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.34,
+                "footRight": 0.68
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 200,
+              "y": 735,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 8,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8,
+                "top": 0.1836734693877551,
+                "bottom": 0.8775510204081632,
+                "footLeft": 0.32,
+                "footRight": 0.68
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 250,
+              "y": 735,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 8,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8,
+                "top": 0.1836734693877551,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.32,
+                "footRight": 0.48
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 300,
+              "y": 735,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 8,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18,
+                "right": 0.8,
+                "top": 0.1836734693877551,
+                "bottom": 0.9183673469387755,
+                "footLeft": 0.32,
+                "footRight": 0.48
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+              "x": 350,
+              "y": 735,
+              "w": 50,
+              "h": 49,
+              "cx": 25,
+              "bottom": 45,
+              "top": 8,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.76,
+                "top": 0.1836734693877551,
+                "bottom": 0.8979591836734694,
+                "footLeft": 0.3,
+                "footRight": 0.48
+              }
+            }
+          ],
+          "cx": 25,
+          "bottom": 45,
+          "top": 8,
+          "width": 33,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/duck-853f1242984d.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "duck",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

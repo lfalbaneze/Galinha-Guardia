@@ -1,0 +1,24 @@
+{
+  "title": "O bosque despertou",
+  "generator": "scripts/generate-secret-boss-music.cjs",
+  "source": "Original composition with synthesized instruments; no external samples or quoted melodies.",
+  "bpm": 124,
+  "bars": 32,
+  "sampleRate": 22050,
+  "form": [
+    "Perseguição",
+    "Presságio",
+    "Suspense",
+    "Retorno"
+  ],
+  "loop": true,
+  "durationSeconds": 61.93546485260771,
+  "bytes": 5462752,
+  "peak": 0.44901,
+  "rms": 0.1019,
+  "dcOffset": 1e-8,
+  "loopBoundaryDelta": 0.002258,
+  "maxSampleDelta": 0.073853,
+  "clippedSamples": 0,
+  "sha256": "ad8289f2dbcbbc3b8df89fae4c3ec61b51035bf3484b4deffc684d2e710c4042"
+}

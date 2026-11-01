@@ -23,7 +23,7 @@ def fixture(stage,phase='playing'):
 def restore(page,data):
     page.evaluate('(d)=>localStorage.setItem(ShuffleDemo.saveKey,JSON.stringify(d))',data)
     page.reload(wait_until='networkidle');page.wait_for_function(READY)
-    page.locator('#continueRun').click()
+    page.locator('.intro-rescue summary').click();page.locator('#continueRun').click()
 
 held=set()
 def move_keys(page,x,y):
@@ -94,7 +94,7 @@ with sync_playwright() as p:
         page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
         page.goto(BASE+'shuffle/',wait_until='networkidle');page.wait_for_function(READY)
         page.evaluate("localStorage.setItem('penas-pro-ar.shuffle.v1','preserve-legacy');localStorage.setItem('classic-save-sentinel','keep')")
-        page.locator('#startRun').click();assert page.locator('[data-skill]').count()==3
+        page.locator('.intro-rescue summary').click();page.locator('#startRun').click();assert page.locator('[data-skill]').count()==3
         assert page.locator('.campaign>span').count()==10
         assert page.locator('.campaign .boss').count()==2
         page.locator('#reroll').click();assert page.locator('#reroll').is_disabled()
@@ -118,7 +118,7 @@ with sync_playwright() as p:
             box=page.locator('#'+name).bounding_box();assert box and box['height']>=44
         map_before=page.evaluate('JSON.stringify(ShuffleDemo.run.layout)')
         page.screenshot(path=str(OUT/f'play-{width}.png'))
-        page.reload(wait_until='networkidle');page.wait_for_function(READY);page.locator('#continueRun').click()
+        page.reload(wait_until='networkidle');page.wait_for_function(READY);page.locator('.intro-rescue summary').click();page.locator('#continueRun').click()
         assert page.evaluate('JSON.stringify(ShuffleDemo.run.layout)')==map_before
         assert page.evaluate("localStorage.getItem('penas-pro-ar.shuffle.v1')")=='preserve-legacy'
         assert page.evaluate("localStorage.getItem('classic-save-sentinel')")=='keep'
@@ -145,7 +145,7 @@ with sync_playwright() as p:
     results.append({'classicMenuEntry':True})
     context.close()
     page=browser.new_page();page.goto((Path('dist')/'shuffle'/'index.html').resolve().as_uri(),wait_until='networkidle')
-    page.wait_for_function(READY);page.locator('#startRun').click();assert page.locator('[data-skill]').count()==3
+    page.wait_for_function(READY);page.locator('.intro-rescue summary').click();page.locator('#startRun').click();assert page.locator('[data-skill]').count()==3
     results.append({'packagedFileProtocol':True})
     browser.close()
 (OUT/'results.json').write_text(json.dumps(results,indent=2),encoding='utf-8')

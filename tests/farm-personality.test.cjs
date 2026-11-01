@@ -103,8 +103,14 @@ test('legacy outfits remain earned but separate adventures cannot combine rescue
 
 test('fleeing cannot tunnel through a wall or cross its home district', () => {
   const {run}=arena();
-  run(`OBSTACLES=[{x:545,y:150,w:8,h:500}];
-    for(let i=0;i<70;i++) {chicken.x=friend.x-80;chicken.y=friend.y;RescueSystem.update(state,.05);}`);
-  assert.ok(run('getHitbox(friend).x+getHitbox(friend).r<=545'));
-  assert.ok(run('friend.y>=WORLD.areas[0].y && friend.y<=WORLD.areas[0].y+WORLD.areas[0].h'));
+  const trace=run(`OBSTACLES=[{x:545,y:150,w:8,h:500}];var trace=[];
+    for(let i=0;i<70;i++) {chicken.x=friend.x-80;chicken.y=friend.y;RescueSystem.update(state,.05);
+      trace.push({...getHitbox(friend),feet:friend.y});}trace;`);
+  const area=run('WORLD.areas[0]');
+  for(const p of trace){
+    // Going around the end of the wall is valid; intersecting it is not.
+    const dx=p.x-Math.max(545,Math.min(553,p.x)),dy=p.y-Math.max(150,Math.min(650,p.y));
+    assert.ok(Math.hypot(dx,dy)>=p.r-.01,'body stays outside the wall');
+    assert.ok(p.feet>=area.y&&p.feet<=area.y+area.h,'stays inside its home district');
+  }
 });

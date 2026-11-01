@@ -1,5 +1,9 @@
 # Direção de arte e animação
 
+Atualização de 31/10/2026: não desenhar arcos tipo parênteses nem símbolos de raiva sobre o lobo. Não exibir barras de carregamento/preparação de ataques dos inimigos; usar as animações, sons e avisos já existentes. Isso não remove barras de vida ou progresso de objetivos.
+
+Atualização de 31/10/2026: o usuário escolheu ComfyUI local para gerar os sprites que forem necessários, usando a arte atual como referência e preservando o estilo do jogo. Esta escolha substitui a exclusividade anterior da API PixelLab nesse escopo. Instalação e testes de geração não equivalem a arte final aprovada; conferir os resultados reais antes de substituir os atlas instalados.
+
 Tela inicial: sortear cinco convidados diferentes, suas posições nos caminhos e orientações entre oito direções a cada carregamento da página. Manter a aparência equipada como protagonista. O elenco sorteado permanece estável ao abrir/fechar menus e nunca altera a partida salva.
 
 Coruja (20/09/2026): após a sirene, escolher outra árvore, voar e retomar a vigilância após o pouso. Não bloquear o ciclo quando faltarem árvores próximas dos caminhos ou sem bônus; priorizar essas árvores, mas permitir alternativas seguras. A espera por um destino não pode desativar a detecção indefinidamente.

@@ -68,8 +68,12 @@ const EnvironmentSystem = (() => {
     function movementScale(game) {
         const s = surfaceAt(game, feet(game.entities.chicken));
         const swim = SwimmingSystem.profile(game);
-        const waterSpeed = swim.native ? .94 * SkinSystem.power(game.entities.chicken).swimSpeed : .56;
-        return s === 'water' ? .78 + (waterSpeed - .78) * swim.depth : s === 'mud' ? .84 : s === 'corn' || s === 'sunflower' ? .91 : 1;
+        const power = SkinSystem.power(game.entities.chicken);
+        const waterSpeed = swim.native ? .94 * power.swimSpeed : .56;
+        if (s === 'water')
+            return .78 + (waterSpeed - .78) * swim.depth;
+        const groundSpeed = s === 'mud' ? .84 : s === 'corn' || s === 'sunflower' ? .91 : 1;
+        return groundSpeed + (1 - groundSpeed) * power.terrainResistance;
     }
     function addMark(scene, p, kind, size, heading = 0) {
         scene.marks.push({ ...p, kind, size, heading, age: 0, life: kind === 'ripple' ? 1.15 : 3.4 });

@@ -130,13 +130,15 @@ test('the fox anticipates a visible runner but never changes the announced dash'
   assert.equal(h.run('f.mode'),'dash');assert.equal(h.run('JSON.stringify(f.target)'),aim);
 });
 
-test('wildlife keeps visible warnings without attack corridors, even with sound muted',()=>{
-  const h=arena();h.run(`var widths=[],labels=[];ctx.stroke=()=>widths.push(ctx.lineWidth);ctx.fillText=t=>labels.push(t);
+test('wildlife keeps visible warnings without attack corridors or loading bars, even with sound muted',()=>{
+  const h=arena();h.run(`var widths=[],labels=[],bars=[];ctx.stroke=()=>widths.push(ctx.lineWidth);ctx.fillText=t=>labels.push(t);
+    ctx.fillRect=(x,y,w,h)=>{if(w>20&&h<10)bars.push([w,h]);};
     g.mode='warning';g.target={x:1120,y:800};f.mode='warning';f.target={x:1140,y:800};
     GooseSystem.drawTerritory(state);GooseSystem.drawIndicator(state);FoxSystem.drawWarnings(state);`);
   assert.equal(h.run('widths.includes(2*(g.hitbox.r+c.hitbox.r))'),false);
   assert.equal(h.run('widths.includes(2*(f.hitbox.r+c.hitbox.r))'),false);
   assert.ok(h.run('labels.some(t=>t.includes("Desvie"))'));
+  assert.equal(h.run('bars.length'),0);
 });
 
 test('direct updates cannot move or rescue other animals during the lake challenge',()=>{

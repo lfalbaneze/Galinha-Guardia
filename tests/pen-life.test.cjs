@@ -39,7 +39,7 @@ function fixture(seed = 7) {
     CharacterArt:{advance:(n,name,travel,options)=>{animation.push({name,travel,options});return n+travel/8;}},
     InterfaceMotion:{reduced:false}
   });
-  for(const file of ['detection-system','player','pen-life','goose-system'])
+  for(const file of ['detection-system','player','wildlife-rules','pen-life','goose-system'])
     vm.runInContext(fs.readFileSync(path.join(__dirname,`../systems/${file}.js`),'utf8'),context);
   vm.runInContext('DetectionSystem.hasLineOfSight=()=>sight;',context);
   const run=code=>vm.runInContext(code,context);
@@ -147,6 +147,17 @@ test('comment rendering stays on screen and uses a short comic tail',()=>{
   const h=fixture();h.chicken.x=235;h.chicken.y=360;h.tick(12);h.run('PenLife.draw(state)');
   assert.ok(h.texts.length);for(const [,x,y,maxWidth] of h.texts){assert.ok(x>=12&&x<=888);assert.ok(y>0&&y<620);assert.ok(maxWidth<=250);}
   const count=h.texts.length;h.chicken.x=380;h.run('PenLife.draw(state)');assert.equal(h.texts.length,count);
+});
+
+test('residents comment only on an alarm they could witness, without repeating the same event',()=>{
+  for(const visible of [true,false]){
+    const h=fixture();h.chicken.x=235;h.chicken.y=360;h.tick(600);
+    h.run(`sight=${visible};state.entities.owls=[{id:'neighbour-owl',x:235,y:350,hitbox:{ox:0,oy:0,r:6},callTime:.7,relocations:0}];`);
+    h.tick(10);
+    if(visible)assert.match(h.comment()?.text||'',/despertador/);
+    else assert.equal(h.comment(),null);
+    h.tick(300);assert.equal(h.comment(),null,'the same siren does not restart a conversation');
+  }
 });
 
 test('browser loads PenLife before GooseSystem, without changing other gameplay scripts',()=>{

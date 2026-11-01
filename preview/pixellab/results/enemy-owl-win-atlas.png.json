@@ -1,8 +1,8 @@
 {
   "provider": "PixelLab",
   "method": "installed-atlas-frame",
-  "source": "assets/sprites/pixellab-108/runtime/owl-5dc5723a46db.png",
-  "sourceSha256": "5dc5723a46db1d0085ea532c226a2624431bfa14468587c5ed0ccda104020733",
+  "source": "assets/sprites/pixellab-108/runtime/owl-a58ea41eefa7.png",
+  "sourceSha256": "a58ea41eefa77a79837416bed2b0e49203d587fbccfc48e8c877339c0d927818",
   "action": "alert",
   "direction": "down",
   "index": 9,

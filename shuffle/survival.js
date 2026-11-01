@@ -16,12 +16,26 @@
     'mula-sem-cabeca':{name:'Mula sem Cabeça',wave:3,hp:7,speed:90,r:20,height:70,xp:3,color:'#ffae49',text:'Desvie das rajadas de fogo e das ferraduras em chamas. O galope deixa pegadas perigosas.'},
     curupira:{name:'Curupira',wave:4,hp:4,speed:112,r:14,height:53,xp:2,color:'#9dce6d',text:'Raízes surgem onde você estava.'},
     boitata:{name:'Boitatá',wave:6,hp:7,speed:103,r:18,height:58,xp:3,color:'#ffc65a',text:'Cuidado com o rastro de fogo.'},
-    cuca:{name:'Cuca',wave:8,hp:28,speed:72,r:20,height:75,xp:8,color:'#c799ed',limit:1,text:'A bruxa prepara três feitiços!'}
+    cuca:{name:'Cuca',wave:8,hp:28,speed:72,r:20,height:75,xp:8,color:'#c799ed',limit:1,text:'A bruxa prepara três feitiços!'},
+    chick:{name:'Pintinho Fuzuê',wave:1,hp:.8,speed:152,r:8,height:21,xp:1,color:'#f6d46b',farm:'flock',limit:10,text:'Corre em zigue-zague e ganha coragem perto dos outros pintinhos.'},
+    duck:{name:'Pato do Brejo',wave:1,hp:2,speed:86,r:13,height:37,xp:1,color:'#81b6a1',farm:'spit',text:'Cospe barro em leque. O golpe desacelera; esquive entre os torrões.'},
+    pig:{name:'Porco do Barreiro',wave:2,hp:5,speed:72,r:19,height:46,xp:2,color:'#dc9a9c',farm:'mud',text:'Marca o chão antes de abrir poças de lama. A lama atrasa a caminhada, mas não a esquiva.'},
+    turkey:{name:'Peru de Briga',wave:2,hp:3,speed:113,r:15,height:51,xp:2,color:'#c8986b',farm:'peck',text:'Estufa o peito antes de duas bicadas curtas. Saia do eixo e aproveite o descanso.'},
+    lamb:{name:'Cordeiro Sapeca',wave:2,hp:1.6,speed:130,r:12,height:36,xp:1,color:'#eee0b9',farm:'charge',text:'Salta numa arrancada curta e precisa recuperar o equilíbrio.'},
+    goat:{name:'Bode Cabeçudo',wave:3,hp:4,speed:107,r:16,height:53,xp:2,color:'#cdbb8e',farm:'charge',text:'Abaixa os chifres e anuncia a cabeçada. Ele se compromete com a direção antes de sair.'},
+    donkey:{name:'Burro de Coice',wave:3,hp:5,speed:84,r:19,height:62,xp:2,color:'#b9aa99',farm:'kick',text:'Vira de costas antes do coice. Contorne o burro e saia de trás dele.'},
+    sheep:{name:'Ovelha Teimosa',wave:3,hp:7,speed:62,r:19,height:52,xp:2,color:'#e5ddc3',farm:'stomp',text:'Bate as patas e prepara uma pisada em área. Afaste-se dela antes do impacto.'},
+    horse:{name:'Cavalo Desembestado',wave:4,hp:6,speed:122,r:21,height:68,xp:3,color:'#be8a63',farm:'charge',text:'Relincha, escolhe a linha e dispara num galope longo. Dê passagem e ataque na recuperação.'},
+    cow:{name:'Vaca Brava',wave:4,hp:10,speed:67,r:24,height:72,xp:3,color:'#d7c2a3',farm:'charge',limit:3,text:'É resistente e prepara uma trombada pesada. A investida tem aviso longo e deixa uma abertura grande.'}
   });
   const LUNGES=Object.freeze({
     fox:{range:125,warning:.38,speed:340,recovery:.85},
     wolf:{range:170,warning:.5,speed:360,recovery:1.35},
-    fuinha:{range:100,warning:.3,speed:380,recovery:1}
+    fuinha:{range:100,warning:.3,speed:380,recovery:1},
+    lamb:{range:110,warning:.35,speed:290,recovery:1.1},
+    goat:{range:155,warning:.55,speed:345,recovery:1.4},
+    horse:{range:270,warning:.85,speed:435,recovery:1.9},
+    cow:{range:210,warning:1.05,speed:300,recovery:2.2}
   });
   const POWERS=Object.freeze({
     cornshot:{name:'Milho Kombat',text:'Turbina o tiro próprio do seu bicho: mais dano e disparos mais rápidos.',color:'#ffd355',mark:'M'},
@@ -47,12 +61,12 @@
     dash:{name:'Asa Ligeira',text:'Reduz a recarga da esquiva em 20% por nível.',visual:'boots',color:'#e5c883'},
     feather:{name:'Pena Escorregadia',text:'+0,35 s de proteção após levar dano, por nível.',visual:'feather',color:'#dce3ff'},
     magnet:{name:'Ímã de Colheita',text:'+60 de alcance para atrair cristais por nível.',visual:'xp',color:'#b5e8cf'},
-    might:{name:'Milho Maromba',text:'+20% de dano em todos os ataques por nível.',visual:'cornshot',color:'#ffbc70'},
-    haste:{name:'Café com Có-có',text:'Ataques e especiais recarregam 15% mais rápido por nível.',visual:'lightning',color:'#e3bb86'},
+    might:{name:'Milho Maromba',text:'+20% de dano de armas e especiais por nível.',visual:'cornshot',color:'#ffbc70'},
+    haste:{name:'Café com Có-có',text:'Ataques e especiais ficam 15% mais frequentes por nível.',visual:'lightning',color:'#e3bb86'},
     reach:{name:'Latifúndio de Pancada',text:'+20% de alcance dos tiros e explosões por nível.',visual:'honk',color:'#d4f49b'},
     regen:{name:'Hora do Leite',text:'Recupera 1 coração a cada 16 s; reduz 4 s por nível.',visual:'milk',color:'#ffddd4'},
     shield:{name:'Casca Grossa',text:'Renova um escudo a cada 13 s; reduz 3 s por nível.',visual:'shield',color:'#ede8c7'},
-    harvest:{name:'Safra Dobrada',text:'+1 ponto por cristal coletado, por nível.',visual:'xp',color:'#b6ed9e'},
+    harvest:{name:'Safra Dobrada',text:'+1 ponto e +1 XP base por cristal coletado, por nível.',visual:'xp',color:'#b6ed9e'},
     thorns:{name:'Abraço de Espinhos',text:'Ao perder vida, causa 6 de dano ao redor por nível.',visual:'claw',color:'#d6c69a'}
   });
   const FUSIONS=Object.freeze({
@@ -61,7 +75,7 @@
     storm:{name:'Bebedouro em Curto',items:['thunder','cross'],visual:'lightning',accent:'water',color:'#75e4ff',text:'Quatro poças formam uma cruz. A água dá choques a cada 0,6 s e trava quem pisa nela.',delay:2.8},
     blizzard:{name:'Varal de Arrepiar',items:['frost','spiral'],visual:'feather',accent:'shield',color:'#c3d7ff',text:'Estende um varal de penas atrás de você por 2,8 s. Quem cruza leva dano e fica lento por 5 s.',delay:2},
     meteor:{name:'Desaforo de Raiz',items:['sniper','mines'],visual:'carrot',accent:'boots',color:'#ffbf72',text:'Três raízes puxam os bichos para o canteiro. Após 0,55 s, cenouras brotam com uma explosão.',delay:2.5},
-    cauldron:{name:'Caldo Malcriado',items:['venom','quake'],visual:'water',accent:'bark',color:'#c3f986',text:'Três poças envenenam por 3 s. A fervura empurra os bichos a cada 0,7 s e abre espaço para fugir.',delay:3.2},
+    cauldron:{name:'Caldo Malcriado',items:['venom','quake'],visual:'water',accent:'bark',color:'#c3f986',text:'Três poças venenosas duram 3 s. A fervura empurra os bichos a cada 0,7 s e abre espaço para fugir.',delay:3.2},
     fortress:{name:'Aqui Não, Querida',items:['orbit','shield'],visual:'claw',accent:'shield',color:'#f0baff',text:'Seis garras protegem você. Quebraram o escudo? Elas disparam para fora e empurram a horda. Escudo novo em 4 s.',delay:.25},
     popcorn:{name:'Fofoca Estourada',items:['cornshot','ricochet'],visual:'cornshot',accent:'cornshot',color:'#ffe18b',text:'Dois grãos levam a fofoca: cada um solta duas pipocas no primeiro impacto, que saltam entre os vizinhos. Contra Milho acrescenta grãos.',delay:.9}
   });
@@ -75,24 +89,25 @@
   });
   const style=r=>STYLES[r.style]||STYLES.colheita;
   function powerText(id,n=1){
+    const decimal=value=>value.toLocaleString('pt-BR',{maximumFractionDigits:2});
     const details={
-      cornshot:`Dano ×${(1+.35*(n-1)).toFixed(2)}; tiro a cada ${(.7-.12*(n-1)).toFixed(2)} s.${n>=3?' Mais dois tiros em leque.':''}${n>=5?' Os tiros atravessam a horda.':''}`,
-      egg:`${6+n*2} ovos em roda a cada ${(3.2-.4*n).toFixed(1)} s.${n>=3?' Atravessam inimigos.':''}${n>=5?' Explodem ao acertar.':''}`,
-      sickle:`Corte com raio ${68+n*16} a cada ${(2.2-.3*n).toFixed(1)} s.${n>=3?' Empurra os inimigos.':''}${n>=5?' Desacelera por 2 s.':''}`,
-      rear:`${n} tiros para trás a cada 1,4 s.`,cross:`${n>=3?8:4} jatos cruzados a cada 2 s.${n>=5?' Desaceleram por 2 s.':''}`,
+      cornshot:`Dano ×${decimal(1+.35*(n-1))}; tiro a cada ${decimal(.7-.12*(n-1))} s.${n>=3?' Mais dois tiros em leque.':''}${n>=5?' Os tiros atravessam a horda.':''}`,
+      egg:`${6+n*2} ovos em roda a cada ${decimal(3.2-.4*n)} s.${n>=3?' Atravessam inimigos.':''}${n>=5?' Explodem ao acertar.':''}`,
+      sickle:`Corte com raio ${68+n*16} a cada ${decimal(2.2-.3*n)} s.${n>=3?' Empurra os inimigos.':''}${n>=5?' Desacelera por 2 s.':''}`,
+      rear:`${n} ${n===1?'tiro':'tiros'} para trás a cada 1,4 s.`,cross:`${n>=3?8:4} jatos cruzados a cada 2 s.${n>=5?' Desaceleram por 2 s.':''}`,
       spiral:`${6+n*2} penas em espiral a cada 3 s.${n>=5?' Atravessam inimigos.':''}`,
-      sniper:`${n>=3?2:1} cenoura(s) perfurante(s) a cada 2 s.${n>=5?' Explodem ao acertar.':''}`,
-      homing:`${n} ovo(s) teleguiado(s) a cada 2,4 s.`,boomerang:`${n>=5?3:1} foice(s) atravessam inimigos e voltam a cada 2 s.`,
-      ricochet:`Salta até ${n+1} vezes entre inimigos.`,fireball:`${n>=3?3:1} ovo(s) explosivo(s); queima por 3 s.`,
+      sniper:`${n>=3?'2 cenouras perfurantes':'1 cenoura perfurante'} a cada 2 s.${n>=5?' Explodem ao acertar.':''}`,
+      homing:`${n} ${n===1?'ovo teleguiado':'ovos teleguiados'} a cada 2,4 s.`,boomerang:`${n>=5?'3 foices atravessam inimigos e voltam':'1 foice atravessa inimigos e volta'} a cada 2 s.`,
+      ricochet:`Salta até ${n+1} vezes entre inimigos.`,fireball:`${n>=3?'3 ovos explosivos':'1 ovo explosivo'}; queimadura por 3 s.`,
       frost:`${n>=5?7:n>=3?5:3} penas geladas; lentidão por ${n+1} s.`,venom:`Veneno por 4 s.${n>=3?' Atravessa inimigos.':''}${n>=5?' Espalha veneno numa explosão.':''}`,
-      thunder:`Raio em até ${n+2} alvos.${n>=5?' Paralisa por 1 s.':''}`,mines:`${n>=3?2:1} cenoura(s)-mina a cada 3 s; explosão com raio ${n>=5?120:88}.`,
+      thunder:`Raio em até ${n+2} alvos.${n>=5?' Paralisa por 1 s.':''}`,mines:`${n>=3?'2 cenouras-mina':'1 cenoura-mina'} a cada 3 s; explosão com raio ${n>=5?120:88}.`,
       orbit:`${n+1} garras giram ao seu redor.`,quake:`Onda com raio ${100+n*20} a cada 4 s.${n>=5?' Paralisa por 1 s.':''}`,
-      boots:`+${n*12}% de velocidade.`,volley:`+${n*2} tiros em leque ao ataque básico.`,heart:`+${n} coração(ões) máximo(s); recupera 1 ao escolher.`,
-      dash:`-${n*20}% na recarga da esquiva.`,feather:`+${(n*.35).toFixed(2)} s de proteção após dano.`,magnet:`Atrai cristais até ${100+n*60} de distância.`,
-      might:`+${n*20}% de dano em todos os ataques.`,haste:`Recarga dos ataques ÷ ${(1+n*.15).toFixed(2)}.`,reach:`+${n*20}% de alcance.`,
-      regen:`Recupera 1 coração a cada ${20-n*4} s.`,shield:`Renova o escudo a cada ${16-n*3} s.`,harvest:`+${n} XP por cristal.`,thorns:`Contra-ataque de ${6*n} de dano ao perder vida.`
+      boots:`+${n*12}% de velocidade.`,volley:`+${n*2} tiros em leque ao ataque básico.`,heart:`+${n} ${n===1?'coração':'corações'} de vida máxima; recupera 1 ao escolher.`,
+      dash:`-${n*20}% na recarga da esquiva.`,feather:`+${decimal(n*.35)} s de proteção após dano.`,magnet:`Atrai cristais até ${100+n*60} de distância.`,
+      might:`+${n*20}% de dano de armas e especiais.`,haste:`Ataques e especiais ${n*15}% mais frequentes.`,reach:`+${n*20}% de alcance dos tiros e explosões.`,
+      regen:`Recupera 1 coração a cada ${20-n*4} s.`,shield:`Renova o escudo a cada ${16-n*3} s.`,harvest:`+${n} ${n===1?'ponto':'pontos'} e +${n} XP base por cristal.`,thorns:`Contra-ataque de ${6*n} de dano ao perder vida.`
     };
-    return (details[id]||'')+(WEAPONS.includes(id)&&id!=='cornshot'?` Dano da arma ×${(1+(id==='egg'||id==='sickle'?.35:.4)*(n-1)).toFixed(2)}.`:'');
+    return (details[id]||'')+(WEAPONS.includes(id)&&id!=='cornshot'?` Dano da arma ×${decimal(1+(id==='egg'||id==='sickle'?.35:.4)*(n-1))}.`:'');
   }
   const fused=(r,id)=>r.fusions.includes(id);
   const consumed=(r,id)=>r.fusions.some(f=>FUSIONS[f].items.includes(id));
@@ -109,16 +124,16 @@
     return true;
   }
   const STAGES=Object.freeze([
-    {name:'Pomar em polvorosa',map:0,roster:['fox','fuinha','crow'],horde:6,boss:'goose',title:'Panto, fiscal da colheita',hp:95,text:'Contorne as árvores. Fuinhas correm pelos lados e corvos anunciam rasantes.'},
-    {name:'Milharal dos uivos',map:1,roster:['wolf','goose','amanda'],horde:7,boss:'wolf',title:'Baltazar, o sem-almoço',hp:140,text:'Troque de corredor nas passagens. Sophis tenta fechar a sua rota de fuga.'},
-    {name:'Pedreira dos rasantes',map:6,roster:['crow','owl','fox','goose'],horde:8,boss:'fox',title:'Lorenzo, mestre das emboscadas',hp:190,text:'Use as curvas e pedras como proteção. A sirene da coruja anuncia uma onda mais veloz.'},
-    {name:'Bosque dos desaforos',map:2,roster:['fuinha','amanda','wolf','owl'],horde:9,boss:'fuinha',title:'TIH, ligeira do milharal',hp:250,text:'As trilhas circulares têm saídas cruzadas. Mude de rota para escapar das emboscadas.'},
-    {name:'Campo sem sossego',map:3,roster:['fox','amanda','crow','goose'],horde:10,boss:'amanda',title:'Sophis, dona do desvio',hp:310,text:'Cruze o campo pelas diagonais. As raposas atacam entre os rasantes.'},
-    {name:'Colheita sitiada',map:5,roster:['wolf','fuinha','goose','owl'],horde:11,boss:'goose',title:'Panto, embargo da safra',hp:370,text:'Os corredores de feno se encontram no centro. Não deixe a sirene fechar as duas saídas.'},
-    {name:'Volta do bebedouro',map:4,roster:['amanda','crow','fox','owl'],horde:12,boss:'owl',title:'Coruja, regente da sirene',hp:430,text:'A trilha contorna o bebedouro e tem pontes entre os lados. Interrompa a sirene antes dos reforços.'},
-    {name:'Pomar em brasa',map:7,roster:['wolf','fox','fuinha','crow'],horde:13,boss:'crow',title:'Corvo, dono do céu',hp:500,text:'As diagonais dividem o pomar. Os rasantes deixam corredores livres por pouco tempo.'},
-    {name:'Trilhas da penumbra',map:8,roster:['wolf','amanda','fuinha','owl'],horde:14,boss:'fox',title:'Lorenzo, última emboscada',hp:580,text:'Três voltas ligadas por atalhos. Escolha outra volta quando as garras fecharem a passagem.'},
-    {name:'Última luz da fazenda',map:9,roster:['wolf','goose','fox','fuinha','amanda','crow','owl'],horde:15,boss:'wolf',title:'Baltazar, uivo da última luz',hp:680,text:'Arena aberta: a horda combina perseguição, rasantes e sirenes. Preserve espaço para esquivar.'}
+    {name:'Pomar em polvorosa',map:0,roster:['fox','fuinha','crow','chick','duck'],horde:6,boss:'goose',title:'Panto, fiscal da colheita',hp:95,text:'Contorne as árvores. Pintinhos se juntam em bandos; patos cospem barro entre os rasantes.'},
+    {name:'Milharal dos uivos',map:1,roster:['wolf','goose','amanda','pig','turkey','lamb'],horde:7,boss:'wolf',title:'Baltazar, o sem-almoço',hp:140,text:'Troque de corredor. Porcos abrem poças, perus bicam duas vezes e cordeiros saltam das passagens.'},
+    {name:'Pedreira dos rasantes',map:6,roster:['crow','owl','fox','goose','goat','donkey','sheep'],horde:8,boss:'fox',title:'Lorenzo, mestre das emboscadas',hp:190,text:'Use as pedras como proteção. Observe os bichos se preparando e desvie das cabeçadas, dos coices e das pisadas.'},
+    {name:'Bosque dos desaforos',map:2,roster:['fuinha','amanda','wolf','owl','horse','goat','turkey'],horde:9,boss:'fuinha',title:'TIH, ligeira do milharal',hp:250,text:'As trilhas têm saídas cruzadas. Dê passagem ao cavalo e ataque depois do galope.'},
+    {name:'Campo sem sossego',map:3,roster:['fox','amanda','crow','goose','cow','chick','sheep'],horde:10,boss:'amanda',title:'Sophis, dona do desvio',hp:310,text:'Cruze pelas diagonais. Vacas resistentes e bandos de pintinhos dividem o campo com as raposas.'},
+    {name:'Colheita sitiada',map:5,roster:['wolf','fuinha','goose','owl','pig','donkey','lamb'],horde:11,boss:'goose',title:'Panto, embargo da safra',hp:370,text:'Não deixe a lama fechar as duas saídas dos corredores de feno. Contorne os burros antes do coice.'},
+    {name:'Volta do bebedouro',map:4,roster:['amanda','crow','fox','owl','duck','turkey','cow'],horde:12,boss:'owl',title:'Coruja, regente da sirene',hp:430,text:'Atravesse as pontes entre as rajadas de barro. Interrompa a sirene antes das trombadas.'},
+    {name:'Pomar em brasa',map:7,roster:['wolf','fox','fuinha','crow','horse','goat','lamb'],horde:13,boss:'crow',title:'Corvo, dono do céu',hp:500,text:'As diagonais dividem o pomar. Galope, saltos e rasantes deixam passagens livres por pouco tempo.'},
+    {name:'Trilhas da penumbra',map:8,roster:['wolf','amanda','fuinha','owl','pig','donkey','sheep','duck'],horde:14,boss:'fox',title:'Lorenzo, última emboscada',hp:580,text:'Escolha outra volta quando lama, coices e pisadas fecharem a passagem.'},
+    {name:'Última luz da fazenda',map:9,roster:['wolf','goose','fox','fuinha','amanda','crow','owl','cow','horse','goat','turkey','chick'],horde:15,boss:'wolf',title:'Baltazar, uivo da última luz',hp:680,text:'A fazenda inteira entrou na confusão. Preserve espaço entre as trombadas, bicadas e sirenes.'}
   ]);
   const SECRET_BOSSES=Object.freeze([
     {species:'mula-sem-cabeca',title:'Mula sem Cabeça, tropel esquecido',mark:'♨',hint:'Uma ferradura quente marca o chão.'},
@@ -128,7 +143,7 @@
   ]);
   const secretSpecies=id=>SECRET_BOSSES.some(b=>b.species===id);
   function enemySound(r,e,event){
-    if(['fuinha','mula-sem-cabeca','curupira','boitata','cuca','amanda','crow','owl'].includes(e.species))
+    if(ENEMIES[e.species]?.farm||['fuinha','mula-sem-cabeca','curupira','boitata','cuca','amanda','crow','owl'].includes(e.species))
       r.sounds.add({species:e.species,event,position:{x:e.x,y:e.y}});
   }
   function prepareSecret(r){
@@ -193,7 +208,17 @@
       'mula-sem-cabeca':{name:'Mula sem Cabeça',win:['Ganhei sem cabeça. Imagina se eu pensasse!','A concorrência ficou com a cabeça quente. Eu já vim assim.'],lose:['Perdi a cabeça faz tempo. Agora perdi o resto.','Faltou juízo. Tecnicamente, faltou onde guardar.']},
       curupira:{name:'Curupira',win:['Meus pés são ao contrário. Meu placar, não!','Seguiu minhas pegadas? Caiu no tutorial errado.'],lose:['Fui comemorar e corri para o lado errado.','Tropecei numa raiz. Favor não contar para a floresta.']},
       boitata:{name:'Boitatá',win:['Vitória quentinha, direto do forno!','Acendi a disputa. Ninguém trouxe extintor.'],lose:['Apagaram meu brilho. Deve ser conta de luz.','Virei minhoca de aniversário: sopraram e acabou.']},
-      cuca:{name:'Cuca',win:['Receita de vitória: maldade e uma pitada de deboche.','Hoje o caldeirão serve derrota à la carte!'],lose:['A receita dizia fogo baixo, não autoestima baixa!','Vou trocar de caldeirão. Esse só cozinha meu orgulho.']}
+      cuca:{name:'Cuca',win:['Receita de vitória: maldade e uma pitada de deboche.','Hoje o caldeirão serve derrota à la carte!'],lose:['A receita dizia fogo baixo, não autoestima baixa!','Vou trocar de caldeirão. Esse só cozinha meu orgulho.']},
+      chick:{name:'Pintinho Fuzuê',win:['Tamanho não é documento. Piado também não!','A turma do piu virou a turma do pau!'],lose:['Foi só um piu de vantagem.','Preciso crescer. Principalmente no placar.']},
+      duck:{name:'Pato do Brejo',win:['Quem diria: você caiu no meu papo de pato.','Fiz uma sujeira. Literalmente.'],lose:['Vou ali lavar o bico e fingir que não aconteceu.','Meu ataque foi um verdadeiro pato fora d’água.']},
+      pig:{name:'Porco do Barreiro',win:['Você veio para o caos. Eu trouxe a lama.','Aqui o banho é opcional. A confusão, não.'],lose:['Meu plano foi por água abaixo. E olha que era lama.','Vou chafurdar um pouco para disfarçar.']},
+      turkey:{name:'Peru de Briga',win:['Duas bicadas. Nenhuma educação.','Abri a cauda e fechei a partida.'],lose:['Estufei o peito antes da hora.','Minha pose perdeu para o seu desvio.']},
+      lamb:{name:'Cordeiro Sapeca',win:['Um pulinho e pronto: virei problema!','Fofura com impulso também atropela.'],lose:['Era um salto estratégico. A aterrissagem não colaborou.','Na próxima, vou olhar antes de pular.']},
+      goat:{name:'Bode Cabeçudo',win:['Discutir comigo só dá dor de cabeça.','Bati o martelo. Com a testa.'],lose:['Essa parede não estava no meu plano.','Faltou miolo na minha cabeçada.']},
+      donkey:{name:'Burro de Coice',win:['Conversa encerrada. Pela porta dos fundos.','Virei as costas e ganhei a discussão.'],lose:['Dei o coice. Esqueci de combinar com o resto.','Minha teimosia não conta como estratégia.']},
+      sheep:{name:'Ovelha Teimosa',win:['Contaram carneirinhos e dormiram no ponto.','Minha lã é macia. Minha pisada, nem tanto.'],lose:['A lã amorteceu. O orgulho, não.','Vou dar uma aparada nessa marra.']},
+      horse:{name:'Cavalo Desembestado',win:['Passei correndo. O placar veio junto.','Era galope, não era convite!'],lose:['Corri tanto que passei da vitória.','Precisava de freio. E de juízo.']},
+      cow:{name:'Vaca Brava',win:['Muuuito obrigada pela participação.','Hoje quem mandou no pasto fui eu.'],lose:['Hoje o leite virou milk-shake de derrota.','Vou pastar e repensar minhas escolhas.']}
     }
   });
   function quip(r,actor,won){
@@ -207,14 +232,14 @@
   }
   const gap=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
   const SHOTS=Object.freeze({
-    classic:{name:'Ovinho estourado',visual:'egg',speed:360,spread:[0],blast:32},
-    silkie:{name:'Leque de penas',visual:'feather',speed:310,spread:[-.16,0,.16],slow:1.1,damage:.55},
-    blue:{name:'Faísca elétrica',visual:'lightning',speed:620,spread:[0],piercing:true,damage:.8},
-    punk:{name:'Jato de lagoa',visual:'water',speed:460,spread:[0],piercing:true,damage:.85},
-    astronaut:{name:'Cenouras gêmeas',visual:'carrot',speed:400,spread:[-.09,.09],damage:.65},
-    robocop:{name:'Arranhão triplo',visual:'claw',speed:510,spread:[-.18,0,.18],life:.5,damage:.65},
-    priest:{name:'Latido de impacto',visual:'bark',speed:380,spread:[0],push:28},
-    goose:{name:'Gras nocaute',visual:'honk',speed:420,spread:[0],stun:.25}
+    classic:{name:'Ovinho estourado',text:'Um ovo que explode numa pequena área.',visual:'egg',speed:360,spread:[0],blast:32},
+    silkie:{name:'Leque de penas',text:'Três penas que desaceleram por 1,1 s.',visual:'feather',speed:310,spread:[-.16,0,.16],slow:1.1,damage:.55},
+    blue:{name:'Faísca elétrica',text:'Uma faísca veloz que atravessa inimigos.',visual:'lightning',speed:620,spread:[0],piercing:true,damage:.8},
+    punk:{name:'Jato de lagoa',text:'Um jato de água que atravessa inimigos.',visual:'water',speed:460,spread:[0],piercing:true,damage:.85},
+    astronaut:{name:'Cenouras gêmeas',text:'Duas cenouras disparadas lado a lado.',visual:'carrot',speed:400,spread:[-.09,.09],damage:.65},
+    robocop:{name:'Arranhão triplo',text:'Três garras em leque de curto alcance.',visual:'claw',speed:510,spread:[-.18,0,.18],life:.5,damage:.65},
+    priest:{name:'Latido de impacto',text:'Um latido que empurra o inimigo atingido.',visual:'bark',speed:380,spread:[0],push:28},
+    goose:{name:'Gras nocaute',text:'Um grasnado que paralisa por 0,25 s.',visual:'honk',speed:420,spread:[0],stun:.25}
   });
   const wave=r=>Math.min(10,1+Math.floor(r.elapsed/30));
   const victories=value=>Number.isSafeInteger(value)&&value>=0?Math.min(99,value):0;
@@ -400,6 +425,7 @@
     if(e.mode==='warning'){
       e.moving=false;
       if(e.attack==='pounce')aimLunge(r,e,target,360);
+      e.dx=e.aimX;e.dy=e.aimY;
       if(e.timer>0)return true;
       enemySound(r,e,'attack');
       if(e.attack==='fire-fan')enemyVolley(r,e,'fire',e.angles,190);
@@ -408,48 +434,105 @@
       else if(e.attack==='claw'){enemyVolley(r,e,'claw',e.angles,400,.55,25);r.sounds.add('claw');}
       else if(e.attack==='dirt')enemyVolley(r,e,'dirt',e.angles,230,1.4,35);
       else if(e.attack==='howl'){e.callPack=true;e.rally=3;}
-      if(['fire-gallop','pounce'].includes(e.attack)){e.mode='charge';e.timer=e.attack==='pounce'?e.chargeTime:1.15;e.contactDamage=true;}
+      if(['fire-gallop','root-dash','pounce'].includes(e.attack)){
+        e.mode='charge';e.timer=e.attack==='fire-gallop'?1.15:e.chargeTime;e.contactDamage=true;
+      }
       else {e.mode='recover';e.timer=e.attack==='howl'?.8:1.4;}
       return true;
     }
     if(e.mode==='charge'){
-      const before={x:e.x,y:e.y},speed=e.attack==='pounce'?360:260,moved=E.move(r,e,e.aimX*speed*dt,e.aimY*speed*dt);
+      const before={x:e.x,y:e.y},speed=e.attack==='pounce'?360:e.attack==='root-dash'?300:260,moved=E.move(r,e,e.aimX*speed*dt,e.aimY*speed*dt);
       if(e.attack==='fire-gallop')hoofprints(r,e,before);
-      if(e.timer<=0||moved<speed*dt*.6){e.mode='recover';e.timer=1.5;e.contactDamage=false;}
+      if(e.timer<=0||moved<speed*dt*.6){
+        if(e.attack==='fire-gallop'&&e.health<e.maxHealth*.5&&!e.followUp&&moved>=speed*dt*.6&&M.clearSegment(r,e,target,0)){
+          e.followUp=true;e.mode='warning';e.timer=.9;e.aimX=dx;e.aimY=dy;e.dx=dx;e.dy=dy;
+          e.moving=false;e.contactDamage=false;enemySound(r,e,'warn');
+        }else {e.mode='recover';e.timer=1.5;e.contactDamage=false;e.followUp=false;}
+      }
       return true;
     }
     if(e.mode==='recover'){
-      e.moving=false;if(e.timer<=0){e.mode='hunt';e.timer=e.isBoss?2.2:3.2;}return true;
+      e.moving=false;if(e.timer<=0){e.mode='hunt';e.timer=e.isBoss?1.1:3.2;e.side*=-1;}return true;
     }
     const near=['fox','amanda'].includes(e.species)?210:e.species==='goose'&&!e.isBoss?270:390;
     if(e.timer<=0&&distance<near&&M.clearSegment(r,e,target,0)&&attackReady(r,e,target)){
       const step=e.attackStep||0;
       e.attack=e.species==='mula-sem-cabeca'?['fire-fan','hoof-ring','fire-gallop'][step%3]:
         e.species==='goose'?'gust':e.species==='wolf'?(step%2?'pounce':'howl'):['fox','amanda'].includes(e.species)?(step%2?'pounce':'claw'):e.species==='fuinha'?'dirt':
-        e.species==='curupira'?'roots':e.species==='boitata'?(step%2?'fire-fan':'fire-coil'):(step%2?'brew':'spell-fan');
+        e.species==='curupira'?['roots','root-ring','root-dash'][step%3]:e.species==='boitata'?(step%2?'fire-fan':'fire-coil'):(step%2?'brew':'spell-fan');
       e.attackStep=step+1;e.mode='warning';e.timer=e.species==='cuca'?1.05:e.attack==='claw'?.7:e.attack==='pounce'?.55:1.1;
       const enraged=e.isBoss&&e.health<e.maxHealth*.5;
       e.angles=e.attack==='fire-fan'?(e.health<e.maxHealth*.5?[-.5,-.25,0,.25,.5]:[-.32,0,.32]):
-        e.attack==='spell-fan'?[-.6,-.3,0,.3,.6]:e.attack==='dirt'?[-.5,-.25,0,.25,.5]:e.attack==='gust'?(enraged?[-.64,-.32,0,.32,.64]:e.isBoss?[-.32,0,.32]:[0]):e.attack==='claw'?(enraged?[-.6,-.3,0,.3,.6]:[-.3,0,.3]):[0];
-      e.aimX=dx;e.aimY=dy;e.dx=dx;e.dy=dy;e.moving=false;e.contactDamage=false;enemySound(r,e,'warn');
+        e.attack==='spell-fan'?(enraged?[-.75,-.5,-.25,.25,.5,.75]:[-.6,-.3,0,.3,.6]):e.attack==='dirt'?[-.5,-.25,0,.25,.5]:e.attack==='gust'?(enraged?[-.64,-.32,0,.32,.64]:e.isBoss?[-.32,0,.32]:[0]):e.attack==='claw'?(enraged?[-.6,-.3,0,.3,.6]:[-.3,0,.3]):[0];
+      e.aimX=dx;e.aimY=dy;e.dx=dx;e.dy=dy;e.moving=false;e.contactDamage=false;e.followUp=false;enemySound(r,e,'warn');
       if(e.attack==='pounce')aimLunge(r,e,target,360);
+      if(e.attack==='root-dash')e.chargeTime=Math.min(.85,(distance+55)/300);
       if(e.attack==='hoof-ring'){
         for(let ring=0;ring<(e.health<e.maxHealth*.5?2:1);ring++)for(let i=0;i<8;i++){
           const a=i*Math.PI/4+ring*Math.PI/8,d=70+ring*65;
           hazard(r,{x:e.x+Math.cos(a)*d,y:e.y+Math.sin(a)*d},'hoof',e,{angle:a,arm:1.1,life:4.1});
         }
       }else if(e.attack==='roots'){
-        const len=Math.hypot(target.dx,target.dy)||1;
-        for(let i=0;i<3;i++)hazard(r,{x:target.x+target.dx/len*i*70,y:target.y+target.dy/len*i*70},'roots',e);
-      }else if(e.attack==='fire-coil'){
-        const a=Math.atan2(dy,dx);
-        for(let i=1;i<=8;i++)hazard(r,{x:target.x+Math.cos(a+i*Math.PI/5)*105,y:target.y+Math.sin(a+i*Math.PI/5)*105},'fire',e,{arm:1.1,life:4});
+        const vx=target.vx||0,vy=target.vy||0,len=Math.hypot(vx,vy),fx=len>20?vx/len:-dy,fy=len>20?vy/len:dx;
+        for(let i=0;i<(enraged?5:3);i++)hazard(r,{x:target.x+fx*i*70,y:target.y+fy*i*70},'roots',e,{arm:1.1+i*.18,life:3.4+i*.18});
+      }else if(e.attack==='fire-coil'||e.attack==='root-ring'){
+        const away=Math.atan2(dy,dx),a=[away,away+Math.PI/2,away-Math.PI/2,away+Math.PI].find(angle=>
+          M.clearSegment(r,target,{x:target.x+Math.cos(angle)*150,y:target.y+Math.sin(angle)*150},target.r));
+        if(a!==undefined)for(let i=1;i<=8;i++)hazard(r,{x:target.x+Math.cos(a+i*Math.PI/5)*105,y:target.y+Math.sin(a+i*Math.PI/5)*105},e.attack==='root-ring'?'roots':'fire',e,{arm:1.1,life:4});
       }else if(e.attack==='brew'){
         for(const side of [-1,0,1])hazard(r,{x:target.x-dy*side*90,y:target.y+dx*side*90},'poison',e,{arm:1.05,life:4.5,r:26});
       }
       return true;
     }
     return false;
+  }
+  function farmPattern(r,e,target,dt,dx,dy,distance,type){
+    const role=type.farm;if(!role||role==='charge')return false;
+    e.contactDamage=role==='flock'||role==='mud'&&e.mode==='hunt'||role==='peck'&&e.mode==='charge';
+    if(role==='flock'){
+      const together=r.enemies.some(other=>other!==e&&other.species==='chick'&&gap(other,e)<110);
+      e.speed*=together?1.18:.9;
+      const side=Math.sin(e.age*4+e.side)*45,goal={x:target.x-dy*side,y:target.y+dx*side};
+      E.chase(r,e,M.clearCircle(r,goal,e.r)?goal:target,dt);return true;
+    }
+    if(e.mode==='warning'){
+      e.moving=false;
+      if(e.timer<=0){
+        enemySound(r,e,'attack');
+        if(role==='spit')enemyVolley(r,e,'dirt',[-.19,0,.19],170,1.8);
+        if(role==='peck'){e.mode='charge';e.timer=.18;e.contactDamage=true;}
+        else {e.mode='recover';e.timer=role==='mud'?2.5:role==='stomp'?2:1.5;}
+      }
+      return true;
+    }
+    if(role==='peck'&&e.mode==='charge'){
+      const moved=E.move(r,e,e.aimX*265*dt,e.aimY*265*dt);
+      if(e.timer<=0||moved<265*dt*.6){e.pecks--;e.mode='recover';e.timer=e.pecks>0?.22:1.4;e.contactDamage=false;}
+      return true;
+    }
+    if(e.mode==='recover'){
+      e.moving=false;
+      if(e.timer<=0){
+        if(role==='peck'&&e.pecks>0){e.mode='warning';e.timer=.25;enemySound(r,e,'warn');}
+        else {e.mode='hunt';e.timer=role==='spit'?1.2:1.8;}
+      }
+      return true;
+    }
+    const reach=role==='mud'?240:role==='spit'?290:role==='stomp'?90:role==='kick'?105:90;
+    if(e.timer<=0&&distance<reach&&M.clearSegment(r,e,target,0)&&attackReady(r,e,target)){
+      e.mode='warning';e.attack=role;e.timer=role==='mud'||role==='stomp'?.8:role==='kick'?.7:role==='peck'?.45:.65;
+      e.aimX=dx;e.aimY=dy;e.dx=role==='kick'?-dx:dx;e.dy=role==='kick'?-dy:dy;e.moving=false;e.contactDamage=false;
+      if(role==='peck')e.pecks=2;
+      if(role==='mud')hazard(r,target,'mud',e,{r:42,arm:.8,life:4.8,preparing:e});
+      if(role==='stomp')hazard(r,e,'stomp',e,{r:76,arm:.8,life:1.12,preparing:e});
+      if(role==='kick')hazard(r,{x:e.x+dx*55,y:e.y+dy*55},'kick',e,{r:34,arm:.7,life:1.02,preparing:e});
+      enemySound(r,e,'warn');return true;
+    }
+    if(role==='spit'&&distance<175){
+      const goal={x:e.x-dx*65-dy*35*e.side,y:e.y-dy*65+dx*35*e.side};
+      if(M.clearCircle(r,goal,e.r)&&M.clearSegment(r,e,goal,e.r))E.chase(r,e,goal,dt);else e.moving=false;
+    }else E.chase(r,e,target,dt);
+    return true;
   }
   function moveEnemy(r,e,target,dt){
     e.contactDamage=false;
@@ -460,14 +543,26 @@
     const type=ENEMIES[e.species];
     // Existing campaign/test actors have no survival AI state.
     if(!type||e.baseSpeed===undefined){e.contactDamage=true;E.chase(r,e,target,dt);return;}
-    const lunge=e.isBoss?null:LUNGES[e.species];
+    const lunge=e.isBoss&&!type.farm?null:LUNGES[e.species];
     e.contactDamage=!['warning','recover','feint'].includes(e.mode)&&
       (!(lunge||['goose','owl','cuca'].includes(e.species))||e.mode==='charge');
     const ageBefore=e.age;
     e.rally=Math.max(0,(e.rally||0)-dt);
     e.age+=dt;e.timer-=dt*(e.mode==='hunt'?1+Math.min(1,pressure(r)*.12):1);e.speed=e.baseSpeed*(e.rally>0?1.18:1);
     const distance=gap(e,target),dx=(target.x-e.x)/(distance||1),dy=(target.y-e.y)/(distance||1);
+    if(farmPattern(r,e,target,dt,dx,dy,distance,type))return;
     if(bossPattern(r,e,target,dt,dx,dy,distance))return;
+    if(e.isBoss&&secretSpecies(e.species)&&e.mode==='hunt'&&e.timer>0&&distance<300&&M.clearSegment(r,e,target,0)){
+      const radius=e.species==='mula-sem-cabeca'?190:225,side=e.side||1;
+      const angle=Math.atan2(e.y-target.y,e.x-target.x)+.45*side;
+      const goal={x:target.x+Math.cos(angle)*radius,y:target.y+Math.sin(angle)*radius};
+      const before={x:e.x,y:e.y};
+      e.contactDamage=false;
+      if(M.clearCircle(r,goal,e.r)&&M.clearSegment(r,e,goal,e.r))E.chase(r,e,goal,dt);
+      else {e.side=-side;E.chase(r,e,target,dt);}
+      if(e.species==='mula-sem-cabeca')hoofprints(r,e,before);
+      return;
+    }
     if(e.species==='owl'){
       if(e.mode==='warning'){
         e.moving=false;
@@ -561,15 +656,25 @@
   }
   function threats(r,dt){
     r.hazards=r.hazards.filter(h=>{
+      if(h.preparing&&h.arm>0&&(!r.enemies.includes(h.preparing)||h.preparing.health<=0||h.preparing.stun>0))return false;
       h.arm-=dt;h.life-=dt;
-      if(h.life>0&&h.arm<=0&&gap(h,r.player)<h.r+r.player.r&&M.clearSegment(r,h,r.player,0))E.hurt(r,h.source);
+      if(h.arm<=0)delete h.preparing;
+      if(h.life>0&&h.arm<=0&&gap(h,r.player)<h.r+r.player.r&&M.clearSegment(r,h,r.player,0)){
+        if(h.kind==='mud')r.player.mudSlow=Math.max(r.player.mudSlow||0,.25);
+        else if(E.hurt(r,h.source)&&['stomp','kick'].includes(h.kind)){
+          const d=gap(h,r.player)||1;E.move(r,r.player,(r.player.x-h.x)/d*65,(r.player.y-h.y)/d*65);
+        }
+      }
       return h.life>0;
     });
     r.hexes=r.hexes.filter(h=>{
       const old={x:h.x,y:h.y};h.x+=h.vx*dt;h.y+=h.vy*dt;h.life-=dt;h.traveled=(h.traveled||0)+gap(old,h);
       if(h.life<=0||!M.clearSegment(r,old,h,h.r||5))return false;
       if(segmentGap(r.player,old,h)<r.player.r+(h.r||6)){
-        if(E.hurt(r,h.source)&&h.push){const speed=Math.hypot(h.vx,h.vy)||1;E.move(r,r.player,h.vx/speed*h.push,h.vy/speed*h.push);}
+        if(E.hurt(r,h.source)){
+          if(h.kind==='dirt'&&h.source?.species==='duck')r.player.mudSlow=.9;
+          if(h.push){const speed=Math.hypot(h.vx,h.vy)||1;E.move(r,r.player,h.vx/speed*h.push,h.vy/speed*h.push);}
+        }
         return false;
       }
       return true;
@@ -577,7 +682,7 @@
   }
   function damage(r,e,amount){
     if(!r.enemies.includes(e))return;
-    e.health-=amount;
+    e.health-=amount*(e.isBoss&&e.mode==='recover'?1.35:1);
     // Continuous poison still deals every tick; its hit particles need only ten bursts per second.
     if(r.elapsed>=(e.hitFxUntil||0)){effect(r,e,'hurt');e.hitFxUntil=r.elapsed+.1;e.hitFlash=.08;}
     if(e.health>0)return;
@@ -665,7 +770,7 @@
         if(s.fusion==='solar'&&r.fusionFields.filter(f=>f.fusion==='solar').length<8){
           r.fusionFields.push({x:e.x,y:e.y,target:e,fusion:'solar',color:s.color,radius:85*reach(r),time:.65,duration:.65,damage:s.damage*2});
           damage(r,e,s.damage*.2);
-        }else if(s.blast)blast(r,e,s.blast,s.damage,s.color,{visual:s.visual||'egg',fusion:s.fusion});else damage(r,e,s.damage);
+        }else if(s.blast)blast(r,e,s.blast,s.damage,s.color,{visual:s.visual||'egg',fusion:s.fusion,dot:s.dot});else damage(r,e,s.damage);
         if(e.health>0){
           if(s.slow)e.slow=Math.max(e.slow||0,s.slow);
           if(s.stun)e.stun=Math.max(e.stun||0,s.stun);
@@ -700,7 +805,10 @@
   function blast(r,p,radius,power,color,extra={}){
     r.sounds.add('explosion');
     pulse(r,p,radius,color,extra);
-    for(const e of [...r.enemies])if(gap(p,e)<radius+e.r&&M.clearSegment(r,p,e,0))damage(r,e,power);
+    for(const e of [...r.enemies])if(gap(p,e)<radius+e.r&&M.clearSegment(r,p,e,0)){
+      damage(r,e,power);
+      if(e.health>0&&extra.dot)e.dot={...extra.dot};
+    }
   }
   function claws(r){return [0,Math.PI].map(a=>({x:r.player.x+Math.cos(r.elapsed*3+a)*65,y:r.player.y+Math.sin(r.elapsed*3+a)*65}));}
   function orbits(r){const count=fused(r,'fortress')?6:rank(r,'orbit')?rank(r,'orbit')+1:0;return Array.from({length:count},(_,i)=>{

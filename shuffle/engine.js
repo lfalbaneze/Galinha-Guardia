@@ -228,7 +228,8 @@
     if(len>1){x/=len;y/=len;}
     const before={x:p.x,y:p.y};
     if(p.dashTime>0){move(run,p,p.dashX*525*dt,p.dashY*525*dt);p.dashTime=Math.max(0,p.dashTime-dt);}
-    else move(run,p,x*stats(run).speed*dt,y*stats(run).speed*dt);
+    else {const speed=stats(run).speed*((p.mudSlow||0)>0?.65:1);move(run,p,x*speed*dt,y*speed*dt);}
+    p.mudSlow=Math.max(0,(p.mudSlow||0)-dt);
     p.vx=(p.x-before.x)/dt;p.vy=(p.y-before.y)/dt;
     for(const f of run.friends)if(!f.rescued&&gap(p,f)<stats(run).reach+f.r&&clearContact(run,p,f)){
       f.rescued=true;run.rescued++;run.totalRescued++;

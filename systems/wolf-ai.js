@@ -9,6 +9,42 @@ const WolfAI = (() => {
     // Thor and the wolf have different footprints. Keep both navigation graphs so
     // alternating their updates does not rebuild the whole farm graph each frame.
     const navigationCache = new Map();
+    const habits = new WeakMap();
+    function learning(wolf) {
+        let memory = habits.get(wolf);
+        if (!memory) {
+            memory = { regions: new Map(), last: null, sample: 0, hides: 0,
+                curiosity: .85 + Math.random() * .3, choices: [] };
+            habits.set(wolf, memory);
+        }
+        return memory;
+    }
+    const regionKey = (p) => `${Math.floor(p.x / 240)},${Math.floor(p.y / 240)}`;
+    function learnObservation(wolf, point) {
+        const memory = learning(wolf);
+        if (memory.sample > 0 || (memory.last && distance(memory.last, point) < 60))
+            return;
+        memory.sample = 1.2;
+        memory.last = { ...point };
+        const key = regionKey(point), old = memory.regions.get(key);
+        memory.regions.set(key, { point: { ...point }, weight: Math.min(4, (old?.weight || 0) + 1), checked: old?.checked || 0 });
+    }
+    function familiarity(wolf, p) {
+        return [...learning(wolf).regions.values()].reduce((sum, r) => sum + r.weight * Math.max(0, 1 - distance(p, r.point) / 360), 0);
+    }
+    function choosePatrol(wolf, config) {
+        const circuit = patrolPoints(config), memory = learning(wolf), next = wolf.patrolIndex % circuit.length;
+        const choices = circuit.map((p, index) => {
+            const recent = memory.regions.get(regionKey(p))?.checked || 0;
+            return { ...p, index, score: familiarity(wolf, p) * 55 * memory.curiosity - recent * 9 -
+                    distance(wolf, p) * .025 - ((index - next + circuit.length) % circuit.length) * 4 };
+        }).sort((a, b) => b.score - a.score);
+        memory.choices = choices;
+        // With no observed habit, retain the public circuit and its existing pacing.
+        const destination = choices.find(p => distance(wolf, p) >= 120);
+        if (destination && [...memory.regions.values()].some(r => r.weight >= 2))
+            wolf.patrolIndex = destination.index;
+    }
     const trails = new WeakMap();
     const hungerRules = { easy: { seconds: 420, boost: .12 }, normal: { seconds: 240, boost: .18 },
         hard: { seconds: 180, boost: .22 }, hardcore: { seconds: 140, boost: .26 } };
@@ -102,7 +138,7 @@ const WolfAI = (() => {
         const speed = Math.min(nominalSpeed, game.settings.chickenSpeed * sprintMultiplier * sprintCap * ceilingProgress);
         return { ...config, level, rescuedFriends, rescuedChicks, chickMultiplier, nominalSpeed, sprintCap, speed, hunger,
             pressure: config.speedScale / levels[0].speedScale * chickMultiplier * (1 + hunger * hungerRules[difficulty].boost),
-            searchPoints: config.searchPoints + Math.floor(hunger * 3),
+            searchPoints: config.searchPoints + Math.floor(hunger * 3) + (['hard', 'hardcore'].includes(difficulty) ? 2 : 0),
             fov: Math.min(165, config.fov + rescuedChicks * 2.5) * Math.PI / 180,
             range: Math.min(840 * ceilingProgress, config.range * chickMultiplier),
             awarenessTime: Math.max(0.18, config.awarenessTime * reaction / chickMultiplier),
@@ -118,6 +154,9 @@ const WolfAI = (() => {
             contactRange: 28, soundInterval: 0.65, investigateDuration: (2.6 + level * 0.3) * (1 + hunger * .5) };
     }
     function initialize(game) {
+        if (typeof WildlifeRules !== 'undefined')
+            WildlifeRules.reset(game.entities.wolf);
+        learning(game.entities.wolf);
         trails.delete(game);
         SunflowerSystem.reset(game);
         resetPursuit(game.entities.wolf);
@@ -143,6 +182,7 @@ const WolfAI = (() => {
             return false;
         wolf.exposedCover = { spotId: spot.id, x: chicken.x, y: chicken.y,
             remaining: config.hideMemoryDuration, inspectTime: 0.8, revealIn: 5 };
+        learning(wolf).hides = Math.min(4, learning(wolf).hides + 1);
         SunflowerSystem.cancel(game);
         cancelIntercept(wolf);
         wolf.lastKnown = { x: chicken.x, y: chicken.y };
@@ -191,7 +231,8 @@ const WolfAI = (() => {
     }
     function navigation(wolf) {
         const radius = wolf.hitbox ? wolf.hitbox.r : wolf.radius;
-        const cached = navigationCache.get(radius);
+        const avoidRefuge = !('rescued' in wolf && wolf.rescued === true), key = `${radius}:${avoidRefuge}`;
+        const cached = navigationCache.get(key);
         const current = (nav) => nav.source === OBSTACLES && nav.count === OBSTACLES.length &&
             nav.width === WORLD.width && nav.height === WORLD.height;
         if (cached && current(cached))
@@ -199,7 +240,7 @@ const WolfAI = (() => {
         if ([...navigationCache.values()].some(nav => !current(nav)))
             navigationCache.clear();
         const padding = radius + 2;
-        const refuge = refugeBounds();
+        const refuge = avoidRefuge ? refugeBounds() : null;
         // The refuge is walkable for the player, but a solid no-go rectangle for the wolf.
         // Existing rails still handle player/animal collision and the east gate remains usable.
         const blockers = [...OBSTACLES.filter(rect => rect.blocking !== false),
@@ -210,7 +251,7 @@ const WolfAI = (() => {
         }));
         const nav = { source: OBSTACLES, count: OBSTACLES.length, radius, padding, rects,
             width: WORLD.width, height: WORLD.height, nodes: null, edges: null };
-        navigationCache.set(radius, nav);
+        navigationCache.set(key, nav);
         return nav;
     }
     function navigationNodes(nav) {
@@ -373,11 +414,30 @@ const WolfAI = (() => {
         const branchCost = (p) => distance(p, origin) * .35 - (p.x - origin.x) * Math.cos(heading) - (p.y - origin.y) * Math.sin(heading);
         branches.sort((a, b) => branchCost(a) - branchCost(b));
         points.push(...branches.slice(0, Math.min(3, config.searchPoints)));
-        if (config.level === 3 && typeof HidingSpots !== "undefined") {
+        if (config.searchPoints > 0) {
+            const exits = [];
+            for (const fence of OBSTACLES.filter(o => o.blocking !== false && Math.min(o.w, o.h) <= 24 && Math.max(o.w, o.h) >= 70)) {
+                const padding = nav.padding + 5;
+                const ends = fence.w < fence.h ? [{ x: fence.x + fence.w / 2, y: fence.y - padding }, { x: fence.x + fence.w / 2, y: fence.y + fence.h + padding }] :
+                    [{ x: fence.x - padding, y: fence.y + fence.h / 2 }, { x: fence.x + fence.w + padding, y: fence.y + fence.h / 2 }];
+                for (const p of ends)
+                    if (distance(p, origin) <= config.searchRadius + 40 && freePoint({ x: p.x + wolf.hitbox.ox, y: p.y + wolf.hitbox.oy }, nav) &&
+                        points.every(other => distance(other, p) > 28))
+                        exits.push(p);
+            }
+            exits.sort((a, b) => branchCost(a) - branchCost(b));
+            points.push(...exits.slice(0, 2));
+        }
+        const memory = learning(wolf);
+        if ((config.level === 3 || memory.hides > 0) && typeof HidingSpots !== "undefined") {
             const spots = HidingSpots.getSpots().map(spot => ({ x: spot.x + spot.w / 2, y: spot.y + spot.h / 2 }))
                 .filter(point => distance(point, origin) <= config.searchRadius)
+                .map(p => {
+                const safe = openPoint({ x: p.x + wolf.hitbox.ox, y: p.y + wolf.hitbox.oy }, nav);
+                return { x: safe.x - wolf.hitbox.ox, y: safe.y - wolf.hitbox.oy };
+            })
                 .sort((a, b) => distance(a, origin) - distance(b, origin));
-            points.push(...spots.slice(0, 3));
+            points.push(...spots.slice(0, config.level === 3 ? 3 : Math.min(2, memory.hides)));
         }
         for (let i = 0; i < config.searchPoints; i += 1) {
             // Check the remembered escape direction and its branches before doubling
@@ -390,9 +450,15 @@ const WolfAI = (() => {
             if (points.every(p => distance(p, next) > 28))
                 points.push(next);
         }
-        return points;
+        const choices = points.slice(1).map((p, i) => ({ ...p, score: familiarity(wolf, p) * 18 * memory.curiosity - i * 12 +
+                (memory.hides > 0 && HidingSpots.getSpots().some(s => distance(p, { x: s.x + s.w / 2, y: s.y + s.h / 2 }) < 70) ? memory.hides * 22 : 0) }))
+            .sort((a, b) => b.score - a.score);
+        memory.choices = choices;
+        return [points[0], ...choices.map(p => ({ x: p.x, y: p.y }))];
     }
     function beginSearch(wolf, config) {
+        if (typeof WildlifeRules !== 'undefined')
+            WildlifeRules.decide(wolf, 'search', 'visão perdida: verificar última pista e passagens');
         cancelIntercept(wolf);
         wolf.mode = "search";
         wolf.searchTime = config.searchDuration;
@@ -545,6 +611,7 @@ const WolfAI = (() => {
         wolf.interceptPhase = 'warning';
         wolf.interceptTarget = target;
         wolf.interceptTime = config.interceptWarning;
+        WildlifeRules.decide(wolf, 'intercept', 'movimento lateral observado: antecipar com aviso');
         wolf.route = [];
         wolf.routeTarget = null;
         wolf.routeTimer = 0;
@@ -574,6 +641,12 @@ const WolfAI = (() => {
             nav.source.every(rect => rect.blocking === false || Math.hypot(point.x - clamp(point.x, rect.x, rect.x + rect.w), point.y - clamp(point.y, rect.y, rect.y + rect.h)) >= nav.radius - .001);
     }
     function moveToward(wolf, target, speed, dt) {
+        if (typeof WildlifeRules !== 'undefined') {
+            const action = wolf.interceptPhase ? 'intercept' : wolf.mode;
+            if (WildlifeRules.diagnostics(wolf)?.action !== action)
+                WildlifeRules.decide(wolf, action, wolf.interceptPhase ? 'seguir a linha anunciada' : wolf.mode === 'chase' ? 'alvo confirmado pela visão' :
+                    wolf.mode === 'patrol' ? 'visitar destino público da patrulha' : 'seguir uma pista lembrada');
+        }
         wolf.routeTimer -= dt;
         const movedTarget = !wolf.routeTarget || distance(wolf.routeTarget, target) > 32;
         if (wolf.routeMode !== wolf.mode || movedTarget || wolf.routeTimer <= 0) {
@@ -612,7 +685,7 @@ const WolfAI = (() => {
             }
             wolf.route = [];
             stop(wolf, dt);
-            return false;
+            return typeof WildlifeRules !== 'undefined' && WildlifeRules.progress(wolf, target, dt);
         }
         wolf.moveSpeed = Math.min(speed, (wolf.moveSpeed || 0) + wolf.accel * dt);
         let remaining = wolf.moveSpeed * dt;
@@ -651,6 +724,14 @@ const WolfAI = (() => {
         if (Math.abs(wolf.vx) > 0.1)
             wolf.facing = Math.sign(wolf.vx);
         wolf.anim = CharacterArt.advance(wolf.anim, 'wolf', distance(original, wolf), { speed: dt > 0 ? distance(original, wolf) / dt : 0 });
+        if (typeof WildlifeRules !== 'undefined') {
+            if (WildlifeRules.progress(wolf, wolf.route[0] || target, dt)) {
+                wolf.route = [];
+                wolf.routeTimer = 0;
+                WildlifeRules.decide(wolf, 'replan', 'deslocamento sem progresso');
+                return true;
+            }
+        }
         return arrived || (!wolf.route.length && distance(wolf, target) < 12);
     }
     function frighten(game, source, seconds = 6) {
@@ -711,6 +792,14 @@ const WolfAI = (() => {
         if (wolf.huntUnlockTimer <= 0 && wolf.pauseTimer <= 0 && wolf.mode !== 'frightened')
             game.wolfHunger = Math.min(1, appetite(game).value + dt / hungerRules[game.difficultyKey].seconds);
         const config = getConfig(game);
+        const memory = learning(wolf);
+        memory.sample = Math.max(0, memory.sample - dt);
+        for (const [key, r] of memory.regions) {
+            r.weight = Math.max(0, r.weight - dt / 180);
+            r.checked = Math.max(0, r.checked - dt);
+            if (r.weight === 0 && r.checked === 0)
+                memory.regions.delete(key);
+        }
         updateTracks(game, dt);
         wolf.huntUnlockTimer = Math.max(0, (wolf.huntUnlockTimer || 0) - dt);
         wolf.pauseTimer = Math.max(0, (wolf.pauseTimer || 0) - dt);
@@ -800,12 +889,14 @@ const WolfAI = (() => {
             { visible: false, contact: false, heardPoint: null };
         wolf.detected = false;
         if (perception.visible) {
+            learnObservation(wolf, perception.seenPoint);
             observe(wolf, perception.seenPoint, game);
             wolf.exposedCover = null;
             // A distant glimpse gives the player time to break sight. Awareness survives brief gaps.
             const closeness = 1 - Math.min(1, perception.distance / config.range);
             wolf.awareness = Math.min(1, wolf.awareness + dt * (0.85 + closeness * 0.3) / config.awarenessTime);
             if (wolf.mode === "chase" || perception.contact || wolf.awareness >= 1) {
+                WildlifeRules.report(game, wolf, 'pursuit', perception.seenPoint);
                 wolf.awareness = 1;
                 wolf.detected = true;
                 wolf.lastKnown = { ...perception.seenPoint };
@@ -875,8 +966,15 @@ const WolfAI = (() => {
             wolf.mode = "investigate";
             wolf.routeTimer = 0;
         }
-        if (!perception.visible && !perception.heardPoint)
-            sniffTrack(game);
+        if (!perception.visible && !perception.heardPoint) {
+            const clue = WildlifeRules.hear(game, wolf, wolf.lastSignal);
+            if (clue && investigateSound(game, clue.origin, 300, clue.point)) {
+                wolf.lastSignal = clue.id;
+                WildlifeRules.decide(wolf, 'investigate', `pista recente de ${clue.source}: ${clue.kind}`);
+            }
+            else
+                sniffTrack(game);
+        }
         let target;
         if (wolf.mode === "investigate") {
             wolf.investigateTime = Math.max(0, (wolf.investigateTime || 0) - dt);
@@ -942,7 +1040,10 @@ const WolfAI = (() => {
                 wolf.pursuitEffort = (wolf.pursuitEffort || 0) + distance(before, wolf) / Math.max(1, config.speed);
             if (arrived || (!wolf.route.length && wolf.routeTimer > 0)) {
                 if (wolf.mode === "patrol") {
+                    const key = regionKey(target), old = memory.regions.get(key);
+                    memory.regions.set(key, { point: old?.point || { ...target }, weight: old?.weight || 0, checked: 18 });
                     wolf.patrolIndex += 1;
+                    choosePatrol(wolf, config);
                     wolf.patrolPause = config.level === 3 ? 0.6 : 1.1;
                     wolf.patrolScanHeading = wolf.heading;
                 }
@@ -991,5 +1092,16 @@ const WolfAI = (() => {
         return true;
     }
     return { initialize, update, getConfig, appetite, findPath, patrolPoints, witnessHide, isExposed, canCatchHidden, restoreCoverMemory, investigateSound, frighten, drawTracks,
-        moveTo: moveToward, clearTracks: (game) => { trails.delete(game); SunflowerSystem.reset(game); resetPursuit(game.entities.wolf); } };
+        explain: (wolf) => {
+            const m = habits.get(wolf);
+            return { curiosity: m?.curiosity || 1, hides: m?.hides || 0,
+                regions: [...(m?.regions.values() || [])].map(r => ({ ...r, point: { ...r.point } })), choices: (m?.choices || []).map(p => ({ ...p })) };
+        },
+        moveTo: moveToward, clearTracks: (game) => {
+            trails.delete(game);
+            SunflowerSystem.reset(game);
+            resetPursuit(game.entities.wolf);
+            if (typeof WildlifeRules !== 'undefined')
+                WildlifeRules.reset(game.entities.wolf);
+        } };
 })();

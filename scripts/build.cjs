@@ -11,17 +11,18 @@ execFileSync(process.execPath, [require.resolve('typescript/bin/tsc'), '-p', pat
   cwd: root, stdio: 'inherit',
 });
 require('./build-farm-data.cjs');
-for (const script of ['build-arcade-art.cjs', 'build-cartoon-cast.cjs', 'build-pixellab-art.cjs', 'build-arcade-world.cjs'])
+// The retired cartoon cast ships its reviewed export; its authoring masters are not build inputs.
+for (const script of ['build-arcade-art.cjs', 'build-pixellab-art.cjs', 'build-comfyui-art.cjs', 'build-chaos-art.cjs', 'build-arcade-world.cjs'])
   execFileSync(process.execPath, [path.join(__dirname, script)], {cwd: root, stdio: 'inherit'});
 for(const name of fs.readdirSync(path.join(root,'systems')).filter(n=>n.endsWith('.js')))
   new vm.Script(fs.readFileSync(path.join(root,'systems',name),'utf8'),{filename:name});
 new vm.Script(fs.readFileSync(path.join(root,'game.js'),'utf8'),{filename:'game.js'});
-for(const name of ['maps.js','engine.js','survival.js','effects.js','result-art.js','ui.js'])
+for(const name of ['maps.js','engine.js','survival.js','effects.js','result-art.js','chaos-art-data.js','ui.js'])
   new vm.Script(fs.readFileSync(path.join(root,'shuffle',name),'utf8'),{filename:'shuffle/'+name});
 // Rebuild only this project's output after validation; stale files must not ship.
 fs.rmSync(output,{recursive:true,force:true});
 fs.mkdirSync(output,{recursive:true});
-const artStudies=new Set(['assets/sprites/premium-102','assets/sprites/cartoon-103','assets/sprites/cartoon-104/raw','assets/sprites/cartoon-106/raw','assets/sprites/cartoon-107','assets/sprites/pixellab-108/meta','assets/sprites/pixel-109/raw','assets/sprites/pixel-109/meta']);
+const artStudies=new Set(['assets/sprites/premium-102','assets/sprites/cartoon-103','assets/sprites/cartoon-104/raw','assets/sprites/cartoon-106/raw','assets/sprites/cartoon-107','assets/sprites/pixellab-108/meta','assets/sprites/comfyui-110/meta','assets/sprites/chaos-112/meta','assets/sprites/wardrobe-117/meta','assets/sprites/pixel-109/raw','assets/sprites/pixel-109/meta']);
 for(const item of ['index.html','style.css','gameplay.css','menu.css','expedition-ui.css','results.css','game.js','systems','assets','shuffle'])
   fs.cpSync(path.join(root,item),path.join(output,item),{recursive:true,
     filter:source=>{const relative=path.relative(path.toNamespacedPath(root),path.toNamespacedPath(source)).split(path.sep).join('/');

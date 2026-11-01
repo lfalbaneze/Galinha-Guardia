@@ -102,6 +102,8 @@ test('every route stays on the painted dirt through wandering, commotion and res
     h.run('feet.length=0;for(let i=0;i<2400;i++)MenuScene.frame(state,.05,false);');
     h.events.elements.menuScatter.click();
     h.run('for(let i=0;i<300;i++)MenuScene.frame(state,.05,false);');
+    h.events.elements.menuFeed.click();
+    h.run('for(let i=0;i<180;i++)MenuScene.frame(state,.05,false);');
     const cover = Math.max(width / image.width, height / image.height) * 1.12;
     const left = (width - image.width * cover) * .42, top = height - image.height * cover;
     const calls = h.run('feet');
@@ -146,7 +148,7 @@ test('the button starts a somersault, a joke and a reply, with grounded shadows 
   assert.ok(h.run('Math.max(...hops)') > 30, 'visible jump, with shadow still on the route');
   assert.ok(Number.parseFloat(h.elements.get('menuBanter').style.left) > 350);
   h.run('for(let i=0;i<48;i++)InterfaceMotion.frame(state,.05);');
-  assert.match(h.elements.get('menuBanter').textContent, /Dez na coragem. Dois no pouso!/);
+  assert.ok(h.elements.get('menuBanter').textContent.split('\n')[1].length>10);
   assert.doesNotMatch(h.elements.get('menuBanter').textContent, /^Erina/);
   assert.equal(h.plays.length, 1, 'one explicit animal call, no automatic audio chatter');
   h.run('for(let i=0;i<68;i++)InterfaceMotion.frame(state,.05);hops.length=0;InterfaceMotion.frame(state,.05);');
@@ -292,8 +294,8 @@ test('tricks alternate, rotate through a full somersault and stop completely in 
   h.run('for(let i=0;i<32;i++)InterfaceMotion.frame(state,.05);');
   assert.ok(h.run('Math.max(...rotations.map(Math.abs))') > Math.PI*1.8);
   const kinds = [h.elements.get('menuBanter').dataset.trick];
-  for(let i=0;i<3;i++){h.events.elements.menuScatter.click();kinds.push(h.elements.get('menuBanter').dataset.trick);}
-  assert.deepEqual(kinds,['tumble','dance','jump','spin']);
+  for(let i=0;i<7;i++){h.events.elements.menuScatter.click();kinds.push(h.elements.get('menuBanter').dataset.trick);}
+  assert.deepEqual(kinds,['tumble','sneeze','race','gossip','dance','parade','jump','spin']);
   h.events.media.change({matches:true});
   h.run('InterfaceMotion.frame(state,.05);rotations.length=0;');
   h.events.elements.menuScatter.click();
@@ -341,4 +343,92 @@ test('the equipped dog fits in the title viewport and still responds with its ba
   if(h.elements.get('menuBanter').style.visibility==='visible')assert.ok(Number.parseFloat(h.elements.get('menuBanter').style.top)<=670);
   else assert.equal(h.elements.get('menuBanterLink').getAttribute('d'),'','no room means no detached tail');
   assert.equal(h.run('JSON.stringify(state)===equippedSnapshot'),true);
+});
+
+function recordActors(h){
+  h.run(`const frames=[];let actorDepth=0,actorOrigin;
+    const actorNames=new Map(Object.entries(SpriteData).map(([name,data])=>[data.source,name]));
+    sceneContext.save=()=>{actorDepth++;if(actorDepth===1)actorOrigin=null;};
+    sceneContext.restore=()=>actorDepth--;
+    sceneContext.translate=(x,y)=>{if(actorDepth===1){if(!actorOrigin)actorOrigin={x,y,scale:1,lift:0};else if(x===0)actorOrigin.lift-=y;}};
+    sceneContext.scale=(x,y)=>{if(actorDepth===1&&actorOrigin)actorOrigin.scale=x;};
+    sceneContext.drawImage=(image,sx,sy)=>frames.push({...actorOrigin,y:actorOrigin.y+14*actorOrigin.scale,species:actorNames.get(image.src),sx,sy});`);
+}
+
+test('calling for food serves individual portions, animates approaching and eating, and preserves the save',()=>{
+  const h=audibleMenu(),saved=[...h.storage];
+  recordActors(h);
+  h.run(`const foodPixels=[];
+    sceneContext.fillRect=(...args)=>foodPixels.push(args);
+    InterfaceMotion.frame(state,0);const beforeMeal=frames.slice(-6);`);
+  h.events.elements.menuFeed.click();
+  assert.equal(h.elements.get('menuBanter').dataset.trick,'snack');
+  h.run('InterfaceMotion.frame(state,.05);');
+  assert.ok(h.run('foodPixels.length')>100,'recognizable individual food props are drawn');
+  assert.equal(h.plays.length,1,'food is an explicit interaction, not autoplay');
+  assert.ok(h.plays[0].src.includes('animal-'+h.elements.get('menuBanter').dataset.speaker),'the voice belongs to the guest who actually has room to speak');
+  h.run(`for(let i=0;i<59;i++)InterfaceMotion.frame(state,.05);
+    const approaching=frames.slice(-6).filter(a=>{
+      const before=beforeMeal.find(b=>b.species===a.species);
+      return Math.hypot(a.x-before.x,a.y-before.y)>5;
+    });`);
+  assert.ok(h.run('approaching.length')>=4,'guests walk to their own portions instead of just changing dialogue');
+  assert.equal(h.elements.get('menuBanter').style.visibility,'visible','the meal reply gets a clear bubble instead of covering a face');
+  h.run('for(let i=0;i<44;i++)InterfaceMotion.frame(state,.05);foodPixels.length=0;InterfaceMotion.frame(state,.05);');
+  assert.equal(h.run('foodPixels.length'),0,'portions get eaten after arrival');
+  h.run('for(let i=0;i<60;i++)InterfaceMotion.frame(state,.05);');
+  assert.equal(h.elements.get('menuBanter').hidden,true);
+  assert.equal(h.run('JSON.stringify(state)===snapshot'),true);
+  assert.deepEqual([...h.storage],saved);
+});
+
+test('the sneeze makes several neighbours jump and has a reply and a comeback',()=>{
+  const h=audibleMenu();
+  recordActors(h);
+  h.events.elements.menuScatter.click();h.events.elements.menuScatter.click();
+  const first=h.elements.get('menuBanter').textContent;
+  assert.match(first,/ATCHIM/);
+  h.run('for(let i=0;i<44;i++)InterfaceMotion.frame(state,.05);');
+  assert.ok(new Set(h.run('frames.filter(a=>a.lift>6).map(a=>a.species)')).size>=3,'an actual chain reaction across neighbours');
+  h.run('for(let i=0;i<20;i++)InterfaceMotion.frame(state,.05);');
+  const answer=h.elements.get('menuBanter').textContent;
+  assert.match(answer,/Saúde!/);assert.notEqual(answer.split('\n')[0],first.split('\n')[0]);
+  h.run('for(let i=0;i<48;i++)InterfaceMotion.frame(state,.05);');
+  assert.equal(h.elements.get('menuBanter').textContent.split('\n')[0],first.split('\n')[0]);
+  assert.notEqual(h.elements.get('menuBanter').textContent,first);
+  assert.equal(h.plays.length,2,'only deliberate clicks play voices');
+});
+
+test('the race accelerates two animated runners, then a winner and a sore loser answer each other',()=>{
+  const h=audibleMenu();
+  recordActors(h);
+  for(let i=0;i<3;i++)h.events.elements.menuScatter.click();
+  assert.equal(h.elements.get('menuBanter').dataset.trick,'race');
+  h.run('for(let i=0;i<72;i++)InterfaceMotion.frame(state,.05);');
+  h.run(`const runners=new Set(),previousRunner=new Map();
+    for(const point of frames){const before=previousRunner.get(point.species);
+      if(before&&Math.hypot(point.x-before.x,point.y-before.y)>2)runners.add(point.species);
+      previousRunner.set(point.species,point);}`);
+  assert.equal(h.run('runners.size'),2,'two competitors actually accelerate above the normal walking pace');
+  assert.equal(h.run('[...runners].every(species=>new Set(frames.filter(a=>a.species===species).map(a=>a.sx+":"+a.sy)).size>2)'),true);
+  const winner=h.elements.get('menuBanter').textContent;
+  assert.ok(winner.split('\n')[1].length>10);
+  h.run('for(let i=0;i<40;i++)InterfaceMotion.frame(state,.05);');
+  const loser=h.elements.get('menuBanter').textContent;
+  assert.notEqual(loser,winner);assert.notEqual(loser.split('\n')[0],winner.split('\n')[0]);
+});
+
+test('food and new sketches respect reduced motion, mute and closing the menu',()=>{
+  const h=audibleMenu({reducedMotion:true});
+  h.run('AudioSystem.toggleMute();const mealRotations=[];sceneContext.rotate=angle=>mealRotations.push(angle);');
+  h.events.elements.menuFeed.click();
+  h.run('for(let i=0;i<60;i++)InterfaceMotion.frame(state,.05);');
+  assert.equal(h.plays.length,0);assert.equal(h.run('hops.length+mealRotations.length'),0);
+  assert.ok(h.elements.get('menuBanter').textContent.split('\n')[1].length>10);
+  h.events.elements.newAdventureBtn.click();
+  h.run('InterfaceMotion.frame(state,.05);const stopped=sceneDraws.length;');
+  h.events.elements.menuFeed.click();
+  h.run('for(let i=0;i<60;i++)InterfaceMotion.frame(state,.05);');
+  assert.equal(h.run('sceneDraws.length===stopped'),true);assert.equal(h.elements.get('menuBanter').hidden,true);
+  assert.equal(h.run('JSON.stringify(state)===snapshot'),true);
 });

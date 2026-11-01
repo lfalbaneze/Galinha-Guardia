@@ -45,8 +45,37 @@ function audioHarness(options = {}) {
 const microtasks = async () => { await Promise.resolve(); await Promise.resolve(); };
 const mixFor=(h,seconds)=>{for(let i=0;i<seconds*20;i++)h.audio.update(h.game,.05);};
 
+test('secret encounters override the skin theme, pause without restarting and restore it after defeat or retreat',()=>{
+  const h=audioHarness();h.game.entities={chicken:{skin:'punk'},folklore:[]};h.start();
+  const music=h.instances.find(a=>a.loop);assert.equal(h.audio.status.track,'skin-punk');
+  const boss={species:'curupira',active:true,defeated:false};h.game.entities.folklore.push(boss);
+  h.audio.sync(h.game);assert.equal(h.audio.status.track,'secret-boss');
+  assert.ok(music.src.endsWith('/music/secret-v1/secret-boss.wav'));
+  music.currentTime=7;h.game.phase='menu';h.game.resumePhase='playing';h.audio.sync(h.game);
+  assert.ok(music.paused);assert.equal(music.currentTime,7);
+  h.game.phase='playing';h.audio.sync(h.game);assert.equal(music.currentTime,7);
+  h.audio.toggleMute();assert.ok(music.paused);h.audio.toggleMute();
+  boss.defeated=true;h.audio.sync(h.game);assert.equal(h.audio.status.track,'skin-punk');
+  boss.defeated=false;boss.active=false;h.audio.sync(h.game);assert.equal(h.audio.status.track,'skin-punk');
+  boss.active=true;boss.species='fuinha';h.audio.sync(h.game);assert.equal(h.audio.status.track,'skin-punk');
+  h.game.secretBossActive=true;h.audio.sync(h.game);assert.equal(h.audio.status.track,'secret-boss');
+  h.game.phase='win_cutscene';h.audio.sync(h.game);assert.equal(h.audio.status.track,'skin-punk');
+  assert.equal(h.audio.settings.track,'forest','encounter music never changes the saved preference');
+  assert.equal(h.instances.filter(a=>a.loop).length,1,'only one music player exists');
+});
+
+test('the secret boss score is original, installed and has a bounded continuous loop',()=>{
+  const clip=audioHarness().audio.catalog.find(c=>c.name==='secret-boss');assert.equal(clip.kind,'music');
+  const bytes=fs.readFileSync(path.resolve(__dirname,'..',clip.src));
+  const meta=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../assets/audio/music/secret-v1/manifest.json')));
+  const analysis=require('../scripts/generate-audio.cjs').validate(bytes,true);
+  assert.equal(require('node:crypto').createHash('sha256').update(bytes).digest('hex'),meta.sha256);
+  assert.ok(analysis.durationSeconds>60&&analysis.durationSeconds<65);
+  assert.ok(analysis.clippedSamples===0&&analysis.loopBoundaryDelta<.009&&analysis.rms<=.109);
+});
+
 test('all six revised scores are installed, bounded in volume, varied and continuous at the loop splice',()=>{
-  const h=audioHarness(),clips=h.audio.catalog.filter(c=>c.kind==='music');assert.equal(clips.length,6);
+  const h=audioHarness(),clips=h.audio.catalog.filter(c=>c.kind==='music'&&c.name!=='secret-boss');assert.equal(clips.length,6);
   const {validate}=require('../scripts/generate-audio.cjs'),{createHash}=require('node:crypto');
   const metadata=JSON.parse(fs.readFileSync(path.join(__dirname,'../assets/audio/music/v2/manifest.json'),'utf8'));
   for(const clip of clips){
@@ -110,7 +139,7 @@ test('an animal voice interrupts only a hidden chick hint, never a chick rescue'
 
 test('the complete runtime sound catalog contains every take and only existing decodable files',()=>{
   const h=audioHarness(),catalog=h.audio.catalog;
-  assert.equal(catalog.length,62);assert.ok(Object.isFrozen(catalog));
+  assert.equal(catalog.length,63);assert.ok(Object.isFrozen(catalog));
   assert.equal(new Set(catalog.map(c=>c.src)).size,catalog.length);
   for(const clip of catalog){
     assert.ok(Object.isFrozen(clip));
@@ -539,6 +568,30 @@ test('cutscene beats play once, duck music, and skipped frames never create a ca
   assert.deepEqual(h.effects(), ['pop', 'bonk', 'dizzy', 'sob', 'runaway', 'sob-2', 'victory']);
   for (const voice of h.instances.filter(a=>!a.loop)) voice.end();
   mixFor(h,8);assert.equal(h.instances[0].volume, 0.25);
+});
+
+test('the gentle endings celebrate without fight impacts, dizziness or sobbing', () => {
+  for (const stage of ['picnic', 'dance', 'cleanup']) {
+    const h = audioHarness(); h.start();
+    h.step(4, stage); h.step(7.2, stage); h.step(11, stage); h.step(14, stage);
+    assert.deepEqual(h.effects(), []);
+    h.step(16, 'celebrate'); h.step(17, 'celebrate');
+    assert.deepEqual(h.effects(), ['victory']);
+  }
+});
+
+test('story cues play once per action, stay silent on resume and do not queue while muted', () => {
+  const h = audioHarness(); h.start();
+  h.game.cutscene.cue = 'boing'; h.step(6.3, 'wrongstep'); h.step(6.4, 'wrongstep');
+  assert.deepEqual(h.effects(), ['boing']);
+  h.game.phase = 'menu'; h.audio.sync(h.game);
+  h.game.phase = 'win_cutscene'; h.audio.sync(h.game); h.step(6.5, 'wrongstep');
+  assert.deepEqual(h.effects(), ['boing']);
+  h.audio.toggleMute(); h.game.cutscene.cue = 'rescue'; h.step(9, 'dance');
+  h.audio.toggleMute(); h.step(9.1, 'dance');
+  assert.deepEqual(h.effects(), ['boing']);
+  h.game.cutscene.cue = 'squeak'; h.step(12.6, 'encore');
+  assert.deepEqual(h.effects(), ['boing', 'squeak']);
 });
 
 test('pause and resume neither replay stage sounds nor replay the previous cloud beat', () => {

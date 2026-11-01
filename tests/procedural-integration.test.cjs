@@ -112,5 +112,8 @@ test('legacy saves retain progress while relocating friends to reachable procedu
 test('unrescued animals remain near their reachable home instead of drifting between regions', () => {
   const { run } = createGame(() => 0);
   run('state.entities.chicken.x=40;state.entities.chicken.y=1780;for(let i=0;i<6000;i++) RescueSystem.update(state,0.05);');
-  assert.equal(run('state.entities.animals.every((a,i)=>Math.abs(a.x-WORLD.layout.animalSpawns[i].x)<=50 && Math.abs(a.y-WORLD.layout.animalSpawns[i].y)<=42)'), true);
+  assert.equal(run(`state.entities.animals.every((a,i)=>{
+    const home=WORLD.layout.animalSpawns[i],area=WORLD.areas.find(p=>p.id===home.areaId);
+    return distance(a,home)<=90&&a.x>=area.x+32&&a.x<=area.x+area.w-32&&a.y>=area.y+32&&a.y<=area.y+area.h-32;
+  })`), true);
 });

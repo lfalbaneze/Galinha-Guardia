@@ -31,7 +31,7 @@ function load(obstacles = []) {
   });
   const root = path.resolve(__dirname, '..');
   vm.runInContext('const SpriteData={};'+fs.readFileSync(path.join(root,'systems/character-art.js'),'utf8'),context);
-  for (const file of ['detection-system.js', 'wolf-ai.js', 'hiding-spots.js']) {
+  for (const file of ['detection-system.js', 'wildlife-rules.js', 'wolf-ai.js', 'hiding-spots.js']) {
     vm.runInContext(fs.readFileSync(path.join(root, 'systems', file), 'utf8'), context, { filename: file });
   }
   const api = vm.runInContext('({ WolfAI, HidingSpots, DetectionSystem })', context);

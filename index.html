@@ -9,13 +9,14 @@
   <title>Penas pro Ar! — Luis Albaneze</title>
   <link rel="stylesheet" href="./style.css?v=resgate-86" />
   <link rel="stylesheet" href="./gameplay.css?v=cartoon-106" />
-  <link rel="stylesheet" href="./menu.css?v=1ec150b430d8" />
-  <link rel="stylesheet" href="./expedition-ui.css?v=fome-94" />
+  <link rel="stylesheet" href="./menu.css?v=8a58ca678271" />
+  <link rel="stylesheet" href="./expedition-ui.css?v=035755439eea" />
   <link rel="stylesheet" href="./results.css?v=arte-93" />
-  <link rel="stylesheet" href="./shuffle/menu-link.css?v=shuffle-2" />
+  <link rel="stylesheet" href="./shuffle/menu-link.css?v=545f98a80535" />
 </head>
 <body>
   <main id="gameShell" class="game-shell" data-phase="menu">
+    <output id="aiDebug" hidden aria-live="off" style="position:fixed;left:8px;bottom:calc(140px + env(safe-area-inset-bottom));z-index:30;width:min(510px,calc(100vw - 16px));box-sizing:border-box;padding:10px;background:#142023f2;color:#fff;border-radius:4px;white-space:pre-line;font:12px/1.5 monospace;pointer-events:none"></output>
     <div id="expeditionBar" class="expedition-bar">
     <header class="game-heading play-header">
       <div class="play-brand">
@@ -82,18 +83,25 @@
       <section id="menuScreen" class="game-overlay farm-menu" data-view="home" role="dialog" aria-modal="true" aria-labelledby="farmTitle" aria-describedby="menuDescription" hidden>
         <div class="menu-world-frame"><div id="menuWorld" class="menu-world">
           <img id="menuBackdrop" class="menu-backdrop" src="./assets/menu/farm-title.png" alt="" width="1536" height="1024" fetchpriority="high" />
+          <canvas id="menuThorHidden" width="700" height="240" aria-hidden="true"></canvas>
           <canvas id="menuScene" class="menu-scene" width="700" height="240" aria-hidden="true"></canvas>
+          <button id="menuThorBush" type="button" class="menu-thor-bush" aria-label="Investigar a moita" hidden></button>
         </div></div>
+        <canvas id="menuThorCloseup" class="menu-thor-closeup" width="900" height="520" aria-hidden="true" hidden></canvas>
+        <output id="menuThorStatus" class="sr-only" role="status" aria-live="polite"></output>
         <svg class="menu-banter-link" aria-hidden="true"><path id="menuBanterLink" /></svg>
         <p id="menuBanter" class="menu-reaction" role="status" aria-live="off" aria-atomic="true" hidden></p>
         <div class="menu-title-scene">
           <p class="farm-kicker"><span aria-hidden="true">✳</span> Fazenda do tio Clau</p>
-          <h2 id="farmTitle" class="farm-title"><span>Penas</span><span><small>pro</small> Ar!<svg class="title-feather" viewBox="0 0 54 90" aria-hidden="true" focusable="false"><path d="M12 68C-1 34 17 7 46 3c8 25-3 49-34 65Z" fill="currentColor"/><path d="m5 85 31-61M17 60l20-5M23 48l-5-17" fill="none" stroke="#183d35" stroke-width="3.5" stroke-linecap="round"/></svg></span></h2>
+          <h2 id="farmTitle" class="farm-title"><span>Penas</span><span><small>pro</small> Ar!<button id="menuSecret" class="title-feather" type="button" aria-label="Fazer cócegas na pena dourada"><svg viewBox="0 0 54 90" aria-hidden="true" focusable="false"><path d="M12 68C-1 34 17 7 46 3c8 25-3 49-34 65Z" fill="currentColor"/><path d="m5 85 31-61M17 60l20-5M23 48l-5-17" fill="none" stroke="#183d35" stroke-width="3.5" stroke-linecap="round"/></svg></button></span></h2>
           <p id="menuTagline" class="farm-tagline">Uma fazenda para explorar.<br> Doze amigos para trazer de volta.</p>
           <p id="menuSubtitle" class="farm-subtitle">EXPLORAÇÃO · RESGATE · FURTIVIDADE</p>
         </div>
         <div id="menuMischief" class="menu-mischief">
-          <button id="menuScatter" type="button" aria-describedby="menuPlayHint"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 3 2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6Zm10 12 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Brincar com a turma</button>
+          <div class="menu-mischief-actions">
+            <button id="menuScatter" class="menu-scene-action" type="button" aria-label="Brincar com a turma" aria-describedby="menuPlayHint"><svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><g fill="#f3d792" stroke="#58351f" stroke-width="1.5"><ellipse cx="6" cy="12" rx="3.5" ry="4.5"/><ellipse cx="13" cy="7" rx="3.5" ry="4.5"/><ellipse cx="22" cy="8" rx="3.5" ry="4.5"/><ellipse cx="28" cy="14" rx="3" ry="4"/><path d="M7 26c-2-4 3-11 9-11s11 7 9 11c-2 5-7 0-9 0s-7 5-9 0Z"/></g></svg><span><b>Brincar</b><small>Com a turma</small></span></button>
+            <button id="menuFeed" class="menu-scene-action" type="button" aria-label="Chamar a turma para o rango"><svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" focusable="false" shape-rendering="crispEdges"><path d="M4 11h24v5h-2v9h-3v3H9v-3H6v-9H4z" fill="#70452c"/><path d="M7 14h18v3H7zm2 4h14v6H9z" fill="#bd7338"/><path d="M8 10h5v4H8zm6-2h5v6h-5zm6 2h5v4h-5z" fill="#f1ce74"/><path d="M11 18h10v2H11z" fill="#efb55f"/></svg><span><b>Hora do rango</b><small>Cada um no seu prato</small></span></button>
+          </div>
           <p id="menuPlayHint">Clique nos bichos para brincar.</p>
         </div>
         <div id="menuCard" class="overlay-card">
@@ -116,8 +124,7 @@
           <div id="menuSettings" tabindex="-1" hidden>
           <header class="menu-sheet-header">
             <button id="menuBackBtn" type="button" aria-label="Voltar à tela inicial">←</button>
-            <div><span class="sheet-kicker">Penas pro Ar!</span><h2 id="menuSheetTitle">Prepare o resgate</h2></div>
-            <span class="sheet-location">Fazenda do tio Clau</span>
+            <div class="menu-sheet-heading"><h2 id="menuSheetTitle">Prepare o resgate</h2></div>
           </header>
           <div class="menu-sheet-scroll">
           <div class="menu-tabs" role="tablist" aria-label="Preparar aventura">
@@ -190,6 +197,10 @@
               <option id="menu-skin-robocop" value="robocop" disabled>Stella · Segredo da fazenda</option>
               <option id="menu-skin-goose" value="goose" disabled>Gumercindo · Vença o desafio</option>
               <option id="menu-skin-priest" value="priest" disabled>Paçoca · Segredo da fazenda</option>
+              <option id="menu-skin-goat" value="goat" disabled>Serrano · Vença no Difícil</option>
+              <option id="menu-skin-turkey" value="turkey" disabled>Valente · Difícil com 6 pintinhos</option>
+              <option id="menu-skin-owl" value="owl" disabled>Luar · Vença no Hardcore</option>
+              <option id="menu-skin-pony" value="pony" disabled>Trovão · Hardcore com 6 pintinhos</option>
             </select>
           </label>
           <div class="outfit-preview"><canvas id="menuPortrait" class="menu-portrait" width="320" height="180" aria-label="Prévia da aparência equipada"></canvas></div>
@@ -319,6 +330,10 @@
         <button id="skin-robocop" type="button" aria-pressed="false" disabled>Stella · Segredo da fazenda</button>
         <button id="skin-goose" type="button" aria-pressed="false" disabled>Gumercindo · Vença o desafio</button>
         <button id="skin-priest" type="button" aria-pressed="false" disabled>Paçoca · Segredo da fazenda</button>
+        <button id="skin-goat" type="button" aria-pressed="false" disabled>Serrano · Vença no Difícil</button>
+        <button id="skin-turkey" type="button" aria-pressed="false" disabled>Valente · Difícil com 6 pintinhos</button>
+        <button id="skin-owl" type="button" aria-pressed="false" disabled>Luar · Vença no Hardcore</button>
+        <button id="skin-pony" type="button" aria-pressed="false" disabled>Trovão · Hardcore com 6 pintinhos</button>
       </div>
       <p id="skinPowerText" class="wardrobe-note" aria-live="polite">Coragem de galinha: sem poder especial.</p>
       <p id="wardrobeNote" class="wardrobe-note">Nem todo tesouro fica à vista. Explore os cantinhos da fazenda para descobrir como abrir o baú.</p>
@@ -387,9 +402,9 @@
       <p><strong>Resgate para ganhar tempo!</strong> No Difícil, comece com <strong>60 segundos</strong>: cada pintinho soma <strong>20s</strong> e cada amigo soma <strong>10s</strong>. No Hardcore, comece com <strong>45 segundos</strong>: cada <strong>par de amigos</strong> soma <strong>15s</strong>, contando também Panto. Se o relógio zerar, a tentativa acaba. Fácil e Médio continuam sem relógio.</p>
       <p><strong>Combo de pintinhos no Hardcore.</strong> O primeiro dá <strong>5s</strong> e abre uma janela de combo de <strong>10s</strong>. Pegue o próximo antes dela acabar: as recompensas são <strong>5s → 10s → 20s → 40s → 50s</strong>, mantendo 50s nos seguintes. Cada coleta em sequência estende a janela em <strong>3s, 4s, 5s, 6s e depois 7s</strong>, sem ultrapassar 10s restantes. Se a janela acabar, o próximo pintinho volta a dar 5s. Amigos não interrompem nem estendem o combo.</p>
       <p><strong>Pontuação.</strong> Amigos, pintinhos e Panto valem <strong>100 pontos no Fácil e Médio, 150 no Difícil e 200 no Hardcore</strong>. Cada vida preservada na vitória rende <strong>250 pontos</strong>. O tempo restante acrescenta <strong>2 pontos por segundo no Difícil e 4 no Hardcore</strong>, sem multiplicador de combo. Resgatar e explorar formam a maior parte do resultado.</p>
-      <p><strong>PANTO guarda o lago.</strong> Perto dele, use <kbd>F</kbd>, X no controle ou toque em <strong>Desafiar PANTO</strong>. Desvie da sequência e, quando ele ficar tonto, chegue perto e interaja para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Vencer resgata Panto como amigo extra, dá +100 pontos, abre a ponte e libera a aparência de ganso. Ele vai para o poleiro, passeia com a turma e participa da comemoração final. A lagoa não vira área segura: depois do desafio, o lobo volta à atividade normal.</p>
+      <p><strong>PANTO guarda o lago.</strong> Perto dele, use <kbd>F</kbd>, X no controle ou toque em <strong>Desafiar PANTO</strong>. Desvie da sequência e, quando ele ficar tonto, chegue perto e interaja para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Vencer resgata Panto como amigo extra, dá os pontos de um resgate na dificuldade escolhida, abre a ponte e libera a aparência de ganso. Ele vai para o poleiro, passeia com a turma e participa da comemoração final. A lagoa não vira área segura: depois do desafio, o lobo volta à atividade normal.</p>
       <p><strong>Lorenzo e Sophis, as raposas.</strong> Sophis usa um lacinho rosa, e os dois soltam piadinhas entre os botes. Cada investida tira um coração: espere o aviso e desvie para o lado. No Difícil e Hardcore, eles descansam e procuram outro arbusto após cada bote, mesmo quando erram. As moitas ocupadas por eles não servem de esconderijo. Se o lobo os vir depois do bote, espanta os dois — e ainda se acha o dono da fazenda.</p>
-      <p><strong>Girassol não tem focinho.</strong> O lobo pode se esconder no campo de girassóis. Se as flores sacudirem e aparecer uma faixa, desvie para o lado: o bote segue a direção anunciada. Depois do salto ele precisa se recuperar. Thor também pode estragar a emboscada!</p>
+      <p><strong>Girassol não tem focinho.</strong> O lobo pode se esconder no campo de girassóis. Se as flores sacudirem e surgir o aviso, desvie para o lado: o bote segue a direção que ele preparou. Depois do salto ele precisa se recuperar. Thor também pode estragar a emboscada!</p>
       <p><strong>A fome aperta.</strong> Com o tempo e os resgates, o lobo passa de à espreita a faminto e voraz: corre mais e procura por mais tempo. Acompanhe a fome no aviso do lobo. Use a corrida e quebre a visão com árvores e feno; ele ainda pode perder seu rastro.</p>
       <p><strong>O lobo viu você entrar na moita?</strong> Ele encontra seu esconderijo em até <strong>5 segundos</strong>. Saia e quebre a visão antes de se esconder de novo. Entrar sem ser vista continua seguro; o lobo precisa encostar para tirar uma vida.</p>
       <p><strong>O chão também dá pistas.</strong> Água rasa e barro deixam o passo mais lento. A água interrompe as pegadas da corrida, mas os respingos podem chamar o lobo. Atravesse o milho e as moitas de mansinho para fazer menos barulho.</p>
@@ -405,13 +420,13 @@
   <script src="./systems/world-generator.js?v=cartoon-106"></script>
   <script src="./assets/farm/atlas-data.js?v=arte-coesa-57"></script>
   <script src="./assets/farm/arcade-data.js?v=arte-93"></script>
-  <script src="./systems/sunlight.js?v=b05c27872b82"></script>
+  <script src="./systems/sunlight.js?v=3d868250b999"></script>
   <script src="./systems/sprite-style.js?v=cartoon-106"></script>
-  <script src="./systems/farm-sprites.js?v=358bd2936252"></script>
+  <script src="./systems/farm-sprites.js?v=cfb9d00976ef"></script>
   <script src="./systems/fence-art.js?v=20260923-pixellab-fence"></script>
   <script src="./systems/farm-refuge.js?v=20260923-pixellab-fence"></script>
   <script src="./systems/farm-terrain.js?v=cartoon-106"></script>
-  <script src="./systems/farm-details.js?v=438594836c6c"></script>
+  <script src="./systems/farm-details.js?v=ded1afacbaaa"></script>
   <script src="./systems/farm-art.js?v=20260923-pixellab-fence"></script>
   <script src="./systems/farm-scenery.js?v=cartoon-106"></script>
   <script src="./systems/sunflower-system.js?v=e04be0b648d9"></script>
@@ -419,45 +434,49 @@
   <script src="./systems/arcade-art-data.js?v=cartoon-106"></script>
   <script src="./systems/premium-art-data.js?v=cartoon-106"></script>
   <script src="./systems/pixel-art-data.js?v=pixel-109"></script>
-  <script src="./systems/pixellab-art-data.js?v=15b20755a0ba"></script>
-  <script src="./systems/character-art.js?v=9f31f38e7d19"></script>
-  <script src="./systems/audio-system.js?v=stages-v2"></script>
+  <script src="./systems/pixellab-art-data.js?v=b1805bb246de"></script>
+  <script src="./systems/comfyui-art-data.js?v=979324a9f081"></script>
+  <script src="./systems/character-art.js?v=1fbfa6fe8f19"></script>
+  <script src="./systems/audio-system.js?v=1a3f53e50ad5"></script>
   <script src="./systems/audio-controls.js?v=cartoon-106"></script>
-  <script src="./systems/skin-system.js?v=cartoon-106"></script>
+  <script src="./systems/skin-system.js?v=965734460a27"></script>
   <script src="./systems/game-input.js?v=secret-bosses-1"></script>
-  <script src="./systems/game-manager.js?v=folklore-base-1"></script>
-  <script src="./systems/rescue-system.js?v=stealth-sight-1"></script>
+  <script src="./systems/game-manager.js?v=40235a68259d"></script>
+  <script src="./systems/rescue-system.js?v=b2d7ab62558e"></script>
   <script src="./systems/detection-system.js?v=cartoon-106"></script>
   <script src="./systems/hiding-spots.js?v=cartoon-106"></script>
-  <script src="./systems/wolf-ai.js?v=reactive-lunge-1"></script>
+  <script src="./systems/wolf-ai.js?v=ai-2-navigation-1"></script>
   <script src="./systems/wolf-dialogue.js?v=20260923-refuge-dialogue"></script>
-  <script src="./systems/lake-challenge.js?v=e221590430a1"></script>
-  <script src="./systems/pen-life.js?v=pen-life-1"></script>
-  <script src="./systems/goose-system.js?v=5573597760b8"></script>
+  <script src="./systems/lake-challenge.js?v=cbbb65d136a6"></script>
+  <script src="./systems/pen-life.js?v=ai-2-navigation-1"></script>
+  <script src="./systems/goose-system.js?v=21f09213a15b"></script>
   <script src="./systems/wildlife-art.js?v=5aefde343782"></script>
   <script src="./systems/goose-art.js?v=85cf8bfa0759"></script>
-  <script src="./systems/wildlife-rules.js?v=cartoon-106"></script>
-  <script src="./shuffle/result-art.js?v=result-poses-1"></script>
-  <script src="./systems/folklore-system.js?v=167161b9a9b7"></script>
-  <script src="./systems/fox-system.js?v=reactive-lunge-1"></script>
+  <script src="./systems/wildlife-rules.js?v=ai-2-navigation-1"></script>
+  <script src="./shuffle/result-art.js?v=d40ffff0d675"></script>
+  <script src="./systems/folklore-system.js?v=a610fbb45500"></script>
+  <script src="./systems/fox-system.js?v=c8a2ab6a86a2"></script>
   <script src="./systems/fox-art.js?v=168bb422bb79"></script>
-  <script src="./systems/owl-system.js?v=ce20302144c7"></script>
-  <script src="./systems/owl-art.js?v=6716f9546227"></script>
-  <script src="./systems/thor-system.js?v=cartoon-106"></script>
+  <script src="./systems/owl-system.js?v=a435570e541d"></script>
+  <script src="./systems/owl-art.js?v=d46894912041"></script>
+  <script src="./systems/thor-system.js?v=ai-2-navigation-1"></script>
   <script src="./systems/thor-art.js?v=34790bc23087"></script>
-  <script src="./systems/thor-cinematic.js?v=d78036499317"></script>
+  <script src="./systems/thor-cinematic.js?v=dd3b283c5cb8"></script>
   <script src="./systems/scarecrow-art.js?v=b9ffe555f642"></script>
   <script src="./systems/scarecrow-system.js?v=5911ef397fc8"></script>
   <script src="./systems/map-manager.js?v=cartoon-106"></script>
   <script src="./systems/swimming-system.js?v=cartoon-106"></script>
-  <script src="./systems/environment-system.js?v=cartoon-106"></script>
-  <script src="./systems/player.js?v=20260922-safe"></script>
-  <script src="./systems/menu-scene.js?v=a003d39db4f8"></script>
+  <script src="./systems/environment-system.js?v=700b09a9e7ac"></script>
+  <script src="./systems/player.js?v=27013650e6c5"></script>
+  <script src="./systems/menu-character-data.js?v=b7d0cd58aeca"></script>
+  <script src="./systems/menu-thor.js?v=40b4c59eacef"></script>
+  <script src="./systems/menu-scene.js?v=f8b7d03dd763"></script>
   <script src="./systems/menu-briefing.js?v=e1ea6a1e9958"></script>
-  <script src="./systems/interface-motion.js?v=cartoon-106"></script>
-  <script src="./systems/gameplay-hud.js?v=reactive-lunge-1"></script>
-  <script src="./systems/ui.js?v=stealth-sight-1"></script>
-  <script src="./systems/end-game-sequence.js?v=cartoon-106"></script>
-  <script src="./game.js?v=a315bfe0d910"></script>
+  <script src="./systems/interface-motion.js?v=d32bc33d3b94"></script>
+  <script src="./systems/gameplay-hud.js?v=6742a9a3ab12"></script>
+  <script src="./systems/ui.js?v=3996ba29502e"></script>
+  <script src="./systems/ending-scene-data.js?v=91549940f8e1"></script>
+  <script src="./systems/end-game-sequence.js?v=a366a6290215"></script>
+  <script src="./game.js?v=daf3f00d2bfc"></script>
 </body>
 </html>

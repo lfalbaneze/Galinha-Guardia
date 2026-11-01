@@ -1,0 +1,3128 @@
+{
+  "id": "fox",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+    "width": 504,
+    "height": 960,
+    "viewRotation": 7,
+    "poses": {
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 0,
+            "y": 480,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.8253968253968254,
+              "top": 0.11666666666666667,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.47619047619047616,
+              "footRight": 0.5714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 63,
+            "y": 480,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.8253968253968254,
+              "top": 0.11666666666666667,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.4603174603174603,
+              "footRight": 0.5396825396825397
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 126,
+            "y": 480,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.8253968253968254,
+              "top": 0.11666666666666667,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.5238095238095238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 189,
+            "y": 480,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8253968253968254,
+              "top": 0.15,
+              "bottom": 0.9,
+              "footLeft": 0.4126984126984127,
+              "footRight": 0.6984126984126984
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 252,
+            "y": 480,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8412698412698413,
+              "top": 0.13333333333333333,
+              "bottom": 0.9,
+              "footLeft": 0.4126984126984127,
+              "footRight": 0.746031746031746
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 315,
+            "y": 480,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09523809523809523,
+              "right": 0.8412698412698413,
+              "top": 0.16666666666666666,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.6507936507936508,
+              "footRight": 0.7619047619047619
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 378,
+            "y": 480,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09523809523809523,
+              "right": 0.8571428571428571,
+              "top": 0.16666666666666666,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.47619047619047616,
+              "footRight": 0.7301587301587301
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 441,
+            "y": 480,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09523809523809523,
+              "right": 0.8571428571428571,
+              "top": 0.15,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.5238095238095238,
+              "footRight": 0.6984126984126984
+            }
+          }
+        ],
+        "cx": 32,
+        "bottom": 56,
+        "top": 7,
+        "width": 48,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 0,
+            "y": 540,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23809523809523808,
+              "right": 0.746031746031746,
+              "top": 0.11666666666666667,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.47619047619047616,
+              "footRight": 0.5555555555555556
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 63,
+            "y": 540,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23809523809523808,
+              "right": 0.746031746031746,
+              "top": 0.11666666666666667,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.49206349206349204,
+              "footRight": 0.5873015873015873
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 126,
+            "y": 540,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23809523809523808,
+              "right": 0.7619047619047619,
+              "top": 0.11666666666666667,
+              "bottom": 0.9,
+              "footLeft": 0.3492063492063492,
+              "footRight": 0.5873015873015873
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 189,
+            "y": 540,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23809523809523808,
+              "right": 0.7619047619047619,
+              "top": 0.13333333333333333,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.31746031746031744,
+              "footRight": 0.5873015873015873
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 252,
+            "y": 540,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23809523809523808,
+              "right": 0.7619047619047619,
+              "top": 0.13333333333333333,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.3333333333333333,
+              "footRight": 0.4126984126984127
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 315,
+            "y": 540,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23809523809523808,
+              "right": 0.7619047619047619,
+              "top": 0.13333333333333333,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.3333333333333333,
+              "footRight": 0.42857142857142855
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 378,
+            "y": 540,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23809523809523808,
+              "right": 0.7619047619047619,
+              "top": 0.13333333333333333,
+              "bottom": 0.9,
+              "footLeft": 0.3492063492063492,
+              "footRight": 0.4444444444444444
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 441,
+            "y": 540,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 7,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23809523809523808,
+              "right": 0.746031746031746,
+              "top": 0.13333333333333333,
+              "bottom": 0.9,
+              "footLeft": 0.36507936507936506,
+              "footRight": 0.5555555555555556
+            }
+          }
+        ],
+        "cx": 32,
+        "bottom": 56,
+        "top": 7,
+        "width": 34,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 0,
+            "y": 600,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.8888888888888888,
+              "top": 0.16666666666666666,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.3492063492063492,
+              "footRight": 0.4444444444444444
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 63,
+            "y": 600,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.8888888888888888,
+              "top": 0.16666666666666666,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.38095238095238093,
+              "footRight": 0.47619047619047616
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 126,
+            "y": 600,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.8888888888888888,
+              "top": 0.16666666666666666,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.3968253968253968,
+              "footRight": 0.49206349206349204
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 189,
+            "y": 600,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.8888888888888888,
+              "top": 0.16666666666666666,
+              "bottom": 0.9,
+              "footLeft": 0.2698412698412698,
+              "footRight": 0.5396825396825397
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 252,
+            "y": 600,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.9047619047619048,
+              "top": 0.16666666666666666,
+              "bottom": 0.8833333333333333,
+              "footLeft": 0.23809523809523808,
+              "footRight": 0.6984126984126984
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 315,
+            "y": 600,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.9047619047619048,
+              "top": 0.15,
+              "bottom": 0.9,
+              "footLeft": 0.4126984126984127,
+              "footRight": 0.47619047619047616
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 378,
+            "y": 600,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.9047619047619048,
+              "top": 0.15,
+              "bottom": 0.9,
+              "footLeft": 0.3492063492063492,
+              "footRight": 0.4126984126984127
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 441,
+            "y": 600,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.9206349206349206,
+              "top": 0.18333333333333332,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.30158730158730157,
+              "footRight": 0.3968253968253968
+            }
+          }
+        ],
+        "cx": 32,
+        "bottom": 56,
+        "top": 8,
+        "width": 50,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 0,
+            "y": 660,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.8888888888888888,
+              "top": 0.16666666666666666,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.5555555555555556,
+              "footRight": 0.6349206349206349
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 63,
+            "y": 660,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.8571428571428571,
+              "top": 0.16666666666666666,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.6031746031746031,
+              "footRight": 0.6666666666666666
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 126,
+            "y": 660,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8571428571428571,
+              "top": 0.15,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.6031746031746031,
+              "footRight": 0.6666666666666666
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 189,
+            "y": 660,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8571428571428571,
+              "top": 0.16666666666666666,
+              "bottom": 0.9,
+              "footLeft": 0.23809523809523808,
+              "footRight": 0.6349206349206349
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 252,
+            "y": 660,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.873015873015873,
+              "top": 0.16666666666666666,
+              "bottom": 0.9,
+              "footLeft": 0.2698412698412698,
+              "footRight": 0.6190476190476191
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 315,
+            "y": 660,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.8888888888888888,
+              "top": 0.16666666666666666,
+              "bottom": 0.9,
+              "footLeft": 0.31746031746031744,
+              "footRight": 0.5873015873015873
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 378,
+            "y": 660,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.8888888888888888,
+              "top": 0.16666666666666666,
+              "bottom": 0.9,
+              "footLeft": 0.31746031746031744,
+              "footRight": 0.5396825396825397
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 441,
+            "y": 660,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 8,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8888888888888888,
+              "top": 0.16666666666666666,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.36507936507936506,
+              "footRight": 0.5396825396825397
+            }
+          }
+        ],
+        "cx": 32,
+        "bottom": 56,
+        "top": 8,
+        "width": 49,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 0,
+            "y": 720,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 5,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20634920634920634,
+              "right": 0.8571428571428571,
+              "top": 0.1,
+              "bottom": 0.9,
+              "footLeft": 0.4126984126984127,
+              "footRight": 0.5079365079365079
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 63,
+            "y": 720,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 5,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20634920634920634,
+              "right": 0.8253968253968254,
+              "top": 0.11666666666666667,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.4444444444444444,
+              "footRight": 0.5396825396825397
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 126,
+            "y": 720,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 5,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20634920634920634,
+              "right": 0.8412698412698413,
+              "top": 0.13333333333333333,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.47619047619047616,
+              "footRight": 0.5396825396825397
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 189,
+            "y": 720,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 5,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20634920634920634,
+              "right": 0.8412698412698413,
+              "top": 0.1,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.47619047619047616,
+              "footRight": 0.5396825396825397
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 252,
+            "y": 720,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 5,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20634920634920634,
+              "right": 0.8571428571428571,
+              "top": 0.1,
+              "bottom": 0.9,
+              "footLeft": 0.47619047619047616,
+              "footRight": 0.5396825396825397
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 315,
+            "y": 720,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 5,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20634920634920634,
+              "right": 0.8571428571428571,
+              "top": 0.1,
+              "bottom": 0.9,
+              "footLeft": 0.4444444444444444,
+              "footRight": 0.5079365079365079
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 378,
+            "y": 720,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 5,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20634920634920634,
+              "right": 0.8888888888888888,
+              "top": 0.1,
+              "bottom": 0.8833333333333333,
+              "footLeft": 0.3968253968253968,
+              "footRight": 0.4603174603174603
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 441,
+            "y": 720,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 5,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20634920634920634,
+              "right": 0.9206349206349206,
+              "top": 0.11666666666666667,
+              "bottom": 0.8666666666666667,
+              "footLeft": 0.38095238095238093,
+              "footRight": 0.6349206349206349
+            }
+          }
+        ],
+        "cx": 32,
+        "bottom": 56,
+        "top": 5,
+        "width": 46,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 0,
+            "y": 780,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25396825396825395,
+              "right": 0.7777777777777778,
+              "top": 0.1,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.5238095238095238,
+              "footRight": 0.6031746031746031
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 63,
+            "y": 780,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23809523809523808,
+              "right": 0.7619047619047619,
+              "top": 0.11666666666666667,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.5079365079365079,
+              "footRight": 0.5714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 126,
+            "y": 780,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2222222222222222,
+              "right": 0.7619047619047619,
+              "top": 0.1,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.49206349206349204,
+              "footRight": 0.5555555555555556
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 189,
+            "y": 780,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.20634920634920634,
+              "right": 0.7619047619047619,
+              "top": 0.1,
+              "bottom": 0.9,
+              "footLeft": 0.47619047619047616,
+              "footRight": 0.5396825396825397
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 252,
+            "y": 780,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2222222222222222,
+              "right": 0.7619047619047619,
+              "top": 0.08333333333333333,
+              "bottom": 0.9,
+              "footLeft": 0.3968253968253968,
+              "footRight": 0.47619047619047616
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 315,
+            "y": 780,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23809523809523808,
+              "right": 0.7777777777777778,
+              "top": 0.1,
+              "bottom": 0.9,
+              "footLeft": 0.3968253968253968,
+              "footRight": 0.47619047619047616
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 378,
+            "y": 780,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2222222222222222,
+              "right": 0.7619047619047619,
+              "top": 0.11666666666666667,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.38095238095238093,
+              "footRight": 0.4444444444444444
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 441,
+            "y": 780,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 4,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19047619047619047,
+              "right": 0.7619047619047619,
+              "top": 0.1,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.3492063492063492,
+              "footRight": 0.4126984126984127
+            }
+          }
+        ],
+        "cx": 32,
+        "bottom": 56,
+        "top": 4,
+        "width": 36,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 0,
+            "y": 840,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 6,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.8571428571428571,
+              "top": 0.11666666666666667,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.3968253968253968,
+              "footRight": 0.47619047619047616
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 63,
+            "y": 840,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 6,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.8571428571428571,
+              "top": 0.13333333333333333,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.3492063492063492,
+              "footRight": 0.42857142857142855
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 126,
+            "y": 840,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 6,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.8571428571428571,
+              "top": 0.16666666666666666,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.3333333333333333,
+              "footRight": 0.3968253968253968
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 189,
+            "y": 840,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 6,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.8571428571428571,
+              "top": 0.15,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.3968253968253968,
+              "footRight": 0.4603174603174603
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 252,
+            "y": 840,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 6,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09523809523809523,
+              "right": 0.8571428571428571,
+              "top": 0.11666666666666667,
+              "bottom": 0.9,
+              "footLeft": 0.36507936507936506,
+              "footRight": 0.47619047619047616
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 315,
+            "y": 840,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 6,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07936507936507936,
+              "right": 0.8571428571428571,
+              "top": 0.1,
+              "bottom": 0.9,
+              "footLeft": 0.31746031746031744,
+              "footRight": 0.5238095238095238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 378,
+            "y": 840,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 6,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.8571428571428571,
+              "top": 0.11666666666666667,
+              "bottom": 0.9,
+              "footLeft": 0.30158730158730157,
+              "footRight": 0.5238095238095238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 441,
+            "y": 840,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 6,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.8571428571428571,
+              "top": 0.15,
+              "bottom": 0.9,
+              "footLeft": 0.23809523809523808,
+              "footRight": 0.5873015873015873
+            }
+          }
+        ],
+        "cx": 32,
+        "bottom": 56,
+        "top": 6,
+        "width": 49,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 0,
+            "y": 900,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 11,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.873015873015873,
+              "top": 0.2,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.5714285714285714,
+              "footRight": 0.6666666666666666
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 63,
+            "y": 900,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 11,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12698412698412698,
+              "right": 0.873015873015873,
+              "top": 0.21666666666666667,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.5396825396825397,
+              "footRight": 0.6190476190476191
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 126,
+            "y": 900,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 11,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.873015873015873,
+              "top": 0.21666666666666667,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.5238095238095238,
+              "footRight": 0.6031746031746031
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 189,
+            "y": 900,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 11,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1111111111111111,
+              "right": 0.873015873015873,
+              "top": 0.2,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.5396825396825397,
+              "footRight": 0.5873015873015873
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 252,
+            "y": 900,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 11,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09523809523809523,
+              "right": 0.873015873015873,
+              "top": 0.18333333333333332,
+              "bottom": 0.9166666666666666,
+              "footLeft": 0.3968253968253968,
+              "footRight": 0.6190476190476191
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 315,
+            "y": 900,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 11,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09523809523809523,
+              "right": 0.873015873015873,
+              "top": 0.18333333333333332,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.3968253968253968,
+              "footRight": 0.6190476190476191
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 378,
+            "y": 900,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 11,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09523809523809523,
+              "right": 0.873015873015873,
+              "top": 0.18333333333333332,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.3492063492063492,
+              "footRight": 0.4603174603174603
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+            "x": 441,
+            "y": 900,
+            "w": 63,
+            "h": 60,
+            "cx": 32,
+            "bottom": 56,
+            "top": 11,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09523809523809523,
+              "right": 0.873015873015873,
+              "top": 0.2,
+              "bottom": 0.9333333333333333,
+              "footLeft": 0.31746031746031744,
+              "footRight": 0.4126984126984127
+            }
+          }
+        ],
+        "cx": 32,
+        "bottom": 56,
+        "top": 11,
+        "width": 50,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 0,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8412698412698413,
+                "top": 0.11666666666666667,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.5079365079365079,
+                "footRight": 0.6031746031746031
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 7,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 60,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.746031746031746,
+                "top": 0.11666666666666667,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.47619047619047616,
+                "footRight": 0.5555555555555556
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 7,
+          "width": 33,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 120,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 10,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8888888888888888,
+                "top": 0.16666666666666666,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.31746031746031744,
+                "footRight": 0.4126984126984127
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 10,
+          "width": 48,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 180,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.9047619047619048,
+                "top": 0.15,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.5396825396825397,
+                "footRight": 0.6031746031746031
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 8,
+          "width": 48,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 240,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20634920634920634,
+                "right": 0.8888888888888888,
+                "top": 0.13333333333333333,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.3968253968253968,
+                "footRight": 0.49206349206349204
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 8,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 300,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.7619047619047619,
+                "top": 0.13333333333333333,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.5396825396825397,
+                "footRight": 0.6190476190476191
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 8,
+          "width": 33,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 360,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8571428571428571,
+                "top": 0.13333333333333333,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.4126984126984127,
+                "footRight": 0.5079365079365079
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 8,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 420,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 11,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09523809523809523,
+                "right": 0.873015873015873,
+                "top": 0.18333333333333332,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.6190476190476191,
+                "footRight": 0.6984126984126984
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 11,
+          "width": 49,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 480,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8253968253968254,
+                "top": 0.11666666666666667,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.47619047619047616,
+                "footRight": 0.5714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 63,
+              "y": 480,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.8253968253968254,
+                "top": 0.11666666666666667,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.4603174603174603,
+                "footRight": 0.5396825396825397
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 126,
+              "y": 480,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8253968253968254,
+                "top": 0.11666666666666667,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5238095238095238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 189,
+              "y": 480,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8253968253968254,
+                "top": 0.15,
+                "bottom": 0.9,
+                "footLeft": 0.4126984126984127,
+                "footRight": 0.6984126984126984
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 252,
+              "y": 480,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8412698412698413,
+                "top": 0.13333333333333333,
+                "bottom": 0.9,
+                "footLeft": 0.4126984126984127,
+                "footRight": 0.746031746031746
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 315,
+              "y": 480,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09523809523809523,
+                "right": 0.8412698412698413,
+                "top": 0.16666666666666666,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.6507936507936508,
+                "footRight": 0.7619047619047619
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 378,
+              "y": 480,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09523809523809523,
+                "right": 0.8571428571428571,
+                "top": 0.16666666666666666,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.47619047619047616,
+                "footRight": 0.7301587301587301
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 441,
+              "y": 480,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09523809523809523,
+                "right": 0.8571428571428571,
+                "top": 0.15,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.5238095238095238,
+                "footRight": 0.6984126984126984
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 7,
+          "width": 48,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 540,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.746031746031746,
+                "top": 0.11666666666666667,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.47619047619047616,
+                "footRight": 0.5555555555555556
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 63,
+              "y": 540,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.746031746031746,
+                "top": 0.11666666666666667,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.49206349206349204,
+                "footRight": 0.5873015873015873
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 126,
+              "y": 540,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.7619047619047619,
+                "top": 0.11666666666666667,
+                "bottom": 0.9,
+                "footLeft": 0.3492063492063492,
+                "footRight": 0.5873015873015873
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 189,
+              "y": 540,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.7619047619047619,
+                "top": 0.13333333333333333,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.31746031746031744,
+                "footRight": 0.5873015873015873
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 252,
+              "y": 540,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.7619047619047619,
+                "top": 0.13333333333333333,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.3333333333333333,
+                "footRight": 0.4126984126984127
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 315,
+              "y": 540,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.7619047619047619,
+                "top": 0.13333333333333333,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.3333333333333333,
+                "footRight": 0.42857142857142855
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 378,
+              "y": 540,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.7619047619047619,
+                "top": 0.13333333333333333,
+                "bottom": 0.9,
+                "footLeft": 0.3492063492063492,
+                "footRight": 0.4444444444444444
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 441,
+              "y": 540,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.746031746031746,
+                "top": 0.13333333333333333,
+                "bottom": 0.9,
+                "footLeft": 0.36507936507936506,
+                "footRight": 0.5555555555555556
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 7,
+          "width": 34,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 600,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.8888888888888888,
+                "top": 0.16666666666666666,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.3492063492063492,
+                "footRight": 0.4444444444444444
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 63,
+              "y": 600,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.8888888888888888,
+                "top": 0.16666666666666666,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.38095238095238093,
+                "footRight": 0.47619047619047616
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 126,
+              "y": 600,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8888888888888888,
+                "top": 0.16666666666666666,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.3968253968253968,
+                "footRight": 0.49206349206349204
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 189,
+              "y": 600,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8888888888888888,
+                "top": 0.16666666666666666,
+                "bottom": 0.9,
+                "footLeft": 0.2698412698412698,
+                "footRight": 0.5396825396825397
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 252,
+              "y": 600,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.9047619047619048,
+                "top": 0.16666666666666666,
+                "bottom": 0.8833333333333333,
+                "footLeft": 0.23809523809523808,
+                "footRight": 0.6984126984126984
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 315,
+              "y": 600,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.9047619047619048,
+                "top": 0.15,
+                "bottom": 0.9,
+                "footLeft": 0.4126984126984127,
+                "footRight": 0.47619047619047616
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 378,
+              "y": 600,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.9047619047619048,
+                "top": 0.15,
+                "bottom": 0.9,
+                "footLeft": 0.3492063492063492,
+                "footRight": 0.4126984126984127
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 441,
+              "y": 600,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.9206349206349206,
+                "top": 0.18333333333333332,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.30158730158730157,
+                "footRight": 0.3968253968253968
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 8,
+          "width": 50,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 660,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.8888888888888888,
+                "top": 0.16666666666666666,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.5555555555555556,
+                "footRight": 0.6349206349206349
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 63,
+              "y": 660,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8571428571428571,
+                "top": 0.16666666666666666,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.6031746031746031,
+                "footRight": 0.6666666666666666
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 126,
+              "y": 660,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8571428571428571,
+                "top": 0.15,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.6031746031746031,
+                "footRight": 0.6666666666666666
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 189,
+              "y": 660,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8571428571428571,
+                "top": 0.16666666666666666,
+                "bottom": 0.9,
+                "footLeft": 0.23809523809523808,
+                "footRight": 0.6349206349206349
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 252,
+              "y": 660,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.873015873015873,
+                "top": 0.16666666666666666,
+                "bottom": 0.9,
+                "footLeft": 0.2698412698412698,
+                "footRight": 0.6190476190476191
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 315,
+              "y": 660,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.8888888888888888,
+                "top": 0.16666666666666666,
+                "bottom": 0.9,
+                "footLeft": 0.31746031746031744,
+                "footRight": 0.5873015873015873
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 378,
+              "y": 660,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8888888888888888,
+                "top": 0.16666666666666666,
+                "bottom": 0.9,
+                "footLeft": 0.31746031746031744,
+                "footRight": 0.5396825396825397
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 441,
+              "y": 660,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 8,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8888888888888888,
+                "top": 0.16666666666666666,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.36507936507936506,
+                "footRight": 0.5396825396825397
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 8,
+          "width": 49,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 720,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 5,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20634920634920634,
+                "right": 0.8571428571428571,
+                "top": 0.1,
+                "bottom": 0.9,
+                "footLeft": 0.4126984126984127,
+                "footRight": 0.5079365079365079
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 63,
+              "y": 720,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 5,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20634920634920634,
+                "right": 0.8253968253968254,
+                "top": 0.11666666666666667,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.4444444444444444,
+                "footRight": 0.5396825396825397
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 126,
+              "y": 720,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 5,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20634920634920634,
+                "right": 0.8412698412698413,
+                "top": 0.13333333333333333,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.47619047619047616,
+                "footRight": 0.5396825396825397
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 189,
+              "y": 720,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 5,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20634920634920634,
+                "right": 0.8412698412698413,
+                "top": 0.1,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.47619047619047616,
+                "footRight": 0.5396825396825397
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 252,
+              "y": 720,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 5,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20634920634920634,
+                "right": 0.8571428571428571,
+                "top": 0.1,
+                "bottom": 0.9,
+                "footLeft": 0.47619047619047616,
+                "footRight": 0.5396825396825397
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 315,
+              "y": 720,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 5,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20634920634920634,
+                "right": 0.8571428571428571,
+                "top": 0.1,
+                "bottom": 0.9,
+                "footLeft": 0.4444444444444444,
+                "footRight": 0.5079365079365079
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 378,
+              "y": 720,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 5,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20634920634920634,
+                "right": 0.8888888888888888,
+                "top": 0.1,
+                "bottom": 0.8833333333333333,
+                "footLeft": 0.3968253968253968,
+                "footRight": 0.4603174603174603
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 441,
+              "y": 720,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 5,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20634920634920634,
+                "right": 0.9206349206349206,
+                "top": 0.11666666666666667,
+                "bottom": 0.8666666666666667,
+                "footLeft": 0.38095238095238093,
+                "footRight": 0.6349206349206349
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 5,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 780,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25396825396825395,
+                "right": 0.7777777777777778,
+                "top": 0.1,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.5238095238095238,
+                "footRight": 0.6031746031746031
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 63,
+              "y": 780,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.7619047619047619,
+                "top": 0.11666666666666667,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.5079365079365079,
+                "footRight": 0.5714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 126,
+              "y": 780,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2222222222222222,
+                "right": 0.7619047619047619,
+                "top": 0.1,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.49206349206349204,
+                "footRight": 0.5555555555555556
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 189,
+              "y": 780,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.20634920634920634,
+                "right": 0.7619047619047619,
+                "top": 0.1,
+                "bottom": 0.9,
+                "footLeft": 0.47619047619047616,
+                "footRight": 0.5396825396825397
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 252,
+              "y": 780,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2222222222222222,
+                "right": 0.7619047619047619,
+                "top": 0.08333333333333333,
+                "bottom": 0.9,
+                "footLeft": 0.3968253968253968,
+                "footRight": 0.47619047619047616
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 315,
+              "y": 780,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23809523809523808,
+                "right": 0.7777777777777778,
+                "top": 0.1,
+                "bottom": 0.9,
+                "footLeft": 0.3968253968253968,
+                "footRight": 0.47619047619047616
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 378,
+              "y": 780,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2222222222222222,
+                "right": 0.7619047619047619,
+                "top": 0.11666666666666667,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.38095238095238093,
+                "footRight": 0.4444444444444444
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 441,
+              "y": 780,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 4,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19047619047619047,
+                "right": 0.7619047619047619,
+                "top": 0.1,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.3492063492063492,
+                "footRight": 0.4126984126984127
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 4,
+          "width": 36,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 840,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 6,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8571428571428571,
+                "top": 0.11666666666666667,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.3968253968253968,
+                "footRight": 0.47619047619047616
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 63,
+              "y": 840,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 6,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.8571428571428571,
+                "top": 0.13333333333333333,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.3492063492063492,
+                "footRight": 0.42857142857142855
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 126,
+              "y": 840,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 6,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8571428571428571,
+                "top": 0.16666666666666666,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.3333333333333333,
+                "footRight": 0.3968253968253968
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 189,
+              "y": 840,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 6,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8571428571428571,
+                "top": 0.15,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.3968253968253968,
+                "footRight": 0.4603174603174603
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 252,
+              "y": 840,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 6,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09523809523809523,
+                "right": 0.8571428571428571,
+                "top": 0.11666666666666667,
+                "bottom": 0.9,
+                "footLeft": 0.36507936507936506,
+                "footRight": 0.47619047619047616
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 315,
+              "y": 840,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 6,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07936507936507936,
+                "right": 0.8571428571428571,
+                "top": 0.1,
+                "bottom": 0.9,
+                "footLeft": 0.31746031746031744,
+                "footRight": 0.5238095238095238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 378,
+              "y": 840,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 6,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.8571428571428571,
+                "top": 0.11666666666666667,
+                "bottom": 0.9,
+                "footLeft": 0.30158730158730157,
+                "footRight": 0.5238095238095238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 441,
+              "y": 840,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 6,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.8571428571428571,
+                "top": 0.15,
+                "bottom": 0.9,
+                "footLeft": 0.23809523809523808,
+                "footRight": 0.5873015873015873
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 6,
+          "width": 49,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 0,
+              "y": 900,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 11,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.873015873015873,
+                "top": 0.2,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.5714285714285714,
+                "footRight": 0.6666666666666666
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 63,
+              "y": 900,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 11,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12698412698412698,
+                "right": 0.873015873015873,
+                "top": 0.21666666666666667,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.5396825396825397,
+                "footRight": 0.6190476190476191
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 126,
+              "y": 900,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 11,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.873015873015873,
+                "top": 0.21666666666666667,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.5238095238095238,
+                "footRight": 0.6031746031746031
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 189,
+              "y": 900,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 11,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1111111111111111,
+                "right": 0.873015873015873,
+                "top": 0.2,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.5396825396825397,
+                "footRight": 0.5873015873015873
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 252,
+              "y": 900,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 11,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09523809523809523,
+                "right": 0.873015873015873,
+                "top": 0.18333333333333332,
+                "bottom": 0.9166666666666666,
+                "footLeft": 0.3968253968253968,
+                "footRight": 0.6190476190476191
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 315,
+              "y": 900,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 11,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09523809523809523,
+                "right": 0.873015873015873,
+                "top": 0.18333333333333332,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.3968253968253968,
+                "footRight": 0.6190476190476191
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 378,
+              "y": 900,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 11,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09523809523809523,
+                "right": 0.873015873015873,
+                "top": 0.18333333333333332,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.3492063492063492,
+                "footRight": 0.4603174603174603
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+              "x": 441,
+              "y": 900,
+              "w": 63,
+              "h": 60,
+              "cx": 32,
+              "bottom": 56,
+              "top": 11,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09523809523809523,
+                "right": 0.873015873015873,
+                "top": 0.2,
+                "bottom": 0.9333333333333333,
+                "footLeft": 0.31746031746031744,
+                "footRight": 0.4126984126984127
+              }
+            }
+          ],
+          "cx": 32,
+          "bottom": 56,
+          "top": 11,
+          "width": 50,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/fox-9b7b8f691380.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "fox",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

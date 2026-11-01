@@ -72,9 +72,13 @@ test('a dash cannot hit a player who entered cover or has spawn protection',()=>
   const h=setup();warning(h);h.run("while(f.mode==='warning')FoxSystem.update(state,.01)");h.run(condition);step(h,'FoxSystem',.7);assert.equal(h.run('f.hit'),false);
  }
 });
-test('a returning fox stays blocked instead of teleporting through a wall',()=>{
- const h=setup();h.run("f.x=1120;f.mode='return';f.timer=0;OBSTACLES=[{x:1050,y:0,w:10,h:1800}]");
- step(h,'FoxSystem',3);assert.ok(h.run('f.x>=1075'));assert.equal(h.run('f.mode'),'return');
+test('a returning fox finds a reachable den without teleporting through a wall',()=>{
+ const h=setup();h.run("f.x=1120;f.mode='return';f.timer=0;c.hidden=true;OBSTACLES=[{x:1050,y:0,w:10,h:1800}]");
+ h.run(`var stayed=true,maxStep=0;for(let i=0;i<60;i++){
+   const before={x:f.x,y:f.y};FoxSystem.update(state,.05);stayed&&=f.x>=1075;maxStep=Math.max(maxStep,distance(f,before));
+ }`);
+ assert.equal(h.run('stayed'),true);assert.ok(h.run('maxStep<=FoxSystem.getConfig(state).travelSpeed*.05+.001'));
+ assert.ok(['return','relocate','hidden'].includes(h.run('f.mode')));
 });
 test('fox settles into a den after an attack when the player is out of sight',()=>{
  const h=setup();warning(h);h.run('c.x=1085;c.y=890');step(h,'FoxSystem',2);h.run('c.hidden=true');
@@ -159,11 +163,11 @@ test('owl visibly notices, calls immediately with wolf response, then settles du
 });
 test('PNG load requests are shared, invalid sheets fail, retries reuse success',async()=>{
  const {loadImage}=require('@napi-rs/canvas'),context=vm.createContext({console,setTimeout,clearTimeout});
- for(const f of ['sprite-data','arcade-art-data','premium-art-data','wildlife-art','fox-art','owl-art'])vm.runInContext(fs.readFileSync(path.join(__dirname,`../systems/${f}.js`),'utf8'),context);
+ for(const f of ['sprite-data','arcade-art-data','premium-art-data','character-art','wildlife-art','fox-art','owl-art'])vm.runInContext(fs.readFileSync(path.join(__dirname,`../systems/${f}.js`),'utf8'),context);
  for(const name of ['FoxArt','OwlArt']){
   const api=vm.runInContext(name,context);let calls=0;
   const bad=()=>{calls++;return Promise.resolve({width:1,height:1});};const pending=api.load(bad);assert.equal(api.load(bad),pending);
-  const sources=2;
+  const sources=name==='OwlArt'?3:2;
   assert.equal(await pending,false);assert.equal(calls,sources);assert.equal(api.ready,false);assert.equal(api.errors.length,sources);
   assert.equal(await api.load(src=>loadImage(path.join(__dirname,'..',src))),true);assert.equal(api.errors.length,0);
   await api.load(bad);assert.equal(calls,sources);

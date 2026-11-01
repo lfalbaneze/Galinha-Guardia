@@ -1,44 +1,8 @@
-/* Shared art direction: ink, linen and brass. No decorative panels over the field. */
+/* Gameplay HUD; title and preparation styles live in menu.css. */
 @font-face { font-family:'Farm Pixel'; src:url('./assets/fonts/VT323-Regular.ttf') format('truetype'); font-display:swap; }
 :root { --field-ink:#182a28; --field-paper:#f1e9d5; --field-gold:#dfc28a; --field-muted:#b8c2b3; --field-type:'Farm Text','Segoe UI',sans-serif; }
 body { font-family:var(--field-type); }
 button { touch-action:manipulation; }
-/* Title: the landscape carries the atmosphere; typography carries the navigation. */
-#gameShell #menuScreen { grid-template-columns:minmax(350px,470px) 1fr; row-gap:20px; padding:44px clamp(30px,7vw,140px) 48px; color:var(--field-paper); }
-#menuScreen .menu-backdrop { filter:saturate(.76) brightness(.87); }
-#menuScreen .menu-world::after { background:linear-gradient(90deg,#0d2220ed 0%,#122c26b5 25%,#142b252b 64%,transparent 85%),linear-gradient(0deg,#0c211ed9,transparent 40%); }
-#menuScreen .menu-title-scene { text-align:left; }
-#menuScreen .farm-kicker { justify-content:flex-start; font-size:10px; letter-spacing:.24em; margin-bottom:26px; color:#dfc28a; text-shadow:none; }
-#menuScreen .farm-kicker::before { display:none; }
-#menuScreen .farm-kicker::after { width:50px; background:#dfc28a70; }
-#menuScreen .farm-title { margin:0; font:400 clamp(84px,8vw,128px)/.86 var(--menu-display); letter-spacing:-.025em; transform:none; -webkit-text-stroke:0; text-shadow:0 5px 0 #162b2480; color:#f4eddc; }
-#menuScreen .farm-title > span + span { color:#dfc28a; margin-top:8px; }
-#menuScreen .farm-title small { font:400 .36em/1 var(--menu-display); -webkit-text-stroke:0; margin-right:.12em; }
-#menuScreen .title-feather { width:.22em; height:.38em; right:-.1em; top:-.55em; filter:none; color:#dfc28a; }
-#menuScreen .farm-tagline { margin:26px 0 0; max-width:310px; font:500 15px/1.6 var(--field-type); color:#e0e4d5; text-shadow:none; }
-#menuScreen .farm-tagline br { display:block; }
-#menuScreen .farm-subtitle { display:block; color:#b9c3b2; margin:14px 0 0; font:700 9px/1.5 var(--field-type); letter-spacing:.17em; }
-#menuScreen #menuCard { justify-self:start; width:350px; text-align:left; }
-#menuScreen #menuHome { gap:12px; }
-#menuScreen #menuDescription { text-align:left; font-size:11px; color:#b9c7b4; text-shadow:none; }
-#menuScreen .home-actions { gap:8px; }
-#menuScreen button.menu-primary { border:1px solid #ddc58d; border-radius:2px; min-height:52px; padding:14px 20px; background:#e2c992; box-shadow:none; color:#23352a; font:800 16px/1.3 var(--field-type); text-align:left; text-shadow:none; }
-#menuScreen button.menu-primary::before { display:none; }
-#menuScreen button.menu-primary::after { content:'→'; top:15px; right:19px; font-size:20px; color:inherit; }
-#menuScreen button.menu-primary:hover { background:#f3dea9; color:#172d26; transform:none; }
-#menuScreen button.menu-secondary { background:#17322980; border-color:#b5bea144; color:#ede6cc; font-size:15px; box-shadow:none; }
-#menuScreen button.menu-secondary:hover { background:#d3d4b923; color:#fff4d3; }
-#menuScreen .home-links { justify-content:flex-start; gap:20px; margin-top:3px; }
-#menuScreen .home-links button { flex:none; padding:6px 0; min-height:44px; font:600 12px var(--field-type); text-shadow:none; border-radius:0; color:#d4dbcb; background:none; }
-#menuScreen .home-links button+button::before { display:none; }
-#menuScreen .home-links button:hover { background:none; color:#f5d799; }
-#menuScreen .menu-mischief { display:block; right:16vw; bottom:38px; text-align:center; }
-#menuScreen #menuScatter { color:#f0d69c; font-size:13px; }
-#menuScreen #menuPlayHint { color:#d4dfc7; }
-#menuScreen #menuScene { filter:saturate(.96) brightness(1.02); }
-#menuScreen .menu-footer { left:clamp(30px,7vw,140px); bottom:25px; }
-#menuScreen .game-author { letter-spacing:.04em; color:#b6c3af; }
-#menuScreen .game-author strong { color:#d9ddce; }
 /* Readable, compact telemetry. The center of the screen belongs to the game. */
 #expeditionBar { top:max(20px,env(safe-area-inset-top,0px)); left:max(24px,env(safe-area-inset-left,0px)); right:max(24px,env(safe-area-inset-right,0px)); max-width:none; min-height:64px; padding:0; display:block; border:0; border-radius:0; background:none; box-shadow:none; backdrop-filter:none; pointer-events:none; font-family:var(--field-type); }
 #gameShell[data-phase='menu'] #expeditionBar { display:none; }
@@ -119,25 +83,10 @@ button { touch-action:manipulation; }
 #touchControls #touchInteract { grid-column:1 / -1; }
 #touchControls button:active, #touchControls button[aria-pressed='true'] { background:#607552; color:#fff5d9; box-shadow:none; }
 #lakePanel button, #lakeCounter { border:1px solid #dac38b66; border-radius:3px; background:#183229ed; color:#ede6ce; box-shadow:none; font-family:var(--field-type); }
-/* Help remains a readable field guide; result-screen styling lives in results.css. */
-.howto-dialog { border:1px solid #c8b985; border-radius:3px; background:#f0e9d6; color:#354b38; box-shadow:0 24px 90px #0b241c70; font-family:var(--field-type); }
-.howto-dialog button { border:1px solid #39533c; border-radius:2px; background:#39533c; color:#f1ebd7; box-shadow:none; min-height:46px; padding:12px 18px; font:800 13px var(--field-type); }
-.howto-dialog { width:min(640px,calc(100% - 28px)); }
-.howto-header, .howto-footer { background:#e4dfcb; border-color:#8b977b40; }
-.howto-header h2 { font:700 25px Georgia,serif; color:#354c39; }
-.howto-body { color:#4d6043; font:500 13px/1.7 var(--field-type); }
-.howto-dialog :focus-visible { outline:3px solid #74884d; outline-offset:3px; }
 @media(min-width:621px) { #gameShell #expeditionBar #farmHud { grid-row:1; } }
 @media(max-width:1000px) { #expeditionBar #chickCombo { top:100px; left:0; transform:none; } }
 @media(max-width:740px) {
  #menuScreen #menuScene, #menuScreen .menu-mischief { display:none; }
- #gameShell #menuScreen { grid-template-columns:1fr; padding:32px 30px 48px; row-gap:24px; }
- #menuScreen .menu-title-scene { justify-self:center; width:320px; }
- #menuScreen #menuCard { justify-self:center; }
- #menuScreen .farm-title { font-size:80px; }
- #menuScreen .menu-world::after { background:linear-gradient(90deg,#102b25de,#15322860),linear-gradient(0deg,#10271cdd,transparent 70%); }
- #menuScreen .farm-tagline { margin-top:22px; }
- #menuScreen .menu-footer { left:30px; bottom:18px; }
  #expeditionBar { top:12px; left:12px; right:12px; }
  #expeditionBar #farmHud, #expeditionBar #farmHud:has(#runTimer[hidden]) { padding:0 46px 0 0; grid-template-columns:65px 65px 60px 1fr 72px; gap:0; }
  #expeditionBar .run-card:not(.wolf-counter) { min-height:55px; padding:9px 7px; gap:5px; }
@@ -162,21 +111,9 @@ button { touch-action:manipulation; }
  #gameFeedback { left:12px; right:12px; max-width:none; }
  #gameFeedback #contextHint { max-width:100%; font-size:11px; }
 }
-@media(max-height:650px) and (min-width:741px) {
- #gameShell #menuScreen { padding-block:30px; row-gap:20px; }
- #menuScreen .farm-title { font-size:76px; }
- #menuScreen .farm-tagline { margin-top:16px; }
-}
+
 @media(max-height:520px) {
  #menuScreen #menuScene, #menuScreen .menu-mischief { display:none; }
- #gameShell #menuScreen { grid-template-columns:1fr 1fr; padding:25px 35px; gap:30px; }
- #menuScreen .menu-title-scene { grid-column:1; grid-row:1/-1; width:auto; align-self:center; }
- #menuScreen #menuCard { grid-column:2; grid-row:1/-1; align-self:center; width:300px; }
- #menuScreen .farm-title { font-size:62px; }
- #menuScreen .farm-tagline { font-size:12px; margin-top:16px; }
- #menuScreen .farm-subtitle { font-size:7px; }
- #menuScreen .farm-kicker { font-size:8px; margin-bottom:17px; }
- #menuScreen .menu-footer { bottom:12px; }
  .field-briefing { display:none; }
  #expeditionBar { top:8px; }
  #expeditionBar .play-region { top:76px; }

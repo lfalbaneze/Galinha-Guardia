@@ -1,0 +1,3295 @@
+{
+  "id": "skin-pacoca",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+    "width": 708,
+    "height": 944,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 0,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.847457627118644,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4576271186440678,
+              "footRight": 0.576271186440678
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 59,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.847457627118644,
+              "top": 0.15254237288135594,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.22033898305084745,
+              "footRight": 0.6101694915254238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 118,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11864406779661017,
+              "right": 0.847457627118644,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.1694915254237288,
+              "footRight": 0.6271186440677966
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 177,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1016949152542373,
+              "right": 0.8813559322033898,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.15254237288135594,
+              "footRight": 0.6271186440677966
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 236,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1016949152542373,
+              "right": 0.847457627118644,
+              "top": 0.1694915254237288,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.1694915254237288,
+              "footRight": 0.5932203389830508
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 295,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11864406779661017,
+              "right": 0.864406779661017,
+              "top": 0.1694915254237288,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.2033898305084746,
+              "footRight": 0.6101694915254238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 354,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.8813559322033898,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.22033898305084745,
+              "footRight": 0.6101694915254238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 413,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.864406779661017,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.2542372881355932,
+              "footRight": 0.5932203389830508
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 472,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.8813559322033898,
+              "top": 0.15254237288135594,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.4576271186440678,
+              "footRight": 0.5423728813559322
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 531,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11864406779661017,
+              "right": 0.864406779661017,
+              "top": 0.15254237288135594,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3728813559322034,
+              "footRight": 0.5084745762711864
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 590,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1016949152542373,
+              "right": 0.847457627118644,
+              "top": 0.15254237288135594,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3559322033898305,
+              "footRight": 0.4915254237288136
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 649,
+            "y": 472,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1016949152542373,
+              "right": 0.8305084745762712,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.3728813559322034,
+              "footRight": 0.5084745762711864
+            }
+          }
+        ],
+        "cx": 29,
+        "bottom": 55,
+        "top": 8,
+        "width": 46,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 0,
+            "y": 531,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1016949152542373,
+              "right": 0.8813559322033898,
+              "top": 0.1694915254237288,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3559322033898305,
+              "footRight": 0.4915254237288136
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 59,
+            "y": 531,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0847457627118644,
+              "right": 0.8813559322033898,
+              "top": 0.1864406779661017,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3898305084745763,
+              "footRight": 0.5254237288135594
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 118,
+            "y": 531,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.06779661016949153,
+              "right": 0.8983050847457628,
+              "top": 0.1864406779661017,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.1694915254237288,
+              "footRight": 0.5254237288135594
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 177,
+            "y": 531,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.06779661016949153,
+              "right": 0.8983050847457628,
+              "top": 0.1864406779661017,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.4406779661016949,
+              "footRight": 0.5423728813559322
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 236,
+            "y": 531,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0847457627118644,
+              "right": 0.8983050847457628,
+              "top": 0.1864406779661017,
+              "bottom": 0.8813559322033898,
+              "footLeft": 0.22033898305084745,
+              "footRight": 0.5254237288135594
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 295,
+            "y": 531,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0847457627118644,
+              "right": 0.8813559322033898,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.3728813559322034,
+              "footRight": 0.4576271186440678
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 354,
+            "y": 531,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0847457627118644,
+              "right": 0.864406779661017,
+              "top": 0.1694915254237288,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3050847457627119,
+              "footRight": 0.423728813559322
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 413,
+            "y": 531,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 9,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.06779661016949153,
+              "right": 0.847457627118644,
+              "top": 0.1864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.288135593220339,
+              "footRight": 0.423728813559322
+            }
+          }
+        ],
+        "cx": 29,
+        "bottom": 55,
+        "top": 9,
+        "width": 49,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 0,
+            "y": 590,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 10,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11864406779661017,
+              "right": 0.8983050847457628,
+              "top": 0.1864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.6271186440677966,
+              "footRight": 0.7627118644067796
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 59,
+            "y": 590,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 10,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1016949152542373,
+              "right": 0.8813559322033898,
+              "top": 0.1864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.6779661016949152,
+              "footRight": 0.7966101694915254
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 118,
+            "y": 590,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 10,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0847457627118644,
+              "right": 0.8813559322033898,
+              "top": 0.1864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.2033898305084746,
+              "footRight": 0.7627118644067796
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 177,
+            "y": 590,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 10,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0847457627118644,
+              "right": 0.8813559322033898,
+              "top": 0.1864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.23728813559322035,
+              "footRight": 0.3728813559322034
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 236,
+            "y": 590,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 10,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11864406779661017,
+              "right": 0.9152542372881356,
+              "top": 0.1864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.288135593220339,
+              "footRight": 0.4067796610169492
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 295,
+            "y": 590,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 10,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11864406779661017,
+              "right": 0.8983050847457628,
+              "top": 0.1864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.3220338983050847,
+              "footRight": 0.4576271186440678
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 354,
+            "y": 590,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 10,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0847457627118644,
+              "right": 0.8813559322033898,
+              "top": 0.1864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.3559322033898305,
+              "footRight": 0.4406779661016949
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 413,
+            "y": 590,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 10,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0847457627118644,
+              "right": 0.847457627118644,
+              "top": 0.1864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.3559322033898305,
+              "footRight": 0.6949152542372882
+            }
+          }
+        ],
+        "cx": 29,
+        "bottom": 55,
+        "top": 10,
+        "width": 48,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 0,
+            "y": 649,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1864406779661017,
+              "right": 0.7627118644067796,
+              "top": 0.11864406779661017,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.4745762711864407,
+              "footRight": 0.6101694915254238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 59,
+            "y": 649,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1864406779661017,
+              "right": 0.7627118644067796,
+              "top": 0.1016949152542373,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.5254237288135594,
+              "footRight": 0.6440677966101694
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 118,
+            "y": 649,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15254237288135594,
+              "right": 0.7966101694915254,
+              "top": 0.11864406779661017,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.5254237288135594,
+              "footRight": 0.6440677966101694
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 177,
+            "y": 649,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.8305084745762712,
+              "top": 0.11864406779661017,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.4915254237288136,
+              "footRight": 0.6101694915254238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 236,
+            "y": 649,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.847457627118644,
+              "top": 0.1016949152542373,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.4576271186440678,
+              "footRight": 0.559322033898305
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 295,
+            "y": 649,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.864406779661017,
+              "top": 0.0847457627118644,
+              "bottom": 0.8813559322033898,
+              "footLeft": 0.423728813559322,
+              "footRight": 0.7627118644067796
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 354,
+            "y": 649,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.847457627118644,
+              "top": 0.11864406779661017,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.423728813559322,
+              "footRight": 0.7796610169491526
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 413,
+            "y": 649,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.7796610169491526,
+              "top": 0.13559322033898305,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.423728813559322,
+              "footRight": 0.7288135593220338
+            }
+          }
+        ],
+        "cx": 29,
+        "bottom": 55,
+        "top": 4,
+        "width": 44,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 0,
+            "y": 708,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.288135593220339,
+              "right": 0.864406779661017,
+              "top": 0.0847457627118644,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4915254237288136,
+              "footRight": 0.6101694915254238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 59,
+            "y": 708,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.288135593220339,
+              "right": 0.864406779661017,
+              "top": 0.0847457627118644,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4745762711864407,
+              "footRight": 0.5932203389830508
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 118,
+            "y": 708,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.288135593220339,
+              "right": 0.847457627118644,
+              "top": 0.0847457627118644,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4576271186440678,
+              "footRight": 0.576271186440678
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 177,
+            "y": 708,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.288135593220339,
+              "right": 0.8135593220338984,
+              "top": 0.11864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4406779661016949,
+              "footRight": 0.5423728813559322
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 236,
+            "y": 708,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2711864406779661,
+              "right": 0.8305084745762712,
+              "top": 0.1016949152542373,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3728813559322034,
+              "footRight": 0.559322033898305
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 295,
+            "y": 708,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.288135593220339,
+              "right": 0.847457627118644,
+              "top": 0.0847457627118644,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.3389830508474576,
+              "footRight": 0.5932203389830508
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 354,
+            "y": 708,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.288135593220339,
+              "right": 0.847457627118644,
+              "top": 0.0847457627118644,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.3050847457627119,
+              "footRight": 0.6101694915254238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 413,
+            "y": 708,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.288135593220339,
+              "right": 0.847457627118644,
+              "top": 0.1016949152542373,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.3050847457627119,
+              "footRight": 0.6271186440677966
+            }
+          }
+        ],
+        "cx": 29,
+        "bottom": 55,
+        "top": 4,
+        "width": 35,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 0,
+            "y": 767,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11864406779661017,
+              "right": 0.864406779661017,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.22033898305084745,
+              "footRight": 0.3559322033898305
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 59,
+            "y": 767,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11864406779661017,
+              "right": 0.864406779661017,
+              "top": 0.1694915254237288,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.2033898305084746,
+              "footRight": 0.6949152542372882
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 118,
+            "y": 767,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11864406779661017,
+              "right": 0.8813559322033898,
+              "top": 0.1694915254237288,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.22033898305084745,
+              "footRight": 0.6779661016949152
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 177,
+            "y": 767,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1016949152542373,
+              "right": 0.8813559322033898,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.22033898305084745,
+              "footRight": 0.6440677966101694
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 236,
+            "y": 767,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0847457627118644,
+              "right": 0.864406779661017,
+              "top": 0.13559322033898305,
+              "bottom": 0.8813559322033898,
+              "footLeft": 0.288135593220339,
+              "footRight": 0.6440677966101694
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 295,
+            "y": 767,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.06779661016949153,
+              "right": 0.864406779661017,
+              "top": 0.13559322033898305,
+              "bottom": 0.8813559322033898,
+              "footLeft": 0.3389830508474576,
+              "footRight": 0.6949152542372882
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 354,
+            "y": 767,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.0847457627118644,
+              "right": 0.8813559322033898,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.3389830508474576,
+              "footRight": 0.4915254237288136
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 413,
+            "y": 767,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1016949152542373,
+              "right": 0.8813559322033898,
+              "top": 0.1864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.3559322033898305,
+              "footRight": 0.4745762711864407
+            }
+          }
+        ],
+        "cx": 29,
+        "bottom": 55,
+        "top": 8,
+        "width": 47,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 0,
+            "y": 826,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.847457627118644,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4576271186440678,
+              "footRight": 0.576271186440678
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 59,
+            "y": 826,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.847457627118644,
+              "top": 0.15254237288135594,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.423728813559322,
+              "footRight": 0.559322033898305
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 118,
+            "y": 826,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.847457627118644,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.4067796610169492,
+              "footRight": 0.7796610169491526
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 177,
+            "y": 826,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.847457627118644,
+              "top": 0.13559322033898305,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.4406779661016949,
+              "footRight": 0.559322033898305
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 236,
+            "y": 826,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.8305084745762712,
+              "top": 0.13559322033898305,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.4745762711864407,
+              "footRight": 0.6101694915254238
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 295,
+            "y": 826,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15254237288135594,
+              "right": 0.8305084745762712,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.5254237288135594,
+              "footRight": 0.6610169491525424
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 354,
+            "y": 826,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1694915254237288,
+              "right": 0.847457627118644,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.5254237288135594,
+              "footRight": 0.6440677966101694
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 413,
+            "y": 826,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 8,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13559322033898305,
+              "right": 0.847457627118644,
+              "top": 0.1694915254237288,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4915254237288136,
+              "footRight": 0.6101694915254238
+            }
+          }
+        ],
+        "cx": 29,
+        "bottom": 55,
+        "top": 8,
+        "width": 42,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 0,
+            "y": 885,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 6,
+            "width": 30,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2542372881355932,
+              "right": 0.7627118644067796,
+              "top": 0.11864406779661017,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.3389830508474576,
+              "footRight": 0.711864406779661
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 59,
+            "y": 885,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 6,
+            "width": 30,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2542372881355932,
+              "right": 0.7627118644067796,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.576271186440678,
+              "footRight": 0.6949152542372882
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 118,
+            "y": 885,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 6,
+            "width": 30,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2542372881355932,
+              "right": 0.7457627118644068,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.559322033898305,
+              "footRight": 0.6949152542372882
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 177,
+            "y": 885,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 6,
+            "width": 30,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2711864406779661,
+              "right": 0.7457627118644068,
+              "top": 0.13559322033898305,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.3728813559322034,
+              "footRight": 0.6610169491525424
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 236,
+            "y": 885,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 6,
+            "width": 30,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2711864406779661,
+              "right": 0.7457627118644068,
+              "top": 0.11864406779661017,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.3728813559322034,
+              "footRight": 0.6271186440677966
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 295,
+            "y": 885,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 6,
+            "width": 30,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2542372881355932,
+              "right": 0.7457627118644068,
+              "top": 0.11864406779661017,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.3728813559322034,
+              "footRight": 0.5084745762711864
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 354,
+            "y": 885,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 6,
+            "width": 30,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2542372881355932,
+              "right": 0.7457627118644068,
+              "top": 0.11864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.3728813559322034,
+              "footRight": 0.4915254237288136
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+            "x": 413,
+            "y": 885,
+            "w": 59,
+            "h": 59,
+            "cx": 29,
+            "bottom": 55,
+            "top": 6,
+            "width": 30,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2542372881355932,
+              "right": 0.7457627118644068,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.3728813559322034,
+              "footRight": 0.4915254237288136
+            }
+          }
+        ],
+        "cx": 29,
+        "bottom": 55,
+        "top": 6,
+        "width": 30,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 0,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.8305084745762712,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4576271186440678,
+                "footRight": 0.559322033898305
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 9,
+          "width": 42,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 59,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 10,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.864406779661017,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3389830508474576,
+                "footRight": 0.4576271186440678
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 10,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 118,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.8813559322033898,
+                "top": 0.1694915254237288,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.5932203389830508,
+                "footRight": 0.711864406779661
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 9,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 177,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1694915254237288,
+                "right": 0.7457627118644068,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4576271186440678,
+                "footRight": 0.576271186440678
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 8,
+          "width": 34,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 236,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.288135593220339,
+                "right": 0.847457627118644,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3050847457627119,
+                "footRight": 0.6101694915254238
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 7,
+          "width": 34,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 295,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.847457627118644,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.2711864406779661,
+                "footRight": 0.3898305084745763
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 9,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 354,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1694915254237288,
+                "right": 0.8305084745762712,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4745762711864407,
+                "footRight": 0.6101694915254238
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 8,
+          "width": 39,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 413,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2711864406779661,
+                "right": 0.7627118644067796,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3559322033898305,
+                "footRight": 0.4576271186440678
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 9,
+          "width": 29,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.847457627118644,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4576271186440678,
+                "footRight": 0.576271186440678
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 59,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.847457627118644,
+                "top": 0.15254237288135594,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.22033898305084745,
+                "footRight": 0.6101694915254238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 118,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.847457627118644,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.1694915254237288,
+                "footRight": 0.6271186440677966
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 177,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1016949152542373,
+                "right": 0.8813559322033898,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.15254237288135594,
+                "footRight": 0.6271186440677966
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 236,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1016949152542373,
+                "right": 0.847457627118644,
+                "top": 0.1694915254237288,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.1694915254237288,
+                "footRight": 0.5932203389830508
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 295,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.864406779661017,
+                "top": 0.1694915254237288,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.2033898305084746,
+                "footRight": 0.6101694915254238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 354,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.8813559322033898,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.22033898305084745,
+                "footRight": 0.6101694915254238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 413,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.864406779661017,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.2542372881355932,
+                "footRight": 0.5932203389830508
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 472,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.8813559322033898,
+                "top": 0.15254237288135594,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.4576271186440678,
+                "footRight": 0.5423728813559322
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 531,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.864406779661017,
+                "top": 0.15254237288135594,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3728813559322034,
+                "footRight": 0.5084745762711864
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 590,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1016949152542373,
+                "right": 0.847457627118644,
+                "top": 0.15254237288135594,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3559322033898305,
+                "footRight": 0.4915254237288136
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 649,
+              "y": 472,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1016949152542373,
+                "right": 0.8305084745762712,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3728813559322034,
+                "footRight": 0.5084745762711864
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 8,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 531,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1016949152542373,
+                "right": 0.8813559322033898,
+                "top": 0.1694915254237288,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3559322033898305,
+                "footRight": 0.4915254237288136
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 59,
+              "y": 531,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0847457627118644,
+                "right": 0.8813559322033898,
+                "top": 0.1864406779661017,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3898305084745763,
+                "footRight": 0.5254237288135594
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 118,
+              "y": 531,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.06779661016949153,
+                "right": 0.8983050847457628,
+                "top": 0.1864406779661017,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.1694915254237288,
+                "footRight": 0.5254237288135594
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 177,
+              "y": 531,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.06779661016949153,
+                "right": 0.8983050847457628,
+                "top": 0.1864406779661017,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.4406779661016949,
+                "footRight": 0.5423728813559322
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 236,
+              "y": 531,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0847457627118644,
+                "right": 0.8983050847457628,
+                "top": 0.1864406779661017,
+                "bottom": 0.8813559322033898,
+                "footLeft": 0.22033898305084745,
+                "footRight": 0.5254237288135594
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 295,
+              "y": 531,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0847457627118644,
+                "right": 0.8813559322033898,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.3728813559322034,
+                "footRight": 0.4576271186440678
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 354,
+              "y": 531,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0847457627118644,
+                "right": 0.864406779661017,
+                "top": 0.1694915254237288,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3050847457627119,
+                "footRight": 0.423728813559322
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 413,
+              "y": 531,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 9,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.06779661016949153,
+                "right": 0.847457627118644,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.288135593220339,
+                "footRight": 0.423728813559322
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 9,
+          "width": 49,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 590,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 10,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.8983050847457628,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.6271186440677966,
+                "footRight": 0.7627118644067796
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 59,
+              "y": 590,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 10,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1016949152542373,
+                "right": 0.8813559322033898,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.6779661016949152,
+                "footRight": 0.7966101694915254
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 118,
+              "y": 590,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 10,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0847457627118644,
+                "right": 0.8813559322033898,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.2033898305084746,
+                "footRight": 0.7627118644067796
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 177,
+              "y": 590,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 10,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0847457627118644,
+                "right": 0.8813559322033898,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.23728813559322035,
+                "footRight": 0.3728813559322034
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 236,
+              "y": 590,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 10,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.9152542372881356,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.288135593220339,
+                "footRight": 0.4067796610169492
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 295,
+              "y": 590,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 10,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.8983050847457628,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3220338983050847,
+                "footRight": 0.4576271186440678
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 354,
+              "y": 590,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 10,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0847457627118644,
+                "right": 0.8813559322033898,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3559322033898305,
+                "footRight": 0.4406779661016949
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 413,
+              "y": 590,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 10,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0847457627118644,
+                "right": 0.847457627118644,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3559322033898305,
+                "footRight": 0.6949152542372882
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 10,
+          "width": 48,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 649,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1864406779661017,
+                "right": 0.7627118644067796,
+                "top": 0.11864406779661017,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.4745762711864407,
+                "footRight": 0.6101694915254238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 59,
+              "y": 649,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1864406779661017,
+                "right": 0.7627118644067796,
+                "top": 0.1016949152542373,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.5254237288135594,
+                "footRight": 0.6440677966101694
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 118,
+              "y": 649,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15254237288135594,
+                "right": 0.7966101694915254,
+                "top": 0.11864406779661017,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.5254237288135594,
+                "footRight": 0.6440677966101694
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 177,
+              "y": 649,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.8305084745762712,
+                "top": 0.11864406779661017,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.4915254237288136,
+                "footRight": 0.6101694915254238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 236,
+              "y": 649,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.847457627118644,
+                "top": 0.1016949152542373,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.4576271186440678,
+                "footRight": 0.559322033898305
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 295,
+              "y": 649,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.864406779661017,
+                "top": 0.0847457627118644,
+                "bottom": 0.8813559322033898,
+                "footLeft": 0.423728813559322,
+                "footRight": 0.7627118644067796
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 354,
+              "y": 649,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.847457627118644,
+                "top": 0.11864406779661017,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.423728813559322,
+                "footRight": 0.7796610169491526
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 413,
+              "y": 649,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.7796610169491526,
+                "top": 0.13559322033898305,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.423728813559322,
+                "footRight": 0.7288135593220338
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 4,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 708,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.288135593220339,
+                "right": 0.864406779661017,
+                "top": 0.0847457627118644,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4915254237288136,
+                "footRight": 0.6101694915254238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 59,
+              "y": 708,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.288135593220339,
+                "right": 0.864406779661017,
+                "top": 0.0847457627118644,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4745762711864407,
+                "footRight": 0.5932203389830508
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 118,
+              "y": 708,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.288135593220339,
+                "right": 0.847457627118644,
+                "top": 0.0847457627118644,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4576271186440678,
+                "footRight": 0.576271186440678
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 177,
+              "y": 708,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.288135593220339,
+                "right": 0.8135593220338984,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4406779661016949,
+                "footRight": 0.5423728813559322
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 236,
+              "y": 708,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2711864406779661,
+                "right": 0.8305084745762712,
+                "top": 0.1016949152542373,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3728813559322034,
+                "footRight": 0.559322033898305
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 295,
+              "y": 708,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.288135593220339,
+                "right": 0.847457627118644,
+                "top": 0.0847457627118644,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.3389830508474576,
+                "footRight": 0.5932203389830508
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 354,
+              "y": 708,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.288135593220339,
+                "right": 0.847457627118644,
+                "top": 0.0847457627118644,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.3050847457627119,
+                "footRight": 0.6101694915254238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 413,
+              "y": 708,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.288135593220339,
+                "right": 0.847457627118644,
+                "top": 0.1016949152542373,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.3050847457627119,
+                "footRight": 0.6271186440677966
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 4,
+          "width": 35,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 767,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.864406779661017,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.22033898305084745,
+                "footRight": 0.3559322033898305
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 59,
+              "y": 767,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.864406779661017,
+                "top": 0.1694915254237288,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.2033898305084746,
+                "footRight": 0.6949152542372882
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 118,
+              "y": 767,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11864406779661017,
+                "right": 0.8813559322033898,
+                "top": 0.1694915254237288,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.22033898305084745,
+                "footRight": 0.6779661016949152
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 177,
+              "y": 767,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1016949152542373,
+                "right": 0.8813559322033898,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.22033898305084745,
+                "footRight": 0.6440677966101694
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 236,
+              "y": 767,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0847457627118644,
+                "right": 0.864406779661017,
+                "top": 0.13559322033898305,
+                "bottom": 0.8813559322033898,
+                "footLeft": 0.288135593220339,
+                "footRight": 0.6440677966101694
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 295,
+              "y": 767,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.06779661016949153,
+                "right": 0.864406779661017,
+                "top": 0.13559322033898305,
+                "bottom": 0.8813559322033898,
+                "footLeft": 0.3389830508474576,
+                "footRight": 0.6949152542372882
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 354,
+              "y": 767,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.0847457627118644,
+                "right": 0.8813559322033898,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.3389830508474576,
+                "footRight": 0.4915254237288136
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 413,
+              "y": 767,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1016949152542373,
+                "right": 0.8813559322033898,
+                "top": 0.1864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3559322033898305,
+                "footRight": 0.4745762711864407
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 8,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 826,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.847457627118644,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4576271186440678,
+                "footRight": 0.576271186440678
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 59,
+              "y": 826,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.847457627118644,
+                "top": 0.15254237288135594,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.423728813559322,
+                "footRight": 0.559322033898305
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 118,
+              "y": 826,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.847457627118644,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.4067796610169492,
+                "footRight": 0.7796610169491526
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 177,
+              "y": 826,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.847457627118644,
+                "top": 0.13559322033898305,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.4406779661016949,
+                "footRight": 0.559322033898305
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 236,
+              "y": 826,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.8305084745762712,
+                "top": 0.13559322033898305,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.4745762711864407,
+                "footRight": 0.6101694915254238
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 295,
+              "y": 826,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15254237288135594,
+                "right": 0.8305084745762712,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.5254237288135594,
+                "footRight": 0.6610169491525424
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 354,
+              "y": 826,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1694915254237288,
+                "right": 0.847457627118644,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.5254237288135594,
+                "footRight": 0.6440677966101694
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 413,
+              "y": 826,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 8,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13559322033898305,
+                "right": 0.847457627118644,
+                "top": 0.1694915254237288,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4915254237288136,
+                "footRight": 0.6101694915254238
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 8,
+          "width": 42,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 0,
+              "y": 885,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 6,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2542372881355932,
+                "right": 0.7627118644067796,
+                "top": 0.11864406779661017,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.3389830508474576,
+                "footRight": 0.711864406779661
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 59,
+              "y": 885,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 6,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2542372881355932,
+                "right": 0.7627118644067796,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.576271186440678,
+                "footRight": 0.6949152542372882
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 118,
+              "y": 885,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 6,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2542372881355932,
+                "right": 0.7457627118644068,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.559322033898305,
+                "footRight": 0.6949152542372882
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 177,
+              "y": 885,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 6,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2711864406779661,
+                "right": 0.7457627118644068,
+                "top": 0.13559322033898305,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.3728813559322034,
+                "footRight": 0.6610169491525424
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 236,
+              "y": 885,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 6,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2711864406779661,
+                "right": 0.7457627118644068,
+                "top": 0.11864406779661017,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.3728813559322034,
+                "footRight": 0.6271186440677966
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 295,
+              "y": 885,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 6,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2542372881355932,
+                "right": 0.7457627118644068,
+                "top": 0.11864406779661017,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.3728813559322034,
+                "footRight": 0.5084745762711864
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 354,
+              "y": 885,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 6,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2542372881355932,
+                "right": 0.7457627118644068,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3728813559322034,
+                "footRight": 0.4915254237288136
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+              "x": 413,
+              "y": 885,
+              "w": 59,
+              "h": 59,
+              "cx": 29,
+              "bottom": 55,
+              "top": 6,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2542372881355932,
+                "right": 0.7457627118644068,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3728813559322034,
+                "footRight": 0.4915254237288136
+              }
+            }
+          ],
+          "cx": 29,
+          "bottom": 55,
+          "top": 6,
+          "width": 30,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/skin-pacoca-12817df011cf.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "skin-pacoca",
+    "restoreOriginal": true
+  },
+  "frames": 76,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

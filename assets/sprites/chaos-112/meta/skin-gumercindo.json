@@ -1,0 +1,3127 @@
+{
+  "id": "skin-gumercindo",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+    "width": 560,
+    "height": 1136,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 0,
+            "y": 568,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.22857142857142856,
+              "right": 0.8,
+              "top": 0.1267605633802817,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.2714285714285714,
+              "footRight": 0.7142857142857143
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 70,
+            "y": 568,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21428571428571427,
+              "right": 0.7857142857142857,
+              "top": 0.14084507042253522,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.6857142857142857
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 140,
+            "y": 568,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21428571428571427,
+              "right": 0.7857142857142857,
+              "top": 0.15492957746478872,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.3,
+              "footRight": 0.6571428571428571
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 210,
+            "y": 568,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.7857142857142857,
+              "top": 0.15492957746478872,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.3,
+              "footRight": 0.4714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 280,
+            "y": 568,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18571428571428572,
+              "right": 0.8,
+              "top": 0.14084507042253522,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.3142857142857143,
+              "footRight": 0.6571428571428571
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 350,
+            "y": 568,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18571428571428572,
+              "right": 0.8142857142857143,
+              "top": 0.1267605633802817,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.4857142857142857,
+              "footRight": 0.6571428571428571
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 420,
+            "y": 568,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8,
+              "top": 0.14084507042253522,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.5,
+              "footRight": 0.6714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 490,
+            "y": 568,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21428571428571427,
+              "right": 0.8,
+              "top": 0.15492957746478872,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.5142857142857142,
+              "footRight": 0.6857142857142857
+            }
+          }
+        ],
+        "cx": 35,
+        "bottom": 67,
+        "top": 9,
+        "width": 44,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 0,
+            "y": 639,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.8428571428571429,
+              "top": 0.11267605633802817,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.5428571428571428,
+              "footRight": 0.6571428571428571
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 70,
+            "y": 639,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.22857142857142856,
+              "right": 0.8285714285714286,
+              "top": 0.14084507042253522,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.37142857142857144,
+              "footRight": 0.6857142857142857
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 140,
+            "y": 639,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8285714285714286,
+              "top": 0.1267605633802817,
+              "bottom": 0.8873239436619719,
+              "footLeft": 0.3142857142857143,
+              "footRight": 0.7142857142857143
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 210,
+            "y": 639,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17142857142857143,
+              "right": 0.8285714285714286,
+              "top": 0.11267605633802817,
+              "bottom": 0.8732394366197183,
+              "footLeft": 0.34285714285714286,
+              "footRight": 0.6714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 280,
+            "y": 639,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17142857142857143,
+              "right": 0.8428571428571429,
+              "top": 0.11267605633802817,
+              "bottom": 0.8873239436619719,
+              "footLeft": 0.37142857142857144,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 350,
+            "y": 639,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18571428571428572,
+              "right": 0.8571428571428571,
+              "top": 0.11267605633802817,
+              "bottom": 0.9014084507042254,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.5714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 420,
+            "y": 639,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18571428571428572,
+              "right": 0.8428571428571429,
+              "top": 0.1267605633802817,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.5571428571428572
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 490,
+            "y": 639,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18571428571428572,
+              "right": 0.8285714285714286,
+              "top": 0.14084507042253522,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.45714285714285713,
+              "footRight": 0.5714285714285714
+            }
+          }
+        ],
+        "cx": 35,
+        "bottom": 67,
+        "top": 7,
+        "width": 48,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 0,
+            "y": 710,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 8,
+            "width": 58,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17142857142857143,
+              "right": 0.9,
+              "top": 0.11267605633802817,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.45714285714285713,
+              "footRight": 0.5857142857142857
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 70,
+            "y": 710,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 8,
+            "width": 58,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17142857142857143,
+              "right": 0.9,
+              "top": 0.14084507042253522,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.4857142857142857,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 140,
+            "y": 710,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 8,
+            "width": 58,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15714285714285714,
+              "right": 0.9142857142857143,
+              "top": 0.14084507042253522,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.5,
+              "footRight": 0.6285714285714286
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 210,
+            "y": 710,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 8,
+            "width": 58,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12857142857142856,
+              "right": 0.9285714285714286,
+              "top": 0.15492957746478872,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.5428571428571428,
+              "footRight": 0.6285714285714286
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 280,
+            "y": 710,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 8,
+            "width": 58,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11428571428571428,
+              "right": 0.9285714285714286,
+              "top": 0.14084507042253522,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.5142857142857142
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 350,
+            "y": 710,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 8,
+            "width": 58,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.9285714285714286,
+              "top": 0.1267605633802817,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.34285714285714286,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 420,
+            "y": 710,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 8,
+            "width": 58,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11428571428571428,
+              "right": 0.9142857142857143,
+              "top": 0.14084507042253522,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.3142857142857143,
+              "footRight": 0.5142857142857142
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 490,
+            "y": 710,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 8,
+            "width": 58,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12857142857142856,
+              "right": 0.9,
+              "top": 0.15492957746478872,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.34285714285714286,
+              "footRight": 0.5428571428571428
+            }
+          }
+        ],
+        "cx": 35,
+        "bottom": 67,
+        "top": 8,
+        "width": 58,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 0,
+            "y": 781,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.8142857142857143,
+              "top": 0.14084507042253522,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.2714285714285714,
+              "footRight": 0.45714285714285713
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 70,
+            "y": 781,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.8428571428571429,
+              "top": 0.15492957746478872,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.3142857142857143,
+              "footRight": 0.6857142857142857
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 140,
+            "y": 781,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.22857142857142856,
+              "right": 0.8428571428571429,
+              "top": 0.16901408450704225,
+              "bottom": 0.9014084507042254,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.7142857142857143
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 210,
+            "y": 781,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21428571428571427,
+              "right": 0.8285714285714286,
+              "top": 0.16901408450704225,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.3,
+              "footRight": 0.4142857142857143
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 280,
+            "y": 781,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8142857142857143,
+              "top": 0.16901408450704225,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.2571428571428571,
+              "footRight": 0.44285714285714284
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 350,
+            "y": 781,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21428571428571427,
+              "right": 0.8142857142857143,
+              "top": 0.15492957746478872,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.4714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 420,
+            "y": 781,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21428571428571427,
+              "right": 0.7857142857142857,
+              "top": 0.15492957746478872,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.3142857142857143,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 490,
+            "y": 781,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 44,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.7857142857142857,
+              "top": 0.16901408450704225,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.34285714285714286,
+              "footRight": 0.5142857142857142
+            }
+          }
+        ],
+        "cx": 35,
+        "bottom": 67,
+        "top": 9,
+        "width": 44,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 0,
+            "y": 852,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 11,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.7571428571428571,
+              "top": 0.16901408450704225,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.3,
+              "footRight": 0.7142857142857143
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 70,
+            "y": 852,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 11,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.7428571428571429,
+              "top": 0.16901408450704225,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.7
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 140,
+            "y": 852,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 11,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.7428571428571429,
+              "top": 0.16901408450704225,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.3,
+              "footRight": 0.6857142857142857
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 210,
+            "y": 852,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 11,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.7571428571428571,
+              "top": 0.16901408450704225,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.32857142857142857,
+              "footRight": 0.6571428571428571
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 280,
+            "y": 852,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 11,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.7714285714285715,
+              "top": 0.16901408450704225,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.35714285714285715,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 350,
+            "y": 852,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 11,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.7714285714285715,
+              "top": 0.16901408450704225,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.34285714285714286,
+              "footRight": 0.6285714285714286
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 420,
+            "y": 852,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 11,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.24285714285714285,
+              "right": 0.7571428571428571,
+              "top": 0.16901408450704225,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.32857142857142857,
+              "footRight": 0.6285714285714286
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 490,
+            "y": 852,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 11,
+            "width": 37,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.22857142857142856,
+              "right": 0.7428571428571429,
+              "top": 0.16901408450704225,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.3,
+              "footRight": 0.6714285714285714
+            }
+          }
+        ],
+        "cx": 35,
+        "bottom": 67,
+        "top": 11,
+        "width": 37,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 0,
+            "y": 923,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15714285714285714,
+              "right": 0.7571428571428571,
+              "top": 0.1267605633802817,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.4857142857142857,
+              "footRight": 0.6571428571428571
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 70,
+            "y": 923,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15714285714285714,
+              "right": 0.7571428571428571,
+              "top": 0.1267605633802817,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.44285714285714284,
+              "footRight": 0.6285714285714286
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 140,
+            "y": 923,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15714285714285714,
+              "right": 0.7857142857142857,
+              "top": 0.14084507042253522,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.5857142857142857
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 210,
+            "y": 923,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15714285714285714,
+              "right": 0.7857142857142857,
+              "top": 0.14084507042253522,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.5,
+              "footRight": 0.5714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 280,
+            "y": 923,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15714285714285714,
+              "right": 0.7857142857142857,
+              "top": 0.14084507042253522,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.4,
+              "footRight": 0.6285714285714286
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 350,
+            "y": 923,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.7714285714285715,
+              "top": 0.1267605633802817,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.35714285714285715,
+              "footRight": 0.5857142857142857
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 420,
+            "y": 923,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.7857142857142857,
+              "top": 0.1267605633802817,
+              "bottom": 0.9014084507042254,
+              "footLeft": 0.3142857142857143,
+              "footRight": 0.6571428571428571
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 490,
+            "y": 923,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 9,
+            "width": 45,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.7857142857142857,
+              "top": 0.14084507042253522,
+              "bottom": 0.9014084507042254,
+              "footLeft": 0.2857142857142857,
+              "footRight": 0.6857142857142857
+            }
+          }
+        ],
+        "cx": 35,
+        "bottom": 67,
+        "top": 9,
+        "width": 45,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 0,
+            "y": 994,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08571428571428572,
+              "right": 0.8428571428571429,
+              "top": 0.08450704225352113,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.5428571428571428
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 70,
+            "y": 994,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07142857142857142,
+              "right": 0.8428571428571429,
+              "top": 0.08450704225352113,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.4142857142857143,
+              "footRight": 0.5285714285714286
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 140,
+            "y": 994,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07142857142857142,
+              "right": 0.8714285714285714,
+              "top": 0.11267605633802817,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.38571428571428573,
+              "footRight": 0.4714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 210,
+            "y": 994,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07142857142857142,
+              "right": 0.8714285714285714,
+              "top": 0.1267605633802817,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.34285714285714286,
+              "footRight": 0.4142857142857143
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 280,
+            "y": 994,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07142857142857142,
+              "right": 0.8571428571428571,
+              "top": 0.11267605633802817,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.4,
+              "footRight": 0.4714285714285714
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 350,
+            "y": 994,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07142857142857142,
+              "right": 0.8428571428571429,
+              "top": 0.09859154929577464,
+              "bottom": 0.8732394366197183,
+              "footLeft": 0.45714285714285713,
+              "footRight": 0.5428571428571428
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 420,
+            "y": 994,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.8285714285714286,
+              "top": 0.09859154929577464,
+              "bottom": 0.8591549295774648,
+              "footLeft": 0.4857142857142857,
+              "footRight": 0.6285714285714286
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 490,
+            "y": 994,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 6,
+            "width": 57,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1,
+              "right": 0.8285714285714286,
+              "top": 0.11267605633802817,
+              "bottom": 0.8873239436619719,
+              "footLeft": 0.5142857142857142,
+              "footRight": 0.6857142857142857
+            }
+          }
+        ],
+        "cx": 35,
+        "bottom": 67,
+        "top": 6,
+        "width": 57,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 0,
+            "y": 1065,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 4,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15714285714285714,
+              "right": 0.7857142857142857,
+              "top": 0.09859154929577464,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.34285714285714286,
+              "footRight": 0.5142857142857142
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 70,
+            "y": 1065,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 4,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.7857142857142857,
+              "top": 0.08450704225352113,
+              "bottom": 0.9014084507042254,
+              "footLeft": 0.37142857142857144,
+              "footRight": 0.4857142857142857
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 140,
+            "y": 1065,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 4,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12857142857142856,
+              "right": 0.7857142857142857,
+              "top": 0.056338028169014086,
+              "bottom": 0.8873239436619719,
+              "footLeft": 0.4,
+              "footRight": 0.5142857142857142
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 210,
+            "y": 1065,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 4,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12857142857142856,
+              "right": 0.8,
+              "top": 0.08450704225352113,
+              "bottom": 0.8732394366197183,
+              "footLeft": 0.4857142857142857,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 280,
+            "y": 1065,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 4,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12857142857142856,
+              "right": 0.8142857142857143,
+              "top": 0.09859154929577464,
+              "bottom": 0.9154929577464789,
+              "footLeft": 0.4714285714285714,
+              "footRight": 0.6285714285714286
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 350,
+            "y": 1065,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 4,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12857142857142856,
+              "right": 0.8,
+              "top": 0.09859154929577464,
+              "bottom": 0.9436619718309859,
+              "footLeft": 0.4857142857142857,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 420,
+            "y": 1065,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 4,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12857142857142856,
+              "right": 0.7857142857142857,
+              "top": 0.08450704225352113,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.45714285714285713,
+              "footRight": 0.5857142857142857
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+            "x": 490,
+            "y": 1065,
+            "w": 70,
+            "h": 71,
+            "cx": 35,
+            "bottom": 67,
+            "top": 4,
+            "width": 49,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14285714285714285,
+              "right": 0.7714285714285715,
+              "top": 0.08450704225352113,
+              "bottom": 0.9295774647887324,
+              "footLeft": 0.42857142857142855,
+              "footRight": 0.5571428571428572
+            }
+          }
+        ],
+        "cx": 35,
+        "bottom": 67,
+        "top": 4,
+        "width": 49,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 0,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 10,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21428571428571427,
+                "right": 0.7857142857142857,
+                "top": 0.14084507042253522,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.3142857142857143,
+                "footRight": 0.7142857142857143
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 10,
+          "width": 41,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 71,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.8428571428571429,
+                "top": 0.1267605633802817,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.5142857142857142,
+                "footRight": 0.6428571428571429
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 9,
+          "width": 43,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 142,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17142857142857143,
+                "right": 0.9,
+                "top": 0.1267605633802817,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.4,
+                "footRight": 0.5428571428571428
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 9,
+          "width": 51,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 213,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 10,
+              "width": 39,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.8,
+                "top": 0.15492957746478872,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.3,
+                "footRight": 0.4857142857142857
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 10,
+          "width": 39,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 284,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 12,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.7571428571428571,
+                "top": 0.16901408450704225,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.32857142857142857,
+                "footRight": 0.6714285714285714
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 12,
+          "width": 36,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 355,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 10,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15714285714285714,
+                "right": 0.7571428571428571,
+                "top": 0.15492957746478872,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.5142857142857142,
+                "footRight": 0.6857142857142857
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 10,
+          "width": 43,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 426,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.8285714285714286,
+                "top": 0.1267605633802817,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5714285714285714
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 9,
+          "width": 51,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 497,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 43,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15714285714285714,
+                "right": 0.7714285714285715,
+                "top": 0.1267605633802817,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.37142857142857144,
+                "footRight": 0.5
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 9,
+          "width": 43,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 568,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.22857142857142856,
+                "right": 0.8,
+                "top": 0.1267605633802817,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.2714285714285714,
+                "footRight": 0.7142857142857143
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 70,
+              "y": 568,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21428571428571427,
+                "right": 0.7857142857142857,
+                "top": 0.14084507042253522,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.6857142857142857
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 140,
+              "y": 568,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21428571428571427,
+                "right": 0.7857142857142857,
+                "top": 0.15492957746478872,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.3,
+                "footRight": 0.6571428571428571
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 210,
+              "y": 568,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.7857142857142857,
+                "top": 0.15492957746478872,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.3,
+                "footRight": 0.4714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 280,
+              "y": 568,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18571428571428572,
+                "right": 0.8,
+                "top": 0.14084507042253522,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.3142857142857143,
+                "footRight": 0.6571428571428571
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 350,
+              "y": 568,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18571428571428572,
+                "right": 0.8142857142857143,
+                "top": 0.1267605633802817,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.4857142857142857,
+                "footRight": 0.6571428571428571
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 420,
+              "y": 568,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8,
+                "top": 0.14084507042253522,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.5,
+                "footRight": 0.6714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 490,
+              "y": 568,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21428571428571427,
+                "right": 0.8,
+                "top": 0.15492957746478872,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.5142857142857142,
+                "footRight": 0.6857142857142857
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 9,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 639,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.8428571428571429,
+                "top": 0.11267605633802817,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.5428571428571428,
+                "footRight": 0.6571428571428571
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 70,
+              "y": 639,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.22857142857142856,
+                "right": 0.8285714285714286,
+                "top": 0.14084507042253522,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.37142857142857144,
+                "footRight": 0.6857142857142857
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 140,
+              "y": 639,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8285714285714286,
+                "top": 0.1267605633802817,
+                "bottom": 0.8873239436619719,
+                "footLeft": 0.3142857142857143,
+                "footRight": 0.7142857142857143
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 210,
+              "y": 639,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17142857142857143,
+                "right": 0.8285714285714286,
+                "top": 0.11267605633802817,
+                "bottom": 0.8732394366197183,
+                "footLeft": 0.34285714285714286,
+                "footRight": 0.6714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 280,
+              "y": 639,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17142857142857143,
+                "right": 0.8428571428571429,
+                "top": 0.11267605633802817,
+                "bottom": 0.8873239436619719,
+                "footLeft": 0.37142857142857144,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 350,
+              "y": 639,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18571428571428572,
+                "right": 0.8571428571428571,
+                "top": 0.11267605633802817,
+                "bottom": 0.9014084507042254,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 420,
+              "y": 639,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18571428571428572,
+                "right": 0.8428571428571429,
+                "top": 0.1267605633802817,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5571428571428572
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 490,
+              "y": 639,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18571428571428572,
+                "right": 0.8285714285714286,
+                "top": 0.14084507042253522,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.45714285714285713,
+                "footRight": 0.5714285714285714
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 7,
+          "width": 48,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 710,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 8,
+              "width": 58,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17142857142857143,
+                "right": 0.9,
+                "top": 0.11267605633802817,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.45714285714285713,
+                "footRight": 0.5857142857142857
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 70,
+              "y": 710,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 8,
+              "width": 58,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17142857142857143,
+                "right": 0.9,
+                "top": 0.14084507042253522,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.4857142857142857,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 140,
+              "y": 710,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 8,
+              "width": 58,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15714285714285714,
+                "right": 0.9142857142857143,
+                "top": 0.14084507042253522,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.5,
+                "footRight": 0.6285714285714286
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 210,
+              "y": 710,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 8,
+              "width": 58,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12857142857142856,
+                "right": 0.9285714285714286,
+                "top": 0.15492957746478872,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.5428571428571428,
+                "footRight": 0.6285714285714286
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 280,
+              "y": 710,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 8,
+              "width": 58,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11428571428571428,
+                "right": 0.9285714285714286,
+                "top": 0.14084507042253522,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5142857142857142
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 350,
+              "y": 710,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 8,
+              "width": 58,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.9285714285714286,
+                "top": 0.1267605633802817,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.34285714285714286,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 420,
+              "y": 710,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 8,
+              "width": 58,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11428571428571428,
+                "right": 0.9142857142857143,
+                "top": 0.14084507042253522,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.3142857142857143,
+                "footRight": 0.5142857142857142
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 490,
+              "y": 710,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 8,
+              "width": 58,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12857142857142856,
+                "right": 0.9,
+                "top": 0.15492957746478872,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.34285714285714286,
+                "footRight": 0.5428571428571428
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 8,
+          "width": 58,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 781,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.8142857142857143,
+                "top": 0.14084507042253522,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.2714285714285714,
+                "footRight": 0.45714285714285713
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 70,
+              "y": 781,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.8428571428571429,
+                "top": 0.15492957746478872,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.3142857142857143,
+                "footRight": 0.6857142857142857
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 140,
+              "y": 781,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.22857142857142856,
+                "right": 0.8428571428571429,
+                "top": 0.16901408450704225,
+                "bottom": 0.9014084507042254,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.7142857142857143
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 210,
+              "y": 781,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21428571428571427,
+                "right": 0.8285714285714286,
+                "top": 0.16901408450704225,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.3,
+                "footRight": 0.4142857142857143
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 280,
+              "y": 781,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8142857142857143,
+                "top": 0.16901408450704225,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.2571428571428571,
+                "footRight": 0.44285714285714284
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 350,
+              "y": 781,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21428571428571427,
+                "right": 0.8142857142857143,
+                "top": 0.15492957746478872,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.4714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 420,
+              "y": 781,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21428571428571427,
+                "right": 0.7857142857142857,
+                "top": 0.15492957746478872,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.3142857142857143,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 490,
+              "y": 781,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.7857142857142857,
+                "top": 0.16901408450704225,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.34285714285714286,
+                "footRight": 0.5142857142857142
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 9,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 852,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 11,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.7571428571428571,
+                "top": 0.16901408450704225,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.3,
+                "footRight": 0.7142857142857143
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 70,
+              "y": 852,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 11,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.7428571428571429,
+                "top": 0.16901408450704225,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.7
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 140,
+              "y": 852,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 11,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.7428571428571429,
+                "top": 0.16901408450704225,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.3,
+                "footRight": 0.6857142857142857
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 210,
+              "y": 852,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 11,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.7571428571428571,
+                "top": 0.16901408450704225,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.32857142857142857,
+                "footRight": 0.6571428571428571
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 280,
+              "y": 852,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 11,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.7714285714285715,
+                "top": 0.16901408450704225,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.35714285714285715,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 350,
+              "y": 852,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 11,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.7714285714285715,
+                "top": 0.16901408450704225,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.34285714285714286,
+                "footRight": 0.6285714285714286
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 420,
+              "y": 852,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 11,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.24285714285714285,
+                "right": 0.7571428571428571,
+                "top": 0.16901408450704225,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.32857142857142857,
+                "footRight": 0.6285714285714286
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 490,
+              "y": 852,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 11,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.22857142857142856,
+                "right": 0.7428571428571429,
+                "top": 0.16901408450704225,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.3,
+                "footRight": 0.6714285714285714
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 11,
+          "width": 37,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 923,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15714285714285714,
+                "right": 0.7571428571428571,
+                "top": 0.1267605633802817,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.4857142857142857,
+                "footRight": 0.6571428571428571
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 70,
+              "y": 923,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15714285714285714,
+                "right": 0.7571428571428571,
+                "top": 0.1267605633802817,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.44285714285714284,
+                "footRight": 0.6285714285714286
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 140,
+              "y": 923,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15714285714285714,
+                "right": 0.7857142857142857,
+                "top": 0.14084507042253522,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5857142857142857
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 210,
+              "y": 923,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15714285714285714,
+                "right": 0.7857142857142857,
+                "top": 0.14084507042253522,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.5,
+                "footRight": 0.5714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 280,
+              "y": 923,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15714285714285714,
+                "right": 0.7857142857142857,
+                "top": 0.14084507042253522,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.4,
+                "footRight": 0.6285714285714286
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 350,
+              "y": 923,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.7714285714285715,
+                "top": 0.1267605633802817,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.35714285714285715,
+                "footRight": 0.5857142857142857
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 420,
+              "y": 923,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.7857142857142857,
+                "top": 0.1267605633802817,
+                "bottom": 0.9014084507042254,
+                "footLeft": 0.3142857142857143,
+                "footRight": 0.6571428571428571
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 490,
+              "y": 923,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 9,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.7857142857142857,
+                "top": 0.14084507042253522,
+                "bottom": 0.9014084507042254,
+                "footLeft": 0.2857142857142857,
+                "footRight": 0.6857142857142857
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 9,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 994,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08571428571428572,
+                "right": 0.8428571428571429,
+                "top": 0.08450704225352113,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5428571428571428
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 70,
+              "y": 994,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07142857142857142,
+                "right": 0.8428571428571429,
+                "top": 0.08450704225352113,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.4142857142857143,
+                "footRight": 0.5285714285714286
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 140,
+              "y": 994,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07142857142857142,
+                "right": 0.8714285714285714,
+                "top": 0.11267605633802817,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.38571428571428573,
+                "footRight": 0.4714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 210,
+              "y": 994,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07142857142857142,
+                "right": 0.8714285714285714,
+                "top": 0.1267605633802817,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.34285714285714286,
+                "footRight": 0.4142857142857143
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 280,
+              "y": 994,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07142857142857142,
+                "right": 0.8571428571428571,
+                "top": 0.11267605633802817,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.4,
+                "footRight": 0.4714285714285714
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 350,
+              "y": 994,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07142857142857142,
+                "right": 0.8428571428571429,
+                "top": 0.09859154929577464,
+                "bottom": 0.8732394366197183,
+                "footLeft": 0.45714285714285713,
+                "footRight": 0.5428571428571428
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 420,
+              "y": 994,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.8285714285714286,
+                "top": 0.09859154929577464,
+                "bottom": 0.8591549295774648,
+                "footLeft": 0.4857142857142857,
+                "footRight": 0.6285714285714286
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 490,
+              "y": 994,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 6,
+              "width": 57,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1,
+                "right": 0.8285714285714286,
+                "top": 0.11267605633802817,
+                "bottom": 0.8873239436619719,
+                "footLeft": 0.5142857142857142,
+                "footRight": 0.6857142857142857
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 6,
+          "width": 57,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 0,
+              "y": 1065,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 4,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15714285714285714,
+                "right": 0.7857142857142857,
+                "top": 0.09859154929577464,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.34285714285714286,
+                "footRight": 0.5142857142857142
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 70,
+              "y": 1065,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 4,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.7857142857142857,
+                "top": 0.08450704225352113,
+                "bottom": 0.9014084507042254,
+                "footLeft": 0.37142857142857144,
+                "footRight": 0.4857142857142857
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 140,
+              "y": 1065,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 4,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12857142857142856,
+                "right": 0.7857142857142857,
+                "top": 0.056338028169014086,
+                "bottom": 0.8873239436619719,
+                "footLeft": 0.4,
+                "footRight": 0.5142857142857142
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 210,
+              "y": 1065,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 4,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12857142857142856,
+                "right": 0.8,
+                "top": 0.08450704225352113,
+                "bottom": 0.8732394366197183,
+                "footLeft": 0.4857142857142857,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 280,
+              "y": 1065,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 4,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12857142857142856,
+                "right": 0.8142857142857143,
+                "top": 0.09859154929577464,
+                "bottom": 0.9154929577464789,
+                "footLeft": 0.4714285714285714,
+                "footRight": 0.6285714285714286
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 350,
+              "y": 1065,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 4,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12857142857142856,
+                "right": 0.8,
+                "top": 0.09859154929577464,
+                "bottom": 0.9436619718309859,
+                "footLeft": 0.4857142857142857,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 420,
+              "y": 1065,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 4,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12857142857142856,
+                "right": 0.7857142857142857,
+                "top": 0.08450704225352113,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.45714285714285713,
+                "footRight": 0.5857142857142857
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+              "x": 490,
+              "y": 1065,
+              "w": 70,
+              "h": 71,
+              "cx": 35,
+              "bottom": 67,
+              "top": 4,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14285714285714285,
+                "right": 0.7714285714285715,
+                "top": 0.08450704225352113,
+                "bottom": 0.9295774647887324,
+                "footLeft": 0.42857142857142855,
+                "footRight": 0.5571428571428572
+              }
+            }
+          ],
+          "cx": 35,
+          "bottom": 67,
+          "top": 4,
+          "width": 49,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/skin-gumercindo-602df0413a31.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "skin-gumercindo",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

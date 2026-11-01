@@ -59,7 +59,7 @@ try:
                     page.keyboard.down('KeyD');before=page.evaluate('ShuffleDemo.run.player.x');page.wait_for_timeout(180);page.keyboard.up('KeyD')
                     assert page.evaluate('ShuffleDemo.run.player.x')>before+5
                 page.screenshot(path=str(OUT/f'{folder.replace("/","") or "source"}-{transport}-{width}-battle.png'))
-                page.locator('#pause').click();page.get_by_role('button',name='Bicho e tipo de partida · reiniciar').click()
+                page.locator('#pause').click();page.get_by_role('button',name='Novo jogo').click()
                 assert page.locator('#survivalStyle').input_value()==mode
                 assert not errors,errors
                 print(f'{folder or "source/"}{transport} {width}: {mode}, cards, tier-five volleys, new sprites and restart passed')

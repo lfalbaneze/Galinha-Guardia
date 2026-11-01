@@ -1,0 +1,3127 @@
+{
+  "id": "amanda",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+    "width": 488,
+    "height": 944,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 0,
+            "y": 472,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13114754098360656,
+              "right": 0.8360655737704918,
+              "top": 0.1016949152542373,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.45901639344262296,
+              "footRight": 0.5573770491803278
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 61,
+            "y": 472,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13114754098360656,
+              "right": 0.8360655737704918,
+              "top": 0.0847457627118644,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4426229508196721,
+              "footRight": 0.5409836065573771
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 122,
+            "y": 472,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11475409836065574,
+              "right": 0.8360655737704918,
+              "top": 0.06779661016949153,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.36065573770491804,
+              "footRight": 0.5081967213114754
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 183,
+            "y": 472,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8360655737704918,
+              "top": 0.1016949152542373,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3442622950819672,
+              "footRight": 0.47540983606557374
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 244,
+            "y": 472,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8360655737704918,
+              "top": 0.1016949152542373,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.32786885245901637,
+              "footRight": 0.7377049180327869
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 305,
+            "y": 472,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08196721311475409,
+              "right": 0.8360655737704918,
+              "top": 0.1016949152542373,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.45901639344262296,
+              "footRight": 0.7213114754098361
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 366,
+            "y": 472,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08196721311475409,
+              "right": 0.8360655737704918,
+              "top": 0.0847457627118644,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.4918032786885246,
+              "footRight": 0.7049180327868853
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 427,
+            "y": 472,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8360655737704918,
+              "top": 0.06779661016949153,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.5245901639344263,
+              "footRight": 0.6721311475409836
+            }
+          }
+        ],
+        "cx": 30,
+        "bottom": 55,
+        "top": 4,
+        "width": 47,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 0,
+            "y": 531,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19672131147540983,
+              "right": 0.7868852459016393,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4098360655737705,
+              "footRight": 0.5081967213114754
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 61,
+            "y": 531,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18032786885245902,
+              "right": 0.8032786885245902,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4262295081967213,
+              "footRight": 0.5245901639344263
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 122,
+            "y": 531,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16393442622950818,
+              "right": 0.819672131147541,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4426229508196721,
+              "footRight": 0.5409836065573771
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 183,
+            "y": 531,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18032786885245902,
+              "right": 0.8360655737704918,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.45901639344262296,
+              "footRight": 0.5573770491803278
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 244,
+            "y": 531,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19672131147540983,
+              "right": 0.8360655737704918,
+              "top": 0.15254237288135594,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.2786885245901639,
+              "footRight": 0.5573770491803278
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 305,
+            "y": 531,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19672131147540983,
+              "right": 0.8360655737704918,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.26229508196721313,
+              "footRight": 0.5409836065573771
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 366,
+            "y": 531,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19672131147540983,
+              "right": 0.819672131147541,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.29508196721311475,
+              "footRight": 0.39344262295081966
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 427,
+            "y": 531,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 41,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18032786885245902,
+              "right": 0.8032786885245902,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3114754098360656,
+              "footRight": 0.4098360655737705
+            }
+          }
+        ],
+        "cx": 30,
+        "bottom": 55,
+        "top": 7,
+        "width": 41,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 0,
+            "y": 590,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14754098360655737,
+              "right": 0.8852459016393442,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.3770491803278688,
+              "footRight": 0.6721311475409836
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 61,
+            "y": 590,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14754098360655737,
+              "right": 0.8852459016393442,
+              "top": 0.1694915254237288,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4098360655737705,
+              "footRight": 0.7049180327868853
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 122,
+            "y": 590,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13114754098360656,
+              "right": 0.9016393442622951,
+              "top": 0.15254237288135594,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.2786885245901639,
+              "footRight": 0.7049180327868853
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 183,
+            "y": 590,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11475409836065574,
+              "right": 0.9016393442622951,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.32786885245901637,
+              "footRight": 0.639344262295082
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 244,
+            "y": 590,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11475409836065574,
+              "right": 0.9180327868852459,
+              "top": 0.15254237288135594,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3114754098360656,
+              "footRight": 0.6229508196721312
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 305,
+            "y": 590,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.9180327868852459,
+              "top": 0.1694915254237288,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.2459016393442623,
+              "footRight": 0.5573770491803278
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 366,
+            "y": 590,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.9016393442622951,
+              "top": 0.1694915254237288,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.26229508196721313,
+              "footRight": 0.5737704918032787
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 427,
+            "y": 590,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8852459016393442,
+              "top": 0.1694915254237288,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.29508196721311475,
+              "footRight": 0.6065573770491803
+            }
+          }
+        ],
+        "cx": 30,
+        "bottom": 55,
+        "top": 7,
+        "width": 50,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 0,
+            "y": 649,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16393442622950818,
+              "right": 0.8688524590163934,
+              "top": 0.11864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.5081967213114754,
+              "footRight": 0.6065573770491803
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 61,
+            "y": 649,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14754098360655737,
+              "right": 0.8524590163934426,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.5409836065573771,
+              "footRight": 0.639344262295082
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 122,
+            "y": 649,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13114754098360656,
+              "right": 0.8688524590163934,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.5409836065573771,
+              "footRight": 0.6557377049180327
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 183,
+            "y": 649,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13114754098360656,
+              "right": 0.8688524590163934,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.26229508196721313,
+              "footRight": 0.6557377049180327
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 244,
+            "y": 649,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14754098360655737,
+              "right": 0.8852459016393442,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.2786885245901639,
+              "footRight": 0.639344262295082
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 305,
+            "y": 649,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14754098360655737,
+              "right": 0.9016393442622951,
+              "top": 0.11864406779661017,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3114754098360656,
+              "footRight": 0.5901639344262295
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 366,
+            "y": 649,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13114754098360656,
+              "right": 0.8852459016393442,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.32786885245901637,
+              "footRight": 0.4426229508196721
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 427,
+            "y": 649,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 48,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11475409836065574,
+              "right": 0.8852459016393442,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.36065573770491804,
+              "footRight": 0.5245901639344263
+            }
+          }
+        ],
+        "cx": 30,
+        "bottom": 55,
+        "top": 7,
+        "width": 48,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 0,
+            "y": 708,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19672131147540983,
+              "right": 0.7704918032786885,
+              "top": 0.11864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4098360655737705,
+              "footRight": 0.6229508196721312
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 61,
+            "y": 708,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18032786885245902,
+              "right": 0.7868852459016393,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.3770491803278688,
+              "footRight": 0.639344262295082
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 122,
+            "y": 708,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16393442622950818,
+              "right": 0.819672131147541,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.32786885245901637,
+              "footRight": 0.6229508196721312
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 183,
+            "y": 708,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14754098360655737,
+              "right": 0.8360655737704918,
+              "top": 0.15254237288135594,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.32786885245901637,
+              "footRight": 0.4098360655737705
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 244,
+            "y": 708,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.14754098360655737,
+              "right": 0.819672131147541,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.32786885245901637,
+              "footRight": 0.4262295081967213
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 305,
+            "y": 708,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16393442622950818,
+              "right": 0.8032786885245902,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3442622950819672,
+              "footRight": 0.5737704918032787
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 366,
+            "y": 708,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.16393442622950818,
+              "right": 0.8032786885245902,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.36065573770491804,
+              "footRight": 0.6065573770491803
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 427,
+            "y": 708,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 42,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18032786885245902,
+              "right": 0.7868852459016393,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.36065573770491804,
+              "footRight": 0.6065573770491803
+            }
+          }
+        ],
+        "cx": 30,
+        "bottom": 55,
+        "top": 7,
+        "width": 42,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 0,
+            "y": 767,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 5,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.3114754098360656,
+              "right": 0.7704918032786885,
+              "top": 0.0847457627118644,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.39344262295081966,
+              "footRight": 0.5245901639344263
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 61,
+            "y": 767,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 5,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.3114754098360656,
+              "right": 0.7704918032786885,
+              "top": 0.1016949152542373,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4426229508196721,
+              "footRight": 0.5409836065573771
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 122,
+            "y": 767,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 5,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.32786885245901637,
+              "right": 0.7704918032786885,
+              "top": 0.11864406779661017,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.4426229508196721,
+              "footRight": 0.5409836065573771
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 183,
+            "y": 767,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 5,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.3114754098360656,
+              "right": 0.8032786885245902,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.4918032786885246,
+              "footRight": 0.5573770491803278
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 244,
+            "y": 767,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 5,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2786885245901639,
+              "right": 0.8360655737704918,
+              "top": 0.15254237288135594,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.5081967213114754,
+              "footRight": 0.5901639344262295
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 305,
+            "y": 767,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 5,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2459016393442623,
+              "right": 0.8360655737704918,
+              "top": 0.1694915254237288,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.4918032786885246,
+              "footRight": 0.5737704918032787
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 366,
+            "y": 767,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 5,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2459016393442623,
+              "right": 0.819672131147541,
+              "top": 0.15254237288135594,
+              "bottom": 0.864406779661017,
+              "footLeft": 0.3770491803278688,
+              "footRight": 0.6065573770491803
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 427,
+            "y": 767,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 5,
+            "width": 36,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2459016393442623,
+              "right": 0.8032786885245902,
+              "top": 0.13559322033898305,
+              "bottom": 0.864406779661017,
+              "footLeft": 0.3770491803278688,
+              "footRight": 0.639344262295082
+            }
+          }
+        ],
+        "cx": 30,
+        "bottom": 55,
+        "top": 5,
+        "width": 36,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 0,
+            "y": 826,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8360655737704918,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.32786885245901637,
+              "footRight": 0.6721311475409836
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 61,
+            "y": 826,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8524590163934426,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.32786885245901637,
+              "footRight": 0.6557377049180327
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 122,
+            "y": 826,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8524590163934426,
+              "top": 0.13559322033898305,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.3114754098360656,
+              "footRight": 0.6065573770491803
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 183,
+            "y": 826,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11475409836065574,
+              "right": 0.8524590163934426,
+              "top": 0.11864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.36065573770491804,
+              "footRight": 0.4262295081967213
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 244,
+            "y": 826,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11475409836065574,
+              "right": 0.8524590163934426,
+              "top": 0.13559322033898305,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.36065573770491804,
+              "footRight": 0.6721311475409836
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 305,
+            "y": 826,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8524590163934426,
+              "top": 0.13559322033898305,
+              "bottom": 0.8983050847457628,
+              "footLeft": 0.32786885245901637,
+              "footRight": 0.6557377049180327
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 366,
+            "y": 826,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8524590163934426,
+              "top": 0.11864406779661017,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.45901639344262296,
+              "footRight": 0.5573770491803278
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 427,
+            "y": 826,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8524590163934426,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4426229508196721,
+              "footRight": 0.5245901639344263
+            }
+          }
+        ],
+        "cx": 30,
+        "bottom": 55,
+        "top": 7,
+        "width": 47,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 0,
+            "y": 885,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11475409836065574,
+              "right": 0.8360655737704918,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.5081967213114754,
+              "footRight": 0.6065573770491803
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 61,
+            "y": 885,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.11475409836065574,
+              "right": 0.8360655737704918,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.4918032786885246,
+              "footRight": 0.5737704918032787
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 122,
+            "y": 885,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8360655737704918,
+              "top": 0.15254237288135594,
+              "bottom": 0.9152542372881356,
+              "footLeft": 0.4098360655737705,
+              "footRight": 0.5737704918032787
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 183,
+            "y": 885,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8360655737704918,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.39344262295081966,
+              "footRight": 0.5901639344262295
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 244,
+            "y": 885,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.819672131147541,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.3442622950819672,
+              "footRight": 0.6229508196721312
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 305,
+            "y": 885,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08196721311475409,
+              "right": 0.819672131147541,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.32786885245901637,
+              "footRight": 0.4262295081967213
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 366,
+            "y": 885,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.08196721311475409,
+              "right": 0.8360655737704918,
+              "top": 0.13559322033898305,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.29508196721311475,
+              "footRight": 0.39344262295081966
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+            "x": 427,
+            "y": 885,
+            "w": 61,
+            "h": 59,
+            "cx": 30,
+            "bottom": 55,
+            "top": 7,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09836065573770492,
+              "right": 0.8360655737704918,
+              "top": 0.15254237288135594,
+              "bottom": 0.9322033898305084,
+              "footLeft": 0.2786885245901639,
+              "footRight": 0.6885245901639344
+            }
+          }
+        ],
+        "cx": 30,
+        "bottom": 55,
+        "top": 7,
+        "width": 47,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 0,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11475409836065574,
+                "right": 0.8360655737704918,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4918032786885246,
+                "footRight": 0.5737704918032787
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 59,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19672131147540983,
+                "right": 0.7704918032786885,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4098360655737705,
+                "footRight": 0.5081967213114754
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 36,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 118,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14754098360655737,
+                "right": 0.8852459016393442,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3442622950819672,
+                "footRight": 0.6557377049180327
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 177,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16393442622950818,
+                "right": 0.8852459016393442,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.47540983606557374,
+                "footRight": 0.5737704918032787
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 236,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19672131147540983,
+                "right": 0.7868852459016393,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.39344262295081966,
+                "footRight": 0.6229508196721312
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 37,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 295,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.29508196721311475,
+                "right": 0.7704918032786885,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3770491803278688,
+                "footRight": 0.5737704918032787
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 30,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 354,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 45,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8360655737704918,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3770491803278688,
+                "footRight": 0.47540983606557374
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 45,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 413,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 44,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.819672131147541,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3442622950819672,
+                "footRight": 0.639344262295082
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 44,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 472,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13114754098360656,
+                "right": 0.8360655737704918,
+                "top": 0.1016949152542373,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.45901639344262296,
+                "footRight": 0.5573770491803278
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 61,
+              "y": 472,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13114754098360656,
+                "right": 0.8360655737704918,
+                "top": 0.0847457627118644,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4426229508196721,
+                "footRight": 0.5409836065573771
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 122,
+              "y": 472,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11475409836065574,
+                "right": 0.8360655737704918,
+                "top": 0.06779661016949153,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.36065573770491804,
+                "footRight": 0.5081967213114754
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 183,
+              "y": 472,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8360655737704918,
+                "top": 0.1016949152542373,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3442622950819672,
+                "footRight": 0.47540983606557374
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 244,
+              "y": 472,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8360655737704918,
+                "top": 0.1016949152542373,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.32786885245901637,
+                "footRight": 0.7377049180327869
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 305,
+              "y": 472,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08196721311475409,
+                "right": 0.8360655737704918,
+                "top": 0.1016949152542373,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.45901639344262296,
+                "footRight": 0.7213114754098361
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 366,
+              "y": 472,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08196721311475409,
+                "right": 0.8360655737704918,
+                "top": 0.0847457627118644,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.4918032786885246,
+                "footRight": 0.7049180327868853
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 427,
+              "y": 472,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8360655737704918,
+                "top": 0.06779661016949153,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.5245901639344263,
+                "footRight": 0.6721311475409836
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 4,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 531,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19672131147540983,
+                "right": 0.7868852459016393,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4098360655737705,
+                "footRight": 0.5081967213114754
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 61,
+              "y": 531,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18032786885245902,
+                "right": 0.8032786885245902,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4262295081967213,
+                "footRight": 0.5245901639344263
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 122,
+              "y": 531,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16393442622950818,
+                "right": 0.819672131147541,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4426229508196721,
+                "footRight": 0.5409836065573771
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 183,
+              "y": 531,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18032786885245902,
+                "right": 0.8360655737704918,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.45901639344262296,
+                "footRight": 0.5573770491803278
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 244,
+              "y": 531,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19672131147540983,
+                "right": 0.8360655737704918,
+                "top": 0.15254237288135594,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.2786885245901639,
+                "footRight": 0.5573770491803278
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 305,
+              "y": 531,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19672131147540983,
+                "right": 0.8360655737704918,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.26229508196721313,
+                "footRight": 0.5409836065573771
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 366,
+              "y": 531,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19672131147540983,
+                "right": 0.819672131147541,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.29508196721311475,
+                "footRight": 0.39344262295081966
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 427,
+              "y": 531,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 41,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18032786885245902,
+                "right": 0.8032786885245902,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3114754098360656,
+                "footRight": 0.4098360655737705
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 41,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 590,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14754098360655737,
+                "right": 0.8852459016393442,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3770491803278688,
+                "footRight": 0.6721311475409836
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 61,
+              "y": 590,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14754098360655737,
+                "right": 0.8852459016393442,
+                "top": 0.1694915254237288,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4098360655737705,
+                "footRight": 0.7049180327868853
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 122,
+              "y": 590,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13114754098360656,
+                "right": 0.9016393442622951,
+                "top": 0.15254237288135594,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.2786885245901639,
+                "footRight": 0.7049180327868853
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 183,
+              "y": 590,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11475409836065574,
+                "right": 0.9016393442622951,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.32786885245901637,
+                "footRight": 0.639344262295082
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 244,
+              "y": 590,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11475409836065574,
+                "right": 0.9180327868852459,
+                "top": 0.15254237288135594,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3114754098360656,
+                "footRight": 0.6229508196721312
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 305,
+              "y": 590,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.9180327868852459,
+                "top": 0.1694915254237288,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.2459016393442623,
+                "footRight": 0.5573770491803278
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 366,
+              "y": 590,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.9016393442622951,
+                "top": 0.1694915254237288,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.26229508196721313,
+                "footRight": 0.5737704918032787
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 427,
+              "y": 590,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8852459016393442,
+                "top": 0.1694915254237288,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.29508196721311475,
+                "footRight": 0.6065573770491803
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 50,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 649,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16393442622950818,
+                "right": 0.8688524590163934,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.5081967213114754,
+                "footRight": 0.6065573770491803
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 61,
+              "y": 649,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14754098360655737,
+                "right": 0.8524590163934426,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.5409836065573771,
+                "footRight": 0.639344262295082
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 122,
+              "y": 649,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13114754098360656,
+                "right": 0.8688524590163934,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.5409836065573771,
+                "footRight": 0.6557377049180327
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 183,
+              "y": 649,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13114754098360656,
+                "right": 0.8688524590163934,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.26229508196721313,
+                "footRight": 0.6557377049180327
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 244,
+              "y": 649,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14754098360655737,
+                "right": 0.8852459016393442,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.2786885245901639,
+                "footRight": 0.639344262295082
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 305,
+              "y": 649,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14754098360655737,
+                "right": 0.9016393442622951,
+                "top": 0.11864406779661017,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3114754098360656,
+                "footRight": 0.5901639344262295
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 366,
+              "y": 649,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13114754098360656,
+                "right": 0.8852459016393442,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.32786885245901637,
+                "footRight": 0.4426229508196721
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 427,
+              "y": 649,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 48,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11475409836065574,
+                "right": 0.8852459016393442,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.36065573770491804,
+                "footRight": 0.5245901639344263
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 48,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 708,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19672131147540983,
+                "right": 0.7704918032786885,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4098360655737705,
+                "footRight": 0.6229508196721312
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 61,
+              "y": 708,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18032786885245902,
+                "right": 0.7868852459016393,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3770491803278688,
+                "footRight": 0.639344262295082
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 122,
+              "y": 708,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16393442622950818,
+                "right": 0.819672131147541,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.32786885245901637,
+                "footRight": 0.6229508196721312
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 183,
+              "y": 708,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14754098360655737,
+                "right": 0.8360655737704918,
+                "top": 0.15254237288135594,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.32786885245901637,
+                "footRight": 0.4098360655737705
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 244,
+              "y": 708,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.14754098360655737,
+                "right": 0.819672131147541,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.32786885245901637,
+                "footRight": 0.4262295081967213
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 305,
+              "y": 708,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16393442622950818,
+                "right": 0.8032786885245902,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3442622950819672,
+                "footRight": 0.5737704918032787
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 366,
+              "y": 708,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.16393442622950818,
+                "right": 0.8032786885245902,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.36065573770491804,
+                "footRight": 0.6065573770491803
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 427,
+              "y": 708,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 42,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18032786885245902,
+                "right": 0.7868852459016393,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.36065573770491804,
+                "footRight": 0.6065573770491803
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 42,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 767,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 5,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.3114754098360656,
+                "right": 0.7704918032786885,
+                "top": 0.0847457627118644,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.39344262295081966,
+                "footRight": 0.5245901639344263
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 61,
+              "y": 767,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 5,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.3114754098360656,
+                "right": 0.7704918032786885,
+                "top": 0.1016949152542373,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4426229508196721,
+                "footRight": 0.5409836065573771
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 122,
+              "y": 767,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 5,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.32786885245901637,
+                "right": 0.7704918032786885,
+                "top": 0.11864406779661017,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.4426229508196721,
+                "footRight": 0.5409836065573771
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 183,
+              "y": 767,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 5,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.3114754098360656,
+                "right": 0.8032786885245902,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.4918032786885246,
+                "footRight": 0.5573770491803278
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 244,
+              "y": 767,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 5,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2786885245901639,
+                "right": 0.8360655737704918,
+                "top": 0.15254237288135594,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.5081967213114754,
+                "footRight": 0.5901639344262295
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 305,
+              "y": 767,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 5,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2459016393442623,
+                "right": 0.8360655737704918,
+                "top": 0.1694915254237288,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.4918032786885246,
+                "footRight": 0.5737704918032787
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 366,
+              "y": 767,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 5,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2459016393442623,
+                "right": 0.819672131147541,
+                "top": 0.15254237288135594,
+                "bottom": 0.864406779661017,
+                "footLeft": 0.3770491803278688,
+                "footRight": 0.6065573770491803
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 427,
+              "y": 767,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 5,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2459016393442623,
+                "right": 0.8032786885245902,
+                "top": 0.13559322033898305,
+                "bottom": 0.864406779661017,
+                "footLeft": 0.3770491803278688,
+                "footRight": 0.639344262295082
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 5,
+          "width": 36,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 826,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8360655737704918,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.32786885245901637,
+                "footRight": 0.6721311475409836
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 61,
+              "y": 826,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8524590163934426,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.32786885245901637,
+                "footRight": 0.6557377049180327
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 122,
+              "y": 826,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8524590163934426,
+                "top": 0.13559322033898305,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.3114754098360656,
+                "footRight": 0.6065573770491803
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 183,
+              "y": 826,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11475409836065574,
+                "right": 0.8524590163934426,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.36065573770491804,
+                "footRight": 0.4262295081967213
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 244,
+              "y": 826,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11475409836065574,
+                "right": 0.8524590163934426,
+                "top": 0.13559322033898305,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.36065573770491804,
+                "footRight": 0.6721311475409836
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 305,
+              "y": 826,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8524590163934426,
+                "top": 0.13559322033898305,
+                "bottom": 0.8983050847457628,
+                "footLeft": 0.32786885245901637,
+                "footRight": 0.6557377049180327
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 366,
+              "y": 826,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8524590163934426,
+                "top": 0.11864406779661017,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.45901639344262296,
+                "footRight": 0.5573770491803278
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 427,
+              "y": 826,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8524590163934426,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4426229508196721,
+                "footRight": 0.5245901639344263
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 0,
+              "y": 885,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11475409836065574,
+                "right": 0.8360655737704918,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.5081967213114754,
+                "footRight": 0.6065573770491803
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 61,
+              "y": 885,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11475409836065574,
+                "right": 0.8360655737704918,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.4918032786885246,
+                "footRight": 0.5737704918032787
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 122,
+              "y": 885,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8360655737704918,
+                "top": 0.15254237288135594,
+                "bottom": 0.9152542372881356,
+                "footLeft": 0.4098360655737705,
+                "footRight": 0.5737704918032787
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 183,
+              "y": 885,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8360655737704918,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.39344262295081966,
+                "footRight": 0.5901639344262295
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 244,
+              "y": 885,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.819672131147541,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.3442622950819672,
+                "footRight": 0.6229508196721312
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 305,
+              "y": 885,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08196721311475409,
+                "right": 0.819672131147541,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.32786885245901637,
+                "footRight": 0.4262295081967213
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 366,
+              "y": 885,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.08196721311475409,
+                "right": 0.8360655737704918,
+                "top": 0.13559322033898305,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.29508196721311475,
+                "footRight": 0.39344262295081966
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+              "x": 427,
+              "y": 885,
+              "w": 61,
+              "h": 59,
+              "cx": 30,
+              "bottom": 55,
+              "top": 7,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09836065573770492,
+                "right": 0.8360655737704918,
+                "top": 0.15254237288135594,
+                "bottom": 0.9322033898305084,
+                "footLeft": 0.2786885245901639,
+                "footRight": 0.6885245901639344
+              }
+            }
+          ],
+          "cx": 30,
+          "bottom": 55,
+          "top": 7,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/amanda-aa9309de99ba.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "amanda",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

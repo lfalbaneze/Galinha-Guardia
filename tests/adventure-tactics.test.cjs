@@ -80,8 +80,9 @@ test('nearby foxes take turns and leave recovery before the next warning', () =>
     Object.assign(c,{x:1100,y:800,hidden:false,invulnerable:0});FoxSystem.update(state,.05);`);
   assert.equal(h.run('a.mode'), 'warning');
   assert.equal(h.run('b.mode'), 'hidden');
-  h.run(`c.y=890;var overlap=false;
+  h.run(`var overlap=false,dodged=false;
     for(let i=0;i<50&&a.mode!=='rest';i++){
+      if(a.mode==='dash'&&!dodged){c.y=890;dodged=true;}
       FoxSystem.update(state,.05);
       overlap ||= state.entities.foxes.filter(f=>['warning','dash'].includes(f.mode)).length>1;
     }`);

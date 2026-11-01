@@ -2,7 +2,8 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createGame } = require('./helpers.cjs');
 
-function rescueAll(run) {
+function rescueAll(run, hardcore = false) {
+  if (hardcore) run("difficultySelect.value='hardcore';resetGame();");
   run(`for (const animal of [...state.entities.chicks, ...state.entities.animals].filter(a => !a.rescued)) {
     animal.discovered=true;
     state.entities.chicken.x = animal.x; state.entities.chicken.y = animal.y; updateGame(0.016);
@@ -26,7 +27,8 @@ test('all twelve friends and six chicks start a protected finale and award the b
 
 test('the complete epilogue renders every stage, conceals all contact, then celebrates and persists victory', () => {
   const { run, elements } = createGame();
-  rescueAll(run);
+  rescueAll(run, true);
+  const score = run('state.score');
   const stages = new Set();
   for (let i = 0; i < 400; i++) {
     run('updateGame(0.05); renderGame();');
@@ -44,12 +46,12 @@ test('the complete epilogue renders every stage, conceals all contact, then cele
   assert.equal(run('GameManager.read().phase'), 'won');
   assert.equal(elements.get('endScreen').hidden, false);
   assert.equal(elements.get('endEyebrow').textContent, 'MISSÃO CONCLUÍDA');
-  assert.equal(run('state.score'), 2550);
+  assert.equal(run('state.score'), score);
 });
 
 test('the entire family shows anger before the rush, then the wolf cries for mother before fleeing', () => {
   const { run } = createGame();
-  rescueAll(run);
+  rescueAll(run, true);
   run('state.cutscene.time=EndGameSequence.timing.circle+0.5; updateGame(0.01); renderGame();');
   assert.equal(run('state.cutscene.stage'), 'circle');
   assert.equal(run('state.cutscene.attackers.every(a=>a.ref.mood === "angry")'), true);
@@ -91,10 +93,10 @@ test('menu pauses both gameplay and the epilogue and resume preserves its clock'
 
 test('the family clears an exit lane so the fleeing wolf face is visible', () => {
   const { run } = createGame();
-  rescueAll(run);
+  rescueAll(run, true);
   run('for(let i=0;i<285;i++) updateGame(0.05);');
   assert.equal(run('state.cutscene.stage'), 'flee');
-  assert.equal(run('state.cutscene.attackers.length'), 18);
+  assert.equal(run('state.cutscene.attackers.length'), 22);
   assert.equal(run(`state.cutscene.attackers.some(({ref}) =>
     Math.abs(ref.x-state.entities.wolf.x)<64 && Math.abs(ref.y-state.entities.wolf.y)<65)`), false);
   assert.equal(run('state.entities.chicks.every(c=>c.y<145 && c.x>270 && c.x<630)'), true);
@@ -137,7 +139,7 @@ test('real bootstrap restores correct HUD and menu, and victory reload cannot du
 
 test('cinematic poses stay visual and reduced motion removes acrobatics without skipping victory', () => {
   const { run } = createGame(() => .5, { reducedMotion: true });
-  rescueAll(run);
+  rescueAll(run, true);
   run('for(let i=0;i<223;i++)updateGame(.05);');
   assert.equal(run('state.cutscene.stage'), 'dizzy');
   assert.equal(run('EndGameSequence.pose(state,state.entities.wolf).rotation || 0'), 0);
@@ -154,7 +156,8 @@ test('cinematic poses stay visual and reduced motion removes acrobatics without 
 test('the fleeing wolf speech follows him and leaves with him in desktop and portrait scenes',()=>{
   for(const reducedMotion of [false,true])for(const [width,height]of [[900,520],[600,1100]]){
     const {run}=createGame(()=>.5,{reducedMotion});
-    run(`for(const a of state.entities.animals)GameManager.rescue(state,a);GameManager.win(state);
+    run(`difficultySelect.value='hardcore';resetGame();
+      for(const a of state.entities.animals)GameManager.rescue(state,a);GameManager.win(state);
       canvas.width=${width};canvas.height=${height};var words=[];
       ctx.fillText=(text,x,y)=>words.push({text,x,y});
       state.cutscene.time=14.35;EndGameSequence.update(state,0);EndGameSequence.draw(state);`);

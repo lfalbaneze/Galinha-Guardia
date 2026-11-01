@@ -1,12 +1,13 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const {createCanvas,loadImage}=require('@napi-rs/canvas');
+const statics=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../assets/shuffle/chaos-111/statics.json'),'utf8'));
 
-test('all powers, fusions and pickups use forty distinct padded PixelLab catalog sprites',async()=>{
+test('all powers, fusions and pickups use forty distinct padded ComfyUI catalog sprites',async()=>{
   const S=require('../shuffle/survival.js'),root=path.resolve(__dirname,'..');
-  const manifest=JSON.parse(fs.readFileSync(path.join(root,'assets/shuffle/power-catalog.json'),'utf8'));
+  const manifest=statics.catalog;
   const ids=[...Object.keys(S.POWERS),'milk','xp',...Object.keys(S.FUSIONS).map(id=>'fusion-'+id)];
-  assert.equal(manifest.provider,'PixelLab');assert.deepEqual(Object.keys(manifest.cells),ids);
+  assert.equal(manifest.provider,'comfyui');assert.deepEqual(Object.keys(manifest.cells),ids);
   const fx=vm.runInNewContext(fs.readFileSync(path.join(root,'shuffle/effects.js'),'utf8')+';ShuffleFX');
   const atlas=await loadImage(path.join(root,manifest.source));fx.setCatalogSheet(atlas,ids);
   assert.throws(()=>fx.setCatalogSheet({width:1,height:1},ids),/Atlas/);
@@ -52,13 +53,14 @@ test('every hero and enemy has two dedicated, distinct offline result poses',asy
   }
 });
 
-test('Sophis, crow and owl result poses preserve their installed PixelLab pixels and transparent margins',async()=>{
+test('native result poses preserve their installed pixels and transparent margins',async()=>{
   const {createHash}=require('node:crypto'),root=path.resolve(__dirname,'..');
   const manifest=JSON.parse(fs.readFileSync(path.join(root,'assets/shuffle/results/manifest.json'),'utf8'));
   const provenance=JSON.parse(fs.readFileSync(path.join(root,'assets/shuffle/results/atlas-poses.json'),'utf8'));
-  assert.deepEqual(Object.keys(provenance).sort(),['enemy-amanda','enemy-crow','enemy-owl']);
+  const farm=Object.entries(require('../shuffle/survival.js').ENEMIES).filter(([,enemy])=>enemy.farm).map(([id])=>id);
+  assert.deepEqual(Object.keys(provenance).sort(),['amanda','crow','owl',...farm].map(id=>'enemy-'+id).sort());
   for(const [id,pair]of Object.entries(provenance))for(const [outcome,pose]of Object.entries(pair)){
-    const meta=JSON.parse(fs.readFileSync(path.join(root,'assets/sprites/pixellab-108/meta',id.slice(6)+'.json'),'utf8'));
+    const meta=JSON.parse(fs.readFileSync(path.join(root,'assets/sprites/chaos-112/meta',id.slice(6)+'.json'),'utf8'));
     assert.equal(pose.provider,'PixelLab');assert.equal(pose.method,'installed-atlas-frame');
     assert.equal(pose.source,meta.definition.source);assert.equal(meta.definition.provider,'pixellab');
     const source=fs.readFileSync(path.join(root,pose.source));
@@ -75,12 +77,9 @@ test('Sophis, crow and owl result poses preserve their installed PixelLab pixels
   }
 });
 
-test('every Shuffle portrait uses its own installed animated PixelLab character atlas',async()=>{
+test('every Shuffle portrait uses its own installed animated character atlas',async()=>{
   const S=require('../shuffle/survival.js'),root=path.resolve(__dirname,'..');
-  const source=fs.readFileSync(path.join(root,'systems/pixellab-art-data.js'),'utf8'),globals={};
-  for(const [,name]of source.matchAll(/Object\.assign\((\w+)/g))globals[name]={};
-  const context=vm.createContext(globals);vm.runInContext(source,context);
-  const art=vm.runInContext(fs.readFileSync(path.join(root,'systems/character-art.js'),'utf8')+';CharacterArt',context);
+  const art=await require('../scripts/sprite-loader.cjs').loadArt('chaos');
   const actors=[...Object.keys(S.HEROES).map(skin=>['chicken',{skin}]),...Object.keys(S.ENEMIES).map(id=>[id,{}])];
   for(const [id,options]of actors){
     for(const mood of ['happy','sad']){
@@ -98,10 +97,10 @@ test('every Shuffle portrait uses its own installed animated PixelLab character 
   }
 });
 
-test('six PixelLab items render distinct complete transparent sprites in world and HUD',async()=>{
+test('six ComfyUI items render distinct complete transparent sprites in world and HUD',async()=>{
   const root=path.resolve(__dirname,'..');
   const fx=vm.runInNewContext(fs.readFileSync(path.join(root,'shuffle/effects.js'),'utf8')+';ShuffleFX');
-  const atlas=await loadImage(path.join(root,'assets/shuffle/items-pixel.png'));
+  const atlas=await loadImage(path.join(root,statics.items.source));
   fx.setItemSheet(atlas);
   assert.throws(()=>fx.setItemSheet({width:1,height:1}),/Atlas/);
   const signatures=new Set();
@@ -124,7 +123,7 @@ test('six PixelLab items render distinct complete transparent sprites in world a
 
 test('eight new power sprites and three scenery sprites are distinct, padded and actually rendered',async()=>{
   const root=path.resolve(__dirname,'..'),fx=vm.runInNewContext(fs.readFileSync(path.join(root,'shuffle/effects.js'),'utf8')+';ShuffleFX');
-  const atlas=await loadImage(path.join(root,'assets/shuffle/chaos-powers.png'));fx.setPowerSheet(atlas);
+  const atlas=await loadImage(path.join(root,statics.powers.source));fx.setPowerSheet(atlas);
   assert.throws(()=>fx.setPowerSheet({width:1,height:1}),/Atlas/);
   const signatures=new Set();
   for(const kind of ['feather','lightning','water','carrot','claw','bark','honk','shield']){
@@ -134,7 +133,7 @@ test('eight new power sprites and three scenery sprites are distinct, padded and
     assert.ok(ink>80,kind);signatures.add(c.toBuffer('image/png').toString('base64'));
   }
   assert.equal(signatures.size,8);
-  const scenery=await loadImage(path.join(root,'assets/shuffle/chaos-scenery.png'));
+  const scenery=await loadImage(path.join(root,statics.scenery.source));
   for(let i=0;i<3;i++){
     const c=createCanvas(64,96),g=c.getContext('2d');g.drawImage(scenery,i*64,0,64,96,0,0,64,96);
     const px=g.getImageData(0,0,64,96).data;let ink=0,bottom=0;

@@ -13,9 +13,11 @@ with sync_playwright() as p:
         errors = []
         page.on('pageerror', lambda error: errors.append(str(error)))
         page.goto((ROOT / 'shuffle/index.html').as_uri() + '#survival')
+        page.wait_for_function('ShuffleDemo.ready')
+        page.locator('#startSurvival').click()
         page.wait_for_function('ShuffleDemo.ready && ShuffleDemo.run?.mode === "survival"')
         page.evaluate('''()=>{for(const id of ['fuinha','mula-sem-cabeca','curupira','boitata','cuca']){
-            const d=PixelLabArtData[id];if(!d)throw Error('Missing atlas '+id);
+            const d=SpriteData[id];if(!d)throw Error('Missing atlas '+id);
             for(const action of ['walk','run'])for(const direction of ['up','upright','right','downright','down','downleft','left','upleft']){
                 const pose=d.actions[action][direction];
                 if(!pose||pose.frames.length!==(id==='curupira'?8:12)||pose.flip)throw Error('Incomplete authored clip '+id+'/'+action+'/'+direction);
@@ -29,13 +31,13 @@ with sync_playwright() as p:
             r.spawnTimer=999;r.heroCooldown=999;r.powers={};r.player.invulnerable=999;
             window.gaitFrames={};window.footChecks=0;window.footErrors=[];
             const ink=new Map();
-            for(const [id,d] of Object.entries(PixelLabArtData))for(const poses of Object.values(d.actions))
+            for(const [id,d] of Object.entries(SpriteData))for(const poses of Object.values(d.actions))
                 for(const pose of Object.values(poses))for(const f of pose.frames)
                     ink.set(id+'/'+[f.x,f.y,f.w,f.h].join(','),f.grounding);
             const draw=CanvasRenderingContext2D.prototype.drawImage;
             CanvasRenderingContext2D.prototype.drawImage=function(image,...args){
                 if(this.canvas.id==='game' && args.length===8){
-                    const id=Object.keys(PixelLabArtData).find(id=>image.src?.endsWith(PixelLabArtData[id].source));
+                    const id=Object.keys(SpriteData).find(id=>image.src?.endsWith(SpriteData[id].source));
                     if(id){
                         (gaitFrames[id] ||= new Set()).add(args.slice(0,4).join(','));
                         const ground=ink.get(id+'/'+args.slice(0,4).join(','));

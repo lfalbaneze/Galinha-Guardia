@@ -8,6 +8,7 @@ const PenLife = (() => {
     inside: boolean; outside: number; cooldown: number; pending: number; wait: number;
     count: number; lastSpeaker: string; lastLine: string; topic: Topic; serial: number;
     comment: Comment | null;
+    event?:{point:Farm.Point;kind:'owl'|'fox'};lastEvent?:string;
   }
   const wanderers = new WeakMap<Farm.Goose, Wander>();
   const visits = new WeakMap<Farm.GameState, Visit>();
@@ -86,27 +87,16 @@ const PenLife = (() => {
     if (w.pause > 0) { w.pause = Math.max(0, w.pause - dt); return; }
     if (!w.target) w.target = newTarget(game, goose, w);
     if (!w.target) { w.pause = .4; return; }
-    const target = w.target, gap = distance(goose, target), speed = 48;
-    const travel = Math.min(gap, speed * dt), steps = Math.max(1, Math.ceil(travel / 4));
-    const dx = (target.x - goose.x) / Math.max(.01, gap), dy = (target.y - goose.y) / Math.max(.01, gap);
-    let blocked = false;
-    for (let i = 0; i < steps; i++) {
-      const next = { x: goose.x + dx * travel / steps, y: goose.y + dy * travel / steps };
-      const foot = { x: next.x + goose.hitbox.ox, y: next.y + goose.hitbox.oy }, current = getHitbox(goose);
-      const crowd = [...residents(game), game.entities.chicken];
-      blocked = !clearLeg(goose, next) || crowd.some(a => a !== goose &&
-        distance(foot, getHitbox(a)) < goose.hitbox.r + a.hitbox.r - 3 &&
-        distance(foot, getHitbox(a)) < distance(current, getHitbox(a)));
-      if (blocked) break;
-      goose.x = next.x; goose.y = next.y;
-    }
+    const target = w.target;
+    const result=WildlifeRules.navigate(goose,target,48,dt,p=>inside({...goose,...p},goose.hitbox.r+2),[...residents(game),game.entities.chicken]);
+    const blocked=result==='unreachable';
     const moved = distance(before, goose);
     goose.vx = (goose.x - before.x) / dt; goose.vy = (goose.y - before.y) / dt;
     goose.moving = moved > .01; goose.state = goose.moving ? 'walk' : 'idle';
     if (goose.moving) Player.face(goose, goose.vx, goose.vy);
     goose.anim = CharacterArt.advance(goose.anim, 'goose', moved, { speed: moved / dt });
     goose.areaId = getAreaAt(goose.x, goose.y).id;
-    if (blocked || distance(goose, target) < 2) {
+    if (blocked || distance(goose, target) < 2 || (WildlifeRules.diagnostics(goose)?.stalled||0)>=1.2) {
       w.target = null; w.pause = blocked ? .25 : .45 + random(w) * .8;
       goose.activity = random(w) > .5 ? 'preen' : 'forage';
     }
@@ -127,22 +117,31 @@ const PenLife = (() => {
     }
     const chicken = game.entities.chicken, entered = inside(chicken, 4), people = residents(game);
     if (!entered) {
-      visit.inside = false; visit.outside += dt; visit.pending = 0; visit.comment = null; visit.count = people.length;
+      visit.inside = false; visit.outside += dt; visit.pending = 0; visit.comment = null; visit.count = people.length;visit.event=undefined;
       return;
     }
     if ((!visit.inside && visit.outside >= 1) || people.length > visit.count) {
       visit.pending = 2; visit.wait = .4;
+      visit.event=undefined;
       const wolf = game.entities.wolf;
       visit.topic = distance(chicken, wolf) < 350 && !SunflowerSystem.concealed(game) &&
         DetectionSystem.hasLineOfSight(getHitbox(chicken), getHitbox(wolf)) ? 'wolf' : 'welcome';
     }
     visit.inside = true; visit.outside = 0; visit.count = people.length;
+    const owl=(game.entities.owls||[]).find(o=>(o.callTime||0)>0),fox=(game.entities.foxes||[]).find(f=>f.mode==='flee');
+    const event=owl||fox;
+    if(event&&visit.cooldown<=0&&!visit.comment&&!visit.pending&&people.some(a=>distance(a,event)<280&&
+      DetectionSystem.hasLineOfSight(getHitbox(a),getHitbox(event)))) {
+      const key=`${event.id}:${owl?owl.relocations:fox?.attempts}`;
+      if(visit.lastEvent!==key){visit.lastEvent=key;visit.event={point:{x:event.x,y:event.y},kind:owl?'owl':'fox'};visit.pending=1;visit.wait=.3;}
+    }
     visit.wait = Math.max(0, visit.wait - dt);
     if (!visit.pending || visit.wait > 0 || visit.cooldown > 0 || visit.comment || chicken.hidden) return;
     // Do not interrupt a rescue, a frightened friend or a nearby wolf's own reply.
     if ((game.animalSpeechCooldown || 0) > 0 || (game.rescueNotice?.time || 0) > 0 ||
       ((game.entities.wolf.speechTime || 0) > 0 && canSee(game, game.entities.wolf))) return;
     const available = people.filter(a => canSee(game, a) &&
+      (!visit!.event||distance(a,visit!.event.point)<280&&DetectionSystem.hasLineOfSight(getHitbox(a),visit!.event.point))&&
       !(a.type === 'animal' && a.speechTime > 0)).sort((a, b) => a.id.localeCompare(b.id));
     if (!available.length) return;
     const choices = available.filter(a => a.id !== visit!.lastSpeaker);
@@ -151,10 +150,12 @@ const PenLife = (() => {
     const species = speaker.type === 'goose' ? 'goose' : speaker.species;
     const topic = visit.pending === 2 ? visit.topic : 'welcome';
     const lines = (jokes[species] || jokes.pig)[topic];
-    const text = lines.find((line, i) => i === visit!.serial % lines.length && line !== visit!.lastLine) ||
+    const text = visit.event?(visit.event.kind==='owl'?'Uí-ó! A vizinha virou despertador!':'A raposa pediu licença pro lobo!'):
+      lines.find((line, i) => i === visit!.serial % lines.length && line !== visit!.lastLine) ||
       lines.find(line => line !== visit!.lastLine) || lines[0];
     visit.comment = { speaker, text, remaining: 3.8 };
     visit.pending--; visit.cooldown = 11; visit.serial++; visit.lastSpeaker = speaker.id; visit.lastLine = text;
+    visit.event=undefined;
   }
   function current(game: Farm.GameState): Readonly<Comment> | null { return visits.get(game)?.comment || null; }
   function draw(game: Farm.GameState): void {

@@ -9,11 +9,15 @@ const CharacterArt = (() => {
     astronaut: Object.freeze({ name: 'Pipoca', species: 'rabbit', sprite: 'skin-pipoca', description: 'Pipoca, o coelho de lenço verde e orelha dobrada.' }),
     robocop: Object.freeze({ name: 'Stella', species: 'cat', sprite: 'skin-amora', description: 'Stella, a gata de laço lilás e patinhas de meia.' }),
     priest: Object.freeze({ name: 'Paçoca', species: 'dog', sprite: 'skin-pacoca', description: 'Paçoca, o vira-lata caramelo de lenço vermelho.' }),
-    goose: Object.freeze({ name: 'Gumercindo', species: 'goose', sprite: 'skin-gumercindo', description: 'Gumercindo, o ganso cinzento de lenço xadrez.' })
+    goose: Object.freeze({ name: 'Gumercindo', species: 'goose', sprite: 'skin-gumercindo', description: 'Gumercindo, o ganso cinzento de lenço xadrez.' }),
+    goat: Object.freeze({ name: 'Serrano', species: 'goat', variant: 'reward', description: 'Serrano, bode de chifres grandes e curvos, chapéu de palha encaixado entre eles e lenço verde.' }),
+    turkey: Object.freeze({ name: 'Valente', species: 'turkey', variant: 'reward', description: 'Valente, peru de penas azul-petróleo, chapéu marinho e lenço vermelho.' }),
+    owl: Object.freeze({ name: 'Luar', species: 'owl', variant: 'reward', description: 'Luar, coruja de plumagem violeta, olhos âmbar e laço lilás.' }),
+    pony: Object.freeze({ name: 'Trovão', species: 'horse', variant: 'reward', description: 'Trovão, pônei prateado de crina escura, chapéu vinho e lenço vermelho.' })
   });
   const species = Object.freeze(Object.keys(SpriteData));
   const floatSprite = {src:'assets/sprites/sources/lifebuoy.png',crop:[304,196,928,632]};
-  const sources = Object.freeze([...new Set(species.flatMap(s => Object.values(SpriteData[s].actions || {walk:SpriteData[s].poses}).flatMap(poses=>Object.values(poses))
+  const sources = Object.freeze([...new Set(species.flatMap(s => [SpriteData[s], ...Object.values(SpriteData[s].variants || {})]).flatMap(definition => Object.values(definition.actions || {walk:definition.poses}).flatMap(poses=>Object.values(poses))
     .flatMap(p => p.frames.map(f => f.src))).concat(floatSprite.src))]);
   const images = new Map();
   // World pixels per complete gait cycle. Large animals take longer strides;
@@ -43,7 +47,9 @@ const CharacterArt = (() => {
     // stride drove the hen through seven complete cycles each second at full speed.
     const speed=Number.isFinite(options.speed)?Math.max(0,options.speed):0;
     const extension=1+Math.max(0,speed-85)/150;
-    return anim + Math.max(0, Number.isFinite(traveled) ? traveled : 0) * 4 / ((strides[identity] || 40)*extension);
+    const player=name==='chicken'?frameFor(name,options):null;
+    const size=player?player.scale/player.definition.scale:1;
+    return anim + Math.max(0, Number.isFinite(traveled) ? traveled : 0) * 4 / ((strides[identity] || 40)*size*extension);
   }
   let pending = null, loading = false, errors = [];
   function browserImage(src) {
@@ -74,7 +80,8 @@ const CharacterArt = (() => {
     const appearance = name === 'chicken' ? appearances[options.skin] || appearances.classic : null;
     // Identity controls voices and swimming; the playable art has its own sheet.
     const spriteName = appearance?.sprite || appearance?.species || name;
-    const definition = SpriteData[spriteName];
+    const base = SpriteData[spriteName];
+    const definition = base?.variants?.[appearance?.variant || options.variant] || base;
     if (!definition) return null;
     const requested = options.direction || (options.facing < 0 ? 'left' : 'right');
     const direction = definition.poses[requested] ? requested : 'down';
@@ -98,15 +105,11 @@ const CharacterArt = (() => {
     const frontLow = direction === 'down' && ['wolf', 'cow', 'pig'].includes(name);
     const headX = side * pose.width * scale * .28;
     const headY = top + (14 - top) * (frontLow ? .66 : .3);
-    if (mood === 'angry' || mood === 'furious') {
+    if ((mood === 'angry' || mood === 'furious') && name !== 'wolf') {
       const x = headX - 9, y = top - 7;
       c.strokeStyle = '#ad422d'; c.lineWidth = 2; c.beginPath();
       c.moveTo(x - 4, y); c.lineTo(x, y); c.lineTo(x, y + 4);
       c.moveTo(x + 4, y - 4); c.lineTo(x + 4, y); c.lineTo(x + 8, y); c.stroke();
-      if (mood === 'furious') {
-        c.strokeStyle = '#fff4dc'; c.lineWidth = 3;
-        for (const s of [-1, 1]) { c.beginPath(); c.moveTo(headX + s * 16, headY); c.quadraticCurveTo(headX + s * 24, headY - 5, headX + s * 19, headY - 11); c.stroke(); }
-      }
     } else if (mood === 'crying') {
       for (const s of [-1, 1]) {
         const fall = ((options.anim || 0) * 6 + (s + 1) * 2) % 11;

@@ -88,7 +88,8 @@ for (const difficulty of ['easy','normal','hard','hardcore']) {
     assert.ok(result.distance>5000,'crossed multiple real farm areas');
     assert.ok(result.maxStall<3,`route stuck for ${result.maxStall}s`);
     assert.equal(result.minStamina,0,'sprint exhaustion exercised');
-    assert.ok(result.restFrames>0,'friend fatigue/recovery exercised');
+    // The easy route can finish before a friend needs its first rest.
+    if(difficulty!=='easy')assert.ok(result.restFrames>0,'friend fatigue/recovery exercised');
     assert.ok(result.maxHunger>0 && result.maxHunger<=1);
     assert.ok(['win_cutscene','lose'].includes(result.phase),'adventure reached a valid terminal transition');
     if(result.phase==='win_cutscene')assert.equal(result.rescues,12);

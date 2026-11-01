@@ -1,0 +1,3127 @@
+{
+  "id": "chick",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+    "width": 256,
+    "height": 528,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 0,
+            "y": 264,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 24,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.875,
+              "top": 0.21212121212121213,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.34375,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 32,
+            "y": 264,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 24,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.875,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.34375,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 64,
+            "y": 264,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 24,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.84375,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.3125,
+              "footRight": 0.6875
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 96,
+            "y": 264,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 24,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8181818181818182,
+              "footLeft": 0.34375,
+              "footRight": 0.6875
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 128,
+            "y": 264,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 24,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.78125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.375,
+              "footRight": 0.40625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 160,
+            "y": 264,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 24,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.78125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.375,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 192,
+            "y": 264,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 24,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.34375,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 224,
+            "y": 264,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 24,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.84375,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.34375,
+              "footRight": 0.65625
+            }
+          }
+        ],
+        "cx": 16,
+        "bottom": 29,
+        "top": 5,
+        "width": 24,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 0,
+            "y": 297,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.59375,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 32,
+            "y": 297,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.78125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.3125,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 64,
+            "y": 297,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.78125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.34375,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 96,
+            "y": 297,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.75,
+              "top": 0.15151515151515152,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.375,
+              "footRight": 0.46875
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 128,
+            "y": 297,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.75,
+              "top": 0.15151515151515152,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.40625,
+              "footRight": 0.53125
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 160,
+            "y": 297,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.40625,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 192,
+            "y": 297,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.78125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.5,
+              "footRight": 0.53125
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 224,
+            "y": 297,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.53125,
+              "footRight": 0.59375
+            }
+          }
+        ],
+        "cx": 16,
+        "bottom": 29,
+        "top": 5,
+        "width": 20,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 0,
+            "y": 330,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 18,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.46875,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 32,
+            "y": 330,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 18,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.46875,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 64,
+            "y": 330,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 18,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.5,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 96,
+            "y": 330,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 18,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.53125,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 128,
+            "y": 330,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 18,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.375,
+              "footRight": 0.53125
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 160,
+            "y": 330,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 18,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.40625,
+              "footRight": 0.5625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 192,
+            "y": 330,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 18,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.40625,
+              "footRight": 0.53125
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 224,
+            "y": 330,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 18,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.40625,
+              "footRight": 0.5625
+            }
+          }
+        ],
+        "cx": 16,
+        "bottom": 29,
+        "top": 5,
+        "width": 18,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 0,
+            "y": 363,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 6,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.34375,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 32,
+            "y": 363,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 6,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.375,
+              "footRight": 0.53125
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 64,
+            "y": 363,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 6,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.40625,
+              "footRight": 0.53125
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 96,
+            "y": 363,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 6,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.40625,
+              "footRight": 0.5625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 128,
+            "y": 363,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 6,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.4375,
+              "footRight": 0.5625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 160,
+            "y": 363,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 6,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.78125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.46875,
+              "footRight": 0.53125
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 192,
+            "y": 363,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 6,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.78125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.40625,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 224,
+            "y": 363,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 6,
+            "width": 20,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.78125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.34375,
+              "footRight": 0.625
+            }
+          }
+        ],
+        "cx": 16,
+        "bottom": 29,
+        "top": 6,
+        "width": 20,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 0,
+            "y": 396,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 23,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.84375,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.375,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 32,
+            "y": 396,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 23,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.84375,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.375,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 64,
+            "y": 396,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 23,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.125,
+              "right": 0.84375,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.375,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 96,
+            "y": 396,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 23,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.84375,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.40625,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 128,
+            "y": 396,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 23,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.40625,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 160,
+            "y": 396,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 23,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.78125,
+              "top": 0.15151515151515152,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.40625,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 192,
+            "y": 396,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 23,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.84375,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.375,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 224,
+            "y": 396,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 23,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15625,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.3125,
+              "footRight": 0.65625
+            }
+          }
+        ],
+        "cx": 16,
+        "bottom": 29,
+        "top": 5,
+        "width": 23,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 0,
+            "y": 429,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 19,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.5,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 32,
+            "y": 429,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 19,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.78125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.46875,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 64,
+            "y": 429,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 19,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.4375,
+              "footRight": 0.5625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 96,
+            "y": 429,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 19,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.46875,
+              "footRight": 0.53125
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 128,
+            "y": 429,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 19,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.5,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 160,
+            "y": 429,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 19,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8181818181818182,
+              "footLeft": 0.4375,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 192,
+            "y": 429,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 19,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.53125,
+              "footRight": 0.5625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 224,
+            "y": 429,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 5,
+            "width": 19,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.5625,
+              "footRight": 0.59375
+            }
+          }
+        ],
+        "cx": 16,
+        "bottom": 29,
+        "top": 5,
+        "width": 19,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 0,
+            "y": 462,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 17,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.40625,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 32,
+            "y": 462,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 17,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.75,
+              "top": 0.15151515151515152,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.375,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 64,
+            "y": 462,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 17,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.78125,
+              "top": 0.15151515151515152,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.40625,
+              "footRight": 0.46875
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 96,
+            "y": 462,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 17,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.78125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.40625,
+              "footRight": 0.46875
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 128,
+            "y": 462,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 17,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.4375,
+              "footRight": 0.46875
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 160,
+            "y": 462,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 17,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.75,
+              "top": 0.15151515151515152,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.46875,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 192,
+            "y": 462,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 17,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.75,
+              "top": 0.15151515151515152,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.5,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 224,
+            "y": 462,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 17,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.25,
+              "right": 0.75,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.46875,
+              "footRight": 0.59375
+            }
+          }
+        ],
+        "cx": 16,
+        "bottom": 29,
+        "top": 4,
+        "width": 17,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 0,
+            "y": 495,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 21,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.375,
+              "footRight": 0.40625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 32,
+            "y": 495,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 21,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.34375,
+              "footRight": 0.625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 64,
+            "y": 495,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 21,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.8125,
+              "top": 0.15151515151515152,
+              "bottom": 0.8181818181818182,
+              "footLeft": 0.375,
+              "footRight": 0.65625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 96,
+            "y": 495,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 21,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21875,
+              "right": 0.8125,
+              "top": 0.15151515151515152,
+              "bottom": 0.8181818181818182,
+              "footLeft": 0.40625,
+              "footRight": 0.59375
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 128,
+            "y": 495,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 21,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.78125,
+              "top": 0.12121212121212122,
+              "bottom": 0.8181818181818182,
+              "footLeft": 0.40625,
+              "footRight": 0.5625
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 160,
+            "y": 495,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 21,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.78125,
+              "top": 0.15151515151515152,
+              "bottom": 0.8484848484848485,
+              "footLeft": 0.40625,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 192,
+            "y": 495,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 21,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.8125,
+              "top": 0.15151515151515152,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.4375,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+            "x": 224,
+            "y": 495,
+            "w": 32,
+            "h": 33,
+            "cx": 16,
+            "bottom": 29,
+            "top": 4,
+            "width": 21,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1875,
+              "right": 0.8125,
+              "top": 0.18181818181818182,
+              "bottom": 0.8787878787878788,
+              "footLeft": 0.4375,
+              "footRight": 0.53125
+            }
+          }
+        ],
+        "cx": 16,
+        "bottom": 29,
+        "top": 4,
+        "width": 21,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 0,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 22,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.84375,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.34375,
+                "footRight": 0.65625
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 6,
+          "width": 22,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 33,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.5,
+                "footRight": 0.59375
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 6,
+          "width": 19,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 66,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 17,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.46875,
+                "footRight": 0.59375
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 6,
+          "width": 17,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 99,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.34375,
+                "footRight": 0.5
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 6,
+          "width": 19,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 132,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 23,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.84375,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.3125,
+                "footRight": 0.6875
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 6,
+          "width": 23,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 165,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 18,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.5,
+                "footRight": 0.65625
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 6,
+          "width": 18,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 198,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 17,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.40625,
+                "footRight": 0.53125
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 6,
+          "width": 17,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 231,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.40625,
+                "footRight": 0.5
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 6,
+          "width": 19,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 264,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 24,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.875,
+                "top": 0.21212121212121213,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.34375,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 32,
+              "y": 264,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 24,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.875,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.34375,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 64,
+              "y": 264,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 24,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.84375,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.3125,
+                "footRight": 0.6875
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 96,
+              "y": 264,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 24,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8181818181818182,
+                "footLeft": 0.34375,
+                "footRight": 0.6875
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 128,
+              "y": 264,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 24,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.375,
+                "footRight": 0.40625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 160,
+              "y": 264,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 24,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.375,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 192,
+              "y": 264,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 24,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.34375,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 224,
+              "y": 264,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 24,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.84375,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.34375,
+                "footRight": 0.65625
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 5,
+          "width": 24,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 297,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.59375,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 32,
+              "y": 297,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.3125,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 64,
+              "y": 297,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.34375,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 96,
+              "y": 297,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.75,
+                "top": 0.15151515151515152,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.375,
+                "footRight": 0.46875
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 128,
+              "y": 297,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.75,
+                "top": 0.15151515151515152,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.40625,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 160,
+              "y": 297,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.40625,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 192,
+              "y": 297,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.5,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 224,
+              "y": 297,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.53125,
+                "footRight": 0.59375
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 5,
+          "width": 20,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 330,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 18,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.46875,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 32,
+              "y": 330,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 18,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.46875,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 64,
+              "y": 330,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 18,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.5,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 96,
+              "y": 330,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 18,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.53125,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 128,
+              "y": 330,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 18,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.375,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 160,
+              "y": 330,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 18,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.40625,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 192,
+              "y": 330,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 18,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.40625,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 224,
+              "y": 330,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 18,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.40625,
+                "footRight": 0.5625
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 5,
+          "width": 18,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 363,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.34375,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 32,
+              "y": 363,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.375,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 64,
+              "y": 363,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.40625,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 96,
+              "y": 363,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.40625,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 128,
+              "y": 363,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.4375,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 160,
+              "y": 363,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.46875,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 192,
+              "y": 363,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.40625,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 224,
+              "y": 363,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 6,
+              "width": 20,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.34375,
+                "footRight": 0.625
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 6,
+          "width": 20,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 396,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 23,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.84375,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.375,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 32,
+              "y": 396,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 23,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.84375,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.375,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 64,
+              "y": 396,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 23,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.125,
+                "right": 0.84375,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.375,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 96,
+              "y": 396,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 23,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.84375,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.40625,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 128,
+              "y": 396,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 23,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.40625,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 160,
+              "y": 396,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 23,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.78125,
+                "top": 0.15151515151515152,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.40625,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 192,
+              "y": 396,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 23,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.84375,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.375,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 224,
+              "y": 396,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 23,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15625,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.3125,
+                "footRight": 0.65625
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 5,
+          "width": 23,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 429,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.5,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 32,
+              "y": 429,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.46875,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 64,
+              "y": 429,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.4375,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 96,
+              "y": 429,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.46875,
+                "footRight": 0.53125
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 128,
+              "y": 429,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.5,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 160,
+              "y": 429,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8181818181818182,
+                "footLeft": 0.4375,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 192,
+              "y": 429,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.53125,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 224,
+              "y": 429,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 5,
+              "width": 19,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.5625,
+                "footRight": 0.59375
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 5,
+          "width": 19,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 462,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 17,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.40625,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 32,
+              "y": 462,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 17,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.15151515151515152,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.375,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 64,
+              "y": 462,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 17,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.78125,
+                "top": 0.15151515151515152,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.40625,
+                "footRight": 0.46875
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 96,
+              "y": 462,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 17,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.78125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.40625,
+                "footRight": 0.46875
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 128,
+              "y": 462,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 17,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.4375,
+                "footRight": 0.46875
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 160,
+              "y": 462,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 17,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.15151515151515152,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.46875,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 192,
+              "y": 462,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 17,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.15151515151515152,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.5,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 224,
+              "y": 462,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 17,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.75,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.46875,
+                "footRight": 0.59375
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 4,
+          "width": 17,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 0,
+              "y": 495,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 21,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.375,
+                "footRight": 0.40625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 32,
+              "y": 495,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 21,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.34375,
+                "footRight": 0.625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 64,
+              "y": 495,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 21,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.8125,
+                "top": 0.15151515151515152,
+                "bottom": 0.8181818181818182,
+                "footLeft": 0.375,
+                "footRight": 0.65625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 96,
+              "y": 495,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 21,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21875,
+                "right": 0.8125,
+                "top": 0.15151515151515152,
+                "bottom": 0.8181818181818182,
+                "footLeft": 0.40625,
+                "footRight": 0.59375
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 128,
+              "y": 495,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 21,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.78125,
+                "top": 0.12121212121212122,
+                "bottom": 0.8181818181818182,
+                "footLeft": 0.40625,
+                "footRight": 0.5625
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 160,
+              "y": 495,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 21,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.78125,
+                "top": 0.15151515151515152,
+                "bottom": 0.8484848484848485,
+                "footLeft": 0.40625,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 192,
+              "y": 495,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 21,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.8125,
+                "top": 0.15151515151515152,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.4375,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+              "x": 224,
+              "y": 495,
+              "w": 32,
+              "h": 33,
+              "cx": 16,
+              "bottom": 29,
+              "top": 4,
+              "width": 21,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1875,
+                "right": 0.8125,
+                "top": 0.18181818181818182,
+                "bottom": 0.8787878787878788,
+                "footLeft": 0.4375,
+                "footRight": 0.53125
+              }
+            }
+          ],
+          "cx": 16,
+          "bottom": 29,
+          "top": 4,
+          "width": 21,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/chick-873c937fbc04.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "chick",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

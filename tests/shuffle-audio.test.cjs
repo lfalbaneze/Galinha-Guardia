@@ -1,5 +1,18 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const S=require('../shuffle/survival.js');
+test('the browser adapter uses enemy health to keep secret-boss music through pause and restore it on defeat',()=>{
+  const fs=require('node:fs'),vm=require('node:vm');
+  const source=fs.readFileSync(require('node:path').join(__dirname,'../shuffle/ui.js'),'utf8');
+  const body=source.slice(source.indexOf('  function syncAudio('),source.indexOf('  function unlockAudio('));
+  const controls={setAttribute(){}};
+  const c=vm.createContext({AudioSystem:{settings:{},status:{unlocked:true,failedClips:[]},reset(){},update(game){c.captured=game;}},
+    $:()=>controls,overlay:{hidden:true},powerSounds:{},audioRun:null,audioHp:0,audioSuspended:false,
+    heardEffects:new WeakSet(),run:{phase:'playing',hp:3,effects:[],enemies:[{isSecretBoss:true,health:2}]}});
+  vm.runInContext(body+';syncAudio()',c);assert.equal(c.captured.secretBossActive,true);
+  c.run.paused=true;vm.runInContext('syncAudio()',c);assert.equal(c.captured.secretBossActive,true);assert.equal(c.captured.phase,'paused');
+  c.run.enemies[0].health=0;vm.runInContext('syncAudio()',c);assert.equal(c.captured.secretBossActive,false);
+  c.run.enemies[0]={isSecretBoss:false,health:100};vm.runInContext('syncAudio()',c);assert.equal(c.captured.secretBossActive,false);
+});
 function arena(){
   const r=S.newRun(614);r.obstacles=[];r.layout.obstacles=r.obstacles;
   Object.assign(r.player,{x:560,y:360,invulnerable:99});

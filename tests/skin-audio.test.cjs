@@ -78,6 +78,31 @@ test('wolf, goose and fox hits use the equipped animal voice once, including aft
   }
 });
 
+test('new reward animals react with their own voices, including the owl',()=>{
+  const storage=new Map([[WARDROBE_KEY,JSON.stringify({version:2,best:6,selected:'classic',
+    unlocked:['classic','goat','turkey','owl','pony']})]]);
+  const h=harness(storage);start(h);
+  for(const [id,voice]of [['goat',/^animal-goat\.wav$/],['turkey',/^animal-turkey\.wav$/],
+    ['owl',/^owl-hoot(?:-2)?\.wav$/],['pony',/^animal-horse\.wav$/]]){
+    equip(h,id);const action=prepareHit(h,'wolf'),before=h.plays.length;
+    h.run(action);const calls=h.plays.slice(before).filter(p=>!p.loop);
+    assert.equal(calls.length,1);assert.match(calls[0].src.split('/').pop(),voice);
+  }
+});
+
+test('farm enemy warnings use native voices, distance attenuation and the existing repeat limit',()=>{
+  const h=harness(unlockedStorage());start(h);h.run('AudioSystem.update(state,.01);');
+  for(const id of ['chick','duck','pig','turkey','lamb','goat','donkey','sheep','horse','cow']){
+    const before=h.plays.length;
+    assert.equal(h.run(`AudioSystem.playEnemy('${id}','warn',{x:state.entities.chicken.x+40,y:state.entities.chicken.y})`),true);
+    const call=h.plays.slice(before).find(p=>!p.loop);assert.ok(call);
+    assert.match(call.src,new RegExp(id==='chick'?'chick(?:-2)?\\.wav$':'animal-'+id+'(?:-[23])?\\.wav$'));
+    assert.equal(h.run(`AudioSystem.playEnemy('${id}','attack',{x:state.entities.chicken.x+40,y:state.entities.chicken.y})`),false);
+    for(const player of h.players.filter(p=>!p.loop))player.onended?.();
+  }
+  assert.equal(h.run('AudioSystem.playEnemy("goat","warn",{x:state.entities.chicken.x+600,y:state.entities.chicken.y})'),false);
+});
+
 test('damage uses a reloaded appearance, yields to mute and pause, and clears ambient chatter', () => {
   const h = harness(unlockedStorage('robocop'), true); start(h);
   h.run(`AudioSystem.playAnimal('cow',{ambient:true});AudioSystem.playAnimal('pig',{ambient:true});`);
@@ -233,7 +258,7 @@ test('equipped skins and the theme preference survive reload and a new adventure
 });
 
 test('skin themes preserve rescue effects and lower the music during the wolf finale', () => {
-  const h = harness(unlockedStorage('punk')); start(h);
+  const h = harness(unlockedStorage('punk'));h.run("difficultySelect.value='hardcore';");start(h);
   rescueChicks(h, 1);
   const chickCalls = h.plays.filter(play => /chick(?:-2)?\.wav$/.test(play.src));
   assert.equal(chickCalls.length, 1);

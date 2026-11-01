@@ -10,7 +10,7 @@ const GooseSystem = (() => {
         const pressure = Math.min(2, game.lake?.active ? game.lake.misses : 0);
         return { territory: game.lake?.active ? LakeChallenge.radius : TERRITORY, alertRange: easy ? 135 : hard ? 190 : 165,
             warning: (easy ? 1.35 : hard ? .9 : 1.1) - pressure * .05,
-            chargeSpeed: game.settings.chickenSpeed * Math.min(1.22, (easy ? .95 : hard ? 1.12 : 1.04) + pressure * .04),
+            chargeSpeed: game.settings.chickenSpeed * Math.min(1.22, (easy ? .7 : hard ? 1.12 : 1.04) + pressure * .04),
             chargeSeconds: pressure === 2 ? .83 : .65, cooldown: game.lake?.active ? (easy ? 1.7 : hard ? 1.1 : 1.4) : easy ? 3.5 : hard ? 2.5 : 3 };
     }
     function clearLeg(from, to, margin = RADIUS + 1) {
@@ -121,8 +121,9 @@ const GooseSystem = (() => {
                         continue;
                     candidates.push(target);
                 }
-        const target = candidates.sort((a, b) => (distance(a, goose.home) * .35 + distance(a, observed)) -
-            (distance(b, goose.home) * .35 + distance(b, observed)))[0];
+        const score = (p) => -distance(p, observed) - distance(p, goose.home) * .35 +
+            Math.sin(Math.atan2(p.y - goose.y, p.x - goose.x) - angle) * side * 25;
+        const target = candidates.sort((a, b) => score(b) - score(a))[0];
         if (!target)
             return false;
         goose.mode = 'circle';
@@ -209,7 +210,11 @@ const GooseSystem = (() => {
         GameManager.save(game);
         return true;
     }
-    function advance(game, goose, target, amount, config, attacking = false) {
+    function advance(game, goose, target, amount, config, attacking = false, dt = .05) {
+        if (!attacking) {
+            const result = WildlifeRules.navigate(goose, target, amount / dt, dt, p => distance(p, goose.home) <= Math.max(config.territory, distance(goose, goose.home)) + .01, game.entities.animals || []);
+            return result === 'arrived' || result === 'unreachable';
+        }
         const dx = target.x - goose.x, dy = target.y - goose.y, length = Math.hypot(dx, dy);
         if (length < .01)
             return true;
@@ -254,6 +259,7 @@ const GooseSystem = (() => {
         return true;
     }
     function warn(game, goose, config) {
+        WildlifeRules.decide(goose, 'attack', 'alvo observado: anunciar direção antes do bote');
         const chicken = game.entities.chicken, round = game.lake?.active ? game.lake.misses : -1;
         const followup = goose.comboFollowup === true;
         goose.maneuver = undefined;
@@ -319,7 +325,7 @@ const GooseSystem = (() => {
     function goHome(game, goose, config, dt) {
         const route = goose.returnPath || (goose.returnPath = clearLeg(goose, goose.home) ? [] : [point(goose.anchor)]);
         const destination = route.length ? route[route.length - 1] : goose.home;
-        if (advance(game, goose, destination, game.lake?.completed ? 55 * dt : 115 * dt, config) && route.length)
+        if (advance(game, goose, destination, game.lake?.completed ? 55 * dt : 115 * dt, config, false, dt) && route.length)
             route.pop();
         return distance(goose, goose.home) < .1;
     }
@@ -359,6 +365,20 @@ const GooseSystem = (() => {
         goose.honkCooldown = Math.max(0, goose.honkCooldown - dt);
         goose.notice = Math.max(0, goose.notice - dt);
         goose.timer = Math.max(0, goose.timer - dt);
+        if (!game.lake?.active && !observedNow && goose.cooldown <= 0 && ['patrol', 'return'].includes(goose.mode)) {
+            const predator = [game.entities.wolf, ...(game.entities.foxes || [])].find(p => (p.type === 'wolf' ? p.mode !== 'frightened' && p.huntUnlockTimer <= 0 && !SunflowerSystem.concealed(game) : ['stalk', 'warning', 'dash'].includes(p.mode)) &&
+                distance(p, goose.home) < config.territory + 70 && DetectionSystem.hasLineOfSight(getHitbox(goose), getHitbox(p)));
+            if (predator) {
+                const angle = Math.atan2(predator.y - goose.home.y, predator.x - goose.home.x);
+                goose.target = { x: goose.home.x + Math.cos(angle) * 55, y: goose.home.y + Math.sin(angle) * 55 };
+                goose.mode = 'reposition';
+                goose.maneuver = 'predator';
+                goose.timer = 1.4;
+                goose.cooldown = 3;
+                WildlifeRules.decide(goose, 'guard', 'predador visto perto do território');
+                honk(game, goose);
+            }
+        }
         if (!game.lake?.active && ['patrol', 'approach', 'circle'].includes(goose.mode)) {
             if (observedNow && goose.cooldown <= 0)
                 defendHome(goose, chicken, config);
@@ -378,7 +398,7 @@ const GooseSystem = (() => {
                 goose.notice = 1;
             }
             else if (goose.timer <= 0) {
-                if (advance(game, goose, patrolTarget(goose), 38 * dt, config)) {
+                if (advance(game, goose, patrolTarget(goose), 38 * dt, config, false, dt)) {
                     goose.patrolIndex = (goose.patrolIndex + 1) % 8;
                     goose.timer = 1.1;
                     goose.activity = goose.patrolIndex % 3 === 0 ? 'preen' : goose.patrolIndex % 3 === 1 ? 'forage' : 'watch';
@@ -399,7 +419,7 @@ const GooseSystem = (() => {
                 const aim = { x: chicken.x + velocity.x * .3, y: chicken.y + velocity.y * .3 };
                 const leadGap = distance(goose, aim) || gap;
                 const target = { x: goose.x + (aim.x - goose.x) / leadGap * 60 * dt, y: goose.y + (aim.y - goose.y) / leadGap * 60 * dt };
-                advance(game, goose, target, 80 * dt, config);
+                advance(game, goose, target, 80 * dt, config, false, dt);
                 if (distance(before, goose) < .01 && !makeRoom(goose, point(chicken), config))
                     recover(goose, config);
             }
@@ -419,7 +439,9 @@ const GooseSystem = (() => {
                 goose.noticedPoint = point(game.entities.chicken);
                 Player.face(goose, goose.noticedPoint.x - goose.x, goose.noticedPoint.y - goose.y);
                 const velocity = goose.observedVelocity || { x: 0, y: 0 };
-                const flanking = (goose.attempts || 0) % 2 === 1 || !!goose.dodgeSide || Math.hypot(velocity.x, velocity.y) > 70;
+                const flankScore = .45 + ((goose.attempts || 0) % 2 === 1 ? .6 : 0) + (goose.dodgeSide ? .7 : 0) +
+                    Math.min(.5, Math.hypot(velocity.x, velocity.y) / 180);
+                const flanking = flankScore > 1;
                 if (goose.timer <= 0 && !(flanking && circle(goose, goose.noticedPoint, config)))
                     warn(game, goose, config);
             }
@@ -427,23 +449,35 @@ const GooseSystem = (() => {
         else if (goose.mode === 'circle') {
             if (!canApproach(game, goose, config))
                 recover(goose, config);
-            else if (advance(game, goose, goose.target, 75 * dt, config) || goose.timer <= 0 || distance(before, goose) < .01)
+            else if (advance(game, goose, goose.target, 75 * dt, config, false, dt) || goose.timer <= 0 || distance(before, goose) < .01)
                 warn(game, goose, config);
         }
         else if (goose.mode === 'reposition') {
-            if (goose.maneuver === 'search') {
+            if (goose.maneuver === 'predator') {
+                if (observedNow) {
+                    goose.mode = 'notice';
+                    goose.timer = .35;
+                    goose.maneuver = undefined;
+                }
+                else if (advance(game, goose, goose.target, 70 * dt, config, false, dt) || goose.timer <= 0) {
+                    goose.mode = 'patrol';
+                    goose.timer = .6;
+                    goose.maneuver = undefined;
+                }
+            }
+            else if (goose.maneuver === 'search') {
                 if (observedNow) {
                     goose.mode = 'approach';
                     goose.timer = 2.5;
                     goose.maneuver = undefined;
                 }
-                else if (goose.timer <= 0 || advance(game, goose, goose.target, 60 * dt, config) || distance(before, goose) < .01)
+                else if (goose.timer <= 0 || advance(game, goose, goose.target, 60 * dt, config, false, dt) || distance(before, goose) < .01)
                     recover(goose, config);
             }
             else if (game.entities.chicken.hidden || distance(game.entities.chicken, goose.home) > config.territory)
                 recover(goose, config);
             else {
-                const arrived = advance(game, goose, goose.target, (goose.maneuver === 'guard' ? 105 : 70) * dt, config);
+                const arrived = advance(game, goose, goose.target, (goose.maneuver === 'guard' ? 105 : 70) * dt, config, false, dt);
                 if (arrived) {
                     goose.mode = canNotice(game, goose, config) ? 'notice' : 'approach';
                     goose.timer = goose.mode === 'notice' ? .35 : 2.5;
@@ -649,12 +683,6 @@ const GooseSystem = (() => {
             ctx.fill();
             ctx.fillStyle = '#fff1be';
             ctx.fillText(line, x, y + 2, width - 18);
-            if (goose.mode === 'warning') {
-                ctx.fillStyle = '#243f32';
-                ctx.fillRect(x - width / 2 + 8, y + 16, width - 16, 5);
-                ctx.fillStyle = '#f4d28c';
-                ctx.fillRect(x - width / 2 + 9, y + 17, (width - 18) * clamp(1 - goose.timer / (goose.warningDuration || getConfig(game).warning), 0, 1), 3);
-            }
         }
         ctx.restore();
     }

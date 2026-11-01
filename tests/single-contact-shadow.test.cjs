@@ -8,7 +8,7 @@ const root = path.resolve(__dirname, '..');
 
 async function fixture() {
   const context = vm.createContext({ SpriteData: {}, PremiumWildlifeData: {} });
-  for (const file of ['sunlight', 'pixellab-art-data', 'character-art'])
+  for (const file of ['sunlight', 'pixellab-art-data', 'comfyui-art-data', 'character-art'])
     vm.runInContext(fs.readFileSync(path.join(root, 'systems', file + '.js'), 'utf8'), context);
   const sun = vm.runInContext('Sunlight', context), art = vm.runInContext('CharacterArt', context);
   sun.install(createCanvas);
@@ -64,17 +64,20 @@ test('actors cast one solar silhouette without a generic circular or oval shadow
   const { sun, art, data } = await fixture();
   const c = createCanvas(240, 240).getContext('2d');
   const ellipse = c.ellipse.bind(c), drawImage = c.drawImage.bind(c);
-  let footprints = 0, images = 0;
+  let footprints = 0, images = 0, projectedImages = 0;
   c.ellipse = (...args) => { footprints++; return ellipse(...args); };
   c.drawImage = (...args) => { images++; return drawImage(...args); };
+  const cast = sun.cast;
+  sun.cast = (...args) => { const before = images; const result = cast(...args); projectedImages += images - before; return result; };
   for (const name of Object.keys(data)) {
     for (const direction of art.directions) for (const moving of [false, true]) {
       for (const lightTime of [0, 42, 102]) {
-        c.clearRect(0, 0, 240, 240); footprints = images = 0;
+        c.clearRect(0, 0, 240, 240); footprints = images = projectedImages = 0;
         sun.begin(lightTime);
         art.draw(c, name, 120, 186, { direction, moving, anim: 1, mood: 'scared' });
         assert.equal(footprints, 0, `${name}/${direction}: forbidden oval shadow`);
-        assert.equal(images, 2, `${name}/${direction}: one projected silhouette and one body`);
+        assert.equal(images - projectedImages, 1, `${name}/${direction}: one body`);
+        assert.ok(projectedImages >= 1 && projectedImages <= 2, `${name}/${direction}: silhouette with its optional sole contact`);
         assert.equal(sun.inspect().casts, 1);
         sun.end();
       }

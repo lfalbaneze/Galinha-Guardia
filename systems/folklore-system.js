@@ -92,6 +92,9 @@ const FolkloreSystem = (() => {
             e.grace = 2;
             e.timer = 2;
             e.route = [];
+            e.attacks = 0;
+            e.followUp = false;
+            e.attackPoints = [];
             player.invulnerable = Math.max(player.invulnerable, 2);
             AudioSystem.playFolklore(e.species, 'warn', e);
             setStatus(`CHEFE SECRETO: ${cast[e.species].name}! Desvie dos ataques; chegue perto e use ${GameInput.label('interact')} quando aparecer ABERTURA. Você pode sair da região para recuar.`);
@@ -101,12 +104,13 @@ const FolkloreSystem = (() => {
             e.courage--;
             spawnBurst(e.x, e.y, cast[e.species].color, 14);
             AudioSystem.play('bonk', { volume: .6 });
-            e.mode = 'return';
+            e.mode = 'hunt';
             e.timer = 1.5;
             e.grace = 1;
             e.route = [];
             e.attackPoints = [];
             e.maneuver = undefined;
+            e.followUp = false;
             game.folkloreThreats = (game.folkloreThreats || []).filter(h => h.species !== e.species);
             if (e.courage <= 0) {
                 AudioSystem.playFolklore(e.species, 'defeat', e);
@@ -151,19 +155,19 @@ const FolkloreSystem = (() => {
         GameManager.save(game);
         return true;
     }
-    function threat(game, e, p, kind, vx = 0, vy = 0) {
+    function threat(game, e, p, kind, vx = 0, vy = 0, delay = 0) {
         const r = kind === 'roots' ? 30 : kind === 'fire' ? 19 : 7;
         if ((game.folkloreThreats?.length || 0) >= 32 || WildlifeRules.overlapsRefuge(p, r) || !WildlifeRules.clear(p, p, { ox: 0, oy: 0, r }))
             return;
-        game.folkloreThreats.push({ ...p, kind, species: e.species, arm: kind === 'roots' ? .95 : kind === 'fire' ? .6 : 0,
-            life: kind === 'spell' ? 2.5 : 3, vx, vy, r });
+        game.folkloreThreats.push({ ...p, kind, species: e.species, arm: (kind === 'roots' ? .95 : kind === 'fire' ? .6 : 0) + delay,
+            life: (kind === 'spell' || kind === 'ember' ? 2.5 : 3) + delay, vx, vy, r });
     }
-    function lane(from, to, hitbox) {
+    function lane(from, to, hitbox, home) {
         const length = distance(from, to);
         let end = point(from);
         for (let s = 5; s < length + 5; s += 5) {
             const ratio = Math.min(s / Math.max(1, length), 1), next = { x: from.x + (to.x - from.x) * ratio, y: from.y + (to.y - from.y) * ratio };
-            if (WildlifeRules.overlapsRefuge({ x: next.x + hitbox.ox, y: next.y + hitbox.oy }, hitbox.r) || !WildlifeRules.clear(end, next, hitbox))
+            if (home && distance(next, home) > 450 || WildlifeRules.overlapsRefuge({ x: next.x + hitbox.ox, y: next.y + hitbox.oy }, hitbox.r) || !WildlifeRules.clear(end, next, hitbox))
                 break;
             end = next;
         }
@@ -176,15 +180,23 @@ const FolkloreSystem = (() => {
         e.attackPoints = [];
         e.attacks = turn + 1;
         e.maneuver = undefined;
+        e.pattern = 'charge';
         if (e.species === 'curupira') {
+            e.pattern = turn % 3 === 2 ? 'root-ring' : 'roots';
             const cross = angle + (turn % 2 ? 0 : Math.PI / 2), spread = game.difficultyKey === 'easy' ? 125 : 110;
             const offsets = phase > 0 || hard ? [-spread, 0, spread] : [0];
-            e.attackPoints = offsets.map(offset => ({ x: player.x + Math.cos(cross) * offset, y: player.y + Math.sin(cross) * offset }))
+            const exit = [angle, angle + Math.PI / 2, angle - Math.PI / 2, angle + Math.PI].find(a => WildlifeRules.clear(player, { x: player.x + Math.cos(a) * 160, y: player.y + Math.sin(a) * 160 }, player.hitbox));
+            const points = e.pattern === 'root-ring' ? exit === undefined ? [] : Array.from({ length: 8 }, (_, i) => ({
+                x: player.x + Math.cos(exit + (i + 1) * Math.PI / 5) * 115, y: player.y + Math.sin(exit + (i + 1) * Math.PI / 5) * 115
+            })) : offsets.map(offset => ({ x: player.x + Math.cos(cross) * offset, y: player.y + Math.sin(cross) * offset }));
+            e.attackPoints = points
                 .filter(p => distance(p, e.home) < 420 && !WildlifeRules.overlapsRefuge(p, 30) && WildlifeRules.clear(p, p, { ox: 0, oy: 0, r: 30 }) &&
                 DetectionSystem.hasLineOfSight(getHitbox(e), p));
         }
-        else if (e.species === 'cuca') {
-            const offsets = turn % 2 ? [-.48, -.23, .23, .48] : phase > 0 || hard ? [-.5, -.25, 0, .25, .5] : [-.24, 0, .24];
+        else if (e.species === 'cuca' || e.species === 'mula-sem-cabeca' && turn % 3 === 1) {
+            e.pattern = e.species === 'cuca' ? 'spell-fan' : 'fire-fan';
+            const offsets = e.species === 'mula-sem-cabeca' ? (phase > 0 || hard ? [-.5, -.25, 0, .25, .5] : [-.3, 0, .3]) :
+                turn % 2 ? [-.48, -.23, .23, .48] : phase > 0 || hard ? [-.5, -.25, 0, .25, .5] : [-.24, 0, .24];
             e.attackPoints = offsets.map(offset => lane(e, { x: e.x + Math.cos(angle + offset) * 450 * scale,
                 y: e.y + Math.sin(angle + offset) * 450 * scale }, { ox: 0, oy: 0, r: 7 })).filter(p => distance(e, p) > 20);
         }
@@ -207,7 +219,7 @@ const FolkloreSystem = (() => {
             const reach = e.species === 'mula-sem-cabeca' ? 90 : 0;
             const predicted = { x: player.x + (speed ? player.vx / speed * lead : 0) + Math.cos(angle) * reach,
                 y: player.y + (speed ? player.vy / speed * lead : 0) + Math.sin(angle) * reach };
-            e.target = lane(e, predicted, e.hitbox);
+            e.target = lane(e, predicted, e.hitbox, e.species === 'mula-sem-cabeca' ? e.home : undefined);
         }
         e.mode = 'warning';
         e.route = [];
@@ -217,7 +229,12 @@ const FolkloreSystem = (() => {
         e.timer = e.warningDuration;
         Player.face(e, player.x - e.x, player.y - e.y);
         AudioSystem.playFolklore(e.species, 'warn', e);
-        setStatus(`${cast[e.species].name}: ${cast[e.species].hint}`);
+        setStatus(`${cast[e.species].name}: ${attackHint(e)}`);
+    }
+    function attackHint(e) {
+        return e.pattern === 'root-ring' ? 'CERCO DE RAÍZES! Saia pela abertura.' :
+            e.pattern === 'fire-fan' ? 'RAJADA DE FOGO! Desvie entre as chamas ou use as cercas.' :
+                e.followUp ? 'SEGUNDA INVESTIDA! Desvie para o lado.' : cast[e.species].hint;
     }
     function approach(game, e, scale, dt) {
         const p = game.entities.chicken, gap = distance(e, p), angle = Math.atan2(e.y - p.y, e.x - p.x);
@@ -235,6 +252,10 @@ const FolkloreSystem = (() => {
         move(e, e.maneuver || p, cast[e.species].speed * scale, dt);
     }
     function move(e, target, speed, dt, onStep) {
+        if (!onStep) {
+            WildlifeRules.navigate(e, target, speed, dt, p => !WildlifeRules.overlapsRefuge(p, e.hitbox.r) && distance(p, e.home) <= 450);
+            return;
+        }
         if (WildlifeRules.clear(e, target, e.hitbox))
             e.route = [];
         else {
@@ -260,7 +281,7 @@ const FolkloreSystem = (() => {
         dt = Math.min(.1, dt);
         const player = game.entities.chicken;
         const tempo = game.difficultyKey === 'easy' ? 1.2 : game.difficultyKey === 'hard' ? .95 : game.difficultyKey === 'hardcore' ? .9 : 1;
-        const scale = (game.difficultyKey === 'easy' ? .9 : 1) + Math.min(.3, game.rescuedCount * .018 +
+        const scale = (game.difficultyKey === 'easy' ? .65 : 1) + Math.min(.3, game.rescuedCount * .018 +
             (game.difficultyKey === 'hardcore' ? .1 : game.difficultyKey === 'hard' ? .05 : 0));
         for (const e of game.entities.folklore || []) {
             if (!artReady(e.species))
@@ -313,6 +334,7 @@ const FolkloreSystem = (() => {
                     e.routeTimer = 0;
                     e.attackPoints = [];
                     e.maneuver = undefined;
+                    e.followUp = false;
                 }
             }
             if (e.species === 'fuinha' && seen && !e.speechCounts?.appear)
@@ -325,19 +347,20 @@ const FolkloreSystem = (() => {
                 if (protectedPlayer(game)) {
                     e.mode = 'rest';
                     e.timer = 1;
+                    e.followUp = false;
+                    e.attackPoints = [];
                 }
                 else if (e.timer <= 0) {
                     AudioSystem.playFolklore(e.species, 'attack', e);
                     if (e.species === 'curupira') {
-                        for (const p of e.attackPoints || [e.target])
-                            threat(game, e, p, 'roots');
+                        (e.attackPoints || [e.target]).forEach((p, i) => threat(game, e, p, 'roots', 0, 0, e.pattern === 'root-ring' ? i * .08 : i * .16));
                         e.mode = 'rest';
                         e.timer = 3.2;
                     }
-                    else if (e.species === 'cuca') {
+                    else if (e.pattern === 'fire-fan' || e.species === 'cuca') {
                         for (const p of e.attackPoints || [e.target]) {
                             const a = Math.atan2(p.y - e.y, p.x - e.x);
-                            threat(game, e, e, 'spell', Math.cos(a) * 180 * scale, Math.sin(a) * 180 * scale);
+                            threat(game, e, e, e.pattern === 'fire-fan' ? 'ember' : 'spell', Math.cos(a) * 180 * scale, Math.sin(a) * 180 * scale);
                         }
                         e.mode = 'rest';
                         e.timer = 3;
@@ -353,25 +376,40 @@ const FolkloreSystem = (() => {
                 const from = point(e);
                 const speed = e.species === 'fuinha' ? 250 : e.species === 'boitata' ? 180 : 340;
                 const result = WildlifeRules.move(e, e.target, speed * scale * dt, () => hit(game, e, e.species, 18));
-                if (e.species === 'boitata' && distance(e, from) > .1 && e.trailTimer <= 0) {
+                if (['boitata', 'mula-sem-cabeca'].includes(e.species) && distance(e, from) > .1 && e.trailTimer <= 0) {
                     threat(game, e, e, 'fire');
-                    e.trailTimer = .38;
+                    e.trailTimer = e.species === 'boitata' ? .38 : .16;
                 }
                 if (e.species === 'boitata' && result === 'arrived' && (e.attackPoints?.length || 0) > 1) {
                     e.attackPoints.shift();
                     e.target = e.attackPoints[0];
                 }
                 if (e.timer <= 0 || distance(e, e.target) < 8 || distance(e, from) < .1 || player.invulnerable > 0) {
-                    if (!e.landed)
-                        say(game, e, 'miss');
-                    e.mode = 'rest';
-                    e.timer = secret(e) ? 3 : 1.4;
+                    if (e.species === 'mula-sem-cabeca' && e.courage < e.maxCourage && !e.followUp && seen && player.invulnerable <= 0 && distance(e, from) > .1) {
+                        const attacks = e.attacks;
+                        prepare(game, e, tempo, scale);
+                        e.attacks = attacks;
+                        e.followUp = true;
+                        e.pattern = 'charge';
+                        e.attackPoints = [];
+                        const a = Math.atan2(player.y - e.y, player.x - e.x);
+                        e.target = lane(e, { x: player.x + Math.cos(a) * 90, y: player.y + Math.sin(a) * 90 }, e.hitbox, e.home);
+                        setStatus(`${cast[e.species].name}: ${attackHint(e)}`);
+                    }
+                    else {
+                        if (!e.landed)
+                            say(game, e, 'miss');
+                        e.mode = 'rest';
+                        e.timer = secret(e) ? 3 : 1.4;
+                        e.followUp = false;
+                    }
                 }
             }
             else if (e.mode === 'rest') {
                 if (e.timer <= 0) {
-                    e.mode = 'return';
+                    e.mode = secret(e) && seen ? 'hunt' : 'return';
                     e.timer = .6;
+                    e.maneuver = undefined;
                 }
             }
             else if (!seen || e.mode === 'return') {
@@ -417,13 +455,13 @@ const FolkloreSystem = (() => {
             h.life -= dt;
             if (h.life <= 0)
                 return false;
-            if (h.kind === 'spell') {
+            if (h.kind === 'spell' || h.kind === 'ember') {
                 const next = { x: h.x + h.vx * dt, y: h.y + h.vy * dt };
                 if (!WildlifeRules.clear(h, next, { ox: 0, oy: 0, r: h.r }) || WildlifeRules.overlapsRefuge(next, h.r))
                     return false;
                 Object.assign(h, next);
             }
-            if (h.arm <= 0 && hit(game, h, h.species, h.r) && h.kind === 'spell')
+            if (h.arm <= 0 && hit(game, h, h.species, h.r) && (h.kind === 'spell' || h.kind === 'ember'))
                 return false;
             return true;
         });
@@ -462,7 +500,7 @@ const FolkloreSystem = (() => {
                 ctx.fillText('!', worldX(h.x), worldY(h.y) - 8);
                 continue;
             }
-            ctx.fillStyle = h.kind === 'roots' ? '#7fbb5760' : h.kind === 'fire' ? '#ff933777' : '#c18cff';
+            ctx.fillStyle = h.kind === 'roots' ? '#7fbb5760' : h.kind === 'fire' || h.kind === 'ember' ? '#ff933777' : '#c18cff';
             ctx.strokeStyle = cast[h.species].color;
             ctx.beginPath();
             ctx.arc(worldX(h.x), worldY(h.y), h.r, 0, Math.PI * 2);
@@ -472,11 +510,15 @@ const FolkloreSystem = (() => {
         for (const e of game.entities.folklore || []) {
             if (!e.active || e.mode !== 'warning')
                 continue;
-            const x = worldX(e.x), y = worldY(e.y) - cast[e.species].size * (secret(e) ? 1.2 : .65) - 12;
-            ctx.fillStyle = '#243528';
-            ctx.fillRect(x - 25, y, 50, 6);
-            ctx.fillStyle = cast[e.species].color;
-            ctx.fillRect(x - 24, y + 1, 48 * clamp(1 - e.timer / (e.warningDuration || 1), 0, 1), 4);
+            if (secret(e))
+                for (const p of e.attackPoints || []) {
+                    if (e.pattern !== 'roots' && e.pattern !== 'root-ring')
+                        continue;
+                    ctx.fillStyle = cast[e.species].color;
+                    ctx.font = 'bold 18px Trebuchet MS';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('!', worldX(p.x), worldY(p.y) - 8);
+                }
         }
         ctx.restore();
     }
@@ -546,6 +588,11 @@ const FolkloreSystem = (() => {
                     ctx.fillRect(x - 45, y + 7, 90, 7);
                     ctx.fillStyle = cast[e.species].color;
                     ctx.fillRect(x - 44, y + 8, 88 * e.courage / e.maxCourage, 5);
+                    if (e.mode === 'warning' && (e.pattern === 'root-ring' || e.pattern === 'fire-fan' || e.followUp)) {
+                        const cue = e.followUp ? 'SEGUNDA INVESTIDA!' : e.pattern === 'root-ring' ? 'CERCO DE RAÍZES!' : 'RAJADA DE FOGO!';
+                        ctx.strokeText(cue, x, y - 18);
+                        ctx.fillText(cue, x, y - 18);
+                    }
                     if (e.mode === 'rest') {
                         ctx.strokeText('ABERTURA · ' + GameInput.label('interact'), x, y - 18);
                         ctx.fillText('ABERTURA · ' + GameInput.label('interact'), x, y - 18);

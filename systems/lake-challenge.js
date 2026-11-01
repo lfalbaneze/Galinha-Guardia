@@ -203,7 +203,7 @@ const LakeChallenge = (() => {
             releaseWolf(game);
             GooseSystem.rescue(game);
             AudioSystem.play('panto-victory', { volume: .85 });
-            setStatus('PANTO resgatado! +100 pontos e mais um amigo no poleiro. Ponte liberada! O lobo continua à solta pela fazenda.', 'win');
+            setStatus(`PANTO resgatado! +${game.settings.rescueScore || SCORE_PER_RESCUE} pontos e mais um amigo no poleiro. Ponte liberada! O lobo continua à solta pela fazenda.`, 'win');
         }
         else {
             goose.mode = 'recover';
@@ -434,7 +434,7 @@ const LakeChallenge = (() => {
         title.textContent = completed ? 'PANTO liberou a ponte' : 'PANTO · O fiscal do lago';
         text.textContent = completed ? 'Ponte aberta e Panto no poleiro. A lagoa não protege contra o lobo.' : active ?
             `${game.lake.misses}/3 carimbos · ${cue} O lobo espera fora.` :
-            `Desvie, aproxime-se de PANTO tonto e use ${action} para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Resgate Panto, ganhe +100 pontos, a ponte e a aparência de ganso.`;
+            `Desvie, aproxime-se de PANTO tonto e use ${action} para pegar o carimbo. São três rodadas; três bicadas encerram a tentativa. Resgate Panto, ganhe +${game.settings.rescueScore || SCORE_PER_RESCUE} pontos, a ponte e a aparência de ganso.`;
         button.hidden = !!completed;
         button.disabled = !active && !available(game);
         const key = typeof GameInput === 'undefined' ? 'F' : GameInput.label('lake');

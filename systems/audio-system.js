@@ -2,23 +2,25 @@
 const AudioSystem = (() => {
   const STORAGE_KEY = "galinha-resgate:audio:v1";
   const TRACKS = new Set(["forest", "whistle"]);
+  const BOSS_TRACK = 'secret-boss';
   const SKIN_TRACKS = new Map([
     ["punk", "skin-punk"], ["astronaut", "skin-astronaut"],
     ["robocop", "skin-robocop"], ["priest", "skin-priest"],
   ]);
   const TRACK_TITLES = new Map([
+    [BOSS_TRACK, 'O bosque despertou'],
     ["forest", "Floresta encantada"], ["whistle", "Assobio da galinha"],
     ["skin-punk", "Zeca · Passos na Fazenda"], ["skin-astronaut", "Pipoca · Pulos ao Luar"],
     ["skin-robocop", "Stella · Passo Furtivo"], ["skin-priest", "Paçoca · Companheiro da Roça"],
   ]);
-  const ANIMAL_SPECIES = new Set(["sheep", "pig", "goat", "cow", "duck", "rabbit", "dog", "cat", "donkey", "lamb", "chicken", "horse", "turkey", "goose"]);
+  const ANIMAL_SPECIES = new Set(["sheep", "pig", "goat", "cow", "duck", "rabbit", "dog", "cat", "donkey", "lamb", "chicken", "horse", "turkey", "goose", "owl"]);
   const FOLKLORE = new Set(['fuinha','mula-sem-cabeca','curupira','boitata','cuca']);
   const ENEMY_CUES = {amanda:{warn:'fox-rustle',attack:'panto-dodge',defeat:'runaway'},
     crow:{warn:'fox-rustle',attack:'panto-dodge',defeat:'squeak'},owl:{warn:'owl-hoot',attack:'owl-siren',defeat:'dizzy'}};
   const voiceSpecies = species => ['hen-silkie', 'hen-blue'].includes(species) ? 'chicken' : species;
   const animalName = species => {
     species = voiceSpecies(species);
-    return species === 'chick' ? 'chick' : species === 'goose' ? 'goose-honk' :
+    return species === 'chick' ? 'chick' : species === 'goose' ? 'goose-honk' : species === 'owl' ? 'owl-hoot' :
       ANIMAL_SPECIES.has(species) ? `animal-${species}` : 'rescue';
   };
   const EFFECTS = new Set(["boing", "pop", "bonk", "squeak", "dizzy", "sob", "runaway", "rescue", "chick", "victory", "goose-honk", "panto-dodge", "panto-victory", "owl-hoot", "fox-rustle",
@@ -67,11 +69,11 @@ const AudioSystem = (() => {
   // A versioned directory also replaces clips cached by an older copy of the game.
   const audioRoot = typeof document !== 'undefined' && document.currentScript?.src
     ? new URL('../assets/audio/', document.currentScript.src).href : './assets/audio/';
-  const path = (name, variant = 1) => `${audioRoot}${TRACKS.has(name)||[...SKIN_TRACKS.values()].includes(name) ? 'music/v2/' : name.startsWith('folklore-') ? 'effects/folklore-v1/' : ['animal-duck','animal-rabbit'].includes(name) ? 'voices/v7/' : name === 'owl-siren' ? 'effects/v1/' : name === 'owl-hoot' ? 'voices/v6/' : isVoice(name) || ['fox-rustle','squeak'].includes(name) ? 'voices/v5/' : ''}${name}${variant > 1 ? `-${variant}` : ''}.wav`;
+  const path = (name, variant = 1) => `${audioRoot}${name===BOSS_TRACK ? 'music/secret-v1/' : TRACKS.has(name)||[...SKIN_TRACKS.values()].includes(name) ? 'music/v2/' : name.startsWith('folklore-') ? 'effects/folklore-v1/' : ['animal-duck','animal-rabbit'].includes(name) ? 'voices/v7/' : name === 'owl-siren' ? 'effects/v1/' : name === 'owl-hoot' ? 'voices/v6/' : isVoice(name) || ['fox-rustle','squeak'].includes(name) ? 'voices/v5/' : ''}${name}${variant > 1 ? `-${variant}` : ''}.wav`;
   // Shared with the complete media review: one list of the files actually played.
-  const catalog = Object.freeze([...TRACKS,...SKIN_TRACKS.values(),...EFFECTS].flatMap(name =>
+  const catalog = Object.freeze([...TRACKS,...SKIN_TRACKS.values(),BOSS_TRACK,...EFFECTS].flatMap(name =>
     Array.from({length:VARIANTS.get(name)||1},(_,i)=>Object.freeze({name,variant:i+1,src:path(name,i+1),
-      kind:TRACKS.has(name)||[...SKIN_TRACKS.values()].includes(name)?'music':isVoice(name)?'voice':'effect',
+      kind:name===BOSS_TRACK||TRACKS.has(name)||[...SKIN_TRACKS.values()].includes(name)?'music':isVoice(name)?'voice':'effect',
       trim:EFFECT_TRIM[name]||1}))));
   let flock = null, farmTime = 0, nextCall = 1.8, playerCall = 24;
   const heard = new Map();
@@ -139,7 +141,13 @@ const AudioSystem = (() => {
   function skinTheme() {
     return settings.skinThemes && SKIN_TRACKS.get(currentGame?.entities?.chicken?.skin);
   }
-  function selectedTrack() { return skinTheme() || settings.track; }
+  function selectedTrack() {
+    const phase = currentGame?.phase;
+    const encounter = phase === 'playing' || phase === 'paused' || phase === 'menu' && currentGame.resumePhase === 'playing';
+    const boss = currentGame?.secretBossActive || currentGame?.entities?.folklore?.some(enemy =>
+      enemy.species !== 'fuinha' && enemy.active && !enemy.defeated);
+    return encounter && boss ? BOSS_TRACK : skinTheme() || settings.track;
+  }
   function syncMusic() {
     const target = selectedTrack();
     if (music && musicTrack !== target) {
@@ -244,7 +252,8 @@ const AudioSystem = (() => {
     return true;
   }
   function playEnemy(species, event, position) {
-    const name = FOLKLORE.has(species) ? `folklore-${species}-${event}` : Object.hasOwn(ENEMY_CUES,species) ? ENEMY_CUES[species][event] : null;
+    const name = FOLKLORE.has(species) ? `folklore-${species}-${event}` : Object.hasOwn(ENEMY_CUES,species) ? ENEMY_CUES[species][event] :
+      species==='chick'||ANIMAL_SPECIES.has(species)?animalName(species):null;
     const player = currentGame?.entities?.chicken;
     if (!EFFECTS.has(name) || !player || !position) return false;
     const distance = Math.hypot(position.x-player.x, position.y-player.y);
@@ -351,10 +360,15 @@ const AudioSystem = (() => {
       cloudBucket = cut.time >= t.cloud ? beat : -1;
       sobBucket = cut.time >= t.dizzy ? sob : -1;
       for (const name of ["dizzy", "flee", "celebrate"]) if (cut.time >= t[name]) oneShots.add(name);
+      if (cut.cue) oneShots.add('cue:' + stage);
       lastTime = cut.time;
       return;
     }
     // Only the current beat plays after a slow frame; skipped beats never form a burst.
+    if (cut.cue && !oneShots.has('cue:' + stage)) {
+      oneShots.add('cue:' + stage);
+      if (audible) play(cut.cue, { volume: .55 });
+    }
     if (stage === "cloud" && beat !== cloudBucket) {
       cloudBucket = beat;
       if (audible) play(["pop", "boing", "bonk", "squeak"][beat % 4], { volume: 0.78, rate: 0.94 + beat % 3 * 0.05 });

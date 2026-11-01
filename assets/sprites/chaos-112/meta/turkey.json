@@ -1,0 +1,3127 @@
+{
+  "id": "turkey",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+    "width": 520,
+    "height": 1104,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 0,
+            "y": 552,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8769230769230769,
+              "top": 0.10144927536231885,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.3230769230769231,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 65,
+            "y": 552,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8923076923076924,
+              "top": 0.08695652173913043,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.5538461538461539,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 130,
+            "y": 552,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9076923076923077,
+              "top": 0.08695652173913043,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.5538461538461539,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 195,
+            "y": 552,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.10144927536231885,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 260,
+            "y": 552,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.10144927536231885,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.676923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 325,
+            "y": 552,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.08695652173913043,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.4461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 390,
+            "y": 552,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.10144927536231885,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.4461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 455,
+            "y": 552,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.11594202898550725,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.4461538461538462
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 65,
+        "top": 6,
+        "width": 53,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 0,
+            "y": 621,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2153846153846154,
+              "right": 0.9230769230769231,
+              "top": 0.10144927536231885,
+              "bottom": 0.9130434782608695,
+              "footLeft": 0.27692307692307694,
+              "footRight": 0.5846153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 65,
+            "y": 621,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2153846153846154,
+              "right": 0.9230769230769231,
+              "top": 0.08695652173913043,
+              "bottom": 0.8985507246376812,
+              "footLeft": 0.24615384615384617,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 130,
+            "y": 621,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8923076923076924,
+              "top": 0.07246376811594203,
+              "bottom": 0.8840579710144928,
+              "footLeft": 0.26153846153846155,
+              "footRight": 0.6153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 195,
+            "y": 621,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18461538461538463,
+              "right": 0.8923076923076924,
+              "top": 0.07246376811594203,
+              "bottom": 0.8840579710144928,
+              "footLeft": 0.2923076923076923,
+              "footRight": 0.5846153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 260,
+            "y": 621,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.9076923076923077,
+              "top": 0.057971014492753624,
+              "bottom": 0.9130434782608695,
+              "footLeft": 0.4,
+              "footRight": 0.5076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 325,
+            "y": 621,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18461538461538463,
+              "right": 0.8923076923076924,
+              "top": 0.07246376811594203,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.3230769230769231,
+              "footRight": 0.4461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 390,
+            "y": 621,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18461538461538463,
+              "right": 0.8923076923076924,
+              "top": 0.057971014492753624,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.35384615384615387,
+              "footRight": 0.47692307692307695
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 455,
+            "y": 621,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 4,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.9076923076923077,
+              "top": 0.07246376811594203,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.38461538461538464,
+              "footRight": 0.5230769230769231
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 65,
+        "top": 4,
+        "width": 47,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 0,
+            "y": 690,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 9,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.9230769230769231,
+              "top": 0.18840579710144928,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.35384615384615387,
+              "footRight": 0.5076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 65,
+            "y": 690,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 9,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.9230769230769231,
+              "top": 0.15942028985507245,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.4,
+              "footRight": 0.5538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 130,
+            "y": 690,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 9,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13846153846153847,
+              "right": 0.9230769230769231,
+              "top": 0.17391304347826086,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.4461538461538462,
+              "footRight": 0.5692307692307692
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 195,
+            "y": 690,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 9,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.9230769230769231,
+              "top": 0.2028985507246377,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.47692307692307695,
+              "footRight": 0.5692307692307692
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 260,
+            "y": 690,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 9,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9076923076923077,
+              "top": 0.17391304347826086,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.38461538461538464,
+              "footRight": 0.47692307692307695
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 325,
+            "y": 690,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 9,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.14492753623188406,
+              "bottom": 0.9130434782608695,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.4
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 390,
+            "y": 690,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 9,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9076923076923077,
+              "top": 0.13043478260869565,
+              "bottom": 0.8985507246376812,
+              "footLeft": 0.23076923076923078,
+              "footRight": 0.5076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 455,
+            "y": 690,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 9,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.06153846153846154,
+              "right": 0.9230769230769231,
+              "top": 0.17391304347826086,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.23076923076923078,
+              "footRight": 0.4461538461538462
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 65,
+        "top": 9,
+        "width": 56,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 0,
+            "y": 759,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2153846153846154,
+              "right": 0.8615384615384616,
+              "top": 0.17391304347826086,
+              "bottom": 0.8840579710144928,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.3384615384615385
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 65,
+            "y": 759,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8307692307692308,
+              "top": 0.18840579710144928,
+              "bottom": 0.8840579710144928,
+              "footLeft": 0.24615384615384617,
+              "footRight": 0.7384615384615385
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 130,
+            "y": 759,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8461538461538461,
+              "top": 0.18840579710144928,
+              "bottom": 0.9130434782608695,
+              "footLeft": 0.2153846153846154,
+              "footRight": 0.35384615384615387
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 195,
+            "y": 759,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.8615384615384616,
+              "top": 0.18840579710144928,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.26153846153846155,
+              "footRight": 0.4153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 260,
+            "y": 759,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18461538461538463,
+              "right": 0.8769230769230769,
+              "top": 0.18840579710144928,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.46153846153846156
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 325,
+            "y": 759,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.18461538461538463,
+              "right": 0.8923076923076924,
+              "top": 0.2028985507246377,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.35384615384615387,
+              "footRight": 0.5230769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 390,
+            "y": 759,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.9076923076923077,
+              "top": 0.21739130434782608,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.4153846153846154,
+              "footRight": 0.5230769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 455,
+            "y": 759,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.2,
+              "right": 0.9076923076923077,
+              "top": 0.21739130434782608,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.46153846153846156,
+              "footRight": 0.5384615384615384
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 65,
+        "top": 12,
+        "width": 47,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 0,
+            "y": 828,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 10,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9384615384615385,
+              "top": 0.14492753623188406,
+              "bottom": 0.8985507246376812,
+              "footLeft": 0.3230769230769231,
+              "footRight": 0.6923076923076923
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 65,
+            "y": 828,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 10,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9230769230769231,
+              "top": 0.17391304347826086,
+              "bottom": 0.9130434782608695,
+              "footLeft": 0.3384615384615385,
+              "footRight": 0.6461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 130,
+            "y": 828,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 10,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.2028985507246377,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.38461538461538464,
+              "footRight": 0.6307692307692307
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 195,
+            "y": 828,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 10,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8769230769230769,
+              "top": 0.2318840579710145,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.6307692307692307
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 260,
+            "y": 828,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 10,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8615384615384616,
+              "top": 0.2318840579710145,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.6307692307692307
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 325,
+            "y": 828,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 10,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8923076923076924,
+              "top": 0.21739130434782608,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.38461538461538464,
+              "footRight": 0.6307692307692307
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 390,
+            "y": 828,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 10,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9230769230769231,
+              "top": 0.18840579710144928,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.38461538461538464,
+              "footRight": 0.6307692307692307
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 455,
+            "y": 828,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 10,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9384615384615385,
+              "top": 0.15942028985507245,
+              "bottom": 0.9130434782608695,
+              "footLeft": 0.4,
+              "footRight": 0.6153846153846154
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 65,
+        "top": 10,
+        "width": 56,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 0,
+            "y": 897,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 11,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8,
+              "top": 0.17391304347826086,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.5846153846153846,
+              "footRight": 0.7230769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 65,
+            "y": 897,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 11,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8,
+              "top": 0.18840579710144928,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.5538461538461539,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 130,
+            "y": 897,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 11,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8,
+              "top": 0.17391304347826086,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.6,
+              "footRight": 0.6615384615384615
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 195,
+            "y": 897,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 11,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.7846153846153846,
+              "top": 0.15942028985507245,
+              "bottom": 0.8985507246376812,
+              "footLeft": 0.5538461538461539,
+              "footRight": 0.6307692307692307
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 260,
+            "y": 897,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 11,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.7846153846153846,
+              "top": 0.15942028985507245,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.5846153846153846,
+              "footRight": 0.6615384615384615
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 325,
+            "y": 897,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 11,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.7846153846153846,
+              "top": 0.17391304347826086,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.5538461538461539,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 390,
+            "y": 897,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 11,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8,
+              "top": 0.17391304347826086,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.5846153846153846,
+              "footRight": 0.6461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 455,
+            "y": 897,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 11,
+            "width": 46,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.13846153846153847,
+              "right": 0.8153846153846154,
+              "top": 0.17391304347826086,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.6153846153846154,
+              "footRight": 0.6615384615384615
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 65,
+        "top": 11,
+        "width": 46,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 0,
+            "y": 966,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8769230769230769,
+              "top": 0.2028985507246377,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.5076923076923077,
+              "footRight": 0.6615384615384615
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 65,
+            "y": 966,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8769230769230769,
+              "top": 0.18840579710144928,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.47692307692307695,
+              "footRight": 0.6307692307692307
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 130,
+            "y": 966,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8923076923076924,
+              "top": 0.18840579710144928,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.4461538461538462,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 195,
+            "y": 966,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8923076923076924,
+              "top": 0.21739130434782608,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.4153846153846154,
+              "footRight": 0.46153846153846156
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 260,
+            "y": 966,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8769230769230769,
+              "top": 0.2028985507246377,
+              "bottom": 0.8985507246376812,
+              "footLeft": 0.4,
+              "footRight": 0.49230769230769234
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 325,
+            "y": 966,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8769230769230769,
+              "top": 0.18840579710144928,
+              "bottom": 0.8695652173913043,
+              "footLeft": 0.47692307692307695,
+              "footRight": 0.6615384615384615
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 390,
+            "y": 966,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8923076923076924,
+              "top": 0.17391304347826086,
+              "bottom": 0.8840579710144928,
+              "footLeft": 0.5384615384615384,
+              "footRight": 0.6307692307692307
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 455,
+            "y": 966,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 12,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8923076923076924,
+              "top": 0.18840579710144928,
+              "bottom": 0.9130434782608695,
+              "footLeft": 0.5692307692307692,
+              "footRight": 0.676923076923077
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 65,
+        "top": 12,
+        "width": 52,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 0,
+            "y": 1035,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8,
+              "top": 0.11594202898550725,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.4153846153846154,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 65,
+            "y": 1035,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8153846153846154,
+              "top": 0.10144927536231885,
+              "bottom": 0.9130434782608695,
+              "footLeft": 0.46153846153846156,
+              "footRight": 0.7230769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 130,
+            "y": 1035,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8153846153846154,
+              "top": 0.08695652173913043,
+              "bottom": 0.8985507246376812,
+              "footLeft": 0.5538461538461539,
+              "footRight": 0.6923076923076923
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 195,
+            "y": 1035,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8,
+              "top": 0.08695652173913043,
+              "bottom": 0.8840579710144928,
+              "footLeft": 0.5230769230769231,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 260,
+            "y": 1035,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8,
+              "top": 0.07246376811594203,
+              "bottom": 0.9130434782608695,
+              "footLeft": 0.5076923076923077,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 325,
+            "y": 1035,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8,
+              "top": 0.08695652173913043,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.49230769230769234,
+              "footRight": 0.6923076923076923
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 390,
+            "y": 1035,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8153846153846154,
+              "top": 0.08695652173913043,
+              "bottom": 0.9420289855072463,
+              "footLeft": 0.5076923076923077,
+              "footRight": 0.6615384615384615
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+            "x": 455,
+            "y": 1035,
+            "w": 65,
+            "h": 69,
+            "cx": 33,
+            "bottom": 65,
+            "top": 5,
+            "width": 47,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8153846153846154,
+              "top": 0.08695652173913043,
+              "bottom": 0.927536231884058,
+              "footLeft": 0.49230769230769234,
+              "footRight": 0.6307692307692307
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 65,
+        "top": 5,
+        "width": 47,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 0,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8769230769230769,
+                "top": 0.11594202898550725,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.7076923076923077
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 8,
+          "width": 50,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 69,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 9,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2153846153846154,
+                "right": 0.9230769230769231,
+                "top": 0.13043478260869565,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.4153846153846154,
+                "footRight": 0.5538461538461539
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 9,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 138,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 13,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13846153846153847,
+                "right": 0.9230769230769231,
+                "top": 0.2028985507246377,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.46153846153846156
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 13,
+          "width": 52,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 207,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 14,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2153846153846154,
+                "right": 0.9076923076923077,
+                "top": 0.21739130434782608,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.2923076923076923,
+                "footRight": 0.4461538461538462
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 14,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 276,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 13,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9230769230769231,
+                "top": 0.18840579710144928,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.7076923076923077
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 13,
+          "width": 54,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 345,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 14,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.7846153846153846,
+                "top": 0.21739130434782608,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.5692307692307692,
+                "footRight": 0.7230769230769231
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 14,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 414,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 13,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8769230769230769,
+                "top": 0.2028985507246377,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.5538461538461539,
+                "footRight": 0.6923076923076923
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 13,
+          "width": 52,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 483,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 9,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8,
+                "top": 0.13043478260869565,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.46153846153846156,
+                "footRight": 0.6
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 9,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 552,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8769230769230769,
+                "top": 0.10144927536231885,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.3230769230769231,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 65,
+              "y": 552,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8923076923076924,
+                "top": 0.08695652173913043,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.5538461538461539,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 130,
+              "y": 552,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9076923076923077,
+                "top": 0.08695652173913043,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.5538461538461539,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 195,
+              "y": 552,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.10144927536231885,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 260,
+              "y": 552,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.10144927536231885,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.676923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 325,
+              "y": 552,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.08695652173913043,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.4461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 390,
+              "y": 552,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.10144927536231885,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.4461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 455,
+              "y": 552,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.11594202898550725,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.4461538461538462
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 6,
+          "width": 53,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 621,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2153846153846154,
+                "right": 0.9230769230769231,
+                "top": 0.10144927536231885,
+                "bottom": 0.9130434782608695,
+                "footLeft": 0.27692307692307694,
+                "footRight": 0.5846153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 65,
+              "y": 621,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2153846153846154,
+                "right": 0.9230769230769231,
+                "top": 0.08695652173913043,
+                "bottom": 0.8985507246376812,
+                "footLeft": 0.24615384615384617,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 130,
+              "y": 621,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8923076923076924,
+                "top": 0.07246376811594203,
+                "bottom": 0.8840579710144928,
+                "footLeft": 0.26153846153846155,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 195,
+              "y": 621,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18461538461538463,
+                "right": 0.8923076923076924,
+                "top": 0.07246376811594203,
+                "bottom": 0.8840579710144928,
+                "footLeft": 0.2923076923076923,
+                "footRight": 0.5846153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 260,
+              "y": 621,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.9076923076923077,
+                "top": 0.057971014492753624,
+                "bottom": 0.9130434782608695,
+                "footLeft": 0.4,
+                "footRight": 0.5076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 325,
+              "y": 621,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18461538461538463,
+                "right": 0.8923076923076924,
+                "top": 0.07246376811594203,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.3230769230769231,
+                "footRight": 0.4461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 390,
+              "y": 621,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18461538461538463,
+                "right": 0.8923076923076924,
+                "top": 0.057971014492753624,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.35384615384615387,
+                "footRight": 0.47692307692307695
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 455,
+              "y": 621,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 4,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.9076923076923077,
+                "top": 0.07246376811594203,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.5230769230769231
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 4,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 690,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 9,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.9230769230769231,
+                "top": 0.18840579710144928,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.35384615384615387,
+                "footRight": 0.5076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 65,
+              "y": 690,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 9,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.9230769230769231,
+                "top": 0.15942028985507245,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.4,
+                "footRight": 0.5538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 130,
+              "y": 690,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 9,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13846153846153847,
+                "right": 0.9230769230769231,
+                "top": 0.17391304347826086,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.4461538461538462,
+                "footRight": 0.5692307692307692
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 195,
+              "y": 690,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 9,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.9230769230769231,
+                "top": 0.2028985507246377,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.47692307692307695,
+                "footRight": 0.5692307692307692
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 260,
+              "y": 690,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 9,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9076923076923077,
+                "top": 0.17391304347826086,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.47692307692307695
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 325,
+              "y": 690,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 9,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.14492753623188406,
+                "bottom": 0.9130434782608695,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.4
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 390,
+              "y": 690,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 9,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9076923076923077,
+                "top": 0.13043478260869565,
+                "bottom": 0.8985507246376812,
+                "footLeft": 0.23076923076923078,
+                "footRight": 0.5076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 455,
+              "y": 690,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 9,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.06153846153846154,
+                "right": 0.9230769230769231,
+                "top": 0.17391304347826086,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.23076923076923078,
+                "footRight": 0.4461538461538462
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 9,
+          "width": 56,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 759,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2153846153846154,
+                "right": 0.8615384615384616,
+                "top": 0.17391304347826086,
+                "bottom": 0.8840579710144928,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.3384615384615385
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 65,
+              "y": 759,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8307692307692308,
+                "top": 0.18840579710144928,
+                "bottom": 0.8840579710144928,
+                "footLeft": 0.24615384615384617,
+                "footRight": 0.7384615384615385
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 130,
+              "y": 759,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8461538461538461,
+                "top": 0.18840579710144928,
+                "bottom": 0.9130434782608695,
+                "footLeft": 0.2153846153846154,
+                "footRight": 0.35384615384615387
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 195,
+              "y": 759,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.8615384615384616,
+                "top": 0.18840579710144928,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.26153846153846155,
+                "footRight": 0.4153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 260,
+              "y": 759,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18461538461538463,
+                "right": 0.8769230769230769,
+                "top": 0.18840579710144928,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.46153846153846156
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 325,
+              "y": 759,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.18461538461538463,
+                "right": 0.8923076923076924,
+                "top": 0.2028985507246377,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.35384615384615387,
+                "footRight": 0.5230769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 390,
+              "y": 759,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.9076923076923077,
+                "top": 0.21739130434782608,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.4153846153846154,
+                "footRight": 0.5230769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 455,
+              "y": 759,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.2,
+                "right": 0.9076923076923077,
+                "top": 0.21739130434782608,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.46153846153846156,
+                "footRight": 0.5384615384615384
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 12,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 828,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 10,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9384615384615385,
+                "top": 0.14492753623188406,
+                "bottom": 0.8985507246376812,
+                "footLeft": 0.3230769230769231,
+                "footRight": 0.6923076923076923
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 65,
+              "y": 828,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 10,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9230769230769231,
+                "top": 0.17391304347826086,
+                "bottom": 0.9130434782608695,
+                "footLeft": 0.3384615384615385,
+                "footRight": 0.6461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 130,
+              "y": 828,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 10,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.2028985507246377,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.6307692307692307
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 195,
+              "y": 828,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 10,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8769230769230769,
+                "top": 0.2318840579710145,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.6307692307692307
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 260,
+              "y": 828,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 10,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8615384615384616,
+                "top": 0.2318840579710145,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.6307692307692307
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 325,
+              "y": 828,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 10,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8923076923076924,
+                "top": 0.21739130434782608,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.6307692307692307
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 390,
+              "y": 828,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 10,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9230769230769231,
+                "top": 0.18840579710144928,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.6307692307692307
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 455,
+              "y": 828,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 10,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9384615384615385,
+                "top": 0.15942028985507245,
+                "bottom": 0.9130434782608695,
+                "footLeft": 0.4,
+                "footRight": 0.6153846153846154
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 10,
+          "width": 56,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 897,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 11,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8,
+                "top": 0.17391304347826086,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.5846153846153846,
+                "footRight": 0.7230769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 65,
+              "y": 897,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 11,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8,
+                "top": 0.18840579710144928,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.5538461538461539,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 130,
+              "y": 897,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 11,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8,
+                "top": 0.17391304347826086,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.6,
+                "footRight": 0.6615384615384615
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 195,
+              "y": 897,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 11,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.7846153846153846,
+                "top": 0.15942028985507245,
+                "bottom": 0.8985507246376812,
+                "footLeft": 0.5538461538461539,
+                "footRight": 0.6307692307692307
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 260,
+              "y": 897,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 11,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.7846153846153846,
+                "top": 0.15942028985507245,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.5846153846153846,
+                "footRight": 0.6615384615384615
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 325,
+              "y": 897,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 11,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.7846153846153846,
+                "top": 0.17391304347826086,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.5538461538461539,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 390,
+              "y": 897,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 11,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8,
+                "top": 0.17391304347826086,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.5846153846153846,
+                "footRight": 0.6461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 455,
+              "y": 897,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 11,
+              "width": 46,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.13846153846153847,
+                "right": 0.8153846153846154,
+                "top": 0.17391304347826086,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.6153846153846154,
+                "footRight": 0.6615384615384615
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 11,
+          "width": 46,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 966,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8769230769230769,
+                "top": 0.2028985507246377,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.5076923076923077,
+                "footRight": 0.6615384615384615
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 65,
+              "y": 966,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8769230769230769,
+                "top": 0.18840579710144928,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.47692307692307695,
+                "footRight": 0.6307692307692307
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 130,
+              "y": 966,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8923076923076924,
+                "top": 0.18840579710144928,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.4461538461538462,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 195,
+              "y": 966,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8923076923076924,
+                "top": 0.21739130434782608,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.4153846153846154,
+                "footRight": 0.46153846153846156
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 260,
+              "y": 966,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8769230769230769,
+                "top": 0.2028985507246377,
+                "bottom": 0.8985507246376812,
+                "footLeft": 0.4,
+                "footRight": 0.49230769230769234
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 325,
+              "y": 966,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8769230769230769,
+                "top": 0.18840579710144928,
+                "bottom": 0.8695652173913043,
+                "footLeft": 0.47692307692307695,
+                "footRight": 0.6615384615384615
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 390,
+              "y": 966,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8923076923076924,
+                "top": 0.17391304347826086,
+                "bottom": 0.8840579710144928,
+                "footLeft": 0.5384615384615384,
+                "footRight": 0.6307692307692307
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 455,
+              "y": 966,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 12,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8923076923076924,
+                "top": 0.18840579710144928,
+                "bottom": 0.9130434782608695,
+                "footLeft": 0.5692307692307692,
+                "footRight": 0.676923076923077
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 12,
+          "width": 52,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 0,
+              "y": 1035,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8,
+                "top": 0.11594202898550725,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.4153846153846154,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 65,
+              "y": 1035,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8153846153846154,
+                "top": 0.10144927536231885,
+                "bottom": 0.9130434782608695,
+                "footLeft": 0.46153846153846156,
+                "footRight": 0.7230769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 130,
+              "y": 1035,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8153846153846154,
+                "top": 0.08695652173913043,
+                "bottom": 0.8985507246376812,
+                "footLeft": 0.5538461538461539,
+                "footRight": 0.6923076923076923
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 195,
+              "y": 1035,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8,
+                "top": 0.08695652173913043,
+                "bottom": 0.8840579710144928,
+                "footLeft": 0.5230769230769231,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 260,
+              "y": 1035,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8,
+                "top": 0.07246376811594203,
+                "bottom": 0.9130434782608695,
+                "footLeft": 0.5076923076923077,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 325,
+              "y": 1035,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8,
+                "top": 0.08695652173913043,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.49230769230769234,
+                "footRight": 0.6923076923076923
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 390,
+              "y": 1035,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8153846153846154,
+                "top": 0.08695652173913043,
+                "bottom": 0.9420289855072463,
+                "footLeft": 0.5076923076923077,
+                "footRight": 0.6615384615384615
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+              "x": 455,
+              "y": 1035,
+              "w": 65,
+              "h": 69,
+              "cx": 33,
+              "bottom": 65,
+              "top": 5,
+              "width": 47,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8153846153846154,
+                "top": 0.08695652173913043,
+                "bottom": 0.927536231884058,
+                "footLeft": 0.49230769230769234,
+                "footRight": 0.6307692307692307
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 65,
+          "top": 5,
+          "width": 47,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/turkey-a3dd100eca7e.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "turkey",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

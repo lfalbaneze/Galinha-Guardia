@@ -1,4 +1,5 @@
 /* The fox follows visible movement while preparing, then commits before the dash. */
+declare namespace Farm { interface Fox { lastClue?:number; investigating?:boolean; } }
 const FoxSystem = (() => {
   const HITBOX: Farm.Hitbox = {ox:0,oy:8,r:14};
   const LEASH=170;
@@ -32,8 +33,8 @@ const FoxSystem = (() => {
   function getConfig(game: Farm.GameState): {warning:number;speed:number;rest:number;cooldown:number;relocateEvery:number;travelSpeed:number} {
     const hard=game.difficultyKey==='hard'||game.difficultyKey==='hardcore';
     const easy=game.difficultyKey==='easy',extreme=game.difficultyKey==='hardcore';
-    return {warning:easy?.8:extreme?.4:hard?.5:.6,
-      speed:game.settings.chickenSpeed*(easy?1.05:extreme?1.28:hard?1.22:1.15),
+    return {warning:easy?1.15:extreme?.8:hard?.9:1,
+      speed:game.settings.chickenSpeed*(easy?.8:extreme?1.28:hard?1.22:1.15),
       rest:easy?1.35:extreme?.85:hard?.95:1.05,cooldown:easy?4:extreme?2.6:hard?2.9:3.2,
       relocateEvery:game.difficultyKey==='hardcore'?6:hard?10:game.difficultyKey==='easy'?18:14,
       travelSpeed:game.difficultyKey==='hardcore'?165:140};
@@ -124,7 +125,7 @@ const FoxSystem = (() => {
     AudioSystem.play('fox-rustle',{volume:.36});say(fox,'warning');
     setStatus(`Essa moita tem rabo! ${fox.name} acompanha sua fuga. Mude de direção quando ela saltar.`);
   }
-  function flank(fox: Farm.Fox,player: Farm.Chicken): Farm.Point | undefined {
+  function flank(fox: Farm.Fox,player: Farm.Point): Farm.Point | undefined {
     const angle=Math.atan2(player.y-fox.y,player.x-fox.x),side=fox.attempts%2?1:-1;
     // Sophis comes out of cover first. Both sides must leave room for a real, warned dash.
     for(const offset of [side,-side])for(const length of [95,65]){
@@ -200,7 +201,7 @@ const FoxSystem = (() => {
       fox.scaredTime=Math.max(0,(fox.scaredTime||0)-dt);
       fox.sightingAge=(fox.sightingAge||0)+dt;
       const seen=!safe&&WildlifeRules.observe(game,getHitbox(fox),LEASH+70);
-      if(seen){fox.sighting=point(game.entities.chicken);fox.sightingAge=0;}
+      if(seen){fox.sighting=point(game.entities.chicken);fox.sightingAge=0;WildlifeRules.report(game,fox,'rustle',fox.sighting);}
       fox.speechTime=Math.max(0,fox.speechTime-dt);fox.speechCooldown=Math.max(0,fox.speechCooldown-dt);
       scareFromWolf(game,fox);
       if(fox.mode==='hidden'){
@@ -209,22 +210,33 @@ const FoxSystem = (() => {
         // Nearby ambushers take turns, leaving a short recovery before the next warning.
         const busy=(game.entities.foxes||[]).some(other=>other!==fox && distance(other,fox)<LEASH*2+80 &&
           (other.mode==='stalk'||other.mode==='warning'||other.mode==='dash'||(other.mode==='rest'&&other.timer>config.rest-.45)));
+        const clue=!seen&&!safe&&!busy&&fox.grace<=0&&fox.cooldown<=0?WildlifeRules.hear(game,fox,fox.lastClue):null;
+        if(clue&&distance(clue.point,fox.home)<LEASH+100) {
+          fox.lastClue=clue.id;
+          const target=flank(fox,clue.point);
+          if(target){fox.sighting=point(clue.point);fox.sightingAge=(game.elapsed||0)-clue.time;
+            fox.investigating=true;fox.mode='stalk';fox.target=target;fox.timer=1.6;
+            WildlifeRules.decide(fox,'ambush',`pista de ${clue.source}: ${clue.kind}, sem confirmação visual`);}
+        }
         if(!relocated && !busy && seen && fox.cooldown<=0 && fox.grace<=0 && visible(game,fox)){
           const chicken=game.entities.chicken;
           if(WildlifeRules.observe(game,getHitbox(fox),135))warn(game,fox);
           else if(fox.name==='Sophis'){
             const target=flank(fox,chicken);
             if(target){fox.mode='stalk';fox.target=target;fox.timer=1.3;fox.hit=false;
+              fox.investigating=false;WildlifeRules.decide(fox,'flank','fuga observada: procurar outro ângulo');
               AudioSystem.play('fox-rustle',{volume:.28});
               setStatus('Sophis saiu da moita e está tentando cercar você. A investida ainda será anunciada.');}
             else fox.cooldown=1;
           }
         }
       }else if(fox.mode==='stalk'){
-        if(!seen){fox.mode='return';fox.route=[];fox.timer=0;fox.cooldown=2;}
+        if(!seen&&!fox.investigating){fox.mode='return';fox.route=[];fox.timer=0;fox.cooldown=2;}
         else{
-          const moved=WildlifeRules.move(fox,fox.target,config.travelSpeed*.85*dt);
+          const moved=WildlifeRules.navigate(fox,fox.target,config.travelSpeed*.85,dt,p=>distance(p,fox.home)<=LEASH,
+            (game.entities.foxes||[]).filter(f=>f!==fox));
           if(moved!=='moving'||fox.timer<=0){
+            fox.investigating=false;
             if(WildlifeRules.observe(game,getHitbox(fox),LEASH+45))warn(game,fox);
             else{fox.mode='return';fox.route=[];fox.timer=0;fox.cooldown=2;}
           }
@@ -245,16 +257,11 @@ const FoxSystem = (() => {
         const moved=WildlifeRules.move(fox,fox.target,config.speed*dt);
         if(moved!=='moving'||fox.timer<=0)returnToDen(game,fox);
       }else{
-        let target=fox.home;
-        if(!WildlifeRules.clear(fox,target,fox.hitbox)){
-          if(!fox.route.length && fox.timer<=0){fox.route=routeTo(fox,fox.home);fox.timer=1;}
-          if(!fox.route.length){fox.vx=0;fox.vy=0;fox.moving=false;fox.state='idle';continue;}target=fox.route[0];
-        }
-        const moved=WildlifeRules.move(fox,target,((fox.scaredTime||0)>0?config.speed:fox.mode==='relocate'?config.travelSpeed:100)*dt);
-        if(moved==='blocked'){fox.route=[];fox.timer=1;}
+        const moved=WildlifeRules.navigate(fox,fox.home,(fox.scaredTime||0)>0?config.speed:fox.mode==='relocate'?config.travelSpeed:100,dt,
+          p=>!FarmRefuge.contains(p),(game.entities.foxes||[]).filter(f=>f!==fox));
+        if(moved==='unreachable'){fox.relocateIn=0;if(!relocate(game,fox))fox.timer=1;}
         if(moved==='arrived'){
           if(distance(fox,fox.home)<1){fox.mode='hidden';fox.hit=false;fox.cooldown=Math.max(1,fox.cooldown);fox.route=[];}
-          else fox.route.shift();
         }
       }
       fox.vx=(fox.x-before.x)/dt;fox.vy=(fox.y-before.y)/dt;
@@ -300,8 +307,6 @@ const FoxSystem = (() => {
       const shake=InterfaceMotion.reduced?0:Math.sin(fox.anim*15)*2;
       ctx.fillStyle='#493322';ctx.fillRect(Math.round(x-5+shake),y-34,10,19);
       ctx.fillStyle='#f7d99a';ctx.fillRect(Math.round(x-2+shake),y-32,4,10);ctx.fillRect(Math.round(x-2+shake),y-19,4,3);
-      ctx.fillStyle='#493322';ctx.fillRect(x-24,y-46,48,7);
-      ctx.fillStyle='#f7d99a';ctx.fillRect(x-22,y-44,44*clamp(1-fox.timer/getConfig(game).warning,0,1),3);
       ctx.restore();
     }
   }

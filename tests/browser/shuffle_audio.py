@@ -41,9 +41,10 @@ try:
                 };
             ''')
             page.goto(base + 'shuffle/index.html#survival')
-            page.wait_for_function('ShuffleDemo.ready && ShuffleDemo.run?.mode === "survival"')
+            page.wait_for_function('ShuffleDemo.ready')
             assert page.evaluate('media.length') == 0, 'No autoplay before a gesture'
-            page.locator('#audioMute').click()
+            page.locator('#startSurvival').click()
+            page.wait_for_function('ShuffleDemo.run?.mode === "survival"')
             page.wait_for_function('media.some(a => a.loop && !a.paused && a.currentTime > .1 && a.volume > 0)')
             assert page.locator('#audioMute').inner_text() == 'Silenciar'
             page.evaluate('''() => {

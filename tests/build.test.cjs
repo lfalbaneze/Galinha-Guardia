@@ -17,7 +17,7 @@ test('rebuild drops obsolete output, excludes private sources and preserves CSS 
   for (const file of ['style.css', 'gameplay.css', 'menu.css', 'expedition-ui.css', 'results.css']) write(file, 'body { color: red; }');
   write('game.js', 'const game = {};');
   write('systems/player.js', 'const player = {};');
-  for (const name of ['maps.js', 'engine.js', 'survival.js', 'effects.js', 'result-art.js', 'ui.js']) write('shuffle/' + name, '');
+  for (const name of ['maps.js', 'engine.js', 'survival.js', 'effects.js', 'result-art.js', 'chaos-art-data.js', 'ui.js']) write('shuffle/' + name, '');
   write('assets/live.png', 'public art');
   write('assets/sprites/pixellab-108/meta/private.json', '{}');
   write('.env.local', 'PRIVATE_TEST_VALUE=never-publish');

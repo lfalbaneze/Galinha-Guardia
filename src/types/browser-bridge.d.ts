@@ -60,6 +60,7 @@ declare const WolfDialogue: {
 declare const SkinSystem: {
   initialize(game: Farm.GameState): void;
   record(game: Farm.GameState, notify?: boolean): void;
+  recordVictory(game: Farm.GameState, notify?: boolean): string[];
   unlockLake(game: Farm.GameState, notify?: boolean): void;
   power(chicken: Pick<Farm.Chicken, 'skin'>): Readonly<Farm.SkinPower>;
 };
@@ -110,9 +111,10 @@ declare const CharacterArt: {
   readonly ready: boolean;
   readonly appearances: Readonly<Record<string, {name:string;species:string;sprite?:string;description?:string}>>;
   drawFloat(context: CanvasRenderingContext2D, x: number, y: number, width: number, front: boolean): boolean;
-  frameFor(name: string, options?: { direction?: Farm.ArtDirection; skin?: string }): {
-    pose: { width: number; top: number; bottom: number }; scale: number; definition?: {provider?:string};
+  frameFor(name: string, options?: { direction?: Farm.ArtDirection; skin?: string; variant?: string; action?: string }): {
+    pose: { width: number; top: number; bottom: number }; scale: number; frame:WildlifeSpriteFrame & {src:string};
+    definition: {provider?:string;width:number;height:number};
   } | null;
   draw(context: CanvasRenderingContext2D, name: string, x: number, y: number,
-    options?: { direction?: Farm.ArtDirection; scale?: number; skin?: string; moving?: boolean; anim?: number; shadow?: boolean; sprinting?:boolean; mood?:string }): boolean;
+    options?: { direction?: Farm.ArtDirection; scale?: number; skin?: string; moving?: boolean; anim?: number; shadow?: boolean; sprinting?:boolean; mood?:string; variant?:string; action?:string }): boolean;
 };

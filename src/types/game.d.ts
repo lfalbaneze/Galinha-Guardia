@@ -56,6 +56,7 @@ declare namespace Farm {
     name: string; description: string; badge: string;
     landSpeed: number; swimSpeed: number; sneakSpeed: number; noiseScale: number;
     sprintDuration: number; friendSpecies: Species | null;
+    terrainResistance: number; hurtRecovery: number;
   }
   interface CoverMemory extends Point { spotId: string; remaining: number; inspectTime: number; revealIn?: number; }
   interface Wolf extends Entity {

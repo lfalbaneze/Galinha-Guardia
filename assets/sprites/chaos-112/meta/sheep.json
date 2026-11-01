@@ -1,0 +1,3127 @@
+{
+  "id": "sheep",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+    "width": 520,
+    "height": 1024,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 0,
+            "y": 512,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.125,
+              "bottom": 0.9375,
+              "footLeft": 0.35384615384615387,
+              "footRight": 0.6307692307692307
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 65,
+            "y": 512,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.109375,
+              "bottom": 0.921875,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.6461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 130,
+            "y": 512,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.5538461538461539,
+              "footRight": 0.6461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 195,
+            "y": 512,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.140625,
+              "bottom": 0.90625,
+              "footLeft": 0.5692307692307692,
+              "footRight": 0.7384615384615385
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 260,
+            "y": 512,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.125,
+              "bottom": 0.890625,
+              "footLeft": 0.5846153846153846,
+              "footRight": 0.7692307692307693
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 325,
+            "y": 512,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9076923076923077,
+              "top": 0.109375,
+              "bottom": 0.875,
+              "footLeft": 0.5692307692307692,
+              "footRight": 0.7846153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 390,
+            "y": 512,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9076923076923077,
+              "top": 0.09375,
+              "bottom": 0.859375,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.8
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 455,
+            "y": 512,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9076923076923077,
+              "top": 0.109375,
+              "bottom": 0.90625,
+              "footLeft": 0.2923076923076923,
+              "footRight": 0.6
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 60,
+        "top": 6,
+        "width": 53,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 0,
+            "y": 576,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9230769230769231,
+              "top": 0.125,
+              "bottom": 0.9375,
+              "footLeft": 0.4461538461538462,
+              "footRight": 0.5538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 65,
+            "y": 576,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9230769230769231,
+              "top": 0.140625,
+              "bottom": 0.921875,
+              "footLeft": 0.47692307692307695,
+              "footRight": 0.5846153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 130,
+            "y": 576,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9230769230769231,
+              "top": 0.140625,
+              "bottom": 0.921875,
+              "footLeft": 0.49230769230769234,
+              "footRight": 0.5846153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 195,
+            "y": 576,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9230769230769231,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.26153846153846155,
+              "footRight": 0.6153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 260,
+            "y": 576,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9230769230769231,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.5230769230769231,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 325,
+            "y": 576,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9230769230769231,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.49230769230769234,
+              "footRight": 0.5846153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 390,
+            "y": 576,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9230769230769231,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.4461538461538462,
+              "footRight": 0.5538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 455,
+            "y": 576,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9230769230769231,
+              "top": 0.140625,
+              "bottom": 0.921875,
+              "footLeft": 0.4307692307692308,
+              "footRight": 0.5230769230769231
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 60,
+        "top": 8,
+        "width": 56,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 0,
+            "y": 640,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 55,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9230769230769231,
+              "top": 0.09375,
+              "bottom": 0.9375,
+              "footLeft": 0.6461538461538462,
+              "footRight": 0.7538461538461538
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 65,
+            "y": 640,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 55,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9076923076923077,
+              "top": 0.09375,
+              "bottom": 0.921875,
+              "footLeft": 0.6615384615384615,
+              "footRight": 0.7846153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 130,
+            "y": 640,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 55,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9230769230769231,
+              "top": 0.109375,
+              "bottom": 0.90625,
+              "footLeft": 0.24615384615384617,
+              "footRight": 0.7846153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 195,
+            "y": 640,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 55,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.109375,
+              "bottom": 0.90625,
+              "footLeft": 0.27692307692307694,
+              "footRight": 0.7538461538461538
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 260,
+            "y": 640,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 55,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9230769230769231,
+              "top": 0.109375,
+              "bottom": 0.90625,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 325,
+            "y": 640,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 55,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9230769230769231,
+              "top": 0.09375,
+              "bottom": 0.90625,
+              "footLeft": 0.3230769230769231,
+              "footRight": 0.6615384615384615
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 390,
+            "y": 640,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 55,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9230769230769231,
+              "top": 0.09375,
+              "bottom": 0.921875,
+              "footLeft": 0.35384615384615387,
+              "footRight": 0.46153846153846156
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 455,
+            "y": 640,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 55,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9230769230769231,
+              "top": 0.109375,
+              "bottom": 0.921875,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.6615384615384615
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 60,
+        "top": 6,
+        "width": 55,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 0,
+            "y": 704,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8769230769230769,
+              "top": 0.078125,
+              "bottom": 0.9375,
+              "footLeft": 0.4,
+              "footRight": 0.5384615384615384
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 65,
+            "y": 704,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.9076923076923077,
+              "top": 0.078125,
+              "bottom": 0.9375,
+              "footLeft": 0.4,
+              "footRight": 0.8
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 130,
+            "y": 704,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8923076923076924,
+              "top": 0.09375,
+              "bottom": 0.921875,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.8307692307692308
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 195,
+            "y": 704,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8769230769230769,
+              "top": 0.109375,
+              "bottom": 0.921875,
+              "footLeft": 0.38461538461538464,
+              "footRight": 0.8
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 260,
+            "y": 704,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8615384615384616,
+              "top": 0.109375,
+              "bottom": 0.921875,
+              "footLeft": 0.6461538461538462,
+              "footRight": 0.7692307692307693
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 325,
+            "y": 704,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8615384615384616,
+              "top": 0.09375,
+              "bottom": 0.90625,
+              "footLeft": 0.4153846153846154,
+              "footRight": 0.7538461538461538
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 390,
+            "y": 704,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8769230769230769,
+              "top": 0.09375,
+              "bottom": 0.90625,
+              "footLeft": 0.4307692307692308,
+              "footRight": 0.7384615384615385
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 455,
+            "y": 704,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 5,
+            "width": 52,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8769230769230769,
+              "top": 0.109375,
+              "bottom": 0.9375,
+              "footLeft": 0.4307692307692308,
+              "footRight": 0.5538461538461539
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 60,
+        "top": 5,
+        "width": 52,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 0,
+            "y": 768,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 4,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.9076923076923077,
+              "top": 0.09375,
+              "bottom": 0.921875,
+              "footLeft": 0.2923076923076923,
+              "footRight": 0.4
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 65,
+            "y": 768,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 4,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.9076923076923077,
+              "top": 0.09375,
+              "bottom": 0.921875,
+              "footLeft": 0.3230769230769231,
+              "footRight": 0.4307692307692308
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 130,
+            "y": 768,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 4,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8769230769230769,
+              "top": 0.078125,
+              "bottom": 0.90625,
+              "footLeft": 0.3230769230769231,
+              "footRight": 0.4307692307692308
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 195,
+            "y": 768,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 4,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8307692307692308,
+              "top": 0.078125,
+              "bottom": 0.890625,
+              "footLeft": 0.3384615384615385,
+              "footRight": 0.6615384615384615
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 260,
+            "y": 768,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 4,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8307692307692308,
+              "top": 0.0625,
+              "bottom": 0.890625,
+              "footLeft": 0.35384615384615387,
+              "footRight": 0.6461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 325,
+            "y": 768,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 4,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8461538461538461,
+              "top": 0.0625,
+              "bottom": 0.90625,
+              "footLeft": 0.5230769230769231,
+              "footRight": 0.6461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 390,
+            "y": 768,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 4,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8615384615384616,
+              "top": 0.0625,
+              "bottom": 0.9375,
+              "footLeft": 0.5230769230769231,
+              "footRight": 0.6461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 455,
+            "y": 768,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 4,
+            "width": 50,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8769230769230769,
+              "top": 0.0625,
+              "bottom": 0.921875,
+              "footLeft": 0.5384615384615384,
+              "footRight": 0.6461538461538462
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 60,
+        "top": 4,
+        "width": 50,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 0,
+            "y": 832,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.125,
+              "bottom": 0.9375,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.4153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 65,
+            "y": 832,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9076923076923077,
+              "top": 0.140625,
+              "bottom": 0.9375,
+              "footLeft": 0.27692307692307694,
+              "footRight": 0.38461538461538464
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 130,
+            "y": 832,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9230769230769231,
+              "top": 0.15625,
+              "bottom": 0.9375,
+              "footLeft": 0.26153846153846155,
+              "footRight": 0.36923076923076925
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 195,
+            "y": 832,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9230769230769231,
+              "top": 0.140625,
+              "bottom": 0.921875,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.7230769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 260,
+            "y": 832,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9230769230769231,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.3230769230769231,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 325,
+            "y": 832,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9230769230769231,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.676923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 390,
+            "y": 832,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.07692307692307693,
+              "right": 0.9076923076923077,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.4,
+              "footRight": 0.6461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 455,
+            "y": 832,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 56,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.140625,
+              "bottom": 0.921875,
+              "footLeft": 0.38461538461538464,
+              "footRight": 0.6153846153846154
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 60,
+        "top": 8,
+        "width": 56,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 0,
+            "y": 896,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8923076923076924,
+              "top": 0.140625,
+              "bottom": 0.9375,
+              "footLeft": 0.49230769230769234,
+              "footRight": 0.6
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 65,
+            "y": 896,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8923076923076924,
+              "top": 0.125,
+              "bottom": 0.9375,
+              "footLeft": 0.46153846153846156,
+              "footRight": 0.5692307692307692
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 130,
+            "y": 896,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.9076923076923077,
+              "top": 0.140625,
+              "bottom": 0.921875,
+              "footLeft": 0.4307692307692308,
+              "footRight": 0.5384615384615384
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 195,
+            "y": 896,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.9076923076923077,
+              "top": 0.171875,
+              "bottom": 0.921875,
+              "footLeft": 0.4461538461538462,
+              "footRight": 0.5230769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 260,
+            "y": 896,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1076923076923077,
+              "right": 0.8923076923076924,
+              "top": 0.15625,
+              "bottom": 0.90625,
+              "footLeft": 0.46153846153846156,
+              "footRight": 0.5538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 325,
+            "y": 896,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8923076923076924,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.5230769230769231,
+              "footRight": 0.6153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 390,
+            "y": 896,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8923076923076924,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.5538461538461539,
+              "footRight": 0.6461538461538462
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 455,
+            "y": 896,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 8,
+            "width": 53,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.09230769230769231,
+              "right": 0.8923076923076924,
+              "top": 0.15625,
+              "bottom": 0.90625,
+              "footLeft": 0.5538461538461539,
+              "footRight": 0.6461538461538462
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 60,
+        "top": 8,
+        "width": 53,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 0,
+            "y": 960,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 51,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.9076923076923077,
+              "top": 0.125,
+              "bottom": 0.9375,
+              "footLeft": 0.4153846153846154,
+              "footRight": 0.5230769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 65,
+            "y": 960,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 51,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8923076923076924,
+              "top": 0.109375,
+              "bottom": 0.921875,
+              "footLeft": 0.38461538461538464,
+              "footRight": 0.49230769230769234
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 130,
+            "y": 960,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 51,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.9076923076923077,
+              "top": 0.125,
+              "bottom": 0.921875,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.7538461538461538
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 195,
+            "y": 960,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 51,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.9076923076923077,
+              "top": 0.140625,
+              "bottom": 0.921875,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.7538461538461538
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 260,
+            "y": 960,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 51,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8923076923076924,
+              "top": 0.125,
+              "bottom": 0.90625,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.7384615384615385
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 325,
+            "y": 960,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 51,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8769230769230769,
+              "top": 0.109375,
+              "bottom": 0.90625,
+              "footLeft": 0.36923076923076925,
+              "footRight": 0.7230769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 390,
+            "y": 960,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 51,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.8769230769230769,
+              "top": 0.09375,
+              "bottom": 0.890625,
+              "footLeft": 0.4153846153846154,
+              "footRight": 0.7076923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+            "x": 455,
+            "y": 960,
+            "w": 65,
+            "h": 64,
+            "cx": 33,
+            "bottom": 60,
+            "top": 6,
+            "width": 51,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.12307692307692308,
+              "right": 0.9076923076923077,
+              "top": 0.109375,
+              "bottom": 0.90625,
+              "footLeft": 0.4461538461538462,
+              "footRight": 0.6615384615384615
+            }
+          }
+        ],
+        "cx": 33,
+        "bottom": 60,
+        "top": 6,
+        "width": 51,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 0,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.140625,
+                "bottom": 0.9375,
+                "footLeft": 0.3230769230769231,
+                "footRight": 0.6153846153846154
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 8,
+          "width": 53,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 64,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 55,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9230769230769231,
+                "top": 0.140625,
+                "bottom": 0.9375,
+                "footLeft": 0.4307692307692308,
+                "footRight": 0.5384615384615384
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 8,
+          "width": 55,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 128,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9230769230769231,
+                "top": 0.125,
+                "bottom": 0.9375,
+                "footLeft": 0.6153846153846154,
+                "footRight": 0.7230769230769231
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 8,
+          "width": 54,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 192,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 49,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8769230769230769,
+                "top": 0.09375,
+                "bottom": 0.9375,
+                "footLeft": 0.4307692307692308,
+                "footRight": 0.5538461538461539
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 6,
+          "width": 49,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 256,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.9076923076923077,
+                "top": 0.125,
+                "bottom": 0.9375,
+                "footLeft": 0.2923076923076923,
+                "footRight": 0.6615384615384615
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 8,
+          "width": 50,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 320,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 54,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9076923076923077,
+                "top": 0.125,
+                "bottom": 0.9375,
+                "footLeft": 0.3384615384615385,
+                "footRight": 0.4461538461538462
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 8,
+          "width": 54,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 384,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 9,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8923076923076924,
+                "top": 0.15625,
+                "bottom": 0.9375,
+                "footLeft": 0.5076923076923077,
+                "footRight": 0.6153846153846154
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 9,
+          "width": 52,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 448,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.9076923076923077,
+                "top": 0.140625,
+                "bottom": 0.9375,
+                "footLeft": 0.4307692307692308,
+                "footRight": 0.5384615384615384
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 8,
+          "width": 52,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 512,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.125,
+                "bottom": 0.9375,
+                "footLeft": 0.35384615384615387,
+                "footRight": 0.6307692307692307
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 65,
+              "y": 512,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.109375,
+                "bottom": 0.921875,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.6461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 130,
+              "y": 512,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.5538461538461539,
+                "footRight": 0.6461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 195,
+              "y": 512,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.140625,
+                "bottom": 0.90625,
+                "footLeft": 0.5692307692307692,
+                "footRight": 0.7384615384615385
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 260,
+              "y": 512,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.125,
+                "bottom": 0.890625,
+                "footLeft": 0.5846153846153846,
+                "footRight": 0.7692307692307693
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 325,
+              "y": 512,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9076923076923077,
+                "top": 0.109375,
+                "bottom": 0.875,
+                "footLeft": 0.5692307692307692,
+                "footRight": 0.7846153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 390,
+              "y": 512,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9076923076923077,
+                "top": 0.09375,
+                "bottom": 0.859375,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.8
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 455,
+              "y": 512,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9076923076923077,
+                "top": 0.109375,
+                "bottom": 0.90625,
+                "footLeft": 0.2923076923076923,
+                "footRight": 0.6
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 6,
+          "width": 53,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 576,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9230769230769231,
+                "top": 0.125,
+                "bottom": 0.9375,
+                "footLeft": 0.4461538461538462,
+                "footRight": 0.5538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 65,
+              "y": 576,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9230769230769231,
+                "top": 0.140625,
+                "bottom": 0.921875,
+                "footLeft": 0.47692307692307695,
+                "footRight": 0.5846153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 130,
+              "y": 576,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9230769230769231,
+                "top": 0.140625,
+                "bottom": 0.921875,
+                "footLeft": 0.49230769230769234,
+                "footRight": 0.5846153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 195,
+              "y": 576,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9230769230769231,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.26153846153846155,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 260,
+              "y": 576,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9230769230769231,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.5230769230769231,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 325,
+              "y": 576,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9230769230769231,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.49230769230769234,
+                "footRight": 0.5846153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 390,
+              "y": 576,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9230769230769231,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.4461538461538462,
+                "footRight": 0.5538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 455,
+              "y": 576,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9230769230769231,
+                "top": 0.140625,
+                "bottom": 0.921875,
+                "footLeft": 0.4307692307692308,
+                "footRight": 0.5230769230769231
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 8,
+          "width": 56,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 640,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 55,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9230769230769231,
+                "top": 0.09375,
+                "bottom": 0.9375,
+                "footLeft": 0.6461538461538462,
+                "footRight": 0.7538461538461538
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 65,
+              "y": 640,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 55,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9076923076923077,
+                "top": 0.09375,
+                "bottom": 0.921875,
+                "footLeft": 0.6615384615384615,
+                "footRight": 0.7846153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 130,
+              "y": 640,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 55,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9230769230769231,
+                "top": 0.109375,
+                "bottom": 0.90625,
+                "footLeft": 0.24615384615384617,
+                "footRight": 0.7846153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 195,
+              "y": 640,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 55,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.109375,
+                "bottom": 0.90625,
+                "footLeft": 0.27692307692307694,
+                "footRight": 0.7538461538461538
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 260,
+              "y": 640,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 55,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9230769230769231,
+                "top": 0.109375,
+                "bottom": 0.90625,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 325,
+              "y": 640,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 55,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9230769230769231,
+                "top": 0.09375,
+                "bottom": 0.90625,
+                "footLeft": 0.3230769230769231,
+                "footRight": 0.6615384615384615
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 390,
+              "y": 640,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 55,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9230769230769231,
+                "top": 0.09375,
+                "bottom": 0.921875,
+                "footLeft": 0.35384615384615387,
+                "footRight": 0.46153846153846156
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 455,
+              "y": 640,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 55,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9230769230769231,
+                "top": 0.109375,
+                "bottom": 0.921875,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.6615384615384615
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 6,
+          "width": 55,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 704,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8769230769230769,
+                "top": 0.078125,
+                "bottom": 0.9375,
+                "footLeft": 0.4,
+                "footRight": 0.5384615384615384
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 65,
+              "y": 704,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.9076923076923077,
+                "top": 0.078125,
+                "bottom": 0.9375,
+                "footLeft": 0.4,
+                "footRight": 0.8
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 130,
+              "y": 704,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8923076923076924,
+                "top": 0.09375,
+                "bottom": 0.921875,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.8307692307692308
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 195,
+              "y": 704,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8769230769230769,
+                "top": 0.109375,
+                "bottom": 0.921875,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.8
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 260,
+              "y": 704,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8615384615384616,
+                "top": 0.109375,
+                "bottom": 0.921875,
+                "footLeft": 0.6461538461538462,
+                "footRight": 0.7692307692307693
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 325,
+              "y": 704,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8615384615384616,
+                "top": 0.09375,
+                "bottom": 0.90625,
+                "footLeft": 0.4153846153846154,
+                "footRight": 0.7538461538461538
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 390,
+              "y": 704,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8769230769230769,
+                "top": 0.09375,
+                "bottom": 0.90625,
+                "footLeft": 0.4307692307692308,
+                "footRight": 0.7384615384615385
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 455,
+              "y": 704,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 5,
+              "width": 52,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8769230769230769,
+                "top": 0.109375,
+                "bottom": 0.9375,
+                "footLeft": 0.4307692307692308,
+                "footRight": 0.5538461538461539
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 5,
+          "width": 52,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 768,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 4,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.9076923076923077,
+                "top": 0.09375,
+                "bottom": 0.921875,
+                "footLeft": 0.2923076923076923,
+                "footRight": 0.4
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 65,
+              "y": 768,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 4,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.9076923076923077,
+                "top": 0.09375,
+                "bottom": 0.921875,
+                "footLeft": 0.3230769230769231,
+                "footRight": 0.4307692307692308
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 130,
+              "y": 768,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 4,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8769230769230769,
+                "top": 0.078125,
+                "bottom": 0.90625,
+                "footLeft": 0.3230769230769231,
+                "footRight": 0.4307692307692308
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 195,
+              "y": 768,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 4,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8307692307692308,
+                "top": 0.078125,
+                "bottom": 0.890625,
+                "footLeft": 0.3384615384615385,
+                "footRight": 0.6615384615384615
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 260,
+              "y": 768,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 4,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8307692307692308,
+                "top": 0.0625,
+                "bottom": 0.890625,
+                "footLeft": 0.35384615384615387,
+                "footRight": 0.6461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 325,
+              "y": 768,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 4,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8461538461538461,
+                "top": 0.0625,
+                "bottom": 0.90625,
+                "footLeft": 0.5230769230769231,
+                "footRight": 0.6461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 390,
+              "y": 768,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 4,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8615384615384616,
+                "top": 0.0625,
+                "bottom": 0.9375,
+                "footLeft": 0.5230769230769231,
+                "footRight": 0.6461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 455,
+              "y": 768,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 4,
+              "width": 50,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8769230769230769,
+                "top": 0.0625,
+                "bottom": 0.921875,
+                "footLeft": 0.5384615384615384,
+                "footRight": 0.6461538461538462
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 4,
+          "width": 50,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 832,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.125,
+                "bottom": 0.9375,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.4153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 65,
+              "y": 832,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9076923076923077,
+                "top": 0.140625,
+                "bottom": 0.9375,
+                "footLeft": 0.27692307692307694,
+                "footRight": 0.38461538461538464
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 130,
+              "y": 832,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9230769230769231,
+                "top": 0.15625,
+                "bottom": 0.9375,
+                "footLeft": 0.26153846153846155,
+                "footRight": 0.36923076923076925
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 195,
+              "y": 832,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9230769230769231,
+                "top": 0.140625,
+                "bottom": 0.921875,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.7230769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 260,
+              "y": 832,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9230769230769231,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.3230769230769231,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 325,
+              "y": 832,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9230769230769231,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.676923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 390,
+              "y": 832,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.9076923076923077,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.4,
+                "footRight": 0.6461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 455,
+              "y": 832,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 56,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.140625,
+                "bottom": 0.921875,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.6153846153846154
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 8,
+          "width": 56,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 896,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8923076923076924,
+                "top": 0.140625,
+                "bottom": 0.9375,
+                "footLeft": 0.49230769230769234,
+                "footRight": 0.6
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 65,
+              "y": 896,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8923076923076924,
+                "top": 0.125,
+                "bottom": 0.9375,
+                "footLeft": 0.46153846153846156,
+                "footRight": 0.5692307692307692
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 130,
+              "y": 896,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.9076923076923077,
+                "top": 0.140625,
+                "bottom": 0.921875,
+                "footLeft": 0.4307692307692308,
+                "footRight": 0.5384615384615384
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 195,
+              "y": 896,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.9076923076923077,
+                "top": 0.171875,
+                "bottom": 0.921875,
+                "footLeft": 0.4461538461538462,
+                "footRight": 0.5230769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 260,
+              "y": 896,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1076923076923077,
+                "right": 0.8923076923076924,
+                "top": 0.15625,
+                "bottom": 0.90625,
+                "footLeft": 0.46153846153846156,
+                "footRight": 0.5538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 325,
+              "y": 896,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8923076923076924,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.5230769230769231,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 390,
+              "y": 896,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8923076923076924,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.5538461538461539,
+                "footRight": 0.6461538461538462
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 455,
+              "y": 896,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 8,
+              "width": 53,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.09230769230769231,
+                "right": 0.8923076923076924,
+                "top": 0.15625,
+                "bottom": 0.90625,
+                "footLeft": 0.5538461538461539,
+                "footRight": 0.6461538461538462
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 8,
+          "width": 53,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 0,
+              "y": 960,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.9076923076923077,
+                "top": 0.125,
+                "bottom": 0.9375,
+                "footLeft": 0.4153846153846154,
+                "footRight": 0.5230769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 65,
+              "y": 960,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8923076923076924,
+                "top": 0.109375,
+                "bottom": 0.921875,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.49230769230769234
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 130,
+              "y": 960,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.9076923076923077,
+                "top": 0.125,
+                "bottom": 0.921875,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.7538461538461538
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 195,
+              "y": 960,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.9076923076923077,
+                "top": 0.140625,
+                "bottom": 0.921875,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.7538461538461538
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 260,
+              "y": 960,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8923076923076924,
+                "top": 0.125,
+                "bottom": 0.90625,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.7384615384615385
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 325,
+              "y": 960,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8769230769230769,
+                "top": 0.109375,
+                "bottom": 0.90625,
+                "footLeft": 0.36923076923076925,
+                "footRight": 0.7230769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 390,
+              "y": 960,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.8769230769230769,
+                "top": 0.09375,
+                "bottom": 0.890625,
+                "footLeft": 0.4153846153846154,
+                "footRight": 0.7076923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+              "x": 455,
+              "y": 960,
+              "w": 65,
+              "h": 64,
+              "cx": 33,
+              "bottom": 60,
+              "top": 6,
+              "width": 51,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.12307692307692308,
+                "right": 0.9076923076923077,
+                "top": 0.109375,
+                "bottom": 0.90625,
+                "footLeft": 0.4461538461538462,
+                "footRight": 0.6615384615384615
+              }
+            }
+          ],
+          "cx": 33,
+          "bottom": 60,
+          "top": 6,
+          "width": 51,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/sheep-fc96beb7e9d8.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "sheep",
+    "restoreOriginal": true
+  },
+  "frames": 72,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

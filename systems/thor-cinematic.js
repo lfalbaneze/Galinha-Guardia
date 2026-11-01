@@ -37,7 +37,6 @@ const ThorCinematic = (() => {
     // A warm spotlight replaces screen flashes, including in reduced-motion mode.
     const glow=c.createRadialGradient(dogX,dogFeet-85,20,dogX,dogFeet-85,narrow?280:350);
     glow.addColorStop(0,'#ffdf8438');glow.addColorStop(1,'#ffdf8400');c.fillStyle=glow;c.fillRect(0,0,W,H);
-    c.fillStyle='#18352870';c.beginPath();c.ellipse(W/2,floor+22,W*.42,30,0,0,Math.PI*2);c.fill();
     if(house)c.drawImage(house,houseX,floor-houseSize,houseSize,houseSize);
     else {
       c.fillStyle='#98703d';c.fillRect(houseX+30,floor-180,230,180);c.fillStyle='#214a3c';c.beginPath();c.moveTo(houseX+12,floor-180);c.lineTo(houseX+145,floor-280);c.lineTo(houseX+280,floor-180);c.fill();
@@ -47,9 +46,12 @@ const ThorCinematic = (() => {
     const playerSize=narrow?2.0:2.6;
     CharacterArt.draw(c,'chicken',playerX,playerFeet-14*playerSize,{skin:game.entities.chicken.skin,direction:'left',scale:playerSize,
       lift:arrived&&!reduced?Math.max(0,Math.sin((t-ThorSystem.healAt)*Math.PI*2))*10:0});
-    const emerging=ease(t/.85),dogHeight=lerp(narrow?100:115,narrow?145:168,emerging);
+    const emerging=ease(t/.85),moving=t>1.25&&!arrived&&!reduced;
+    const traveled=Math.hypot(dogX-homeX,dogFeet-homeFeet)/playerSize;
     c.save();c.globalAlpha=reduced?1:emerging;
-    ThorArt.drawHero(c,dogX,dogFeet,dogHeight,t<1.25?'down':arrived?'down':'right',reduced?0:t*10);c.restore();
+    // Share the cast's pixel scale; atlas padding must not shrink Thor beside the player.
+    CharacterArt.draw(c,'thor',dogX,dogFeet-14*playerSize,{scale:playerSize,direction:moving?'right':'downright',
+      action:moving?'run':arrived?'happy':'idle',moving,anim:CharacterArt.advance(0,'thor',traveled,{speed:110})});c.restore();
     if(t>1.3&&t<ThorSystem.healAt&&!reduced){
       c.fillStyle='#fff1bb88';
       for(let i=0;i<7;i++){const dx=(t*120+i*23)%100;c.fillRect(dogX-45-dx,dogFeet-20+(i%3)*7,12+(i%2)*10,3);}

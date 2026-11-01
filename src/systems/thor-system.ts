@@ -164,12 +164,7 @@ const ThorSystem = (() => {
     finishRescue(game);return true;
   }
   function walk(dog: Farm.Thor, target: Farm.Point, speed: number, dt: number): void {
-    dog.routeTimer-=dt;
-    if(dog.routeTimer<=0){dog.route=WolfAI.findPath(dog,target);dog.routeTimer=.65;}
-    if(!dog.route.length)return;
-    const moved=WildlifeRules.move(dog,dog.route[0],speed*dt);
-    if(moved==='arrived')dog.route.shift();
-    if(moved==='blocked'){dog.route=[];dog.routeTimer=0;}
+    WildlifeRules.navigate(dog,target,speed,dt);
   }
   function update(game: Farm.GameState, dt: number): void {
     if(game.phase!=='playing'||!Number.isFinite(dt)||dt<=0)return;

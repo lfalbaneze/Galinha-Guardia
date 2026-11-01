@@ -1,0 +1,4554 @@
+{
+  "id": "curupira",
+  "definition": {
+    "edition": 108,
+    "provider": "pixellab",
+    "pixelArt": true,
+    "smooth": false,
+    "scale": 1,
+    "cycle": 4,
+    "source": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+    "width": 416,
+    "height": 1512,
+    "viewRotation": 0,
+    "poses": {
+      "down": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 0,
+            "y": 504,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.3269230769230769,
+              "footRight": 0.6346153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 52,
+            "y": 504,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.34615384615384615,
+              "footRight": 0.6538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 104,
+            "y": 504,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.36538461538461536,
+              "footRight": 0.6538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 156,
+            "y": 504,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.34615384615384615,
+              "footRight": 0.6538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 208,
+            "y": 504,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.3269230769230769,
+              "footRight": 0.6346153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 260,
+            "y": 504,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8269230769230769,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.6346153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 312,
+            "y": 504,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8269230769230769,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.3269230769230769,
+              "footRight": 0.5961538461538461
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 364,
+            "y": 504,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 4,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.6346153846153846
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 59,
+        "top": 4,
+        "width": 35,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 0,
+            "y": 567,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.23076923076923078,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.34615384615384615,
+              "footRight": 0.5
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 52,
+            "y": 567,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.36538461538461536,
+              "footRight": 0.5384615384615384
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 104,
+            "y": 567,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.4230769230769231,
+              "footRight": 0.5961538461538461
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 156,
+            "y": 567,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.36538461538461536,
+              "footRight": 0.5384615384615384
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 208,
+            "y": 567,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21153846153846154,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.34615384615384615,
+              "footRight": 0.4807692307692308
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 260,
+            "y": 567,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21153846153846154,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.3269230769230769,
+              "footRight": 0.6730769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 312,
+            "y": 567,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21153846153846154,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9047619047619048,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.6923076923076923
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 364,
+            "y": 567,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21153846153846154,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.6538461538461539
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 59,
+        "top": 5,
+        "width": 33,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "left": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 0,
+            "y": 630,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.75,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.34615384615384615,
+              "footRight": 0.5576923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 52,
+            "y": 630,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7307692307692307,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.4230769230769231,
+              "footRight": 0.6153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 104,
+            "y": 630,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7307692307692307,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.5,
+              "footRight": 0.6923076923076923
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 156,
+            "y": 630,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7307692307692307,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.4807692307692308,
+              "footRight": 0.6538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 208,
+            "y": 630,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7307692307692307,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.40384615384615385,
+              "footRight": 0.5961538461538461
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 260,
+            "y": 630,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7307692307692307,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.28846153846153844,
+              "footRight": 0.4807692307692308
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 312,
+            "y": 630,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.75,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.25,
+              "footRight": 0.4230769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 364,
+            "y": 630,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.75,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.28846153846153844,
+              "footRight": 0.4807692307692308
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 59,
+        "top": 6,
+        "width": 29,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upleft": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 0,
+            "y": 693,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7884615384615384,
+              "top": 0.07936507936507936,
+              "bottom": 0.9047619047619048,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.6538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 52,
+            "y": 693,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21153846153846154,
+              "right": 0.7884615384615384,
+              "top": 0.07936507936507936,
+              "bottom": 0.9047619047619048,
+              "footLeft": 0.23076923076923078,
+              "footRight": 0.6153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 104,
+            "y": 693,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21153846153846154,
+              "right": 0.7884615384615384,
+              "top": 0.07936507936507936,
+              "bottom": 0.8888888888888888,
+              "footLeft": 0.23076923076923078,
+              "footRight": 0.6538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 156,
+            "y": 693,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.21153846153846154,
+              "right": 0.7884615384615384,
+              "top": 0.07936507936507936,
+              "bottom": 0.9047619047619048,
+              "footLeft": 0.23076923076923078,
+              "footRight": 0.5769230769230769
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 208,
+            "y": 693,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7884615384615384,
+              "top": 0.07936507936507936,
+              "bottom": 0.9047619047619048,
+              "footLeft": 0.3269230769230769,
+              "footRight": 0.6538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 260,
+            "y": 693,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1346153846153846,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.40384615384615385,
+              "footRight": 0.5576923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 312,
+            "y": 693,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.1346153846153846,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.36538461538461536,
+              "footRight": 0.5384615384615384
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 364,
+            "y": 693,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.4230769230769231,
+              "footRight": 0.5961538461538461
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 59,
+        "top": 5,
+        "width": 34,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "up": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 0,
+            "y": 756,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.8076923076923077,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.6730769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 52,
+            "y": 756,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.3269230769230769,
+              "footRight": 0.6730769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 104,
+            "y": 756,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.36538461538461536,
+              "footRight": 0.6730769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 156,
+            "y": 756,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.34615384615384615,
+              "footRight": 0.6730769230769231
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 208,
+            "y": 756,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.8076923076923077,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.6538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 260,
+            "y": 756,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.6153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 312,
+            "y": 756,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.46153846153846156
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 364,
+            "y": 756,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 34,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.6153846153846154
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 59,
+        "top": 6,
+        "width": 34,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "upright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 0,
+            "y": 819,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7692307692307693,
+              "top": 0.09523809523809523,
+              "bottom": 0.9047619047619048,
+              "footLeft": 0.3076923076923077,
+              "footRight": 0.6153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 52,
+            "y": 819,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.36538461538461536,
+              "footRight": 0.5192307692307693
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 104,
+            "y": 819,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7884615384615384,
+              "top": 0.09523809523809523,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.4807692307692308,
+              "footRight": 0.5769230769230769
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 156,
+            "y": 819,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.75,
+              "top": 0.09523809523809523,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.4423076923076923,
+              "footRight": 0.5576923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 208,
+            "y": 819,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.75,
+              "top": 0.09523809523809523,
+              "bottom": 0.9047619047619048,
+              "footLeft": 0.28846153846153844,
+              "footRight": 0.6153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 260,
+            "y": 819,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.75,
+              "top": 0.09523809523809523,
+              "bottom": 0.9047619047619048,
+              "footLeft": 0.28846153846153844,
+              "footRight": 0.6346153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 312,
+            "y": 819,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.75,
+              "top": 0.09523809523809523,
+              "bottom": 0.8888888888888888,
+              "footLeft": 0.2692307692307692,
+              "footRight": 0.6346153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 364,
+            "y": 819,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 6,
+            "width": 33,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.75,
+              "top": 0.09523809523809523,
+              "bottom": 0.9047619047619048,
+              "footLeft": 0.28846153846153844,
+              "footRight": 0.6346153846153846
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 59,
+        "top": 6,
+        "width": 33,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "right": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 0,
+            "y": 882,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7307692307692307,
+              "top": 0.07936507936507936,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.36538461538461536,
+              "footRight": 0.5961538461538461
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 52,
+            "y": 882,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7307692307692307,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.5,
+              "footRight": 0.6346153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 104,
+            "y": 882,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7307692307692307,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.5192307692307693,
+              "footRight": 0.6153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 156,
+            "y": 882,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7307692307692307,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.4807692307692308,
+              "footRight": 0.6153846153846154
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 208,
+            "y": 882,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7307692307692307,
+              "top": 0.07936507936507936,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.36538461538461536,
+              "footRight": 0.5961538461538461
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 260,
+            "y": 882,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7307692307692307,
+              "top": 0.07936507936507936,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.34615384615384615,
+              "footRight": 0.5384615384615384
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 312,
+            "y": 882,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7307692307692307,
+              "top": 0.07936507936507936,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.28846153846153844,
+              "footRight": 0.5576923076923077
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 364,
+            "y": 882,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 29,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.19230769230769232,
+              "right": 0.7307692307692307,
+              "top": 0.07936507936507936,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.34615384615384615,
+              "footRight": 0.5192307692307693
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 59,
+        "top": 5,
+        "width": 29,
+        "idleIndex": 0,
+        "flip": false
+      },
+      "downright": {
+        "frames": [
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 0,
+            "y": 945,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7692307692307693,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.5,
+              "footRight": 0.6538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 52,
+            "y": 945,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7692307692307693,
+              "top": 0.07936507936507936,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.25,
+              "footRight": 0.6346153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 104,
+            "y": 945,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.15384615384615385,
+              "right": 0.75,
+              "top": 0.07936507936507936,
+              "bottom": 0.9047619047619048,
+              "footLeft": 0.23076923076923078,
+              "footRight": 0.6346153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 156,
+            "y": 945,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7692307692307693,
+              "top": 0.07936507936507936,
+              "bottom": 0.9206349206349206,
+              "footLeft": 0.2692307692307692,
+              "footRight": 0.6346153846153846
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 208,
+            "y": 945,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.7692307692307693,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.5,
+              "footRight": 0.6538461538461539
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 260,
+            "y": 945,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.40384615384615385,
+              "footRight": 0.5769230769230769
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 312,
+            "y": 945,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.8461538461538461,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.34615384615384615,
+              "footRight": 0.5192307692307693
+            }
+          },
+          {
+            "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+            "x": 364,
+            "y": 945,
+            "w": 52,
+            "h": 63,
+            "cx": 26,
+            "bottom": 59,
+            "top": 5,
+            "width": 35,
+            "scale": 1,
+            "pixelArt": true,
+            "grounding": {
+              "left": 0.17307692307692307,
+              "right": 0.8076923076923077,
+              "top": 0.07936507936507936,
+              "bottom": 0.9365079365079365,
+              "footLeft": 0.40384615384615385,
+              "footRight": 0.5769230769230769
+            }
+          }
+        ],
+        "cx": 26,
+        "bottom": 59,
+        "top": 5,
+        "width": 35,
+        "idleIndex": 0,
+        "flip": false
+      }
+    },
+    "actions": {
+      "idle": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 0,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8461538461538461,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.6538461538461539
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 6,
+          "width": 37,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 63,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23076923076923078,
+                "right": 0.8269230769230769,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.6153846153846154
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 5,
+          "width": 31,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 126,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.25,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9523809523809523,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.5769230769230769
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 6,
+          "width": 29,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 189,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 32,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.8076923076923077,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.6730769230769231
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 6,
+          "width": 32,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 252,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 7,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8076923076923077,
+                "top": 0.1111111111111111,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6730769230769231
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 7,
+          "width": 34,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 315,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 7,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7884615384615384,
+                "top": 0.1111111111111111,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6153846153846154
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 7,
+          "width": 31,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 378,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.9523809523809523,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5961538461538461
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 6,
+          "width": 29,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 441,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 32,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.6730769230769231
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 5,
+          "width": 32,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "walk": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 504,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 504,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 504,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 504,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 504,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 504,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8269230769230769,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 504,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8269230769230769,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.5961538461538461
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 504,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6346153846153846
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 4,
+          "width": 35,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 567,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23076923076923078,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 567,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.5384615384615384
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 567,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.4230769230769231,
+                "footRight": 0.5961538461538461
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 567,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.5384615384615384
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 567,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21153846153846154,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.4807692307692308
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 567,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21153846153846154,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.6730769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 567,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21153846153846154,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6923076923076923
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 567,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21153846153846154,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6538461538461539
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 5,
+          "width": 33,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 630,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.5576923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 630,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.4230769230769231,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 630,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.5,
+                "footRight": 0.6923076923076923
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 630,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.4807692307692308,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 630,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5961538461538461
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 630,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.28846153846153844,
+                "footRight": 0.4807692307692308
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 630,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.25,
+                "footRight": 0.4230769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 630,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.28846153846153844,
+                "footRight": 0.4807692307692308
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 6,
+          "width": 29,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 693,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 693,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21153846153846154,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.23076923076923078,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 693,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21153846153846154,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.23076923076923078,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 693,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.21153846153846154,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.23076923076923078,
+                "footRight": 0.5769230769230769
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 693,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 693,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5576923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 693,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.5384615384615384
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 693,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.4230769230769231,
+                "footRight": 0.5961538461538461
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 5,
+          "width": 34,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 756,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8076923076923077,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6730769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 756,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.6730769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 756,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.6730769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 756,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.6730769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 756,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8076923076923077,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 756,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 756,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.46153846153846156
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 756,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6153846153846154
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 6,
+          "width": 34,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 819,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7692307692307693,
+                "top": 0.09523809523809523,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 819,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.5192307692307693
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 819,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.4807692307692308,
+                "footRight": 0.5769230769230769
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 819,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.4423076923076923,
+                "footRight": 0.5576923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 819,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.28846153846153844,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 819,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.28846153846153844,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 819,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.2692307692307692,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 819,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 33,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.28846153846153844,
+                "footRight": 0.6346153846153846
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 6,
+          "width": 33,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 882,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7307692307692307,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.5961538461538461
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 882,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7307692307692307,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.5,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 882,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7307692307692307,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.5192307692307693,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 882,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7307692307692307,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.4807692307692308,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 882,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7307692307692307,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.5961538461538461
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 882,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7307692307692307,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.5384615384615384
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 882,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7307692307692307,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.28846153846153844,
+                "footRight": 0.5576923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 882,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 29,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7307692307692307,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.5192307692307693
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 5,
+          "width": 29,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 945,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7692307692307693,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.5,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 945,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7692307692307693,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.25,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 945,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.75,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.23076923076923078,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 945,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7692307692307693,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.2692307692307692,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 945,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7692307692307693,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.5,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 945,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5769230769230769
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 945,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8461538461538461,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.5192307692307693
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 945,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5769230769230769
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 5,
+          "width": 35,
+          "idleIndex": 0,
+          "flip": false
+        }
+      },
+      "run": {
+        "down": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 1008,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8269230769230769,
+                "top": 0.06349206349206349,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 1008,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8269230769230769,
+                "top": 0.06349206349206349,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5576923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 1008,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.5192307692307693,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 1008,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8269230769230769,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.4807692307692308,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 1008,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8461538461538461,
+                "top": 0.07936507936507936,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5576923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 1008,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8461538461538461,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.46153846153846156
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 1008,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8269230769230769,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.46153846153846156
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 1008,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8269230769230769,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.4807692307692308
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 4,
+          "width": 35,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 1071,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11538461538461539,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5192307692307693
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 1071,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11538461538461539,
+                "right": 0.7692307692307693,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5384615384615384
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 1071,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.75,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.4423076923076923,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 1071,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.46153846153846156,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 1071,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.4807692307692308
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 1071,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7307692307692307,
+                "top": 0.07936507936507936,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6923076923076923
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 1071,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.5576923076923077,
+                "footRight": 0.7307692307692307
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 1071,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.5,
+                "footRight": 0.6538461538461539
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 5,
+          "width": 35,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "left": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 1134,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11538461538461539,
+                "right": 0.6730769230769231,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.5192307692307693
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 1134,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11538461538461539,
+                "right": 0.6730769230769231,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.5,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 1134,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11538461538461539,
+                "right": 0.6730769230769231,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.46153846153846156,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 1134,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11538461538461539,
+                "right": 0.6730769230769231,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.5384615384615384
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 1134,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.6730769230769231,
+                "top": 0.1111111111111111,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.25,
+                "footRight": 0.4423076923076923
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 1134,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7115384615384616,
+                "top": 0.1111111111111111,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6923076923076923
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 1134,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.6730769230769231,
+                "top": 0.09523809523809523,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.25,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 1134,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 5,
+              "width": 30,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11538461538461539,
+                "right": 0.6730769230769231,
+                "top": 0.09523809523809523,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.25,
+                "footRight": 0.5
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 5,
+          "width": 30,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upleft": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 1197,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.5769230769230769
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 1197,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7307692307692307,
+                "top": 0.1111111111111111,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.28846153846153844,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 1197,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7307692307692307,
+                "top": 0.1111111111111111,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.23076923076923078,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 1197,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7115384615384616,
+                "top": 0.1111111111111111,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.6923076923076923
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 1197,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.07692307692307693,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5576923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 1197,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11538461538461539,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 1197,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.11538461538461539,
+                "right": 0.75,
+                "top": 0.1111111111111111,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.4423076923076923
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 1197,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 36,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7307692307692307,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.46153846153846156
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 6,
+          "width": 36,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "up": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 1260,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.1346153846153846,
+                "right": 0.7884615384615384,
+                "top": 0.06349206349206349,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.5,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 1260,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.7884615384615384,
+                "top": 0.06349206349206349,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.5,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 1260,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.7884615384615384,
+                "top": 0.06349206349206349,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 1260,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 1260,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.8076923076923077,
+                "top": 0.06349206349206349,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.5961538461538461
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 1260,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.06349206349206349,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3076923076923077,
+                "footRight": 0.46153846153846156
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 1260,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8076923076923077,
+                "top": 0.06349206349206349,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 1260,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 34,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.15384615384615385,
+                "right": 0.7884615384615384,
+                "top": 0.06349206349206349,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.6538461538461539
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 4,
+          "width": 34,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "upright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 1323,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.8269230769230769,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 1323,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8461538461538461,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.5384615384615384
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 1323,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.46153846153846156,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 1323,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.40384615384615385,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 1323,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7692307692307693,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 1323,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7692307692307693,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.2692307692307692,
+                "footRight": 0.6730769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 1323,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.25,
+                "footRight": 0.40384615384615385
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 1323,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 35,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.25,
+                "footRight": 0.40384615384615385
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 4,
+          "width": 35,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "right": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 1386,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23076923076923078,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.5576923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 1386,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23076923076923078,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.4230769230769231,
+                "footRight": 0.5769230769230769
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 1386,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23076923076923078,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.6730769230769231
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 1386,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23076923076923078,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 1386,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23076923076923078,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.46153846153846156,
+                "footRight": 0.5961538461538461
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 1386,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23076923076923078,
+                "right": 0.8076923076923077,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.2692307692307692,
+                "footRight": 0.46153846153846156
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 1386,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23076923076923078,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.5,
+                "footRight": 0.6153846153846154
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 1386,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 6,
+              "width": 31,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.23076923076923078,
+                "right": 0.7884615384615384,
+                "top": 0.09523809523809523,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.36538461538461536,
+                "footRight": 0.5576923076923077
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 6,
+          "width": 31,
+          "idleIndex": 0,
+          "flip": false
+        },
+        "downright": {
+          "frames": [
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 0,
+              "y": 1449,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.4807692307692308,
+                "footRight": 0.6346153846153846
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 52,
+              "y": 1449,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.873015873015873,
+                "footLeft": 0.28846153846153844,
+                "footRight": 0.6538461538461539
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 104,
+              "y": 1449,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.21153846153846154,
+                "footRight": 0.38461538461538464
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 156,
+              "y": 1449,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.7884615384615384,
+                "top": 0.07936507936507936,
+                "bottom": 0.8888888888888888,
+                "footLeft": 0.2692307692307692,
+                "footRight": 0.46153846153846156
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 208,
+              "y": 1449,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.19230769230769232,
+                "right": 0.9038461538461539,
+                "top": 0.07936507936507936,
+                "bottom": 0.9047619047619048,
+                "footLeft": 0.46153846153846156,
+                "footRight": 0.5576923076923077
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 260,
+              "y": 1449,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8653846153846154,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.38461538461538464,
+                "footRight": 0.5192307692307693
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 312,
+              "y": 1449,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8461538461538461,
+                "top": 0.07936507936507936,
+                "bottom": 0.9365079365079365,
+                "footLeft": 0.3269230769230769,
+                "footRight": 0.5
+              }
+            },
+            {
+              "src": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+              "x": 364,
+              "y": 1449,
+              "w": 52,
+              "h": 63,
+              "cx": 26,
+              "bottom": 59,
+              "top": 4,
+              "width": 37,
+              "scale": 1,
+              "pixelArt": true,
+              "grounding": {
+                "left": 0.17307692307692307,
+                "right": 0.8076923076923077,
+                "top": 0.07936507936507936,
+                "bottom": 0.9206349206349206,
+                "footLeft": 0.34615384615384615,
+                "footRight": 0.5
+              }
+            }
+          ],
+          "cx": 26,
+          "bottom": 59,
+          "top": 4,
+          "width": 37,
+          "idleIndex": 0,
+          "flip": false
+        }
+      }
+    }
+  },
+  "sourceDefinition": "assets/sprites/pixellab-108/runtime/curupira-ffa5d5d29aab.png",
+  "workflow": "scripts/generate-comfyui-cast.py",
+  "settings": {
+    "source": "curupira",
+    "restoreOriginal": true
+  },
+  "frames": 136,
+  "silhouettePreserved": true,
+  "method": "native-recovery"
+}

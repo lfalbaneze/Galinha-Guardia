@@ -65,7 +65,7 @@ const Player = {
     }
     chicken.state = chicken.moving ? "walk" : "idle";
     chicken.anim = CharacterArt.advance(chicken.anim, 'chicken', traveled, {skin:chicken.skin,speed:dt>0?traveled/dt:0});
-    chicken.invulnerable = Math.max(0, chicken.invulnerable - dt);
+    chicken.invulnerable = Math.max(0, chicken.invulnerable - dt / power.hurtRecovery);
     if (moving) Player.face(chicken, move.x, move.y);
     HidingSpots.update(game, dt);
     EnvironmentSystem.update(game, dt, {x:oldX,y:oldY});

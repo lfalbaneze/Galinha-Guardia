@@ -1,9 +1,11 @@
 # Poses de resultado do Shuffle
 
-38 imagens PixelLab, duas por personagem para vitória e derrota.
-As aparências existentes servem de referência; os inimigos novos seguem o
-catálogo de identidade do projeto. São poses estáticas de resultado, separadas
-das animações de movimentação em oito direções.
+38 imagens de resultado, duas por personagem para vitória e derrota.
+As referências vêm dos personagens realmente carregados pela Revoada do Caos.
+36 imagens são recortes dos atlas nativos, preservando os pixels do desenho.
+Usam as expressões de alegria e tristeza quando disponíveis; os demais usam
+poses distintas de repouso e caminhada. A Midori mantém duas repinturas locais
+que preservam sua identidade de galinha sedosa japonesa.
 
 Sophis, corvo e coruja reutilizam seis quadros distintos dos atlas PixelLab
 instalados, com escala inteira e margens transparentes. São poses selecionadas
@@ -14,9 +16,9 @@ desenhados à mão e as gerações rejeitadas não foram instalados.
 `manifest.json` e `shuffle/result-art.js` apontam para PNGs transparentes de
 128 × 128, com nomes derivados do conteúdo. Os arquivos funcionam offline.
 
-Geração: `node scripts/generate-shuffle-results.cjs [identificador]`.
-Depois da inspeção visual: `node scripts/generate-shuffle-results.cjs --install [identificador]`.
-Extração local sem API: `node scripts/generate-shuffle-results.cjs --from-atlas enemy-amanda enemy-crow enemy-owl`.
-Após conferir os arquivos `*-atlas.png`, repetir com `--install` para atualizar o manifest.
-Referências, resultados rejeitados e registros de geração ficam em `preview/pixellab/results`
-e `.cache/pixellab`, fora do pacote publicado. A chave fica em `.env.local`.
+Com o ComfyUI local ligado e os atlas do modo instalados:
+`node scripts/prepare-chaos-sprites.cjs --mode`, depois
+`.\.cache\comfyui\venv\Scripts\python.exe scripts/generate-comfyui-chaos.py` e
+`node scripts/build-chaos-art.cjs`.
+As receitas, referências e resultados rejeitados ficam em `.cache`, fora do
+pacote publicado. `assets/shuffle/chaos-111/portraits.json` registra cada recorte.
