@@ -476,7 +476,7 @@
     if(!run?.player){for(const prop of [...sceneryProps].sort((a,b)=>a.y-b.y))obstacle(prop);ctx.restore();return;}
     if(run.stage<9&&!isSurvival()){const gate=run.exit,open=E.exitReady(run);ctx.save();ctx.translate(gate.x,gate.y);if(gate.side%2)ctx.rotate(Math.PI/2);ctx.fillStyle=open?'#e3c77f':'#314f3b';ctx.fillRect(-17,-36,34,72);ctx.strokeStyle='#e9dab0';ctx.lineWidth=2;ctx.strokeRect(-20,-39,40,78);ctx.restore();label(open?'SAÍDA':run.boss?'VENÇA PANTO':`${run.friends.length} RESGATES`,gate.x,gate.y-51);}
     if(run.decoy){ctx.fillStyle='#f1cf58';for(let i=0;i<9;i++)ctx.fillRect(run.decoy.x+(i%3)*6-8,run.decoy.y+Math.floor(i/3)*4-4,4,3);}
-    if(isSurvival())for(const item of run.pickups){pickup(item);if(item.kind!=='xp'&&Math.hypot(item.x-p.x,item.y-p.y)<90)label(S.POWERS[item.kind]?.name||'Leite · +2 vidas',item.x,item.y-24);}
+    if(isSurvival())for(const item of run.pickups){pickup(item);if(item.kind!=='xp'&&Math.hypot(item.x-p.x,item.y-p.y)<90)label(S.POWERS[item.kind]?.name||'Leite · +2 corações',item.x,item.y-32);}
     const warnings=isSurvival()?danger():[];
     if(isSurvival())for(const field of run.fusionFields)ShuffleFX.field(ctx,field,run.elapsed,reduced);
     const altar=isSurvival()&&run.secretAltar;

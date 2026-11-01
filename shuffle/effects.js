@@ -1,4 +1,4 @@
-/* PixelLab item atlas shared by ground loot and HUD; Canvas combat effects. */
+/* Dedicated pickup sprites, power-card catalog and Canvas combat effects. */
 const ShuffleFX=(() => {
   'use strict';
   const ink='#243c35',TAU=Math.PI*2;
@@ -94,11 +94,10 @@ const ShuffleFX=(() => {
   }
   function loot(c,item,time,reduced){
     const {x,y,kind}=item;
-    if(kind==='xp'){catalogIcon(c,kind,x,y,18);return;}
+    if(kind==='xp'){icon(c,kind,x,y,32);return;}
     const phase=(reduced?0:time*2)+x*.03,bob=reduced?0:Math.sin(phase);
     c.save();c.translate(Math.round(x),Math.round(y+bob));
-    catalogIcon(c,kind,0,0,28);
-    if(!reduced)star(c,10,-10,1.5,'#fff4cf');
+    icon(c,kind,0,0,48);
     c.restore();
   }
   function hazard(c,h,time,reduced){
@@ -242,7 +241,7 @@ const ShuffleFX=(() => {
       path(c,points,null,'#428bbc',5);path(c,points,null,'#b0efff',2);path(c,points,null,'#ffffff',1);
       star(c,dx,dy,7*fade,'#e6fbff');
     }else if(e.kind==='collect'){
-      catalogIcon(c,visual,0,-t*35,32*(1+t*.25));
+      icon(c,visual,0,-t*35,(visual==='xp'?32:48)*(1+t*.25));
       for(let i=0;i<6;i++){const a=i*TAU/6;star(c,Math.cos(a)*reach,Math.sin(a)*reach,4*fade,'#fff0a4');}
     }else if(e.kind==='sickle'){
       c.rotate(t*TAU);

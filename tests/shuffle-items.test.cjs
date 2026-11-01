@@ -97,6 +97,28 @@ test('every Shuffle portrait uses its own installed animated character atlas',as
   }
 });
 
+test('ground pickups and collection effects use the item atlas even with the card catalog loaded',async()=>{
+  const root=path.resolve(__dirname,'..');
+  const fx=vm.runInNewContext(fs.readFileSync(path.join(root,'shuffle/effects.js'),'utf8')+';ShuffleFX');
+  await Promise.all([
+    loadImage(path.join(root,statics.items.source)).then(image=>fx.setItemSheet(image)),
+    loadImage(path.join(root,statics.catalog.source)).then(image=>fx.setCatalogSheet(image,Object.keys(statics.catalog.cells)))
+  ]);
+  for(const [kind,size]of [['xp',32],['milk',48]]){
+    const expected=createCanvas(96,96),actual=createCanvas(96,96);
+    fx.icon(expected.getContext('2d'),kind,48,48,size);
+    fx.loot(actual.getContext('2d'),{kind,x:48,y:48},0,true);
+    assert.deepEqual(actual.toBuffer('image/png'),expected.toBuffer('image/png'),kind);
+    const pixels=actual.getContext('2d').getImageData(0,0,96,96).data,ys=[];
+    for(let y=0;y<96;y++)for(let x=0;x<96;x++)if(pixels[(y*96+x)*4+3])ys.push(y);
+    assert.ok(Math.max(...ys)-Math.min(...ys)>=20,kind+': readable at world scale');
+    const c=actual.getContext('2d'),draws=[],drawImage=c.drawImage.bind(c);
+    c.drawImage=(image,...args)=>{draws.push(image);drawImage(image,...args);};
+    fx.effect(c,{kind:'collect',visual:kind,x:48,y:48,time:.3},true);
+    assert.ok(draws.length>0);assert.ok(draws.every(image=>image.width===192),kind+': collection keeps the same sprite');
+  }
+});
+
 test('six ComfyUI items render distinct complete transparent sprites in world and HUD',async()=>{
   const root=path.resolve(__dirname,'..');
   const fx=vm.runInNewContext(fs.readFileSync(path.join(root,'shuffle/effects.js'),'utf8')+';ShuffleFX');
