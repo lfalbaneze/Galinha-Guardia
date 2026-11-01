@@ -156,7 +156,7 @@ try:
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), 'Mobile controls fit'
 
             # A normal campaign start must unlock audio on the card click, too.
-            page.goto(base + 'shuffle/index.html')
+            page.goto(base + 'shuffle/index.html#rescue')
             page.wait_for_function('ShuffleDemo.ready')
             page.locator('#startRun').click()
             page.wait_for_function('media.some(a => a.loop && !a.paused && a.currentTime > .1)')

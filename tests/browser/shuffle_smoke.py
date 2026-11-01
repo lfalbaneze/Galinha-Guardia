@@ -23,7 +23,7 @@ def fixture(stage,phase='playing'):
 def restore(page,data):
     page.evaluate('(d)=>localStorage.setItem(ShuffleDemo.saveKey,JSON.stringify(d))',data)
     page.reload(wait_until='networkidle');page.wait_for_function(READY)
-    page.locator('.intro-rescue summary').click();page.locator('#continueRun').click()
+    page.locator('#continueRun').click()
 
 held=set()
 def move_keys(page,x,y):
@@ -92,9 +92,9 @@ with sync_playwright() as p:
     for width,height,touch in [(1280,900,False),(390,844,True),(844,390,True)]:
         context=browser.new_context(viewport={'width':width,'height':height},has_touch=touch,is_mobile=touch)
         page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
-        page.goto(BASE+'shuffle/',wait_until='networkidle');page.wait_for_function(READY)
+        page.goto(BASE+'shuffle/#rescue',wait_until='networkidle');page.wait_for_function(READY)
         page.evaluate("localStorage.setItem('penas-pro-ar.shuffle.v1','preserve-legacy');localStorage.setItem('classic-save-sentinel','keep')")
-        page.locator('.intro-rescue summary').click();page.locator('#startRun').click();assert page.locator('[data-skill]').count()==3
+        page.locator('#startRun').click();assert page.locator('[data-skill]').count()==3
         assert page.locator('.campaign>span').count()==10
         assert page.locator('.campaign .boss').count()==2
         page.locator('#reroll').click();assert page.locator('#reroll').is_disabled()
@@ -118,7 +118,7 @@ with sync_playwright() as p:
             box=page.locator('#'+name).bounding_box();assert box and box['height']>=44
         map_before=page.evaluate('JSON.stringify(ShuffleDemo.run.layout)')
         page.screenshot(path=str(OUT/f'play-{width}.png'))
-        page.reload(wait_until='networkidle');page.wait_for_function(READY);page.locator('.intro-rescue summary').click();page.locator('#continueRun').click()
+        page.reload(wait_until='networkidle');page.wait_for_function(READY);page.locator('#continueRun').click()
         assert page.evaluate('JSON.stringify(ShuffleDemo.run.layout)')==map_before
         assert page.evaluate("localStorage.getItem('penas-pro-ar.shuffle.v1')")=='preserve-legacy'
         assert page.evaluate("localStorage.getItem('classic-save-sentinel')")=='keep'
@@ -126,7 +126,7 @@ with sync_playwright() as p:
         results.append({'viewport':[width,height],'touch':touch,'movement':True,'pause':True,'sameMapReload':True,'errors':errors})
         context.close()
     context=browser.new_context(viewport={'width':1280,'height':900});page=context.new_page();errors=[]
-    page.on('pageerror',lambda e:errors.append(str(e)));page.goto(BASE+'shuffle/',wait_until='networkidle');page.wait_for_function(READY)
+    page.on('pageerror',lambda e:errors.append(str(e)));page.goto(BASE+'shuffle/#rescue',wait_until='networkidle');page.wait_for_function(READY)
     maps=[]
     for stage in range(10):
         restore(page,fixture(stage));assert page.locator('#stageLabel').inner_text().startswith(f'{stage+1} / 10')
@@ -141,11 +141,14 @@ with sync_playwright() as p:
     play_boss(page,4);play_boss(page,9)
     assert not errors,errors
     page.goto(BASE+'index.html',wait_until='networkidle');page.locator('#shuffleModeLink').wait_for(state='visible')
-    page.locator('#shuffleModeLink').click();page.wait_for_url('**/shuffle/index.html#survival');page.wait_for_function(READY)
+    page.locator('#shuffleModeLink').click();page.wait_for_url('**/shuffle/index.html*#survival');page.wait_for_function(READY)
+    assert page.locator('#startSurvival').count()==1 and page.locator('#startRun').count()==0
+    page.locator('.intro-mode-link').click();page.locator('#startRun').wait_for(state='visible')
+    page.go_back();page.locator('#startSurvival').wait_for(state='visible')
     results.append({'classicMenuEntry':True})
     context.close()
-    page=browser.new_page();page.goto((Path('dist')/'shuffle'/'index.html').resolve().as_uri(),wait_until='networkidle')
-    page.wait_for_function(READY);page.locator('.intro-rescue summary').click();page.locator('#startRun').click();assert page.locator('[data-skill]').count()==3
+    page=browser.new_page();page.goto((Path('dist')/'shuffle'/'index.html').resolve().as_uri()+'#rescue',wait_until='networkidle')
+    page.wait_for_function(READY);page.locator('#startRun').click();assert page.locator('[data-skill]').count()==3
     results.append({'packagedFileProtocol':True})
     browser.close()
 (OUT/'results.json').write_text(json.dumps(results,indent=2),encoding='utf-8')

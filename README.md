@@ -49,7 +49,8 @@ Pressione **F3** durante a aventura para ligar ou desligar a depuração da IA: 
 Baixe ou clone o repositório e abra `index.html` no navegador. Não é necessário instalar dependências para jogar; os scripts compilados acompanham o projeto.
 
 No menu, **Revoada do Caos** abre a preparação: escolha o bicho e o tipo de partida,
-depois clique em **Nova Revoada**. A pausa também oferece **Novo jogo** para voltar
+depois clique em **Começar Revoada**. O **Resgate por fases** tem uma tela própria,
+acessível pelo link no rodapé, com seu checkpoint separado. A pausa também oferece **Novo jogo** para voltar
 à preparação; a tentativa de sobrevivência atual termina. São mapas
 procedurais, 30 habilidades combináveis e dez arenas diferentes com chefes. WASD/setas
 movem, Espaço esquiva e os ataques são automáticos. Você começa no nível 1,

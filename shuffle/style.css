@@ -61,16 +61,14 @@
 .intro-copy #heroDescription{grid-column:1;grid-row:3}.panel :is(#heroDescription,.hero-description){white-space:pre-line}.intro-copy label[for=survivalStyle]{grid-column:2;grid-row:1}
 .intro-copy #survivalStyle{grid-column:2;grid-row:2}.intro-copy #styleDescription{grid-column:2;grid-row:3}
 .intro-copy .survival-wardrobe .subtle{margin:0;line-height:1.5;font-size:11px}
-.intro-copy .panel-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:9px;margin-top:18px}
-.intro-rescue{margin-top:18px;padding-top:12px;border-top:1px dashed #aa8f5f}
-.intro-rescue summary{padding:8px 4px;min-height:44px;color:#3b5738;font-size:14px;font-weight:900;cursor:pointer}
-.intro-rescue summary:focus-visible{outline:3px solid #48673d;outline-offset:3px}
-.panel .intro-rescue p{margin:6px 0 12px;font-size:12px}
-.intro-rescue .panel-actions{grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));margin-top:12px}
-.intro-copy #startSurvival{grid-column:1/-1;min-height:68px;font-size:26px}
+.intro-copy .panel-actions{display:flex;justify-content:flex-start;align-items:center;gap:12px;margin-top:18px}
+.intro-copy .panel-actions .primary{width:320px;max-width:100%;flex:0 1 320px;min-height:68px;font-size:26px}
 .intro-copy .panel-actions button:not(.primary){font-size:12px;padding-inline:10px}
 .panel .intro-copy #loading{margin:10px 0 0;font-size:12px;color:#685336}
-.intro-copy .back{margin-top:14px}
+.intro-navigation{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-top:24px;padding-top:16px;border-top:1px dashed #aa8f5f}
+.intro-navigation .back{margin-top:0}
+.intro-mode-link{color:#3b5738;font-size:12px;font-weight:900;text-underline-offset:3px}
+.intro-mode-link:hover{color:#233e27}.intro-mode-link:focus-visible{outline:3px solid #48673d;outline-offset:4px}
 #app:has(#overlay:not([hidden]) .chaos-intro) :is(#controls,.hud,#notice){display:none}
 .panel .result-stamp{color:#5a713c}.panel .result-quips [data-outcome=lose] .result-stamp{color:#8a4f66}
 .panel .fusion-recipe p{color:#e7e1c6}.panel .fusion-recipe h3{font-size:23px}
@@ -86,7 +84,7 @@
  .intro-copy .survival-wardrobe{grid-template-columns:minmax(0,1fr)}
  .intro-copy .survival-wardrobe>:is(label,#survivalSkin,#heroDescription,#survivalStyle,#styleDescription){grid-column:1;grid-row:auto}
  .panel .intro-copy h1{font-size:40px}
- .intro-copy #startSurvival{font-size:24px}
+ .intro-copy .panel-actions .primary{min-height:58px;font-size:22px}
 }
 @media(orientation:landscape) and (max-height:560px){
  .panel:has(.chaos-intro){padding:18px;width:min(960px,100%)}

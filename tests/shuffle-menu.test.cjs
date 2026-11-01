@@ -1,35 +1,61 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const source=fs.readFileSync('shuffle/ui.js','utf8');
-function menu(ready,checkpoint){
+function menu(ready,checkpoint,hash='#survival'){
   const controls=new Map(),calls=[];
-  const $=id=>controls.get(id);
-  const context=vm.createContext({ready,checkpoint,screenKey:'',run:null,saveAvailable:true,location:{hash:'#survival'},S:{STAGES:Array(10)},
-    $:id=>$(id),crypto:{getRandomValues:a=>{a[0]=123;return a;}},
+  const context=vm.createContext({ready,checkpoint,screenKey:'',run:null,saveAvailable:true,location:{hash},S:{STAGES:Array(10)},
+    $:id=>controls.get(id),crypto:{getRandomValues:a=>{a[0]=123;return a;}},
     E:{newRun:seed=>({seed}),checkpoint:run=>({...run})},
     startSurvival:()=>calls.push('survival'),store:run=>calls.push(['save',run]),sync:()=>calls.push('sync'),wardrobe:()=>calls.push('wardrobe'),
-    modal:html=>{context.markup=html;for(const [,id]of html.matchAll(/id="([^"]+)"/g))controls.set(id,{disabled:true});},
-    element:(tag,text)=>({textContent:text}),panel:{querySelector:()=>({prepend:node=>controls.set(node.id,node)})}});
+    modal:html=>{context.markup=html;for(const [,id]of html.matchAll(/id="([^"]+)"/g))controls.set(id,{disabled:true});
+      for(const [,id,label]of html.matchAll(/<button[^>]*id="([^"]+)"[^>]*>([^<]*)</g))controls.get(id).textContent=label;}});
   vm.runInContext(source.slice(source.indexOf('  function intro(){'),source.indexOf('  function draft(){')),context);
   vm.runInContext('intro();',context);
   return {context,controls,calls};
 }
-test('the farmhouse entrance keeps both modes blocked while assets load and renders the checkpoint without changing it',()=>{
-  const checkpoint={seed:456,stage:4},h=menu(false,checkpoint);
-  assert.match(h.context.markup,/class="chaos-intro"/);assert.match(h.context.markup,/id="panelTitle"/);
-  for(const id of ['startRun','startSurvival','continueRun'])assert.equal(h.controls.get(id).disabled,true);
-  assert.deepEqual(h.calls,['wardrobe']);assert.deepEqual(checkpoint,{seed:456,stage:4});
+
+test('each preparation screen blocks its own start actions until assets load',()=>{
+  const checkpoint={seed:456,stage:4};
+  for(const hash of ['#survival','#rescue']){
+    const h=menu(false,checkpoint,hash);
+    assert.match(h.context.markup,/class="chaos-intro"/);assert.match(h.context.markup,/id="panelTitle"/);
+    for(const id of hash==='#rescue'?['startRun','continueRun']:['startSurvival'])assert.equal(h.controls.get(id).disabled,true);
+    h.context.ready=true;vm.runInContext('loaded();',h.context);
+    for(const id of hash==='#rescue'?['startRun','continueRun']:['startSurvival'])assert.equal(h.controls.get(id).disabled,false);
+    assert.deepEqual(checkpoint,{seed:456,stage:4});
+  }
 });
-test('ready entrance starts survival, restores the existing campaign or creates a fresh campaign through the original handlers',()=>{
+
+test('Revoada has only one start action even when a rescue checkpoint exists',()=>{
   const checkpoint={seed:456,stage:4},h=menu(true,checkpoint);
-  for(const id of ['startRun','startSurvival','continueRun'])assert.equal(h.controls.get(id).disabled,false);
-  assert.equal(h.controls.get('startSurvival').textContent,'Nova Revoada');
-  assert.equal(h.context.run,null,'the survival link must show setup before starting');
+  assert.equal(h.controls.get('startSurvival').disabled,false);
+  assert.equal(h.controls.get('startSurvival').textContent,'Começar Revoada');
+  assert.ok(!h.controls.has('startRun')&&!h.controls.has('continueRun'));
+  assert.match(h.context.markup,/href="#rescue"/);
+  assert.equal(h.context.run,null,'the survival link shows setup before starting');
   assert.deepEqual(h.calls,['wardrobe'],'finishing loading never starts a match automatically');
   h.controls.get('startSurvival').onclick();assert.ok(h.calls.includes('survival'));
+  assert.deepEqual(checkpoint,{seed:456,stage:4});
+});
+
+test('the separate rescue screen retains both checkpoint and fresh rescue actions',()=>{
+  const checkpoint={seed:456,stage:4},h=menu(true,checkpoint,'#rescue');
+  for(const id of ['startRun','continueRun'])assert.equal(h.controls.get(id).disabled,false);
+  assert.ok(!h.controls.has('startSurvival'));assert.ok(!h.calls.includes('wardrobe'));
+  assert.match(h.context.markup,/href="#survival"/);
   h.controls.get('continueRun').onclick();assert.equal(h.context.run,checkpoint);
   h.controls.get('startRun').onclick();assert.equal(h.context.run.seed,123);
   assert.equal(checkpoint.seed,456);assert.ok(h.calls.some(c=>Array.isArray(c)&&c[0]==='save'));
-  assert.doesNotMatch(menu(true,null).context.markup,/id="continueRun"/);
+  const fresh=menu(true,null,'#rescue');
+  assert.doesNotMatch(fresh.context.markup,/id="continueRun"/);
+  assert.equal(fresh.controls.get('startRun').textContent,'Começar resgate');
+});
+
+test('changing menu routes cannot reset an active match',()=>{
+  let handler,opened=0;
+  const c=vm.createContext({run:{seed:123},window:{addEventListener:(event,callback)=>{handler=callback;}},intro:()=>opened++});
+  vm.runInContext(source.split('\n').find(line=>line.includes("addEventListener('hashchange'")),c);
+  handler();assert.equal(opened,0);assert.equal(c.run.seed,123);
+  c.run=null;handler();assert.equal(opened,1);
 });
 
 test('new game from either pause menu opens setup and preserves the rescue checkpoint',()=>{

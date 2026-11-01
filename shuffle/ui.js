@@ -127,31 +127,26 @@
     mode.value=selectedStyle;mode.onchange=()=>{selectedStyle=mode.value;modeText.textContent=S.STYLES[selectedStyle].text;};mode.onchange();
     box.append(label,select,description,modeLabel,mode,modeText);panel.querySelector('.panel-actions').before(box);
   }
-  function intro(){screenKey='intro';modal(`<div class="chaos-intro">
+  function intro(){const rescue=location.hash==='#rescue';screenKey='intro';modal(`<div class="chaos-intro">
     <aside class="intro-scene" aria-label="A turma da fazenda">
       <img src="../assets/menu/cover-9dd81acab19e.png" width="624" height="416" alt="A galinha e seus amigos no terreiro, com o lobo espiando atrás da cerca." />
-      <h2>O terreiro virou arena.</h2><p>30 habilidades. ${S.STAGES.length} fases.<br>E uns segredinhos no mato.</p>
+      <h2>${rescue?'A turma conta com você.':'O terreiro virou arena.'}</h2><p>${rescue?'Encontre os amigos.<br>Abra caminho até a porteira.':`30 habilidades. ${S.STAGES.length} fases.<br>E uns segredinhos no mato.`}</p>
     </aside>
-    <div class="intro-copy"><span class="eyebrow">REVOADA DO CAOS</span><h1 id="panelTitle">Segura essa<br>revoada!</h1>
-      <p>Escolha seu bicho, enfrente as hordas e recolha XP. A cada nível, escolha um de três poderes. Combine armas e encare os chefes da fazenda.</p>
-      <div class="panel-actions"></div>
+    <div class="intro-copy"><span class="eyebrow">${rescue?'RESGATE POR FASES':'REVOADA DO CAOS'}</span><h1 id="panelTitle">${rescue?'Ninguém fica<br>pra trás!':'Segura essa<br>revoada!'}</h1>
+      <p>${rescue?'Explore os mapas, encontre os amigos e alcance a porteira. Escolha uma habilidade a cada fase e abra caminho pelos guardiões da fazenda.':'Escolha seu bicho, enfrente as hordas e recolha XP. A cada nível, escolha um de três poderes. Combine armas e encare os chefes da fazenda.'}</p>
+      <div class="panel-actions">${rescue?`${checkpoint?'<button id="continueRun" class="primary" disabled>Continuar resgate</button>':''}<button id="startRun" ${checkpoint?'':'class="primary"'} disabled>${checkpoint?'Novo resgate':'Começar resgate'}</button>`:'<button id="startSurvival" class="primary" disabled>Começar Revoada</button>'}</div>
       <p id="loading" class="subtle" role="status">Chamando a turma da fazenda…</p>
-      <details class="intro-rescue"><summary>Resgate por fases${checkpoint?' · partida salva':''}</summary>
-        <p>Explore os mapas, encontre os amigos e alcance a porteira. ${saveAvailable?'O progresso é salvo no início de cada fase.':'O salvamento está indisponível nesta aba.'}</p>
-        <div class="panel-actions"><button id="startRun" disabled>Novo resgate</button>${checkpoint?'<button id="continueRun" disabled>Continuar resgate</button>':''}</div>
-      </details>
-      <a class="back" href="../index.html">Voltar ao menu principal</a>
+      <nav class="intro-navigation" aria-label="Outros modos"><a class="back" href="../index.html">Voltar ao menu principal</a><a class="intro-mode-link" href="${rescue?'#survival':'#rescue'}">${rescue?'Jogar Revoada do Caos':'Resgate por fases'}</a></nav>
     </div></div>`);
-    const survivalButton=element('button','Nova Revoada','primary');survivalButton.id='startSurvival';survivalButton.disabled=!ready;
-    panel.querySelector('.panel-actions').prepend(survivalButton);survivalButton.onclick=()=>startSurvival();
-    $('startRun').onclick=()=>{if(!ready)return;run=E.newRun(crypto.getRandomValues(new Uint32Array(1))[0]);store(E.checkpoint(run));screenKey='';sync();};
+    if($('startSurvival'))$('startSurvival').onclick=()=>startSurvival();
+    if($('startRun'))$('startRun').onclick=()=>{if(!ready)return;run=E.newRun(crypto.getRandomValues(new Uint32Array(1))[0]);store(E.checkpoint(run));screenKey='';sync();};
     if($('continueRun'))$('continueRun').onclick=()=>{if(!ready)return;run=checkpoint;screenKey='';sync();};
-    wardrobe();if(ready)loaded();
+    if(!rescue)wardrobe();if(ready)loaded();
   }
-  function loaded(){if(!$('startRun'))return;$('startRun').disabled=false;$('startRun').textContent='Novo resgate';
-    $('startSurvival').disabled=false;
-    if($('continueRun'))$('continueRun').disabled=false;
-    $('loading').textContent=`Sobreviva a ${S.STAGES.length} fases e chefes. Esta partida não tem checkpoint.`;
+  function loaded(){if(!$('startSurvival')&&!$('startRun'))return;
+    for(const id of ['startSurvival','startRun','continueRun'])if($(id))$(id).disabled=false;
+    $('loading').textContent=$('startSurvival')?`Sobreviva a ${S.STAGES.length} fases e chefes. Esta partida não tem checkpoint.`:
+      saveAvailable?'O progresso do resgate é salvo no início de cada fase.':'O salvamento está indisponível nesta aba.';
   }
   function draft(){const stage=E.STAGES[run.stage];modal(`<span class="eyebrow">ETAPA ${run.stage+1} DE ${E.STAGES.length} · ESCOLHA 1 HABILIDADE</span><h2 id="panelTitle">${stage.name}</h2><p>${stage.subtitle} As habilidades escolhidas continuam nas próximas fases.</p><nav class="campaign" aria-label="Progresso das 10 fases">${E.STAGES.map((s,i)=>`<span class="${i<run.stage?'done':i===run.stage?'current':''} ${s.boss?'boss':''}" title="${s.name}" ${i===run.stage?'aria-current="step"':''}>${String(i+1).padStart(2,'0')}${s.boss?'<small>CHEFE</small>':''}</span>`).join('')}</nav><div id="cards" class="cards"></div><div class="panel-actions"><button id="reroll" ${run.rerolls?'':'disabled'}>${run.rerolls?'Embaralhar uma vez':'Embaralhamento usado'}</button></div><p class="subtle">O jogo fica pausado enquanto você escolhe. Entre fases, recupera ${E.stats(run).stageHealing} ${E.stats(run).stageHealing>1?'corações':'coração'}. Semente: ${run.seed}.</p>`);
     for(const id of run.choices){const card=E.SKILLS.find(s=>s.id===id),rank=(run.skills[id]||0)+1;
@@ -532,6 +527,7 @@
   });document.addEventListener('keyup',e=>keys.delete(e.code));
   const stop=()=>{audioSuspended=true;clearInput();if(run?.phase==='playing'&&!run.paused){E.pause(run,true);screenKey='';sync();}else syncAudio();};
   window.addEventListener('focus',()=>{audioSuspended=false;syncAudio();});
+  window.addEventListener('hashchange',()=>{if(!run)intro();});
   window.addEventListener('blur',stop);window.addEventListener('pagehide',()=>{stop();AudioSystem.pause();});document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   for(const event of ['pointerdown','keydown','click'])document.addEventListener(event,unlockAudio,{capture:true});
   $('audioMute').onclick=()=>{
