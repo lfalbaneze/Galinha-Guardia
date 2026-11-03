@@ -1,0 +1,20 @@
+name: Vertical fence v2 review
+on:
+  push:
+    branches: [review/vertical-fence-v2]
+permissions:
+  contents: read
+jobs:
+  targeted:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node --check systems/farm-art.js
+      - run: node --check systems/farm-refuge.js
+      - run: node --test tests/map-boundary-fence.test.cjs tests/refuge-sign-grumble.test.cjs tests/sprite-collision.test.cjs
